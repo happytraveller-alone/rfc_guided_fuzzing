@@ -1,0 +1,14 @@
+For the uploaded file, construct a json text with the following format:
+{
+    "RFC_code": "8446",
+    "RFC_name": "The Transport Layer Security (TLS) Protocol Version 1.3",
+    "Newwork_Protocol": "TLS1.3",
+    "Section_Number": "**",
+    "Section_Text": "****",
+    "Subject_Slice": [
+        ["subject1","Snippet 1"],
+        ["subject2","Snippet 2"],
+    ],
+}
+Look at an example:
+Section_Number is 4, Section_Text is "HandshakeProtocol", and then for the text to slice and dice. Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimum theme that cannot be split further.
