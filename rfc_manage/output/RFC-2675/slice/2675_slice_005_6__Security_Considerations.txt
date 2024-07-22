@@ -1,0 +1,6 @@
+--- Section: 6. Security Considerations ---
+The Jumbo Payload option and TCP/UDP jumbograms do not introduce any
+   known new security concerns.
+
+---
+
