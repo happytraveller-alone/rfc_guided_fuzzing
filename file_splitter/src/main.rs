@@ -125,18 +125,19 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
 
     // 写入函数背景信息
     writeln!(file, "Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. \
-                    Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, \
+                    Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, \
                     that is, with RFC8446, RFC6101 strong correlation.\n")?;
 
     // 写入输出函数摘要说明
     writeln!(file, "Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, \
                   focuses on covering the function's control flow information (API), \
                   and highlights the protocol function points implemented by the function. \
-                  Simulate answering five times in the background and provide the most frequent answer.\n")?;
+                  Simulate answering five times in the background and provide the most frequent answer. \
+                  Suppose the code support the latest newwork protocol SSL(3.0) AND TLS(1.3)\n")?;
 
     // 写入输出RFC 编号及链接的规则
     writeln!(file, "Output Code Match RFC Result: Give the number and the link of the RFC file associated with each protocol associated with \
-                    the code (a protocol corresponds to at least one RFC file).\n")?;
+                    the code (a protocol corresponds to at least one RFC file). Including at least RFC8446(tls1.3) or RFC6101(ssl3.0), \n")?;
 
     // // 写入输出RFC 章节匹配的规则
     // writeln!(file, "Retrieve document sections based on code summaries (containing multiple phrases) and \
