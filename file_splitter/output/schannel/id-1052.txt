@@ -1,0 +1,77 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 1052
+// Total lines: 46
+
+//----- (0000000180058AC4) ----------------------------------------------------
+void __fastcall DbgDumpSubCreds(struct LSA_SCHANNEL_SUB_CRED *a1, unsigned int a2, __int64 a3)
+{
+  unsigned int v3; // edi
+  struct LSA_SCHANNEL_SUB_CRED *v5; // rbx
+  CCipherMill *v6; // rcx
+  __int64 v7; // rdx
+  __int64 v8; // [rsp+20h] [rbp-28h]
+
+  if ( a1 )
+  {
+    v3 = 0;
+    v5 = a1;
+    if ( a2 )
+    {
+      v6 = WPP_GLOBAL_Control;
+      do
+      {
+        if ( v6 != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)v6 + 28) & 4) != 0 )
+        {
+          LODWORD(v8) = *((_DWORD *)v5 + 12);
+          WPP_SF_dD(*((_QWORD *)v6 + 2), 0xBu, a3, v3, v8);
+          v6 = WPP_GLOBAL_Control;
+        }
+        v7 = *(_QWORD *)v5;
+        if ( *(_QWORD *)v5 )
+        {
+          a3 = *(_QWORD *)(v7 + 24);
+          if ( a3 )
+          {
+            if ( v6 != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)v6 + 28) & 4) != 0 )
+            {
+              WPP_SF_dDDs(*((_QWORD *)v6 + 2), v7, a3, v3, *(_DWORD *)v7, *(_DWORD *)a3, *(_QWORD *)(a3 + 24));
+              v6 = WPP_GLOBAL_Control;
+            }
+          }
+        }
+        ++v3;
+        v5 = (struct LSA_SCHANNEL_SUB_CRED *)((char *)v5 + 56);
+      }
+      while ( v3 < a2 );
+    }
+  }
+}
+// 180058B1C: variable 'a3' is possibly undefined
+// 180058B1C: variable 'v8' is possibly undefined
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

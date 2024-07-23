@@ -1,0 +1,63 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 514
+// Total lines: 32
+
+//----- (00000001800260E0) ----------------------------------------------------
+void __fastcall _DbgpRegistryChangeNotifycationCallback(void *a1, unsigned __int8 a2)
+{
+  int v2; // r14d
+  struct _RTL_CRITICAL_SECTION *SharedMem; // rax
+  struct _RTL_CRITICAL_SECTION *v5; // rbx
+  struct _RTL_CRITICAL_SECTION *v6; // rsi
+  struct _RTL_CRITICAL_SECTION *v7; // rbx
+  PRTL_CRITICAL_SECTION_DEBUG i; // rdi
+
+  v2 = a2;
+  SharedMem = (struct _RTL_CRITICAL_SECTION *)_DbgpOpenOrCreateSharedMem();
+  v5 = SharedMem;
+  if ( SharedMem )
+  {
+    v6 = SharedMem + 2;
+    EnterCriticalSection(SharedMem + 2);
+    v7 = v5 + 1;
+    for ( i = v7->DebugInfo; i != (PRTL_CRITICAL_SECTION_DEBUG)v7; i = *(PRTL_CRITICAL_SECTION_DEBUG *)&i->Type )
+    {
+      if ( *(void **)&i[4].Flags == a1 )
+      {
+        EnterCriticalSection((LPCRITICAL_SECTION)&i[4]);
+        _DbgpControlTracingThroughRegistry((struct _DBG_TRACE_CONTROL_BLOCK *)i, v2);
+        RegNotifyChangeKeyValue((HKEY)i[3].ProcessLocksList.Blink, 0, 4u, i[3].CriticalSection, 1);
+        LeaveCriticalSection((LPCRITICAL_SECTION)&i[4]);
+        break;
+      }
+    }
+    LeaveCriticalSection(v6);
+  }
+}
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

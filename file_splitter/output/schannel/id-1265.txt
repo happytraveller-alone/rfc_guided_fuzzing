@@ -1,0 +1,71 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 1265
+// Total lines: 40
+
+//----- (000000018006415C) ----------------------------------------------------
+__int64 __fastcall CTls13ServerHandshake::ComputeCertificateRequestExtensionsSize(CTls13ServerHandshake *this)
+{
+  __int16 v2; // cx
+  unsigned __int16 v3; // cx
+  unsigned int v4; // edi
+  __int64 result; // rax
+  int v6; // eax
+  int v7; // ecx
+
+  *((_WORD *)this + 84) = 0;
+  v2 = *((_WORD *)this + 63);
+  if ( (unsigned __int16)(v2 - 1) > 0xFu )
+    return 1359i64;
+  v3 = 2 * (v2 + 1);
+  *((_WORD *)this + 62) = v3;
+  v4 = v3 + 4;
+  if ( !g_fSendIssuerList
+    || !*((_QWORD *)this + 22)
+    || !*((_WORD *)this + 92)
+    || (result = CTls13ServerHandshake::ComputeCertificateAuthoritiesExtensionSize(this), !(_DWORD)result) )
+  {
+    v6 = *((unsigned __int16 *)this + 93);
+    if ( (_WORD)v6 )
+      v4 += v6 + 4;
+    result = CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::ComputeGenericExtensionsSize((__int64)this, 13);
+    if ( !(_DWORD)result )
+    {
+      v7 = *((unsigned __int16 *)this + 61);
+      if ( 0xFFFF - v7 >= v4 )
+      {
+        *((_WORD *)this + 84) = v4 + v7;
+        return 0i64;
+      }
+      return 1359i64;
+    }
+  }
+  return result;
+}
+// 180092F08: using guessed type int g_fSendIssuerList;
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

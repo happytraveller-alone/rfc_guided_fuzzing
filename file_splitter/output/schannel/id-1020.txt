@@ -1,0 +1,129 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 1020
+// Total lines: 98
+
+//----- (0000000180055318) ----------------------------------------------------
+void __fastcall CCredentialGroup::CheckForCertificateStoreChange(CCredentialGroup *this)
+{
+  void *v2; // rdx
+  void *v3; // r8
+  DWORD v4; // eax
+  void *v5; // rdx
+  void *v6; // r8
+  DWORD v7; // eax
+  void *v8; // rdx
+  void *v9; // r8
+  DWORD v10; // eax
+  ULONG v11; // eax
+  DWORD v12; // eax
+  int v13; // [rsp+30h] [rbp+8h] BYREF
+
+  v13 = 0;
+  if ( _InterlockedIncrement((volatile signed __int32 *)this + 37) <= 1 )
+  {
+    if ( (*((_DWORD *)this + 38) & 0x40051555) != 0 )
+      CCredentialGroup::InitializeCertificateStoreChange(this);
+    v2 = (void *)*((_QWORD *)this + 96);
+    if ( v2 )
+    {
+      v3 = (void *)*((_QWORD *)this + 97);
+      if ( v3 )
+      {
+        v4 = CCredentialGroup::CheckCertStoreChangeNotification(this, v2, v3);
+        if ( v4 )
+        {
+          if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+          {
+            WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 29i64, &WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids, v4);
+          }
+        }
+      }
+    }
+    v5 = (void *)*((_QWORD *)this + 102);
+    if ( v5 )
+    {
+      v6 = (void *)*((_QWORD *)this + 103);
+      if ( v6 )
+      {
+        v7 = CCredentialGroup::CheckCertStoreChangeNotification(this, v5, v6);
+        if ( v7 )
+        {
+          if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+          {
+            WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 30i64, &WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids, v7);
+          }
+        }
+      }
+    }
+    v8 = (void *)*((_QWORD *)this + 104);
+    if ( v8 )
+    {
+      v9 = (void *)*((_QWORD *)this + 105);
+      if ( v9 )
+      {
+        v10 = CCredentialGroup::CheckCertStoreChangeNotification(this, v8, v9);
+        if ( v10 )
+        {
+          if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+          {
+            WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 31i64, &WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids, v10);
+          }
+        }
+      }
+    }
+    if ( *((_QWORD *)this + 98) && *((_QWORD *)this + 99) )
+    {
+      v11 = SslImpersonateClient(*((_QWORD *)this + 94), &v13);
+      if ( v11 )
+      {
+        if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+          WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 32i64, &WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids, v11);
+      }
+      else
+      {
+        v12 = CCredentialGroup::CheckCertStoreChangeNotification(this, *((void **)this + 98), *((void **)this + 99));
+        if ( v12
+          && WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+        {
+          WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 33i64, &WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids, v12);
+        }
+        if ( v13 )
+          RevertToSelf();
+      }
+    }
+  }
+  _InterlockedDecrement((volatile signed __int32 *)this + 37);
+}
+// 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
+// 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

@@ -1,0 +1,85 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 540
+// Total lines: 54
+
+//----- (0000000180027360) ----------------------------------------------------
+__int64 __fastcall SpInitialize(unsigned __int64 *a1, __int64 a2, __int64 a3)
+{
+  int v5; // eax
+  const unsigned __int16 *v6; // rdx
+  const unsigned __int16 *v7; // rcx
+  struct _GUID *v8; // r8
+  const unsigned __int16 *v9; // r9
+
+  if ( SpInitialized )
+  {
+    qword_180092630 = (__int64)a1;
+  }
+  else
+  {
+    LsaTable = a3;
+    *(_QWORD *)SslTokenSource.SourceName = 0x6C656E6E61686353i64;
+    AllocateLocallyUniqueId(&SslTokenSource.SourceIdentifier);
+    SslDuplicateString(&SslDomainName, (struct _UNICODE_STRING *)(a2 + 24));
+    SslDuplicateString(&SslGlobalDnsDomainName, (struct _UNICODE_STRING *)(a2 + 40));
+    RtlInitUnicodeString(&SslPackageName, L"Schannel");
+    RtlInitUnicodeString(&SslLegacyPackageName, L"Microsoft Unified Security Protocol Provider");
+    bDomainJoined = (*(_DWORD *)(a2 + 4) & 0x10) == 0;
+    RtlInitString(&SslPackageNameA, "Schannel");
+    RtlInitializeResource(&SslGlobalLock);
+    v5 = LsaIRegisterPolicyChangeNotificationCallback(SslDomainChangeCallback, 4i64);
+    if ( v5 < 0 )
+    {
+      v6 = (const unsigned __int16 *)&WPP_GLOBAL_Control;
+      v7 = (const unsigned __int16 *)WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          92i64,
+          &WPP_dd7b7bddfdb936bf76d1675dae523069_Traceguids,
+          (unsigned int)v5);
+    }
+    InitDebugTracingEx(v7, v6, v8, v9);
+    SpInitialized = 1;
+    g_dwPackageId = a1;
+  }
+  return 0i64;
+}
+// 180027464: variable 'v7' is possibly undefined
+// 180027464: variable 'v6' is possibly undefined
+// 180027464: variable 'v8' is possibly undefined
+// 180027464: variable 'v9' is possibly undefined
+// 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
+// 180092620: using guessed type __int64 LsaTable;
+// 180092628: using guessed type unsigned __int64 near *g_dwPackageId;
+// 180092630: using guessed type __int64 qword_180092630;
+// 180092648: using guessed type int bDomainJoined;
+// 180092780: using guessed type int SpInitialized;
+// 180098218: using guessed type __int64 __fastcall LsaIRegisterPolicyChangeNotificationCallback(_QWORD, _QWORD);
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

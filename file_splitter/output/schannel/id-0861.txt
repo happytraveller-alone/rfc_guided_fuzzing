@@ -1,0 +1,109 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 861
+// Total lines: 78
+
+//----- (0000000180045FDC) ----------------------------------------------------
+__int64 __fastcall CSslContext::QueryAppData(CSslContext *this, void *a2)
+{
+  __int64 v5; // rcx
+  int v6; // edi
+  unsigned int CacheAppData; // ebx
+  unsigned __int8 *v8; // rsi
+  unsigned int v9; // ebx
+  NTSTATUS v10; // eax
+  __int64 *v11; // r9
+  __int64 v12; // [rsp+30h] [rbp-19h] BYREF
+  unsigned int v13; // [rsp+38h] [rbp-11h] BYREF
+  unsigned __int8 *v14; // [rsp+40h] [rbp-9h] BYREF
+  __int128 v15; // [rsp+48h] [rbp-1h] BYREF
+  char v16[24]; // [rsp+58h] [rbp+Fh] BYREF
+  __int64 v17; // [rsp+70h] [rbp+27h] BYREF
+  int v18; // [rsp+78h] [rbp+2Fh]
+
+  v14 = 0i64;
+  v12 = 0i64;
+  v13 = 0;
+  v17 = 0i64;
+  v18 = 0;
+  v15 = 0i64;
+  if ( !(*(unsigned __int8 (__fastcall **)(char *))(LsaTable + 192))(v16) )
+    return 1359i64;
+  v5 = *((_QWORD *)this + 11);
+  v6 = v16[8] & 0x40;
+  if ( !v5 )
+    return 2148074241i64;
+  RtlAcquireResourceShared((PRTL_RESOURCE)(v5 + 72), 1u);
+  CacheAppData = CSessionCacheItem::GetCacheAppData(*((CSessionCacheItem **)this + 11), &v14, &v13);
+  RtlReleaseResource((PRTL_RESOURCE)(*((_QWORD *)this + 11) + 72i64));
+  v8 = v14;
+  if ( !CacheAppData )
+  {
+    v9 = v13;
+    if ( v14 )
+    {
+      v10 = (*(__int64 (__fastcall **)(_QWORD, _QWORD, __int64 *))(LsaTable + 56))(0i64, v13, &v12);
+      if ( v10 < 0 )
+        goto LABEL_8;
+      v10 = (*(__int64 (__fastcall **)(_QWORD, _QWORD, __int64, unsigned __int8 *))(LsaTable + 72))(0i64, v9, v12, v8);
+      if ( v10 < 0 )
+        goto LABEL_8;
+    }
+    if ( v6 )
+    {
+      v18 = v12;
+      HIDWORD(v17) = v9;
+    }
+    else
+    {
+      *((_QWORD *)&v15 + 1) = v12;
+      DWORD1(v15) = v9;
+    }
+    v11 = &v17;
+    if ( !v6 )
+      v11 = (__int64 *)&v15;
+    v10 = (*(__int64 (__fastcall **)(_QWORD, _QWORD, void *, __int64 *))(LsaTable + 72))(
+            0i64,
+            v6 != 0 ? 12 : 16,
+            a2,
+            v11);
+    CacheAppData = v10;
+    if ( v10 < 0 )
+LABEL_8:
+      CacheAppData = RtlNtStatusToDosError(v10);
+    else
+      v12 = 0i64;
+  }
+  if ( v12 )
+    (*(void (__fastcall **)(_QWORD))(LsaTable + 64))(0i64);
+  if ( v8 )
+    SPExternalFree(v8);
+  return CacheAppData;
+}
+// 180092620: using guessed type __int64 LsaTable;
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

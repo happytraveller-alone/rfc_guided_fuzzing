@@ -1,0 +1,78 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 1430
+// Total lines: 47
+
+//----- (00000001800726F4) ----------------------------------------------------
+void __fastcall DTlsMsgMgr::~DTlsMsgMgr(DTlsMsgMgr *this)
+{
+  DTlsMessage *v1; // rsi
+  DTlsMessage *v3; // rbx
+  DTlsMessage *v4; // rcx
+  DTlsMsgMgr *v5; // rbx
+  DTlsMessage *v6; // rcx
+  DTlsMsgMgr *v7; // rbx
+  DTlsRec *v8; // rcx
+  _QWORD **v9; // rdi
+  _QWORD *v10; // rbx
+  DTlsRec *v11; // rcx
+
+  v1 = (DTlsMsgMgr *)((char *)this + 24);
+  v3 = (DTlsMessage *)*((_QWORD *)this + 3);
+  while ( v3 != v1 )
+  {
+    v4 = v3;
+    v3 = *(DTlsMessage **)v3;
+    DTlsMessage::`scalar deleting destructor'(v4);
+  }
+  v5 = (DTlsMsgMgr *)*((_QWORD *)this + 5);
+  while ( v5 != (DTlsMsgMgr *)((char *)this + 40) )
+  {
+    v6 = v5;
+    v5 = *(DTlsMsgMgr **)v5;
+    DTlsMessage::`scalar deleting destructor'(v6);
+  }
+  v7 = (DTlsMsgMgr *)*((_QWORD *)this + 7);
+  while ( v7 != (DTlsMsgMgr *)((char *)this + 56) )
+  {
+    v8 = (DTlsMsgMgr *)((char *)v7 - 40);
+    v7 = *(DTlsMsgMgr **)v7;
+    if ( v8 )
+      DTlsRec::`scalar deleting destructor'(v8);
+  }
+  v9 = (_QWORD **)((char *)this + 72);
+  v10 = *v9;
+  while ( v10 != v9 )
+  {
+    v11 = (DTlsRec *)(v10 - 5);
+    v10 = (_QWORD *)*v10;
+    if ( v11 )
+      DTlsRec::`scalar deleting destructor'(v11);
+  }
+}
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

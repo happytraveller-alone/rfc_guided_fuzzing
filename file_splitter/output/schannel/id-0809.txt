@@ -1,0 +1,98 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 809
+// Total lines: 67
+
+//----- (0000000180043028) ----------------------------------------------------
+__int64 __fastcall UpdatePrivateKeysForCreds(struct CCredentialGroup *this, struct _SecBuffer *a2, char a3)
+{
+  int v3; // r15d
+  unsigned int v4; // ebx
+  unsigned int cbBuffer; // esi
+  unsigned int *pvBuffer; // rdi
+  struct CSslCredential *v10; // rdx
+  unsigned int v11; // esi
+  __int64 v12; // rax
+  __int64 v13; // rcx
+  struct CSslCredential *v15; // [rsp+58h] [rbp+10h] BYREF
+
+  v15 = 0i64;
+  v3 = 0;
+  v4 = 0;
+  if ( !a2 || !this )
+    return 2148074244i64;
+  cbBuffer = a2->cbBuffer;
+  pvBuffer = (unsigned int *)a2->pvBuffer;
+  while ( 1 )
+  {
+    if ( !cbBuffer )
+    {
+      *((_DWORD *)this + 184) = v3;
+      goto LABEL_17;
+    }
+    if ( cbBuffer < 0x14 )
+      break;
+    if ( (unsigned int)CCredentialGroup::FindCredential(this, (unsigned __int8 *)pvBuffer, 20, &v15) )
+      break;
+    v10 = v15;
+    v11 = cbBuffer - 20;
+    if ( !v15 )
+      break;
+    if ( a3 )
+    {
+      if ( v11 < 8 )
+        break;
+      v12 = pvBuffer[5];
+      v13 = pvBuffer[6];
+      pvBuffer += 7;
+      cbBuffer = v11 - 8;
+    }
+    else
+    {
+      if ( v11 < 0x10 )
+        break;
+      v12 = *(_QWORD *)(pvBuffer + 5);
+      v13 = *(_QWORD *)(pvBuffer + 7);
+      pvBuffer += 9;
+      cbBuffer = v11 - 16;
+    }
+    if ( !v12 && !v13 )
+      break;
+    *((_QWORD *)v15 + 13) = v12;
+    ++v3;
+    *((_QWORD *)v10 + 14) = v13;
+  }
+  v4 = -2146893052;
+LABEL_17:
+  a2->pvBuffer = 0i64;
+  a2->cbBuffer = 0;
+  a2->BufferType = 0;
+  CleanupAppModeInfo(0i64);
+  return v4;
+}
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

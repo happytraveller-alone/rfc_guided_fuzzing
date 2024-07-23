@@ -1,0 +1,62 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 559
+// Total lines: 31
+
+//----- (0000000180027E30) ----------------------------------------------------
+_BOOL8 __fastcall dllmain_crt_process_detach(char a1)
+{
+  char v3; // bl
+  __int64 v4; // rcx
+  BOOL v5; // ebx
+
+  if ( dword_180091A30 <= 0 )
+    return 0i64;
+  --dword_180091A30;
+  v3 = _scrt_acquire_startup_lock();
+  if ( _scrt_current_native_startup_state != 2 )
+  {
+    _scrt_fastfail(7u);
+    __debugbreak();
+    JUMPOUT(0x180027EB4i64);
+  }
+  _scrt_dllmain_uninitialize_c();
+  __scrt_uninitialize_type_info();
+  RTC_Terminate();
+  _scrt_current_native_startup_state = 0;
+  _scrt_release_startup_lock(v3);
+  LOBYTE(v4) = a1;
+  v5 = _scrt_uninitialize_crt(v4, 0) != 0;
+  _scrt_dllmain_uninitialize_critical();
+  return v5;
+}
+// 180027EB3: control flows out of bounds to 180027EB4
+// 180027E92: variable 'v4' is possibly undefined
+// 180091A30: using guessed type int dword_180091A30;
+// 180091FC0: using guessed type int _scrt_current_native_startup_state;
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.
