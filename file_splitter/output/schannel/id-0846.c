@@ -1,4 +1,6 @@
-//----- (0000000180044F34) ----------------------------------------------------
+// File count: 846
+// Total lines: 19
+-----------------------------------------
 void __fastcall LogFastMappingFailureEvent(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -17,4 +19,3 @@ void __fastcall LogFastMappingFailureEvent(
     SchEventWrite(&SSLEVENT_FAST_MAPPING_FAILURE, L"dudb", a1, &DestinationString, v7, cbCertEncoded, a3->pbCertEncoded);
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180001674) ----------------------------------------------------
+// File count: 7
+// Total lines: 93
+-------------------------------------------
 __int64 __fastcall I_MapWinTrustErrorAndAlert(int a1, int a2, __int16 a3, char *a4)
 {
   char v4; // bl
@@ -91,4 +93,3 @@ LABEL_13:
   return (unsigned int)a1;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

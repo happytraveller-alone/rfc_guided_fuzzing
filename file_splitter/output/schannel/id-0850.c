@@ -1,4 +1,6 @@
-//----- (0000000180045164) ----------------------------------------------------
+// File count: 850
+// Total lines: 17
+-----------------------------------------
 void __fastcall LogNoPrivateKeyEvent(unsigned int a1, const unsigned __int16 *a2, char a3)
 {
   const WCHAR *v5; // rdx
@@ -15,4 +17,3 @@ void __fastcall LogNoPrivateKeyEvent(unsigned int a1, const unsigned __int16 *a2
     SchEventWrite(&SSLEVENT_NO_PRIVATE_KEY, L"duub", a1, &DestinationString, &v6, 0i64, 0i64);
   }
 }
-

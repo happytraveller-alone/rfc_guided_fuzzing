@@ -1,4 +1,6 @@
-//----- (000000018000D410) ----------------------------------------------------
+// File count: 154
+// Total lines: 159
+----------------------------------------
 __int64 __fastcall ParseInputBufferDesc(
         struct _SecBufferDesc *a1,
         struct _SecBuffer **a2,
@@ -157,4 +159,3 @@ LABEL_22:
 }
 // 18000D5F0: conditional instruction was optimized away because rbx.8==0
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

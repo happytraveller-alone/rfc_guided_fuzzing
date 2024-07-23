@@ -1,4 +1,6 @@
-//----- (00000001800265B0) ----------------------------------------------------
+// File count: 522
+// Total lines: 94
+-----------------------------------------
 __int64 __fastcall CCipherMill::InitializeCipherSuite(
         CCipherMill *this,
         struct CCipherMill::CIPHER_SUITE_TO_PROVIDER *a2,
@@ -92,4 +94,3 @@ __int64 __fastcall CCipherMill::InitializeCipherSuite(
 // 1800924A0: using guessed type unsigned __int64 qword_1800924A0[32];
 // 1800925D4: using guessed type int dword_1800925D4;
 // 1800925D8: using guessed type int dword_1800925D8;
-

@@ -1,4 +1,6 @@
-//----- (000000018005CCA0) ----------------------------------------------------
+// File count: 1148
+// Total lines: 8
+-----------------------------------------
 CSessionCacheItem *__fastcall CSessionCacheItem::`scalar deleting destructor'(CSessionCacheItem *this, char a2)
 {
   CSessionCacheItem::~CSessionCacheItem(this);
@@ -6,4 +8,3 @@ CSessionCacheItem *__fastcall CSessionCacheItem::`scalar deleting destructor'(CS
     SPExternalFree(this);
   return this;
 }
-

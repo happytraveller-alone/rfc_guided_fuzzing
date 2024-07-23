@@ -1,4 +1,6 @@
-//----- (0000000180059D38) ----------------------------------------------------
+// File count: 1073
+// Total lines: 15
+----------------------------------------
 struct kexch *__fastcall GetKeyExchangeInfo(int a1)
 {
   __int64 v1; // rax
@@ -13,4 +15,3 @@ struct kexch *__fastcall GetKeyExchangeInfo(int a1)
   }
   return (struct kexch *)((char *)&g_AvailableExch + 64 * v1);
 }
-

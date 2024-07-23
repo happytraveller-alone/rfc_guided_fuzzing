@@ -1,4 +1,6 @@
-//----- (000000018004FFB0) ----------------------------------------------------
+// File count: 963
+// Total lines: 36
+-----------------------------------------
 __int64 __fastcall ConvertCertificateAlgToTlsSignatureAlgorithm(unsigned int a1, __int64 a2, __int64 a3)
 {
   unsigned int v4; // ebx
@@ -34,4 +36,3 @@ __int64 __fastcall ConvertCertificateAlgToTlsSignatureAlgorithm(unsigned int a1,
   return v4;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

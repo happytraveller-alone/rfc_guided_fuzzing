@@ -1,4 +1,6 @@
-//----- (0000000180061214) ----------------------------------------------------
+// File count: 1219
+// Total lines: 67
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::ParseDistinguishedNameList(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -65,4 +67,3 @@ __int64 __fastcall CSsl3TlsClientContext::ParseDistinguishedNameList(
     }
   }
 }
-

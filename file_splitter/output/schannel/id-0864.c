@@ -1,4 +1,6 @@
-//----- (0000000180046538) ----------------------------------------------------
+// File count: 864
+// Total lines: 38
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::QueryEapKeyBlock(CSsl3TlsContext *this, void *a2)
 {
   __int64 v4; // rcx
@@ -36,4 +38,3 @@ __int64 __fastcall CSsl3TlsContext::QueryEapKeyBlock(CSsl3TlsContext *this, void
 // 180092620: using guessed type __int64 LsaTable;
 // 180098568: using guessed type __int64 __fastcall SslComputeEapKeyBlock(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180046538: using guessed type unsigned int var_E8[4];
-

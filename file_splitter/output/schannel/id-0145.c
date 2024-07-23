@@ -1,4 +1,6 @@
-//----- (000000018000C710) ----------------------------------------------------
+// File count: 145
+// Total lines: 15
+-----------------------------------------
 struct CSslUserContext *__fastcall SslFindUserContext(__int64 a1)
 {
   struct CSslUserContext *v2; // rax
@@ -13,4 +15,3 @@ struct CSslUserContext *__fastcall SslFindUserContext(__int64 a1)
   return v3;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180003328) ----------------------------------------------------
+// File count: 35
+// Total lines: 36
+------------------------------------------
 void __fastcall CSessionCacheClientItem::~CSessionCacheClientItem(CSessionCacheClientItem *this)
 {
   void *v2; // rcx
@@ -34,4 +36,3 @@ void __fastcall CSessionCacheClientItem::~CSessionCacheClientItem(CSessionCacheC
   CSessionCacheItem::~CSessionCacheItem(this);
 }
 // 18007C210: using guessed type void *CSessionCacheClientItem::`vftable';
-

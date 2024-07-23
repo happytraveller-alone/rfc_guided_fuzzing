@@ -1,4 +1,6 @@
-//----- (000000018000FFF4) ----------------------------------------------------
+// File count: 189
+// Total lines: 53
+-----------------------------------------
 void __fastcall CCredentialGroup::InitializeFlags(CCredentialGroup *this, int a2)
 {
   int v2; // eax
@@ -51,4 +53,3 @@ void __fastcall CCredentialGroup::InitializeFlags(CCredentialGroup *this, int a2
   if ( (a2 & 0x4000) != 0 )
     *((_DWORD *)this + 40) |= 0x4000u;
 }
-

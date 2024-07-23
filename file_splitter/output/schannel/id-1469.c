@@ -1,4 +1,6 @@
-//----- (0000000180075FAC) ----------------------------------------------------
+// File count: 1469
+// Total lines: 50
+----------------------------------------
 __int64 __fastcall CTlsExtServer::ParseServerNameExtension(
         CSsl3TlsServerContext **this,
         const unsigned __int8 *a2,
@@ -48,4 +50,3 @@ __int64 __fastcall CTlsExtServer::ParseServerNameExtension(
   }
   return 2148074278i64;
 }
-

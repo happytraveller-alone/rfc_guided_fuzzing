@@ -1,4 +1,6 @@
-//----- (0000000180067044) ----------------------------------------------------
+// File count: 1306
+// Total lines: 18
+----------------------------------------
 unsigned int __fastcall CTls13ServerHandshake::GenerateEncryptedExtensionsMsg(CTls13ServerHandshake *this)
 {
   unsigned int result; // eax
@@ -16,4 +18,3 @@ unsigned int __fastcall CTls13ServerHandshake::GenerateEncryptedExtensionsMsg(CT
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

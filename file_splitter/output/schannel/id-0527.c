@@ -1,4 +1,6 @@
-//----- (0000000180026C20) ----------------------------------------------------
+// File count: 527
+// Total lines: 16
+-----------------------------------------
 __int64 __fastcall LookupCertificateAlg(wchar_t *a1, __int64 a2)
 {
   const wchar_t *v2; // rbx
@@ -14,4 +16,3 @@ __int64 __fastcall LookupCertificateAlg(wchar_t *a1, __int64 a2)
   }
   return v4;
 }
-

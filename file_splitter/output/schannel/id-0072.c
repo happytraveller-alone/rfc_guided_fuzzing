@@ -1,4 +1,6 @@
-//----- (00000001800053D0) ----------------------------------------------------
+// File count: 72
+// Total lines: 452
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::ProcessHandshake(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -450,4 +452,3 @@ LABEL_155:
 // 18002D70A: variable 'v26' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

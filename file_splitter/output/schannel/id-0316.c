@@ -1,4 +1,6 @@
-//----- (00000001800174C8) ----------------------------------------------------
+// File count: 316
+// Total lines: 25
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogUnknownTlsExtension(CSchannelTelemetryContext *this, int a2)
 {
   __int64 v2; // rax
@@ -23,4 +25,3 @@ LABEL_17:
   }
 }
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

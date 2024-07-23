@@ -1,4 +1,6 @@
-//----- (00000001800439C4) ----------------------------------------------------
+// File count: 821
+// Total lines: 49
+-----------------------------------------
 __int64 __fastcall SetClientCertPolicy(
         struct CCredentialGroup *a1,
         struct _SecPkgCred_ClientCertPolicy *a2,
@@ -47,4 +49,3 @@ __int64 __fastcall SetClientCertPolicy(
   return result;
 }
 // 180043A40: variable 'v9' is possibly undefined
-

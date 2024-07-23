@@ -1,4 +1,6 @@
-//----- (000000018006D6B0) ----------------------------------------------------
+// File count: 1377
+// Total lines: 15
+----------------------------------------
 __int64 __fastcall CTls13Context::ImportApplicationTrafficSecret(
         CTls13Context *this,
         __int64 a2,
@@ -13,4 +15,3 @@ __int64 __fastcall CTls13Context::ImportApplicationTrafficSecret(
 }
 // 180082320: using guessed type wchar_t aOpaquekeyblob[14];
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180067B70) ----------------------------------------------------
+// File count: 1318
+// Total lines: 79
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::GeneratePskExtension(CTls13ClientHandshake *this)
 {
   __int16 v1; // r8
@@ -77,4 +79,3 @@ LABEL_13:
   return (unsigned int)-2146893052;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

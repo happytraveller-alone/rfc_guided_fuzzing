@@ -1,4 +1,6 @@
-//----- (000000018004D1E0) ----------------------------------------------------
+// File count: 920
+// Total lines: 52
+-----------------------------------------
 void __fastcall McGenControlCallbackV2(__int64 a1, int a2, char a3, __int64 a4, __int64 a5, int a6, __int64 a7)
 {
   unsigned int v7; // r9d
@@ -50,4 +52,3 @@ void __fastcall McGenControlCallbackV2(__int64 a1, int a2, char a3, __int64 a4, 
     }
   }
 }
-

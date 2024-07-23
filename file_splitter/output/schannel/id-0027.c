@@ -1,4 +1,6 @@
-//----- (0000000180002BF0) ----------------------------------------------------
+// File count: 27
+// Total lines: 53
+------------------------------------------
 void __fastcall CSessionCacheClientItem::SetSessionTicket(
         CSessionCacheClientItem *this,
         unsigned __int8 *a2,
@@ -51,4 +53,3 @@ void __fastcall CSessionCacheClientItem::SetSessionTicket(
     *((_DWORD *)this + 70) = v19;
   }
 }
-

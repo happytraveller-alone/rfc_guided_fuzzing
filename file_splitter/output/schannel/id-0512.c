@@ -1,4 +1,6 @@
-//----- (0000000180025E40) ----------------------------------------------------
+// File count: 512
+// Total lines: 71
+-----------------------------------------
 __int64 __fastcall SpGetExtendedInformation(int a1, __int64 *a2)
 {
   __int64 v3; // rax
@@ -69,4 +71,3 @@ LABEL_8:
 // 180083D30: using guessed type __int128 xmmword_180083D30;
 // 180083D40: using guessed type __int128 xmmword_180083D40;
 // 180092620: using guessed type __int64 LsaTable;
-

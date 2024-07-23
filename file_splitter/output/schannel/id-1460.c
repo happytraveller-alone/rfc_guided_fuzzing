@@ -1,4 +1,6 @@
-//----- (0000000180074F68) ----------------------------------------------------
+// File count: 1460
+// Total lines: 110
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::DhGenerateServerMasterKey(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -108,4 +110,3 @@ LABEL_31:
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

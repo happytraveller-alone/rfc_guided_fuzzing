@@ -1,4 +1,6 @@
-//----- (00000001800780DC) ----------------------------------------------------
+// File count: 1495
+// Total lines: 22
+----------------------------------------
 __int64 __fastcall CTls13ExtClient::ParsePreSharedKeyExtension(
         CTls13ExtClient *this,
         unsigned __int8 *a2,
@@ -20,4 +22,3 @@ __int64 __fastcall CTls13ExtClient::ParsePreSharedKeyExtension(
   }
 }
 // 18005B470: using guessed type __int64 __fastcall CSslContext::SetErrorAndFatalAlert(_QWORD, _QWORD, _QWORD, _QWORD);
-

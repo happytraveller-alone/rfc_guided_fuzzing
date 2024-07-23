@@ -1,4 +1,6 @@
-//----- (000000018005D304) ----------------------------------------------------
+// File count: 1158
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::DeserializeNcryptMasterKey(CSessionCacheItem *this, unsigned __int8 *a2, int a3)
 {
   char *v3; // r10
@@ -21,4 +23,3 @@ __int64 __fastcall CSessionCacheItem::DeserializeNcryptMasterKey(CSessionCacheIt
 }
 // 180082320: using guessed type wchar_t aOpaquekeyblob[14];
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

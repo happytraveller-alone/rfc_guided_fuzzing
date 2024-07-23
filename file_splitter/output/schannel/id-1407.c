@@ -1,4 +1,6 @@
-//----- (000000018006FE4C) ----------------------------------------------------
+// File count: 1407
+// Total lines: 15
+----------------------------------------
 void __fastcall CSsl3TlsContext::FreeSavedWriteCipherState(CSsl3TlsContext *this)
 {
   if ( *((_BYTE *)this + 233) && *((_BYTE *)this + 264) )
@@ -13,4 +15,3 @@ void __fastcall CSsl3TlsContext::FreeSavedWriteCipherState(CSsl3TlsContext *this
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

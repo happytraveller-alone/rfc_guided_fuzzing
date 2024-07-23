@@ -1,4 +1,6 @@
-//----- (000000018004EB24) ----------------------------------------------------
+// File count: 953
+// Total lines: 82
+-----------------------------------------
 __int64 __fastcall SpQueryUniqueBindings(struct CSslUserContext *a1, struct _SecPkgContext_Bindings *a2)
 {
   unsigned int v5; // ebx
@@ -80,4 +82,3 @@ __int64 __fastcall SpQueryUniqueBindings(struct CSslUserContext *a1, struct _Sec
   }
   return 0i64;
 }
-

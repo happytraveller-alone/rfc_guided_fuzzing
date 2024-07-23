@@ -1,4 +1,6 @@
-//----- (0000000180053AD0) ----------------------------------------------------
+// File count: 1002
+// Total lines: 37
+----------------------------------------
 __int64 __fastcall ConstructIssuersListFromStore(void *a1, unsigned __int8 **a2, unsigned int *a3)
 {
   __int64 result; // rax
@@ -35,4 +37,3 @@ __int64 __fastcall ConstructIssuersListFromStore(void *a1, unsigned __int8 **a2,
   }
   return result;
 }
-

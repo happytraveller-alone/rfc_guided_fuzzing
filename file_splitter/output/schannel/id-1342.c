@@ -1,4 +1,6 @@
-//----- (0000000180069B50) ----------------------------------------------------
+// File count: 1342
+// Total lines: 149
+---------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ParseNewSessionTicket(
         CTls13ClientHandshake *this,
         unsigned __int8 *a2,
@@ -147,4 +149,3 @@ LABEL_32:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

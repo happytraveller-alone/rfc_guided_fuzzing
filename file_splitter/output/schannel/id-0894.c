@@ -1,4 +1,6 @@
-//----- (000000018004AE90) ----------------------------------------------------
+// File count: 894
+// Total lines: 166
+----------------------------------------
 __int64 __fastcall SslTryIssuer(
         unsigned __int8 *a1,
         unsigned int a2,
@@ -164,4 +166,3 @@ LABEL_32:
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180092620: using guessed type __int64 LsaTable;
-

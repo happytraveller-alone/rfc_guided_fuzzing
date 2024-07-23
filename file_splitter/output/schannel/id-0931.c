@@ -1,4 +1,6 @@
-//----- (000000018004DB50) ----------------------------------------------------
+// File count: 931
+// Total lines: 72
+-----------------------------------------
 SECURITY_STATUS __stdcall SslGetServerIdentity(
         PBYTE ClientHello,
         DWORD ClientHelloSize,
@@ -70,4 +72,3 @@ LABEL_15:
     *ServerIdentitySize = 0;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180010610) ----------------------------------------------------
+// File count: 193
+// Total lines: 39
+-----------------------------------------
 __int64 __fastcall StringCchCopyW(char *a1, __int64 a2, char *a3)
 {
   __int64 v3; // r9
@@ -37,4 +39,3 @@ __int64 __fastcall StringCchCopyW(char *a1, __int64 a2, char *a3)
   }
   return result;
 }
-

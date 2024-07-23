@@ -1,4 +1,6 @@
-//----- (0000000180026B60) ----------------------------------------------------
+// File count: 526
+// Total lines: 54
+-----------------------------------------
 __int64 __fastcall GetKeyStorageProviderHandle(LPCWSTR pszFunction, unsigned __int8 *a2, unsigned __int64 *a3)
 {
   NTSTATUS v5; // eax
@@ -52,4 +54,3 @@ LABEL_5:
     BCryptFreeBuffer(v6);
   return v7;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018005C734) ----------------------------------------------------
+// File count: 1142
+// Total lines: 124
+---------------------------------------
 char __fastcall IsDheAlgorithmBlacklisted(
         struct _TLS_PARAMETERS *a1,
         unsigned int a2,
@@ -122,4 +124,3 @@ LABEL_33:
   return 0;
 }
 // 18005C790: variable 'v5' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (0000000180003E7C) ----------------------------------------------------
+// File count: 45
+// Total lines: 17
+------------------------------------------
 void __fastcall CSsl3TlsContext::FreeSelectedTBParameters(CSsl3TlsContext *this)
 {
   __int64 v1; // rdx
@@ -15,4 +17,3 @@ void __fastcall CSsl3TlsContext::FreeSelectedTBParameters(CSsl3TlsContext *this)
     *((_QWORD *)this + 103) = 0i64;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018004E050) ----------------------------------------------------
+// File count: 938
+// Total lines: 42
+-----------------------------------------
 void __fastcall GenerateUserFatalAlertMessage(struct CSslUserContext *a1, __int64 a2, char a3)
 {
   _BYTE *v4; // rdx
@@ -40,4 +42,3 @@ void __fastcall GenerateUserFatalAlertMessage(struct CSslUserContext *a1, __int6
     }
   }
 }
-

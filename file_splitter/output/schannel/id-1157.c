@@ -1,4 +1,6 @@
-//----- (000000018005D284) ----------------------------------------------------
+// File count: 1157
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::DeserializeAppData(CSessionCacheItem *this, unsigned __int8 *a2, unsigned int a3)
 {
   size_t v4; // rbx
@@ -21,4 +23,3 @@ __int64 __fastcall CSessionCacheItem::DeserializeAppData(CSessionCacheItem *this
   }
   return 14i64;
 }
-

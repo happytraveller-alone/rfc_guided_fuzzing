@@ -1,4 +1,6 @@
-//----- (0000000180026F1C) ----------------------------------------------------
+// File count: 533
+// Total lines: 39
+-----------------------------------------
 __int64 __fastcall TraceLoggingRegisterEx_EventRegister_EventSetInformation(
         ULONGLONG *CallbackContext,
         ULONGLONG a2,
@@ -37,4 +39,3 @@ __int64 __fastcall TraceLoggingRegisterEx_EventRegister_EventSetInformation(
   return v7;
 }
 // 180080D68: using guessed type __int64 __fastcall EventSetInformation(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
-

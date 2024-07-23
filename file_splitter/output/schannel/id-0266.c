@@ -1,4 +1,6 @@
-//----- (00000001800151F0) ----------------------------------------------------
+// File count: 266
+// Total lines: 38
+-----------------------------------------
 __int64 __fastcall I_GetKeyExchangeDetailsFromAlgorithmName(wchar_t *String1, __int64 a2, _DWORD *a3)
 {
   unsigned int v5; // eax
@@ -36,4 +38,3 @@ LABEL_8:
 // 180015273: variable 'v9' is possibly undefined
 // 1800923B0: using guessed type int g_dwKeyExchangeInfoTotalCount;
 // 1800923C0: using guessed type _QWORD g_pKeyExchangeInfo[12];
-

@@ -1,4 +1,6 @@
-//----- (0000000180013030) ----------------------------------------------------
+// File count: 224
+// Total lines: 9
+------------------------------------------
 void __fastcall CCredentialGroup::~CCredentialGroup(CCredentialGroup *this)
 {
   *(_QWORD *)this = &CCredentialGroup::`vftable';
@@ -7,4 +9,3 @@ void __fastcall CCredentialGroup::~CCredentialGroup(CCredentialGroup *this)
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
 // 18007D0D8: using guessed type void *CCredentialGroup::`vftable';
-

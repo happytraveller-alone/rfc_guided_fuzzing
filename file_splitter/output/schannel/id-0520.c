@@ -1,4 +1,6 @@
-//----- (000000018002647C) ----------------------------------------------------
+// File count: 520
+// Total lines: 40
+-----------------------------------------
 LSTATUS __fastcall WatchParamKeyHelper(char *pvContext)
 {
   HKEY *v2; // rdi
@@ -38,4 +40,3 @@ LSTATUS __fastcall WatchParamKeyHelper(char *pvContext)
   }
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018000FEC0) ----------------------------------------------------
+// File count: 187
+// Total lines: 47
+-----------------------------------------
 __int64 __fastcall CCredentialGroup::InitializeMinMaxStrengths(
         CCredentialGroup *this,
         unsigned int a2,
@@ -45,4 +47,3 @@ __int64 __fastcall CCredentialGroup::InitializeMinMaxStrengths(
     return 0i64;
   return 2148074289i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180004F90) ----------------------------------------------------
+// File count: 63
+// Total lines: 13
+------------------------------------------
 __int64 __fastcall GetEccKeyExchangeBlobFromBcryptKeyBlob(
         char a1,
         struct _BCRYPT_ECCKEY_BLOB *a2,
@@ -11,4 +13,3 @@ __int64 __fastcall GetEccKeyExchangeBlobFromBcryptKeyBlob(
     return MontgomeryGetKeyExchangeBlob(a2, a3, a4);
   return NonMontgomeryGetKeyExchangeBlob(a2, a3, a4);
 }
-

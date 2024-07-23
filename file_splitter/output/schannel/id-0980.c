@@ -1,4 +1,6 @@
-//----- (00000001800523F4) ----------------------------------------------------
+// File count: 980
+// Total lines: 28
+-----------------------------------------
 unsigned __int16 *__fastcall AllocateAndCopyString(wchar_t *Source)
 {
   __int64 v1; // rax
@@ -26,4 +28,3 @@ unsigned __int16 *__fastcall AllocateAndCopyString(wchar_t *Source)
   }
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

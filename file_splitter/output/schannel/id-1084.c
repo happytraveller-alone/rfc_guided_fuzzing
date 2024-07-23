@@ -1,4 +1,6 @@
-//----- (000000018005A4F8) ----------------------------------------------------
+// File count: 1084
+// Total lines: 18
+----------------------------------------
 void __fastcall CTls13ClientContext::~CTls13ClientContext(CTls13ClientContext *this)
 {
   CTls13Context *v1; // rbx
@@ -16,4 +18,3 @@ void __fastcall CTls13ClientContext::~CTls13ClientContext(CTls13ClientContext *t
 // 18007D550: using guessed type void *CTls13ClientHandshake::`vftable';
 // 18007FAE0: using guessed type void *CTls13ClientContext::`vftable'{for `CSsl3TlsClientContext'};
 // 18007FCF0: using guessed type void *CTls13ClientContext::`vftable'{for `CTls13Context'};
-

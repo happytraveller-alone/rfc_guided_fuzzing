@@ -1,4 +1,6 @@
-//----- (00000001800079EC) ----------------------------------------------------
+// File count: 96
+// Total lines: 125
+-----------------------------------------
 char __fastcall IsEcdheAlgorithmBlacklisted(
         struct _TLS_PARAMETERS *a1,
         unsigned int a2,
@@ -123,4 +125,3 @@ LABEL_9:
   }
   return 1;
 }
-

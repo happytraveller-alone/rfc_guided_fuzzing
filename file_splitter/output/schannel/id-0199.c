@@ -1,4 +1,6 @@
-//----- (0000000180010D8C) ----------------------------------------------------
+// File count: 199
+// Total lines: 189
+----------------------------------------
 __int64 __fastcall GetProcessImageName(unsigned __int16 *a1, struct _SECPKG_CALL_INFO *a2)
 {
   unsigned int v2; // ebx
@@ -187,4 +189,3 @@ LABEL_56:
 // 180085478: using guessed type wchar_t aSystem[7];
 // 180085488: using guessed type wchar_t aUnknown_0[10];
 // 180010D8C: using guessed type wchar_t var_460[264];
-

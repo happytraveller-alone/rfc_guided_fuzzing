@@ -1,4 +1,6 @@
-//----- (0000000180023334) ----------------------------------------------------
+// File count: 486
+// Total lines: 13
+-----------------------------------------
 void __fastcall DestroyEventEntry(__int64 a1)
 {
   void *v1; // rbx
@@ -11,4 +13,3 @@ void __fastcall DestroyEventEntry(__int64 a1)
     HeapFree(ProcessHeap, 0, v1);
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180055318) ----------------------------------------------------
+// File count: 1020
+// Total lines: 98
+----------------------------------------
 void __fastcall CCredentialGroup::CheckForCertificateStoreChange(CCredentialGroup *this)
 {
   void *v2; // rdx
@@ -96,4 +98,3 @@ void __fastcall CCredentialGroup::CheckForCertificateStoreChange(CCredentialGrou
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
-

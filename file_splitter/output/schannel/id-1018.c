@@ -1,4 +1,6 @@
-//----- (000000018005512C) ----------------------------------------------------
+// File count: 1018
+// Total lines: 56
+----------------------------------------
 __int64 CSslGlobals::InitializeCryptLocatorHandles(void)
 {
   DWORD v0; // ebx
@@ -54,4 +56,3 @@ __int64 CSslGlobals::InitializeCryptLocatorHandles(void)
 // 180092F60: using guessed type void *CSslGlobals::m_hIssuersLocator;
 // 180092F68: using guessed type void *CSslGlobals::m_hCertLocator;
 // 180098190: using guessed type void *__stdcall CryptObjectLocatorInitialize(const char *, unsigned int, unsigned int, void *, void *);
-

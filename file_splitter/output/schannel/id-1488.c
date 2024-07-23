@@ -1,4 +1,6 @@
-//----- (0000000180077C10) ----------------------------------------------------
+// File count: 1488
+// Total lines: 35
+----------------------------------------
 __int64 __fastcall CNulRecord::SetOutputBuffer(CNulRecord *this, struct SPBuffer *a2)
 {
   _WORD *v2; // r8
@@ -33,4 +35,3 @@ __int64 __fastcall CNulRecord::SetOutputBuffer(CNulRecord *this, struct SPBuffer
   }
   return 0i64;
 }
-

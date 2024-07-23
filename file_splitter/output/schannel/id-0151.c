@@ -1,4 +1,6 @@
-//----- (000000018000D1CC) ----------------------------------------------------
+// File count: 151
+// Total lines: 55
+-----------------------------------------
 __int64 __fastcall QueryStreamSizes(
         __int64 a1,
         unsigned int a2,
@@ -53,4 +55,3 @@ __int64 __fastcall QueryStreamSizes(
 }
 // 1800984F0: using guessed type __int64 __fastcall SslLookupCipherLengths(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
 // 180098510: using guessed type __int64 __fastcall SslLookupCipherSuiteInfo(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

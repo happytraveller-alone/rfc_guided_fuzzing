@@ -1,4 +1,6 @@
-//----- (000000018007ADF4) ----------------------------------------------------
+// File count: 1525
+// Total lines: 34
+----------------------------------------
 __int64 __fastcall PacValidateInfo3(struct _NETLOGON_VALIDATION_SAM_INFO3 *const a1)
 {
   unsigned int v2; // ecx
@@ -32,4 +34,3 @@ __int64 __fastcall PacValidateInfo3(struct _NETLOGON_VALIDATION_SAM_INFO3 *const
   }
   return 3221225592i64;
 }
-

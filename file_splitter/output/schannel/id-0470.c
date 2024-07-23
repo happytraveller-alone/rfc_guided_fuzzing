@@ -1,4 +1,6 @@
-//----- (0000000180022E40) ----------------------------------------------------
+// File count: 470
+// Total lines: 18
+-----------------------------------------
 void __fastcall CSslLookaside::Deallocate(CSslLookaside *this, struct _SLIST_ENTRY *a2)
 {
   if ( *((_BYTE *)this + 32) )
@@ -16,4 +18,3 @@ void __fastcall CSslLookaside::Deallocate(CSslLookaside *this, struct _SLIST_ENT
   }
 }
 // 180092620: using guessed type __int64 LsaTable;
-

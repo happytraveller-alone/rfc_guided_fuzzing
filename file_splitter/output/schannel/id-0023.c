@@ -1,4 +1,6 @@
-//----- (0000000180002928) ----------------------------------------------------
+// File count: 23
+// Total lines: 30
+------------------------------------------
 void __fastcall CSessionCacheTable::ExpireItemsBoundToProcess(CSessionCacheTable *this, int a2)
 {
   struct _RTL_RESOURCE *v2; // rbp
@@ -28,4 +30,3 @@ void __fastcall CSessionCacheTable::ExpireItemsBoundToProcess(CSessionCacheTable
   }
   RtlReleaseResource(v2);
 }
-

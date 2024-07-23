@@ -1,4 +1,6 @@
-//----- (000000018000F0CC) ----------------------------------------------------
+// File count: 175
+// Total lines: 16
+-----------------------------------------
 __int64 __fastcall LookupExchangeAlg(wchar_t *a1, __int64 a2)
 {
   const wchar_t *v2; // rbx
@@ -14,4 +16,3 @@ __int64 __fastcall LookupExchangeAlg(wchar_t *a1, __int64 a2)
   }
   return v4;
 }
-

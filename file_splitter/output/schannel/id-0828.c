@@ -1,4 +1,6 @@
-//----- (0000000180044114) ----------------------------------------------------
+// File count: 828
+// Total lines: 36
+-----------------------------------------
 __int64 __fastcall GeneratePSKExchangeMessage(__int64 a1, __int64 a2)
 {
   unsigned __int16 *v4; // rax
@@ -34,4 +36,3 @@ __int64 __fastcall GeneratePSKExchangeMessage(__int64 a1, __int64 a2)
   }
   return 2148074273i64;
 }
-

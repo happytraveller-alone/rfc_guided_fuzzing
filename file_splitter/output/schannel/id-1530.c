@@ -1,4 +1,6 @@
-//----- (000000018007B1B0) ----------------------------------------------------
+// File count: 1530
+// Total lines: 14
+----------------------------------------
 void __fastcall CancelTimerCallbacksAndDeleteTimer(__int64 a1)
 {
   struct _TP_TIMER *v2; // rcx
@@ -12,4 +14,3 @@ void __fastcall CancelTimerCallbacksAndDeleteTimer(__int64 a1)
     *(_QWORD *)(a1 + 344) = 0i64;
   }
 }
-

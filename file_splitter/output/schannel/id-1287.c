@@ -1,4 +1,6 @@
-//----- (0000000180065504) ----------------------------------------------------
+// File count: 1287
+// Total lines: 136
+---------------------------------------
 __int64 __fastcall CTls13ClientHandshake::GenerateBinderEntry(CTls13ClientHandshake *this)
 {
   __int64 v2; // rdi
@@ -134,4 +136,3 @@ LABEL_7:
 // 180098558: using guessed type __int64 __fastcall SslDuplicateTranscriptHash(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 180065504: using guessed type char var_90[4];
-

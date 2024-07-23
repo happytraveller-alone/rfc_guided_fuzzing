@@ -1,4 +1,6 @@
-//----- (0000000180006300) ----------------------------------------------------
+// File count: 77
+// Total lines: 27
+------------------------------------------
 void __fastcall CSessionCacheManager::ReleaseCacheTableLock(
         __int64 a1,
         const unsigned __int16 *a2,
@@ -25,4 +27,3 @@ void __fastcall CSessionCacheManager::ReleaseCacheTableLock(
       RtlReleaseResource((PRTL_RESOURCE)(v5 + 48));
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018002844C) ----------------------------------------------------
+// File count: 564
+// Total lines: 12
+-----------------------------------------
 unsigned __int64 *_scrt_initialize_default_local_stdio_options()
 {
   unsigned __int64 *v0; // rax
@@ -10,4 +12,3 @@ unsigned __int64 *_scrt_initialize_default_local_stdio_options()
   *result |= 2ui64;
   return result;
 }
-

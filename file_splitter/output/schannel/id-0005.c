@@ -1,4 +1,6 @@
-//----- (0000000180001268) ----------------------------------------------------
+// File count: 5
+// Total lines: 231
+------------------------------------------
 __int64 __fastcall VerifyServerCertificate(struct CSsl3TlsContext *a1, DWORD a2, int a3)
 {
   __int64 v5; // r13
@@ -229,4 +231,3 @@ LABEL_27:
 // 180084C90: using guessed type EVENT_DESCRIPTOR ChainBuildStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
 // 180001268: using guessed type char var_140[8];
-

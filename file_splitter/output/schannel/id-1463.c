@@ -1,4 +1,6 @@
-//----- (0000000180075660) ----------------------------------------------------
+// File count: 1463
+// Total lines: 64
+----------------------------------------
 __int64 __fastcall VerifyDssParams(UCHAR *a1, unsigned __int8 *a2, ULONG a3, BYTE *pbEncoded, DWORD cbEncoded)
 {
   DWORD LastError; // eax
@@ -62,4 +64,3 @@ LABEL_11:
 // 1800756F6: variable 'v12' is possibly undefined
 // 180075718: variable 'v13' is possibly undefined
 // 180075660: using guessed type unsigned __int8 var_44[20];
-

@@ -1,4 +1,6 @@
-//----- (000000018006FA58) ----------------------------------------------------
+// File count: 1404
+// Total lines: 41
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::FindMatchingProtectionProfile(
         unsigned __int16 *const a1,
         unsigned __int16 a2,
@@ -39,4 +41,3 @@ LABEL_11:
   }
   return v7;
 }
-

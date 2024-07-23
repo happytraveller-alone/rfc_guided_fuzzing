@@ -1,4 +1,6 @@
-//----- (00000001800030F0) ----------------------------------------------------
+// File count: 32
+// Total lines: 61
+------------------------------------------
 __int64 __fastcall SpFreeCredentialsHandle(struct CCredentialGroup *a1, __int64 a2, __int64 a3)
 {
   int v4; // edi
@@ -59,4 +61,3 @@ __int64 __fastcall SpFreeCredentialsHandle(struct CCredentialGroup *a1, __int64 
 // 180092620: using guessed type __int64 LsaTable;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
 // 1800030F0: using guessed type char var_38[8];
-

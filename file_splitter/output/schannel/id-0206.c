@@ -1,4 +1,6 @@
-//----- (0000000180011860) ----------------------------------------------------
+// File count: 206
+// Total lines: 113
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SslProtocolHandler(CSsl3TlsContext *this, struct SPBuffer *a2, struct SPBuffer *a3)
 {
   unsigned int v6; // ebp
@@ -111,4 +113,3 @@ LABEL_9:
   return result;
 }
 // 18003AC8B: variable 'v14' is possibly undefined
-

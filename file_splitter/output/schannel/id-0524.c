@@ -1,4 +1,6 @@
-//----- (0000000180026888) ----------------------------------------------------
+// File count: 524
+// Total lines: 33
+-----------------------------------------
 CSessionCacheTable *__fastcall CSessionCacheTable::CSessionCacheTable(
         CSessionCacheTable *this,
         struct _LIST_ENTRY *a2,
@@ -31,4 +33,3 @@ CSessionCacheTable *__fastcall CSessionCacheTable::CSessionCacheTable(
   *((_BYTE *)this + 144) = 1;
   return this;
 }
-

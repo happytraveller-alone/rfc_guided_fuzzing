@@ -1,4 +1,6 @@
-//----- (000000018004DEF8) ----------------------------------------------------
+// File count: 937
+// Total lines: 53
+-----------------------------------------
 __int64 __fastcall CSslUserContext::GenerateKeyUpdateRecord(CSslUserContext *this, struct SPBuffer *a2)
 {
   __int64 result; // rax
@@ -51,4 +53,3 @@ __int64 __fastcall CSslUserContext::GenerateKeyUpdateRecord(CSslUserContext *thi
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098508: using guessed type __int64 __fastcall SslEncryptPacket(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

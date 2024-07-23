@@ -1,4 +1,6 @@
-//----- (000000018004F728) ----------------------------------------------------
+// File count: 956
+// Total lines: 70
+-----------------------------------------
 __int64 __fastcall UpdateTrafficSecretAndDeriveNewKey(
         __int64 a1,
         unsigned __int64 *a2,
@@ -68,4 +70,3 @@ LABEL_21:
 // 180098520: using guessed type __int64 __fastcall SslExpandWriteKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 18004F728: using guessed type unsigned __int64 var_28[5];
-

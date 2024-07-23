@@ -1,4 +1,6 @@
-//----- (00000001800123C0) ----------------------------------------------------
+// File count: 213
+// Total lines: 28
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogHandshakeEnd(LARGE_INTEGER *a1, LARGE_INTEGER *a2)
 {
   __int64 v3; // r8
@@ -26,4 +28,3 @@ void __fastcall CSchannelTelemetryContext::LogHandshakeEnd(LARGE_INTEGER *a1, LA
 }
 // 180012440: variable 'v3' is possibly undefined
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

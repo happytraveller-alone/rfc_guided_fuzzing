@@ -1,4 +1,6 @@
-//----- (000000018004E470) ----------------------------------------------------
+// File count: 946
+// Total lines: 29
+-----------------------------------------
 __int64 __fastcall SpQueryCertificateValidationResult(
         __int16 a1,
         unsigned int a2,
@@ -27,4 +29,3 @@ __int64 __fastcall SpQueryCertificateValidationResult(
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

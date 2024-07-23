@@ -1,4 +1,6 @@
-//----- (0000000180006B10) ----------------------------------------------------
+// File count: 87
+// Total lines: 17
+------------------------------------------
 CSchannelTelemetryContext *__fastcall CSchannelTelemetryContext::`vector deleting destructor'(
         CSchannelTelemetryContext *this,
         char a2)
@@ -15,4 +17,3 @@ CSchannelTelemetryContext *__fastcall CSchannelTelemetryContext::`vector deletin
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
 // 180092620: using guessed type __int64 LsaTable;
-

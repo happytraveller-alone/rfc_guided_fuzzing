@@ -1,4 +1,6 @@
-//----- (000000018005A04C) ----------------------------------------------------
+// File count: 1077
+// Total lines: 27
+----------------------------------------
 __int64 __fastcall WPP_SF_DS(__int64 a1, unsigned __int16 a2, __int64 a3, int a4, const wchar_t *a5)
 {
   const wchar_t *v5; // r8
@@ -25,4 +27,3 @@ __int64 __fastcall WPP_SF_DS(__int64 a1, unsigned __int16 a2, __int64 a3, int a4
   return EtwTraceMessage(a1, 43i64, &WPP_bcb3b342e8be3997fa3752f6a9108bb3_Traceguids, a2, &v9, 4i64, v5, v7, 0i64);
 }
 // 180083C60: using guessed type wchar_t aNull_0[5];
-

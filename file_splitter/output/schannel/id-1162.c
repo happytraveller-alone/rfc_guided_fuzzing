@@ -1,4 +1,6 @@
-//----- (000000018005D5D4) ----------------------------------------------------
+// File count: 1162
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::GetPrfHashDetails(
         CSessionCacheItem *this,
         unsigned __int8 *a2,
@@ -30,4 +32,3 @@ __int64 __fastcall CSessionCacheItem::GetPrfHashDetails(
 }
 // 18005D5FA: variable 'v6' is possibly undefined
 // 18005D61A: variable 'v5' is possibly undefined
-

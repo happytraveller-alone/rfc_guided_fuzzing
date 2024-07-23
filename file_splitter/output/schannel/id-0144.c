@@ -1,4 +1,6 @@
-//----- (000000018000C40C) ----------------------------------------------------
+// File count: 144
+// Total lines: 274
+----------------------------------------
 __int64 __fastcall SslUnsealMessageStream(struct CSslUserContext *a1, struct _SecBufferDesc *a2)
 {
   struct _SecBuffer *v2; // rdi
@@ -272,4 +274,3 @@ LABEL_34:
 // 180036908: variable 'v31' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

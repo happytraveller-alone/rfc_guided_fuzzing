@@ -1,4 +1,6 @@
-//----- (0000000180018EB4) ----------------------------------------------------
+// File count: 424
+// Total lines: 18
+-----------------------------------------
 CEphemKeyData *__fastcall CEphemKeyData::CEphemKeyData(CEphemKeyData *this, unsigned int a2)
 {
   __int64 v3; // rbx
@@ -16,4 +18,3 @@ CEphemKeyData *__fastcall CEphemKeyData::CEphemKeyData(CEphemKeyData *this, unsi
   return this;
 }
 // 18007C270: using guessed type void *CEphemKeyData::`vftable';
-

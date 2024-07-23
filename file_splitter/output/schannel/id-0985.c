@@ -1,4 +1,6 @@
-//----- (0000000180052918) ----------------------------------------------------
+// File count: 985
+// Total lines: 32
+-----------------------------------------
 __int64 __fastcall SpQueryProtoInfo(struct CSslUserContext *a1, _DWORD *a2)
 {
   _DWORD *v4; // rcx
@@ -30,4 +32,3 @@ __int64 __fastcall SpQueryProtoInfo(struct CSslUserContext *a1, _DWORD *a2)
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

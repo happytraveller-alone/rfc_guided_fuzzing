@@ -1,4 +1,6 @@
-//----- (000000018006B424) ----------------------------------------------------
+// File count: 1361
+// Total lines: 128
+---------------------------------------
 __int64 __fastcall CTls13ClientContext::GenerateCertVerifyHashForRemoteSigning(CTls13ClientContext *this)
 {
   __int64 v1; // rsi
@@ -126,4 +128,3 @@ LABEL_21:
 }
 // 18006B667: variable 'Size' is possibly undefined
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

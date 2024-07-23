@@ -1,4 +1,6 @@
-//----- (0000000180077DC4) ----------------------------------------------------
+// File count: 1491
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall CTls13ExtClient::ParseCookieExtension(
         CTls13ExtClient *this,
         unsigned __int8 *a2,
@@ -30,4 +32,3 @@ __int64 __fastcall CTls13ExtClient::ParseCookieExtension(
   }
   return v3;
 }
-

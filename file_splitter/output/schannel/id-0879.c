@@ -1,4 +1,6 @@
-//----- (00000001800478D4) ----------------------------------------------------
+// File count: 879
+// Total lines: 177
+----------------------------------------
 __int64 __fastcall MapperVerifyClientChain(
         struct CCredentialGroup *a1,
         const struct _CERT_CONTEXT *a2,
@@ -175,4 +177,3 @@ LABEL_31:
 // 180084C80: using guessed type EVENT_DESCRIPTOR ChainBuildStop;
 // 180084C90: using guessed type EVENT_DESCRIPTOR ChainBuildStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

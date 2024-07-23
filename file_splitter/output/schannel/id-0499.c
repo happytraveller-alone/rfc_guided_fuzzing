@@ -1,4 +1,6 @@
-//----- (000000018002492C) ----------------------------------------------------
+// File count: 499
+// Total lines: 98
+-----------------------------------------
 CMasterEccCurveInfo *__fastcall CMasterEccCurveInfo::CMasterEccCurveInfo(
         CMasterEccCurveInfo *this,
         struct ProviderEccCurves *a2,
@@ -96,4 +98,3 @@ CMasterEccCurveInfo *__fastcall CMasterEccCurveInfo::CMasterEccCurveInfo(
   }
   return this;
 }
-

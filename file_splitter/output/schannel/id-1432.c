@@ -1,4 +1,6 @@
-//----- (00000001800727CC) ----------------------------------------------------
+// File count: 1432
+// Total lines: 8
+-----------------------------------------
 DTlsRec *__fastcall DTlsRec::`scalar deleting destructor'(DTlsRec *this)
 {
   DTlsRec::~DTlsRec(this);
@@ -6,4 +8,3 @@ DTlsRec *__fastcall DTlsRec::`scalar deleting destructor'(DTlsRec *this)
     SPExternalFree(this);
   return this;
 }
-

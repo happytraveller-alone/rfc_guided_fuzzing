@@ -1,4 +1,6 @@
-//----- (000000018005C020) ----------------------------------------------------
+// File count: 1136
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall ConvertPubKeyToBcryptHdl(struct CSslContext *a1, const unsigned __int16 *a2, void **a3)
 {
   unsigned int v6; // edi
@@ -24,4 +26,3 @@ __int64 __fastcall ConvertPubKeyToBcryptHdl(struct CSslContext *a1, const unsign
   }
   return v6;
 }
-

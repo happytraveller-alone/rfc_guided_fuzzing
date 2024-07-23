@@ -1,4 +1,6 @@
-//----- (000000018006EC1C) ----------------------------------------------------
+// File count: 1389
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CTls13Context::SetCcsRecordInfo(CTls13Context *this, struct CTlsRecord::CMessageInfo *a2, char *a3)
 {
   char v3; // al
@@ -21,4 +23,3 @@ __int64 __fastcall CTls13Context::SetCcsRecordInfo(CTls13Context *this, struct C
   }
   return 87i64;
 }
-

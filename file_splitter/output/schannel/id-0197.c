@@ -1,4 +1,6 @@
-//----- (0000000180010CB0) ----------------------------------------------------
+// File count: 197
+// Total lines: 31
+-----------------------------------------
 void __fastcall CCredentialGroup::GetCredentialExpirationTime(CCredentialGroup *this, union _LARGE_INTEGER *a2)
 {
   struct _RTL_RESOURCE *v4; // rsi
@@ -29,4 +31,3 @@ void __fastcall CCredentialGroup::GetCredentialExpirationTime(CCredentialGroup *
     }
   }
 }
-

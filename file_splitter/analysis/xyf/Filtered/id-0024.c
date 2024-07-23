@@ -15,3 +15,4 @@ __int64 __fastcall MontgomeryGetEccPublicKeyBlob(
   return v4;
 }
 
+// 安全地将 ECC 公钥数据从一个源缓冲区复制到一个 _BCRYPT_ECCKEY_BLOB 结构中。

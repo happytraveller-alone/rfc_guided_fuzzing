@@ -1,4 +1,6 @@
-//----- (00000001800571A4) ----------------------------------------------------
+// File count: 1044
+// Total lines: 235
+---------------------------------------
 __int64 __fastcall AcquireDefaultClientCredential(struct CSsl3TlsClientContext *this, int a2)
 {
   DWORD v2; // r14d
@@ -233,4 +235,3 @@ LABEL_45:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 18008275C: using guessed type wchar_t aMy[3];
-

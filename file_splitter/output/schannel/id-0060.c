@@ -1,4 +1,6 @@
-//----- (0000000180004850) ----------------------------------------------------
+// File count: 60
+// Total lines: 36
+------------------------------------------
 __int64 __fastcall AutoVerifyServerCertificate(struct CSsl3TlsContext *a1)
 {
   __int64 v3; // rax
@@ -34,4 +36,3 @@ __int64 __fastcall AutoVerifyServerCertificate(struct CSsl3TlsContext *a1)
     v9 = v7;
   return VerifyServerCertificate(a1, v9, v8);
 }
-

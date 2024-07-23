@@ -1,4 +1,6 @@
-//----- (0000000180045BF8) ----------------------------------------------------
+// File count: 856
+// Total lines: 37
+-----------------------------------------
 void SchShutdownEvents(void)
 {
   int v0; // eax
@@ -35,4 +37,3 @@ void SchShutdownEvents(void)
 // 180080EA0: using guessed type __int64 EtwEventUnregister(void);
 // 180084F18: using guessed type wchar_t aSchannel_2[9];
 // 180092D80: using guessed type unsigned __int64 g_RegistrationHandle;
-

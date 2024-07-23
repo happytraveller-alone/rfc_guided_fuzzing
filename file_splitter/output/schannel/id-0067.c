@@ -1,4 +1,6 @@
-//----- (00000001800051C0) ----------------------------------------------------
+// File count: 67
+// Total lines: 47
+------------------------------------------
 void __fastcall GetSignatureSuiteInfoByCodePoint(
         __int16 a1,
         enum _eTlsSignatureAlgorithm *a2,
@@ -45,4 +47,3 @@ void __fastcall GetSignatureSuiteInfoByCodePoint(
     *a4 = *((_DWORD *)v8 + 11);
 }
 // 18007C6F0: using guessed type void *CSsl3TlsServerContext::`vftable';
-

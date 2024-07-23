@@ -1,4 +1,6 @@
-//----- (000000018004FBD0) ----------------------------------------------------
+// File count: 960
+// Total lines: 92
+-----------------------------------------
 __int64 __fastcall SpExportSecurityContext(__int64 a1, char a2, __int64 a3, void **a4)
 {
   _QWORD *v8; // r14
@@ -90,4 +92,3 @@ LABEL_27:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

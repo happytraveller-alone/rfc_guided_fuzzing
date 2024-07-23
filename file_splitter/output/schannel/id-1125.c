@@ -1,4 +1,6 @@
-//----- (000000018005B6E8) ----------------------------------------------------
+// File count: 1125
+// Total lines: 21
+----------------------------------------
 unsigned __int64 __fastcall CSsl3TlsContext::FindTlsClientAuthHandshakeHash(
         CSsl3TlsContext *this,
         enum _eTlsHashAlgorithm a2)
@@ -19,4 +21,3 @@ unsigned __int64 __fastcall CSsl3TlsContext::FindTlsClientAuthHandshakeHash(
   }
   return *((_QWORD *)this + v3 + 74);
 }
-

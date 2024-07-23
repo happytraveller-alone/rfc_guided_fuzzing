@@ -1,4 +1,6 @@
-//----- (0000000180009F90) ----------------------------------------------------
+// File count: 120
+// Total lines: 159
+----------------------------------------
 __int64 __fastcall CSslContextManager::InstantiateClientContext(
         CSslContextManager *this,
         const unsigned __int16 *a2,
@@ -157,4 +159,3 @@ LABEL_20:
 // 18000A04D: variable 'v15' is possibly undefined
 // 18000A17D: variable 'v28' is possibly undefined
 // 180034E7F: variable 'v10' is possibly undefined
-

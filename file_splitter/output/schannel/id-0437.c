@@ -1,4 +1,6 @@
-//----- (000000018001B930) ----------------------------------------------------
+// File count: 437
+// Total lines: 391
+----------------------------------------
 __int64 __fastcall CSslCredential::IsServerCredApplicable(
         __int64 a1,
         __int64 a2,
@@ -389,4 +391,3 @@ LABEL_68:
 // 180092800: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha512Flags;
 // 180092804: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha384Flags;
 // 180092808: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha256Flags;
-

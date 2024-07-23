@@ -1,4 +1,6 @@
-//----- (00000001800647B0) ----------------------------------------------------
+// File count: 1270
+// Total lines: 27
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ComputeEncryptedExtensionsMsgSize(
         CTls13ServerHandshake *this,
         unsigned __int16 *a2)
@@ -25,4 +27,3 @@ __int64 __fastcall CTls13ServerHandshake::ComputeEncryptedExtensionsMsgSize(
   }
   return result;
 }
-

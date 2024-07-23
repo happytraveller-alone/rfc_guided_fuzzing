@@ -1,4 +1,6 @@
-//----- (0000000180003FB0) ----------------------------------------------------
+// File count: 48
+// Total lines: 40
+------------------------------------------
 void __fastcall CSsl3TlsContext::CleanupConnectedState(CSsl3TlsContext *this)
 {
   void *v2; // rcx
@@ -38,4 +40,3 @@ void __fastcall CSsl3TlsContext::CleanupConnectedState(CSsl3TlsContext *this)
     }
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018006FCD4) ----------------------------------------------------
+// File count: 1406
+// Total lines: 87
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::FragmentOutgoingBuffer(CSsl3TlsContext *this, struct SPBuffer *a2)
 {
   char *v2; // rsi
@@ -85,4 +87,3 @@ LABEL_18:
       return 0i64;
   }
 }
-

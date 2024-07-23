@@ -1,4 +1,6 @@
-//----- (000000018005DB58) ----------------------------------------------------
+// File count: 1171
+// Total lines: 72
+----------------------------------------
 void __fastcall SPAddIssuerToCache(unsigned __int8 *a1, unsigned int a2)
 {
   size_t v2; // rbx
@@ -70,4 +72,3 @@ void __fastcall SPAddIssuerToCache(unsigned __int8 *a1, unsigned int a2)
 // 180092708: using guessed type __int64 qword_180092708;
 // 180092710: using guessed type __int64 qword_180092710;
 // 180092778: using guessed type int dword_180092778;
-

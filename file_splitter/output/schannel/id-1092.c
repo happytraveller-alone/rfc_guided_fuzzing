@@ -1,4 +1,6 @@
-//----- (000000018005ABA0) ----------------------------------------------------
+// File count: 1092
+// Total lines: 10
+----------------------------------------
 CTls13ServerHandshake *__fastcall CTls13ServerHandshake::`scalar deleting destructor'(
         CTls13ServerHandshake *this,
         char a2)
@@ -8,4 +10,3 @@ CTls13ServerHandshake *__fastcall CTls13ServerHandshake::`scalar deleting destru
     operator delete(this);
   return this;
 }
-

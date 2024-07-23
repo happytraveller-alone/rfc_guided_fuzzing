@@ -1,4 +1,6 @@
-//----- (0000000180058B94) ----------------------------------------------------
+// File count: 1053
+// Total lines: 94
+----------------------------------------
 void __fastcall DbgDumpTlsParams(struct _TLS_PARAMETERS *a1, __int64 a2, __int64 a3)
 {
   unsigned int v3; // r15d
@@ -92,4 +94,3 @@ void __fastcall DbgDumpTlsParams(struct _TLS_PARAMETERS *a1, __int64 a2, __int64
 // 180058C14: variable 'a3' is possibly undefined
 // 180058C14: variable 'v16' is possibly undefined
 // 180058C14: variable 'v17' is possibly undefined
-

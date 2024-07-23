@@ -1,4 +1,6 @@
-//----- (0000000180058E30) ----------------------------------------------------
+// File count: 1055
+// Total lines: 15
+----------------------------------------
 __int64 __fastcall CSslCredManager::NotifyProviderChange(CSslCredManager *this)
 {
   struct _RTL_CRITICAL_SECTION *v1; // rsi
@@ -13,4 +15,3 @@ __int64 __fastcall CSslCredManager::NotifyProviderChange(CSslCredManager *this)
   RtlLeaveCriticalSection(v1);
   return 0i64;
 }
-

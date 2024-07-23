@@ -1,4 +1,6 @@
-//----- (00000001800228D0) ----------------------------------------------------
+// File count: 463
+// Total lines: 24
+-----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::LookupEccCurveType(CSsl3TlsServerContext *this, int a2)
 {
   unsigned __int16 *v2; // rax
@@ -22,4 +24,3 @@ LABEL_6:
     return 0i64;
   return 50i64;
 }
-

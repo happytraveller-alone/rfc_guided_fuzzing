@@ -1,4 +1,6 @@
-//----- (00000001800166F0) ----------------------------------------------------
+// File count: 295
+// Total lines: 16
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetContextAttributesA(CSsl3TlsContext *this, int a2, void *a3, unsigned int a4)
 {
   switch ( a2 )
@@ -14,4 +16,3 @@ __int64 __fastcall CSsl3TlsContext::SetContextAttributesA(CSsl3TlsContext *this,
   }
   return CSslContext::SetContextAttributesA(this, a2, a3, a4);
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180079924) ----------------------------------------------------
+// File count: 1512
+// Total lines: 38
+----------------------------------------
 int __fastcall GetSslStringFromRegistry(HANDLE KeyHandle, PCWSTR SourceString, char *a3)
 {
   int result; // eax
@@ -36,4 +38,3 @@ int __fastcall GetSslStringFromRegistry(HANDLE KeyHandle, PCWSTR SourceString, c
   return result;
 }
 // 180079924: using guessed type unsigned __int16 var_AC[66];
-

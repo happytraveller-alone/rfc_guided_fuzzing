@@ -1,4 +1,6 @@
-//----- (0000000180027A84) ----------------------------------------------------
+// File count: 548
+// Total lines: 38
+-----------------------------------------
 __int64 CSslGlobals::InitializeCryptLocatorEvents(void)
 {
   DWORD LastError; // ebx
@@ -36,4 +38,3 @@ LABEL_10:
   return LastError;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

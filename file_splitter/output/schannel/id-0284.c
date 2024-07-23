@@ -1,4 +1,6 @@
-//----- (0000000180015FC8) ----------------------------------------------------
+// File count: 284
+// Total lines: 32
+-----------------------------------------
 char GetExternalSchannelAlgorithms()
 {
   BOOL v0; // ebx
@@ -30,4 +32,3 @@ char GetExternalSchannelAlgorithms()
 }
 // 180082408: using guessed type wchar_t aEnabletlsexter[28];
 // 1800921B0: using guessed type int dword_1800921B0;
-

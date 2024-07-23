@@ -1,4 +1,6 @@
-//----- (00000001800590F0) ----------------------------------------------------
+// File count: 1060
+// Total lines: 15
+----------------------------------------
 void __fastcall CSessionCacheTable::~CSessionCacheTable(CSessionCacheTable *this)
 {
   char *v1; // rsi
@@ -13,4 +15,3 @@ void __fastcall CSessionCacheTable::~CSessionCacheTable(CSessionCacheTable *this
   if ( *((_BYTE *)this + 144) )
     RtlDeleteResource((PRTL_RESOURCE)((char *)this + 48));
 }
-

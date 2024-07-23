@@ -1,4 +1,6 @@
-//----- (00000001800776B0) ----------------------------------------------------
+// File count: 1482
+// Total lines: 35
+----------------------------------------
 __int64 __fastcall CTls13Record::SetOutputBuffer(CTls13Record *this, struct SPBuffer *a2)
 {
   _WORD *v2; // r9
@@ -33,4 +35,3 @@ __int64 __fastcall CTls13Record::SetOutputBuffer(CTls13Record *this, struct SPBu
   }
   return CTls13Record::InitializeRecord(this);
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800276A4) ----------------------------------------------------
+// File count: 544
+// Total lines: 55
+-----------------------------------------
 ULONG SslInitSystemMapper(void)
 {
   int v0; // ebx
@@ -53,4 +55,3 @@ ULONG SslInitSystemMapper(void)
 }
 // 1800919A0: using guessed type int fUseLocalMapping;
 // 180092784: using guessed type int g_SslS4U2SelfInitialized;
-

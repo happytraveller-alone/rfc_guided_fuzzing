@@ -1,4 +1,6 @@
-//----- (000000018004E4E8) ----------------------------------------------------
+// File count: 947
+// Total lines: 32
+-----------------------------------------
 __int64 __fastcall SpQueryConnectionInfoEx(struct CSslUserContext *a1, struct _SecPkgContext_ConnectionInfoEx *a2)
 {
   unsigned __int16 v4; // ax
@@ -30,4 +32,3 @@ __int64 __fastcall SpQueryConnectionInfoEx(struct CSslUserContext *a1, struct _S
 // 18004E4E8: using guessed type wchar_t Source[64];
 // 18004E4E8: using guessed type wchar_t var_1C4[64];
 // 18004E4E8: using guessed type wchar_t var_140[140];
-

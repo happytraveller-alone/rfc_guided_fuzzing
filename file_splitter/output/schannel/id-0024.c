@@ -1,4 +1,6 @@
-//----- (00000001800029E8) ----------------------------------------------------
+// File count: 24
+// Total lines: 16
+------------------------------------------
 __int64 __fastcall MontgomeryGetEccPublicKeyBlob(
         unsigned __int8 *Src,
         size_t Size,
@@ -14,4 +16,3 @@ __int64 __fastcall MontgomeryGetEccPublicKeyBlob(
     return (unsigned int)-2146893048;
   return v4;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180068414) ----------------------------------------------------
+// File count: 1326
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::GenerateSignatureAlgorithmsExtension(
         __int64 a1)
 {
@@ -23,4 +25,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Generat
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

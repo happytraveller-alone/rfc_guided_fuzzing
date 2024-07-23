@@ -1,4 +1,6 @@
-//----- (0000000180008DE0) ----------------------------------------------------
+// File count: 109
+// Total lines: 166
+----------------------------------------
 __int64 __fastcall SpDeleteContext(void *a1)
 {
   __int64 v2; // rax
@@ -164,4 +166,3 @@ LABEL_21:
 // 180092DD0: using guessed type __int128 xmmword_180092DD0;
 // 180092DE0: using guessed type int dword_180092DE0;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

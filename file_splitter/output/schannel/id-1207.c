@@ -1,4 +1,6 @@
-//----- (000000018005FF30) ----------------------------------------------------
+// File count: 1207
+// Total lines: 86
+----------------------------------------
 unsigned __int8 __fastcall CSslCredential::IsClientCredApplicable(
         CSslCredential *this,
         int a2,
@@ -84,4 +86,3 @@ LABEL_17:
   return 1;
 }
 // 18006006B: variable 'this' is possibly undefined
-

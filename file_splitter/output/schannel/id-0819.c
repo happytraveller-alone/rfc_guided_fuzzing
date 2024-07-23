@@ -1,4 +1,6 @@
-//----- (0000000180043554) ----------------------------------------------------
+// File count: 819
+// Total lines: 52
+-----------------------------------------
 __int64 __fastcall InitializeClientCertPolicy(struct _SecPkgCred_ClientCertPolicy *a1, struct CLIENT_CERT_POLICY *a2)
 {
   BOOL fOmitUsageCheck; // eax
@@ -50,4 +52,3 @@ __int64 __fastcall InitializeClientCertPolicy(struct _SecPkgCred_ClientCertPolic
   return 2148074253i64;
 }
 // 180043639: variable 'pvPara' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (000000018007B21C) ----------------------------------------------------
+// File count: 1531
+// Total lines: 12
+----------------------------------------
 void __fastcall DestroyAggregateSession(LPVOID lpMem)
 {
   HANDLE ProcessHeap; // rax
@@ -10,4 +12,3 @@ void __fastcall DestroyAggregateSession(LPVOID lpMem)
     HeapFree(ProcessHeap, 0, lpMem);
   }
 }
-

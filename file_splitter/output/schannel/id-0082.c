@@ -1,4 +1,6 @@
-//----- (0000000180006808) ----------------------------------------------------
+// File count: 82
+// Total lines: 71
+------------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetTokenBindingEKM(CSsl3TlsContext *this)
 {
   __int64 v3; // rcx
@@ -69,4 +71,3 @@ LABEL_16:
   return v9;
 }
 // 180098560: using guessed type __int64 __fastcall SslExportKeyingMaterial(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

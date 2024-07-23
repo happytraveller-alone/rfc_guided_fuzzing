@@ -1,4 +1,6 @@
-//----- (0000000180072EF8) ----------------------------------------------------
+// File count: 1437
+// Total lines: 16
+----------------------------------------
 struct DTlsMessage *__fastcall DTlsMsgMgr::FindMsg(DTlsMsgMgr *this, int a2)
 {
   __int64 v2; // r8
@@ -14,4 +16,3 @@ struct DTlsMessage *__fastcall DTlsMsgMgr::FindMsg(DTlsMsgMgr *this, int a2)
   }
   return (struct DTlsMessage *)v2;
 }
-

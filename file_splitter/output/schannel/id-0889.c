@@ -1,4 +1,6 @@
-//----- (0000000180049EF4) ----------------------------------------------------
+// File count: 889
+// Total lines: 181
+----------------------------------------
 __int64 __fastcall SslMapEncodedCredential(
         void **a1,
         unsigned int *a2,
@@ -179,4 +181,3 @@ LABEL_47:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

@@ -1,4 +1,6 @@
-//----- (0000000180021540) ----------------------------------------------------
+// File count: 459
+// Total lines: 607
+----------------------------------------
 void __fastcall CSchannelTelemetryContext::WriteServerEvent(CSchannelTelemetryContext *this)
 {
   unsigned int v1; // r10d
@@ -605,4 +607,3 @@ LABEL_74:
 // 180091498: using guessed type __int64 qword_180091498;
 // 1800914A8: using guessed type __int64 qword_1800914A8;
 // 1800914B0: using guessed type __int64 qword_1800914B0;
-

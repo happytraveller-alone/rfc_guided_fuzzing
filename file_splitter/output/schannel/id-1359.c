@@ -1,4 +1,6 @@
-//----- (000000018006B1A8) ----------------------------------------------------
+// File count: 1359
+// Total lines: 85
+----------------------------------------
 __int64 __fastcall CTls13Context::GenerateBinderData(
         CTls13Context *this,
         __int64 a2,
@@ -83,4 +85,3 @@ LABEL_13:
 // 1800984B8: using guessed type __int64 __fastcall SslExtractEarlyKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098538: using guessed type __int64 __fastcall SslComputeFinishedHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

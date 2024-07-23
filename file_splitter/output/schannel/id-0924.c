@@ -1,4 +1,6 @@
-//----- (000000018004D5A4) ----------------------------------------------------
+// File count: 924
+// Total lines: 31
+-----------------------------------------
 __int64 __fastcall ProcessRecord(
         const unsigned __int8 *a1,
         unsigned int a2,
@@ -29,4 +31,3 @@ __int64 __fastcall ProcessRecord(
     return (unsigned int)ParseClientHello(a1 + 4, v8, a3, a4);
   return v5;
 }
-

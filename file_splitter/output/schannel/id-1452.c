@@ -1,4 +1,6 @@
-//----- (0000000180073BB4) ----------------------------------------------------
+// File count: 1452
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall CreateChainEngine(struct CCredentialGroup *a1)
 {
   DWORD LastError; // eax
@@ -30,4 +32,3 @@ LABEL_6:
   return (__int64)phChainEngine;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

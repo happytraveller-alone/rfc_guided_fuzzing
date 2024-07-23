@@ -1,4 +1,6 @@
-//----- (0000000180059ED0) ----------------------------------------------------
+// File count: 1076
+// Total lines: 74
+----------------------------------------
 __int64 __fastcall CCipherMill::GetPrivateKeyFromProvider(
         CCipherMill *this,
         const struct _CERT_CONTEXT *a2,
@@ -72,4 +74,3 @@ __int64 __fastcall CCipherMill::GetPrivateKeyFromProvider(
 // 180098448: using guessed type __int64 __fastcall SslOpenPrivateKey(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 180059ED0: using guessed type __int64 var_148[32];
-

@@ -1,4 +1,6 @@
-//----- (000000018000EABC) ----------------------------------------------------
+// File count: 164
+// Total lines: 8
+------------------------------------------
 void __fastcall CCipherMill::GetSignatureSuiteList(CCipherMill *this, struct CTlsSignatureSuiteList *a2)
 {
   RtlAcquireResourceShared(&Resource, 1u);
@@ -6,4 +8,3 @@ void __fastcall CCipherMill::GetSignatureSuiteList(CCipherMill *this, struct CTl
   RtlReleaseResource(&Resource);
 }
 // 1800925E8: using guessed type __int16 word_1800925E8;
-

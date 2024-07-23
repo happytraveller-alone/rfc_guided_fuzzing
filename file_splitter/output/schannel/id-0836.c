@@ -1,4 +1,6 @@
-//----- (000000018004497C) ----------------------------------------------------
+// File count: 836
+// Total lines: 12
+-----------------------------------------
 __int64 WPP_SF_qq(__int64 a1, unsigned __int16 a2, __int64 a3, ...)
 {
   __int64 v4; // [rsp+78h] [rbp+20h] BYREF
@@ -10,4 +12,3 @@ __int64 WPP_SF_qq(__int64 a1, unsigned __int16 a2, __int64 a3, ...)
   v4 = va_arg(va1, _QWORD);
   return EtwTraceMessage(a1, 43i64, a3, a2, (__int64 *)va, 8i64, va1, 8i64, 0i64);
 }
-

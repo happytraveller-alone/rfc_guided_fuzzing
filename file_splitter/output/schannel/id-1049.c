@@ -1,4 +1,6 @@
-//----- (0000000180058598) ----------------------------------------------------
+// File count: 1049
+// Total lines: 43
+----------------------------------------
 void __fastcall GetImplementationType(PCCERT_CONTEXT pCertContext, unsigned int *a2)
 {
   HLOCAL v4; // rax
@@ -41,4 +43,3 @@ void __fastcall GetImplementationType(PCCERT_CONTEXT pCertContext, unsigned int 
     WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 41i64, &WPP_d5302f0819dd3315699237cebd9fbb35_Traceguids);
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (00000001800567A8) ----------------------------------------------------
+// File count: 1034
+// Total lines: 119
+---------------------------------------
 __int64 __fastcall CCredentialGroup::PickServerCredential(
         CCredentialGroup *this,
         struct CCipherSuiteInfo *a2,
@@ -117,4 +119,3 @@ LABEL_27:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
-

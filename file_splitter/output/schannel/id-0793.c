@@ -1,4 +1,6 @@
-//----- (0000000180041794) ----------------------------------------------------
+// File count: 793
+// Total lines: 82
+-----------------------------------------
 __int64 __fastcall RemotelySetMtu(struct CSslContext *a1)
 {
   int v1; // edi
@@ -80,4 +82,3 @@ __int64 __fastcall RemotelySetMtu(struct CSslContext *a1)
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
 // 180041794: using guessed type char var_20[8];
-

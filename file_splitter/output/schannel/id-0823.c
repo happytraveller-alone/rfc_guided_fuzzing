@@ -1,4 +1,6 @@
-//----- (0000000180043AE4) ----------------------------------------------------
+// File count: 823
+// Total lines: 17
+-----------------------------------------
 __int64 __fastcall VerifyUnicodeStringIsInBuffer(const unsigned __int16 *a1, char *a2, int a3)
 {
   char *v3; // rdx
@@ -15,4 +17,3 @@ __int64 __fastcall VerifyUnicodeStringIsInBuffer(const unsigned __int16 *a1, cha
   }
   return 2148074333i64;
 }
-

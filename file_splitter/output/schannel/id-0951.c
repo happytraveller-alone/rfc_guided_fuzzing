@@ -1,4 +1,6 @@
-//----- (000000018004E9A4) ----------------------------------------------------
+// File count: 951
+// Total lines: 35
+-----------------------------------------
 __int64 __fastcall SpQuerySrtpParameters(struct CSslUserContext *a1, struct _SecPkgContext_SrtpParameters *a2)
 {
   struct _SecPkgContext_SrtpParameters *v2; // rbx
@@ -33,4 +35,3 @@ __int64 __fastcall SpQuerySrtpParameters(struct CSslUserContext *a1, struct _Sec
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

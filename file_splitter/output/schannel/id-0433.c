@@ -1,4 +1,6 @@
-//----- (0000000180019B10) ----------------------------------------------------
+// File count: 433
+// Total lines: 378
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::TlsParseClientHello(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -376,4 +378,3 @@ LABEL_51:
 // 18007C320: using guessed type void *CTlsExtServer::`vftable';
 // 1800919AC: using guessed type int g_fAllowInsecureRenegoClients;
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

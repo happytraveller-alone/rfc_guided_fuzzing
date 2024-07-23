@@ -1,4 +1,6 @@
-//----- (000000018006A470) ----------------------------------------------------
+// File count: 1345
+// Total lines: 22
+----------------------------------------
 __int64 __fastcall CTls13ClientContext::SetServerKeyShare(CTls13ClientContext *this)
 {
   unsigned __int64 *v1; // rax
@@ -20,4 +22,3 @@ __int64 __fastcall CTls13ClientContext::SetServerKeyShare(CTls13ClientContext *t
     CSslContext::SetEccCurveInfo(this, *((unsigned __int16 *)this + 919));
   return v4;
 }
-

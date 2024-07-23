@@ -1,4 +1,6 @@
-//----- (000000018007888C) ----------------------------------------------------
+// File count: 1502
+// Total lines: 23
+----------------------------------------
 BOOLEAN FreeExternalSignatureAlgorithms()
 {
   unsigned int i; // ebx
@@ -21,4 +23,3 @@ BOOLEAN FreeExternalSignatureAlgorithms()
 }
 // 180092218: using guessed type int g_dwSignatureInfoTotalCount;
 // 180092220: using guessed type _QWORD g_pSignatureInfo[16];
-

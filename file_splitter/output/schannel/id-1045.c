@@ -1,4 +1,6 @@
-//----- (0000000180057640) ----------------------------------------------------
+// File count: 1045
+// Total lines: 134
+---------------------------------------
 __int64 __fastcall AssignNewClientCredential(struct CSsl3TlsClientContext *this, const struct _CERT_CONTEXT *a2)
 {
   int v3; // r14d
@@ -132,4 +134,3 @@ LABEL_18:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 18007D750: using guessed type const struct _OIDPROVMAP near *const g_CertTypes;
 // 180092620: using guessed type __int64 LsaTable;
-

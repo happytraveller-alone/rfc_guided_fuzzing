@@ -1,4 +1,6 @@
-//----- (00000001800509D0) ----------------------------------------------------
+// File count: 969
+// Total lines: 18
+-----------------------------------------
 PVOID __fastcall PvExtVirtualAlloc(unsigned int a1)
 {
   HANDLE CurrentProcess; // rax
@@ -16,4 +18,3 @@ PVOID __fastcall PvExtVirtualAlloc(unsigned int a1)
     return 0i64;
   return v3;
 }
-

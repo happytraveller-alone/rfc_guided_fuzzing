@@ -1,4 +1,6 @@
-//----- (0000000180045CA0) ----------------------------------------------------
+// File count: 857
+// Total lines: 140
+----------------------------------------
 BOOL __stdcall SslCrackCertificate(
         PUCHAR pbCertificate,
         DWORD cbCertificate,
@@ -138,4 +140,3 @@ LABEL_13:
   *ppCertificate = v9;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180016E98) ----------------------------------------------------
+// File count: 308
+// Total lines: 26
+-----------------------------------------
 CCipherMill *__fastcall CCipherMill::CCipherMill(CCipherMill *this)
 {
   dword_180092488 = 0;
@@ -24,4 +26,3 @@ CCipherMill *__fastcall CCipherMill::CCipherMill(CCipherMill *this)
 // 1800925EA: using guessed type __int128 xmmword_1800925EA;
 // 1800925FA: using guessed type __int128 xmmword_1800925FA;
 // 18009260A: using guessed type __int16 word_18009260A;
-

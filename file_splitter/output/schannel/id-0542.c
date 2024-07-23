@@ -1,4 +1,6 @@
-//----- (0000000180027520) ----------------------------------------------------
+// File count: 542
+// Total lines: 52
+-----------------------------------------
 __int64 SchInitializeEvents(void)
 {
   unsigned int v0; // ecx
@@ -50,4 +52,3 @@ __int64 SchInitializeEvents(void)
 }
 // 180080EA8: using guessed type __int64 __fastcall EtwEventRegister(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092D80: using guessed type unsigned __int64 g_RegistrationHandle;
-

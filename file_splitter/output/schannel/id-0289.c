@@ -1,4 +1,6 @@
-//----- (0000000180016320) ----------------------------------------------------
+// File count: 289
+// Total lines: 21
+-----------------------------------------
 bool __fastcall CSessionCacheClientItem::IsEntryAMatch(
         CSessionCacheClientItem *this,
         struct _LUID *a2,
@@ -19,4 +21,3 @@ bool __fastcall CSessionCacheClientItem::IsEntryAMatch(
 }
 // 180016361: variable 'v5' is possibly undefined
 // 180016366: variable 'v6' is possibly undefined
-

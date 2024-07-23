@@ -1,4 +1,6 @@
-//----- (000000018000DDA0) ----------------------------------------------------
+// File count: 157
+// Total lines: 441
+----------------------------------------
 __int64 __fastcall CSslSerializeHelper::SerializeContextWorker(
         CSslSerializeHelper *this,
         void (__fastcall *a2)(__int64, __int64 *))
@@ -439,4 +441,3 @@ LABEL_20:
 // 180082320: using guessed type wchar_t aOpaquekeyblob[14];
 // 180098528: using guessed type __int64 __fastcall SslExportKey(_QWORD, _QWORD, _QWORD);
 // 18000DDA0: using guessed type _WORD Src[256];
-

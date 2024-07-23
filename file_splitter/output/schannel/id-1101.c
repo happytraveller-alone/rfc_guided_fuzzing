@@ -1,4 +1,6 @@
-//----- (000000018005B01C) ----------------------------------------------------
+// File count: 1101
+// Total lines: 25
+----------------------------------------
 void __fastcall CTls13Context::GetApplicationTrafficSecrets(
         CTls13Context *this,
         unsigned __int64 *a2,
@@ -23,4 +25,3 @@ void __fastcall CTls13Context::GetApplicationTrafficSecrets(
     *a3 = v3;
   }
 }
-

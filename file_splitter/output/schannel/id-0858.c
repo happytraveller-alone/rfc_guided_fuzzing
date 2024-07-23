@@ -1,4 +1,6 @@
-//----- (0000000180045F80) ----------------------------------------------------
+// File count: 858
+// Total lines: 9
+------------------------------------------
 void __stdcall SslFreeCertificate(PX509Certificate pCertificate)
 {
   if ( pCertificate )
@@ -7,4 +9,3 @@ void __stdcall SslFreeCertificate(PX509Certificate pCertificate)
     SPExternalFree(pCertificate);
   }
 }
-

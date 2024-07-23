@@ -1,4 +1,6 @@
-//----- (0000000180015030) ----------------------------------------------------
+// File count: 264
+// Total lines: 67
+-----------------------------------------
 __int64 __fastcall EcdsaPublicKeyFromCert(__int64 a1, __int64 a2, _DWORD *a3, unsigned int *a4)
 {
   unsigned int v4; // r10d
@@ -65,4 +67,3 @@ __int64 __fastcall EcdsaPublicKeyFromCert(__int64 a1, __int64 a2, _DWORD *a3, un
   }
   return 2148074333i64;
 }
-

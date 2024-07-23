@@ -1,4 +1,6 @@
-//----- (0000000180001FC8) ----------------------------------------------------
+// File count: 16
+// Total lines: 26
+------------------------------------------
 bool __fastcall CSsl3TlsClientContext::IsFalseStartAllowed(CSsl3TlsClientContext *this)
 {
   bool result; // al
@@ -24,4 +26,3 @@ bool __fastcall CSsl3TlsClientContext::IsFalseStartAllowed(CSsl3TlsClientContext
   }
   return result;
 }
-

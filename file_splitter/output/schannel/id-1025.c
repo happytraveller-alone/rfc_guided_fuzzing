@@ -1,4 +1,6 @@
-//----- (0000000180055C40) ----------------------------------------------------
+// File count: 1025
+// Total lines: 35
+----------------------------------------
 __int64 __fastcall CCredentialGroup::DuplicateIssuerList(
         CCredentialGroup *this,
         unsigned __int8 **a2,
@@ -33,4 +35,3 @@ __int64 __fastcall CCredentialGroup::DuplicateIssuerList(
   RtlReleaseResource(v6);
   return 0i64;
 }
-

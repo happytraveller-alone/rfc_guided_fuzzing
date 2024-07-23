@@ -1,4 +1,6 @@
-//----- (000000018006EDF0) ----------------------------------------------------
+// File count: 1392
+// Total lines: 138
+---------------------------------------
 __int64 __fastcall CTls13Context::SetPeerPublicKey(
         CTls13Context *this,
         unsigned __int16 a2,
@@ -136,4 +138,3 @@ LABEL_28:
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

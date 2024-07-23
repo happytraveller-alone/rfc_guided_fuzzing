@@ -1,4 +1,6 @@
-//----- (0000000180003DF0) ----------------------------------------------------
+// File count: 44
+// Total lines: 32
+------------------------------------------
 void __fastcall CSsl3TlsContext::FreeHandshakeHash(CSsl3TlsContext *this)
 {
   unsigned int v2; // edi
@@ -30,4 +32,3 @@ void __fastcall CSsl3TlsContext::FreeHandshakeHash(CSsl3TlsContext *this)
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

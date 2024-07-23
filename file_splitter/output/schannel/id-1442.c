@@ -1,4 +1,6 @@
-//----- (0000000180073660) ----------------------------------------------------
+// File count: 1442
+// Total lines: 59
+----------------------------------------
 __int64 __fastcall DTlsMessage::addFragment(
         DTlsMessage *this,
         unsigned int a2,
@@ -57,4 +59,3 @@ __int64 __fastcall DTlsMessage::addFragment(
   return v6;
 }
 // 18007375B: conditional instruction was optimized away because ebp.4!=0
-

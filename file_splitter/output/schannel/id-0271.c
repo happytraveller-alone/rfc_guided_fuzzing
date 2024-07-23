@@ -1,4 +1,6 @@
-//----- (0000000180015504) ----------------------------------------------------
+// File count: 271
+// Total lines: 38
+-----------------------------------------
 __int64 __fastcall I_GetSignatureDetailsFromAlgorithmName(wchar_t *String1, __int64 a2, _DWORD *a3)
 {
   unsigned int v5; // eax
@@ -36,4 +38,3 @@ LABEL_8:
 // 18001558D: variable 'v9' is possibly undefined
 // 180092218: using guessed type int g_dwSignatureInfoTotalCount;
 // 180092220: using guessed type _QWORD g_pSignatureInfo[16];
-

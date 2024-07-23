@@ -1,4 +1,6 @@
-//----- (000000018004C0AC) ----------------------------------------------------
+// File count: 902
+// Total lines: 217
+----------------------------------------
 __int64 __fastcall SslPurgeSessionCache(
         void **a1,
         char *a2,
@@ -215,4 +217,3 @@ LABEL_15:
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180092620: using guessed type __int64 LsaTable;
 // 18004C0AC: using guessed type char var_58[8];
-

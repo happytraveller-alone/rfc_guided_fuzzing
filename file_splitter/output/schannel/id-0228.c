@@ -1,4 +1,6 @@
-//----- (000000018001336C) ----------------------------------------------------
+// File count: 228
+// Total lines: 61
+-----------------------------------------
 __int64 __fastcall SerializeCertContext(PCCERT_CONTEXT pCertContext, unsigned __int8 *a2, unsigned int *a3)
 {
   HCERTSTORE hCertStore; // rcx
@@ -59,4 +61,3 @@ LABEL_13:
   }
   return 2148074273i64;
 }
-

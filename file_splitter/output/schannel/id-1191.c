@@ -1,4 +1,6 @@
-//----- (000000018005E624) ----------------------------------------------------
+// File count: 1191
+// Total lines: 22
+----------------------------------------
 void __fastcall CTlsSignatureSuiteList::SetDefaultClientHello(CTlsSignatureSuiteList *this)
 {
   unsigned __int8 v1; // r11
@@ -20,4 +22,3 @@ void __fastcall CTlsSignatureSuiteList::SetDefaultClientHello(CTlsSignatureSuite
 // 18005E652: variable 'v2' is possibly undefined
 // 18005E65D: variable 'v1' is possibly undefined
 // 18007C6F0: using guessed type void *CSsl3TlsServerContext::`vftable';
-

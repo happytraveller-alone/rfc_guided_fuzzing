@@ -1,4 +1,6 @@
-//----- (00000001800136A0) ----------------------------------------------------
+// File count: 231
+// Total lines: 123
+----------------------------------------
 __int64 __fastcall CreateNewEventEntry(
         __int128 *a1,
         unsigned __int8 a2,
@@ -121,4 +123,3 @@ __int64 __fastcall CreateNewEventEntry(
 // 1800137A8: variable 'v19' is possibly undefined
 // 180013827: variable 'v21' is possibly undefined
 // 180013844: variable 'v28' is possibly undefined
-

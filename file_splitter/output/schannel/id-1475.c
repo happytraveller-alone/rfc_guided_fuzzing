@@ -1,4 +1,6 @@
-//----- (0000000180076CA8) ----------------------------------------------------
+// File count: 1475
+// Total lines: 96
+----------------------------------------
 __int64 __fastcall Ssl2UnpackClientHello(struct SPBuffer *a1, struct _Ssl2_Client_Hello **a2, __int64 a3, int *a4)
 {
   unsigned __int8 *v4; // rdi
@@ -94,4 +96,3 @@ __int64 __fastcall Ssl2UnpackClientHello(struct SPBuffer *a1, struct _Ssl2_Clien
   }
   return 2148074278i64;
 }
-

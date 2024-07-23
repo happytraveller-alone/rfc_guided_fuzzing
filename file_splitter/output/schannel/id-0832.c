@@ -1,4 +1,6 @@
-//----- (000000018004461C) ----------------------------------------------------
+// File count: 832
+// Total lines: 37
+-----------------------------------------
 __int64 __fastcall McTemplateU0pz_EtwEventWriteTransfer(__int64 a1, __int64 a2, __int64 a3, const wchar_t *a4)
 {
   __int64 v4; // rax
@@ -35,4 +37,3 @@ __int64 __fastcall McTemplateU0pz_EtwEventWriteTransfer(__int64 a1, __int64 a2, 
 }
 // 180083C60: using guessed type wchar_t aNull_0[5];
 // 18004461C: using guessed type char var_48[16];
-

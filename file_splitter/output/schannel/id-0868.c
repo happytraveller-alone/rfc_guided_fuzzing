@@ -1,4 +1,6 @@
-//----- (0000000180046CA0) ----------------------------------------------------
+// File count: 868
+// Total lines: 68
+-----------------------------------------
 ULONG __fastcall CSslContext::QueryLocalCred(CSslContext *this, void *a2)
 {
   __int64 v2; // rax
@@ -66,4 +68,3 @@ LABEL_13:
   return 0;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

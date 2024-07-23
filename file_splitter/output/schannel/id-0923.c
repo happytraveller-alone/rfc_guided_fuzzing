@@ -1,4 +1,6 @@
-//----- (000000018004D4E4) ----------------------------------------------------
+// File count: 923
+// Total lines: 58
+-----------------------------------------
 __int64 __fastcall ParseTlsHelloExtensions(
         const unsigned __int8 *a1,
         unsigned int a2,
@@ -56,4 +58,3 @@ LABEL_13:
   }
   return 2148074278i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018005E400) ----------------------------------------------------
+// File count: 1187
+// Total lines: 17
+----------------------------------------
 __int64 __fastcall CTlsSignatureSuiteList::GetMinimumCodePointToSign(
         CTlsSignatureSuiteList *this,
         enum _eTlsSignatureAlgorithm a2,
@@ -15,4 +17,3 @@ __int64 __fastcall CTlsSignatureSuiteList::GetMinimumCodePointToSign(
     return *((unsigned __int16 *)&unk_18007C390 + 36 * MinimumHashToSignRow);
   return v5;
 }
-

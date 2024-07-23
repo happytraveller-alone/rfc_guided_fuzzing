@@ -1,4 +1,6 @@
-//----- (000000018007AD88) ----------------------------------------------------
+// File count: 1524
+// Total lines: 24
+----------------------------------------
 __int64 __fastcall PAC_UnmarshallValidationInfo(
         struct _NETLOGON_VALIDATION_SAM_INFO3 **a1,
         unsigned __int8 *a2,
@@ -22,4 +24,3 @@ __int64 __fastcall PAC_UnmarshallValidationInfo(
   return result;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

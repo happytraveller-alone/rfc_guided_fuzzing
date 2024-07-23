@@ -98,3 +98,8 @@ LABEL_25:
 // 1800919E4: using guessed type unsigned int dwSslContextLockCount;
 // 1800921C0: using guessed type int dword_1800921C0;
 
+// 底层资源的初始化，而不是直接实现TLS协议逻辑
+// 为TLS实现提供了必要的基础设施，包括：
+//    上下文锁：用于线程同步，确保并发访问的安全性。
+//    上下文列表：可能用于管理多个TLS连接的上下文。
+

@@ -1,4 +1,6 @@
-//----- (000000018005C948) ----------------------------------------------------
+// File count: 1143
+// Total lines: 29
+----------------------------------------
 char __fastcall IsSignatureTypeBlacklisted(unsigned __int64 a1, unsigned int a2, int a3, const UNICODE_STRING *a4)
 {
   int v5; // r8d
@@ -27,4 +29,3 @@ char __fastcall IsSignatureTypeBlacklisted(unsigned __int64 a1, unsigned int a2,
   }
   return 0;
 }
-

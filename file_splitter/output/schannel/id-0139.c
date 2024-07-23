@@ -1,4 +1,6 @@
-//----- (000000018000B810) ----------------------------------------------------
+// File count: 139
+// Total lines: 543
+----------------------------------------
 __int64 __fastcall SpInitLsaModeContext(
         __int64 a1,
         __int64 a2,
@@ -541,4 +543,3 @@ LABEL_69:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092DA0: using guessed type __int64 g_SslContextManager;
 // 180092F04: using guessed type int g_fManualCredValidation;
-

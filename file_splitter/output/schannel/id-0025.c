@@ -1,4 +1,6 @@
-//----- (0000000180002A40) ----------------------------------------------------
+// File count: 25
+// Total lines: 34
+------------------------------------------
 __int64 __fastcall MontgomeryGetKeyExchangeBlob(
         struct _BCRYPT_ECCKEY_BLOB *a1,
         unsigned __int8 *a2,
@@ -32,4 +34,3 @@ __int64 __fastcall MontgomeryGetKeyExchangeBlob(
   }
   return v6;
 }
-

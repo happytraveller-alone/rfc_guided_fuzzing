@@ -1,4 +1,6 @@
-//----- (0000000180063974) ----------------------------------------------------
+// File count: 1255
+// Total lines: 76
+----------------------------------------
 DWORD __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ComputeCertVerifySignatureSize(__int64 a1)
 {
   __int64 v1; // rax
@@ -74,4 +76,3 @@ LABEL_8:
   }
   return result;
 }
-

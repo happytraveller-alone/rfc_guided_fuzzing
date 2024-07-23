@@ -1,4 +1,6 @@
-//----- (000000018005E674) ----------------------------------------------------
+// File count: 1192
+// Total lines: 27
+----------------------------------------
 void TlsCloseBCryptHashProviders(void)
 {
   int v0; // eax
@@ -25,4 +27,3 @@ void TlsCloseBCryptHashProviders(void)
   }
 }
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
-

@@ -1,4 +1,6 @@
-//----- (000000018005AA90) ----------------------------------------------------
+// File count: 1087
+// Total lines: 11
+----------------------------------------
 CSslScratchAllocator *__fastcall CSslScratchAllocator::`vector deleting destructor'(
         CSslScratchAllocator *this,
         char a2)
@@ -9,4 +11,3 @@ CSslScratchAllocator *__fastcall CSslScratchAllocator::`vector deleting destruct
   return this;
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
-

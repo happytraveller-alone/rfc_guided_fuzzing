@@ -1,4 +1,6 @@
-//----- (00000001800653C8) ----------------------------------------------------
+// File count: 1286
+// Total lines: 45
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::GenerateALPNExtension(CTls13ClientHandshake *this)
 {
   __int16 v1; // r8
@@ -43,4 +45,3 @@ __int64 __fastcall CTls13ClientHandshake::GenerateALPNExtension(CTls13ClientHand
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

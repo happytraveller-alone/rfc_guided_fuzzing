@@ -1,4 +1,6 @@
-//----- (00000001800152C4) ----------------------------------------------------
+// File count: 268
+// Total lines: 72
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::SetSelectedApplicationProtocol(
         CSsl3TlsClientContext *this,
         unsigned __int8 *const a2,
@@ -70,4 +72,3 @@ __int64 __fastcall CSsl3TlsClientContext::SetSelectedApplicationProtocol(
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

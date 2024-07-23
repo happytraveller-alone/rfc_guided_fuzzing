@@ -1,4 +1,6 @@
-//----- (00000001800586FC) ----------------------------------------------------
+// File count: 1050
+// Total lines: 120
+---------------------------------------
 __int64 __fastcall QueryCredentialManagerForCert(struct CSsl3TlsClientContext *this, unsigned __int16 *a2)
 {
   int ClientLogonId; // ebx
@@ -118,4 +120,3 @@ __int64 __fastcall QueryCredentialManagerForCert(struct CSsl3TlsClientContext *t
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 18008275C: using guessed type wchar_t aMy[3];
 // 180092620: using guessed type __int64 LsaTable;
-

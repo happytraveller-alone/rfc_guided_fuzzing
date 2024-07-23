@@ -1,4 +1,6 @@
-//----- (000000018004746C) ----------------------------------------------------
+// File count: 876
+// Total lines: 64
+-----------------------------------------
 __int64 __fastcall SpGetAppDataForSca(void *a1, unsigned int a2, unsigned __int8 **a3, unsigned int *a4)
 {
   int v9; // ebx
@@ -62,4 +64,3 @@ __int64 __fastcall SpGetAppDataForSca(void *a1, unsigned int a2, unsigned __int8
   return RtlNtStatusToDosError(v11);
 }
 // 180092620: using guessed type __int64 LsaTable;
-

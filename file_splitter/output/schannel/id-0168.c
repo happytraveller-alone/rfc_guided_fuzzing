@@ -1,4 +1,6 @@
-//----- (000000018000EBEC) ----------------------------------------------------
+// File count: 168
+// Total lines: 22
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogHandshakeStart(__int64 a1, int a2, __int64 a3, __int64 a4, __int64 a5)
 {
   bool v8; // zf
@@ -20,4 +22,3 @@ void __fastcall CSchannelTelemetryContext::LogHandshakeStart(__int64 a1, int a2,
   }
 }
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

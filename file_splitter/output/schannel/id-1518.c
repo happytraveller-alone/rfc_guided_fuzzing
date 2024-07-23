@@ -1,4 +1,6 @@
-//----- (000000018007A5C0) ----------------------------------------------------
+// File count: 1518
+// Total lines: 26
+----------------------------------------
 void __fastcall _DbgpTraceControllerTimerCallback(struct _RTL_CRITICAL_SECTION *a1, char a2)
 {
   struct _RTL_CRITICAL_SECTION *v2; // rbp
@@ -24,4 +26,3 @@ void __fastcall _DbgpTraceControllerTimerCallback(struct _RTL_CRITICAL_SECTION *
   LeaveCriticalSection(v2);
 }
 // 18007A62A: variable 'v6' is possibly undefined
-

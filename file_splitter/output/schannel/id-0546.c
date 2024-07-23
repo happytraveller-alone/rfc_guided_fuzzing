@@ -1,4 +1,6 @@
-//----- (000000018002796C) ----------------------------------------------------
+// File count: 546
+// Total lines: 33
+-----------------------------------------
 struct CSessionCacheManager *CSessionCacheManager::CreateCacheManager(void)
 {
   CSessionCacheManager *v0; // rcx
@@ -31,4 +33,3 @@ struct CSessionCacheManager *CSessionCacheManager::CreateCacheManager(void)
   return v0;
 }
 // 18007D450: using guessed type void *CSessionCacheManager::`vftable';
-

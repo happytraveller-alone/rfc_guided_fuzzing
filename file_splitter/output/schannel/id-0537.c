@@ -1,4 +1,6 @@
-//----- (0000000180027204) ----------------------------------------------------
+// File count: 537
+// Total lines: 45
+-----------------------------------------
 __int64 InitializeSslMemoryOptions(void)
 {
   char v0; // bl
@@ -43,4 +45,3 @@ LABEL_6:
 // 180092DE0: using guessed type int dword_180092DE0;
 // 180092F70: using guessed type unsigned int CSslGlobals::m_dwContextPreallocateLength;
 // 180092F74: using guessed type unsigned int CSslGlobals::m_dwMemoryOptFlags;
-

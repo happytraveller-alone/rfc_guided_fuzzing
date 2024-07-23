@@ -1,4 +1,6 @@
-//----- (00000001800261CC) ----------------------------------------------------
+// File count: 515
+// Total lines: 31
+-----------------------------------------
 __int64 __fastcall _DbgpControlTracingThroughRegistry(struct _DBG_TRACE_CONTROL_BLOCK *a1, int a2)
 {
   LSTATUS v4; // eax
@@ -29,4 +31,3 @@ __int64 __fastcall _DbgpControlTracingThroughRegistry(struct _DBG_TRACE_CONTROL_
   }
   return v5;
 }
-

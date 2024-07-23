@@ -1,4 +1,6 @@
-//----- (0000000180015120) ----------------------------------------------------
+// File count: 265
+// Total lines: 40
+-----------------------------------------
 __int64 __fastcall GetAlgIdFromEccTypeCertParameters(
         BYTE *pbEncoded,
         DWORD cbEncoded,
@@ -38,4 +40,3 @@ LABEL_6:
 }
 // 1800151AB: variable 'v7' is possibly undefined
 // 180015120: using guessed type HLOCAL hMem[2];
-

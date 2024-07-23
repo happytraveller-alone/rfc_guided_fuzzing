@@ -1,4 +1,6 @@
-//----- (000000018005BCB0) ----------------------------------------------------
+// File count: 1135
+// Total lines: 154
+---------------------------------------
 __int64 __fastcall CheckClientVerifyMessage(
         struct CSsl3TlsServerContext *a1,
         const unsigned __int16 *a2,
@@ -152,4 +154,3 @@ LABEL_33:
   return Property;
 }
 // 180098588: using guessed type __int64 __fastcall SslComputeClientAuthHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

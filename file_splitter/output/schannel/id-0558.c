@@ -1,4 +1,6 @@
-//----- (0000000180027D08) ----------------------------------------------------
+// File count: 558
+// Total lines: 50
+-----------------------------------------
 __int64 __fastcall dllmain_crt_process_attach(__int64 a1, __int64 a2)
 {
   char v4; // bl
@@ -48,4 +50,3 @@ __int64 __fastcall dllmain_crt_process_attach(__int64 a1, __int64 a2)
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180091A30: using guessed type int dword_180091A30;
 // 180091FC0: using guessed type int _scrt_current_native_startup_state;
-

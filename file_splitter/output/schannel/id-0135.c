@@ -1,4 +1,6 @@
-//----- (000000018000B190) ----------------------------------------------------
+// File count: 135
+// Total lines: 94
+-----------------------------------------
 __int64 __fastcall SslAddUserContext(__int64 a1, void *a2, struct _SecBuffer *a3, int a4)
 {
   CCipherMill *v8; // rcx
@@ -92,4 +94,3 @@ __int64 __fastcall SslAddUserContext(__int64 a1, void *a2, struct _SecBuffer *a3
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800919E0: using guessed type unsigned int dwSslContextListCount;
 // 1800919E4: using guessed type unsigned int dwSslContextLockCount;
-

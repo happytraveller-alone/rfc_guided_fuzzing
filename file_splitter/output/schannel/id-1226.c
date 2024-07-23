@@ -1,4 +1,6 @@
-//----- (0000000180061DDC) ----------------------------------------------------
+// File count: 1226
+// Total lines: 14
+----------------------------------------
 __int64 __fastcall CCipherMill::GetEccCurveFlags(CCipherMill *this, int a2, unsigned int *a3)
 {
   unsigned int EccCurveFlags; // ebx
@@ -12,4 +14,3 @@ __int64 __fastcall CCipherMill::GetEccCurveFlags(CCipherMill *this, int a2, unsi
   RtlReleaseResource(&Resource);
   return EccCurveFlags;
 }
-

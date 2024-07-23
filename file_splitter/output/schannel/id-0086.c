@@ -1,4 +1,6 @@
-//----- (0000000180006AAC) ----------------------------------------------------
+// File count: 86
+// Total lines: 13
+------------------------------------------
 ULONG __fastcall SslGetClientLogonId(struct _LUID *a1)
 {
   NTSTATUS v2; // eax
@@ -11,4 +13,3 @@ ULONG __fastcall SslGetClientLogonId(struct _LUID *a1)
   return RtlNtStatusToDosError(v2);
 }
 // 180092620: using guessed type __int64 LsaTable;
-

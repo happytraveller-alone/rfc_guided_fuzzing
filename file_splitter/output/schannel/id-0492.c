@@ -1,4 +1,6 @@
-//----- (0000000180023520) ----------------------------------------------------
+// File count: 492
+// Total lines: 56
+-----------------------------------------
 __int64 LoadSslRegistryOptions(void)
 {
   NTSTATUS v0; // eax
@@ -54,4 +56,3 @@ __int64 LoadSslRegistryOptions(void)
 // 1800926D0: using guessed type __int64 qword_1800926D0;
 // 1800926E0: using guessed type __int64 qword_1800926E0;
 // 1800926E8: using guessed type __int64 qword_1800926E8;
-

@@ -1,4 +1,6 @@
-//----- (0000000180026D38) ----------------------------------------------------
+// File count: 530
+// Total lines: 16
+-----------------------------------------
 void __fastcall CCipherSuiteInfo::~CCipherSuiteInfo(NCRYPT_HANDLE *this)
 {
   NCRYPT_HANDLE v2; // rcx
@@ -14,4 +16,3 @@ void __fastcall CCipherSuiteInfo::~CCipherSuiteInfo(NCRYPT_HANDLE *this)
     }
   }
 }
-

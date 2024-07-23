@@ -1,4 +1,6 @@
-//----- (0000000180054298) ----------------------------------------------------
+// File count: 1008
+// Total lines: 119
+---------------------------------------
 __int64 __fastcall LoadCertificatesFromLocator(void *a1, struct LSA_SCHANNEL_CRED *a2, __int64 a3, __int64 a4)
 {
   __int64 v6; // rcx
@@ -117,4 +119,3 @@ LABEL_34:
 // 180084C30: using guessed type EVENT_DESCRIPTOR LocatorGetContentStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
 // 180098168: using guessed type void *__stdcall CryptObjectLocatorGetContent(void *);
-

@@ -1,4 +1,6 @@
-//----- (0000000180063404) ----------------------------------------------------
+// File count: 1243
+// Total lines: 41
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::UpdateHashAndWrapMessage(
         _BYTE *a1,
         __int64 a2,
@@ -39,4 +41,3 @@ LABEL_6:
   }
   return v10;
 }
-

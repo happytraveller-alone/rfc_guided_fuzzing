@@ -1,4 +1,6 @@
-//----- (000000018000E850) ----------------------------------------------------
+// File count: 163
+// Total lines: 109
+----------------------------------------
 __int64 __fastcall SchannelInit(int a1)
 {
   unsigned int v2; // ebx
@@ -107,4 +109,3 @@ LABEL_33:
 // 1800921D8: using guessed type int CSslGlobals::m_bSchannelInitialized;
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 180098170: using guessed type __int64 I_CertWnfEnableFlushCache(void);
-

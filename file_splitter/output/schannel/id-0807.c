@@ -1,4 +1,6 @@
-//----- (0000000180042918) ----------------------------------------------------
+// File count: 807
+// Total lines: 163
+----------------------------------------
 __int64 __fastcall SpMapAuthIdentity(void *a1, struct LSA_SCHANNEL_CRED *a2, __int64 a3)
 {
   HCERTSTORE v6; // r14
@@ -161,4 +163,3 @@ LABEL_37:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 18008275C: using guessed type wchar_t aMy[3];
 // 180092620: using guessed type __int64 LsaTable;
-

@@ -1,4 +1,6 @@
-//----- (00000001800272FC) ----------------------------------------------------
+// File count: 539
+// Total lines: 20
+-----------------------------------------
 __int64 __fastcall CSslLookaside::CSslLookaside(__int64 a1, int a2, char a3)
 {
   __int64 result; // rax
@@ -18,4 +20,3 @@ __int64 __fastcall CSslLookaside::CSslLookaside(__int64 a1, int a2, char a3)
   return result;
 }
 // 18007D428: using guessed type void *CSslLookaside::`vftable';
-

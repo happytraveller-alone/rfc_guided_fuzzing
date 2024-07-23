@@ -1,4 +1,6 @@
-//----- (00000001800723A4) ----------------------------------------------------
+// File count: 1428
+// Total lines: 178
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::RsaGenerateServerExchangeValue(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -176,4 +178,3 @@ LABEL_42:
 }
 // 180098540: using guessed type __int64 __fastcall SslSignHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098548: using guessed type __int64 __fastcall SslCreateEphemeralKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

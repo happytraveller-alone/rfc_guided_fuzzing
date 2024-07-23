@@ -1,4 +1,6 @@
-//----- (0000000180028470) ----------------------------------------------------
+// File count: 565
+// Total lines: 21
+-----------------------------------------
 char _scrt_acquire_startup_lock()
 {
   PVOID StackBase; // rcx
@@ -19,4 +21,3 @@ char _scrt_acquire_startup_lock()
   return 0;
 }
 // 180091FC8: using guessed type __int64 _scrt_native_startup_lock;
-

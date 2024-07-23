@@ -1,4 +1,6 @@
-//----- (0000000180070804) ----------------------------------------------------
+// File count: 1418
+// Total lines: 214
+---------------------------------------
 __int64 __fastcall CSsl3TlsContext::TlsNulRecordHandlerWorker(
         CSsl3TlsContext *this,
         struct SPBuffer *a2,
@@ -212,4 +214,3 @@ LABEL_62:
   return v32;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

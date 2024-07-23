@@ -1,4 +1,6 @@
-//----- (0000000180065210) ----------------------------------------------------
+// File count: 1282
+// Total lines: 17
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ComputeStatusRequestExtensionSize(CTls13ServerHandshake *this)
 {
   __int64 v1; // rax
@@ -15,4 +17,3 @@ __int64 __fastcall CTls13ServerHandshake::ComputeStatusRequestExtensionSize(CTls
   }
   return 0i64;
 }
-

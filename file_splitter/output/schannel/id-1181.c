@@ -1,4 +1,6 @@
-//----- (000000018005E120) ----------------------------------------------------
+// File count: 1181
+// Total lines: 24
+----------------------------------------
 struct _SLIST_ENTRY *__fastcall CSslLookasidePreallocate::Allocate(CSslLookasidePreallocate *this)
 {
   PSLIST_ENTRY v3; // rdi
@@ -22,4 +24,3 @@ struct _SLIST_ENTRY *__fastcall CSslLookasidePreallocate::Allocate(CSslLookaside
   memset_0(&v3[1], 0, *((unsigned int *)this + 27) - 16i64);
   return v3 + 1;
 }
-

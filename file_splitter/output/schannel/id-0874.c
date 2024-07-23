@@ -1,4 +1,6 @@
-//----- (0000000180047244) ----------------------------------------------------
+// File count: 874
+// Total lines: 45
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetSupportedMTU(CSsl3TlsContext *this, void *a2, int a3)
 {
   __int64 result; // rax
@@ -43,4 +45,3 @@ __int64 __fastcall CSsl3TlsContext::SetSupportedMTU(CSsl3TlsContext *this, void 
 // 1800472FB: variable 'v6' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

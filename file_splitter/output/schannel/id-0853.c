@@ -1,4 +1,6 @@
-//----- (00000001800452CC) ----------------------------------------------------
+// File count: 853
+// Total lines: 68
+-----------------------------------------
 void __fastcall MapProtocolToString(unsigned int a1, struct _UNICODE_STRING *a2)
 {
   unsigned int v3; // ecx
@@ -66,4 +68,3 @@ LABEL_24:
 // 180084DE0: using guessed type wchar_t aTls12[8];
 // 180084DF0: using guessed type wchar_t aDtls10[9];
 // 180084E08: using guessed type wchar_t aDtls12[9];
-

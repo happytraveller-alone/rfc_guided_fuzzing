@@ -1,4 +1,6 @@
-//----- (000000018000CD3C) ----------------------------------------------------
+// File count: 149
+// Total lines: 596
+----------------------------------------
 __int64 __fastcall SslSealMessageStream(struct CSslUserContext *a1, int a2, struct _SecBufferDesc *a3)
 {
   struct _SecBuffer *v3; // rdi
@@ -594,4 +596,3 @@ LABEL_91:
 // 180085398: using guessed type wchar_t aPeerRequest[13];
 // 1800853B8: using guessed type wchar_t aWriteCounter[14];
 // 180098508: using guessed type __int64 __fastcall SslEncryptPacket(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

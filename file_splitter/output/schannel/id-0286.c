@@ -1,4 +1,6 @@
-//----- (0000000180016064) ----------------------------------------------------
+// File count: 286
+// Total lines: 30
+-----------------------------------------
 NTSTATUS __fastcall GetSslDWordFromRegistry(HANDLE KeyHandle, const WCHAR *a2, _DWORD *a3)
 {
   NTSTATUS result; // eax
@@ -28,4 +30,3 @@ NTSTATUS __fastcall GetSslDWordFromRegistry(HANDLE KeyHandle, const WCHAR *a2, _
   }
   return result;
 }
-

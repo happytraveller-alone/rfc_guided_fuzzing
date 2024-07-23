@@ -1,4 +1,6 @@
-//----- (0000000180014940) ----------------------------------------------------
+// File count: 252
+// Total lines: 36
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetPMTU(CSsl3TlsContext *this, struct _SecBuffer *const a2)
 {
   unsigned __int16 *pvBuffer; // rax
@@ -34,4 +36,3 @@ __int64 __fastcall CSsl3TlsContext::SetPMTU(CSsl3TlsContext *this, struct _SecBu
 // 18003D982: variable 'v7' is possibly undefined
 // 18003D982: variable 'v6' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

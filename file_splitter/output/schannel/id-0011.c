@@ -1,4 +1,6 @@
-//----- (0000000180001A64) ----------------------------------------------------
+// File count: 11
+// Total lines: 39
+------------------------------------------
 __int64 WppInitUm()
 {
   CCipherMill *v0; // rbx
@@ -37,4 +39,3 @@ __int64 WppInitUm()
 }
 // 180080E10: using guessed type __int64 __fastcall EtwRegisterTraceGuidsW(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
 // 180092A88: using guessed type __int64 WPP_REGISTRATION_GUIDS;
-

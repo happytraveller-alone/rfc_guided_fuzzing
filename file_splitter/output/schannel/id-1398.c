@@ -1,4 +1,6 @@
-//----- (000000018006F700) ----------------------------------------------------
+// File count: 1398
+// Total lines: 13
+----------------------------------------
 void __fastcall DTlsMessage::~DTlsMessage(DTlsMessage *this)
 {
   void *v2; // rcx
@@ -11,4 +13,3 @@ void __fastcall DTlsMessage::~DTlsMessage(DTlsMessage *this)
   if ( v3 )
     operator delete(v3);
 }
-

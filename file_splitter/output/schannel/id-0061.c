@@ -1,4 +1,6 @@
-//----- (0000000180004900) ----------------------------------------------------
+// File count: 61
+// Total lines: 59
+------------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::DigestServerKeyX(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -57,4 +59,3 @@ __int64 __fastcall CSsl3TlsClientContext::DigestServerKeyX(
   return result;
 }
 // 18002CF53: variable 'v11' is possibly undefined
-

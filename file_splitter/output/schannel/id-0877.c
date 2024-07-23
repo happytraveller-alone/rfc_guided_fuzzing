@@ -1,4 +1,6 @@
-//----- (00000001800475D8) ----------------------------------------------------
+// File count: 877
+// Total lines: 117
+----------------------------------------
 __int64 __fastcall SpGetKeyingMaterialInfoForSca(
         void *a1,
         unsigned int a2,
@@ -115,4 +117,3 @@ LABEL_30:
   return v8;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

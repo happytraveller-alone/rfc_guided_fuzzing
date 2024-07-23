@@ -1,4 +1,6 @@
-//----- (0000000180068A7C) ----------------------------------------------------
+// File count: 1334
+// Total lines: 273
+---------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ParseCertificateMsg(
         __int64 a1,
         unsigned __int8 *a2,
@@ -271,4 +273,3 @@ LABEL_43:
 // 180068DF4: variable 'v41' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

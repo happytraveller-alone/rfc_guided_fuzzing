@@ -1,4 +1,6 @@
-//----- (000000018005B354) ----------------------------------------------------
+// File count: 1119
+// Total lines: 14
+----------------------------------------
 ULONG __fastcall CSslContext::ImpersonateNonLsNs(CSslContext *this, int *a2)
 {
   __int64 v2; // r8
@@ -12,4 +14,3 @@ ULONG __fastcall CSslContext::ImpersonateNonLsNs(CSslContext *this, int *a2)
   else
     return SslImpersonateClient(*(_QWORD *)(v2 + 752), a2);
 }
-

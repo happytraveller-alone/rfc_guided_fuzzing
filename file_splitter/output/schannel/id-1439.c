@@ -1,4 +1,6 @@
-//----- (0000000180073028) ----------------------------------------------------
+// File count: 1439
+// Total lines: 84
+----------------------------------------
 struct DTlsMessage *__fastcall DTlsMsgMgr::GetNextReadyMsg(DTlsMsgMgr *this, __int64 a2, __int64 a3)
 {
   _QWORD *v3; // rsi
@@ -82,4 +84,3 @@ LABEL_23:
 // 18007312C: variable 'v7' is possibly undefined
 // 180073165: variable 'a3' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

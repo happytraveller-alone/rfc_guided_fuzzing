@@ -1,4 +1,6 @@
-//----- (000000018006D5A0) ----------------------------------------------------
+// File count: 1375
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::GenerateTlsAlertMessage(
         CTls13ServerContext *this,
         struct SPBuffer *a2,
@@ -24,4 +26,3 @@ __int64 __fastcall CTls13ServerContext::GenerateTlsAlertMessage(
            (__int64 **)this,
            a2);
 }
-

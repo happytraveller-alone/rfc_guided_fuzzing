@@ -1,4 +1,6 @@
-//----- (000000018000A1F4) ----------------------------------------------------
+// File count: 122
+// Total lines: 9
+------------------------------------------
 HLOCAL __fastcall SPExternalAlloc(unsigned int a1)
 {
   if ( LsaTable )
@@ -7,4 +9,3 @@ HLOCAL __fastcall SPExternalAlloc(unsigned int a1)
     return LocalAlloc(0x40u, a1);
 }
 // 180092620: using guessed type __int64 LsaTable;
-

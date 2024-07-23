@@ -1,4 +1,6 @@
-//----- (000000018001F810) ----------------------------------------------------
+// File count: 448
+// Total lines: 705
+----------------------------------------
 __int64 __fastcall CSslContextManager::InstantiateServerContext(
         CSslContextManager *this,
         struct SPBuffer *a2,
@@ -703,4 +705,3 @@ LABEL_104:
 // 180091498: using guessed type __int64 qword_180091498;
 // 180092620: using guessed type __int64 LsaTable;
 // 18001F810: using guessed type char var_58[8];
-

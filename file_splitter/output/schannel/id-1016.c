@@ -1,4 +1,6 @@
-//----- (0000000180055014) ----------------------------------------------------
+// File count: 1016
+// Total lines: 17
+----------------------------------------
 void CSslGlobals::CleanupCryptLocatorHandles(void)
 {
   if ( CSslGlobals::m_hCertLocator )
@@ -15,4 +17,3 @@ void CSslGlobals::CleanupCryptLocatorHandles(void)
 // 180092F60: using guessed type void *CSslGlobals::m_hIssuersLocator;
 // 180092F68: using guessed type void *CSslGlobals::m_hCertLocator;
 // 180098198: using guessed type void __stdcall CryptObjectLocatorRelease(unsigned int, void *);
-

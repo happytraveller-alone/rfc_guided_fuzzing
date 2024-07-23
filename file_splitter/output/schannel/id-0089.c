@@ -1,4 +1,6 @@
-//----- (0000000180006CCC) ----------------------------------------------------
+// File count: 89
+// Total lines: 51
+------------------------------------------
 char __fastcall CTlsSignatureSuiteList::AddBCryptSignatureSuites(
         CTlsSignatureSuiteList *this,
         const unsigned __int16 **const a2,
@@ -49,4 +51,3 @@ LABEL_10:
 }
 // 18007C3A0: using guessed type wchar_t *off_18007C3A0;
 // 18007C6F0: using guessed type void *CSsl3TlsServerContext::`vftable';
-

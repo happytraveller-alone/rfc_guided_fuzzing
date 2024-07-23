@@ -1,4 +1,6 @@
-//----- (0000000180017BFC) ----------------------------------------------------
+// File count: 322
+// Total lines: 23
+-----------------------------------------
 __int64 WppCleanupUm()
 {
   CCipherMill *v0; // rbx
@@ -21,4 +23,3 @@ __int64 WppCleanupUm()
   return result;
 }
 // 180080E08: using guessed type __int64 EtwUnregisterTraceGuids(void);
-

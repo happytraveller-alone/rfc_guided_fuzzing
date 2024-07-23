@@ -1,4 +1,6 @@
-//----- (0000000180022FB0) ----------------------------------------------------
+// File count: 475
+// Total lines: 9
+------------------------------------------
 CTls13Record *__fastcall CTls13Record::`vector deleting destructor'(CTls13Record *this, char a2)
 {
   *(_QWORD *)this = &CTlsRecord::`vftable';
@@ -7,4 +9,3 @@ CTls13Record *__fastcall CTls13Record::`vector deleting destructor'(CTls13Record
   return this;
 }
 // 18007D3F0: using guessed type void *CTlsRecord::`vftable';
-

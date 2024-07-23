@@ -1,4 +1,6 @@
-//----- (0000000180059940) ----------------------------------------------------
+// File count: 1069
+// Total lines: 229
+---------------------------------------
 __int64 __fastcall BuildLegacySupportedAlgsList(struct CCredentialGroup *a1, unsigned int **a2, unsigned int *a3)
 {
   int v3; // ebp
@@ -227,4 +229,3 @@ LABEL_46:
 // 180059C19: variable 'v40' is possibly undefined
 // 180059C17: variable 'v39' is possibly undefined
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

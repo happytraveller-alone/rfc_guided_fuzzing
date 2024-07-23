@@ -1,4 +1,6 @@
-//----- (0000000180060408) ----------------------------------------------------
+// File count: 1211
+// Total lines: 35
+----------------------------------------
 __int64 __fastcall CbLenOfEncode(unsigned int a1, unsigned __int8 *a2)
 {
   __int64 v2; // r9
@@ -33,4 +35,3 @@ __int64 __fastcall CbLenOfEncode(unsigned int a1, unsigned __int8 *a2)
   }
   return (unsigned int)(v3 + 1);
 }
-

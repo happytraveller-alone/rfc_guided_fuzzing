@@ -1,4 +1,6 @@
-//----- (000000018004E3B4) ----------------------------------------------------
+// File count: 945
+// Total lines: 41
+-----------------------------------------
 __int64 __fastcall SetMtuCallback(struct CSslUserContext *a1, char a2, struct _SecBuffer *a3)
 {
   unsigned int cbBuffer; // r9d
@@ -39,4 +41,3 @@ __int64 __fastcall SetMtuCallback(struct CSslUserContext *a1, char a2, struct _S
   return v9;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

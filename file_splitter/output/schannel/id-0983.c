@@ -1,4 +1,6 @@
-//----- (00000001800526A8) ----------------------------------------------------
+// File count: 983
+// Total lines: 53
+-----------------------------------------
 DWORD __fastcall SpQueryNames(struct CSslUserContext *a1, struct _SecPkgContext_NamesW *a2)
 {
   int v2; // ebx
@@ -51,4 +53,3 @@ DWORD __fastcall SpQueryNames(struct CSslUserContext *a1, struct _SecPkgContext_
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

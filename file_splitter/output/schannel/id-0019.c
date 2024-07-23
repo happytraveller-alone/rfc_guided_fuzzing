@@ -1,4 +1,6 @@
-//----- (0000000180002488) ----------------------------------------------------
+// File count: 19
+// Total lines: 33
+------------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::CheckForClientCertificatePrivateKeys(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2)
@@ -31,4 +33,3 @@ __int64 __fastcall CSsl3TlsClientContext::CheckForClientCertificatePrivateKeys(
   }
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018000629C) ----------------------------------------------------
+// File count: 76
+// Total lines: 28
+------------------------------------------
 __int64 __fastcall CSessionCacheManager::AcquireCacheTableLock(
         __int64 a1,
         const unsigned __int16 *a2,
@@ -26,4 +28,3 @@ __int64 __fastcall CSessionCacheManager::AcquireCacheTableLock(
   RtlAcquireResourceExclusive((PRTL_RESOURCE)(v5 + 48), 1u);
   return 1i64;
 }
-

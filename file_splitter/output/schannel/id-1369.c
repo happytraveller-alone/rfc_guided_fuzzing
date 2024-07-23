@@ -1,4 +1,6 @@
-//----- (000000018006CBC0) ----------------------------------------------------
+// File count: 1369
+// Total lines: 74
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::GenerateNewSessionTicket(CTls13ServerContext *this, struct SPBuffer *a2)
 {
   CTls13ServerHandshake *v2; // rbp
@@ -72,4 +74,3 @@ LABEL_4:
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 18006CBC0: using guessed type unsigned __int16 var_30[2];
-

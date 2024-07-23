@@ -1,4 +1,6 @@
-//----- (000000018006D7D0) ----------------------------------------------------
+// File count: 1380
+// Total lines: 14
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::LookupEccCurveType(CTls13ServerContext *this, unsigned int a2)
 {
   __int16 v2; // di
@@ -12,4 +14,3 @@ __int64 __fastcall CTls13ServerContext::LookupEccCurveType(CTls13ServerContext *
     return CTls13ServerContext::FindClientShare(this, v2, 0i64, 0i64);
   return result;
 }
-

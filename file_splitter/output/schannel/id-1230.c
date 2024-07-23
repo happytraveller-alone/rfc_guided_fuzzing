@@ -1,4 +1,6 @@
-//----- (0000000180062074) ----------------------------------------------------
+// File count: 1230
+// Total lines: 24
+----------------------------------------
 __int64 IsEccCurveGroupPolicyEnabled()
 {
   unsigned int v0; // ebx
@@ -22,4 +24,3 @@ __int64 IsEccCurveGroupPolicyEnabled()
     RegCloseKey(hKey);
   return v0;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180056428) ----------------------------------------------------
+// File count: 1031
+// Total lines: 72
+----------------------------------------
 __int64 __fastcall CCredentialGroup::InitializeClientNameInfo(CCredentialGroup *this, __int64 a2)
 {
   ULONG v4; // ebx
@@ -70,4 +72,3 @@ LABEL_12:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180056428: using guessed type wchar_t NameBuffer[520];
 // 180056428: using guessed type int var_44C[3];
-

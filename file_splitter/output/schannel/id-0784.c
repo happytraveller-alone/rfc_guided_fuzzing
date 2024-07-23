@@ -1,4 +1,6 @@
-//----- (000000018002A530) ----------------------------------------------------
+// File count: 784
+// Total lines: 11
+-----------------------------------------
 __int64 __fastcall CCipherMill::GetProtocolsWithCipherSuitesEnabled(CCipherMill *this, char a2)
 {
   __int64 result; // rax
@@ -9,4 +11,3 @@ __int64 __fastcall CCipherMill::GetProtocolsWithCipherSuitesEnabled(CCipherMill 
   return result;
 }
 // 1800925C0: using guessed type __int64 qword_1800925C0;
-

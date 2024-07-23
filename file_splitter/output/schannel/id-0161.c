@@ -1,4 +1,6 @@
-//----- (000000018000E714) ----------------------------------------------------
+// File count: 161
+// Total lines: 33
+-----------------------------------------
 unsigned __int64 __fastcall FindSslProvHandleInCache(const unsigned __int16 *a1)
 {
   __int64 v1; // rax
@@ -31,4 +33,3 @@ unsigned __int64 __fastcall FindSslProvHandleInCache(const unsigned __int16 *a1)
   return *((_QWORD *)&g_rgCachedPagedSslProvs + 2 * v1);
 }
 // 180092A90: using guessed type unsigned int g_cCachedPagedSslProvs;
-

@@ -1,4 +1,6 @@
-//----- (00000001800726F4) ----------------------------------------------------
+// File count: 1430
+// Total lines: 47
+----------------------------------------
 void __fastcall DTlsMsgMgr::~DTlsMsgMgr(DTlsMsgMgr *this)
 {
   DTlsMessage *v1; // rsi
@@ -45,4 +47,3 @@ void __fastcall DTlsMsgMgr::~DTlsMsgMgr(DTlsMsgMgr *this)
       DTlsRec::`scalar deleting destructor'(v11);
   }
 }
-

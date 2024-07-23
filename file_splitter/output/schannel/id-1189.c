@@ -1,4 +1,6 @@
-//----- (000000018005E464) ----------------------------------------------------
+// File count: 1189
+// Total lines: 58
+----------------------------------------
 unsigned __int8 __fastcall CTlsSignatureSuiteList::IsSupportedSignatureKey(
         CTlsSignatureSuiteList *this,
         int a2,
@@ -56,4 +58,3 @@ unsigned __int8 __fastcall CTlsSignatureSuiteList::IsSupportedSignatureKey(
 // 18005E4CE: variable 'v11' is possibly undefined
 // 18005E4F8: variable 'v12' is possibly undefined
 // 18007C6F0: using guessed type void *CSsl3TlsServerContext::`vftable';
-

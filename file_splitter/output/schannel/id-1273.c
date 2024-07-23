@@ -1,4 +1,6 @@
-//----- (0000000180064928) ----------------------------------------------------
+// File count: 1273
+// Total lines: 46
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ComputeGenericExtensionsSize(
         __int64 a1,
         int a2)
@@ -44,4 +46,3 @@ __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::Compute
   }
   return 0i64;
 }
-

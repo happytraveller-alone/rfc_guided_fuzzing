@@ -1,4 +1,6 @@
-//----- (0000000180018FC0) ----------------------------------------------------
+// File count: 427
+// Total lines: 27
+-----------------------------------------
 CSessionCacheServerItem *__fastcall CSessionCacheServerItem::`vector deleting destructor'(
         CSessionCacheServerItem *this,
         char a2)
@@ -25,4 +27,3 @@ CSessionCacheServerItem *__fastcall CSessionCacheServerItem::`vector deleting de
 // 18007C2C0: using guessed type void *CSessionCacheItem::`vftable';
 // 18007C330: using guessed type void *CSessionCacheServerItem::`vftable';
 // 1800927F8: using guessed type struct IAllocate *CSessionCacheServerItem::m_pServerCacheLookaside;
-

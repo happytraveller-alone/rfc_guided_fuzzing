@@ -1,4 +1,6 @@
-//----- (0000000180025B58) ----------------------------------------------------
+// File count: 511
+// Total lines: 116
+----------------------------------------
 __int64 __fastcall _DbgpCreateTraceControl(
         const unsigned __int16 *a1,
         const unsigned __int16 *a2,
@@ -114,4 +116,3 @@ LABEL_14:
 }
 // 180080BC0: using guessed type __int64 __fastcall RegisterWaitForSingleObjectEx(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180081F98: using guessed type __int128 SchannelTracingGuid;
-

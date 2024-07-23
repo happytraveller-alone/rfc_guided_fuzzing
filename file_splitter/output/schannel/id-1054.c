@@ -1,4 +1,6 @@
-//----- (0000000180058D5C) ----------------------------------------------------
+// File count: 1054
+// Total lines: 34
+----------------------------------------
 void __fastcall CSslCredManager::FreeCredentialManager(CSslCredManager *this)
 {
   CSslCredManager *v1; // rbx
@@ -32,4 +34,3 @@ void __fastcall CSslCredManager::FreeCredentialManager(CSslCredManager *this)
     (*(void (__fastcall **)(CSslCredManager *, __int64))(v4 + 8))(v1, 1i64);
   }
 }
-

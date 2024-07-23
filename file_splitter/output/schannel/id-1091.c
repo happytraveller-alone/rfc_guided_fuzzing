@@ -1,4 +1,6 @@
-//----- (000000018005AB60) ----------------------------------------------------
+// File count: 1091
+// Total lines: 8
+-----------------------------------------
 CTls13Context *__fastcall CTls13Context::`vector deleting destructor'(CTls13Context *this, char a2)
 {
   CTls13Context::~CTls13Context(this);
@@ -6,4 +8,3 @@ CTls13Context *__fastcall CTls13Context::`vector deleting destructor'(CTls13Cont
     operator delete(this);
   return this;
 }
-

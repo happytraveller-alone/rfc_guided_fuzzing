@@ -1,4 +1,6 @@
-//----- (000000018000AF8C) ----------------------------------------------------
+// File count: 133
+// Total lines: 68
+-----------------------------------------
 __int64 __fastcall CSslContext::GenerateHelloMessage(
         CSslContext *this,
         struct _Ssl2_Client_Hello *a2,
@@ -66,4 +68,3 @@ __int64 __fastcall CSslContext::GenerateHelloMessage(
   return result;
 }
 // 18000B01E: variable 'v17' is possibly undefined
-

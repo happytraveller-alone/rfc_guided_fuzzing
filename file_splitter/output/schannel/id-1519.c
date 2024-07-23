@@ -1,4 +1,6 @@
-//----- (000000018007A678) ----------------------------------------------------
+// File count: 1519
+// Total lines: 27
+----------------------------------------
 __int64 __fastcall PAC_DecodeValidationInformation(
         unsigned __int8 *a1,
         int a2,
@@ -25,4 +27,3 @@ __int64 __fastcall PAC_DecodeValidationInformation(
     MesHandleFree(Handle);
   return v6;
 }
-

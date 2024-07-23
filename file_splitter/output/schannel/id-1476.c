@@ -1,4 +1,6 @@
-//----- (0000000180076EBC) ----------------------------------------------------
+// File count: 1476
+// Total lines: 99
+----------------------------------------
 __int64 __fastcall CTls13Record::EncryptRecord(CTls13Record *this)
 {
   __int64 v2; // rcx
@@ -97,4 +99,3 @@ __int64 __fastcall CTls13Record::EncryptRecord(CTls13Record *this)
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180098508: using guessed type __int64 __fastcall SslEncryptPacket(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

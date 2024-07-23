@@ -1,4 +1,6 @@
-//----- (0000000180056FF8) ----------------------------------------------------
+// File count: 1041
+// Total lines: 24
+----------------------------------------
 DWORD __fastcall CCredentialGroup::SubscribeCertStoreChangeNotification(CCredentialGroup *this, void *a2, void **a3)
 {
   DWORD LastError; // ebx
@@ -22,4 +24,3 @@ DWORD __fastcall CCredentialGroup::SubscribeCertStoreChangeNotification(CCredent
     return LastError;
   }
 }
-

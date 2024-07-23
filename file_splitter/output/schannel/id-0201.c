@@ -1,4 +1,6 @@
-//----- (0000000180011144) ----------------------------------------------------
+// File count: 201
+// Total lines: 14
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogAppName(CSchannelTelemetryContext *this)
 {
   __int64 v1; // r8
@@ -12,4 +14,3 @@ void __fastcall CSchannelTelemetryContext::LogAppName(CSchannelTelemetryContext 
 }
 // 180028D84: using guessed type __int64 __fastcall o_wcsncpy_s_0(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

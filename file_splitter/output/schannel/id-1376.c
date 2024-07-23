@@ -1,4 +1,6 @@
-//----- (000000018006D600) ----------------------------------------------------
+// File count: 1376
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CTls13Context::HashPostHandshakeMessage(
         CTls13Context *this,
         __int64 a2,
@@ -23,4 +25,3 @@ __int64 __fastcall CTls13Context::HashPostHandshakeMessage(
 }
 // 180098420: using guessed type __int64 __fastcall SslHashHandshake(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098558: using guessed type __int64 __fastcall SslDuplicateTranscriptHash(_QWORD, _QWORD, _QWORD, _QWORD);
-

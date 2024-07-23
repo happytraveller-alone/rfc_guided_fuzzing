@@ -1,4 +1,6 @@
-//----- (0000000180026D60) ----------------------------------------------------
+// File count: 531
+// Total lines: 37
+-----------------------------------------
 __int64 InitializeIssuerCache(void)
 {
   unsigned int i; // ecx
@@ -35,4 +37,3 @@ __int64 InitializeIssuerCache(void)
 // 180092708: using guessed type __int64 qword_180092708;
 // 180092710: using guessed type __int64 qword_180092710;
 // 180092778: using guessed type int dword_180092778;
-

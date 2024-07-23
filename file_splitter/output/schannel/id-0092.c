@@ -1,4 +1,6 @@
-//----- (0000000180006F5C) ----------------------------------------------------
+// File count: 92
+// Total lines: 44
+------------------------------------------
 __int64 __fastcall CTlsSignatureSuiteList::Blacklist(
         CTlsSignatureSuiteList *this,
         struct _TLS_PARAMETERS *a2,
@@ -42,4 +44,3 @@ __int64 __fastcall CTlsSignatureSuiteList::Blacklist(
   return v3;
 }
 // 18007C3B0: using guessed type wchar_t *off_18007C3B0;
-

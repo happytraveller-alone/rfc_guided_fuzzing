@@ -1,4 +1,6 @@
-//----- (0000000180010780) ----------------------------------------------------
+// File count: 195
+// Total lines: 37
+-----------------------------------------
 CCredentialGroup *__fastcall CCredentialGroup::CCredentialGroup(CCredentialGroup *this)
 {
   CCredentialGroup *result; // rax
@@ -35,4 +37,3 @@ CCredentialGroup *__fastcall CCredentialGroup::CCredentialGroup(CCredentialGroup
   return result;
 }
 // 18007D0D8: using guessed type void *CCredentialGroup::`vftable';
-

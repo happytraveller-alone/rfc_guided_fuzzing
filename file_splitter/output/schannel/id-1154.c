@@ -1,4 +1,6 @@
-//----- (000000018005CE74) ----------------------------------------------------
+// File count: 1154
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::ComputeSerializedNcryptMasterKeyLen(
         CSessionCacheItem *this,
         struct CSslContext *a2,
@@ -30,4 +32,3 @@ __int64 __fastcall CSessionCacheItem::ComputeSerializedNcryptMasterKeyLen(
 }
 // 180082320: using guessed type wchar_t aOpaquekeyblob[14];
 // 180098528: using guessed type __int64 __fastcall SslExportKey(_QWORD, _QWORD, _QWORD);
-

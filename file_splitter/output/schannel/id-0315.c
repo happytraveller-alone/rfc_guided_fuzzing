@@ -1,4 +1,6 @@
-//----- (0000000180017394) ----------------------------------------------------
+// File count: 315
+// Total lines: 69
+-----------------------------------------
 __int64 __fastcall Wow64CopyUnicodeString(unsigned int a1, struct _UNICODE_STRING *a2)
 {
   unsigned int v3; // edi
@@ -67,4 +69,3 @@ LABEL_19:
   return 3221225485i64;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

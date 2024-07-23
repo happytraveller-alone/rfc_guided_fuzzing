@@ -1,4 +1,6 @@
-//----- (0000000180004214) ----------------------------------------------------
+// File count: 53
+// Total lines: 32
+------------------------------------------
 unsigned __int8 __fastcall CSessionCacheManager::FinishCacheAddItem(CSessionCacheManager *this, struct CSslContext *a2)
 {
   __int64 *v2; // rsi
@@ -30,4 +32,3 @@ unsigned __int8 __fastcall CSessionCacheManager::FinishCacheAddItem(CSessionCach
   return 1;
 }
 // 1800042B3: variable 'v6' is possibly undefined
-

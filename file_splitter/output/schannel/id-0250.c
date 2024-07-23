@@ -1,4 +1,6 @@
-//----- (0000000180014860) ----------------------------------------------------
+// File count: 250
+// Total lines: 25
+-----------------------------------------
 void __fastcall CSslContext::CleanupLsaModeKeys(CSslContext *this)
 {
   __int64 v2; // rcx
@@ -23,4 +25,3 @@ void __fastcall CSslContext::CleanupLsaModeKeys(CSslContext *this)
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

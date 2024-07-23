@@ -1,4 +1,6 @@
-//----- (000000018002A188) ----------------------------------------------------
+// File count: 771
+// Total lines: 9
+------------------------------------------
 int Init_thread_notify()
 {
   if ( qword_1800920C0 )
@@ -7,4 +9,3 @@ int Init_thread_notify()
   return ResetEvent(hHandle);
 }
 // 1800920C0: using guessed type __int64 (__fastcall *qword_1800920C0)(_QWORD);
-

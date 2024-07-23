@@ -1,4 +1,6 @@
-//----- (0000000180076AC8) ----------------------------------------------------
+// File count: 1473
+// Total lines: 63
+----------------------------------------
 __int64 __fastcall PskGenerateExchangeValue(struct CSsl3TlsContext *a1, int a2, unsigned __int8 *a3, unsigned int *a4)
 {
   unsigned int v4; // edi
@@ -61,4 +63,3 @@ __int64 __fastcall PskGenerateExchangeValue(struct CSsl3TlsContext *a1, int a2, 
   }
   return v4;
 }
-

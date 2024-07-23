@@ -1,4 +1,6 @@
-//----- (0000000180017D80) ----------------------------------------------------
+// File count: 328
+// Total lines: 37
+-----------------------------------------
 void __fastcall tlgEnableCallback(
         LPCGUID SourceId,
         __int64 IsEnabled,
@@ -35,4 +37,3 @@ void __fastcall tlgEnableCallback(
       v8(SourceId, IsEnabled, Level, MatchAnyKeyword, MatchAllKeyword, FilterData, CallbackContext[6]);
   }
 }
-

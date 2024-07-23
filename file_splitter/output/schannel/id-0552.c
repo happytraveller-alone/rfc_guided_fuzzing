@@ -1,4 +1,6 @@
-//----- (0000000180027BD4) ----------------------------------------------------
+// File count: 552
+// Total lines: 26
+-----------------------------------------
 CSslContextManager *__fastcall CSslContextManager::CSslContextManager(CSslContextManager *this)
 {
   CSslContextManager *result; // rax
@@ -24,4 +26,3 @@ CSslContextManager *__fastcall CSslContextManager::CSslContextManager(CSslContex
 // 180092DD0: using guessed type __int128 xmmword_180092DD0;
 // 180092DE0: using guessed type int dword_180092DE0;
 // 180092DE4: using guessed type char byte_180092DE4;
-

@@ -1,4 +1,6 @@
-//----- (000000018005B8DC) ----------------------------------------------------
+// File count: 1130
+// Total lines: 44
+----------------------------------------
 __int64 __fastcall DTLSCookieManager::ComputeCookie(
         DTLSCookieManager *this,
         unsigned __int8 *const a2,
@@ -42,4 +44,3 @@ __int64 __fastcall DTLSCookieManager::ComputeCookie(
     BCryptDestroyHash(hHash);
   return (unsigned int)v13;
 }
-

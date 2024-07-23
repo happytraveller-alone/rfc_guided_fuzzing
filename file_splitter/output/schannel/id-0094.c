@@ -1,4 +1,6 @@
-//----- (0000000180007410) ----------------------------------------------------
+// File count: 94
+// Total lines: 308
+-----------------------------------------
 char __fastcall CCipherMill::IsCipherSuiteAllowed(
         __int64 a1,
         unsigned int *a2,
@@ -306,4 +308,3 @@ LABEL_113:
 }
 // 18003384F: variable 'v45' is possibly undefined
 // 1800856E0: using guessed type wchar_t aNull_1[7];
-

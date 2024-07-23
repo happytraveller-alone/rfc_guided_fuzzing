@@ -1,4 +1,6 @@
-//----- (00000001800737BC) ----------------------------------------------------
+// File count: 1443
+// Total lines: 45
+----------------------------------------
 __int64 __fastcall DTlsMessage::checkComplete(DTlsMessage *this)
 {
   unsigned int v1; // r8d
@@ -43,4 +45,3 @@ LABEL_4:
   }
   return v1;
 }
-

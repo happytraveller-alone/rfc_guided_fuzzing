@@ -1,4 +1,6 @@
-//----- (0000000180060AAC) ----------------------------------------------------
+// File count: 1215
+// Total lines: 60
+----------------------------------------
 __int64 __fastcall FormatIssuerList(unsigned __int8 *a1, unsigned int a2, unsigned __int8 *a3, unsigned int *a4)
 {
   unsigned int v4; // ebp
@@ -58,4 +60,3 @@ LABEL_13:
     return 0i64;
   }
 }
-

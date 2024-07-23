@@ -1,4 +1,6 @@
-//----- (000000018006CD58) ----------------------------------------------------
+// File count: 1370
+// Total lines: 71
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::GeneratePostHandshakeCertificateRequest(
         CTls13ServerContext *this,
         struct SPBuffer *a2)
@@ -69,4 +71,3 @@ LABEL_8:
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

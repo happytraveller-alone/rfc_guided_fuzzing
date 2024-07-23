@@ -1,4 +1,6 @@
-//----- (0000000180056618) ----------------------------------------------------
+// File count: 1032
+// Total lines: 22
+----------------------------------------
 __int64 __fastcall CCredentialGroup::NotifyProviderChange(CCredentialGroup *this)
 {
   CCredentialGroup *v2; // r14
@@ -20,4 +22,3 @@ __int64 __fastcall CCredentialGroup::NotifyProviderChange(CCredentialGroup *this
   RtlReleaseResource((PRTL_RESOURCE)((char *)this + 48));
   return 0i64;
 }
-

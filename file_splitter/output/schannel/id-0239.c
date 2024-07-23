@@ -1,4 +1,6 @@
-//----- (0000000180013DD0) ----------------------------------------------------
+// File count: 239
+// Total lines: 55
+-----------------------------------------
 __int64 __fastcall CSslContext::GetProviderInfo(CSslContext *this, unsigned __int16 *const a2, unsigned __int64 *a3)
 {
   unsigned __int64 *v3; // rax
@@ -53,4 +55,3 @@ LABEL_13:
 // 180013E81: conditional instruction was optimized away because rax.8 is in (1..FFFFFFFF80000101|>=FFFFFFFF80000103u)
 // 180092490: using guessed type __int64 qword_180092490;
 // 1800924A0: using guessed type unsigned __int64 qword_1800924A0[32];
-

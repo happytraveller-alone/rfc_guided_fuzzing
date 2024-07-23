@@ -1,4 +1,6 @@
-//----- (000000018000172C) ----------------------------------------------------
+// File count: 8
+// Total lines: 229
+------------------------------------------
 __int64 __fastcall TlsParseAlertMessage(unsigned __int8 *a1, int a2, unsigned __int8 *a3, unsigned __int8 *a4)
 {
   unsigned int v4; // ebx
@@ -227,4 +229,3 @@ LABEL_48:
   return 2148074333i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

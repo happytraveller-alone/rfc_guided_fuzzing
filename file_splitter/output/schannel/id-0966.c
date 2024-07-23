@@ -1,4 +1,6 @@
-//----- (0000000180050148) ----------------------------------------------------
+// File count: 966
+// Total lines: 342
+----------------------------------------
 __int64 __fastcall Tls13DecryptHandler(
         struct CSslUserContext *a1,
         struct SPBuffer *a2,
@@ -340,4 +342,3 @@ LABEL_101:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800984E0: using guessed type __int64 __fastcall SslDecryptPacket(_QWORD, _QWORD, _QWORD);
-

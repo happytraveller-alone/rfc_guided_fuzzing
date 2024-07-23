@@ -1,4 +1,6 @@
-//----- (0000000180047118) ----------------------------------------------------
+// File count: 872
+// Total lines: 25
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetEapPrfType(CSsl3TlsContext *this, void *a2, unsigned int a3)
 {
   unsigned int AppDataForSca; // eax
@@ -23,4 +25,3 @@ __int64 __fastcall CSsl3TlsContext::SetEapPrfType(CSsl3TlsContext *this, void *a
     SPExternalFree(v5);
   return v6;
 }
-

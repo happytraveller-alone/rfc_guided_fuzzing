@@ -1,4 +1,6 @@
-//----- (000000018006FAC0) ----------------------------------------------------
+// File count: 1405
+// Total lines: 103
+---------------------------------------
 __int64 __fastcall CSsl3TlsContext::FragmentMessage(__int64 a1, char *a2, char a3)
 {
   unsigned int v3; // r12d
@@ -101,4 +103,3 @@ __int64 __fastcall CSsl3TlsContext::FragmentMessage(__int64 a1, char *a2, char a
   }
   return v8;
 }
-

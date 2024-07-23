@@ -1,4 +1,6 @@
-//----- (0000000180054D10) ----------------------------------------------------
+// File count: 1012
+// Total lines: 51
+----------------------------------------
 void __fastcall CTlsSignatureSuiteList::SetCertificateChainSignatureSuites(
         CTlsSignatureSuiteList *this,
         const struct _CERT_CONTEXT *a2,
@@ -49,4 +51,3 @@ LABEL_10:
     *((_WORD *)this + 17) = 0;
   }
 }
-

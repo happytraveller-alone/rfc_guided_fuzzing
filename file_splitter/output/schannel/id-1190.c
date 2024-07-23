@@ -1,4 +1,6 @@
-//----- (000000018005E558) ----------------------------------------------------
+// File count: 1190
+// Total lines: 44
+----------------------------------------
 __int64 __fastcall CTlsSignatureSuiteList::ParseSupportedSignatureAlgorithmsAndSet(
         CTlsSignatureSuiteList *this,
         unsigned __int8 *a2,
@@ -42,4 +44,3 @@ __int64 __fastcall CTlsSignatureSuiteList::ParseSupportedSignatureAlgorithmsAndS
 }
 // 18005E5E1: variable 'v12' is possibly undefined
 // 18005E5F0: variable 'v11' is possibly undefined
-

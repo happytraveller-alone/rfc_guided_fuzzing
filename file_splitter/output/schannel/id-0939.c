@@ -1,4 +1,6 @@
-//----- (000000018004E0FC) ----------------------------------------------------
+// File count: 939
+// Total lines: 41
+-----------------------------------------
 __int64 __fastcall GetAppDataStatusCallback(
         struct CSslUserContext *a1,
         void *(__stdcall *a2)(unsigned int),
@@ -39,4 +41,3 @@ __int64 __fastcall GetAppDataStatusCallback(
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

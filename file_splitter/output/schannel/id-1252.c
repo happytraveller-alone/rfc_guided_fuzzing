@@ -1,4 +1,6 @@
-//----- (00000001800638A0) ----------------------------------------------------
+// File count: 1252
+// Total lines: 10
+----------------------------------------
 _QWORD *__fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::`vector deleting destructor'(
         _QWORD *Block,
         char a2)
@@ -8,4 +10,3 @@ _QWORD *__fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::`vector
     operator delete(Block);
   return Block;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800286FC) ----------------------------------------------------
+// File count: 575
+// Total lines: 34
+-----------------------------------------
 bool __fastcall _scrt_is_nonwritable_in_current_image(__int64 a1)
 {
   unsigned __int64 v1; // r8
@@ -32,4 +34,3 @@ bool __fastcall _scrt_is_nonwritable_in_current_image(__int64 a1)
 // 180000014: using guessed type __int16;
 // 180000018: using guessed type __int16;
 // 18000003C: using guessed type void *__ptr32 off_18000003C;
-

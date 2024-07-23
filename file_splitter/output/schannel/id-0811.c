@@ -1,4 +1,6 @@
-//----- (0000000180043190) ----------------------------------------------------
+// File count: 811
+// Total lines: 14
+-----------------------------------------
 __int64 __fastcall McTemplateU0d_EtwEventWriteTransfer(__int64 a1, __int64 a2, __int64 a3)
 {
   _QWORD v4[3]; // [rsp+30h] [rbp-38h] BYREF
@@ -12,4 +14,3 @@ __int64 __fastcall McTemplateU0d_EtwEventWriteTransfer(__int64 a1, __int64 a2, _
   v5 = 4;
   return McGenEventWrite_EtwEventWriteTransfer(a1, (__int64)&AchStop, a3, 2, (__int64)v4);
 }
-

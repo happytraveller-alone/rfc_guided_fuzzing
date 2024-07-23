@@ -1,4 +1,6 @@
-//----- (00000001800279E8) ----------------------------------------------------
+// File count: 547
+// Total lines: 32
+-----------------------------------------
 __int64 CSslGlobals::InitializePeriodicCleanupHandler(void)
 {
   DWORD v0; // ebx
@@ -30,4 +32,3 @@ __int64 CSslGlobals::InitializePeriodicCleanupHandler(void)
 }
 // 180080BC0: using guessed type __int64 __fastcall RegisterWaitForSingleObjectEx(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180092EE0: using guessed type unsigned int CSslGlobals::m_lReentryCount;
-

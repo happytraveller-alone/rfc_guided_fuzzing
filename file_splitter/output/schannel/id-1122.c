@@ -1,4 +1,6 @@
-//----- (000000018005B470) ----------------------------------------------------
+// File count: 1122
+// Total lines: 87
+----------------------------------------
 void __fastcall CSslContext::SetErrorAndFatalAlert(__int64 a1, int a2, int a3, unsigned __int8 a4)
 {
   int v5; // ebp
@@ -85,4 +87,3 @@ void __fastcall CSslContext::SetErrorAndFatalAlert(__int64 a1, int a2, int a3, u
 // 18005B5EA: variable 'v13' is possibly undefined
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 18005B470: using guessed type char var_718[8];
-

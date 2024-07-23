@@ -1,4 +1,6 @@
-//----- (000000018001011C) ----------------------------------------------------
+// File count: 190
+// Total lines: 101
+----------------------------------------
 __int64 __fastcall CCredentialGroup::InitializeEnabledProtocols(
         CCredentialGroup *this,
         unsigned int a2,
@@ -99,4 +101,3 @@ __int64 __fastcall CCredentialGroup::InitializeEnabledProtocols(
 // 1800919F8: using guessed type unsigned int CSslGlobals::m_ProtEnabled;
 // 1800919FC: using guessed type unsigned int CSslGlobals::m_ProtDisabledByDefault;
 // 180092F18: using guessed type int CSslGlobals::m_bFipsMode;
-

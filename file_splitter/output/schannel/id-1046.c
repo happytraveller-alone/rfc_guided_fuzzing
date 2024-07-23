@@ -1,4 +1,6 @@
-//----- (000000018005792C) ----------------------------------------------------
+// File count: 1046
+// Total lines: 25
+----------------------------------------
 _BOOL8 __fastcall DoesCertHaveBasicConstraintCA(const struct _CERT_CONTEXT *a1)
 {
   PCERT_EXTENSION Extension; // rax
@@ -23,4 +25,3 @@ _BOOL8 __fastcall DoesCertHaveBasicConstraintCA(const struct _CERT_CONTEXT *a1)
   }
   return result;
 }
-

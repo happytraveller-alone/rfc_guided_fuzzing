@@ -1,4 +1,6 @@
-//----- (000000018006AEC8) ----------------------------------------------------
+// File count: 1355
+// Total lines: 58
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::FindClientShare(
         CTls13ServerContext *this,
         __int16 a2,
@@ -56,4 +58,3 @@ __int64 __fastcall CTls13ServerContext::FindClientShare(
   }
   return 0i64;
 }
-

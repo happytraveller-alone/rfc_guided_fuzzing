@@ -1,4 +1,6 @@
-//----- (0000000180004080) ----------------------------------------------------
+// File count: 50
+// Total lines: 11
+------------------------------------------
 void __fastcall CSessionCacheItem::~CSessionCacheItem(CSessionCacheItem *this)
 {
   *(_QWORD *)this = &CSessionCacheItem::`vftable';
@@ -9,4 +11,3 @@ void __fastcall CSessionCacheItem::~CSessionCacheItem(CSessionCacheItem *this)
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
 // 18007C2C0: using guessed type void *CSessionCacheItem::`vftable';
-

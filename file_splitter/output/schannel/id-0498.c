@@ -1,4 +1,6 @@
-//----- (00000001800248E0) ----------------------------------------------------
+// File count: 498
+// Total lines: 14
+-----------------------------------------
 __int64 __fastcall AllocateCipherSuiteData(unsigned int a1, unsigned __int8 **a2, struct CCipherSuiteInfo **a3)
 {
   unsigned __int8 *v5; // rax
@@ -12,4 +14,3 @@ __int64 __fastcall AllocateCipherSuiteData(unsigned int a1, unsigned __int8 **a2
   *a3 = (struct CCipherSuiteInfo *)(v5 + 16);
   return 0i64;
 }
-

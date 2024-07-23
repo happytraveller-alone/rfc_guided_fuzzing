@@ -1,4 +1,6 @@
-//----- (0000000180024B84) ----------------------------------------------------
+// File count: 500
+// Total lines: 27
+-----------------------------------------
 __int64 __fastcall GetSslEccCurveOrder(BYTE **a1, unsigned __int16 *a2)
 {
   __int64 result; // rax
@@ -25,4 +27,3 @@ __int64 __fastcall GetSslEccCurveOrder(BYTE **a1, unsigned __int16 *a2)
   return result;
 }
 // 180024BBE: variable 'v5' is possibly undefined
-

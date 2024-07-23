@@ -1,4 +1,6 @@
-//----- (0000000180067888) ----------------------------------------------------
+// File count: 1317
+// Total lines: 126
+---------------------------------------
 unsigned int __fastcall CTls13ServerHandshake::GenerateNewSessionTicket(CTls13ServerHandshake *this)
 {
   unsigned int result; // eax
@@ -124,4 +126,3 @@ unsigned int __fastcall CTls13ServerHandshake::GenerateNewSessionTicket(CTls13Se
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180067888: using guessed type char var_50[4];
 // 180067888: using guessed type __int16 var_48[2];
-

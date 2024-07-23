@@ -1,4 +1,6 @@
-//----- (0000000180051690) ----------------------------------------------------
+// File count: 974
+// Total lines: 29
+-----------------------------------------
 __int64 __fastcall SetAppMtuCallback(__int64 a1, char a2, struct _SecBuffer *a3)
 {
   struct CSslUserContext *UserContext; // rax
@@ -27,4 +29,3 @@ __int64 __fastcall SetAppMtuCallback(__int64 a1, char a2, struct _SecBuffer *a3)
   }
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

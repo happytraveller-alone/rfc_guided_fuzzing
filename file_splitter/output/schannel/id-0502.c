@@ -1,4 +1,6 @@
-//----- (0000000180024D20) ----------------------------------------------------
+// File count: 502
+// Total lines: 24
+-----------------------------------------
 __int64 IsCipherSuiteGroupPolicyEnabled()
 {
   unsigned int v0; // ebx
@@ -22,4 +24,3 @@ __int64 IsCipherSuiteGroupPolicyEnabled()
     RegCloseKey(hKey);
   return v0;
 }
-

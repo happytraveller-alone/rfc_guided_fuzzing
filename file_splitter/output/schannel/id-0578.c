@@ -1,4 +1,6 @@
-//----- (00000001800287F8) ----------------------------------------------------
+// File count: 578
+// Total lines: 15
+-----------------------------------------
 _onexit_t __cdecl onexit(_onexit_t Func)
 {
   int v2; // eax
@@ -13,4 +15,3 @@ _onexit_t __cdecl onexit(_onexit_t Func)
     return Func;
   return v3;
 }
-

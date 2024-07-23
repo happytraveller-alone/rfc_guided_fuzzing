@@ -1,4 +1,6 @@
-//----- (000000018006B6B4) ----------------------------------------------------
+// File count: 1362
+// Total lines: 13
+----------------------------------------
 ULONG __fastcall CTls13ServerContext::GenerateCertificateRequestContext(CTls13ServerContext *this)
 {
   UCHAR *v2; // rax
@@ -11,4 +13,3 @@ ULONG __fastcall CTls13ServerContext::GenerateCertificateRequestContext(CTls13Se
   *((_BYTE *)this + 1232) = 32;
   return GenerateRandomBits(v2, 0x20u);
 }
-

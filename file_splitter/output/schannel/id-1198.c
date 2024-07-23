@@ -1,4 +1,6 @@
-//----- (000000018005E8A8) ----------------------------------------------------
+// File count: 1198
+// Total lines: 463
+---------------------------------------
 __int64 __fastcall CSslCredential::CreateCredential(
         CSslCredential *this,
         int a2,
@@ -461,4 +463,3 @@ LABEL_21:
 // 180084C90: using guessed type EVENT_DESCRIPTOR ChainBuildStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
 // 180098360: using guessed type __int64 __fastcall BCryptHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

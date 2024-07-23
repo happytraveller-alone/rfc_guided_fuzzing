@@ -1,4 +1,6 @@
-//----- (000000018005DCA8) ----------------------------------------------------
+// File count: 1172
+// Total lines: 13
+----------------------------------------
 void __fastcall SPDeleteIssuerEntry(struct ISSUER_CACHE_ENTRY *a1)
 {
   void *v2; // rcx
@@ -11,4 +13,3 @@ void __fastcall SPDeleteIssuerEntry(struct ISSUER_CACHE_ENTRY *a1)
     SPExternalFree(a1);
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018006EC64) ----------------------------------------------------
+// File count: 1390
+// Total lines: 22
+----------------------------------------
 __int64 __fastcall CTls13ClientContext::SetCertificateRequestContext(
         CTls13ClientContext *this,
         unsigned __int8 *a2,
@@ -20,4 +22,3 @@ __int64 __fastcall CTls13ClientContext::SetCertificateRequestContext(
   }
   return 0i64;
 }
-

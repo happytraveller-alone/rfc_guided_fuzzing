@@ -1,4 +1,6 @@
-//----- (0000000180059D04) ----------------------------------------------------
+// File count: 1072
+// Total lines: 15
+----------------------------------------
 struct hsel *__fastcall GetHashInfo(int a1)
 {
   __int64 v1; // rax
@@ -13,4 +15,3 @@ struct hsel *__fastcall GetHashInfo(int a1)
   }
   return (struct hsel *)((char *)&g_AvailableHashes + 40 * v1);
 }
-

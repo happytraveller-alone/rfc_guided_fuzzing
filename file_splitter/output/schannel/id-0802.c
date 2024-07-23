@@ -1,4 +1,6 @@
-//----- (0000000180041EE0) ----------------------------------------------------
+// File count: 802
+// Total lines: 64
+-----------------------------------------
 __int64 __fastcall CopyClientString(unsigned __int16 *a1, int a2, char a3, struct _UNICODE_STRING *a4)
 {
   int v7; // ebx
@@ -62,4 +64,3 @@ LABEL_16:
   return (unsigned int)v7;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

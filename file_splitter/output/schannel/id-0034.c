@@ -1,4 +1,6 @@
-//----- (00000001800032F0) ----------------------------------------------------
+// File count: 34
+// Total lines: 10
+------------------------------------------
 CSessionCacheClientItem *__fastcall CSessionCacheClientItem::`vector deleting destructor'(
         CSessionCacheClientItem *this,
         char a2)
@@ -8,4 +10,3 @@ CSessionCacheClientItem *__fastcall CSessionCacheClientItem::`vector deleting de
     SPExternalFree(this);
   return this;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180076074) ----------------------------------------------------
+// File count: 1470
+// Total lines: 125
+---------------------------------------
 __int64 __fastcall CreateUserMappingDataMsg(
         unsigned __int8 *a1,
         unsigned int a2,
@@ -123,4 +125,3 @@ LABEL_22:
 }
 // 180076168: variable 'lpMultiByteStr' is possibly undefined
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

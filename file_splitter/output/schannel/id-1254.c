@@ -1,4 +1,6 @@
-//----- (0000000180063920) ----------------------------------------------------
+// File count: 1254
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ComputeALPNExtensionSize(CTls13ClientHandshake *this)
 {
   __int64 v1; // rax
@@ -21,4 +23,3 @@ __int64 __fastcall CTls13ClientHandshake::ComputeALPNExtensionSize(CTls13ClientH
   }
   return 0i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018005C0F0) ----------------------------------------------------
+// File count: 1137
+// Total lines: 37
+----------------------------------------
 ULONG __fastcall CreateUnicodeStringFromAlpnId(
         unsigned __int8 *a1,
         unsigned int a2,
@@ -35,4 +37,3 @@ LABEL_11:
   }
   return 87;
 }
-

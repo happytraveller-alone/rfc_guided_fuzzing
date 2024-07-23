@@ -1,4 +1,6 @@
-//----- (000000018005D4E8) ----------------------------------------------------
+// File count: 1160
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::DeserializeTicketNonce(
         CSessionCacheItem *this,
         unsigned __int8 *a2,
@@ -24,4 +26,3 @@ __int64 __fastcall CSessionCacheItem::DeserializeTicketNonce(
   }
   return 14i64;
 }
-

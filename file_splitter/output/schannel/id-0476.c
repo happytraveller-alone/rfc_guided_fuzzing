@@ -1,4 +1,6 @@
-//----- (0000000180022FF0) ----------------------------------------------------
+// File count: 476
+// Total lines: 73
+-----------------------------------------
 __int64 __fastcall CTls13ServerContext::SetTrafficSecretsBuffers(
         CTls13ServerContext *this,
         struct _SecBufferDesc *const a2,
@@ -71,4 +73,3 @@ LABEL_14:
   *((_BYTE *)this + 1200) = 0;
   return v9;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800566DC) ----------------------------------------------------
+// File count: 1033
+// Total lines: 38
+----------------------------------------
 __int64 __fastcall CCredentialGroup::PickClientCredential(
         CCredentialGroup *this,
         int a2,
@@ -36,4 +38,3 @@ __int64 __fastcall CCredentialGroup::PickClientCredential(
   }
   return v8;
 }
-

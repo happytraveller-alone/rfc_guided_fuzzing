@@ -1,4 +1,6 @@
-//----- (0000000180006A04) ----------------------------------------------------
+// File count: 85
+// Total lines: 25
+------------------------------------------
 CSessionCacheClientItem *__fastcall CSessionCacheClientItem::CSessionCacheClientItem(
         CSessionCacheClientItem *this,
         struct CSessionCacheManager *a2,
@@ -23,4 +25,3 @@ CSessionCacheClientItem *__fastcall CSessionCacheClientItem::CSessionCacheClient
   return this;
 }
 // 18007C210: using guessed type void *CSessionCacheClientItem::`vftable';
-

@@ -1,4 +1,6 @@
-//----- (0000000180062998) ----------------------------------------------------
+// File count: 1236
+// Total lines: 28
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::InitUpdateClientHash(CSsl3TlsServerContext *this)
 {
   __int64 result; // rax
@@ -26,4 +28,3 @@ __int64 __fastcall CSsl3TlsServerContext::InitUpdateClientHash(CSsl3TlsServerCon
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

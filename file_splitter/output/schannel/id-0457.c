@@ -1,4 +1,6 @@
-//----- (00000001800212D0) ----------------------------------------------------
+// File count: 457
+// Total lines: 64
+-----------------------------------------
 __int64 __fastcall CSslContext::CSslContext(__int64 a1, __int64 a2)
 {
   *(_QWORD *)a1 = &CSslContext::`vftable';
@@ -62,4 +64,3 @@ __int64 __fastcall CSslContext::CSslContext(__int64 a1, __int64 a2)
   return a1;
 }
 // 18007CDB8: using guessed type void *CSslContext::`vftable';
-

@@ -1,4 +1,6 @@
-//----- (0000000180024898) ----------------------------------------------------
+// File count: 497
+// Total lines: 18
+-----------------------------------------
 CMasterCipherInfo *__fastcall CMasterCipherInfo::CMasterCipherInfo(
         CMasterCipherInfo *this,
         struct CCipherSuiteInfo *a2,
@@ -16,4 +18,3 @@ CMasterCipherInfo *__fastcall CMasterCipherInfo::CMasterCipherInfo(
   return this;
 }
 // 180092D90: using guessed type int CMasterCipherInfo::m_lMasterCiphersCount;
-

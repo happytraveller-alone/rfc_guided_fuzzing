@@ -1,4 +1,6 @@
-//----- (000000018007ACD0) ----------------------------------------------------
+// File count: 1523
+// Total lines: 53
+----------------------------------------
 __int64 __fastcall PAC_UnMarshal(unsigned __int64 a1, unsigned int a2)
 {
   unsigned int v2; // r8d
@@ -51,4 +53,3 @@ __int64 __fastcall PAC_UnMarshal(unsigned __int64 a1, unsigned int a2)
   }
   return 0i64;
 }
-

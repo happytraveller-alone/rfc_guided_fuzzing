@@ -1,4 +1,6 @@
-//----- (0000000180043028) ----------------------------------------------------
+// File count: 809
+// Total lines: 67
+-----------------------------------------
 __int64 __fastcall UpdatePrivateKeysForCreds(struct CCredentialGroup *this, struct _SecBuffer *a2, char a3)
 {
   int v3; // r15d
@@ -65,4 +67,3 @@ LABEL_17:
   CleanupAppModeInfo(0i64);
   return v4;
 }
-

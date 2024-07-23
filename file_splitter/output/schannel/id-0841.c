@@ -1,4 +1,6 @@
-//----- (0000000180044C38) ----------------------------------------------------
+// File count: 841
+// Total lines: 21
+-----------------------------------------
 __int64 __fastcall LogCreateCredFailedEvent(unsigned int a1, const WCHAR *a2, char a3, int a4)
 {
   const WCHAR *v7; // rdx
@@ -19,4 +21,3 @@ __int64 __fastcall LogCreateCredFailedEvent(unsigned int a1, const WCHAR *a2, ch
   }
   return result;
 }
-

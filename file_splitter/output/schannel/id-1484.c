@@ -1,4 +1,6 @@
-//----- (00000001800778D4) ----------------------------------------------------
+// File count: 1484
+// Total lines: 60
+----------------------------------------
 __int64 __fastcall CTls13Record::WriteRecord(CTls13Record *this, unsigned __int16 a2, const unsigned __int8 *a3)
 {
   __int64 v3; // r11
@@ -58,4 +60,3 @@ __int64 __fastcall CTls13Record::WriteRecord(CTls13Record *this, unsigned __int1
   }
   return 0i64;
 }
-

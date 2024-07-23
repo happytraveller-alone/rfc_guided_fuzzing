@@ -1,4 +1,6 @@
-//----- (000000018004FE10) ----------------------------------------------------
+// File count: 961
+// Total lines: 31
+-----------------------------------------
 __int64 __fastcall SpGetContextToken(__int64 a1, _QWORD *a2)
 {
   struct CSslUserContext *UserContext; // rax
@@ -29,4 +31,3 @@ __int64 __fastcall SpGetContextToken(__int64 a1, _QWORD *a2)
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

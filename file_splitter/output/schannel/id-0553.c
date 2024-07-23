@@ -1,4 +1,6 @@
-//----- (0000000180027C30) ----------------------------------------------------
+// File count: 553
+// Total lines: 12
+-----------------------------------------
 __int64 initialize_legacy_wide_specifiers()
 {
   unsigned __int64 *v0; // rax
@@ -10,4 +12,3 @@ __int64 initialize_legacy_wide_specifiers()
   *v1 |= 2ui64;
   return 0i64;
 }
-

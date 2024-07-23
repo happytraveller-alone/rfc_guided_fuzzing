@@ -1,4 +1,6 @@
-//----- (00000001800546A4) ----------------------------------------------------
+// File count: 1010
+// Total lines: 164
+---------------------------------------
 __int64 __fastcall SchGetTrustedRoots(void **a1, __int64 a2)
 {
   HCERTSTORE v4; // r15
@@ -162,4 +164,3 @@ LABEL_42:
 // 180084C90: using guessed type EVENT_DESCRIPTOR ChainBuildStart;
 // 1800854C0: using guessed type wchar_t aRoot[5];
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

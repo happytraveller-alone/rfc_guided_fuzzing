@@ -1,4 +1,6 @@
-//----- (00000001800450B8) ----------------------------------------------------
+// File count: 849
+// Total lines: 32
+-----------------------------------------
 void __fastcall LogIncompleteCertificateChainEvent(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -30,4 +32,3 @@ void __fastcall LogIncompleteCertificateChainEvent(
       a4->pbCertEncoded);
   }
 }
-

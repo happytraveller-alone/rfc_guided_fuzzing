@@ -1,4 +1,6 @@
-//----- (0000000180063788) ----------------------------------------------------
+// File count: 1249
+// Total lines: 21
+----------------------------------------
 void __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::~CTls13Handshake<CTls13ClientContext,CTls13ExtClient>(
         _QWORD *a1)
 {
@@ -19,4 +21,3 @@ void __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::~CTls13Han
 }
 // 18007FD48: using guessed type void *CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::`vftable';
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

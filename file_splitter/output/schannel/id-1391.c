@@ -1,4 +1,6 @@
-//----- (000000018006ECE0) ----------------------------------------------------
+// File count: 1391
+// Total lines: 38
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::SetClientShare(CTls13ServerContext *this, unsigned int a2, unsigned __int64 a3)
 {
   int ClientShare; // eax
@@ -36,4 +38,3 @@ __int64 __fastcall CTls13ServerContext::SetClientShare(CTls13ServerContext *this
   }
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

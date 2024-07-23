@@ -1,4 +1,6 @@
-//----- (000000018005CEF0) ----------------------------------------------------
+// File count: 1155
+// Total lines: 83
+----------------------------------------
 unsigned int __fastcall CSessionCacheItem::Deserialize(
         CSessionCacheItem *this,
         struct CSslContext *a2,
@@ -81,4 +83,3 @@ unsigned int __fastcall CSessionCacheItem::Deserialize(
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

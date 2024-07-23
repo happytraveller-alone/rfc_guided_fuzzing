@@ -1,4 +1,6 @@
-//----- (0000000180016AB4) ----------------------------------------------------
+// File count: 302
+// Total lines: 40
+-----------------------------------------
 BOOLEAN (__fastcall *SafeAllocaInitialize())(void *a1)
 {
   PIMAGE_NT_HEADERS v0; // rax
@@ -38,4 +40,3 @@ LABEL_7:
 // 1800920E8: using guessed type __int64 g_ulAdditionalProbeSize;
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
-

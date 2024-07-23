@@ -1,4 +1,6 @@
-//----- (000000018005AD50) ----------------------------------------------------
+// File count: 1097
+// Total lines: 12
+----------------------------------------
 void __fastcall CSsl3TlsClientContext::ClearCacheItem(CSsl3TlsClientContext *this)
 {
   CSessionCacheTable **v2; // rcx
@@ -10,4 +12,3 @@ void __fastcall CSsl3TlsClientContext::ClearCacheItem(CSsl3TlsClientContext *thi
     *((_QWORD *)this + 165) = 0i64;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180045408) ----------------------------------------------------
+// File count: 855
+// Total lines: 503
+----------------------------------------
 __int64 SchEventWrite(const struct _EVENT_DESCRIPTOR *a1, unsigned __int16 *a2, __int64 a3, ...)
 {
   const struct _EVENT_DESCRIPTOR *v3; // r15
@@ -501,4 +503,3 @@ LABEL_113:
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180092D80: using guessed type unsigned __int64 g_RegistrationHandle;
 // 180045408: using guessed type _QWORD var_70[2];
-

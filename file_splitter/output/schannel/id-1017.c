@@ -1,4 +1,6 @@
-//----- (0000000180055070) ----------------------------------------------------
+// File count: 1017
+// Total lines: 31
+----------------------------------------
 void CSslGlobals::CleanupPeriodicCleanupHandler(void)
 {
   int LastError; // eax
@@ -29,4 +31,3 @@ void CSslGlobals::CleanupPeriodicCleanupHandler(void)
   _InterlockedDecrement((volatile signed __int32 *)&CSslGlobals::m_lReentryCount);
 }
 // 180092EE0: using guessed type unsigned int CSslGlobals::m_lReentryCount;
-

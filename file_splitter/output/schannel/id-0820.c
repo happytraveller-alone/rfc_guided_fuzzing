@@ -1,4 +1,6 @@
-//----- (0000000180043650) ----------------------------------------------------
+// File count: 820
+// Total lines: 126
+----------------------------------------
 __int64 __fastcall QueryCredAttributesRpc(struct CCredentialGroup *a1, int a2, _QWORD *a3)
 {
   __int64 result; // rax
@@ -124,4 +126,3 @@ LABEL_33:
 // 1800437F7: variable 'v8' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

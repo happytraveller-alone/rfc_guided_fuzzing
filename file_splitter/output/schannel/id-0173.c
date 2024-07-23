@@ -1,4 +1,6 @@
-//----- (000000018000EDBC) ----------------------------------------------------
+// File count: 173
+// Total lines: 77
+-----------------------------------------
 __int64 __fastcall GetCipherInfo(struct CSslUserContext *a1, struct _SecPkgContext_CipherInfo *a2)
 {
   unsigned __int16 v4; // ax
@@ -75,4 +77,3 @@ __int64 __fastcall GetCipherInfo(struct CSslUserContext *a1, struct _SecPkgConte
 // 18000EDBC: using guessed type _WORD var_1CC[64];
 // 18000EDBC: using guessed type _WORD var_148[64];
 // 18000EDBC: using guessed type _WORD var_C0[72];
-

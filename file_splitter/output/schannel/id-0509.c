@@ -1,4 +1,6 @@
-//----- (000000018002518C) ----------------------------------------------------
+// File count: 509
+// Total lines: 456
+----------------------------------------
 __int64 __fastcall SslReadRegOptions(int a1)
 {
   LSTATUS v2; // eax
@@ -454,4 +456,3 @@ LABEL_76:
 // 180092F04: using guessed type int g_fManualCredValidation;
 // 180092F08: using guessed type int g_fSendIssuerList;
 // 180092F1C: using guessed type int g_fIgnoreExponentOfOne;
-

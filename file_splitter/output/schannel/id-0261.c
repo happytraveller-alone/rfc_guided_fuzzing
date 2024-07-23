@@ -1,4 +1,6 @@
-//----- (0000000180014DB8) ----------------------------------------------------
+// File count: 261
+// Total lines: 117
+----------------------------------------
 DWORD __fastcall GetPublicKeyFromCert(const struct _CERT_CONTEXT *a1, struct _PUBLICKEY **a2, unsigned int *a3)
 {
   PCERT_INFO pCertInfo; // rbx
@@ -115,4 +117,3 @@ LABEL_20:
     *a3 = v8;
   return 0;
 }
-

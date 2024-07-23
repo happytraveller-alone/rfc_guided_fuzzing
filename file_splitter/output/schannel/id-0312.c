@@ -1,4 +1,6 @@
-//----- (00000001800171B8) ----------------------------------------------------
+// File count: 312
+// Total lines: 17
+-----------------------------------------
 __int64 __fastcall SpQuerySessionInfo(struct CSslUserContext *a1, struct _SecPkgContext_SessionInfo *a2)
 {
   DWORD dwFlags; // eax
@@ -15,4 +17,3 @@ __int64 __fastcall SpQuerySessionInfo(struct CSslUserContext *a1, struct _SecPkg
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (00000001800263AC) ----------------------------------------------------
+// File count: 518
+// Total lines: 27
+-----------------------------------------
 void __fastcall ReadOcspReadDirectoryRegistrySetting(HKEY hKey)
 {
   HLOCAL lpData; // rbx
@@ -25,4 +27,3 @@ void __fastcall ReadOcspReadDirectoryRegistrySetting(HKEY hKey)
     }
   }
 }
-

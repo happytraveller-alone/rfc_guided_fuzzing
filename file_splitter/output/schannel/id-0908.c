@@ -1,4 +1,6 @@
-//----- (000000018004CE04) ----------------------------------------------------
+// File count: 908
+// Total lines: 43
+-----------------------------------------
 __int64 __fastcall SslFilterSids(void *a1, struct _NETLOGON_VALIDATION_SAM_INFO3 *a2)
 {
   __int64 v2; // r8
@@ -41,4 +43,3 @@ LABEL_11:
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098230: using guessed type __int64 __fastcall LsaIFilterSids(_QWORD, _QWORD, _QWORD);
-

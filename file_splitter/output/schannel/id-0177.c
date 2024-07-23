@@ -1,4 +1,6 @@
-//----- (000000018000F1FC) ----------------------------------------------------
+// File count: 177
+// Total lines: 64
+-----------------------------------------
 __int64 __fastcall LookupSymmetricCipherAlg(struct _NCRYPT_SSL_CIPHER_SUITE_EX *a1)
 {
   wchar_t *v1; // rdi
@@ -62,4 +64,3 @@ __int64 __fastcall LookupSymmetricCipherAlg(struct _NCRYPT_SSL_CIPHER_SUITE_EX *
 }
 // 1800386FD: variable 'v6' is possibly undefined
 // 1800386FD: variable 'v7' is possibly undefined
-

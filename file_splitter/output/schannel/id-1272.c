@@ -1,4 +1,6 @@
-//----- (00000001800648C8) ----------------------------------------------------
+// File count: 1272
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::ComputeFinishedSize(__int64 a1, __int64 a2)
 {
   __int64 v3; // rcx
@@ -24,4 +26,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Compute
 }
 // 180064900: variable 'v5' is possibly undefined
 // 18006490D: variable 'v6' is possibly undefined
-

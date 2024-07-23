@@ -1,4 +1,6 @@
-//----- (000000018006AA40) ----------------------------------------------------
+// File count: 1350
+// Total lines: 16
+----------------------------------------
 unsigned int __fastcall CTls13ClientContext::DetermineClientCredentialStatus(CTls13ClientContext *this)
 {
   unsigned int result; // eax
@@ -14,4 +16,3 @@ unsigned int __fastcall CTls13ClientContext::DetermineClientCredentialStatus(CTl
     return 590624;
   return result;
 }
-

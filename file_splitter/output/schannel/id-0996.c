@@ -1,4 +1,6 @@
-//----- (00000001800534AC) ----------------------------------------------------
+// File count: 996
+// Total lines: 12
+-----------------------------------------
 __int64 __fastcall GetElapsedTime(DWORD a1)
 {
   DWORD TickCount; // eax
@@ -10,4 +12,3 @@ __int64 __fastcall GetElapsedTime(DWORD a1)
     --v3;
   return v3;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800238AC) ----------------------------------------------------
+// File count: 495
+// Total lines: 859
+----------------------------------------
 __int64 __fastcall CCipherMill::LoadCipherTables(CCipherMill *this)
 {
   __int64 v1; // r14
@@ -857,4 +859,3 @@ LABEL_167:
 // 1800238AC: using guessed type wchar_t Destination[64];
 // 1800238AC: using guessed type wchar_t var_B0[64];
 // 1800238AC: using guessed type wchar_t var_13A[5];
-

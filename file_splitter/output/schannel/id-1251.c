@@ -1,4 +1,6 @@
-//----- (0000000180063860) ----------------------------------------------------
+// File count: 1251
+// Total lines: 10
+----------------------------------------
 _QWORD *__fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::`scalar deleting destructor'(
         _QWORD *Block,
         char a2)
@@ -8,4 +10,3 @@ _QWORD *__fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::`scalar
     operator delete(Block);
   return Block;
 }
-

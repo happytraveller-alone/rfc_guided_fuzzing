@@ -1,4 +1,6 @@
-//----- (0000000180026354) ----------------------------------------------------
+// File count: 517
+// Total lines: 14
+-----------------------------------------
 wchar_t *_DbgpGetTraceMappingName(void)
 {
   DWORD CurrentProcessId; // [rsp+20h] [rbp-18h]
@@ -12,4 +14,3 @@ wchar_t *_DbgpGetTraceMappingName(void)
   return &Buffer;
 }
 // 180092A26: using guessed type __int16 word_180092A26;
-

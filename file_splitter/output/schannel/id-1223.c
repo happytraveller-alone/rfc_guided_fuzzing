@@ -1,4 +1,6 @@
-//----- (00000001800617E0) ----------------------------------------------------
+// File count: 1223
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::SetSrtpMasterKeyIdentifier(
         CSsl3TlsClientContext *this,
         struct _SEC_SRTP_MASTER_KEY_IDENTIFIER *const a2)
@@ -24,4 +26,3 @@ __int64 __fastcall CSsl3TlsClientContext::SetSrtpMasterKeyIdentifier(
   *((_QWORD *)this + 167) = v2;
   return 0i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180017EA0) ----------------------------------------------------
+// File count: 332
+// Total lines: 13
+-----------------------------------------
 __int64 __fastcall SpSslGetInfo(__int64 a1)
 {
   __int64 result; // rax
@@ -11,4 +13,3 @@ __int64 __fastcall SpSslGetInfo(__int64 a1)
   *(_DWORD *)(a1 + 8) = 24576;
   return result;
 }
-

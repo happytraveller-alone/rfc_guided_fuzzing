@@ -1,4 +1,6 @@
-//----- (0000000180008600) ----------------------------------------------------
+// File count: 104
+// Total lines: 87
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::InitHandshakeHash(CSsl3TlsContext *this, char a2)
 {
   __int64 *v2; // rax
@@ -85,4 +87,3 @@ __int64 __fastcall CSsl3TlsContext::InitHandshakeHash(CSsl3TlsContext *this, cha
 // 180098440: using guessed type __int64 __fastcall SslCreateHandshakeHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 180008600: using guessed type unsigned int var_148[4];
-

@@ -1,4 +1,6 @@
-//----- (0000000180070690) ----------------------------------------------------
+// File count: 1416
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetSelectedTBParameters(
         CSsl3TlsContext *this,
         char a2,
@@ -30,4 +32,3 @@ __int64 __fastcall CSsl3TlsContext::SetSelectedTBParameters(
   *(_QWORD *)(*((_QWORD *)this + 103) + 8i64) = a4;
   return 0i64;
 }
-

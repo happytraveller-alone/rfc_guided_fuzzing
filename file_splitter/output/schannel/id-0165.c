@@ -1,4 +1,6 @@
-//----- (000000018000EB08) ----------------------------------------------------
+// File count: 165
+// Total lines: 17
+-----------------------------------------
 void __fastcall CTlsSignatureSuiteList::SetSignatureSuiteList(
         CTlsSignatureSuiteList *this,
         const struct CTlsSignatureSuiteList *a2)
@@ -15,4 +17,3 @@ void __fastcall CTlsSignatureSuiteList::SetSignatureSuiteList(
     memcpy_0((char *)this + 2, (char *)a2 + 2, 2 * v2);
   }
 }
-

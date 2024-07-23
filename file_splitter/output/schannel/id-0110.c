@@ -1,4 +1,6 @@
-//----- (0000000180008FB8) ----------------------------------------------------
+// File count: 110
+// Total lines: 97
+-----------------------------------------
 void __fastcall FreeTlsParameters(struct _TLS_PARAMETERS *a1, unsigned int a2)
 {
   unsigned int v2; // r12d
@@ -95,4 +97,3 @@ LABEL_16:
       SPExternalFree(a1);
   }
 }
-

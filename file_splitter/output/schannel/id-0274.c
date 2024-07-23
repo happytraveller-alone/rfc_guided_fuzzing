@@ -1,4 +1,6 @@
-//----- (00000001800156A0) ----------------------------------------------------
+// File count: 274
+// Total lines: 83
+-----------------------------------------
 __int64 __fastcall CopyUnicodeString(char a1, struct _UNICODE_STRING *a2, struct _UNICODE_STRING *a3)
 {
   unsigned int v5; // edi
@@ -81,4 +83,3 @@ LABEL_25:
   return 2148074333i64;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

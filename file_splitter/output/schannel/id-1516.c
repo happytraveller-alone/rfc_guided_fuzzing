@@ -1,4 +1,6 @@
-//----- (000000018007A4A8) ----------------------------------------------------
+// File count: 1516
+// Total lines: 9
+-----------------------------------------
 void __fastcall _DbgpSetExt(unsigned int a1, unsigned __int16 *a2)
 {
   *a2 = 46;
@@ -7,4 +9,3 @@ void __fastcall _DbgpSetExt(unsigned int a1, unsigned __int16 *a2)
   a2[1] = a1 / 0xA / 0xA % 0xA + 48;
   a2[2] = a1 / 0xA % 0xA + 48;
 }
-

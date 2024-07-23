@@ -1,4 +1,6 @@
-//----- (000000018006D958) ----------------------------------------------------
+// File count: 1382
+// Total lines: 99
+----------------------------------------
 __int64 __fastcall CTls13Context::PopulateSecTrafficSecret(
         __int64 a1,
         __int64 a2,
@@ -97,4 +99,3 @@ LABEL_12:
   return CipherSuitePRFHashAlgorithm;
 }
 // 180098438: using guessed type __int64 __fastcall SslGetCipherSuitePRFHashAlgorithm(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

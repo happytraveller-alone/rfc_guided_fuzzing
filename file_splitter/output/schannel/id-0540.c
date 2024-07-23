@@ -1,4 +1,6 @@
-//----- (0000000180027360) ----------------------------------------------------
+// File count: 540
+// Total lines: 54
+-----------------------------------------
 __int64 __fastcall SpInitialize(unsigned __int64 *a1, __int64 a2, __int64 a3)
 {
   int v5; // eax
@@ -52,4 +54,3 @@ __int64 __fastcall SpInitialize(unsigned __int64 *a1, __int64 a2, __int64 a3)
 // 180092648: using guessed type int bDomainJoined;
 // 180092780: using guessed type int SpInitialized;
 // 180098218: using guessed type __int64 __fastcall LsaIRegisterPolicyChangeNotificationCallback(_QWORD, _QWORD);
-

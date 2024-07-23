@@ -1,4 +1,6 @@
-//----- (0000000180025F94) ----------------------------------------------------
+// File count: 513
+// Total lines: 44
+-----------------------------------------
 NTSTATUS __fastcall _DbgpWaitForControllerEvent(int *a1, void **a2)
 {
   wchar_t *TraceMappingName; // rax
@@ -42,4 +44,3 @@ NTSTATUS __fastcall _DbgpWaitForControllerEvent(int *a1, void **a2)
   }
   return result;
 }
-

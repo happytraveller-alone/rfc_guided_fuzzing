@@ -1,4 +1,6 @@
-//----- (0000000180077AE0) ----------------------------------------------------
+// File count: 1486
+// Total lines: 47
+----------------------------------------
 __int64 __fastcall CNulRecord::HashFragment(CNulRecord *this)
 {
   __int64 v1; // r9
@@ -45,4 +47,3 @@ __int64 __fastcall CNulRecord::HashFragment(CNulRecord *this)
            v6,
            v5);
 }
-

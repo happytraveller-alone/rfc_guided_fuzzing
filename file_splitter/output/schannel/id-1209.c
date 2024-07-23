@@ -1,4 +1,6 @@
-//----- (0000000180060138) ----------------------------------------------------
+// File count: 1209
+// Total lines: 66
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(__int64 a1, __int64 a2)
 {
   CSsl3TlsContext::CSsl3TlsContext((CSsl3TlsContext *)a1, a2);
@@ -64,4 +66,3 @@ __int64 __fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(__int64 a1, __in
   return a1;
 }
 // 18007C000: using guessed type void *CSsl3TlsClientContext::`vftable';
-

@@ -1,4 +1,6 @@
-//----- (000000018005E870) ----------------------------------------------------
+// File count: 1197
+// Total lines: 8
+-----------------------------------------
 CSslServerKey *__fastcall CSslServerKey::`vector deleting destructor'(CSslServerKey *this, char a2)
 {
   CSslServerKey::~CSslServerKey(this);
@@ -6,4 +8,3 @@ CSslServerKey *__fastcall CSslServerKey::`vector deleting destructor'(CSslServer
     SPExternalFree(this);
   return this;
 }
-

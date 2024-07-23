@@ -1,4 +1,6 @@
-//----- (0000000180077E40) ----------------------------------------------------
+// File count: 1492
+// Total lines: 40
+----------------------------------------
 unsigned int __fastcall CTls13ExtClient::ParseExtension(__int64 a1, unsigned int a2, unsigned __int8 *a3, __int64 a4)
 {
   unsigned __int16 v5; // di
@@ -38,4 +40,3 @@ unsigned int __fastcall CTls13ExtClient::ParseExtension(__int64 a1, unsigned int
 }
 // 180077ECC: variable 'v9' is possibly undefined
 // 180077ECC: variable 'v10' is possibly undefined
-

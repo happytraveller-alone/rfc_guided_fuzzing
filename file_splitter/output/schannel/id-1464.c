@@ -1,4 +1,6 @@
-//----- (0000000180075800) ----------------------------------------------------
+// File count: 1464
+// Total lines: 34
+----------------------------------------
 __int64 __fastcall GetServerEphemKey(struct CSsl3TlsServerContext *a1, struct CEphemKeyData **a2)
 {
   unsigned int v2; // ebx
@@ -32,4 +34,3 @@ LABEL_4:
   return 0i64;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

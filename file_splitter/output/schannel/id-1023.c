@@ -1,4 +1,6 @@
-//----- (0000000180055730) ----------------------------------------------------
+// File count: 1023
+// Total lines: 210
+---------------------------------------
 __int64 __fastcall CCredentialGroup::ConstructIssuersList(CCredentialGroup *this)
 {
   unsigned int TrustedRoots; // ebx
@@ -208,4 +210,3 @@ LABEL_52:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
 // 180091A00: using guessed type unsigned __int8 near *SslNtAuthorityName;
-

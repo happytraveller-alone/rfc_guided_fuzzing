@@ -1,4 +1,6 @@
-//----- (0000000180059C68) ----------------------------------------------------
+// File count: 1070
+// Total lines: 39
+----------------------------------------
 unsigned __int8 __fastcall DoesCredAllowAlgId(unsigned int *a1, unsigned int a2, int a3)
 {
   unsigned int v3; // r9d
@@ -37,4 +39,3 @@ unsigned __int8 __fastcall DoesCredAllowAlgId(unsigned int *a1, unsigned int a2,
   }
   return 1;
 }
-

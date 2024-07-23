@@ -1,4 +1,6 @@
-//----- (0000000180078520) ----------------------------------------------------
+// File count: 1498
+// Total lines: 34
+----------------------------------------
 unsigned int __fastcall CTls13ExtClient::ParseStatusRequestExtension(
         CTls13ExtClient *this,
         unsigned __int8 *a2,
@@ -32,4 +34,3 @@ unsigned int __fastcall CTls13ExtClient::ParseStatusRequestExtension(
 // 18007858D: variable 'a4' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 18005B470: using guessed type __int64 __fastcall CSslContext::SetErrorAndFatalAlert(_QWORD, _QWORD, _QWORD, _QWORD);
-

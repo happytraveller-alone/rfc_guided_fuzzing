@@ -1,4 +1,6 @@
-//----- (0000000180018740) ----------------------------------------------------
+// File count: 399
+// Total lines: 8
+------------------------------------------
 __int64 __fastcall CSslContext::SetGenericExtensionBuffers(
         CSslContext *this,
         struct _SecBufferDesc *const a2,
@@ -6,4 +8,3 @@ __int64 __fastcall CSslContext::SetGenericExtensionBuffers(
 {
   return 0i64;
 }
-

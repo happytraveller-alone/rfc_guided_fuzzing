@@ -1,4 +1,6 @@
-//----- (0000000180022670) ----------------------------------------------------
+// File count: 462
+// Total lines: 320
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::ProcessRecord(__int64 a1, int a2, unsigned __int8 *a3, unsigned int a4)
 {
   char v4; // al
@@ -318,4 +320,3 @@ LABEL_81:
 // 18003F865: variable 'v35' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

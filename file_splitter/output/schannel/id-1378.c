@@ -1,4 +1,6 @@
-//----- (000000018006D710) ----------------------------------------------------
+// File count: 1378
+// Total lines: 39
+----------------------------------------
 __int64 __fastcall CTls13ClientContext::InitHandshakeHash(CTls13ClientContext *this, char a2)
 {
   __int64 result; // rax
@@ -37,4 +39,3 @@ __int64 __fastcall CTls13ClientContext::InitHandshakeHash(CTls13ClientContext *t
 }
 // 18006D75A: variable 'v4' is possibly undefined
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

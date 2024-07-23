@@ -1,4 +1,6 @@
-//----- (000000018002879C) ----------------------------------------------------
+// File count: 576
+// Total lines: 11
+-----------------------------------------
 _BOOL8 __fastcall _scrt_release_startup_lock(char a1)
 {
   _BOOL8 result; // rax
@@ -9,4 +11,3 @@ _BOOL8 __fastcall _scrt_release_startup_lock(char a1)
   return result;
 }
 // 180091FC8: using guessed type __int64 _scrt_native_startup_lock;
-

@@ -1,4 +1,6 @@
-//----- (0000000180078668) ----------------------------------------------------
+// File count: 1500
+// Total lines: 98
+----------------------------------------
 __int64 __fastcall CTls13ExtServer::ParseSupportedVersionsExtension(
         CTls13ExtServer *this,
         unsigned __int8 *a2,
@@ -96,4 +98,3 @@ LABEL_14:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

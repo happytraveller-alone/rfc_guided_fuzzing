@@ -1,4 +1,6 @@
-//----- (0000000180012FC4) ----------------------------------------------------
+// File count: 223
+// Total lines: 77
+-----------------------------------------
 __int64 __fastcall PerformApplicationCallback(
         __int64 a1,
         __int64 a2,
@@ -75,4 +77,3 @@ __int64 __fastcall PerformApplicationCallback(
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

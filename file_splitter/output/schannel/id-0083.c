@@ -1,4 +1,6 @@
-//----- (000000018000685C) ----------------------------------------------------
+// File count: 83
+// Total lines: 123
+-----------------------------------------
 __int64 __fastcall CSessionCacheManager::CacheRetrieveNewItem(
         CSessionCacheManager *this,
         char a2,
@@ -121,4 +123,3 @@ LABEL_8:
 // 1800919F4: using guessed type unsigned int g_SslMachineID;
 // 1800927F8: using guessed type struct IAllocate *CSessionCacheServerItem::m_pServerCacheLookaside;
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
-

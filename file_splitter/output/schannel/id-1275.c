@@ -1,4 +1,6 @@
-//----- (0000000180064A70) ----------------------------------------------------
+// File count: 1275
+// Total lines: 112
+---------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ComputeKeyShareEntrySize(
         __int64 a1,
         _WORD *a2)
@@ -110,4 +112,3 @@ LABEL_12:
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
 // 1800927A0: using guessed type int g_fEnableHelloRetryRequest;
 // 180098548: using guessed type __int64 __fastcall SslCreateEphemeralKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

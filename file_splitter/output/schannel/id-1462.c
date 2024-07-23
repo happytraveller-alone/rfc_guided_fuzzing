@@ -1,4 +1,6 @@
-//----- (00000001800754F8) ----------------------------------------------------
+// File count: 1462
+// Total lines: 59
+----------------------------------------
 __int64 __fastcall SignDssParams(
         struct CSsl3TlsServerContext *a1,
         unsigned __int8 *a2,
@@ -57,4 +59,3 @@ LABEL_6:
 // 1800755F5: variable 'v14' is possibly undefined
 // 180098540: using guessed type __int64 __fastcall SslSignHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 1800754F8: using guessed type unsigned __int8 var_44[20];
-

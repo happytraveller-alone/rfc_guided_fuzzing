@@ -1,4 +1,6 @@
-//----- (00000001800758BC) ----------------------------------------------------
+// File count: 1465
+// Total lines: 95
+----------------------------------------
 __int64 __fastcall MakeRsaSessionKeysHelper(struct CSsl3TlsContext *this, __int64 a2)
 {
   unsigned int v5; // edi
@@ -93,4 +95,3 @@ LABEL_9:
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
 // 1800984A0: using guessed type __int64 __fastcall SslGenerateMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098530: using guessed type __int64 __fastcall SslComputeSessionHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

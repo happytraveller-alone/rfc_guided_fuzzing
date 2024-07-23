@@ -1,4 +1,6 @@
-//----- (0000000180023408) ----------------------------------------------------
+// File count: 489
+// Total lines: 23
+-----------------------------------------
 void __fastcall CCipherMill::ReferenceProvider(CCipherMill *this, unsigned __int64 a2, unsigned __int64 *a3)
 {
   CCipherMill *v5; // rcx
@@ -21,4 +23,3 @@ void __fastcall CCipherMill::ReferenceProvider(CCipherMill *this, unsigned __int
 // 18002343A: variable 'v5' is possibly undefined
 // 1800925A0: using guessed type int dword_1800925A0;
 // 1800984E8: using guessed type __int64 __fastcall SslIncrementProviderReferenceCount(_QWORD);
-

@@ -1,4 +1,6 @@
-//----- (00000001800052F0) ----------------------------------------------------
+// File count: 69
+// Total lines: 20
+------------------------------------------
 unsigned __int8 __fastcall GetSignatureSuiteInfoRowByCodePoint(__int16 a1)
 {
   char v1; // dl
@@ -18,4 +20,3 @@ unsigned __int8 __fastcall GetSignatureSuiteInfoRowByCodePoint(__int16 a1)
   return v1;
 }
 // 18007C6F0: using guessed type void *CSsl3TlsServerContext::`vftable';
-

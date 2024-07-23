@@ -1,4 +1,6 @@
-//----- (0000000180079A10) ----------------------------------------------------
+// File count: 1513
+// Total lines: 292
+---------------------------------------
 __int64 __fastcall _DbgpControlTracing(struct _DBG_TRACE_CONTROL_BLOCK *a1, int a2, int a3)
 {
   unsigned int v7; // r14d
@@ -290,4 +292,3 @@ LABEL_8:
 // 180079CEF: variable 'v19' is possibly undefined
 // 180028D84: using guessed type __int64 __fastcall o_wcsncpy_s_0(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092810: using guessed type struct _DBG_TCB_HEADER *DbgpGlobalControllerHeader;
-

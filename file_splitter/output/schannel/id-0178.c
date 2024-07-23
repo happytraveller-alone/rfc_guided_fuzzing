@@ -1,4 +1,6 @@
-//----- (000000018000F2C0) ----------------------------------------------------
+// File count: 178
+// Total lines: 75
+-----------------------------------------
 __int64 __fastcall SpQueryEndpointBindings(struct CSslUserContext *a1, struct _SecPkgContext_Bindings *a2)
 {
   unsigned __int8 *v2; // rdi
@@ -73,4 +75,3 @@ LABEL_13:
   }
   return v6;
 }
-

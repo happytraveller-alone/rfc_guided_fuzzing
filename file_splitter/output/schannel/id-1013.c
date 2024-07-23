@@ -1,4 +1,6 @@
-//----- (0000000180054DE4) ----------------------------------------------------
+// File count: 1013
+// Total lines: 70
+----------------------------------------
 __int64 __fastcall VerifyClientCertificate(
         PCCERT_CHAIN_CONTEXT pChainContext,
         LPCSTR pszPolicyOID,
@@ -68,4 +70,3 @@ __int64 __fastcall VerifyClientCertificate(
 // 180084C60: using guessed type EVENT_DESCRIPTOR ChainVerifyStop;
 // 180084C70: using guessed type EVENT_DESCRIPTOR ChainVerifyStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

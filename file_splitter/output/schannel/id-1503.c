@@ -1,4 +1,6 @@
-//----- (0000000180078934) ----------------------------------------------------
+// File count: 1503
+// Total lines: 105
+---------------------------------------
 char GetExternalSignatureAlgorithms()
 {
   NTSTATUS v0; // eax
@@ -103,4 +105,3 @@ char GetExternalSignatureAlgorithms()
 // 1800864D8: using guessed type wchar_t aTlscodepoint[13];
 // 180092218: using guessed type int g_dwSignatureInfoTotalCount;
 // 180092220: using guessed type _QWORD g_pSignatureInfo[16];
-

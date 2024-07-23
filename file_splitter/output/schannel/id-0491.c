@@ -1,4 +1,6 @@
-//----- (00000001800234BC) ----------------------------------------------------
+// File count: 491
+// Total lines: 17
+-----------------------------------------
 void __fastcall EnableFlushTimer(struct _TP_TIMER *a1, unsigned int a2)
 {
   struct _FILETIME v2; // rdx
@@ -15,4 +17,3 @@ void __fastcall EnableFlushTimer(struct _TP_TIMER *a1, unsigned int a2)
   }
 }
 // 180092DE8: using guessed type int dword_180092DE8;
-

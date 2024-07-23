@@ -1,4 +1,6 @@
-//----- (000000018004D2F0) ----------------------------------------------------
+// File count: 921
+// Total lines: 39
+-----------------------------------------
 __int64 __fastcall WppControlCallback(int a1, __int64 a2, _DWORD *a3, __int64 a4)
 {
   int v5; // ecx
@@ -37,4 +39,3 @@ __int64 __fastcall WppControlCallback(int a1, __int64 a2, _DWORD *a3, __int64 a4
 // 180080E18: using guessed type __int64 __fastcall EtwGetTraceEnableFlags(_QWORD);
 // 180080E20: using guessed type __int64 __fastcall EtwGetTraceEnableLevel(_QWORD);
 // 180080E28: using guessed type __int64 __fastcall EtwGetTraceLoggerHandle(_QWORD);
-

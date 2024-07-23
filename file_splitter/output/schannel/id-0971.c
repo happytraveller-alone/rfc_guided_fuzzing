@@ -1,4 +1,6 @@
-//----- (0000000180050BB0) ----------------------------------------------------
+// File count: 971
+// Total lines: 35
+-----------------------------------------
 __int64 __fastcall GetAppAppDataStatusCallback(__int64 a1, char a2, __int64 a3, struct _SecBuffer *a4)
 {
   union _LARGE_INTEGER *v8; // rcx
@@ -33,4 +35,3 @@ __int64 __fastcall GetAppAppDataStatusCallback(__int64 a1, char a2, __int64 a3, 
 // 180050C80: variable 'v10' is possibly undefined
 // 180050C80: variable 'v11' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

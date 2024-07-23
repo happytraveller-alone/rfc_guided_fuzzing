@@ -1,4 +1,6 @@
-//----- (0000000180026774) ----------------------------------------------------
+// File count: 523
+// Total lines: 72
+-----------------------------------------
 __int64 __fastcall CSessionCacheManager::InitializeSessionCache(CSessionCacheManager *this)
 {
   unsigned int v1; // esi
@@ -70,4 +72,3 @@ LABEL_11:
     goto LABEL_16;
   return v12;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180026410) ----------------------------------------------------
+// File count: 519
+// Total lines: 39
+-----------------------------------------
 void __fastcall UserMappingsWatchParamKey(HKEY *a1)
 {
   BYTE *lpData; // rax
@@ -37,4 +39,3 @@ void __fastcall UserMappingsWatchParamKey(HKEY *a1)
     }
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018000187C) ----------------------------------------------------
+// File count: 10
+// Total lines: 99
+------------------------------------------
 __int64 SslInitContextManager(void)
 {
   unsigned int v0; // ebx
@@ -97,4 +99,3 @@ LABEL_25:
 // 1800919E0: using guessed type unsigned int dwSslContextListCount;
 // 1800919E4: using guessed type unsigned int dwSslContextLockCount;
 // 1800921C0: using guessed type int dword_1800921C0;
-

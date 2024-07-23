@@ -1,4 +1,6 @@
-//----- (0000000180022F70) ----------------------------------------------------
+// File count: 474
+// Total lines: 25
+-----------------------------------------
 __int64 __fastcall CTls13ServerContext::PreparseMessage(CTls13ServerContext *this, struct SPBuffer *a2)
 {
   unsigned int v2; // ebx
@@ -23,4 +25,3 @@ __int64 __fastcall CTls13ServerContext::PreparseMessage(CTls13ServerContext *thi
   }
   return v2;
 }
-

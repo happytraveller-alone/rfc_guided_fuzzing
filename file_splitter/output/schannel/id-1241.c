@@ -1,4 +1,6 @@
-//----- (0000000180063098) ----------------------------------------------------
+// File count: 1241
+// Total lines: 46
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::SetServerNameIndication(
         CSsl3TlsServerContext *this,
         const unsigned __int8 *Src,
@@ -44,4 +46,3 @@ __int64 __fastcall CSsl3TlsServerContext::SetServerNameIndication(
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

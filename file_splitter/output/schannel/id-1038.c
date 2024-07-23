@@ -1,4 +1,6 @@
-//----- (0000000180056EF0) ----------------------------------------------------
+// File count: 1038
+// Total lines: 19
+----------------------------------------
 int __fastcall StringCbCatW(unsigned __int16 *a1, unsigned __int64 a2, const unsigned __int16 *a3)
 {
   int result; // eax
@@ -17,4 +19,3 @@ int __fastcall StringCbCatW(unsigned __int16 *a1, unsigned __int64 a2, const uns
 // 180056F35: variable 'v7' is possibly undefined
 // 180056F3C: variable 'v6' is possibly undefined
 // 180056F3C: variable 'v8' is possibly undefined
-

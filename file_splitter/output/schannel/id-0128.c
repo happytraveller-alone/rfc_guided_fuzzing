@@ -1,4 +1,6 @@
-//----- (000000018000A590) ----------------------------------------------------
+// File count: 128
+// Total lines: 350
+----------------------------------------
 __int64 __fastcall CTlsExtClient::ParseExtension(__int64 a1, __int64 a2, unsigned __int8 *a3, unsigned __int16 a4)
 {
   unsigned int v4; // ebp
@@ -348,4 +350,3 @@ LABEL_126:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

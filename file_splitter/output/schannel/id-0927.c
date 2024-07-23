@@ -1,4 +1,6 @@
-//----- (000000018004D8B0) ----------------------------------------------------
+// File count: 927
+// Total lines: 49
+-----------------------------------------
 __int64 __fastcall ParseSniExtension(unsigned __int8 *a1, unsigned int a2, struct SPBuffer *a3)
 {
   char v3; // r11
@@ -47,4 +49,3 @@ __int64 __fastcall ParseSniExtension(unsigned __int8 *a1, unsigned int a2, struc
   }
   return 2148074278i64;
 }
-

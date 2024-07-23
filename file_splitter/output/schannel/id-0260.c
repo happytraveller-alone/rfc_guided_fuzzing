@@ -1,4 +1,6 @@
-//----- (0000000180014D38) ----------------------------------------------------
+// File count: 260
+// Total lines: 31
+-----------------------------------------
 __int64 __fastcall I_GetHashInfoFromAlgorithmName(wchar_t *String1)
 {
   unsigned int v1; // eax
@@ -29,4 +31,3 @@ LABEL_6:
 }
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
-

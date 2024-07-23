@@ -1,4 +1,6 @@
-//----- (0000000180024BEC) ----------------------------------------------------
+// File count: 501
+// Total lines: 43
+-----------------------------------------
 __int64 __fastcall ReadMultiSzFromRegistry(LPCWSTR lpSubKey, const unsigned __int16 *a2, BYTE **a3)
 {
   BYTE *v4; // rbx
@@ -41,4 +43,3 @@ LABEL_10:
     RegCloseKey(hKey);
   return v5;
 }
-

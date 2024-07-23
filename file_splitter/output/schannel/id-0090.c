@@ -1,4 +1,6 @@
-//----- (0000000180006DA4) ----------------------------------------------------
+// File count: 90
+// Total lines: 22
+------------------------------------------
 unsigned __int8 __fastcall CTlsSignatureSuiteList::AddSignatureSuite(CTlsSignatureSuiteList *this, unsigned __int8 a2)
 {
   int v2; // eax
@@ -20,4 +22,3 @@ unsigned __int8 __fastcall CTlsSignatureSuiteList::AddSignatureSuite(CTlsSignatu
   }
   return 0;
 }
-

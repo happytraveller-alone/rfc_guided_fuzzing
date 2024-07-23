@@ -1,4 +1,6 @@
-//----- (0000000180024700) ----------------------------------------------------
+// File count: 496
+// Total lines: 78
+-----------------------------------------
 __int64 __fastcall CCipherMill::FindSupportedProvider(
         CCipherMill *this,
         struct _CRYPT_CONTEXT_FUNCTION_PROVIDERS *a2,
@@ -76,4 +78,3 @@ LABEL_20:
            v16);
 }
 // 180092490: using guessed type __int64 qword_180092490;
-

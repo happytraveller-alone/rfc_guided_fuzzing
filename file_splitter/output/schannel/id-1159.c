@@ -1,4 +1,6 @@
-//----- (000000018005D370) ----------------------------------------------------
+// File count: 1159
+// Total lines: 64
+----------------------------------------
 DWORD __fastcall CSessionCacheItem::DeserializeRemoteChain(
         CSessionCacheItem *this,
         struct CSslContext *a2,
@@ -62,4 +64,3 @@ DWORD __fastcall CSessionCacheItem::DeserializeRemoteChain(
   return 1359;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

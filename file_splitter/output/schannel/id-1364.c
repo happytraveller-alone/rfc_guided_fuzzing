@@ -1,4 +1,6 @@
-//----- (000000018006BA8C) ----------------------------------------------------
+// File count: 1364
+// Total lines: 71
+----------------------------------------
 __int64 __fastcall CTls13Context::GenerateClientHelloHash(
         CTls13Context *this,
         __int64 a2,
@@ -69,4 +71,3 @@ __int64 __fastcall CTls13Context::GenerateClientHelloHash(
 // 180098360: using guessed type __int64 __fastcall BCryptHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098438: using guessed type __int64 __fastcall SslGetCipherSuitePRFHashAlgorithm(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 18006BA8C: using guessed type char var_EC[60];
-

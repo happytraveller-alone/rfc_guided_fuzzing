@@ -1,4 +1,6 @@
-//----- (0000000180070EE8) ----------------------------------------------------
+// File count: 1421
+// Total lines: 20
+----------------------------------------
 __int64 __fastcall GetRsaKeyModulus(__int64 a1, unsigned int *a2)
 {
   __int64 result; // rax
@@ -18,4 +20,3 @@ __int64 __fastcall GetRsaKeyModulus(__int64 a1, unsigned int *a2)
 // 1800858F8: using guessed type wchar_t aBlockLength[13];
 // 180098480: using guessed type __int64 SslFreeBuffer(void);
 // 180098550: using guessed type __int64 __fastcall SslGetKeyProperty(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

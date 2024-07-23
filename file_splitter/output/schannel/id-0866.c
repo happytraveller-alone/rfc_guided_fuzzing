@@ -1,4 +1,6 @@
-//----- (0000000180046990) ----------------------------------------------------
+// File count: 866
+// Total lines: 40
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::QueryKeyingMaterial(CSsl3TlsContext *this, void *a2)
 {
   __int64 v3; // rbx
@@ -38,4 +40,3 @@ __int64 __fastcall CSsl3TlsContext::QueryKeyingMaterial(CSsl3TlsContext *this, v
   RtlReleaseResource((PRTL_RESOURCE)(v7 + 72));
   return v9;
 }
-

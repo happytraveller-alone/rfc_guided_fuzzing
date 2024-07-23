@@ -1,4 +1,6 @@
-//----- (0000000180013C60) ----------------------------------------------------
+// File count: 237
+// Total lines: 63
+-----------------------------------------
 __int64 __fastcall CCipherMill::GetEccCurveType(CCipherMill *this, char *a2, unsigned int *a3)
 {
   unsigned int EccCurveType; // ebx
@@ -61,4 +63,3 @@ LABEL_13:
 // 1800924A0: using guessed type unsigned __int64 qword_1800924A0[32];
 // 180098458: using guessed type __int64 __fastcall SslEnumEccCurves(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098480: using guessed type __int64 SslFreeBuffer(void);
-

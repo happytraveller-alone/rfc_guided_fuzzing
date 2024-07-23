@@ -1,4 +1,6 @@
-//----- (000000018005CDA0) ----------------------------------------------------
+// File count: 1152
+// Total lines: 20
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::ComputeSerializedCacheItemLen(
         CSessionCacheItem *this,
         struct CSslContext *a2,
@@ -18,4 +20,3 @@ __int64 __fastcall CSessionCacheItem::ComputeSerializedCacheItemLen(
   }
   return result;
 }
-

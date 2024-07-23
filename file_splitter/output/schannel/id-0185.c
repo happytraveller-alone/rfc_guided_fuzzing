@@ -1,4 +1,6 @@
-//----- (000000018000FB04) ----------------------------------------------------
+// File count: 185
+// Total lines: 275
+----------------------------------------
 __int64 __fastcall CCredentialGroup::InitializeCredentialGroup(
         CCredentialGroup *this,
         unsigned int a2,
@@ -273,4 +275,3 @@ LABEL_35:
 // 1800927A4: using guessed type int g_fDisableOcsp;
 // 1800927A8: using guessed type int g_fEnableOcspForSni;
 // 18000FB04: using guessed type char pvData[4];
-

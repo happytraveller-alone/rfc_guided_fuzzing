@@ -1,4 +1,6 @@
-//----- (0000000180068834) ----------------------------------------------------
+// File count: 1333
+// Total lines: 133
+---------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ParseCertData(
         __int64 a1,
         const BYTE *a2,
@@ -131,4 +133,3 @@ LABEL_35:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

@@ -1,4 +1,6 @@
-//----- (0000000180055B18) ----------------------------------------------------
+// File count: 1024
+// Total lines: 46
+----------------------------------------
 __int64 __fastcall CCredentialGroup::CreateRenewedCredential(CCredentialGroup *this, struct LSA_SCHANNEL_SUB_CRED *a2)
 {
   CSslCredential *v4; // rax
@@ -44,4 +46,3 @@ __int64 __fastcall CCredentialGroup::CreateRenewedCredential(CCredentialGroup *t
   }
   return 0i64;
 }
-

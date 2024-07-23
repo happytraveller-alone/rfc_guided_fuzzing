@@ -1,4 +1,6 @@
-//----- (000000018004E350) ----------------------------------------------------
+// File count: 944
+// Total lines: 29
+-----------------------------------------
 unsigned __int8 __fastcall IsValidAlert(unsigned __int8 a1)
 {
   bool v1; // zf
@@ -27,4 +29,3 @@ LABEL_18:
   }
   return 1;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018005F780) ----------------------------------------------------
+// File count: 1203
+// Total lines: 31
+----------------------------------------
 ULONG __fastcall CSslCredential::GetLocalClientKeyFromProvider(
         NCRYPT_KEY_HANDLE *this,
         struct _CRYPT_KEY_PROV_INFO *a2,
@@ -29,4 +31,3 @@ ULONG __fastcall CSslCredential::GetLocalClientKeyFromProvider(
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 18005F780: using guessed type int var_18[6];
-

@@ -1,4 +1,6 @@
-//----- (0000000180017D1C) ----------------------------------------------------
+// File count: 326
+// Total lines: 12
+-----------------------------------------
 __int64 McGenEventUnregister_EtwEventUnregister()
 {
   __int64 result; // rax
@@ -10,4 +12,3 @@ __int64 McGenEventUnregister_EtwEventUnregister()
   return result;
 }
 // 180080EA0: using guessed type __int64 EtwEventUnregister(void);
-

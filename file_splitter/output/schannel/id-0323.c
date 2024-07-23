@@ -1,4 +1,6 @@
-//----- (0000000180017C60) ----------------------------------------------------
+// File count: 323
+// Total lines: 51
+-----------------------------------------
 __int64 __fastcall CSslLookaside::RunBalancer(CSslLookaside *this, unsigned int a2)
 {
   int v4; // eax
@@ -49,4 +51,3 @@ __int64 __fastcall CSslLookaside::RunBalancer(CSslLookaside *this, unsigned int 
   }
   return 0i64;
 }
-

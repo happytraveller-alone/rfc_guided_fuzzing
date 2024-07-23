@@ -1,4 +1,6 @@
-//----- (000000018006F760) ----------------------------------------------------
+// File count: 1400
+// Total lines: 8
+-----------------------------------------
 bool __fastcall CSsl3TlsContext::CanParseInput(CSsl3TlsContext *this)
 {
   int v1; // eax
@@ -6,4 +8,3 @@ bool __fastcall CSsl3TlsContext::CanParseInput(CSsl3TlsContext *this)
   v1 = *((_DWORD *)this + 17);
   return v1 != 2 && (v1 <= 3 || v1 > 5 && v1 != 91 && v1 != 93 && (v1 <= 94 || v1 > 96 && (v1 <= 97 || v1 > 102)));
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180010674) ----------------------------------------------------
+// File count: 194
+// Total lines: 137
+----------------------------------------
 __int64 __fastcall CSslCredManager::CreateCredentialGroup(
         CSslCredManager *this,
         struct CCredentialGroup **a2,
@@ -135,4 +137,3 @@ LABEL_2:
 // 1800394CE: variable 'v29' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

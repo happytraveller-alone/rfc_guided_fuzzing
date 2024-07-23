@@ -1,4 +1,6 @@
-//----- (000000018007452C) ----------------------------------------------------
+// File count: 1457
+// Total lines: 21
+----------------------------------------
 __int64 __fastcall DhDssPublicKeyFromCert(const struct _CERT_CONTEXT *a1, unsigned __int64 *a2)
 {
   __int64 result; // rax
@@ -19,4 +21,3 @@ __int64 __fastcall DhDssPublicKeyFromCert(const struct _CERT_CONTEXT *a1, unsign
   }
   return result;
 }
-

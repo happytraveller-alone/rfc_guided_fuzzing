@@ -1,4 +1,6 @@
-//----- (0000000180016C58) ----------------------------------------------------
+// File count: 304
+// Total lines: 37
+-----------------------------------------
 __int64 __fastcall SpQueryTokenBinding(struct CSslUserContext *a1, struct _SecPkgContext_TokenBinding *a2)
 {
   struct _SecPkgContext_TokenBinding *v2; // rbx
@@ -35,4 +37,3 @@ LABEL_11:
   return 2148074240i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

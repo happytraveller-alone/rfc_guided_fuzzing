@@ -1,4 +1,6 @@
-//----- (0000000180027298) ----------------------------------------------------
+// File count: 538
+// Total lines: 19
+-----------------------------------------
 __int64 __fastcall CSessionCacheServerItem::InitializeServerCacheLookAside(char a1)
 {
   struct IAllocate *v2; // rbx
@@ -17,4 +19,3 @@ __int64 __fastcall CSessionCacheServerItem::InitializeServerCacheLookAside(char 
   return v2 == 0i64 ? 0xE : 0;
 }
 // 1800927F8: using guessed type struct IAllocate *CSessionCacheServerItem::m_pServerCacheLookaside;
-

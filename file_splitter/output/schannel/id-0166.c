@@ -1,4 +1,6 @@
-//----- (000000018000EB48) ----------------------------------------------------
+// File count: 166
+// Total lines: 11
+-----------------------------------------
 ULONG __fastcall CSsl3TlsContext::TlsGenerateRandom(CSsl3TlsContext *this)
 {
   unsigned __int64 v2; // rdx
@@ -9,4 +11,3 @@ ULONG __fastcall CSsl3TlsContext::TlsGenerateRandom(CSsl3TlsContext *this)
   *(_DWORD *)((char *)this + v2) = _byteswap_ulong(Time);
   return GenerateRandomBits((PUCHAR)this + v2 + 4, 0x1Cu);
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180019380) ----------------------------------------------------
+// File count: 431
+// Total lines: 88
+-----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::GenerateResponse(CSsl3TlsServerContext *this, struct SPBuffer *a2)
 {
   int v2; // eax
@@ -86,4 +88,3 @@ __int64 __fastcall CSsl3TlsServerContext::GenerateResponse(CSsl3TlsServerContext
 // 180019518: variable 'v11' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800927C0: using guessed type int CSslGlobals::m_fDisableRenegoOnServer;
-

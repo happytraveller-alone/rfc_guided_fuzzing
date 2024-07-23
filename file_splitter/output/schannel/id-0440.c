@@ -1,4 +1,6 @@
-//----- (000000018001C7B0) ----------------------------------------------------
+// File count: 440
+// Total lines: 317
+----------------------------------------
 __int64 __fastcall CCipherMill::FindAcceptableCredential(
         CCipherMill *this,
         struct CSsl3TlsServerContext *a2,
@@ -315,4 +317,3 @@ LABEL_82:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
-

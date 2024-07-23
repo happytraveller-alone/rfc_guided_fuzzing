@@ -1,4 +1,6 @@
-//----- (0000000180018360) ----------------------------------------------------
+// File count: 359
+// Total lines: 12
+-----------------------------------------
 void __fastcall CSsl3TlsClientContext::GetCertOcspInfo(
         CSsl3TlsClientContext *this,
         unsigned __int8 **a2,
@@ -10,4 +12,3 @@ void __fastcall CSsl3TlsClientContext::GetCertOcspInfo(
   *a3 = *(_DWORD *)(v3 + 344);
   *a2 = *(unsigned __int8 **)(v3 + 336);
 }
-

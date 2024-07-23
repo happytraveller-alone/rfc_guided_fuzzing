@@ -1,4 +1,6 @@
-//----- (000000018006C5E0) ----------------------------------------------------
+// File count: 1367
+// Total lines: 217
+---------------------------------------
 __int64 __fastcall CTls13ClientContext::GenerateHello(CTls13ClientContext *this, struct SPBuffer *a2)
 {
   __int64 v4; // r15
@@ -215,4 +217,3 @@ LABEL_40:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 18006C5E0: using guessed type char var_190[4];
-

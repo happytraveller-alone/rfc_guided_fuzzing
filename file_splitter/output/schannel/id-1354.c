@@ -1,4 +1,6 @@
-//----- (000000018006AD5C) ----------------------------------------------------
+// File count: 1354
+// Total lines: 71
+----------------------------------------
 __int64 __fastcall CTls13Context::ExportTrafficSecret(
         _QWORD *a1,
         __int64 a2,
@@ -69,4 +71,3 @@ __int64 __fastcall CTls13Context::ExportTrafficSecret(
     BCryptCloseAlgorithmProvider(hObject, 0);
   return Property;
 }
-

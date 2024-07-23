@@ -1,4 +1,6 @@
-//----- (000000018005E830) ----------------------------------------------------
+// File count: 1196
+// Total lines: 8
+-----------------------------------------
 CSslCredential *__fastcall CSslCredential::`vector deleting destructor'(CSslCredential *this, char a2)
 {
   CSslCredential::~CSslCredential(this);
@@ -6,4 +8,3 @@ CSslCredential *__fastcall CSslCredential::`vector deleting destructor'(CSslCred
     SPExternalFree(this);
   return this;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800579D8) ----------------------------------------------------
+// File count: 1047
+// Total lines: 199
+---------------------------------------
 __int64 __fastcall FindClientCertificate(
         struct CSsl3TlsClientContext *this,
         void *a2,
@@ -197,4 +199,3 @@ LABEL_53:
 // 180084C60: using guessed type EVENT_DESCRIPTOR ChainVerifyStop;
 // 180084C70: using guessed type EVENT_DESCRIPTOR ChainVerifyStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

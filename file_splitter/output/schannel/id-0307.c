@@ -1,4 +1,6 @@
-//----- (0000000180016DE0) ----------------------------------------------------
+// File count: 307
+// Total lines: 21
+-----------------------------------------
 void LoadSecurityDll(void)
 {
   HMODULE Library; // rax
@@ -19,4 +21,3 @@ void LoadSecurityDll(void)
 // 180092180: using guessed type unsigned int (__stdcall *g_pKeyFileUnprotectSessionTicket)(unsigned __int8 *, unsigned int, const unsigned __int16 *, unsigned __int8 **, unsigned int *);
 // 180092188: using guessed type unsigned int (__stdcall *g_pKeyFileProtectSessionTicket)(unsigned __int8 *, unsigned int, const unsigned __int16 *, unsigned __int8 **, unsigned int *);
 // 1800921A0: using guessed type int (__stdcall *g_pFreeContextBuffer)(void *);
-

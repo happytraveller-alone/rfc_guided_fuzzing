@@ -1,4 +1,6 @@
-//----- (0000000180074430) ----------------------------------------------------
+// File count: 1455
+// Total lines: 24
+----------------------------------------
 __int64 __fastcall SslMapCredential(
         struct CCredentialGroup *a1,
         void *a2,
@@ -22,4 +24,3 @@ __int64 __fastcall SslMapCredential(
 }
 // 18007449F: variable 'v12' is possibly undefined
 // 1800919A0: using guessed type int fUseLocalMapping;
-

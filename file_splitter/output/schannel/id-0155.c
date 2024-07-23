@@ -1,4 +1,6 @@
-//----- (000000018000D6A8) ----------------------------------------------------
+// File count: 155
+// Total lines: 163
+----------------------------------------
 __int64 __fastcall ParseOutputBufferDesc(
         struct _SecBufferDesc *a1,
         __int16 a2,
@@ -161,4 +163,3 @@ LABEL_14:
   *a3 = v12;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018006FFCC) ----------------------------------------------------
+// File count: 1410
+// Total lines: 121
+---------------------------------------
 __int64 __fastcall CSsl3TlsContext::PrepareNextOutgoingRecord(CSsl3TlsContext *this, struct SPBuffer *a2)
 {
   unsigned int v4; // ebp
@@ -119,4 +121,3 @@ LABEL_33:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

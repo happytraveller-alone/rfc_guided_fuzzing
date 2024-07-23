@@ -1,4 +1,6 @@
-//----- (000000018004F9DC) ----------------------------------------------------
+// File count: 959
+// Total lines: 86
+-----------------------------------------
 __int64 __fastcall SpMarshallSupplementalCredsV4(__int64 a1, unsigned __int8 *a2, unsigned int *a3, char **a4)
 {
   unsigned int v4; // ebx
@@ -84,4 +86,3 @@ __int64 __fastcall SpMarshallSupplementalCredsV4(__int64 a1, unsigned __int8 *a2
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

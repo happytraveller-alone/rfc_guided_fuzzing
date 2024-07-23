@@ -1,4 +1,6 @@
-//----- (000000018006E97C) ----------------------------------------------------
+// File count: 1387
+// Total lines: 99
+----------------------------------------
 __int64 __fastcall CTls13Context::RetrieveGenericExtension(
         __int64 a1,
         __int16 a2,
@@ -97,4 +99,3 @@ LABEL_25:
     SPExternalFree(*((void **)&Src + 1));
   return v6;
 }
-

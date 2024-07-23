@@ -1,4 +1,6 @@
-//----- (0000000180055ED0) ----------------------------------------------------
+// File count: 1028
+// Total lines: 78
+----------------------------------------
 __int64 __fastcall CCredentialGroup::GetKeyFilePath(CCredentialGroup *this, unsigned __int16 **a2)
 {
   DWORD LastError; // ebx
@@ -76,4 +78,3 @@ LABEL_16:
 // 1800560A3: variable 'v11' is possibly undefined
 // 180085560: using guessed type wchar_t aAllusersprofil[57];
 // 1800855D8: using guessed type wchar_t aSessionticketk[22];
-

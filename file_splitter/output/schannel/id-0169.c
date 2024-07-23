@@ -1,4 +1,6 @@
-//----- (000000018000EC6C) ----------------------------------------------------
+// File count: 169
+// Total lines: 9
+------------------------------------------
 void __fastcall CSslUserContext::~CSslUserContext(CSslUserContext *this)
 {
   *(_QWORD *)this = &CSslUserContext::`vftable';
@@ -7,4 +9,3 @@ void __fastcall CSslUserContext::~CSslUserContext(CSslUserContext *this)
 }
 // 18007CFB8: using guessed type void *ISslSerialize::`vftable';
 // 18007D058: using guessed type void *CSslUserContext::`vftable';
-

@@ -1,4 +1,6 @@
-//----- (00000001800635D4) ----------------------------------------------------
+// File count: 1246
+// Total lines: 30
+----------------------------------------
 struct CTlsRecord *__fastcall CTlsRecord::MakeRecord(__int64 a1, unsigned __int8 *a2, struct CSsl3TlsContext *a3)
 {
   if ( !a2 || !a3 )
@@ -28,4 +30,3 @@ struct CTlsRecord *__fastcall CTlsRecord::MakeRecord(__int64 a1, unsigned __int8
 }
 // 18007CF80: using guessed type void *CTls13Record::`vftable';
 // 18007D590: using guessed type void *CNulRecord::`vftable';
-

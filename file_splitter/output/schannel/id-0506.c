@@ -1,4 +1,6 @@
-//----- (000000018002501C) ----------------------------------------------------
+// File count: 506
+// Total lines: 85
+-----------------------------------------
 void __fastcall InitDebugTracingEx(
         const unsigned __int16 *a1,
         const unsigned __int16 *a2,
@@ -83,4 +85,3 @@ LABEL_8:
 }
 // 18002506A: variable 'DueTime' is possibly undefined
 // 18002506A: variable 'Period' is possibly undefined
-

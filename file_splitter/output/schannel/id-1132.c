@@ -1,4 +1,6 @@
-//----- (000000018005BA60) ----------------------------------------------------
+// File count: 1132
+// Total lines: 20
+----------------------------------------
 __int64 __fastcall DTLSCookieManager::ValidateCookie(
         DTLSCookieManager *this,
         unsigned __int8 *const a2,
@@ -18,4 +20,3 @@ __int64 __fastcall DTLSCookieManager::ValidateCookie(
   LOBYTE(v8) = memcmp_0(a4 - 32, Buf2, 0x20ui64) == 0;
   return v8;
 }
-

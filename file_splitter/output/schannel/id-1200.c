@@ -1,4 +1,6 @@
-//----- (000000018005F458) ----------------------------------------------------
+// File count: 1200
+// Total lines: 20
+----------------------------------------
 void __fastcall CSslCredential::DeleteLocalServerKeys(CSslCredential *this)
 {
   void *v2; // rcx
@@ -18,4 +20,3 @@ void __fastcall CSslCredential::DeleteLocalServerKeys(CSslCredential *this)
     *((_QWORD *)this + 11) = 0i64;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180014500) ----------------------------------------------------
+// File count: 244
+// Total lines: 13
+-----------------------------------------
 HLOCAL __fastcall CSslContext::GetMemory(CSslContext *this, __int64 a2)
 {
   __int64 v2; // rcx
@@ -11,4 +13,3 @@ HLOCAL __fastcall CSslContext::GetMemory(CSslContext *this, __int64 a2)
   return LocalAlloc(0x40u, (unsigned int)a2);
 }
 // 180092620: using guessed type __int64 LsaTable;
-

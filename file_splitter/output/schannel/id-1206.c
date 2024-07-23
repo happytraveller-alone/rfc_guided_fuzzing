@@ -1,4 +1,6 @@
-//----- (000000018005FE8C) ----------------------------------------------------
+// File count: 1206
+// Total lines: 34
+----------------------------------------
 __int64 __fastcall CSslCredential::GetProviderSpecificMasterKey(
         CSslCredential *this,
         __int64 a2,
@@ -32,4 +34,3 @@ LABEL_6:
   RtlReleaseResource(v3);
   return v7;
 }
-

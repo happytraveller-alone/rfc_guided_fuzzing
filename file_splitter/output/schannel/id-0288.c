@@ -1,4 +1,6 @@
-//----- (00000001800162B0) ----------------------------------------------------
+// File count: 288
+// Total lines: 76
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::Initialize(CSsl3TlsClientContext *this)
 {
   __int64 v2; // rax
@@ -74,4 +76,3 @@ LABEL_2:
 }
 // 180028D84: using guessed type __int64 __fastcall o_wcsncpy_s_0(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

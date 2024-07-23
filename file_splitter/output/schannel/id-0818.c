@@ -1,4 +1,6 @@
-//----- (00000001800433E4) ----------------------------------------------------
+// File count: 818
+// Total lines: 58
+-----------------------------------------
 PCCTL_CONTEXT __fastcall FindCtlInStore(const unsigned __int16 *a1, const unsigned __int16 *a2)
 {
   HCERTSTORE v4; // rdi
@@ -56,4 +58,3 @@ PCCTL_CONTEXT __fastcall FindCtlInStore(const unsigned __int16 *a1, const unsign
 }
 // 180043476: variable 'pvFindPara' is possibly undefined
 // 18004351C: variable 'pvFindParaa' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (0000000180065AF8) ----------------------------------------------------
+// File count: 1289
+// Total lines: 229
+---------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::GenerateCertVerifySignature(__int64 a1)
 {
   BYTE *pbSignature; // r14
@@ -227,4 +229,3 @@ LABEL_51:
 }
 // 180065DAF: variable 'v25' is possibly undefined
 // 180098540: using guessed type __int64 __fastcall SslSignHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180003400) ----------------------------------------------------
+// File count: 37
+// Total lines: 188
+-----------------------------------------
 void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCacheItem **this)
 {
   struct CSessionCacheItem *v2; // rcx
@@ -186,4 +188,3 @@ void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCac
 // 18007CDB8: using guessed type void *CSslContext::`vftable';
 // 18007CFB8: using guessed type void *ISslSerialize::`vftable';
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

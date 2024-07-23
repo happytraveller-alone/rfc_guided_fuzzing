@@ -1,4 +1,6 @@
-//----- (000000018006E940) ----------------------------------------------------
+// File count: 1386
+// Total lines: 13
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::QueryKeyingMaterial(CTls13ServerContext *this, void *a2)
 {
   __int64 *v2; // rax
@@ -11,4 +13,3 @@ __int64 __fastcall CTls13ServerContext::QueryKeyingMaterial(CTls13ServerContext 
     v4 = 0i64;
   return CSsl3TlsContext::QueryKeyingMaterialCommon(this, v4, *((_QWORD *)this + 137), 0i64, 0, a2);
 }
-

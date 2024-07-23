@@ -1,4 +1,6 @@
-//----- (000000018000E5B4) ----------------------------------------------------
+// File count: 159
+// Total lines: 9
+------------------------------------------
 bool __fastcall IsFatalError(int a1)
 {
   if ( !a1 )
@@ -7,4 +9,3 @@ bool __fastcall IsFatalError(int a1)
     return a1 != -2146893032 && a1 != -2146893023 && (unsigned int)(a1 + 2146892950) > 1;
   return (a1 & 0x1FFF0000) != 589824;
 }
-

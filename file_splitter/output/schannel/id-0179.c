@@ -1,4 +1,6 @@
-//----- (000000018000F3F4) ----------------------------------------------------
+// File count: 179
+// Total lines: 19
+-----------------------------------------
 __int64 __fastcall GenerateRemoteEndpointBindingsHash(__int64 a1, unsigned __int8 **a2, unsigned int *a3)
 {
   DWORD CertEndpointBindings; // ebx
@@ -17,4 +19,3 @@ __int64 __fastcall GenerateRemoteEndpointBindingsHash(__int64 a1, unsigned __int
   }
   return CertEndpointBindings;
 }
-

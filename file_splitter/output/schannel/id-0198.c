@@ -1,4 +1,6 @@
-//----- (0000000180010CF8) ----------------------------------------------------
+// File count: 198
+// Total lines: 77
+-----------------------------------------
 void __fastcall FreeSchannelCred(struct LSA_SCHANNEL_CRED *a1, char a2)
 {
   void *v4; // rcx
@@ -75,4 +77,3 @@ void __fastcall FreeSchannelCred(struct LSA_SCHANNEL_CRED *a1, char a2)
   memset(a1, 0, 0x70ui64);
 }
 // 180098018: using guessed type void __stdcall CryptObjectLocatorFree(void *);
-

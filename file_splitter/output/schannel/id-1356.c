@@ -1,4 +1,6 @@
-//----- (000000018006AFC8) ----------------------------------------------------
+// File count: 1356
+// Total lines: 13
+----------------------------------------
 void __fastcall CTls13Context::FreeCertificateRequestContext(CTls13Context *this)
 {
   void *v2; // rcx
@@ -11,4 +13,3 @@ void __fastcall CTls13Context::FreeCertificateRequestContext(CTls13Context *this
   }
   *((_BYTE *)this + 232) = 0;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180062690) ----------------------------------------------------
+// File count: 1233
+// Total lines: 61
+----------------------------------------
 __int64 __fastcall GenerateCertificateRequest(
         unsigned __int8 *Src,
         size_t Size,
@@ -59,4 +61,3 @@ __int64 __fastcall GenerateCertificateRequest(
   }
   return 0i64;
 }
-

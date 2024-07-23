@@ -1,18 +1,23 @@
-//----- (0000000180003750) ----------------------------------------------------
+// File count: 39
+// Total lines: 184
+-----------------------------------------
 CSsl3TlsClientContext *__fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(
-    CSsl3TlsClientContext *this, struct CSessionCacheClientItem *a2, int a3,
-    const unsigned __int16 *a4) {
-  unsigned __int16 v8;           // ax
-  unsigned int v9;               // ecx
-  int v10;                       // eax
-  _DWORD *v11;                   // rdi
-  __int16 v12;                   // ax
-  __int16 v13;                   // cx
+        CSsl3TlsClientContext *this,
+        struct CSessionCacheClientItem *a2,
+        int a3,
+        const unsigned __int16 *a4)
+{
+  unsigned __int16 v8; // ax
+  unsigned int v9; // ecx
+  int v10; // eax
+  _DWORD *v11; // rdi
+  __int16 v12; // ax
+  __int16 v13; // cx
   CSsl3TlsClientContext *result; // rax
-  char v15[8];                   // [rsp+20h] [rbp-28h] BYREF
-  char v16;                      // [rsp+28h] [rbp-20h]
+  char v15[8]; // [rsp+20h] [rbp-28h] BYREF
+  char v16; // [rsp+28h] [rbp-20h]
 
-  *(_QWORD *)this = &CSslContext::vftable;
+  *(_QWORD *)this = &CSslContext::`vftable';
   *((_QWORD *)this + 1) = 0i64;
   *((_QWORD *)this + 2) = 0i64;
   *((_QWORD *)this + 3) = 0i64;
@@ -49,29 +54,34 @@ CSsl3TlsClientContext *__fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(
   *((_QWORD *)this + 32) = 0i64;
   *((_WORD *)this + 132) = 0;
   *((_BYTE *)this + 266) = 0;
-  if (a2)
+  if ( a2 )
     *((_DWORD *)this + 4) = *((_DWORD *)a2 + 46);
-  if ((*(unsigned __int8(__fastcall **)(char *))(LsaTable + 192))(v15)) {
-    if ((v16 & 1) != 0)
+  if ( (*(unsigned __int8 (__fastcall **)(char *))(LsaTable + 192))(v15) )
+  {
+    if ( (v16 & 1) != 0 )
       *((_QWORD *)this + 17) |= 0x20000000ui64;
     *((_BYTE *)this + 266) = (v16 & 0x11) == 0;
   }
   v8 = ConvertSchannelProtocolToSsl(*((_DWORD *)this + 16));
   v9 = v8;
   *((_WORD *)this + 17) = v8;
-  if (HIBYTE(v8) != 0xFE || (v10 = 13, v9 > 0xFEFF))
+  if ( HIBYTE(v8) != 0xFE || (v10 = 13, v9 > 0xFEFF) )
     v10 = 5;
   *((_DWORD *)this + 15) = v10;
   *((_BYTE *)this + 233) = (a3 & 0xF0000) != 0;
-  if (dword_180091480 && (qword_180091490 & 0x400000000000i64) != 0 &&
-      (qword_180091498 & 0x400000000000i64) == qword_180091498 &&
-      (v11 = SPExternalAlloc(0x700u)) != 0i64) {
+  if ( dword_180091480
+    && (qword_180091490 & 0x400000000000i64) != 0
+    && (qword_180091498 & 0x400000000000i64) == qword_180091498
+    && (v11 = SPExternalAlloc(0x700u)) != 0i64 )
+  {
     v11[2] = 0;
-    *(_QWORD *)v11 = &CSchannelTelemetryContext::vftable;
+    *(_QWORD *)v11 = &CSchannelTelemetryContext::`vftable';
     *((_BYTE *)v11 + 16) = 0;
     v11[5] = 1;
     memset_0(v11 + 6, 0, 0x6E8ui64);
-  } else {
+  }
+  else
+  {
     v11 = 0i64;
   }
   *((_QWORD *)this + 15) = v11;
@@ -121,10 +131,13 @@ CSsl3TlsClientContext *__fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(
   *((_QWORD *)this + 114) = 0i64;
   *((_DWORD *)this + 230) = 0;
   *((_WORD *)this + 462) = 0;
-  if (*((_BYTE *)this + 233)) {
+  if ( *((_BYTE *)this + 233) )
+  {
     v12 = 1083;
     v13 = 1096;
-  } else {
+  }
+  else
+  {
     *((_DWORD *)this + 48) = -1;
     v13 = 0;
     *((_QWORD *)this + 25) = 0i64;
@@ -133,7 +146,7 @@ CSsl3TlsClientContext *__fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(
   *((_WORD *)this + 108) = v13;
   *((_WORD *)this + 109) = v12;
   *((_QWORD *)this + 116) = 0i64;
-  *(_QWORD *)this = &CSsl3TlsClientContext::vftable;
+  *(_QWORD *)this = &CSsl3TlsClientContext::`vftable';
   *((_QWORD *)this + 117) = 0i64;
   *((_DWORD *)this + 236) = 0;
   *((_QWORD *)this + 119) = 0i64;

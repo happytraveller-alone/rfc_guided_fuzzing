@@ -1,4 +1,6 @@
-//----- (000000018007916C) ----------------------------------------------------
+// File count: 1508
+// Total lines: 23
+----------------------------------------
 BOOLEAN FreeExternalHashAlgorithms()
 {
   unsigned int i; // ebx
@@ -21,4 +23,3 @@ BOOLEAN FreeExternalHashAlgorithms()
 }
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
-

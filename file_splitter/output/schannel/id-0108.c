@@ -1,4 +1,6 @@
-//----- (0000000180008DA0) ----------------------------------------------------
+// File count: 108
+// Total lines: 13
+-----------------------------------------
 void __fastcall CTlsExtClient::~CTlsExtClient(CTlsExtClient *this)
 {
   void *v2; // rcx
@@ -11,4 +13,3 @@ void __fastcall CTlsExtClient::~CTlsExtClient(CTlsExtClient *this)
 }
 // 18007D038: using guessed type void *CTlsExt::`vftable';
 // 18007D048: using guessed type void *CTlsExtClient::`vftable';
-

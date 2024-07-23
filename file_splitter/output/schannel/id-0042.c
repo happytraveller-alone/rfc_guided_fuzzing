@@ -1,4 +1,6 @@
-//----- (0000000180003D20) ----------------------------------------------------
+// File count: 42
+// Total lines: 10
+------------------------------------------
 __int64 __fastcall CMasterEccCurveInfo::Dereference(CMasterEccCurveInfo *this)
 {
   unsigned __int32 v1; // ebx
@@ -8,4 +10,3 @@ __int64 __fastcall CMasterEccCurveInfo::Dereference(CMasterEccCurveInfo *this)
     SPExternalFree(this);
   return v1;
 }
-

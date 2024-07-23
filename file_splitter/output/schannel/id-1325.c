@@ -1,4 +1,6 @@
-//----- (00000001800682E8) ----------------------------------------------------
+// File count: 1325
+// Total lines: 56
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::GenerateServerNameExtension(CTls13ClientHandshake *this)
 {
   __int64 v2; // rdi
@@ -54,4 +56,3 @@ __int64 __fastcall CTls13ClientHandshake::GenerateServerNameExtension(CTls13Clie
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

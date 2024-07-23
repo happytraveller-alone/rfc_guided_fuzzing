@@ -1,4 +1,6 @@
-//----- (0000000180014760) ----------------------------------------------------
+// File count: 248
+// Total lines: 88
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::MakeRsaKeyXParameterList(
         __int64 a1,
         int a2,
@@ -86,4 +88,3 @@ LABEL_5:
   return v21;
 }
 // 180098530: using guessed type __int64 __fastcall SslComputeSessionHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

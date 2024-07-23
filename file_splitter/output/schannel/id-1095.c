@@ -1,4 +1,6 @@
-//----- (000000018005AC30) ----------------------------------------------------
+// File count: 1095
+// Total lines: 27
+----------------------------------------
 void __fastcall CTls13ClientContext::CleanupLsaModeKeys(CTls13ClientContext *this)
 {
   __int64 v2; // rcx
@@ -25,4 +27,3 @@ void __fastcall CTls13ClientContext::CleanupLsaModeKeys(CTls13ClientContext *thi
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

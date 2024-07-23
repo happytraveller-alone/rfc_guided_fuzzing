@@ -1,4 +1,6 @@
-//----- (0000000180063D64) ----------------------------------------------------
+// File count: 1261
+// Total lines: 72
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ComputeCertificateListSize(__int64 a1)
 {
   unsigned __int16 *v1; // r14
@@ -70,4 +72,3 @@ __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::Compute
     return 0i64;
   return result;
 }
-

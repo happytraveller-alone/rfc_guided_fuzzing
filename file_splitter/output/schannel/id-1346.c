@@ -1,4 +1,6 @@
-//----- (000000018006A4E0) ----------------------------------------------------
+// File count: 1346
+// Total lines: 196
+---------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::VerifySignature(
         __int64 a1,
         unsigned __int8 *a2,
@@ -194,4 +196,3 @@ LABEL_42:
 // 18006A830: variable 'phKey' is possibly undefined
 // 18006A830: variable 'pvStructInfo' is possibly undefined
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

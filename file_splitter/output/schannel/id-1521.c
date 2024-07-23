@@ -1,4 +1,6 @@
-//----- (000000018007A8F8) ----------------------------------------------------
+// File count: 1521
+// Total lines: 113
+---------------------------------------
 __int64 __fastcall PAC_InitAndUpdateGroupsEx(
         struct _NETLOGON_VALIDATION_SAM_INFO3 *a1,
         struct _SAMPR_PSID_ARRAY *a2,
@@ -111,4 +113,3 @@ LABEL_20:
   return (unsigned int)v7;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

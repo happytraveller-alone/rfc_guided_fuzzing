@@ -1,4 +1,6 @@
-//----- (0000000180017BBC) ----------------------------------------------------
+// File count: 321
+// Total lines: 15
+-----------------------------------------
 __int64 McGenEventRegister_EtwEventRegister()
 {
   __int64 result; // rax
@@ -13,4 +15,3 @@ __int64 McGenEventRegister_EtwEventRegister()
   return result;
 }
 // 180080EA8: using guessed type __int64 __fastcall EtwEventRegister(_QWORD, _QWORD, _QWORD, _QWORD);
-

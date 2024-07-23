@@ -1,4 +1,6 @@
-//----- (000000018006C430) ----------------------------------------------------
+// File count: 1366
+// Total lines: 75
+----------------------------------------
 __int64 __fastcall CTls13Context::GenerateHandshakeWriteKeys(
         CTls13Context *this,
         __int64 a2,
@@ -73,4 +75,3 @@ __int64 __fastcall CTls13Context::GenerateHandshakeWriteKeys(
 // 1800984B0: using guessed type __int64 __fastcall SslExtractHandshakeKey(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 1800984B8: using guessed type __int64 __fastcall SslExtractEarlyKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

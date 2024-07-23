@@ -1,4 +1,6 @@
-//----- (000000018000ED60) ----------------------------------------------------
+// File count: 172
+// Total lines: 8
+------------------------------------------
 void __fastcall DeleteUserContext(struct CSslUserContext *a1)
 {
   if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0 )
@@ -6,4 +8,3 @@ void __fastcall DeleteUserContext(struct CSslUserContext *a1)
   (**(void (__fastcall ***)(struct CSslUserContext *, _QWORD))a1)(a1, 0i64);
   LocalFree(a1);
 }
-

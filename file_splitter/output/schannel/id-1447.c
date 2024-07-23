@@ -1,4 +1,6 @@
-//----- (00000001800739D4) ----------------------------------------------------
+// File count: 1447
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall DTlsMsgMgr::insertMsg(DTlsMsgMgr *this, struct DTlsMessage *a2)
 {
   char *v2; // r9
@@ -30,4 +32,3 @@ __int64 __fastcall DTlsMsgMgr::insertMsg(DTlsMsgMgr *this, struct DTlsMessage *a
   *((_QWORD *)v2 + 1) = a2;
   return v3;
 }
-

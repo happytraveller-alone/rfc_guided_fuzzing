@@ -1,4 +1,6 @@
-//----- (000000018004718C) ----------------------------------------------------
+// File count: 873
+// Total lines: 43
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetKeyingMaterialInfo(CSsl3TlsContext *this, void *a2, unsigned int a3)
 {
   struct _SecPkgContext_KeyingMaterialInfo *v6; // rax
@@ -41,4 +43,3 @@ __int64 __fastcall CSsl3TlsContext::SetKeyingMaterialInfo(CSsl3TlsContext *this,
   }
   return KeyingMaterialInfoForSca;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180017090) ----------------------------------------------------
+// File count: 311
+// Total lines: 94
+-----------------------------------------
 void __fastcall CSslGlobals::PeriodicCleanupHandler(void *a1, char a2)
 {
   __int64 *v3; // rbx
@@ -92,4 +94,3 @@ void __fastcall CSslGlobals::PeriodicCleanupHandler(void *a1, char a2)
 // 180092D78: using guessed type int dword_180092D78;
 // 180092DA0: using guessed type __int64 g_SslContextManager;
 // 180092DD0: using guessed type __int128 xmmword_180092DD0;
-

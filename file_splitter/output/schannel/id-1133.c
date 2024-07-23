@@ -1,4 +1,6 @@
-//----- (000000018005BAF8) ----------------------------------------------------
+// File count: 1133
+// Total lines: 46
+----------------------------------------
 __int64 __fastcall DTLSCookieManager::getDTlsCookieManager(struct DTLSCookieManager **a1)
 {
   struct DTLSCookieManager *v1; // rax
@@ -44,4 +46,3 @@ __int64 __fastcall DTLSCookieManager::getDTlsCookieManager(struct DTLSCookieMana
   return (unsigned int)v2;
 }
 // 18005BB6D: variable 'v5' is possibly undefined
-

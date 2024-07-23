@@ -1,4 +1,6 @@
-//----- (0000000180014300) ----------------------------------------------------
+// File count: 242
+// Total lines: 34
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::UpdateHandshakeHash(CSsl3TlsContext *this, unsigned __int8 *a2, unsigned int a3)
 {
   __int64 v6; // rbx
@@ -32,4 +34,3 @@ __int64 __fastcall CSsl3TlsContext::UpdateHandshakeHash(CSsl3TlsContext *this, u
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098420: using guessed type __int64 __fastcall SslHashHandshake(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

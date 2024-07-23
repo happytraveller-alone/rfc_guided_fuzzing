@@ -1,4 +1,6 @@
-//----- (0000000180059CD0) ----------------------------------------------------
+// File count: 1071
+// Total lines: 15
+----------------------------------------
 struct csel *__fastcall GetCipherInfo(int a1)
 {
   __int64 v1; // rax
@@ -13,4 +15,3 @@ struct csel *__fastcall GetCipherInfo(int a1)
   }
   return (struct csel *)((char *)&g_AvailableCiphers + 56 * v1);
 }
-

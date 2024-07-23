@@ -1,4 +1,6 @@
-//----- (00000001800676B4) ----------------------------------------------------
+// File count: 1314
+// Total lines: 48
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::GenerateKeyShareEntry(__int64 a1)
 {
   __int64 result; // rax
@@ -46,4 +48,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Generat
   return result;
 }
 // 1800927A0: using guessed type int g_fEnableHelloRetryRequest;
-

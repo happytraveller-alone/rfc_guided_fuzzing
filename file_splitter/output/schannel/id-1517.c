@@ -1,4 +1,6 @@
-//----- (000000018007A540) ----------------------------------------------------
+// File count: 1517
+// Total lines: 25
+----------------------------------------
 void __fastcall _DbgpStopTracing(struct _DBG_TRACE_CONTROL_BLOCK *a1)
 {
   TRACEHANDLE v2; // rcx
@@ -23,4 +25,3 @@ void __fastcall _DbgpStopTracing(struct _DBG_TRACE_CONTROL_BLOCK *a1)
   *((_DWORD *)a1 + 26) = 0;
   *((_DWORD *)a1 + 27) = 0;
 }
-

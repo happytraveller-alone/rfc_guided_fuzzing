@@ -1,4 +1,6 @@
-//----- (000000018004BCEC) ----------------------------------------------------
+// File count: 898
+// Total lines: 15
+-----------------------------------------
 void __fastcall SslFreeString(struct _UNICODE_STRING *a1)
 {
   PWSTR Buffer; // rcx
@@ -13,4 +15,3 @@ void __fastcall SslFreeString(struct _UNICODE_STRING *a1)
     }
   }
 }
-

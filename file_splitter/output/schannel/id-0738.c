@@ -1,4 +1,6 @@
-//----- (0000000180029C24) ----------------------------------------------------
+// File count: 738
+// Total lines: 17
+-----------------------------------------
 __int64 __fastcall _tailMerge_ext_ms_win_ntdsa_activedirectoryserver_l1_1_0_dll(
         __int64 a1,
         __int64 a2,
@@ -15,4 +17,3 @@ __int64 __fastcall _tailMerge_ext_ms_win_ntdsa_activedirectoryserver_l1_1_0_dll(
 }
 // 180029C5E: variable 'v4' is possibly undefined
 // 18008BF70: using guessed type int _DELAY_IMPORT_DESCRIPTOR_ext_ms_win_ntdsa_activedirectoryserver_l1_1_0_dll;
-

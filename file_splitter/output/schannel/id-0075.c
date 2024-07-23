@@ -1,4 +1,6 @@
-//----- (0000000180006034) ----------------------------------------------------
+// File count: 75
+// Total lines: 106
+-----------------------------------------
 bool __fastcall CSessionCacheTable::LookupCacheByName(
         CSessionCacheTable *this,
         unsigned int a2,
@@ -104,4 +106,3 @@ LABEL_2:
 }
 // 18000618D: variable 'v16' is possibly undefined
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
-

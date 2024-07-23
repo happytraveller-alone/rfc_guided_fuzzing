@@ -1,4 +1,6 @@
-//----- (000000018005AD90) ----------------------------------------------------
+// File count: 1098
+// Total lines: 62
+----------------------------------------
 void __fastcall CSslContextManager::DeleteContextScratch(__int64 a1, __int64 a2, char a3, int a4)
 {
   unsigned int v7; // ecx
@@ -60,4 +62,3 @@ LABEL_15:
     goto LABEL_15;
   }
 }
-

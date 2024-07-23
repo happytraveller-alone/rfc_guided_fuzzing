@@ -1,4 +1,6 @@
-//----- (00000001800069C4) ----------------------------------------------------
+// File count: 84
+// Total lines: 13
+------------------------------------------
 __int64 __fastcall CSessionCacheTable::ReferenceCacheItemInternal(
         CSessionCacheTable *this,
         struct CSessionCacheItem *a2)
@@ -11,4 +13,3 @@ __int64 __fastcall CSessionCacheTable::ReferenceCacheItemInternal(
   return v2;
 }
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
-

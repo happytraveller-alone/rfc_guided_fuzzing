@@ -1,4 +1,6 @@
-//----- (0000000180044E9C) ----------------------------------------------------
+// File count: 844
+// Total lines: 11
+-----------------------------------------
 void __fastcall LogDtlsRecordOutOfRecvWindow(unsigned int a1, const unsigned __int16 *a2)
 {
   struct _UNICODE_STRING DestinationString; // [rsp+20h] [rbp-18h] BYREF
@@ -9,4 +11,3 @@ void __fastcall LogDtlsRecordOutOfRecvWindow(unsigned int a1, const unsigned __i
     SchEventWrite(&SSLEVENT_DTLS_RECORD_OUTSIDE_OF_RECV_WINDOW, L"du", a1, &DestinationString);
   }
 }
-

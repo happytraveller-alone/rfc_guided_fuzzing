@@ -1,4 +1,6 @@
-//----- (0000000180028370) ----------------------------------------------------
+// File count: 561
+// Total lines: 25
+-----------------------------------------
 void __cdecl _security_init_cookie()
 {
   uintptr_t v0; // rax
@@ -23,4 +25,3 @@ void __cdecl _security_init_cookie()
   _security_cookie_complement = ~v0;
 }
 // 180091978: using guessed type __int64 _security_cookie_complement;
-

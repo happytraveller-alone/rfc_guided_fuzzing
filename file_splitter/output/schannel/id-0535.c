@@ -1,4 +1,6 @@
-//----- (0000000180027078) ----------------------------------------------------
+// File count: 535
+// Total lines: 30
+-----------------------------------------
 RTL_SRWLOCK *__fastcall CreateTlgAggregateSession(char a1)
 {
   char v2; // di
@@ -28,4 +30,3 @@ RTL_SRWLOCK *__fastcall CreateTlgAggregateSession(char a1)
   return v5;
 }
 // 180092DE8: using guessed type int dword_180092DE8;
-

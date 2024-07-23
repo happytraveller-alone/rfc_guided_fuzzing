@@ -1,4 +1,6 @@
-//----- (000000018004D0F8) ----------------------------------------------------
+// File count: 914
+// Total lines: 18
+-----------------------------------------
 // positive sp value has been detected, the output may be wrong!
 void *__fastcall sub_18004D0F8(CSslBasicAllocator *a1, unsigned int a2)
 {
@@ -16,4 +18,3 @@ void *__fastcall sub_18004D0F8(CSslBasicAllocator *a1, unsigned int a2)
 // 18004D0FC: control flows out of bounds to 18004D085
 // 18004D0F8: variable 'v3' is possibly undefined
 // 18004D0FC: variable 'v2' is possibly undefined
-

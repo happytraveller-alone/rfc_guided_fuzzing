@@ -1,4 +1,6 @@
-//----- (00000001800233B8) ----------------------------------------------------
+// File count: 488
+// Total lines: 20
+-----------------------------------------
 void __fastcall UpdateInternalStatsOnFlush(__int64 a1, unsigned int a2)
 {
   __int64 *v2; // r8
@@ -18,4 +20,3 @@ void __fastcall UpdateInternalStatsOnFlush(__int64 a1, unsigned int a2)
     *(_QWORD *)(a1 + 272) += a2;
   }
 }
-

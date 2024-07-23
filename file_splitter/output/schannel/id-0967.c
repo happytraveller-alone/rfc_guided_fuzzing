@@ -1,4 +1,6 @@
-//----- (0000000180050800) ----------------------------------------------------
+// File count: 967
+// Total lines: 67
+-----------------------------------------
 struct CSslUserContext *__fastcall SslFindUserContextEx(union _LARGE_INTEGER *a1)
 {
   CCipherMill *v2; // rcx
@@ -65,4 +67,3 @@ LABEL_13:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800919E0: using guessed type unsigned int dwSslContextListCount;
 // 1800919E4: using guessed type unsigned int dwSslContextLockCount;
-

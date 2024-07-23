@@ -1,4 +1,6 @@
-//----- (0000000180062DB4) ----------------------------------------------------
+// File count: 1240
+// Total lines: 127
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::SerializeAndProtectSessionState(
         CSsl3TlsServerContext *this,
         HLOCAL *a2,
@@ -125,4 +127,3 @@ LABEL_32:
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092188: using guessed type unsigned int (__stdcall *g_pKeyFileProtectSessionTicket)(unsigned __int8 *, unsigned int, const unsigned __int16 *, unsigned __int8 **, unsigned int *);
-

@@ -1,4 +1,6 @@
-//----- (00000001800098E4) ----------------------------------------------------
+// File count: 116
+// Total lines: 138
+----------------------------------------
 __int64 __fastcall CTlsExtClient::BuildServerNameString(CTlsExtClient *this, const unsigned __int16 *a2)
 {
   DWORD LastError; // esi
@@ -136,4 +138,3 @@ LABEL_15:
 // 1800920E8: using guessed type __int64 g_ulAdditionalProbeSize;
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
-

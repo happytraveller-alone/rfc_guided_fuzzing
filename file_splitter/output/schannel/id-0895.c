@@ -1,4 +1,6 @@
-//----- (000000018004B228) ----------------------------------------------------
+// File count: 895
+// Total lines: 174
+----------------------------------------
 __int64 __fastcall SslTryS4U2Self(
         const struct _CERT_CHAIN_CONTEXT *a1,
         void **a2,
@@ -172,4 +174,3 @@ LABEL_34:
 }
 // 180092784: using guessed type int g_SslS4U2SelfInitialized;
 // 180098248: using guessed type __int64 __fastcall LsaISetTokenDacl(_QWORD);
-

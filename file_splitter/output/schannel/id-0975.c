@@ -1,4 +1,6 @@
-//----- (00000001800517A0) ----------------------------------------------------
+// File count: 975
+// Total lines: 354
+----------------------------------------
 __int64 __fastcall SignHashCallback(NCRYPT_HANDLE a1, __int64 a2, __int64 a3, __int64 a4)
 {
   unsigned int v4; // r14d
@@ -352,4 +354,3 @@ LABEL_99:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

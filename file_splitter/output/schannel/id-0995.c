@@ -1,4 +1,6 @@
-//----- (0000000180053448) ----------------------------------------------------
+// File count: 995
+// Total lines: 23
+-----------------------------------------
 __int64 __fastcall SslGetClientProcess(unsigned int *a1)
 {
   DWORD CurrentProcessId; // eax
@@ -21,4 +23,3 @@ LABEL_3:
 }
 // 180092620: using guessed type __int64 LsaTable;
 // 180053448: using guessed type DWORD var_28[10];
-

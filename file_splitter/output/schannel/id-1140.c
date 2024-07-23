@@ -1,4 +1,6 @@
-//----- (000000018005C384) ----------------------------------------------------
+// File count: 1140
+// Total lines: 49
+----------------------------------------
 __int64 __fastcall DssGetCertPublicKeyBlob(const struct _CERT_CONTEXT *a1, HLOCAL *a2, unsigned int *a3)
 {
   unsigned int v5; // ebx
@@ -47,4 +49,3 @@ __int64 __fastcall DssGetCertPublicKeyBlob(const struct _CERT_CONTEXT *a1, HLOCA
   }
   return v5;
 }
-

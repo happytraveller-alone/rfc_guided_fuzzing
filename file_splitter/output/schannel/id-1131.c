@@ -1,4 +1,6 @@
-//----- (000000018005BA0C) ----------------------------------------------------
+// File count: 1131
+// Total lines: 17
+----------------------------------------
 __int64 __fastcall DTLSCookieManager::ResetSecret(PUCHAR *this)
 {
   signed int RandomBits; // ebx
@@ -15,4 +17,3 @@ __int64 __fastcall DTLSCookieManager::ResetSecret(PUCHAR *this)
   }
   return (unsigned int)RandomBits;
 }
-

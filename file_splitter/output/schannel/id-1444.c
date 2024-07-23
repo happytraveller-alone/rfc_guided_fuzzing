@@ -1,4 +1,6 @@
-//----- (0000000180073828) ----------------------------------------------------
+// File count: 1444
+// Total lines: 15
+----------------------------------------
 _BOOL8 __fastcall DTlsMessage::checkOverlapp(DTlsMessage *this, unsigned int a2, unsigned int a3)
 {
   BOOL v3; // r9d
@@ -13,4 +15,3 @@ _BOOL8 __fastcall DTlsMessage::checkOverlapp(DTlsMessage *this, unsigned int a2,
   }
   return v3;
 }
-

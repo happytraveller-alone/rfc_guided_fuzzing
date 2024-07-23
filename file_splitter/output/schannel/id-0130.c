@@ -1,4 +1,6 @@
-//----- (000000018000AD34) ----------------------------------------------------
+// File count: 130
+// Total lines: 101
+----------------------------------------
 __int64 __fastcall CSchannelTelemetryContext::LogTlsExtensionTelemetry(__int64 a1, int a2, int a3)
 {
   char v3; // r9
@@ -99,4 +101,3 @@ __int64 __fastcall CSchannelTelemetryContext::LogTlsExtensionTelemetry(__int64 a
   return result;
 }
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

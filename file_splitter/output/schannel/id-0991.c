@@ -1,4 +1,6 @@
-//----- (0000000180053124) ----------------------------------------------------
+// File count: 991
+// Total lines: 23
+-----------------------------------------
 bool __fastcall CSchannelTelemetryContext::LogRenegoStart(__int64 a1, int a2, __int64 a3)
 {
   bool v5; // zf
@@ -21,4 +23,3 @@ bool __fastcall CSchannelTelemetryContext::LogRenegoStart(__int64 a1, int a2, __
   return result;
 }
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

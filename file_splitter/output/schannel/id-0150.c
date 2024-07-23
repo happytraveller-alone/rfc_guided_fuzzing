@@ -1,4 +1,6 @@
-//----- (000000018000D0A8) ----------------------------------------------------
+// File count: 150
+// Total lines: 143
+----------------------------------------
 __int64 __fastcall SpQueryStreamSizes(struct CSslUserContext *a1, struct _SecPkgContext_StreamSizes *a2)
 {
   int v4; // ebp
@@ -141,4 +143,3 @@ LABEL_7:
 // 180037DF4: variable 'v27' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

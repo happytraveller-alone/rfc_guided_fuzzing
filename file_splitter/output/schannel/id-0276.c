@@ -1,4 +1,6 @@
-//----- (000000018001588C) ----------------------------------------------------
+// File count: 276
+// Total lines: 39
+-----------------------------------------
 __int64 __fastcall IsCertKeyUsageCompliant(int a1, int a2, const struct _CERT_CONTEXT *a3)
 {
   unsigned int v3; // ebx
@@ -37,4 +39,3 @@ LABEL_5:
       v4);
   return v3;
 }
-

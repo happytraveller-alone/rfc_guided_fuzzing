@@ -1,4 +1,6 @@
-//----- (0000000180018960) ----------------------------------------------------
+// File count: 420
+// Total lines: 252
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::ProcessHandshake(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -250,4 +252,3 @@ LABEL_25:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800927C0: using guessed type int CSslGlobals::m_fDisableRenegoOnServer;
-

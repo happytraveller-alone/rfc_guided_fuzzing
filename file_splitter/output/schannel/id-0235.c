@@ -1,4 +1,6 @@
-//----- (00000001800139F0) ----------------------------------------------------
+// File count: 235
+// Total lines: 252
+----------------------------------------
 __int64 __fastcall SpWow64MapVersion3Certificate(void *a1, int a2, struct _SecBuffer *a3, struct LSA_SCHANNEL_CRED *a4)
 {
   void *v4; // rsi
@@ -250,4 +252,3 @@ LABEL_24:
 // 18003CE25: conditional instruction was optimized away because esi.4 is in (1..64)
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

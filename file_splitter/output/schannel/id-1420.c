@@ -1,4 +1,6 @@
-//----- (0000000180070D50) ----------------------------------------------------
+// File count: 1420
+// Total lines: 86
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GenerateRsaCkeParameterList(
         CSsl3TlsClientContext *this,
         struct _BCryptBufferDesc *a2,
@@ -84,4 +86,3 @@ LABEL_21:
   return v15;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

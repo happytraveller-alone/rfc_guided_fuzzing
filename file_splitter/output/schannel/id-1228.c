@@ -1,4 +1,6 @@
-//----- (0000000180061EBC) ----------------------------------------------------
+// File count: 1228
+// Total lines: 41
+----------------------------------------
 __int64 __fastcall FilterFipsEccCurves(__int64 a1, unsigned int *a2)
 {
   unsigned int v2; // r8d
@@ -39,4 +41,3 @@ LABEL_9:
   }
   return v2;
 }
-

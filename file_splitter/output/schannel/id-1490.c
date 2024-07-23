@@ -1,4 +1,6 @@
-//----- (0000000180077CF0) ----------------------------------------------------
+// File count: 1490
+// Total lines: 53
+----------------------------------------
 __int64 __fastcall CTls13ExtClient::ParseCertRequestSigAlgExtension(
         CTls13ExtClient *this,
         unsigned __int8 *a2,
@@ -51,4 +53,3 @@ LABEL_7:
   }
   return (unsigned int)-2146893052;
 }
-

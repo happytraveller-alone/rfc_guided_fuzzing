@@ -1,4 +1,6 @@
-//----- (00000001800209E0) ----------------------------------------------------
+// File count: 452
+// Total lines: 54
+-----------------------------------------
 void __fastcall CSsl3TlsServerContext::CleanupConnectedState(CSsl3TlsServerContext *this)
 {
   volatile signed __int32 *v2; // rcx
@@ -52,4 +54,3 @@ void __fastcall CSsl3TlsServerContext::CleanupConnectedState(CSsl3TlsServerConte
     }
   }
 }
-

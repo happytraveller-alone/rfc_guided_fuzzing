@@ -1,4 +1,6 @@
-//----- (0000000180073A40) ----------------------------------------------------
+// File count: 1448
+// Total lines: 24
+----------------------------------------
 __int64 __fastcall DTlsMsgMgr::swapSaveAndOutgoing(DTlsMsgMgr *this)
 {
   _QWORD *v1; // rdx
@@ -22,4 +24,3 @@ __int64 __fastcall DTlsMsgMgr::swapSaveAndOutgoing(DTlsMsgMgr *this)
   *((_QWORD *)this + 9) = (char *)this + 72;
   return result;
 }
-

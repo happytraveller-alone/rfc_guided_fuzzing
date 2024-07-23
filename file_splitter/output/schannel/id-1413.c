@@ -1,4 +1,6 @@
-//----- (000000018007037C) ----------------------------------------------------
+// File count: 1413
+// Total lines: 113
+---------------------------------------
 __int64 __fastcall CTlsMessageFragment::SaveFragment(
         CTlsMessageFragment *this,
         unsigned __int8 *Src,
@@ -111,4 +113,3 @@ LABEL_25:
   return 2148074278i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

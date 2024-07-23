@@ -1,4 +1,6 @@
-//----- (0000000180028668) ----------------------------------------------------
+// File count: 574
+// Total lines: 28
+-----------------------------------------
 char __fastcall _scrt_initialize_onexit_tables(unsigned int a1)
 {
   if ( !byte_180092000 )
@@ -26,4 +28,3 @@ char __fastcall _scrt_initialize_onexit_tables(unsigned int a1)
 // 1800286ED: control flows out of bounds to 1800286F2
 // 180082770: using guessed type __int128 _xmm_ffffffffffffffffffffffffffffffff;
 // 180092000: using guessed type char byte_180092000;
-

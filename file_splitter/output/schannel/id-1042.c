@@ -1,4 +1,6 @@
-//----- (00000001800570B0) ----------------------------------------------------
+// File count: 1042
+// Total lines: 13
+----------------------------------------
 void __fastcall CCredentialGroup::UnsubscribeCertStoreChangeNotification(CCredentialGroup *this, void *a2, void **a3)
 {
   if ( a2 && a3 )
@@ -11,4 +13,3 @@ void __fastcall CCredentialGroup::UnsubscribeCertStoreChangeNotification(CCreden
     }
   }
 }
-

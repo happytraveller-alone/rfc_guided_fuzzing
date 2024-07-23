@@ -1,4 +1,6 @@
-//----- (000000018005F4A4) ----------------------------------------------------
+// File count: 1201
+// Total lines: 75
+----------------------------------------
 __int64 __fastcall CSslCredential::FillInCredStructWithCertInfo(CSslCredential *this)
 {
   __int64 v1; // rbx
@@ -73,4 +75,3 @@ LABEL_13:
   return LastError;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

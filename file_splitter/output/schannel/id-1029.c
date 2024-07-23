@@ -1,4 +1,6 @@
-//----- (0000000180056124) ----------------------------------------------------
+// File count: 1029
+// Total lines: 18
+----------------------------------------
 __int64 __fastcall CCredentialGroup::GetNameFromFirstCred(CCredentialGroup *this, unsigned __int16 **a2)
 {
   struct _RTL_RESOURCE *v5; // rbx
@@ -16,4 +18,3 @@ __int64 __fastcall CCredentialGroup::GetNameFromFirstCred(CCredentialGroup *this
   else
     return SspNtStatusToSecStatus(NameFromCertificate);
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800087D0) ----------------------------------------------------
+// File count: 105
+// Total lines: 70
+-----------------------------------------
 __int64 __fastcall CCipherMill::SetServerHelloCipher(CCipherMill *this, struct CSsl3TlsClientContext *a2, int a3)
 {
   __int64 v3; // rdi
@@ -68,4 +70,3 @@ LABEL_15:
   return v15;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

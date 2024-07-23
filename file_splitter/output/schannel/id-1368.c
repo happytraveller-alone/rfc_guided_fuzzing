@@ -1,4 +1,6 @@
-//----- (000000018006C9C4) ----------------------------------------------------
+// File count: 1368
+// Total lines: 125
+---------------------------------------
 __int64 __fastcall CTls13ServerContext::GenerateHelloRetryRequest(CTls13ServerContext *this, struct SPBuffer *a2)
 {
   __int64 *v2; // rax
@@ -123,4 +125,3 @@ LABEL_20:
 // 18006CB39: variable 'v12' is possibly undefined
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 18006C9C4: using guessed type char var_30[4];
-

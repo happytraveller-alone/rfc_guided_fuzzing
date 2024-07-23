@@ -1,4 +1,6 @@
-//----- (00000001800684B0) ----------------------------------------------------
+// File count: 1327
+// Total lines: 29
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::GenerateStatusRequestExtension(CTls13ClientHandshake *this)
 {
   __int16 v1; // r8
@@ -27,4 +29,3 @@ __int64 __fastcall CTls13ClientHandshake::GenerateStatusRequestExtension(CTls13C
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

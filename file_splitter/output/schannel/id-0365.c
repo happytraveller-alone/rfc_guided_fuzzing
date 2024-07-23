@@ -1,4 +1,6 @@
-//----- (0000000180018430) ----------------------------------------------------
+// File count: 365
+// Total lines: 12
+-----------------------------------------
 void __fastcall CSsl3TlsClientContext::GetEndpointBindings(
         CSsl3TlsClientContext *this,
         unsigned __int8 **a2,
@@ -10,4 +12,3 @@ void __fastcall CSsl3TlsClientContext::GetEndpointBindings(
   *a2 = *(unsigned __int8 **)(v3 + 400);
   *a3 = *(_DWORD *)(v3 + 408);
 }
-

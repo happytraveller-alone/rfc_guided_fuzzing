@@ -1,4 +1,6 @@
-//----- (000000018001C410) ----------------------------------------------------
+// File count: 439
+// Total lines: 263
+----------------------------------------
 __int64 __fastcall CCipherMill::FindAcceptableCipherSuiteAndCred(
         CCipherMill *this,
         struct CSsl3TlsServerContext *a2,
@@ -261,4 +263,3 @@ LABEL_29:
 // 18001C6A4: variable 'v17' is possibly undefined
 // 180030A87: variable 'v39' is possibly undefined
 // 180030A87: variable 'v40' is possibly undefined
-

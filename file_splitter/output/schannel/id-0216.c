@@ -1,4 +1,6 @@
-//----- (00000001800124F0) ----------------------------------------------------
+// File count: 216
+// Total lines: 247
+----------------------------------------
 void __fastcall CSchannelTelemetryContext::WriteEvent(CSchannelTelemetryContext *this, char a2, __int64 a3)
 {
   const WCHAR *v3; // rdi
@@ -245,4 +247,3 @@ void __fastcall CSchannelTelemetryContext::WriteEvent(CSchannelTelemetryContext 
 // 180091490: using guessed type __int64 qword_180091490;
 // 180091498: using guessed type __int64 qword_180091498;
 // 180092648: using guessed type int bDomainJoined;
-

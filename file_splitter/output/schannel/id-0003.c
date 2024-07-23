@@ -1,4 +1,6 @@
-//----- (0000000180001060) ----------------------------------------------------
+// File count: 3
+// Total lines: 72
+-------------------------------------------
 __int64 __fastcall CSslContext::MakeSessionKeys(CSslContext *this, __int64 a2)
 {
   _QWORD *v2; // rsi
@@ -70,4 +72,3 @@ __int64 __fastcall CSslContext::MakeSessionKeys(CSslContext *this, __int64 a2)
 }
 // 180098428: using guessed type __int64 __fastcall SslGenerateSessionKeys(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

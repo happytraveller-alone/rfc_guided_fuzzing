@@ -1,4 +1,6 @@
-//----- (0000000180007C20) ----------------------------------------------------
+// File count: 97
+// Total lines: 139
+-----------------------------------------
 char __fastcall IsEcdsaAlgorithmBlacklisted(
         struct _TLS_PARAMETERS *a1,
         unsigned int a2,
@@ -137,4 +139,3 @@ LABEL_9:
 }
 // 1800821D8: using guessed type wchar_t aEcdsaP384[11];
 // 180082E10: using guessed type wchar_t aEcdsaP521[11];
-

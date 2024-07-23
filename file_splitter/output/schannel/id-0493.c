@@ -1,4 +1,6 @@
-//----- (00000001800236B0) ----------------------------------------------------
+// File count: 493
+// Total lines: 45
+-----------------------------------------
 void __fastcall DefaultEccCurveWatchParamKey(void *a1, char a2)
 {
   BYTE *lpData; // rbx
@@ -43,4 +45,3 @@ LABEL_10:
 }
 // 1800237B1: variable 'v5' is possibly undefined
 // 180092790: using guessed type unsigned int g_cbDefaultEccCurveList;
-

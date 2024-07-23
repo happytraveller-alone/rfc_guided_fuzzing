@@ -1,4 +1,6 @@
-//----- (0000000180070304) ----------------------------------------------------
+// File count: 1412
+// Total lines: 21
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::RestoreWriteCipherState(CSsl3TlsContext *this)
 {
   __int16 v1; // ax
@@ -19,4 +21,3 @@ __int64 __fastcall CSsl3TlsContext::RestoreWriteCipherState(CSsl3TlsContext *thi
   }
   return 0i64;
 }
-

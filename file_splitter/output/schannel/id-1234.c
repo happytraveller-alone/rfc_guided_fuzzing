@@ -1,4 +1,6 @@
-//----- (0000000180062768) ----------------------------------------------------
+// File count: 1234
+// Total lines: 52
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::GenerateHelloRequest(CSsl3TlsServerContext *this, struct SPBuffer *a2)
 {
   char v2; // r14
@@ -50,4 +52,3 @@ __int64 __fastcall CSsl3TlsServerContext::GenerateHelloRequest(CSsl3TlsServerCon
   }
   return result;
 }
-

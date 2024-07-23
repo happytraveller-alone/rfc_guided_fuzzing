@@ -1,4 +1,6 @@
-//----- (000000018002A548) ----------------------------------------------------
+// File count: 785
+// Total lines: 35
+-----------------------------------------
 bool __fastcall CTlsSignatureSuiteList::Restrict(
         CTlsSignatureSuiteList *this,
         const struct CTlsSignatureSuiteList *a2,
@@ -33,4 +35,3 @@ bool __fastcall CTlsSignatureSuiteList::Restrict(
 }
 // 18002A56F: variable 'v4' is possibly undefined
 // 18002A5AD: variable 'i' is possibly undefined
-

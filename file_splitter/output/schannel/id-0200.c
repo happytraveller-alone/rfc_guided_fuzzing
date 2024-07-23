@@ -1,4 +1,6 @@
-//----- (0000000180011040) ----------------------------------------------------
+// File count: 200
+// Total lines: 90
+-----------------------------------------
 __int64 __fastcall SpUniAcquireCredentialsHandle(
         struct _UNICODE_STRING *a1,
         __int64 a2,
@@ -88,4 +90,3 @@ LABEL_15:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
 // 180011040: using guessed type char var_58[16];
-

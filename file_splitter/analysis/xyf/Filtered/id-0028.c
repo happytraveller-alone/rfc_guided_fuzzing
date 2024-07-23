@@ -39,3 +39,4 @@ char __fastcall CSessionCacheManager::CacheExpireElements(CSessionCacheManager *
   return v7;
 }
 
+// 定期清理会话缓存

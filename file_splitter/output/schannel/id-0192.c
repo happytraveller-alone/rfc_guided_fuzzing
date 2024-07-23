@@ -1,4 +1,6 @@
-//----- (000000018001050C) ----------------------------------------------------
+// File count: 192
+// Total lines: 53
+-----------------------------------------
 DWORD __fastcall GetCngHashAndSignatureString(
         const struct _CERT_CONTEXT *a1,
         unsigned __int16 *a2,
@@ -51,4 +53,3 @@ LABEL_10:
   *a3 = a5 >> 1;
   return GetLastError();
 }
-

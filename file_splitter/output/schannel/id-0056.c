@@ -1,4 +1,6 @@
-//----- (0000000180004510) ----------------------------------------------------
+// File count: 56
+// Total lines: 88
+------------------------------------------
 __int64 __fastcall TlsGetBCryptHashProvider(enum _eTlsHashAlgorithm a1, void **a2, unsigned int *a3)
 {
   unsigned int v3; // r10d
@@ -86,4 +88,3 @@ LABEL_17:
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
 // 180092CF0: using guessed type signed __int64 qword_180092CF0[1];
-

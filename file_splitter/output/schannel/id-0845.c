@@ -1,4 +1,6 @@
-//----- (0000000180044EE8) ----------------------------------------------------
+// File count: 845
+// Total lines: 11
+-----------------------------------------
 void __fastcall LogDtlsRetransmitRequested(unsigned int a1, const unsigned __int16 *a2)
 {
   struct _UNICODE_STRING DestinationString; // [rsp+20h] [rbp-18h] BYREF
@@ -9,4 +11,3 @@ void __fastcall LogDtlsRetransmitRequested(unsigned int a1, const unsigned __int
     SchEventWrite(&SSLEVENT_DTLS_RETRANSMIT_REQUESTED, L"du", a1, &DestinationString);
   }
 }
-

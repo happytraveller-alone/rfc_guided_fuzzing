@@ -1,4 +1,6 @@
-//----- (0000000180027498) ----------------------------------------------------
+// File count: 541
+// Total lines: 15
+-----------------------------------------
 __int64 __fastcall SslDuplicateString(struct _UNICODE_STRING *a1, struct _UNICODE_STRING *a2)
 {
   WCHAR *v4; // rax
@@ -13,4 +15,3 @@ __int64 __fastcall SslDuplicateString(struct _UNICODE_STRING *a1, struct _UNICOD
   a1->Buffer[(unsigned __int64)a1->Length >> 1] = 0;
   return 0i64;
 }
-

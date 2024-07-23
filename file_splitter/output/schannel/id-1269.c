@@ -1,4 +1,6 @@
-//----- (000000018006463C) ----------------------------------------------------
+// File count: 1269
+// Total lines: 86
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ComputeClientHelloSize(
         CTls13ClientHandshake *this,
         __int64 a2,
@@ -84,4 +86,3 @@ LABEL_13:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

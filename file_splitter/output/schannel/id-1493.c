@@ -1,4 +1,6 @@
-//----- (0000000180077F68) ----------------------------------------------------
+// File count: 1493
+// Total lines: 68
+----------------------------------------
 __int64 __fastcall CTls13ExtClient::ParseKeyShareExtension(
         CTls13ExtClient *this,
         unsigned __int8 *a2,
@@ -66,4 +68,3 @@ LABEL_16:
   CSslContext::SetErrorAndFatalAlert(v6, 106, -2146893048, 0x32u);
   return 2148074248i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180020B60) ----------------------------------------------------
+// File count: 453
+// Total lines: 46
+-----------------------------------------
 void __fastcall CTls13Context::~CTls13Context(CTls13Context *this)
 {
   __int64 v2; // rcx
@@ -44,4 +46,3 @@ void __fastcall CTls13Context::~CTls13Context(CTls13Context *this)
 // 18007CB60: using guessed type void *CTls13Context::`vftable';
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

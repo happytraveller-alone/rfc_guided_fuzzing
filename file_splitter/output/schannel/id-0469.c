@@ -1,4 +1,6 @@
-//----- (0000000180022DB0) ----------------------------------------------------
+// File count: 469
+// Total lines: 17
+-----------------------------------------
 void __fastcall CSsl3TlsServerContext::GetEndpointBindings(
         CSsl3TlsServerContext *this,
         unsigned __int8 **a2,
@@ -15,4 +17,3 @@ void __fastcall CSsl3TlsServerContext::GetEndpointBindings(
     *a3 = *(_DWORD *)(v6 + 472);
   }
 }
-

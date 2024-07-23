@@ -1,4 +1,6 @@
-//----- (000000018004FEA0) ----------------------------------------------------
+// File count: 962
+// Total lines: 50
+-----------------------------------------
 __int64 __fastcall SpImportSecurityContext(struct _SecBuffer *a1, void *a2, _QWORD *a3)
 {
   CCipherMill *v6; // rcx
@@ -48,4 +50,3 @@ __int64 __fastcall SpImportSecurityContext(struct _SecBuffer *a1, void *a2, _QWO
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092F50: using guessed type unsigned __int64 ExportedContext;
-

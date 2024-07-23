@@ -1,4 +1,6 @@
-//----- (0000000180065FEC) ----------------------------------------------------
+// File count: 1291
+// Total lines: 67
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::GenerateCertificateEntry(
         __int64 a1,
         __int64 a2,
@@ -65,4 +67,3 @@ __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::Generat
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180065FEC: using guessed type __int16 var_28[20];
-

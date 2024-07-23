@@ -1,4 +1,6 @@
-//----- (0000000180004494) ----------------------------------------------------
+// File count: 55
+// Total lines: 18
+------------------------------------------
 NTSTATUS __fastcall GenerateTlsHash(
         enum _eTlsHashAlgorithm a1,
         UCHAR *a2,
@@ -16,4 +18,3 @@ NTSTATUS __fastcall GenerateTlsHash(
     return GenerateHash(hAlgorithm, a2, a3, a4, a5, *a6);
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018000B400) ----------------------------------------------------
+// File count: 137
+// Total lines: 15
+-----------------------------------------
 void __fastcall SslDeleteUserContext(__int64 a1)
 {
   struct CSslUserContext *v2; // rax
@@ -13,4 +15,3 @@ void __fastcall SslDeleteUserContext(__int64 a1)
     WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x1Bu, (__int64)&WPP_ba773d91511536867a821af0ee22c47a_Traceguids, a1);
   }
 }
-

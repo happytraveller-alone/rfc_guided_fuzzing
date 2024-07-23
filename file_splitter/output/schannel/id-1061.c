@@ -1,4 +1,6 @@
-//----- (000000018005916C) ----------------------------------------------------
+// File count: 1061
+// Total lines: 16
+----------------------------------------
 __int64 __fastcall CSessionCacheManager::CacheGetInfo(
         CSessionCacheManager *this,
         char a2,
@@ -14,4 +16,3 @@ __int64 __fastcall CSessionCacheManager::CacheGetInfo(
     CSessionCacheTable::CacheGetInfo((CSessionCacheTable *)(*((_QWORD *)this + 5) + 152i64 * v3), a2, a3);
   return 0i64;
 }
-

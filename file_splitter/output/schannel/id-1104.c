@@ -1,4 +1,6 @@
-//----- (000000018005B0C0) ----------------------------------------------------
+// File count: 1104
+// Total lines: 10
+----------------------------------------
 unsigned __int16 __fastcall CSslScratchAllocator::GetLengthNeeded(CSslScratchAllocator *this)
 {
   unsigned __int16 result; // ax
@@ -8,4 +10,3 @@ unsigned __int16 __fastcall CSslScratchAllocator::GetLengthNeeded(CSslScratchAll
     return *((_WORD *)this + 9);
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180058E94) ----------------------------------------------------
+// File count: 1056
+// Total lines: 19
+----------------------------------------
 __int64 WPP_SF_dD(__int64 a1, unsigned __int16 a2, __int64 a3, int a4, ...)
 {
   int v5; // [rsp+78h] [rbp+20h] BYREF
@@ -17,4 +19,3 @@ __int64 WPP_SF_dD(__int64 a1, unsigned __int16 a2, __int64 a3, int a4, ...)
            4i64,
            0i64);
 }
-

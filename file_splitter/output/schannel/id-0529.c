@@ -1,4 +1,6 @@
-//----- (0000000180026CE8) ----------------------------------------------------
+// File count: 529
+// Total lines: 18
+-----------------------------------------
 void __fastcall FreeCipherSuiteData(unsigned int a1, NCRYPT_HANDLE *a2, struct CMasterCipherInfo *a3)
 {
   __int64 v5; // rdi
@@ -16,4 +18,3 @@ void __fastcall FreeCipherSuiteData(unsigned int a1, NCRYPT_HANDLE *a2, struct C
   }
   SPExternalFree(a3);
 }
-

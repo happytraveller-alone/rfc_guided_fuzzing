@@ -1,4 +1,6 @@
-//----- (0000000180077414) ----------------------------------------------------
+// File count: 1480
+// Total lines: 33
+----------------------------------------
 __int64 __fastcall CTls13Record::InitializeRecord(CTls13Record *this)
 {
   __int64 v2; // rcx
@@ -31,4 +33,3 @@ __int64 __fastcall CTls13Record::InitializeRecord(CTls13Record *this)
   *((_WORD *)this + 45) = v6;
   return 0i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180023204) ----------------------------------------------------
+// File count: 484
+// Total lines: 23
+-----------------------------------------
 __int64 __fastcall FlushLookUpTableBucket(__int64 a1, unsigned int a2)
 {
   __int64 v2; // rbx
@@ -21,4 +23,3 @@ __int64 __fastcall FlushLookUpTableBucket(__int64 a1, unsigned int a2)
   FlushEventEntryList(*(_QWORD *)(*(_QWORD *)(a1 + 328) + 32i64), v5);
   return v7;
 }
-

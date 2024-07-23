@@ -1,4 +1,6 @@
-//----- (00000001800090D0) ----------------------------------------------------
+// File count: 112
+// Total lines: 284
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::GenerateCcsAndFinishMessage(CSsl3TlsContext *this, struct SPBuffer *a2)
 {
   __int64 v2; // rdi
@@ -282,4 +284,3 @@ LABEL_38:
 // 180098538: using guessed type __int64 __fastcall SslComputeFinishedHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
 // 180098560: using guessed type __int64 __fastcall SslExportKeyingMaterial(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD, _QWORD, _DWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

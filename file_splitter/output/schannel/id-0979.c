@@ -1,4 +1,6 @@
-//----- (0000000180052374) ----------------------------------------------------
+// File count: 979
+// Total lines: 28
+-----------------------------------------
 void SslUnsealHideDecryptErrorDelay(void)
 {
   int v0; // ebx
@@ -26,4 +28,3 @@ void SslUnsealHideDecryptErrorDelay(void)
     while ( v2 );
   }
 }
-

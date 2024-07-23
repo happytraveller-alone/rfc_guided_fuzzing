@@ -1,4 +1,6 @@
-//----- (000000018006A988) ----------------------------------------------------
+// File count: 1349
+// Total lines: 43
+----------------------------------------
 void __fastcall CTls13Context::CleanupTls13SharedConnectedState(CTls13Context *this)
 {
   __int64 v2; // rcx
@@ -41,4 +43,3 @@ void __fastcall CTls13Context::CleanupTls13SharedConnectedState(CTls13Context *t
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

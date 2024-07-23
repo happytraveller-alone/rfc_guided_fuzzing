@@ -1,4 +1,6 @@
-//----- (0000000180043FA0) ----------------------------------------------------
+// File count: 826
+// Total lines: 40
+-----------------------------------------
 __int64 __fastcall GenerateDTLSHelloVerify(struct SPBuffer *a1, unsigned __int8 *a2)
 {
   char *v2; // rax
@@ -38,4 +40,3 @@ LABEL_6:
   *((_DWORD *)a1 + 1) = 60;
   return (unsigned int)-2146893023;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018007395C) ----------------------------------------------------
+// File count: 1446
+// Total lines: 30
+----------------------------------------
 __int64 __fastcall DTlsRec::initRec(DTlsRec *this, unsigned int a2, struct CSsl3TlsContext *a3)
 {
   unsigned int v3; // ebx
@@ -28,4 +30,3 @@ __int64 __fastcall DTlsRec::initRec(DTlsRec *this, unsigned int a2, struct CSsl3
   }
   return v3;
 }
-

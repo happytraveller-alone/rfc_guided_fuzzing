@@ -1,4 +1,6 @@
-//----- (000000018000C3A8) ----------------------------------------------------
+// File count: 143
+// Total lines: 50
+-----------------------------------------
 __int64 __fastcall TranslateToSecurityStatus(unsigned int a1)
 {
   if ( (a1 & 0x1FFF0000) == 589824 )
@@ -48,4 +50,3 @@ __int64 __fastcall TranslateToSecurityStatus(unsigned int a1)
     }
   }
 }
-

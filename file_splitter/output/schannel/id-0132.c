@@ -1,4 +1,6 @@
-//----- (000000018000AE3C) ----------------------------------------------------
+// File count: 132
+// Total lines: 90
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GenerateSsl3TlsClientHello(CSsl3TlsClientContext *this, struct SPBuffer *a2)
 {
   CSsl3TlsClientContext *v3; // rbx
@@ -88,4 +90,3 @@ LABEL_7:
 }
 // 18000AF1E: variable 'v10' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

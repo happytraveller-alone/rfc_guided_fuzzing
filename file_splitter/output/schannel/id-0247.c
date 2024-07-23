@@ -1,4 +1,6 @@
-//----- (0000000180014734) ----------------------------------------------------
+// File count: 247
+// Total lines: 16
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::GetTBParametersSize(struct _SEC_TOKEN_BINDING *const a1)
 {
   __int64 KeyParametersSize; // rax
@@ -14,4 +16,3 @@ __int64 __fastcall CSsl3TlsContext::GetTBParametersSize(struct _SEC_TOKEN_BINDIN
     return (unsigned int)v3;
   return v2;
 }
-

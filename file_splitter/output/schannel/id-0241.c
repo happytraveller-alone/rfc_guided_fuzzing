@@ -1,4 +1,6 @@
-//----- (0000000180014090) ----------------------------------------------------
+// File count: 241
+// Total lines: 106
+----------------------------------------
 __int64 __fastcall CSslContext::PopulateSerialContextState(CSslContext *this, struct _SSL_PACKED_CONTEXT *a2)
 {
   int v4; // r14d
@@ -104,4 +106,3 @@ __int64 __fastcall CSslContext::PopulateSerialContextState(CSslContext *this, st
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800927BC: using guessed type unsigned int CSslGlobals::m_bSendAuxRecord;
-

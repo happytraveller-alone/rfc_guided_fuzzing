@@ -1,4 +1,6 @@
-//----- (000000018001CB30) ----------------------------------------------------
+// File count: 441
+// Total lines: 37
+-----------------------------------------
 __int64 __fastcall CTls13ExtServer::ParseExtension(__int64 a1, int a2, unsigned __int8 *a3, __int64 a4)
 {
   unsigned __int16 v5; // si
@@ -35,4 +37,3 @@ __int64 __fastcall CTls13ExtServer::ParseExtension(__int64 a1, int a2, unsigned 
     return CTlsExtServer::ParseExtension(a1, a2, a3, v5);
   return result;
 }
-

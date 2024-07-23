@@ -1,4 +1,6 @@
-//----- (000000018005B3A0) ----------------------------------------------------
+// File count: 1120
+// Total lines: 23
+----------------------------------------
 signed int __fastcall CSslContext::QueryContextAttributesA(CSslContext *this, int a2, void *a3)
 {
   __int64 v5; // rax
@@ -21,4 +23,3 @@ signed int __fastcall CSslContext::QueryContextAttributesA(CSslContext *this, in
       return 120;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800481B0) ----------------------------------------------------
+// File count: 882
+// Total lines: 67
+-----------------------------------------
 __int64 __fastcall SslCreateTokenFromPac(
         unsigned __int8 *a1,
         __int64 a2,
@@ -65,4 +67,3 @@ __int64 __fastcall SslCreateTokenFromPac(
 // 180092620: using guessed type __int64 LsaTable;
 // 1800481B0: using guessed type char var_B0[8];
 // 1800481B0: using guessed type char var_A8[8];
-

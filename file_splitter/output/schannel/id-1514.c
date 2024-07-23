@@ -1,4 +1,6 @@
-//----- (000000018007A134) ----------------------------------------------------
+// File count: 1514
+// Total lines: 41
+----------------------------------------
 void __fastcall _DbgpDeleteTraceControl(struct _DBG_TRACE_CONTROL_BLOCK *a1)
 {
   void *v2; // rcx
@@ -39,4 +41,3 @@ void __fastcall _DbgpDeleteTraceControl(struct _DBG_TRACE_CONTROL_BLOCK *a1)
   }
 }
 // 180080E08: using guessed type __int64 EtwUnregisterTraceGuids(void);
-

@@ -1,4 +1,6 @@
-//----- (00000001800795F8) ----------------------------------------------------
+// File count: 1511
+// Total lines: 109
+---------------------------------------
 char GetExternalKeyExchangeAlgorithms()
 {
   NTSTATUS v0; // eax
@@ -107,4 +109,3 @@ char GetExternalKeyExchangeAlgorithms()
 }
 // 1800923B0: using guessed type int g_dwKeyExchangeInfoTotalCount;
 // 1800923C0: using guessed type _QWORD g_pKeyExchangeInfo[12];
-

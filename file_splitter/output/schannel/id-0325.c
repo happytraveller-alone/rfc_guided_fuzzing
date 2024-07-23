@@ -1,4 +1,6 @@
-//----- (0000000180017CCC) ----------------------------------------------------
+// File count: 325
+// Total lines: 80
+-----------------------------------------
 void DeleteDebugTracing()
 {
   struct _DBG_TRACE_CONTROL_BLOCK *v0; // rdi
@@ -78,4 +80,3 @@ void DeleteDebugTracing()
     }
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800155EC) ----------------------------------------------------
+// File count: 273
+// Total lines: 73
+-----------------------------------------
 __int64 TlsInitializeDefaultAlgorithms()
 {
   _QWORD *v0; // rax
@@ -71,4 +73,3 @@ __int64 TlsInitializeDefaultAlgorithms()
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
 // 1800923B0: using guessed type int g_dwKeyExchangeInfoTotalCount;
-

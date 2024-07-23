@@ -1,4 +1,6 @@
-//----- (0000000180053738) ----------------------------------------------------
+// File count: 1000
+// Total lines: 52
+----------------------------------------
 __int64 __fastcall CertHasServerAuthEku(PCCERT_CONTEXT pCertContext)
 {
   unsigned int EnhancedKeyUsage; // ebx
@@ -50,4 +52,3 @@ LABEL_10:
   }
   return EnhancedKeyUsage;
 }
-

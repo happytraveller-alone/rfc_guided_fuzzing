@@ -1,4 +1,6 @@
-//----- (000000018004E5F8) ----------------------------------------------------
+// File count: 948
+// Total lines: 22
+-----------------------------------------
 __int64 __fastcall SpQueryKeyingMaterial(struct CSslUserContext *a1, struct _SecPkgContext_KeyingMaterial_Inproc *a2)
 {
   WORD cbContextValue; // [rsp+30h] [rbp-28h]
@@ -20,4 +22,3 @@ __int64 __fastcall SpQueryKeyingMaterial(struct CSslUserContext *a1, struct _Sec
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098560: using guessed type __int64 __fastcall SslExportKeyingMaterial(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

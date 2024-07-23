@@ -1,4 +1,6 @@
-//----- (000000018004EA70) ----------------------------------------------------
+// File count: 952
+// Total lines: 22
+-----------------------------------------
 __int64 __fastcall SpQueryTokenBindingEKM(struct CSslUserContext *a1, struct _SecPkgContext_KeyingMaterial *a2)
 {
   BYTE *v4; // rax
@@ -20,4 +22,3 @@ __int64 __fastcall SpQueryTokenBindingEKM(struct CSslUserContext *a1, struct _Se
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

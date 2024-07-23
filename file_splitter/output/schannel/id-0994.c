@@ -1,4 +1,6 @@
-//----- (00000001800533AC) ----------------------------------------------------
+// File count: 994
+// Total lines: 22
+-----------------------------------------
 ULONG __fastcall tlgWriteTransfer_EventWriteTransfer(
         __int64 a1,
         unsigned __int8 *a2,
@@ -20,4 +22,3 @@ ULONG __fastcall tlgWriteTransfer_EventWriteTransfer(
   UserData[1].Reserved = 1;
   return EventWriteTransfer(*(_QWORD *)(a1 + 32), &EventDescriptor, a3, a4, UserDataCount, UserData);
 }
-

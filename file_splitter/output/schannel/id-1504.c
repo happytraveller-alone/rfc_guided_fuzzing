@@ -1,4 +1,6 @@
-//----- (0000000180078C6C) ----------------------------------------------------
+// File count: 1504
+// Total lines: 23
+----------------------------------------
 BOOLEAN FreeExternalCipherAlgorithms()
 {
   unsigned int i; // ebx
@@ -21,4 +23,3 @@ BOOLEAN FreeExternalCipherAlgorithms()
 }
 // 1800922A0: using guessed type _QWORD g_pCipherInfo[16];
 // 180092320: using guessed type int g_dwCipherInfoTotalCount;
-

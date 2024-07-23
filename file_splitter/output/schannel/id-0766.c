@@ -1,4 +1,6 @@
-//----- (0000000180029F58) ----------------------------------------------------
+// File count: 766
+// Total lines: 15
+-----------------------------------------
 void *__fastcall operator new(size_t Size)
 {
   size_t i; // rdi
@@ -13,4 +15,3 @@ void *__fastcall operator new(size_t Size)
   return v2;
 }
 // 180028C9E: using guessed type __int64 __fastcall o__callnewh_0(_QWORD);
-

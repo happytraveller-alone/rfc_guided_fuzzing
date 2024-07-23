@@ -1,4 +1,6 @@
-//----- (00000001800237C0) ----------------------------------------------------
+// File count: 494
+// Total lines: 38
+-----------------------------------------
 __int64 __fastcall CCipherMill::BuildCipherMill(CCipherMill *this)
 {
   CCipherMill *v1; // rcx
@@ -36,4 +38,3 @@ __int64 __fastcall CCipherMill::BuildCipherMill(CCipherMill *this)
 }
 // 1800237FE: variable 'v1' is possibly undefined
 // 180023808: variable 'v2' is possibly undefined
-

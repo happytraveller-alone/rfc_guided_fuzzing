@@ -1,4 +1,6 @@
-//----- (000000018005DFE8) ----------------------------------------------------
+// File count: 1177
+// Total lines: 24
+----------------------------------------
 void __fastcall CSslLookaside::~CSslLookaside(CSslLookaside *this)
 {
   bool v1; // zf
@@ -22,4 +24,3 @@ void __fastcall CSslLookaside::~CSslLookaside(CSslLookaside *this)
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
 // 18007D428: using guessed type void *CSslLookaside::`vftable';
-

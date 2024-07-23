@@ -1,4 +1,6 @@
-//----- (0000000180077BA0) ----------------------------------------------------
+// File count: 1487
+// Total lines: 38
+----------------------------------------
 __int64 __fastcall CNulRecord::SetFlightInfo(
         CNulRecord *this,
         unsigned __int16 a2,
@@ -36,4 +38,3 @@ __int64 __fastcall CNulRecord::SetFlightInfo(
   *a4 = v4;
   return result;
 }
-

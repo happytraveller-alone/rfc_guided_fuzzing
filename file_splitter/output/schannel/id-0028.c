@@ -1,4 +1,6 @@
-//----- (0000000180002C5C) ----------------------------------------------------
+// File count: 28
+// Total lines: 40
+------------------------------------------
 char __fastcall CSessionCacheManager::CacheExpireElements(CSessionCacheManager *this, char a2, char a3)
 {
   int v6; // eax
@@ -38,4 +40,3 @@ char __fastcall CSessionCacheManager::CacheExpireElements(CSessionCacheManager *
   _InterlockedDecrement((volatile signed __int32 *)this + 25);
   return v7;
 }
-

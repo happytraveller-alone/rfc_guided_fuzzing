@@ -1,4 +1,6 @@
-//----- (0000000180077330) ----------------------------------------------------
+// File count: 1479
+// Total lines: 51
+----------------------------------------
 __int64 __fastcall CTls13Record::HashFragment(CTls13Record *this)
 {
   __int64 v2; // r9
@@ -49,4 +51,3 @@ __int64 __fastcall CTls13Record::HashFragment(CTls13Record *this)
            v8,
            v7);
 }
-

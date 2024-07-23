@@ -1,4 +1,6 @@
-//----- (0000000180006430) ----------------------------------------------------
+// File count: 79
+// Total lines: 77
+------------------------------------------
 __int64 __fastcall CTlsExt::ParseTlsExtensions(__int64 a1, unsigned __int8 *a2, unsigned int a3, int a4)
 {
   __int64 v4; // rax
@@ -75,4 +77,3 @@ LABEL_13:
 // 18000654D: variable 'a2' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

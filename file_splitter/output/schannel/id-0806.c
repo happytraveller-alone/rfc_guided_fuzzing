@@ -1,4 +1,6 @@
-//----- (0000000180042800) ----------------------------------------------------
+// File count: 806
+// Total lines: 71
+-----------------------------------------
 __int64 __fastcall MapKernelAuthDataV5(
         struct _SCHANNEL_CRED *a1,
         struct _UNICODE_STRING *a2,
@@ -69,4 +71,3 @@ LABEL_13:
   return ImplicitCredentials;
 }
 // 1800428FA: variable 'v10' is possibly undefined
-

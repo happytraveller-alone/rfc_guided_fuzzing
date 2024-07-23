@@ -1,4 +1,6 @@
-//----- (000000018002763C) ----------------------------------------------------
+// File count: 543
+// Total lines: 12
+-----------------------------------------
 __int64 __fastcall SchGetMessageString(LPCVOID lpSource, DWORD dwMessageId, WCHAR *a3)
 {
   DWORD v4; // eax
@@ -10,4 +12,3 @@ __int64 __fastcall SchGetMessageString(LPCVOID lpSource, DWORD dwMessageId, WCHA
   *(_WORD *)(*(_QWORD *)a3 + 2i64 * (v4 - 2)) = 0;
   return 0i64;
 }
-

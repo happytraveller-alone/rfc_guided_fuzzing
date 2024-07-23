@@ -1,4 +1,6 @@
-//----- (000000018004C990) ----------------------------------------------------
+// File count: 906
+// Total lines: 35
+-----------------------------------------
 __int64 __fastcall SpCallPackageUntrusted(
         __int64 a1,
         char *a2,
@@ -33,4 +35,3 @@ __int64 __fastcall SpCallPackageUntrusted(
 }
 // 18004CA0E: variable 'v11' is possibly undefined
 // 18004CA0E: variable 'v12' is possibly undefined
-

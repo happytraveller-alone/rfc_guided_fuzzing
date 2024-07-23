@@ -1,4 +1,6 @@
-//----- (0000000180053000) ----------------------------------------------------
+// File count: 989
+// Total lines: 28
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogCertKeyUsageError(__int64 a1, int a2, const unsigned __int16 *a3)
 {
   int v3; // [rsp+30h] [rbp-18h] BYREF
@@ -26,4 +28,3 @@ void __fastcall CSchannelTelemetryContext::LogCertKeyUsageError(__int64 a1, int 
 // 180091490: using guessed type __int64 qword_180091490;
 // 180091498: using guessed type __int64 qword_180091498;
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

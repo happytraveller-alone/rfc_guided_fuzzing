@@ -1,4 +1,6 @@
-//----- (0000000180075B20) ----------------------------------------------------
+// File count: 1466
+// Total lines: 49
+----------------------------------------
 SECURITY_STATUS __fastcall ComputeSignatureLength(
         __int64 **this,
         enum _eTlsSignatureAlgorithm a2,
@@ -47,4 +49,3 @@ SECURITY_STATUS __fastcall ComputeSignatureLength(
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180098540: using guessed type __int64 __fastcall SslSignHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180075B20: using guessed type DWORD cbHashValue[4];
-

@@ -1,4 +1,6 @@
-//----- (0000000180008A4C) ----------------------------------------------------
+// File count: 107
+// Total lines: 238
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::PackClientHello(
         CSsl3TlsClientContext *this,
         struct _Ssl2_Client_Hello *a2,
@@ -236,4 +238,3 @@ LABEL_42:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 18007D048: using guessed type void *CTlsExtClient::`vftable';
-

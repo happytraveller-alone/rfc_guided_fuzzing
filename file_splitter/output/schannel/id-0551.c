@@ -1,4 +1,6 @@
-//----- (0000000180027BB0) ----------------------------------------------------
+// File count: 551
+// Total lines: 15
+-----------------------------------------
 __int64 __fastcall SpLsaModeInitialize(
         __int64 a1,
         unsigned int *a2,
@@ -13,4 +15,3 @@ __int64 __fastcall SpLsaModeInitialize(
   *a4 = 2;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800705D4) ----------------------------------------------------
+// File count: 1415
+// Total lines: 30
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetSelectedSrtpParameters(
         CSsl3TlsContext *this,
         __int16 a2,
@@ -28,4 +30,3 @@ __int64 __fastcall CSsl3TlsContext::SetSelectedSrtpParameters(
   *(_QWORD *)(*((_QWORD *)this + 101) + 8i64) = a3;
   return 0i64;
 }
-

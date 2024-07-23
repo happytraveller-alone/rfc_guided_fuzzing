@@ -1,4 +1,6 @@
-//----- (0000000180043BF8) ----------------------------------------------------
+// File count: 825
+// Total lines: 157
+----------------------------------------
 ULONG __fastcall CheckInitialDTLSHelloCookie(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -155,4 +157,3 @@ ULONG __fastcall CheckInitialDTLSHelloCookie(
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800919A4: using guessed type int g_fEnableHelloVerifyRequest;
-

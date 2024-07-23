@@ -1,4 +1,6 @@
-//----- (00000001800525EC) ----------------------------------------------------
+// File count: 982
+// Total lines: 28
+-----------------------------------------
 __int64 __fastcall SpQueryLifespan(struct CSslUserContext *a1, struct _SecPkgContext_Lifespan *a2)
 {
   unsigned __int8 *v4; // rcx
@@ -26,4 +28,3 @@ __int64 __fastcall SpQueryLifespan(struct CSslUserContext *a1, struct _SecPkgCon
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

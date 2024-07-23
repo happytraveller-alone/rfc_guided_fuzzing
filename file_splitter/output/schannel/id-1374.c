@@ -1,4 +1,6 @@
-//----- (000000018006D3B0) ----------------------------------------------------
+// File count: 1374
+// Total lines: 88
+----------------------------------------
 __int64 __fastcall CTls13Context::GenerateTlsAlertMessage(
         CTls13Context *this,
         char a2,
@@ -86,4 +88,3 @@ __int64 __fastcall CTls13Context::GenerateTlsAlertMessage(
 // 18006D3B0: using guessed type char var_30[8];
 // 18006D3B0: using guessed type char var_28[8];
 // 18006D3B0: using guessed type __int16 var_18[2];
-

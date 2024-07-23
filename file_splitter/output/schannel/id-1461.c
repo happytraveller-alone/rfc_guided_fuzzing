@@ -1,4 +1,6 @@
-//----- (00000001800751B8) ----------------------------------------------------
+// File count: 1461
+// Total lines: 179
+---------------------------------------
 __int64 __fastcall DhGetEphemKey(
         __int64 a1,
         unsigned int a2,
@@ -177,4 +179,3 @@ LABEL_24:
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180098548: using guessed type __int64 __fastcall SslCreateEphemeralKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

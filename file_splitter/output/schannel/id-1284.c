@@ -1,4 +1,6 @@
-//----- (00000001800652A0) ----------------------------------------------------
+// File count: 1284
+// Total lines: 47
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::DetermineCertVerifyCodePoint(__int64 a1)
 {
   __int64 v1; // rdx
@@ -45,4 +47,3 @@ __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::Determi
   }
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180012368) ----------------------------------------------------
+// File count: 212
+// Total lines: 41
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogDebugTraceHandshakeInfo(
         CSchannelTelemetryContext *this,
         unsigned __int16 *const a2)
@@ -39,4 +41,3 @@ void __fastcall CSchannelTelemetryContext::LogDebugTraceHandshakeInfo(
   }
 }
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

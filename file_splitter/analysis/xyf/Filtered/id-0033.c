@@ -16,3 +16,4 @@ unsigned __int8 __fastcall HasTimeElapsed(unsigned int a1, unsigned int a2, unsi
   return 1;
 }
 
+// 判断是否已经经过了特定的时间间隔

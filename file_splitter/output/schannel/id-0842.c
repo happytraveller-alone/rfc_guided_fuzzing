@@ -1,4 +1,6 @@
-//----- (0000000180044CCC) ----------------------------------------------------
+// File count: 842
+// Total lines: 21
+-----------------------------------------
 __int64 __fastcall LogCredAcquireContextFailedEvent(unsigned int a1, const WCHAR *a2, char a3, int a4, int a5)
 {
   const WCHAR *v8; // rdx
@@ -19,4 +21,3 @@ __int64 __fastcall LogCredAcquireContextFailedEvent(unsigned int a1, const WCHAR
   }
   return result;
 }
-

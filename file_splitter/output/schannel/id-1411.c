@@ -1,4 +1,6 @@
-//----- (0000000180070244) ----------------------------------------------------
+// File count: 1411
+// Total lines: 35
+----------------------------------------
 __int64 __fastcall CTlsMessageFragment::Reallocate(CTlsMessageFragment *this, unsigned int a2)
 {
   unsigned int v2; // edi
@@ -33,4 +35,3 @@ __int64 __fastcall CTlsMessageFragment::Reallocate(CTlsMessageFragment *this, un
   }
   return result;
 }
-

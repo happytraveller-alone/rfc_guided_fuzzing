@@ -1,4 +1,6 @@
-//----- (0000000180073880) ----------------------------------------------------
+// File count: 1445
+// Total lines: 38
+----------------------------------------
 __int64 __fastcall DTlsMessage::initMsg(DTlsMessage *this, int a2, int a3, int a4, unsigned int a5)
 {
   unsigned int v5; // ebx
@@ -36,4 +38,3 @@ __int64 __fastcall DTlsMessage::initMsg(DTlsMessage *this, int a2, int a3, int a
   *((_DWORD *)this + 16) = a3;
   return v5;
 }
-

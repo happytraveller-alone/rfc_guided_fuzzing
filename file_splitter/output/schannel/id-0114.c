@@ -1,4 +1,6 @@
-//----- (0000000180009670) ----------------------------------------------------
+// File count: 114
+// Total lines: 148
+----------------------------------------
 __int64 __fastcall CTlsExtClient::GetClientHelloExtensionsLength(CTlsExtClient *this, unsigned int *a2)
 {
   __int64 v4; // rcx
@@ -146,4 +148,3 @@ LABEL_23:
 }
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 1800927B8: using guessed type int CSslGlobals::m_fDisableClientExtendedMS;
-

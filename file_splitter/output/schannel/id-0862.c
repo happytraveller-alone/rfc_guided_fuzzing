@@ -1,4 +1,6 @@
-//----- (00000001800461E4) ----------------------------------------------------
+// File count: 862
+// Total lines: 105
+----------------------------------------
 __int64 __fastcall CSslContext::QueryAuthority(CSslContext *this, void *a2)
 {
   WCHAR *v2; // r15
@@ -103,4 +105,3 @@ LABEL_25:
   return (unsigned int)v5;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

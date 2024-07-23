@@ -1,4 +1,6 @@
-//----- (000000018004F2BC) ----------------------------------------------------
+// File count: 955
+// Total lines: 235
+----------------------------------------
 __int64 __fastcall SslUnsealMessageConnection(struct CSslUserContext *a1, struct _SecBufferDesc *a2)
 {
   struct _SecBuffer *v2; // rsi
@@ -233,4 +235,3 @@ LABEL_72:
   return 2148074240i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

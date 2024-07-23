@@ -1,4 +1,6 @@
-//----- (000000018000B32C) ----------------------------------------------------
+// File count: 136
+// Total lines: 87
+-----------------------------------------
 __int64 __fastcall CSslSerializeHelper::DeserializeContext(
         CSslSerializeHelper *this,
         unsigned __int8 *a2,
@@ -85,4 +87,3 @@ LABEL_22:
     DeleteUserContext(*a4);
   return v11;
 }
-

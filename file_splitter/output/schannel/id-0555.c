@@ -1,6 +1,7 @@
-//----- (0000000180027C64) ----------------------------------------------------
+// File count: 555
+// Total lines: 5
+------------------------------------------
 unsigned __int64 *__cdecl _local_stdio_scanf_options()
 {
   return (unsigned __int64 *)&`__local_stdio_scanf_options'::`2'::_OptionsStorage;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018004206C) ----------------------------------------------------
+// File count: 803
+// Total lines: 102
+----------------------------------------
 __int64 __fastcall LoadCredentialsFromLocalStore(
         unsigned int a1,
         const struct _CERT_CONTEXT **a2,
@@ -100,4 +102,3 @@ LABEL_14:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080C40: using guessed type __int64 __fastcall _o__wcsicmp(_QWORD, _QWORD);
 // 18008275C: using guessed type wchar_t aMy[3];
-

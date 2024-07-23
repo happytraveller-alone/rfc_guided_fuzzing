@@ -1,4 +1,6 @@
-//----- (0000000180066AF0) ----------------------------------------------------
+// File count: 1302
+// Total lines: 119
+---------------------------------------
 unsigned int __fastcall CTls13ClientHandshake::GenerateClientHello(
         CTls13ClientHandshake *this,
         int a2,
@@ -117,4 +119,3 @@ LABEL_20:
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180066AF0: using guessed type __int16 var_8[2];
 // 180066AF0: using guessed type char var_10[4];
-

@@ -1,4 +1,6 @@
-//----- (0000000180018E50) ----------------------------------------------------
+// File count: 423
+// Total lines: 20
+-----------------------------------------
 unsigned __int64 __fastcall CCipherMill::GetAProvider(CCipherMill *this)
 {
   unsigned __int64 v1; // rbx
@@ -18,4 +20,3 @@ unsigned __int64 __fastcall CCipherMill::GetAProvider(CCipherMill *this)
 }
 // 180018E87: variable 'v2' is possibly undefined
 // 1800924A0: using guessed type unsigned __int64 qword_1800924A0[32];
-

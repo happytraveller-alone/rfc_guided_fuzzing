@@ -1,4 +1,6 @@
-//----- (000000018006415C) ----------------------------------------------------
+// File count: 1265
+// Total lines: 40
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ComputeCertificateRequestExtensionsSize(CTls13ServerHandshake *this)
 {
   __int16 v2; // cx
@@ -38,4 +40,3 @@ __int64 __fastcall CTls13ServerHandshake::ComputeCertificateRequestExtensionsSiz
   return result;
 }
 // 180092F08: using guessed type int g_fSendIssuerList;
-

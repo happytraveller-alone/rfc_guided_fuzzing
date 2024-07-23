@@ -1,4 +1,6 @@
-//----- (0000000180016CD0) ----------------------------------------------------
+// File count: 305
+// Total lines: 22
+-----------------------------------------
 char __fastcall CSessionCacheItem::DoesAppAllowCipher(CSessionCacheItem *this, struct CCredentialGroup *a2)
 {
   if ( a2 )
@@ -20,4 +22,3 @@ char __fastcall CSessionCacheItem::DoesAppAllowCipher(CSessionCacheItem *this, s
   else
     return 0;
 }
-

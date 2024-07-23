@@ -1,4 +1,6 @@
-//----- (0000000180078428) ----------------------------------------------------
+// File count: 1497
+// Total lines: 53
+----------------------------------------
 __int64 __fastcall CTls13ExtServer::ParsePskKeyExchangeModesExtension(
         CTls13ExtServer *this,
         unsigned __int8 *a2,
@@ -51,4 +53,3 @@ LABEL_9:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 18005B470: using guessed type __int64 __fastcall CSslContext::SetErrorAndFatalAlert(_QWORD, _QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180016610) ----------------------------------------------------
+// File count: 294
+// Total lines: 36
+-----------------------------------------
 __int64 __fastcall GetAppUserKeysCallback(__int64 a1, char a2, __int64 a3, struct _SecBuffer *a4)
 {
   union _LARGE_INTEGER *v8; // rcx
@@ -34,4 +36,3 @@ __int64 __fastcall GetAppUserKeysCallback(__int64 a1, char a2, __int64 a3, struc
   }
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

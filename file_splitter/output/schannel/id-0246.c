@@ -1,4 +1,6 @@
-//----- (0000000180014630) ----------------------------------------------------
+// File count: 246
+// Total lines: 77
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetTBParameters(CSsl3TlsContext *this, struct _SecBuffer *const a2)
 {
   void *v3; // rdi
@@ -75,4 +77,3 @@ LABEL_3:
 // 1800146BC: variable 'v8' is possibly undefined
 // 180014707: variable 'v10' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

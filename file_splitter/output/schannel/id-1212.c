@@ -1,4 +1,6 @@
-//----- (000000018006049C) ----------------------------------------------------
+// File count: 1212
+// Total lines: 134
+---------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::CheckForClientCred(CSsl3TlsClientContext *this)
 {
   __int64 v1; // rax
@@ -132,4 +134,3 @@ LABEL_8:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

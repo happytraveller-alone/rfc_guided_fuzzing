@@ -1,4 +1,6 @@
-//----- (000000018001CBE0) ----------------------------------------------------
+// File count: 442
+// Total lines: 224
+----------------------------------------
 __int64 __fastcall CCipherMill::FindAcceptableCipherSuite(
         CCipherMill *this,
         struct CSsl3TlsServerContext *a2,
@@ -222,4 +224,3 @@ LABEL_22:
 // 1800310ED: variable 'v29' is possibly undefined
 // 1800311AF: variable 'v36' is possibly undefined
 // 18007C6F0: using guessed type void *CSsl3TlsServerContext::`vftable';
-

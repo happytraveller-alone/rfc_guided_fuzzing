@@ -1,4 +1,6 @@
-//----- (00000001800522BC) ----------------------------------------------------
+// File count: 978
+// Total lines: 19
+-----------------------------------------
 __int64 SslUnsealComputeDecryptErrorDelay(void)
 {
   UCHAR v1; // [rsp+40h] [rbp+18h] BYREF
@@ -17,4 +19,3 @@ __int64 SslUnsealComputeDecryptErrorDelay(void)
     v2 += 0x2000;
   return (unsigned int)(pbBuffer + v4 + v2);
 }
-

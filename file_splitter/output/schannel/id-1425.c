@@ -1,4 +1,6 @@
-//----- (0000000180071C4C) ----------------------------------------------------
+// File count: 1425
+// Total lines: 155
+---------------------------------------
 __int64 __fastcall CSslContext::I_RsaGenerateServerMasterKey(CSslContext *this, unsigned __int8 *a2, unsigned int a3)
 {
   __int64 v6; // rax
@@ -153,4 +155,3 @@ LABEL_37:
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
 // 180098410: using guessed type __int64 __fastcall SslImportMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _QWORD, _DWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

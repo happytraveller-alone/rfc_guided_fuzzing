@@ -1,4 +1,6 @@
-//----- (0000000180052B68) ----------------------------------------------------
+// File count: 987
+// Total lines: 79
+-----------------------------------------
 ULONG __fastcall _tlgWriteTemplate<long (_tlgProvider_t const *,void const *,void const *,unsigned int,_EVENT_DATA_DESCRIPTOR *),&long _tlgWriteAgg(_tlgProvider_t const *,void const *,void const *,unsigned int,_EVENT_DATA_DESCRIPTOR *),void const *>::Write<_tlgWrapperByVal<4>,_tlgWrapperByVal<4>,_tlgWrapSz<unsigned short>>(
         __int64 a1,
         unsigned __int8 *a2,
@@ -77,4 +79,3 @@ ULONG __fastcall _tlgWriteTemplate<long (_tlgProvider_t const *,void const *,voi
 }
 // 180091488: using guessed type void *off_180091488;
 // 1800914A8: using guessed type __int64 qword_1800914A8;
-

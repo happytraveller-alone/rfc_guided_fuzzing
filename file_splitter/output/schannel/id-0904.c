@@ -1,4 +1,6 @@
-//----- (000000018004C6A0) ----------------------------------------------------
+// File count: 904
+// Total lines: 79
+-----------------------------------------
 __int64 __fastcall SpCallPackage(
         __int64 a1,
         _DWORD *a2,
@@ -77,4 +79,3 @@ __int64 __fastcall SpCallPackage(
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

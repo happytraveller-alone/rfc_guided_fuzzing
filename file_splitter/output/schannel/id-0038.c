@@ -1,4 +1,6 @@
-//----- (0000000180003700) ----------------------------------------------------
+// File count: 38
+// Total lines: 20
+------------------------------------------
 void __fastcall CSslContext::FreeMemory(CSslContext *this, void *a2)
 {
   __int64 v2; // rcx
@@ -18,4 +20,3 @@ void __fastcall CSslContext::FreeMemory(CSslContext *this, void *a2)
   }
 }
 // 180092620: using guessed type __int64 LsaTable;
-

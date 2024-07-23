@@ -1,4 +1,6 @@
-//----- (000000018004E80C) ----------------------------------------------------
+// File count: 950
+// Total lines: 101
+----------------------------------------
 __int64 __fastcall SpQuerySizes(struct CSslUserContext *a1, struct _SecPkgContext_Sizes *a2)
 {
   CCipherMill *v4; // rcx
@@ -99,4 +101,3 @@ LABEL_27:
 }
 // 18004E98D: variable 'v16' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180011740) ----------------------------------------------------
+// File count: 205
+// Total lines: 135
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::ProcessAppModeInfo(CSsl3TlsContext *this)
 {
   unsigned int v2; // ebx
@@ -133,4 +135,3 @@ LABEL_21:
   return v2;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

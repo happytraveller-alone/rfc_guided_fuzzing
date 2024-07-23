@@ -1,4 +1,6 @@
-//----- (0000000180062118) ----------------------------------------------------
+// File count: 1231
+// Total lines: 157
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::DigestCertVerify(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -155,4 +157,3 @@ LABEL_19:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800821D8: using guessed type wchar_t aEcdsaP384[11];
 // 180082E10: using guessed type wchar_t aEcdsaP521[11];
-

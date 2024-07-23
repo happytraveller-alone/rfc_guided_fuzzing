@@ -1,4 +1,6 @@
-//----- (0000000180013060) ----------------------------------------------------
+// File count: 225
+// Total lines: 137
+----------------------------------------
 void __fastcall CCredentialGroup::DeleteCredentialGroup(CCredentialGroup *this)
 {
   struct _RTL_RESOURCE *v2; // rbp
@@ -135,4 +137,3 @@ void __fastcall CCredentialGroup::DeleteCredentialGroup(CCredentialGroup *this)
 // 18003C915: variable 'v20' is possibly undefined
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
 // 180098018: using guessed type void __stdcall CryptObjectLocatorFree(void *);
-

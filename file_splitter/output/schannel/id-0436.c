@@ -1,4 +1,6 @@
-//----- (000000018001B0B0) ----------------------------------------------------
+// File count: 436
+// Total lines: 696
+----------------------------------------
 __int64 __fastcall CCipherMill::ChooseServerCipher(
         CCipherMill *this,
         struct CSsl3TlsServerContext *a2,
@@ -694,4 +696,3 @@ LABEL_43:
 // 1800984F0: using guessed type __int64 __fastcall SslLookupCipherLengths(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
 // 18001B0B0: using guessed type unsigned __int8 var_4DE[2];
 // 18001B0B0: using guessed type char var_432[498];
-

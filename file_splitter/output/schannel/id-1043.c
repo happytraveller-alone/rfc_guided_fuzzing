@@ -1,4 +1,6 @@
-//----- (0000000180057104) ----------------------------------------------------
+// File count: 1043
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CCredentialGroup::UpdateIssuerList(CCredentialGroup *this)
 {
   struct _RTL_RESOURCE *v2; // rdi
@@ -23,4 +25,3 @@ __int64 __fastcall CCredentialGroup::UpdateIssuerList(CCredentialGroup *this)
   }
   return 0i64;
 }
-

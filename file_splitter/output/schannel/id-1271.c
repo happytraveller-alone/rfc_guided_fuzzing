@@ -1,4 +1,6 @@
-//----- (000000018006480C) ----------------------------------------------------
+// File count: 1271
+// Total lines: 38
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ComputeEncryptedExtensionsSize(CTls13ServerHandshake *this)
 {
   unsigned int *v2; // rcx
@@ -36,4 +38,3 @@ __int64 __fastcall CTls13ServerHandshake::ComputeEncryptedExtensionsSize(CTls13S
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

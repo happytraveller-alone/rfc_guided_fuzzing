@@ -1,4 +1,6 @@
-//----- (0000000180024DC4) ----------------------------------------------------
+// File count: 503
+// Total lines: 112
+----------------------------------------
 __int64 __fastcall CCipherMill::LoadProviderList(CCipherMill *this, unsigned __int8 *a2)
 {
   char j; // si
@@ -110,4 +112,3 @@ LABEL_18:
 // 180098478: using guessed type __int64 __fastcall SslEnumProtocolProviders(_QWORD, _QWORD, _QWORD);
 // 180098480: using guessed type __int64 __fastcall SslFreeBuffer(_QWORD);
 // 1800984F8: using guessed type __int64 __fastcall SslOpenProvider(_QWORD, _QWORD, _QWORD);
-

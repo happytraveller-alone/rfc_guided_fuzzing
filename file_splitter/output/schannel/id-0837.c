@@ -1,4 +1,6 @@
-//----- (00000001800449CC) ----------------------------------------------------
+// File count: 837
+// Total lines: 19
+-----------------------------------------
 void __fastcall LogBogusClientCertEvent(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -17,4 +19,3 @@ void __fastcall LogBogusClientCertEvent(
     SchEventWrite(&SSLEVENT_BOGUS_CLIENT_CERT, L"dudb", a1, &DestinationString, v7, cbCertEncoded, a3->pbCertEncoded);
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180002F90) ----------------------------------------------------
+// File count: 30
+// Total lines: 19
+------------------------------------------
 void __fastcall CSessionCacheManager::PurgeCacheForCredentialGroup(
         CSessionCacheManager *this,
         struct CCredentialGroup *a2)
@@ -17,4 +19,3 @@ void __fastcall CSessionCacheManager::PurgeCacheForCredentialGroup(
     CSessionCacheManager::CacheExpireElements(this, 0, 0);
   }
 }
-

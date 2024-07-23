@@ -1,4 +1,6 @@
-//----- (000000018004BF60) ----------------------------------------------------
+// File count: 901
+// Total lines: 38
+-----------------------------------------
 __int64 __fastcall SslGetStreamSizes(void **a1, void *a2, void *a3, __int64 a4, void **a5, unsigned int *a6, int *a7)
 {
   int v7; // ebx
@@ -36,4 +38,3 @@ __int64 __fastcall SslGetStreamSizes(void **a1, void *a2, void *a3, __int64 a4, 
 // 1800925D4: using guessed type int dword_1800925D4;
 // 1800925D8: using guessed type int dword_1800925D8;
 // 180092620: using guessed type __int64 LsaTable;
-

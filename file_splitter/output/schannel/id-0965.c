@@ -1,4 +1,6 @@
-//----- (00000001800500A0) ----------------------------------------------------
+// File count: 965
+// Total lines: 44
+-----------------------------------------
 ULONG WPP_SF_qSD(TRACEHANDLE a1, __int64 a2, __int64 a3, ...)
 {
   const wchar_t *v3; // rdx
@@ -42,4 +44,3 @@ ULONG WPP_SF_qSD(TRACEHANDLE a1, __int64 a2, __int64 a3, ...)
            0i64);
 }
 // 180083C60: using guessed type wchar_t aNull_0[5];
-

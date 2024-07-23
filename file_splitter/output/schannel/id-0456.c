@@ -1,4 +1,6 @@
-//----- (0000000180020DF0) ----------------------------------------------------
+// File count: 456
+// Total lines: 120
+----------------------------------------
 CSsl3TlsContext *__fastcall CSsl3TlsContext::CSsl3TlsContext(CSsl3TlsContext *this, __int64 a2)
 {
   __int64 v4; // rdx
@@ -118,4 +120,3 @@ CSsl3TlsContext *__fastcall CSsl3TlsContext::CSsl3TlsContext(CSsl3TlsContext *th
 }
 // 180020E1F: variable 'v4' is possibly undefined
 // 18007CBA8: using guessed type void *CSsl3TlsContext::`vftable';
-

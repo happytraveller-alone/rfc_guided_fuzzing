@@ -1,4 +1,6 @@
-//----- (000000018005D8FC) ----------------------------------------------------
+// File count: 1165
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::SerializeAppData(
         CSessionCacheItem *this,
         unsigned __int8 *a2,
@@ -23,4 +25,3 @@ __int64 __fastcall CSessionCacheItem::SerializeAppData(
   }
   return 0i64;
 }
-

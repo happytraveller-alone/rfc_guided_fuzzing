@@ -1,4 +1,6 @@
-//----- (0000000180007EF4) ----------------------------------------------------
+// File count: 100
+// Total lines: 25
+-----------------------------------------
 char __fastcall CTlsSignatureSuiteList::AddCertificateSignatureSuite(
         CTlsSignatureSuiteList *this,
         PCCERT_CONTEXT pCertContext)
@@ -23,4 +25,3 @@ char __fastcall CTlsSignatureSuiteList::AddCertificateSignatureSuite(
   return CTlsSignatureSuiteList::AddBCryptSignatureSuites(this, (const unsigned __int16 **const)&v8, 1u, 0);
 }
 // 1800281B8: using guessed type void __fastcall __noreturn _report_rangecheckfailure(_QWORD);
-

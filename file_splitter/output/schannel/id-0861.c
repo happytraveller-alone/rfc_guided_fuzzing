@@ -1,4 +1,6 @@
-//----- (0000000180045FDC) ----------------------------------------------------
+// File count: 861
+// Total lines: 78
+-----------------------------------------
 __int64 __fastcall CSslContext::QueryAppData(CSslContext *this, void *a2)
 {
   __int64 v5; // rcx
@@ -76,4 +78,3 @@ LABEL_8:
   return CacheAppData;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

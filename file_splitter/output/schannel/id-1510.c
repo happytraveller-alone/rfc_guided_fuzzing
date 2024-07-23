@@ -1,4 +1,6 @@
-//----- (0000000180079550) ----------------------------------------------------
+// File count: 1510
+// Total lines: 23
+----------------------------------------
 BOOLEAN FreeExternalKeyExchangeAlgorithms()
 {
   unsigned int i; // ebx
@@ -21,4 +23,3 @@ BOOLEAN FreeExternalKeyExchangeAlgorithms()
 }
 // 1800923B0: using guessed type int g_dwKeyExchangeInfoTotalCount;
 // 1800923C0: using guessed type _QWORD g_pKeyExchangeInfo[12];
-

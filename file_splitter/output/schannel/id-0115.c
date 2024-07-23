@@ -1,4 +1,6 @@
-//----- (000000018000988C) ----------------------------------------------------
+// File count: 115
+// Total lines: 75
+-----------------------------------------
 __int64 __fastcall CheckUserMappingTarget(unsigned __int16 *a1)
 {
   const wchar_t *v1; // rbx
@@ -73,4 +75,3 @@ LABEL_33:
   return 1i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

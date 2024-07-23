@@ -1,4 +1,6 @@
-//----- (000000018005DE98) ----------------------------------------------------
+// File count: 1175
+// Total lines: 35
+----------------------------------------
 void ShutdownIssuerCache(void)
 {
   void *v0; // rcx
@@ -33,4 +35,3 @@ void ShutdownIssuerCache(void)
 }
 // 180092708: using guessed type __int64 qword_180092708;
 // 180092778: using guessed type int dword_180092778;
-

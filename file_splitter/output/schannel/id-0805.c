@@ -1,4 +1,6 @@
-//----- (0000000180042648) ----------------------------------------------------
+// File count: 805
+// Total lines: 93
+-----------------------------------------
 __int64 __fastcall MapKernelAuthDataV4(
         struct _SCHANNEL_CRED *a1,
         struct _UNICODE_STRING *a2,
@@ -91,4 +93,3 @@ LABEL_21:
 }
 // 1800427BE: variable 'v16' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

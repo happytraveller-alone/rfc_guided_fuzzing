@@ -1,4 +1,6 @@
-//----- (000000018000F484) ----------------------------------------------------
+// File count: 180
+// Total lines: 39
+-----------------------------------------
 DWORD __fastcall GetCertEndpointBindings(const struct _CERT_CONTEXT *a1, unsigned __int8 **a2, unsigned int *a3)
 {
   PCCRYPT_OID_INFO OIDInfo; // rax
@@ -37,4 +39,3 @@ DWORD __fastcall GetCertEndpointBindings(const struct _CERT_CONTEXT *a1, unsigne
     return LastError;
   }
 }
-

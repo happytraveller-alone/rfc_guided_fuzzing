@@ -1,4 +1,6 @@
-//----- (000000018000538C) ----------------------------------------------------
+// File count: 71
+// Total lines: 20
+------------------------------------------
 __int64 __fastcall CSessionCacheManager::CacheRetrieveNewClientItem(
         CSessionCacheManager *this,
         const unsigned __int16 *a2,
@@ -18,4 +20,3 @@ __int64 __fastcall CSessionCacheManager::CacheRetrieveNewClientItem(
   }
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180067584) ----------------------------------------------------
+// File count: 1312
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::GenerateHRRExtensions(CTls13ServerHandshake *this)
 {
   __int16 v1; // ax
@@ -23,4 +25,3 @@ __int64 __fastcall CTls13ServerHandshake::GenerateHRRExtensions(CTls13ServerHand
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

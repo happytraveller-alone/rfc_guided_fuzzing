@@ -1,4 +1,6 @@
-//----- (000000018005AB10) ----------------------------------------------------
+// File count: 1090
+// Total lines: 12
+----------------------------------------
 CTls13ClientHandshake *__fastcall CTls13ClientHandshake::`vector deleting destructor'(
         CTls13ClientHandshake *this,
         char a2)
@@ -10,4 +12,3 @@ CTls13ClientHandshake *__fastcall CTls13ClientHandshake::`vector deleting destru
   return this;
 }
 // 18007D550: using guessed type void *CTls13ClientHandshake::`vftable';
-

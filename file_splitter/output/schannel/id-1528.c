@@ -1,4 +1,6 @@
-//----- (000000018007AF64) ----------------------------------------------------
+// File count: 1528
+// Total lines: 47
+----------------------------------------
 _BOOL8 resetstkoflw_static()
 {
   char *AllocationBase; // r15
@@ -45,4 +47,3 @@ _BOOL8 resetstkoflw_static()
       && VirtualAlloc(v8, v6, 0x1000u, 4u)
       && VirtualProtect(v8, v7, 0x104u, &flOldProtect);
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180023120) ----------------------------------------------------
+// File count: 481
+// Total lines: 8
+------------------------------------------
 __int64 __fastcall CSslLookaside::Allocate(CSslLookaside *this, __int64 a2)
 {
   if ( a2 == *((_DWORD *)this + 9) )
@@ -6,4 +8,3 @@ __int64 __fastcall CSslLookaside::Allocate(CSslLookaside *this, __int64 a2)
   else
     return 0i64;
 }
-

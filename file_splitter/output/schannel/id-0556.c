@@ -1,4 +1,6 @@
-//----- (0000000180027C80) ----------------------------------------------------
+// File count: 556
+// Total lines: 12
+-----------------------------------------
 __int64 initialize_msvcrt_compatibility()
 {
   unsigned __int64 *v0; // rax
@@ -10,4 +12,3 @@ __int64 initialize_msvcrt_compatibility()
   *v1 |= 4ui64;
   return 0i64;
 }
-

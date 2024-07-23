@@ -1,4 +1,6 @@
-//----- (0000000180006B5C) ----------------------------------------------------
+// File count: 88
+// Total lines: 62
+------------------------------------------
 CSessionCacheItem *__fastcall CSessionCacheItem::CSessionCacheItem(
         CSessionCacheItem *this,
         int a2,
@@ -60,4 +62,3 @@ CSessionCacheItem *__fastcall CSessionCacheItem::CSessionCacheItem(
 // 18007C2C0: using guessed type void *CSessionCacheItem::`vftable';
 // 180092620: using guessed type __int64 LsaTable;
 // 180006B5C: using guessed type int var_28[10];
-

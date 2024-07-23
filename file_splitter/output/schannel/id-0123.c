@@ -1,4 +1,6 @@
-//----- (000000018000A230) ----------------------------------------------------
+// File count: 123
+// Total lines: 101
+----------------------------------------
 NTSTATUS __fastcall GenerateHash(
         BCRYPT_ALG_HANDLE hAlgorithm,
         UCHAR *a2,
@@ -99,4 +101,3 @@ LABEL_11:
 // 1800920E8: using guessed type __int64 g_ulAdditionalProbeSize;
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
-

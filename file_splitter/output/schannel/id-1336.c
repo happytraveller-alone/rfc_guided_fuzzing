@@ -1,4 +1,6 @@
-//----- (000000018006930C) ----------------------------------------------------
+// File count: 1336
+// Total lines: 69
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ParseCertificateRequest(
         CTls13ClientHandshake *this,
         unsigned __int8 *a2,
@@ -67,4 +69,3 @@ LABEL_5:
     goto LABEL_13;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180013248) ----------------------------------------------------
+// File count: 227
+// Total lines: 73
+-----------------------------------------
 signed int __fastcall SslTransferCertChainToClientProcess(PCCERT_CONTEXT *a1, const struct _CERT_CONTEXT *a2)
 {
   signed int result; // eax
@@ -71,4 +73,3 @@ LABEL_24:
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

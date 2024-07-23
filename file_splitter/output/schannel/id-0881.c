@@ -1,4 +1,6 @@
-//----- (0000000180047EB0) ----------------------------------------------------
+// File count: 881
+// Total lines: 120
+----------------------------------------
 __int64 __fastcall SslCrackSingleName(
         unsigned int a1,
         __int64 a2,
@@ -118,4 +120,3 @@ __int64 __fastcall SslCrackSingleName(
 }
 // 1800982A0: using guessed type __int64 SampUsingDsData(void);
 // 180098400: using guessed type __int64 __fastcall CrackSingleName(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
-

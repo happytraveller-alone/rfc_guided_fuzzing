@@ -1,4 +1,6 @@
-//----- (0000000180023188) ----------------------------------------------------
+// File count: 483
+// Total lines: 23
+-----------------------------------------
 void __fastcall LookUpTableFlushPartial(__int64 a1)
 {
   unsigned int v1; // esi
@@ -21,4 +23,3 @@ void __fastcall LookUpTableFlushPartial(__int64 a1)
     UpdateInternalStatsOnFlush(a1, v1);
   }
 }
-

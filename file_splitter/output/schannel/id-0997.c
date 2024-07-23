@@ -1,4 +1,6 @@
-//----- (00000001800534DC) ----------------------------------------------------
+// File count: 997
+// Total lines: 24
+-----------------------------------------
 __int64 __fastcall GetTokenUserSid(void *a1, unsigned __int8 *const a2)
 {
   unsigned int v3; // ebx
@@ -22,4 +24,3 @@ __int64 __fastcall GetTokenUserSid(void *a1, unsigned __int8 *const a2)
   return 0i64;
 }
 // 1800534DC: using guessed type DWORD var_88[4];
-

@@ -1,4 +1,6 @@
-//----- (0000000180027890) ----------------------------------------------------
+// File count: 545
+// Total lines: 27
+-----------------------------------------
 unsigned __int8 __fastcall CSslCredManager::InitCredentialManager(CSslCredManager *this)
 {
   HANDLE EventA; // rax
@@ -25,4 +27,3 @@ unsigned __int8 __fastcall CSslCredManager::InitCredentialManager(CSslCredManage
   return 1;
 }
 // 18008275C: using guessed type wchar_t aMy[3];
-

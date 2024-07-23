@@ -1,4 +1,6 @@
-//----- (00000001800595E0) ----------------------------------------------------
+// File count: 1066
+// Total lines: 27
+----------------------------------------
 __int64 __fastcall CSessionCacheManager::PurgeCacheEntries(
         CSessionCacheManager *this,
         unsigned int a2,
@@ -25,4 +27,3 @@ __int64 __fastcall CSessionCacheManager::PurgeCacheEntries(
   }
   return 0i64;
 }
-

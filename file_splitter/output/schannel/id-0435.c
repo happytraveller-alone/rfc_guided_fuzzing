@@ -1,4 +1,6 @@
-//----- (000000018001A100) ----------------------------------------------------
+// File count: 435
+// Total lines: 279
+----------------------------------------
 __int64 __fastcall CTlsExtServer::BuildServerHelloExtension(
         CTlsExtServer *this,
         unsigned int a2,
@@ -277,4 +279,3 @@ LABEL_36:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

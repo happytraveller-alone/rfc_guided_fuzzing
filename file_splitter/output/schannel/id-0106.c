@@ -1,4 +1,6 @@
-//----- (0000000180008948) ----------------------------------------------------
+// File count: 106
+// Total lines: 77
+-----------------------------------------
 __int64 __fastcall CSslContext::SetCipherState(CSslContext *this, struct CCipherSuiteInfo *a2)
 {
   unsigned int v4; // ebp
@@ -75,4 +77,3 @@ LABEL_10:
   return result;
 }
 // 1800984F0: using guessed type __int64 __fastcall SslLookupCipherLengths(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

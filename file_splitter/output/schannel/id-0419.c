@@ -1,4 +1,6 @@
-//----- (0000000180018910) ----------------------------------------------------
+// File count: 419
+// Total lines: 26
+-----------------------------------------
 void __fastcall _DbgpTraceTimerCallback(struct _DBG_TRACE_CONTROL_BLOCK *a1)
 {
   union _LARGE_INTEGER *v2; // rbx
@@ -24,4 +26,3 @@ LABEL_6:
     goto LABEL_6;
   }
 }
-

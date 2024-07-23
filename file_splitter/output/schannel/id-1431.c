@@ -1,4 +1,6 @@
-//----- (0000000180072790) ----------------------------------------------------
+// File count: 1431
+// Total lines: 8
+-----------------------------------------
 void __fastcall DTlsRec::~DTlsRec(DTlsRec *this)
 {
   if ( *((_QWORD *)this + 1) )
@@ -6,4 +8,3 @@ void __fastcall DTlsRec::~DTlsRec(DTlsRec *this)
       *((_QWORD *)this + 2),
       *((_QWORD *)this + 3));
 }
-

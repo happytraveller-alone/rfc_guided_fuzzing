@@ -1,4 +1,6 @@
-//----- (0000000180013660) ----------------------------------------------------
+// File count: 230
+// Total lines: 22
+-----------------------------------------
 signed int __fastcall CSsl3TlsContext::QueryContextAttributesA(CSsl3TlsContext *this, int a2, void *a3)
 {
   switch ( a2 )
@@ -20,4 +22,3 @@ signed int __fastcall CSsl3TlsContext::QueryContextAttributesA(CSsl3TlsContext *
   }
   return CSslContext::QueryContextAttributesA(this, a2, a3);
 }
-

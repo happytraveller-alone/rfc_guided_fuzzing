@@ -1,4 +1,6 @@
-//----- (00000001800124A0) ----------------------------------------------------
+// File count: 215
+// Total lines: 20
+-----------------------------------------
 void __fastcall CSsl3TlsContext::SetStateConnected(CSsl3TlsContext *this)
 {
   __int64 v1; // rax
@@ -18,4 +20,3 @@ void __fastcall CSsl3TlsContext::SetStateConnected(CSsl3TlsContext *this)
     *((_WORD *)this + 110) = 0;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180062884) ----------------------------------------------------
+// File count: 1235
+// Total lines: 45
+----------------------------------------
 void __fastcall CSsl3TlsServerContext::GenerateNewSessionTicket(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -43,4 +45,3 @@ void __fastcall CSsl3TlsServerContext::GenerateNewSessionTicket(
   memcpy_0(v12, a2, v7);
   *a5 = v10;
 }
-

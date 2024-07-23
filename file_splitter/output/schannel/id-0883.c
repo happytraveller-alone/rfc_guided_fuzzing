@@ -1,4 +1,6 @@
-//----- (000000018004835C) ----------------------------------------------------
+// File count: 883
+// Total lines: 192
+----------------------------------------
 __int64 __fastcall SslDoClientRequest(
         void **a1,
         void *a2,
@@ -190,4 +192,3 @@ LABEL_29:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

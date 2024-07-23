@@ -1,4 +1,6 @@
-//----- (00000001800714C4) ----------------------------------------------------
+// File count: 1423
+// Total lines: 250
+---------------------------------------
 __int64 __fastcall CSslContext::I_RsaGenerateEcdsaSignClientExchangeValue(
         CSslContext *this,
         unsigned __int8 *a2,
@@ -248,4 +250,3 @@ LABEL_55:
 // 1800984A0: using guessed type __int64 __fastcall SslGenerateMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 1800984A8: using guessed type __int64 __fastcall SslGeneratePreMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

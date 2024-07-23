@@ -1,4 +1,6 @@
-//----- (00000001800122B0) ----------------------------------------------------
+// File count: 211
+// Total lines: 32
+-----------------------------------------
 void __fastcall CSsl3TlsClientContext::SetStateConnected(CSchannelTelemetryContext **this)
 {
   CSchannelTelemetryContext *v2; // rcx
@@ -30,4 +32,3 @@ void __fastcall CSsl3TlsClientContext::SetStateConnected(CSchannelTelemetryConte
 }
 // 1800122B0: using guessed type char Src[8];
 // 1800122B0: using guessed type LARGE_INTEGER var_6F8[223];
-

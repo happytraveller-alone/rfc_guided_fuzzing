@@ -1,4 +1,6 @@
-//----- (0000000180065360) ----------------------------------------------------
+// File count: 1285
+// Total lines: 30
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::DetermineCertVerifySignatureAlgorithm(
         __int64 a1,
         const struct _CERT_CONTEXT *a2)
@@ -28,4 +30,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Determi
   }
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180045258) ----------------------------------------------------
+// File count: 852
+// Total lines: 16
+-----------------------------------------
 void __fastcall LogSessionTicketMisconfiguration(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -14,4 +16,3 @@ void __fastcall LogSessionTicketMisconfiguration(
     SchEventWrite(&SSLEVENT_SESSION_TICKET_MISCONFIGURATION, L"duu", a1, &DestinationString, &v5);
   }
 }
-

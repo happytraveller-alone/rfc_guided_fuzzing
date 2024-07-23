@@ -1,4 +1,6 @@
-//----- (000000018001CE80) ----------------------------------------------------
+// File count: 443
+// Total lines: 755
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::DigestClientHello(
         CSsl3TlsServerContext *this,
         unsigned __int8 *Src,
@@ -753,4 +755,3 @@ LABEL_123:
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
 // 1800984F0: using guessed type __int64 __fastcall SslLookupCipherLengths(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
 // 18001CE80: using guessed type int var_1E8[6];
-

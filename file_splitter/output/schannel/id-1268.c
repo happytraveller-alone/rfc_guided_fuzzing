@@ -1,4 +1,6 @@
-//----- (0000000180064440) ----------------------------------------------------
+// File count: 1268
+// Total lines: 115
+---------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ComputeClientHelloExtensionsSize(CTls13ClientHandshake *this)
 {
   int v2; // edi
@@ -113,4 +115,3 @@ __int64 __fastcall CTls13ClientHandshake::ComputeClientHelloExtensionsSize(CTls1
 // 1800645E2: variable 'v19' is possibly undefined
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 1800927B8: using guessed type int CSslGlobals::m_fDisableClientExtendedMS;
-

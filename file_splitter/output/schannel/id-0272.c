@@ -1,4 +1,6 @@
-//----- (00000001800155B4) ----------------------------------------------------
+// File count: 272
+// Total lines: 17
+-----------------------------------------
 __int64 __fastcall I_GetSignatureDetailsFromSignatureInfo(
         _DWORD *a1,
         __int64 a2,
@@ -15,4 +17,3 @@ __int64 __fastcall I_GetSignatureDetailsFromSignatureInfo(
     *a6 = a1[5];
   return 0i64;
 }
-

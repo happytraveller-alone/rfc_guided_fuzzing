@@ -1,4 +1,6 @@
-//----- (000000018005A36C) ----------------------------------------------------
+// File count: 1082
+// Total lines: 36
+----------------------------------------
 CTls13ClientContext *__fastcall CTls13ClientContext::CTls13ClientContext(
         CTls13ClientContext *this,
         struct CTlsRecord *a2,
@@ -34,4 +36,3 @@ CTls13ClientContext *__fastcall CTls13ClientContext::CTls13ClientContext(
 // 18007D550: using guessed type void *CTls13ClientHandshake::`vftable';
 // 18007FAE0: using guessed type void *CTls13ClientContext::`vftable'{for `CSsl3TlsClientContext'};
 // 18007FCF0: using guessed type void *CTls13ClientContext::`vftable'{for `CTls13Context'};
-

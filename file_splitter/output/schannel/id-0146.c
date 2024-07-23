@@ -1,4 +1,6 @@
-//----- (000000018000C774) ----------------------------------------------------
+// File count: 146
+// Total lines: 100
+----------------------------------------
 struct CSslUserContext *__fastcall SslReferenceUserContext(__int64 a1, unsigned __int8 a2)
 {
   int v2; // r14d
@@ -98,4 +100,3 @@ struct CSslUserContext *__fastcall SslReferenceUserContext(__int64 a1, unsigned 
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800919E0: using guessed type unsigned int dwSslContextListCount;
 // 1800919E4: using guessed type unsigned int dwSslContextLockCount;
-

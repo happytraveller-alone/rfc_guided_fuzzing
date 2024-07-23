@@ -1,4 +1,6 @@
-//----- (000000018000EC9C) ----------------------------------------------------
+// File count: 170
+// Total lines: 33
+-----------------------------------------
 void __fastcall CSslUserContext::CleanupUserContext(CSslUserContext *this)
 {
   __int64 v2; // rcx
@@ -31,4 +33,3 @@ void __fastcall CSslUserContext::CleanupUserContext(CSslUserContext *this)
 }
 // 180098518: using guessed type __int64 SslDecrementProviderReferenceCount(void);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

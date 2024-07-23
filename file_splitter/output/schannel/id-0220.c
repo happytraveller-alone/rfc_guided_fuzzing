@@ -1,4 +1,6 @@
-//----- (0000000180012D94) ----------------------------------------------------
+// File count: 220
+// Total lines: 15
+-----------------------------------------
 __int64 __fastcall RunningHash(_DWORD *a1, __int64 a2, unsigned __int64 a3)
 {
   unsigned __int64 i; // r10
@@ -13,4 +15,3 @@ __int64 __fastcall RunningHash(_DWORD *a1, __int64 a2, unsigned __int64 a3)
   }
   return result;
 }
-

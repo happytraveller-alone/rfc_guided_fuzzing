@@ -1,4 +1,6 @@
-//----- (0000000180053588) ----------------------------------------------------
+// File count: 998
+// Total lines: 55
+-----------------------------------------
 __int64 __fastcall IsThreadLocalSystemOrNetworkService(unsigned __int8 *a1)
 {
   DWORD LastError; // ebx
@@ -53,4 +55,3 @@ LABEL_16:
   return LastError;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

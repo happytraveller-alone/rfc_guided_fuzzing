@@ -1,4 +1,6 @@
-//----- (0000000180022F30) ----------------------------------------------------
+// File count: 473
+// Total lines: 12
+-----------------------------------------
 bool __fastcall CSessionCacheServerItem::IsEntryAMatch(
         CSessionCacheServerItem *this,
         struct _LUID *a2,
@@ -10,4 +12,3 @@ bool __fastcall CSessionCacheServerItem::IsEntryAMatch(
       && *(_DWORD *)a4 == *((_DWORD *)this + 47)
       && *((_DWORD *)a4 + 1) == *((_DWORD *)this + 48);
 }
-

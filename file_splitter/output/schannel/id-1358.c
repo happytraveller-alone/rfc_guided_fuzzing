@@ -1,4 +1,6 @@
-//----- (000000018006B034) ----------------------------------------------------
+// File count: 1358
+// Total lines: 64
+----------------------------------------
 __int64 __fastcall CTls13Context::GenerateApplicationWriteKeys(
         CTls13Context *this,
         __int64 a2,
@@ -62,4 +64,3 @@ __int64 __fastcall CTls13Context::GenerateApplicationWriteKeys(
 // 180098488: using guessed type __int64 __fastcall SslExpandExporterMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098498: using guessed type __int64 __fastcall SslExtractMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

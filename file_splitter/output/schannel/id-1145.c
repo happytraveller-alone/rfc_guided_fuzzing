@@ -1,4 +1,6 @@
-//----- (000000018005CA1C) ----------------------------------------------------
+// File count: 1145
+// Total lines: 56
+----------------------------------------
 __int64 __fastcall OpenKeyUsingCng(
         NCRYPT_KEY_HANDLE *phKey,
         LPCWSTR pszKeyName,
@@ -54,4 +56,3 @@ LABEL_15:
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 18005CA1C: using guessed type NCRYPT_PROV_HANDLE phProvider[5];
-

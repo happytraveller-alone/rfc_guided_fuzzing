@@ -1,4 +1,6 @@
-//----- (0000000180017E50) ----------------------------------------------------
+// File count: 331
+// Total lines: 13
+-----------------------------------------
 void __fastcall TlgAggregateInternalProviderCallback(const struct _GUID *a1, int a2, __int64 a3, __int64 a4)
 {
   __int64 i; // rbx
@@ -11,4 +13,3 @@ void __fastcall TlgAggregateInternalProviderCallback(const struct _GUID *a1, int
   }
 }
 // 180092EE8: using guessed type __int64 qword_180092EE8;
-

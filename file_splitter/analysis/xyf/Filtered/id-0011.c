@@ -38,3 +38,4 @@ __int64 WppInitUm()
 // 180080E10: using guessed type __int64 __fastcall EtwRegisterTraceGuidsW(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
 // 180092A88: using guessed type __int64 WPP_REGISTRATION_GUIDS;
 
+// 设置 Windows 性能跟踪和日志记录机制

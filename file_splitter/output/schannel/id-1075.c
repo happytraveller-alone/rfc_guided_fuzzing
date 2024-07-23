@@ -1,4 +1,6 @@
-//----- (0000000180059D9C) ----------------------------------------------------
+// File count: 1075
+// Total lines: 75
+----------------------------------------
 __int64 __fastcall CCipherMill::GetCipherState(
         CCipherMill *this,
         struct CSslContext *a2,
@@ -73,4 +75,3 @@ LABEL_19:
     return 0i64;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800153D0) ----------------------------------------------------
+// File count: 269
+// Total lines: 48
+-----------------------------------------
 unsigned __int8 *__fastcall CSsl3TlsContext::FindMatchingApplicationProtocol(
         unsigned __int8 *const a1,
         unsigned __int16 a2,
@@ -46,4 +48,3 @@ LABEL_11:
       goto LABEL_11;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018005B660) ----------------------------------------------------
+// File count: 1124
+// Total lines: 14
+----------------------------------------
 unsigned int __fastcall CSsl3TlsContext::ComputeRsaServerExchangeHashes(
         UCHAR *this,
         unsigned __int8 *a2,
@@ -12,4 +14,3 @@ unsigned int __fastcall CSsl3TlsContext::ComputeRsaServerExchangeHashes(
     return GenerateHash(g_hSHAProvider, this, a2, a3, a4 + 16, 0x14u);
   return result;
 }
-

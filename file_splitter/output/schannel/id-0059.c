@@ -1,4 +1,6 @@
-//----- (0000000180004750) ----------------------------------------------------
+// File count: 59
+// Total lines: 51
+------------------------------------------
 __int64 __fastcall CreateServerCertificateSerialChainProperty(struct CSsl3TlsClientContext *a1)
 {
   __int64 v1; // rcx
@@ -49,4 +51,3 @@ __int64 __fastcall CreateServerCertificateSerialChainProperty(struct CSsl3TlsCli
   return 0i64;
 }
 // 180098180: using guessed type __int64 __fastcall I_CertProcessSslHandshake(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
-

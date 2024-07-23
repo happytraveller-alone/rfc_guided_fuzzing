@@ -1,4 +1,6 @@
-//----- (0000000180001BCC) ----------------------------------------------------
+// File count: 13
+// Total lines: 156
+-----------------------------------------
 __int64 __fastcall VerifyEcdsaParams(
         struct CSsl3TlsClientContext *a1,
         unsigned __int8 *a2,
@@ -154,4 +156,3 @@ LABEL_13:
 }
 // 18002BF6A: variable 'phKey' is possibly undefined
 // 18002BF6A: variable 'dwFlags' is possibly undefined
-

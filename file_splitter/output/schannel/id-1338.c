@@ -1,4 +1,6 @@
-//----- (000000018006961C) ----------------------------------------------------
+// File count: 1338
+// Total lines: 42
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ParseEncryptedExtensionsMsg(
         CTls13ClientHandshake *this,
         unsigned __int8 *a2,
@@ -40,4 +42,3 @@ __int64 __fastcall CTls13ClientHandshake::ParseEncryptedExtensionsMsg(
 // 18006964D: variable 'a4' is possibly undefined
 // 180006430: using guessed type __int64 __fastcall CTlsExt::ParseTlsExtensions(_QWORD, _QWORD, _QWORD, _QWORD);
 // 18005B470: using guessed type __int64 __fastcall CSslContext::SetErrorAndFatalAlert(_QWORD, _QWORD, _QWORD, _QWORD);
-

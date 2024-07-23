@@ -1,4 +1,6 @@
-//----- (000000018000EFA0) ----------------------------------------------------
+// File count: 174
+// Total lines: 47
+-----------------------------------------
 __int64 __fastcall GetOldConnectionInfo(struct CSslUserContext *a1, struct _SecPkgContext_ConnectionInfo *a2)
 {
   unsigned __int16 v4; // ax
@@ -45,4 +47,3 @@ __int64 __fastcall GetOldConnectionInfo(struct CSslUserContext *a1, struct _SecP
 }
 // 18000F069: variable 'v8' is possibly undefined
 // 180098510: using guessed type __int64 __fastcall SslLookupCipherSuiteInfo(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180053714) ----------------------------------------------------
+// File count: 999
+// Total lines: 12
+-----------------------------------------
 void __fastcall ReverseMemCopy(unsigned __int8 *a1, unsigned __int8 *a2, int a3)
 {
   unsigned __int8 *i; // r8
@@ -10,4 +12,3 @@ void __fastcall ReverseMemCopy(unsigned __int8 *a1, unsigned __int8 *a2, int a3)
     *i = v4;
   }
 }
-

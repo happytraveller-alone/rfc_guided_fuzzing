@@ -1,4 +1,6 @@
-//----- (0000000180070568) ----------------------------------------------------
+// File count: 1414
+// Total lines: 15
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SaveWriteCipherState(CSsl3TlsContext *this)
 {
   if ( *((_BYTE *)this + 233) )
@@ -13,4 +15,3 @@ __int64 __fastcall CSsl3TlsContext::SaveWriteCipherState(CSsl3TlsContext *this)
   }
   return 0i64;
 }
-

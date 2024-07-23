@@ -1,4 +1,6 @@
-//----- (0000000180047D14) ----------------------------------------------------
+// File count: 880
+// Total lines: 93
+-----------------------------------------
 __int64 __fastcall SslBuildCertLogonRequest(
         const struct _CERT_CHAIN_CONTEXT *a1,
         int a2,
@@ -91,4 +93,3 @@ LABEL_8:
     }
   }
 }
-

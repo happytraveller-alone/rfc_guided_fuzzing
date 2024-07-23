@@ -1,4 +1,6 @@
-//----- (000000018000E5E4) ----------------------------------------------------
+// File count: 160
+// Total lines: 86
+-----------------------------------------
 __int64 __fastcall GetSslProvHandle(const unsigned __int16 *a1, unsigned __int64 *a2)
 {
   int v4; // ebp
@@ -84,4 +86,3 @@ LABEL_5:
 // 1800384E4: variable 'v12' is possibly undefined
 // 18003855B: variable 'v13' is possibly undefined
 // 1800984E8: using guessed type __int64 __fastcall SslIncrementProviderReferenceCount(_QWORD);
-

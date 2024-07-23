@@ -1,4 +1,6 @@
-//----- (00000001800494F8) ----------------------------------------------------
+// File count: 887
+// Total lines: 223
+----------------------------------------
 __int64 __fastcall SslMapCertAtDC(
         struct _UNICODE_STRING *a1,
         void *a2,
@@ -221,4 +223,3 @@ LABEL_56:
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180092620: using guessed type __int64 LsaTable;
 // 180098240: using guessed type __int64 __fastcall LsaIIsDomainWithinForest(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
-

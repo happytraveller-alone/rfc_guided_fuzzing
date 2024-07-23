@@ -1,4 +1,6 @@
-//----- (000000018005B730) ----------------------------------------------------
+// File count: 1126
+// Total lines: 47
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::GenerateTlsAlertMessage(
         CSsl3TlsContext *this,
         struct SPBuffer *a2,
@@ -45,4 +47,3 @@ __int64 __fastcall CSsl3TlsContext::GenerateTlsAlertMessage(
   }
   return result;
 }
-

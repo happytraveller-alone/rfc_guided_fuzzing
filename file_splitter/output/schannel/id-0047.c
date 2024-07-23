@@ -1,4 +1,6 @@
-//----- (0000000180003ED0) ----------------------------------------------------
+// File count: 47
+// Total lines: 54
+------------------------------------------
 void __fastcall CSsl3TlsClientContext::CleanupConnectedState(CSsl3TlsClientContext *this)
 {
   __int64 v2; // rcx
@@ -52,4 +54,3 @@ void __fastcall CSsl3TlsClientContext::CleanupConnectedState(CSsl3TlsClientConte
 // 18002CD3F: variable 'v9' is possibly undefined
 // 18002CD3F: variable 'v10' is possibly undefined
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

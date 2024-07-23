@@ -1,4 +1,6 @@
-//----- (00000001800077A0) ----------------------------------------------------
+// File count: 95
+// Total lines: 159
+-----------------------------------------
 char __fastcall IsCngAlgorithmBlacklisted(
         unsigned __int64 a1,
         unsigned int a2,
@@ -157,4 +159,3 @@ LABEL_19:
 }
 // 180033AB9: variable 'v24' is possibly undefined
 // 180033AB9: variable 'v25' is possibly undefined
-

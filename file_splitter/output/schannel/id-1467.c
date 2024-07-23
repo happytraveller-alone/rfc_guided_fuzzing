@@ -1,4 +1,6 @@
-//----- (0000000180075C88) ----------------------------------------------------
+// File count: 1467
+// Total lines: 117
+---------------------------------------
 __int64 __fastcall SignEcdsaParams(
         struct CSsl3TlsServerContext *a1,
         unsigned __int8 *a2,
@@ -115,4 +117,3 @@ LABEL_28:
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180098540: using guessed type __int64 __fastcall SslSignHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

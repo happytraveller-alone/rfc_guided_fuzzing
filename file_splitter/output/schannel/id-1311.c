@@ -1,4 +1,6 @@
-//----- (00000001800674C0) ----------------------------------------------------
+// File count: 1311
+// Total lines: 50
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::GenerateGenericExtensions(__int64 a1, int a2)
 {
   __int64 v2; // rax
@@ -48,4 +50,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Generat
   return 0i64;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

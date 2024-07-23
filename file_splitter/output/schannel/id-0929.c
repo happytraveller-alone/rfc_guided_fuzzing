@@ -1,4 +1,6 @@
-//----- (000000018004D9F8) ----------------------------------------------------
+// File count: 929
+// Total lines: 40
+-----------------------------------------
 __int64 __fastcall ParseTlsHelloExtensions(unsigned __int8 *a1, unsigned int a2, struct SPBuffer *a3)
 {
   unsigned int v4; // ebx
@@ -38,4 +40,3 @@ __int64 __fastcall ParseTlsHelloExtensions(unsigned __int8 *a1, unsigned int a2,
   }
   return 2148074278i64;
 }
-

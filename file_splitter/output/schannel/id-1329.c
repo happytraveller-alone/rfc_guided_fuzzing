@@ -1,4 +1,6 @@
-//----- (0000000180068610) ----------------------------------------------------
+// File count: 1329
+// Total lines: 48
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::GenerateSupportedGroupsExtension(CTls13ClientHandshake *this)
 {
   __int64 result; // rax
@@ -46,4 +48,3 @@ __int64 __fastcall CTls13ClientHandshake::GenerateSupportedGroupsExtension(CTls1
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

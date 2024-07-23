@@ -1,4 +1,6 @@
-//----- (0000000180062AA8) ----------------------------------------------------
+// File count: 1238
+// Total lines: 62
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::SelectSrtpParameters(
         CSsl3TlsServerContext *this,
         unsigned __int16 *const a2,
@@ -60,4 +62,3 @@ __int64 __fastcall CSsl3TlsServerContext::SelectSrtpParameters(
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180066F08) ----------------------------------------------------
+// File count: 1304
+// Total lines: 35
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::GenerateCookieExtension(__int64 a1)
 {
   __int16 v2; // r8
@@ -33,4 +35,3 @@ __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::Generat
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

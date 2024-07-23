@@ -1,4 +1,6 @@
-//----- (0000000180078140) ----------------------------------------------------
+// File count: 1496
+// Total lines: 182
+---------------------------------------
 __int64 __fastcall CTls13ExtServer::ParsePreSharedKeyExtension(
         CTls13ExtServer *this,
         unsigned __int8 *a2,
@@ -180,4 +182,3 @@ LABEL_36:
 // 180078403: variable 'a4' is possibly undefined
 // 18005B470: using guessed type __int64 __fastcall CSslContext::SetErrorAndFatalAlert(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

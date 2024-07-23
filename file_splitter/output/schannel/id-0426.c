@@ -1,4 +1,6 @@
-//----- (0000000180018F58) ----------------------------------------------------
+// File count: 426
+// Total lines: 21
+-----------------------------------------
 void __fastcall CEphemKeyData::~CEphemKeyData(CEphemKeyData *this)
 {
   __int64 v2; // rcx
@@ -19,4 +21,3 @@ void __fastcall CEphemKeyData::~CEphemKeyData(CEphemKeyData *this)
 // 18007C270: using guessed type void *CEphemKeyData::`vftable';
 // 18007C298: using guessed type void *IAllocate::`vftable';
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

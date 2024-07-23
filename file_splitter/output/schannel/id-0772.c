@@ -1,4 +1,6 @@
-//----- (000000018002A1DC) ----------------------------------------------------
+// File count: 772
+// Total lines: 15
+-----------------------------------------
 void __fastcall Init_thread_wait(DWORD dwMilliseconds)
 {
   if ( qword_1800920B8 )
@@ -13,4 +15,3 @@ void __fastcall Init_thread_wait(DWORD dwMilliseconds)
   }
 }
 // 1800920B8: using guessed type __int64 (__fastcall *qword_1800920B8)(_QWORD, _QWORD, _QWORD);
-

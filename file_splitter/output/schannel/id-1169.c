@@ -1,4 +1,6 @@
-//----- (000000018005DABC) ----------------------------------------------------
+// File count: 1169
+// Total lines: 21
+----------------------------------------
 DWORD __fastcall CSessionCacheClientItem::UpdateRemoteEndpointBindings(CSessionCacheClientItem *this)
 {
   unsigned __int8 **v2; // rdi
@@ -19,4 +21,3 @@ DWORD __fastcall CSessionCacheClientItem::UpdateRemoteEndpointBindings(CSessionC
   else
     return 0;
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800745B4) ----------------------------------------------------
+// File count: 1458
+// Total lines: 376
+---------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::DhGenerateClientExchangeValue(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -374,4 +376,3 @@ LABEL_94:
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

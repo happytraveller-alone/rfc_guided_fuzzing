@@ -1,4 +1,6 @@
-//----- (0000000180027AF0) ----------------------------------------------------
+// File count: 549
+// Total lines: 24
+-----------------------------------------
 void __fastcall TlgAggregateInternalRegisteredProviderEtwCallback(
         const struct _GUID *a1,
         unsigned int a2,
@@ -22,4 +24,3 @@ void __fastcall TlgAggregateInternalRegisteredProviderEtwCallback(
     LookUpTableFlushPartial((__int64)a7);
   }
 }
-

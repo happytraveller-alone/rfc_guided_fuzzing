@@ -1,4 +1,6 @@
-//----- (0000000180016034) ----------------------------------------------------
+// File count: 285
+// Total lines: 14
+-----------------------------------------
 NTSTATUS __fastcall TlsCloseRegKey(void **a1)
 {
   void *v2; // rcx
@@ -12,4 +14,3 @@ NTSTATUS __fastcall TlsCloseRegKey(void **a1)
   }
   return result;
 }
-

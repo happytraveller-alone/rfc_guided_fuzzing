@@ -1,4 +1,6 @@
-//----- (0000000180003000) ----------------------------------------------------
+// File count: 31
+// Total lines: 29
+------------------------------------------
 void __fastcall CSessionCacheTable::ExpireItemsBoundToCred(CSessionCacheTable *this, struct CCredentialGroup *a2)
 {
   struct _RTL_RESOURCE *v2; // r13
@@ -27,4 +29,3 @@ void __fastcall CSessionCacheTable::ExpireItemsBoundToCred(CSessionCacheTable *t
   }
   RtlReleaseResource(v2);
 }
-

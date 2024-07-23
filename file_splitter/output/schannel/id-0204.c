@@ -1,4 +1,6 @@
-//----- (000000018001147C) ----------------------------------------------------
+// File count: 204
+// Total lines: 249
+----------------------------------------
 __int64 __fastcall ParseKeyBuffer(struct CSslContext *a1, __int64 a2, unsigned __int8 *a3, unsigned int a4)
 {
   unsigned int v4; // esi
@@ -247,4 +249,3 @@ LABEL_81:
 // 180084B40: using guessed type wchar_t aServer_1[7];
 // 180084B50: using guessed type wchar_t aClient[7];
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

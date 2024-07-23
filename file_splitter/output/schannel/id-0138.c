@@ -1,4 +1,6 @@
-//----- (000000018000B448) ----------------------------------------------------
+// File count: 138
+// Total lines: 282
+----------------------------------------
 __int64 __fastcall CSslSerializeHelper::DeserializeContextWorker(CSslSerializeHelper *this, struct CSslUserContext *a2)
 {
   __int64 v2; // rdi
@@ -280,4 +282,3 @@ LABEL_25:
 // 180085368: using guessed type wchar_t aRead[5];
 // 180085378: using guessed type wchar_t aWrite[6];
 // 1800985A0: using guessed type __int64 __fastcall SslImportKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

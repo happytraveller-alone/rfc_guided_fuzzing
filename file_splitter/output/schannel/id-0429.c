@@ -1,4 +1,6 @@
-//----- (00000001800191DC) ----------------------------------------------------
+// File count: 429
+// Total lines: 41
+-----------------------------------------
 void __fastcall CSsl3TlsServerContext::SetDowngradeProtection(CSsl3TlsServerContext *this)
 {
   __int64 v1; // rax
@@ -39,4 +41,3 @@ LABEL_4:
 }
 // 180082BB8: using guessed type const unsigned __int8 near *const CSsl3TlsContext::m_rgbTls11OrBelowDowngrade;
 // 180082BC0: using guessed type const unsigned __int8 near *const CSsl3TlsContext::m_rgbTls12Downgrade;
-

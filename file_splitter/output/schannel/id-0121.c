@@ -1,4 +1,6 @@
-//----- (000000018000A1D0) ----------------------------------------------------
+// File count: 121
+// Total lines: 11
+-----------------------------------------
 HLOCAL __fastcall CSslContext::GetMemory(CSslContext *this, unsigned int a2)
 {
   __int64 v2; // rcx
@@ -9,4 +11,3 @@ HLOCAL __fastcall CSslContext::GetMemory(CSslContext *this, unsigned int a2)
   else
     return SPExternalAlloc(a2);
 }
-

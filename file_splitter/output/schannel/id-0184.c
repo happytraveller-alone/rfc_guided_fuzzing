@@ -1,4 +1,6 @@
-//----- (000000018000F9F8) ----------------------------------------------------
+// File count: 184
+// Total lines: 62
+-----------------------------------------
 DWORD __fastcall SpQueryRemoteCertContext(struct CSslUserContext *a1, const CERT_CONTEXT **a2)
 {
   unsigned __int8 *v4; // rcx
@@ -60,4 +62,3 @@ DWORD __fastcall SpQueryRemoteCertContext(struct CSslUserContext *a1, const CERT
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

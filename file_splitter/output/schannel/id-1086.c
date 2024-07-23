@@ -1,4 +1,6 @@
-//----- (000000018005A900) ----------------------------------------------------
+// File count: 1086
+// Total lines: 71
+----------------------------------------
 CSslContext *__fastcall CSslContext::`vector deleting destructor'(CSslContext *this)
 {
   __int64 v2; // rcx
@@ -69,4 +71,3 @@ CSslContext *__fastcall CSslContext::`vector deleting destructor'(CSslContext *t
 // 18007CFB8: using guessed type void *ISslSerialize::`vftable';
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

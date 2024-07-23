@@ -1,4 +1,6 @@
-//----- (000000018004BD20) ----------------------------------------------------
+// File count: 899
+// Total lines: 26
+-----------------------------------------
 BOOL __stdcall SslEmptyCacheA(LPSTR pszTargetName, DWORD dwFlags)
 {
   WCHAR *Buffer; // rcx
@@ -24,4 +26,3 @@ BOOL __stdcall SslEmptyCacheA(LPSTR pszTargetName, DWORD dwFlags)
     RtlFreeUnicodeString(&DestinationString);
   return v6;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180014F8C) ----------------------------------------------------
+// File count: 262
+// Total lines: 11
+-----------------------------------------
 DWORD __fastcall RsaPublicKeyFromCert(
         struct _CERT_PUBLIC_KEY_INFO *a1,
         struct _PUBLICKEYSTRUC *pvStructInfo,
@@ -9,4 +11,3 @@ DWORD __fastcall RsaPublicKeyFromCert(
   else
     return GetLastError();
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180017D60) ----------------------------------------------------
+// File count: 327
+// Total lines: 14
+-----------------------------------------
 __int64 __fastcall CSslContextManager::RunBalancer(CSslContextManager *this, int a2)
 {
   unsigned __int32 v3; // eax
@@ -12,4 +14,3 @@ __int64 __fastcall CSslContextManager::RunBalancer(CSslContextManager *this, int
   }
   return 0i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018004D180) ----------------------------------------------------
+// File count: 917
+// Total lines: 9
+------------------------------------------
 IAllocate *__fastcall IAllocate::`vector deleting destructor'(IAllocate *this, char a2)
 {
   *(_QWORD *)this = &IAllocate::`vftable';
@@ -7,4 +9,3 @@ IAllocate *__fastcall IAllocate::`vector deleting destructor'(IAllocate *this, c
   return this;
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
-

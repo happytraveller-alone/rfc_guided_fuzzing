@@ -1,4 +1,6 @@
-//----- (0000000180061F30) ----------------------------------------------------
+// File count: 1229
+// Total lines: 79
+----------------------------------------
 __int64 __fastcall GetSslEccCurveTypeOrderFromCipherSuiteList(__int64 a1, _QWORD *a2, unsigned int *a3)
 {
   unsigned int v3; // ebx
@@ -77,4 +79,3 @@ LABEL_12:
   return v3;
 }
 // 18007FE80: using guessed type wchar_t *off_18007FE80;
-

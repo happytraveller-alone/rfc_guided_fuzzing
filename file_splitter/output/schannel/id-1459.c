@@ -1,4 +1,6 @@
-//----- (0000000180074C40) ----------------------------------------------------
+// File count: 1459
+// Total lines: 190
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::DhGenerateServerExchangeValue(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -188,4 +190,3 @@ LABEL_34:
   return (unsigned int)-2146893052;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

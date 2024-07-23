@@ -1,4 +1,6 @@
-//----- (0000000180019550) ----------------------------------------------------
+// File count: 432
+// Total lines: 390
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::GenerateRestart(CSsl3TlsServerContext *this, struct SPBuffer *a2)
 {
   char v4; // di
@@ -388,4 +390,3 @@ LABEL_106:
 // 180082BC0: using guessed type const unsigned __int8 near *const CSsl3TlsContext::m_rgbTls12Downgrade;
 // 180098428: using guessed type __int64 __fastcall SslGenerateSessionKeys(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

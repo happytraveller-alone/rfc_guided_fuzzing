@@ -1,4 +1,6 @@
-//----- (0000000180021510) ----------------------------------------------------
+// File count: 458
+// Total lines: 9
+------------------------------------------
 CTlsExtServer *__fastcall CTlsExtServer::`vector deleting destructor'(CTlsExtServer *this, char a2)
 {
   *(_QWORD *)this = &CTlsExt::`vftable';
@@ -7,4 +9,3 @@ CTlsExtServer *__fastcall CTlsExtServer::`vector deleting destructor'(CTlsExtSer
   return this;
 }
 // 18007D038: using guessed type void *CTlsExt::`vftable';
-

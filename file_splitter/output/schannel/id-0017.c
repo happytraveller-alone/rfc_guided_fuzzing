@@ -1,4 +1,6 @@
-//----- (0000000180002040) ----------------------------------------------------
+// File count: 17
+// Total lines: 463
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GenerateServerHelloResponse(CSsl3TlsClientContext *this, struct SPBuffer *a2)
 {
   unsigned int v4; // ebp
@@ -461,4 +463,3 @@ LABEL_116:
 // 18002C3CB: variable 'v55' is possibly undefined
 // 18002C4C8: variable 'v61' is possibly undefined
 // 18002C5FC: variable 'v66' is possibly undefined
-

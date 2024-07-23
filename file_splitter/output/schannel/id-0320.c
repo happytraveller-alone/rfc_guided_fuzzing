@@ -1,4 +1,6 @@
-//----- (0000000180017660) ----------------------------------------------------
+// File count: 320
+// Total lines: 190
+----------------------------------------
 __int64 __fastcall SpQueryCredentialsAttributes(struct CCredentialGroup *a1, int a2, _QWORD *a3)
 {
   int v6; // r14d
@@ -188,4 +190,3 @@ LABEL_17:
 // 1800178F3: conditional instruction was optimized away because ecx.4!=0
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

@@ -1,4 +1,6 @@
-//----- (0000000180056FB0) ----------------------------------------------------
+// File count: 1040
+// Total lines: 22
+----------------------------------------
 HRESULT __stdcall StringLengthWorkerW(STRSAFE_PCNZWCH psz, size_t cchMax, size_t *pcchLength)
 {
   size_t i; // r9
@@ -20,4 +22,3 @@ HRESULT __stdcall StringLengthWorkerW(STRSAFE_PCNZWCH psz, size_t cchMax, size_t
   }
   return result;
 }
-

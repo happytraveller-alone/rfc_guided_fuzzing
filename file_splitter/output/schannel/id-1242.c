@@ -1,4 +1,6 @@
-//----- (00000001800631D0) ----------------------------------------------------
+// File count: 1242
+// Total lines: 109
+---------------------------------------
 bool __fastcall CSsl3TlsServerContext::UnprotectAndDeserializeSessionState(
         CSsl3TlsServerContext *this,
         unsigned __int8 *const a2,
@@ -107,4 +109,3 @@ LABEL_14:
 // 18006331E: variable 'v14' is possibly undefined
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092180: using guessed type unsigned int (__stdcall *g_pKeyFileUnprotectSessionTicket)(unsigned __int8 *, unsigned int, const unsigned __int16 *, unsigned __int8 **, unsigned int *);
-

@@ -1,4 +1,6 @@
-//----- (0000000180059D68) ----------------------------------------------------
+// File count: 1074
+// Total lines: 15
+----------------------------------------
 struct sigsel *__fastcall GetSigInfo(int a1)
 {
   __int64 v1; // rax
@@ -13,4 +15,3 @@ struct sigsel *__fastcall GetSigInfo(int a1)
   }
   return (struct sigsel *)((char *)&g_AvailableSigs + 32 * v1);
 }
-

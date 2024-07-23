@@ -1,4 +1,6 @@
-//----- (00000001800046CC) ----------------------------------------------------
+// File count: 58
+// Total lines: 40
+------------------------------------------
 __int64 __fastcall CMasterEccCurveInfo::GetCurveInfo(CMasterEccCurveInfo *this, int a2, struct CEccCurveInfo **a3)
 {
   unsigned int v3; // r10d
@@ -38,4 +40,3 @@ LABEL_10:
   *a3 = (struct CEccCurveInfo *)v12;
   return 0i64;
 }
-

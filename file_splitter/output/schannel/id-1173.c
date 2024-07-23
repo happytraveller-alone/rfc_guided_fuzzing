@@ -1,4 +1,6 @@
-//----- (000000018005DCD8) ----------------------------------------------------
+// File count: 1173
+// Total lines: 39
+----------------------------------------
 __int64 __fastcall SPFindIssuerInCache(unsigned __int8 *Buf1, unsigned int a2)
 {
   unsigned int v2; // edi
@@ -37,4 +39,3 @@ __int64 __fastcall SPFindIssuerInCache(unsigned __int8 *Buf1, unsigned int a2)
 // 18005DD7A: variable 'v10' is possibly undefined
 // 1800926FC: using guessed type int dword_1800926FC;
 // 180092778: using guessed type int dword_180092778;
-

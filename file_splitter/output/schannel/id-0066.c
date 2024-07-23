@@ -1,4 +1,6 @@
-//----- (0000000180005130) ----------------------------------------------------
+// File count: 66
+// Total lines: 39
+------------------------------------------
 __int64 __fastcall CMasterEccCurveInfo::GetPublicKeyLength(CMasterEccCurveInfo *this, int a2, unsigned int *a3)
 {
   unsigned int v3; // r9d
@@ -37,4 +39,3 @@ LABEL_10:
   *a3 = *(_DWORD *)(780i64 * v7 + v10 + 768);
   return result;
 }
-

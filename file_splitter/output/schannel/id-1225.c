@@ -1,4 +1,6 @@
-//----- (0000000180061C24) ----------------------------------------------------
+// File count: 1225
+// Total lines: 108
+---------------------------------------
 __int64 __fastcall CCipherMill::EnumEccCurvesFromCipherToProvTable(
         CCipherMill *this,
         struct CCipherMill::CIPHER_SUITE_TO_PROVIDER *a2,
@@ -106,4 +108,3 @@ LABEL_20:
   return v5;
 }
 // 18007FE80: using guessed type wchar_t *off_18007FE80;
-

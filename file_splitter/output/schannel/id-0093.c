@@ -1,4 +1,6 @@
-//----- (000000018000706C) ----------------------------------------------------
+// File count: 93
+// Total lines: 219
+-----------------------------------------
 __int64 __fastcall CCipherMill::BuildCipherSuiteList(
         __int64 a1,
         unsigned int *a2,
@@ -217,4 +219,3 @@ LABEL_57:
 }
 // 1800925D0: using guessed type __int16 word_1800925D0;
 // 18000706C: using guessed type __int64 arg_20;
-

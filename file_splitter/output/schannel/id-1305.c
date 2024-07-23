@@ -1,4 +1,6 @@
-//----- (0000000180066FBC) ----------------------------------------------------
+// File count: 1305
+// Total lines: 24
+----------------------------------------
 unsigned int __fastcall CTls13ServerHandshake::GenerateEncryptedExtensions(CTls13ServerHandshake *this)
 {
   __int16 v1; // ax
@@ -22,4 +24,3 @@ unsigned int __fastcall CTls13ServerHandshake::GenerateEncryptedExtensions(CTls1
 }
 // 180067098: using guessed type __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::GenerateExtensionHeader(_QWORD, _QWORD, _QWORD);
 // 1800674C0: using guessed type __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::GenerateGenericExtensions(_QWORD, _QWORD);
-

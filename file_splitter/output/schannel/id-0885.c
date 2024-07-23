@@ -1,4 +1,6 @@
-//----- (00000001800489EC) ----------------------------------------------------
+// File count: 885
+// Total lines: 205
+----------------------------------------
 __int64 __fastcall SslGetNameFromCertificate(PCCERT_CONTEXT pCertContext, unsigned __int16 **a2, int *a3)
 {
   PCERT_INFO pCertInfo; // rax
@@ -203,4 +205,3 @@ LABEL_26:
 // 180048BBD: conditional instruction was optimized away because rbx.8==0
 // 180048D0F: conditional instruction was optimized away because rbx.8==0
 // 1800489EC: using guessed type HLOCAL var_18[3];
-

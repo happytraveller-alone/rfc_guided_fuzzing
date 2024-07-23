@@ -1,4 +1,6 @@
-//----- (000000018005AECC) ----------------------------------------------------
+// File count: 1099
+// Total lines: 37
+----------------------------------------
 void __fastcall CSslContextManager::DeleteFullSslContext(CSslContextManager *this, struct CSslParentContext *a2)
 {
   __int64 v4; // rcx
@@ -35,4 +37,3 @@ void __fastcall CSslContextManager::DeleteFullSslContext(CSslContextManager *thi
     SPExternalFree(a2);
   }
 }
-

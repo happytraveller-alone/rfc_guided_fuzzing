@@ -1,4 +1,6 @@
-//----- (000000018000EB9C) ----------------------------------------------------
+// File count: 167
+// Total lines: 12
+-----------------------------------------
 ULONG __fastcall GenerateRandomBits(PUCHAR pbBuffer, ULONG cbBuffer)
 {
   int v2; // ecx
@@ -10,4 +12,3 @@ ULONG __fastcall GenerateRandomBits(PUCHAR pbBuffer, ULONG cbBuffer)
     return RtlNtStatusToDosError(v2);
   return result;
 }
-

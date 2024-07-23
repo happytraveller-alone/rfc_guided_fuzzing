@@ -1,4 +1,6 @@
-//----- (0000000180054200) ----------------------------------------------------
+// File count: 1006
+// Total lines: 21
+----------------------------------------
 __int64 __fastcall GetPublicKeyAlgIdFromCert(const struct _CERT_CONTEXT *a1, unsigned int *a2)
 {
   PCERT_INFO pCertInfo; // rax
@@ -19,4 +21,3 @@ __int64 __fastcall GetPublicKeyAlgIdFromCert(const struct _CERT_CONTEXT *a1, uns
   *a2 = v5;
   return 0i64;
 }
-

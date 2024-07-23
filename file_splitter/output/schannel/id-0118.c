@@ -1,4 +1,6 @@
-//----- (0000000180009E8C) ----------------------------------------------------
+// File count: 118
+// Total lines: 26
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::AllocateOutputBuffer(CSsl3TlsContext *this, struct SPBuffer *a2, unsigned int a3)
 {
   HLOCAL Memory; // rax
@@ -24,4 +26,3 @@ LABEL_3:
     return 14i64;
   }
 }
-

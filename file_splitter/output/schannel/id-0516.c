@@ -1,4 +1,6 @@
-//----- (000000018002623C) ----------------------------------------------------
+// File count: 516
+// Total lines: 105
+----------------------------------------
 struct _DBG_TCB_HEADER *_DbgpOpenOrCreateSharedMem(void)
 {
   HANDLE FileMappingW; // rdi
@@ -103,4 +105,3 @@ struct _DBG_TCB_HEADER *_DbgpOpenOrCreateSharedMem(void)
   return DbgpGlobalControllerHeader;
 }
 // 180092810: using guessed type struct _DBG_TCB_HEADER *DbgpGlobalControllerHeader;
-

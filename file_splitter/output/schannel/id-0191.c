@@ -1,4 +1,6 @@
-//----- (00000001800102DC) ----------------------------------------------------
+// File count: 191
+// Total lines: 118
+----------------------------------------
 __int64 __fastcall IsRemoteCertificateBlacklisted(
         struct _TLS_PARAMETERS *a1,
         unsigned int a2,
@@ -116,4 +118,3 @@ LABEL_38:
 // 18001042C: variable 'v25' is possibly undefined
 // 1800104EC: variable 'v20' is possibly undefined
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

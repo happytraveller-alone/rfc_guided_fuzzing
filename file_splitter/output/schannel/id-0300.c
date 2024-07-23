@@ -1,4 +1,6 @@
-//----- (000000018001686C) ----------------------------------------------------
+// File count: 300
+// Total lines: 108
+----------------------------------------
 char __fastcall IsRsaAlgorithmBlacklisted(
         unsigned __int64 a1,
         unsigned int a2,
@@ -106,4 +108,3 @@ LABEL_18:
   }
   return 0;
 }
-

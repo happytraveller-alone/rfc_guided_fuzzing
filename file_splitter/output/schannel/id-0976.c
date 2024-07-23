@@ -1,4 +1,6 @@
-//----- (0000000180051F10) ----------------------------------------------------
+// File count: 976
+// Total lines: 72
+-----------------------------------------
 __int64 __fastcall UploadCertContextCallback(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
 {
   unsigned int v4; // ebx
@@ -70,4 +72,3 @@ __int64 __fastcall UploadCertContextCallback(__int64 a1, __int64 a2, __int64 a3,
   return v4;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

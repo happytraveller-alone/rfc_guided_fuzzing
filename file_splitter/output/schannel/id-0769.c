@@ -1,4 +1,6 @@
-//----- (000000018002A0B0) ----------------------------------------------------
+// File count: 769
+// Total lines: 14
+-----------------------------------------
 int __fastcall Init_thread_footer(_DWORD *a1)
 {
   __int64 v2; // rdx
@@ -12,4 +14,3 @@ int __fastcall Init_thread_footer(_DWORD *a1)
 }
 // 180091990: using guessed type int Init_global_epoch;
 // 1800920C8: using guessed type int tls_index;
-

@@ -1,4 +1,6 @@
-//----- (0000000180042D24) ----------------------------------------------------
+// File count: 808
+// Total lines: 125
+----------------------------------------
 const struct _CERT_CONTEXT *__fastcall SslGetCertificateByHash(
         unsigned __int8 *a1,
         int a2,
@@ -123,4 +125,3 @@ LABEL_39:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

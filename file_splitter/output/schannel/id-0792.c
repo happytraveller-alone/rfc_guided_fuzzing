@@ -1,4 +1,6 @@
-//----- (0000000180041460) ----------------------------------------------------
+// File count: 792
+// Total lines: 134
+----------------------------------------
 __int64 __fastcall RemotelyOpenClientKeyHandle(
         const unsigned __int16 *Src,
         const unsigned __int16 *a2,
@@ -132,4 +134,3 @@ LABEL_26:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

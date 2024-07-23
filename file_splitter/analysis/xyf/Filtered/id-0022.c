@@ -16,3 +16,6 @@ void __fastcall CSessionCacheManager::PurgeCacheForProcessId(CSessionCacheManage
   }
 }
 
+// 清理与特定进程 ID 相关的所有缓存项。它首先在所有缓存表中标记或删除与该进程相关的项，然后执行一次全面的过期元素清理。
+// 这种操作通常用于在进程结束或需要刷新缓存时确保不会留下过时或无用的缓存数据。
+

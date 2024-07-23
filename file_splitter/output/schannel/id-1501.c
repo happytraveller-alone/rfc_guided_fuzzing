@@ -1,4 +1,6 @@
-//----- (0000000180078830) ----------------------------------------------------
+// File count: 1501
+// Total lines: 13
+----------------------------------------
 __int64 __fastcall CTls13ChangeCipherSpec::GenerateMessage(CTls13ChangeCipherSpec *this)
 {
   __int64 result; // rax
@@ -11,4 +13,3 @@ __int64 __fastcall CTls13ChangeCipherSpec::GenerateMessage(CTls13ChangeCipherSpe
     return (*(__int64 (__fastcall **)(_QWORD))(**((_QWORD **)this + 1) + 40i64))(*((_QWORD *)this + 1));
   return result;
 }
-

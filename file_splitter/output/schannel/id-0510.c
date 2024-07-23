@@ -1,4 +1,6 @@
-//----- (0000000180025AD4) ----------------------------------------------------
+// File count: 510
+// Total lines: 21
+-----------------------------------------
 __int64 __fastcall ReadRegistrySetting(HKEY a1, HKEY a2, const unsigned __int16 *a3, BYTE *lpData, unsigned int a5)
 {
   int v5; // ebp
@@ -19,4 +21,3 @@ __int64 __fastcall ReadRegistrySetting(HKEY a1, HKEY a2, const unsigned __int16 
   return v9;
 }
 // 180025AD4: using guessed type DWORD anonymous_0[10];
-

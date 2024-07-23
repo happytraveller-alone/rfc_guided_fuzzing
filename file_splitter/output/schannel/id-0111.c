@@ -1,4 +1,6 @@
-//----- (000000018000909C) ----------------------------------------------------
+// File count: 111
+// Total lines: 9
+------------------------------------------
 void __fastcall SPExternalFree(void *a1)
 {
   if ( LsaTable )
@@ -7,4 +9,3 @@ void __fastcall SPExternalFree(void *a1)
     LocalFree(a1);
 }
 // 180092620: using guessed type __int64 LsaTable;
-

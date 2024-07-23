@@ -1,4 +1,6 @@
-//----- (0000000180012DC8) ----------------------------------------------------
+// File count: 221
+// Total lines: 49
+-----------------------------------------
 unsigned __int8 __fastcall ExtractAggregateFieldTypes(__int64 a1, __int64 a2)
 {
   __int64 v2; // rcx
@@ -47,4 +49,3 @@ unsigned __int8 __fastcall ExtractAggregateFieldTypes(__int64 a1, __int64 a2)
   }
   return v3;
 }
-

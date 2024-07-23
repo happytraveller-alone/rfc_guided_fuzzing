@@ -1,4 +1,6 @@
-//----- (000000018005E240) ----------------------------------------------------
+// File count: 1183
+// Total lines: 14
+----------------------------------------
 void __fastcall CSslLookasidePreallocate::Deallocate(union _SLIST_HEADER *this, struct _SLIST_ENTRY *a2)
 {
   if ( a2
@@ -12,4 +14,3 @@ void __fastcall CSslLookasidePreallocate::Deallocate(union _SLIST_HEADER *this, 
     CSslLookaside::Deallocate((CSslLookaside *)this, a2);
   }
 }
-

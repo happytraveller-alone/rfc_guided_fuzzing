@@ -1,4 +1,6 @@
-//----- (0000000180007E50) ----------------------------------------------------
+// File count: 98
+// Total lines: 24
+------------------------------------------
 __int64 __fastcall I_GetHashDetailsFromIndex(
         unsigned int a1,
         _QWORD *a2,
@@ -22,4 +24,3 @@ __int64 __fastcall I_GetHashDetailsFromIndex(
 }
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
-

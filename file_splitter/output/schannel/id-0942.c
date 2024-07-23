@@ -1,4 +1,6 @@
-//----- (000000018004E1F0) ----------------------------------------------------
+// File count: 942
+// Total lines: 12
+-----------------------------------------
 __int64 __fastcall CSslUserContext::GetProviderInfo(char **this, char *a2, unsigned __int64 *a3)
 {
   __int64 v4; // r11
@@ -10,4 +12,3 @@ __int64 __fastcall CSslUserContext::GetProviderInfo(char **this, char *a2, unsig
   return result;
 }
 // 18004E210: variable 'v4' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (0000000180028F4E) ----------------------------------------------------
+// File count: 600
+// Total lines: 17
+-----------------------------------------
 __int64 __fastcall _tailMerge_api_ms_win_security_credentials_l1_1_0_dll(
         __int64 a1,
         __int64 a2,
@@ -15,4 +17,3 @@ __int64 __fastcall _tailMerge_api_ms_win_security_credentials_l1_1_0_dll(
 }
 // 180028F88: variable 'v4' is possibly undefined
 // 18008BE90: using guessed type int _DELAY_IMPORT_DESCRIPTOR_api_ms_win_security_credentials_l1_1_0_dll;
-

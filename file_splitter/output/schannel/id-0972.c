@@ -1,4 +1,6 @@
-//----- (0000000180050CE0) ----------------------------------------------------
+// File count: 972
+// Total lines: 277
+----------------------------------------
 __int64 __fastcall GetUserAppCertDataCallback(__int64 a1, char a2, __int64 a3, __int64 a4)
 {
   int v4; // ebx
@@ -275,4 +277,3 @@ LABEL_69:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180012E50) ----------------------------------------------------
+// File count: 222
+// Total lines: 74
+-----------------------------------------
 __int64 __fastcall RemotelyGetUserKeys(struct CSslContext *a1, unsigned int a2)
 {
   int v2; // edi
@@ -72,4 +74,3 @@ __int64 __fastcall RemotelyGetUserKeys(struct CSslContext *a1, unsigned int a2)
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

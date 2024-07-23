@@ -1,4 +1,6 @@
-//----- (0000000180013BC8) ----------------------------------------------------
+// File count: 236
+// Total lines: 36
+-----------------------------------------
 __int64 __fastcall CertGetEccCurveType(__int64 a1, unsigned int *a2)
 {
   __int64 v2; // r8
@@ -34,4 +36,3 @@ __int64 __fastcall CertGetEccCurveType(__int64 a1, unsigned int *a2)
   return v6;
 }
 // 180013C33: variable 'v4' is possibly undefined
-

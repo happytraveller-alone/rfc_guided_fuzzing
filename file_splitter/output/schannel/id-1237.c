@@ -1,4 +1,6 @@
-//----- (0000000180062A60) ----------------------------------------------------
+// File count: 1237
+// Total lines: 11
+----------------------------------------
 bool __fastcall CSsl3TlsServerContext::IsWaitingForCCS(CSsl3TlsServerContext *this)
 {
   int v1; // eax
@@ -9,4 +11,3 @@ bool __fastcall CSsl3TlsServerContext::IsWaitingForCCS(CSsl3TlsServerContext *th
   else
     return ((v1 - 62) & 0xFFFFFFFD) == 0;
 }
-

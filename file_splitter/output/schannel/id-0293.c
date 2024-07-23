@@ -1,4 +1,6 @@
-//----- (00000001800165E0) ----------------------------------------------------
+// File count: 293
+// Total lines: 29
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::PreparseMessage(CSsl3TlsClientContext *this, struct SPBuffer *a2)
 {
   HLOCAL v5; // rax
@@ -27,4 +29,3 @@ __int64 __fastcall CSsl3TlsClientContext::PreparseMessage(CSsl3TlsClientContext 
   }
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

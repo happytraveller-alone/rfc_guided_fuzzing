@@ -1,4 +1,6 @@
-//----- (0000000180078D14) ----------------------------------------------------
+// File count: 1505
+// Total lines: 10
+----------------------------------------
 __int64 __fastcall GetCipherDetailsFromRegistry(HANDLE KeyHandle, char *a2)
 {
   int SslStringFromRegistry; // ebx
@@ -8,4 +10,3 @@ __int64 __fastcall GetCipherDetailsFromRegistry(HANDLE KeyHandle, char *a2)
     GetSslStringFromRegistry(KeyHandle, L"CipherMode", a2 + 128);
   return (unsigned int)SslStringFromRegistry;
 }
-

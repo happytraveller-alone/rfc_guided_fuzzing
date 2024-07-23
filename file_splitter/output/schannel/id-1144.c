@@ -1,4 +1,6 @@
-//----- (000000018005C9B4) ----------------------------------------------------
+// File count: 1144
+// Total lines: 21
+----------------------------------------
 __int64 __fastcall OpenKeyUsingCAPI(
         unsigned __int64 *a1,
         const unsigned __int16 *a2,
@@ -19,4 +21,3 @@ __int64 __fastcall OpenKeyUsingCAPI(
   return LastError;
 }
 // 180085488: using guessed type wchar_t aUnknown_0[10];
-

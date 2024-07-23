@@ -1,4 +1,6 @@
-//----- (00000001800524A0) ----------------------------------------------------
+// File count: 981
+// Total lines: 62
+-----------------------------------------
 __int64 __fastcall SpQueryKeyInfo(struct CSslUserContext *a1, _OWORD *a2)
 {
   unsigned __int16 v4; // ax
@@ -60,4 +62,3 @@ __int64 __fastcall SpQueryKeyInfo(struct CSslUserContext *a1, _OWORD *a2)
 // 180098510: using guessed type __int64 __fastcall SslLookupCipherSuiteInfo(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 1800524A0: using guessed type wchar_t Source[64];
 // 1800524A0: using guessed type wchar_t var_124[134];
-

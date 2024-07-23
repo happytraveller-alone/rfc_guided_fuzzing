@@ -1,4 +1,6 @@
-//----- (00000001800555A0) ----------------------------------------------------
+// File count: 1022
+// Total lines: 77
+----------------------------------------
 char __fastcall CCredentialGroup::CheckForValidIssuer(CCredentialGroup *this, const struct _CERT_CHAIN_CONTEXT *a2)
 {
   struct _RTL_RESOURCE *v2; // r12
@@ -75,4 +77,3 @@ LABEL_14:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
-

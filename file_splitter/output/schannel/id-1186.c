@@ -1,4 +1,6 @@
-//----- (000000018005E328) ----------------------------------------------------
+// File count: 1186
+// Total lines: 47
+----------------------------------------
 char __fastcall CTlsSignatureSuiteList::FindMinimumHashToSignRow(
         CTlsSignatureSuiteList *this,
         enum _eTlsSignatureAlgorithm a2,
@@ -45,4 +47,3 @@ char __fastcall CTlsSignatureSuiteList::FindMinimumHashToSignRow(
 // 18005E3A9: variable 'v5' is possibly undefined
 // 18005E3B9: variable 'v15' is possibly undefined
 // 18005E3C6: variable 'v8' is possibly undefined
-

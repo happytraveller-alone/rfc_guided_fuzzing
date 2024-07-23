@@ -1,4 +1,6 @@
-//----- (000000018007075C) ----------------------------------------------------
+// File count: 1417
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetSrtpProtectionProfiles(
         CSsl3TlsContext *this,
         struct _SEC_SRTP_PROTECTION_PROFILES *const a2)
@@ -24,4 +26,3 @@ __int64 __fastcall CSsl3TlsContext::SetSrtpProtectionProfiles(
   *((_QWORD *)this + 100) = v2;
   return 0i64;
 }
-

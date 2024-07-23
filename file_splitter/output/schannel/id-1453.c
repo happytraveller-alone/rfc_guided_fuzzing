@@ -1,4 +1,6 @@
-//----- (0000000180073C88) ----------------------------------------------------
+// File count: 1453
+// Total lines: 138
+---------------------------------------
 __int64 __fastcall DoCertificateMapping(struct CSsl3TlsServerContext *a1)
 {
   __int64 v1; // rax
@@ -136,4 +138,3 @@ LABEL_44:
 // 180073FC4: variable 'v18' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

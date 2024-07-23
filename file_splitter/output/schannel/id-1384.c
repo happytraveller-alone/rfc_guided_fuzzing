@@ -1,4 +1,6 @@
-//----- (000000018006DBE0) ----------------------------------------------------
+// File count: 1384
+// Total lines: 585
+---------------------------------------
 __int64 __fastcall CTls13ClientContext::ProcessHandshake(
         CTls13ClientContext *this,
         unsigned __int8 *a2,
@@ -583,4 +585,3 @@ LABEL_181:
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 180098450: using guessed type __int64 __fastcall SslExpandResumptionMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

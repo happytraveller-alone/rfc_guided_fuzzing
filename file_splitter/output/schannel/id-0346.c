@@ -1,4 +1,6 @@
-//----- (0000000180018110) ----------------------------------------------------
+// File count: 346
+// Total lines: 32
+-----------------------------------------
 __int64 __fastcall CSslUserContext::PopulateSerialContextState(CSslUserContext *this, struct _SSL_PACKED_CONTEXT *a2)
 {
   *(_DWORD *)a2 = *((_DWORD *)this + 2);
@@ -30,4 +32,3 @@ __int64 __fastcall CSslUserContext::PopulateSerialContextState(CSslUserContext *
   *((_QWORD *)a2 + 10) = *((_QWORD *)this + 37);
   return 0i64;
 }
-

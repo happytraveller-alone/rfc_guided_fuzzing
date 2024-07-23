@@ -1,4 +1,6 @@
-//----- (0000000180053E4C) ----------------------------------------------------
+// File count: 1004
+// Total lines: 157
+---------------------------------------
 __int64 __fastcall ExtractIssuerNamesFromStore(void *a1, unsigned __int8 *a2, unsigned int *a3, unsigned __int8 *a4)
 {
   unsigned int v4; // r12d
@@ -155,4 +157,3 @@ LABEL_27:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

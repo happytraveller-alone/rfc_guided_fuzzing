@@ -1,4 +1,6 @@
-//----- (0000000180054FC4) ----------------------------------------------------
+// File count: 1015
+// Total lines: 14
+----------------------------------------
 void CSslGlobals::CleanupCryptLocatorEvents(void)
 {
   if ( CSslGlobals::m_hImplicitCertChangeEvent )
@@ -12,4 +14,3 @@ void CSslGlobals::CleanupCryptLocatorEvents(void)
     CSslGlobals::m_hImplicitIssersChangeEvent = 0i64;
   }
 }
-

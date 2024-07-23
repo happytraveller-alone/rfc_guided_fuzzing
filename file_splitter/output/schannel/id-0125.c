@@ -1,4 +1,6 @@
-//----- (000000018000A444) ----------------------------------------------------
+// File count: 125
+// Total lines: 14
+-----------------------------------------
 signed __int64 __fastcall InternalVerifyStackAvailable(unsigned __int64 a1)
 {
   __int64 v1; // rax
@@ -12,4 +14,3 @@ signed __int64 __fastcall InternalVerifyStackAvailable(unsigned __int64 a1)
   v3 = alloca(result);
   return result;
 }
-

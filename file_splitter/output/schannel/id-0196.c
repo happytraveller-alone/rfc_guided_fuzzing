@@ -1,4 +1,6 @@
-//----- (0000000180010874) ----------------------------------------------------
+// File count: 196
+// Total lines: 503
+----------------------------------------
 __int64 __fastcall SpCommonAcquireCredentialsHandle(
         struct _UNICODE_STRING *a1,
         unsigned int a2,
@@ -501,4 +503,3 @@ LABEL_61:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

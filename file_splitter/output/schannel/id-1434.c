@@ -1,4 +1,6 @@
-//----- (00000001800729C0) ----------------------------------------------------
+// File count: 1434
+// Total lines: 58
+----------------------------------------
 struct DTlsRec *__fastcall DTlsMsgMgr::AddOutgoingRec(DTlsMsgMgr *this, unsigned int a2)
 {
   _QWORD *v2; // rsi
@@ -56,4 +58,3 @@ struct DTlsRec *__fastcall DTlsMsgMgr::AddOutgoingRec(DTlsMsgMgr *this, unsigned
   }
   return (struct DTlsRec *)v3;
 }
-

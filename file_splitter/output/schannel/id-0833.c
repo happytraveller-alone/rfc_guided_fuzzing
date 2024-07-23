@@ -1,4 +1,6 @@
-//----- (00000001800446C0) ----------------------------------------------------
+// File count: 833
+// Total lines: 100
+----------------------------------------
 __int64 __fastcall SpApplyControlToken(__int64 a1, __int64 a2)
 {
   CCipherMill *v4; // rcx
@@ -98,4 +100,3 @@ __int64 __fastcall SpApplyControlToken(__int64 a1, __int64 a2)
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

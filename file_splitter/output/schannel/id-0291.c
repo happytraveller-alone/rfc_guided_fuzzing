@@ -1,4 +1,6 @@
-//----- (00000001800163E0) ----------------------------------------------------
+// File count: 291
+// Total lines: 59
+-----------------------------------------
 __int64 __fastcall DownloadCertContextCallback(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
 {
   int v6; // ebp
@@ -57,4 +59,3 @@ LABEL_22:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

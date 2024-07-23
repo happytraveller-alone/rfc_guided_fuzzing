@@ -1,4 +1,6 @@
-//----- (000000018006DB5C) ----------------------------------------------------
+// File count: 1383
+// Total lines: 28
+----------------------------------------
 __int64 __fastcall CTls13Context::PreparseMessage(
         CTls13Context *this,
         struct SPBuffer *a2,
@@ -26,4 +28,3 @@ __int64 __fastcall CTls13Context::PreparseMessage(
   }
   return 0i64;
 }
-

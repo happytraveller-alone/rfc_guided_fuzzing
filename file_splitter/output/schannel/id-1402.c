@@ -1,4 +1,6 @@
-//----- (000000018006F874) ----------------------------------------------------
+// File count: 1402
+// Total lines: 19
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::DtlsGetOutgoingRecord(
         CSsl3TlsContext *this,
         struct SPBuffer *a2,
@@ -17,4 +19,3 @@ __int64 __fastcall CSsl3TlsContext::DtlsGetOutgoingRecord(
     return (unsigned int)CSsl3TlsContext::PrepareNextOutgoingRecord(this, a3);
   return v6;
 }
-

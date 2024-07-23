@@ -1,4 +1,6 @@
-//----- (000000018005AFCC) ----------------------------------------------------
+// File count: 1100
+// Total lines: 20
+----------------------------------------
 void __fastcall CTls13Context::FreeApplicationTrafficKeys(CTls13Context *this)
 {
   __int64 v2; // rcx
@@ -18,4 +20,3 @@ void __fastcall CTls13Context::FreeApplicationTrafficKeys(CTls13Context *this)
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

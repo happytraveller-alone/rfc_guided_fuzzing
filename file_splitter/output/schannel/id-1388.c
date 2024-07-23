@@ -1,4 +1,6 @@
-//----- (000000018006EB44) ----------------------------------------------------
+// File count: 1388
+// Total lines: 56
+----------------------------------------
 __int64 __fastcall CTls13Context::ReturnGenericExtensions(CTls13Context *this)
 {
   const void *v1; // rdx
@@ -54,4 +56,3 @@ LABEL_12:
   }
   return 0i64;
 }
-

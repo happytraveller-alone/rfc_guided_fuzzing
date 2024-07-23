@@ -1,4 +1,6 @@
-//----- (0000000180043A7C) ----------------------------------------------------
+// File count: 822
+// Total lines: 34
+-----------------------------------------
 __int64 __fastcall VerifyClientCertPolicyBuffer(char *a1, unsigned int a2)
 {
   int v2; // r8d
@@ -32,4 +34,3 @@ __int64 __fastcall VerifyClientCertPolicyBuffer(char *a1, unsigned int a2)
 // 180043ABB: variable 'v5' is possibly undefined
 // 180043AC3: variable 'v3' is possibly undefined
 // 180043AC3: variable 'v2' is possibly undefined
-

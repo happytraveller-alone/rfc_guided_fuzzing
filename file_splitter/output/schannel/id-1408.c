@@ -1,4 +1,6 @@
-//----- (000000018006FEBC) ----------------------------------------------------
+// File count: 1408
+// Total lines: 58
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::GetHashAlgorithmSize(
         CSsl3TlsContext *this,
         enum _eTlsSignatureAlgorithm a2,
@@ -56,4 +58,3 @@ __int64 __fastcall CSsl3TlsContext::GetHashAlgorithmSize(
 }
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
-

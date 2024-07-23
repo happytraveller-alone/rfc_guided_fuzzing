@@ -1,4 +1,6 @@
-//----- (000000018006D824) ----------------------------------------------------
+// File count: 1381
+// Total lines: 52
+----------------------------------------
 __int64 __fastcall CTls13Context::ParseCcsRecord(__int64 a1, __int64 a2, unsigned int a3, int a4, int a5)
 {
   int v5; // r10d
@@ -50,4 +52,3 @@ __int64 __fastcall CTls13Context::ParseCcsRecord(__int64 a1, __int64 a2, unsigne
   }
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

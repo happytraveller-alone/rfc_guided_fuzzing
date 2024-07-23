@@ -1,4 +1,6 @@
-//----- (0000000180029BC4) ----------------------------------------------------
+// File count: 736
+// Total lines: 20
+-----------------------------------------
 char IsCrackSingleNamePresent()
 {
   char result; // al
@@ -18,4 +20,3 @@ char IsCrackSingleNamePresent()
 // 18002A3E0: using guessed type __int64 __fastcall ApiSetQueryApiSetPresence_0(_QWORD, _QWORD);
 // 18007D4B0: using guessed type wchar_t aZ[3];
 // 180092058: using guessed type int dword_180092058;
-

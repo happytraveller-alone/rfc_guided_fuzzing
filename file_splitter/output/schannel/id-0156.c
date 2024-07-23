@@ -1,4 +1,6 @@
-//----- (000000018000D7D0) ----------------------------------------------------
+// File count: 156
+// Total lines: 349
+----------------------------------------
 __int64 __fastcall AscIscPostProcessing(
         int a1,
         struct CSslContext *a2,
@@ -347,4 +349,3 @@ LABEL_33:
 // 1800382AA: variable 'csz' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

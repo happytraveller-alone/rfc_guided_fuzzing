@@ -1,4 +1,6 @@
-//----- (00000001800675F4) ----------------------------------------------------
+// File count: 1313
+// Total lines: 34
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::GenerateHandshakeHeader(
         __int64 a1,
         char a2,
@@ -32,4 +34,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Generat
   return result;
 }
 // 1800675F4: using guessed type __int16 var_18[12];
-

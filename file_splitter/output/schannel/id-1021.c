@@ -1,4 +1,6 @@
-//----- (0000000180055510) ----------------------------------------------------
+// File count: 1021
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CCredentialGroup::CheckForCredentialRenewal(CCredentialGroup *this)
 {
   unsigned int v3; // edi
@@ -21,4 +23,3 @@ __int64 __fastcall CCredentialGroup::CheckForCredentialRenewal(CCredentialGroup 
   RtlReleaseResource((PRTL_RESOURCE)((char *)this + 48));
   return v3;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180057D84) ----------------------------------------------------
+// File count: 1048
+// Total lines: 318
+---------------------------------------
 __int64 __fastcall FindDefaultMachineCred(
         struct CCredentialGroup **a1,
         unsigned int a2,
@@ -316,4 +318,3 @@ LABEL_85:
 // 180084C90: using guessed type EVENT_DESCRIPTOR ChainBuildStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
 // 180057D84: using guessed type char var_118[96];
-

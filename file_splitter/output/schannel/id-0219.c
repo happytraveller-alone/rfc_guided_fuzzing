@@ -1,4 +1,6 @@
-//----- (0000000180012D04) ----------------------------------------------------
+// File count: 219
+// Total lines: 27
+-----------------------------------------
 __int64 __fastcall ComputeEventEntryHash(char a1, unsigned __int8 a2, __int64 a3)
 {
   unsigned __int8 v6; // bl
@@ -25,4 +27,3 @@ __int64 __fastcall ComputeEventEntryHash(char a1, unsigned __int8 a2, __int64 a3
   return 32769 * ((9 * v11) ^ ((unsigned int)(9 * v11) >> 11));
 }
 // 180012D5E: variable 'v9' is possibly undefined
-

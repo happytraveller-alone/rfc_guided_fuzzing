@@ -1,4 +1,6 @@
-//----- (000000018006AA84) ----------------------------------------------------
+// File count: 1351
+// Total lines: 20
+----------------------------------------
 __int64 __fastcall CTls13ClientContext::DowngradeClientToSsl3Tls(CTls13ClientContext *this)
 {
   void *v2; // rax
@@ -18,4 +20,3 @@ __int64 __fastcall CTls13ClientContext::DowngradeClientToSsl3Tls(CTls13ClientCon
   return result;
 }
 // 180060138: using guessed type __int64 __fastcall CSsl3TlsClientContext::CSsl3TlsClientContext(_QWORD, _QWORD);
-

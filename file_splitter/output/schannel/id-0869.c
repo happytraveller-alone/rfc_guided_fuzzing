@@ -1,4 +1,6 @@
-//----- (0000000180046E2C) ----------------------------------------------------
+// File count: 869
+// Total lines: 23
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::QuerySupportedMTU(CSsl3TlsContext *this, void *a2)
 {
   bool v2; // zf
@@ -21,4 +23,3 @@ __int64 __fastcall CSsl3TlsContext::QuerySupportedMTU(CSsl3TlsContext *this, voi
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

@@ -1,4 +1,6 @@
-//----- (00000001800774B0) ----------------------------------------------------
+// File count: 1481
+// Total lines: 115
+---------------------------------------
 __int64 __fastcall CTls13Record::SetFlightInfo(
         CTls13Record *this,
         unsigned __int16 a2,
@@ -113,4 +115,3 @@ LABEL_30:
   *a4 = v6;
   return 0i64;
 }
-

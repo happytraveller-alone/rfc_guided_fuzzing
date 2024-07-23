@@ -1,4 +1,6 @@
-//----- (0000000180013988) ----------------------------------------------------
+// File count: 234
+// Total lines: 30
+-----------------------------------------
 __int64 StringCchPrintfW(unsigned __int16 *a1, __int64 a2, const unsigned __int16 *a3, ...)
 {
   unsigned __int64 v4; // rsi
@@ -28,4 +30,3 @@ __int64 StringCchPrintfW(unsigned __int16 *a1, __int64 a2, const unsigned __int1
     *a1 = 0;
   return v5;
 }
-

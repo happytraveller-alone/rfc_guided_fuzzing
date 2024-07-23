@@ -1,4 +1,6 @@
-//----- (0000000180069A50) ----------------------------------------------------
+// File count: 1341
+// Total lines: 48
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::ParseKeyUpdate(__int64 a1, _BYTE *a2, int a3)
 {
   _DWORD *v4; // rcx
@@ -46,4 +48,3 @@ LABEL_5:
 // 180069B04: variable 'a2' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

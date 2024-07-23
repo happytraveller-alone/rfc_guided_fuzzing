@@ -1,4 +1,6 @@
-//----- (0000000180053B60) ----------------------------------------------------
+// File count: 1003
+// Total lines: 126
+---------------------------------------
 DWORD __fastcall DssPublicKeyFromCert(struct _CERT_PUBLIC_KEY_INFO *a1, struct _PUBLICKEYSTRUC *a2, unsigned int *a3)
 {
   DWORD cbData; // r9d
@@ -124,4 +126,3 @@ LABEL_7:
   return LastError;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

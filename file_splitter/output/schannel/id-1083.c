@@ -1,4 +1,6 @@
-//----- (000000018005A424) ----------------------------------------------------
+// File count: 1083
+// Total lines: 42
+----------------------------------------
 CTls13Context *__fastcall CTls13Context::CTls13Context(CTls13Context *this, struct CTlsRecord *a2)
 {
   CTls13Context *result; // rax
@@ -40,4 +42,3 @@ CTls13Context *__fastcall CTls13Context::CTls13Context(CTls13Context *this, stru
 }
 // 18007CB58: using guessed type void *CTls13ChangeCipherSpec::`vftable';
 // 18007CB60: using guessed type void *CTls13Context::`vftable';
-

@@ -1,4 +1,6 @@
-//----- (000000018000657C) ----------------------------------------------------
+// File count: 80
+// Total lines: 18
+------------------------------------------
 __int64 __fastcall UpdateServerCertificateSerialChainProperty(struct CSsl3TlsClientContext *a1, unsigned int a2)
 {
   __int64 v4; // rdx
@@ -16,4 +18,3 @@ __int64 __fastcall UpdateServerCertificateSerialChainProperty(struct CSsl3TlsCli
   return 0i64;
 }
 // 180098188: using guessed type __int64 __fastcall I_CertFinishSslHandshake(_QWORD, _QWORD, _QWORD, _QWORD);
-

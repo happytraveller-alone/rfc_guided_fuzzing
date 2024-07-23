@@ -1,4 +1,6 @@
-//----- (0000000180048860) ----------------------------------------------------
+// File count: 884
+// Total lines: 60
+-----------------------------------------
 void __fastcall SslDomainChangeCallback(enum _POLICY_NOTIFICATION_INFORMATION_CLASS a1)
 {
   int v1; // eax
@@ -58,4 +60,3 @@ void __fastcall SslDomainChangeCallback(enum _POLICY_NOTIFICATION_INFORMATION_CL
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098220: using guessed type __int64 __fastcall LsaIFree_LSAPR_POLICY_INFORMATION(_QWORD);
 // 180098228: using guessed type __int64 __fastcall LsaIQueryInformationPolicyTrusted(_QWORD, _QWORD);
-

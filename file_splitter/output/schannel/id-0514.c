@@ -1,4 +1,6 @@
-//----- (00000001800260E0) ----------------------------------------------------
+// File count: 514
+// Total lines: 32
+-----------------------------------------
 void __fastcall _DbgpRegistryChangeNotifycationCallback(void *a1, unsigned __int8 a2)
 {
   int v2; // r14d
@@ -30,4 +32,3 @@ void __fastcall _DbgpRegistryChangeNotifycationCallback(void *a1, unsigned __int
     LeaveCriticalSection(v6);
   }
 }
-

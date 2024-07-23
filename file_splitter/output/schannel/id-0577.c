@@ -1,4 +1,6 @@
-//----- (00000001800287C8) ----------------------------------------------------
+// File count: 577
+// Total lines: 11
+-----------------------------------------
 char __fastcall _scrt_uninitialize_crt(__int64 a1, char a2)
 {
   if ( !byte_180092001 || !a2 )
@@ -9,4 +11,3 @@ char __fastcall _scrt_uninitialize_crt(__int64 a1, char a2)
   return 1;
 }
 // 180092001: using guessed type char byte_180092001;
-

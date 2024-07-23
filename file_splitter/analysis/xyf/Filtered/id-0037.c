@@ -33,7 +33,7 @@ void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCac
   DTlsMsgMgr *v31; // rcx
   struct CSessionCacheItem *v32; // rdx
 
-  *this = (struct CSessionCacheItem *)&CSsl3TlsClientContext::`vftable';
+  *this = (struct CSessionCacheItem *)&CSsl3TlsClientContext::vftable;
   CSsl3TlsClientContext::CleanupConnectedState((CSsl3TlsClientContext *)this);
   v2 = this[166];
   if ( v2 )
@@ -48,7 +48,7 @@ void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCac
   if ( v3 )
     CSslContext::FreeMemory((CSslContext *)this, v3);
   v4 = *((_BYTE *)this + 233) == 0;
-  *this = (struct CSessionCacheItem *)&CSsl3TlsContext::`vftable';
+  *this = (struct CSessionCacheItem *)&CSsl3TlsContext::vftable;
   if ( v4 )
   {
     v5 = this[58];
@@ -80,7 +80,7 @@ void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCac
     v31 = this[72];
     if ( v31 )
     {
-      DTlsMsgMgr::`scalar deleting destructor'(v31);
+      DTlsMsgMgr::scalar deleting destructor(v31);
       this[72] = 0i64;
     }
     CSsl3TlsContext::FreeSavedWriteCipherState((CSsl3TlsContext *)this);
@@ -137,7 +137,7 @@ void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCac
     CSslContext::FreeMemory((CSslContext *)this, v14);
   CSsl3TlsContext::FreeHandshakeHash((CSsl3TlsContext *)this);
   v15 = this[18];
-  *this = (struct CSessionCacheItem *)&CSslContext::`vftable';
+  *this = (struct CSessionCacheItem *)&CSslContext::vftable;
   if ( v15 )
     SslFreeObject(v15, 0i64);
   v16 = this[19];
@@ -179,7 +179,7 @@ void __fastcall CSsl3TlsClientContext::~CSsl3TlsClientContext(struct CSessionCac
   v26 = (volatile signed __int32 *)this[15];
   if ( v26 && _InterlockedExchangeAdd(v26 + 5, 0xFFFFFFFF) == 1 )
     (*(void (__fastcall **)(volatile signed __int32 *, __int64))(*(_QWORD *)v26 + 8i64))(v26, 1i64);
-  *this = (struct CSessionCacheItem *)&ISslSerialize::`vftable';
+  *this = (struct CSessionCacheItem *)&ISslSerialize::vftable;
 }
 // 18007C000: using guessed type void *CSsl3TlsClientContext::`vftable';
 // 18007CBA8: using guessed type void *CSsl3TlsContext::`vftable';

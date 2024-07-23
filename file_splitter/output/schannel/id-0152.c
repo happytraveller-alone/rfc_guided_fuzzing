@@ -1,4 +1,6 @@
-//----- (000000018000D31C) ----------------------------------------------------
+// File count: 152
+// Total lines: 28
+-----------------------------------------
 __int64 __fastcall ConvertSchannelProtocolToSsl(int a1)
 {
   __int64 result; // rax
@@ -26,4 +28,3 @@ __int64 __fastcall ConvertSchannelProtocolToSsl(int a1)
   }
   return result;
 }
-

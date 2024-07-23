@@ -1,4 +1,6 @@
-//----- (000000018006F914) ----------------------------------------------------
+// File count: 1403
+// Total lines: 57
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::DtlsProcessRecord(__int64 a1, int a2, unsigned __int8 *a3, unsigned int a4)
 {
   int v7; // edx
@@ -55,4 +57,3 @@ __int64 __fastcall CSsl3TlsContext::DtlsProcessRecord(__int64 a1, int a2, unsign
   return v8;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

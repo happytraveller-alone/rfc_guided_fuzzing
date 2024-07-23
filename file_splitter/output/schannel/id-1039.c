@@ -1,4 +1,6 @@
-//----- (0000000180056F54) ----------------------------------------------------
+// File count: 1039
+// Total lines: 41
+----------------------------------------
 HRESULT __stdcall StringCopyWorkerW(
         STRSAFE_LPWSTR pszDest,
         size_t cchDest,
@@ -39,4 +41,3 @@ HRESULT __stdcall StringCopyWorkerW(
   *v9 = 0;
   return result;
 }
-

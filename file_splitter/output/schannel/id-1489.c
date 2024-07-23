@@ -1,4 +1,6 @@
-//----- (0000000180077C90) ----------------------------------------------------
+// File count: 1489
+// Total lines: 19
+----------------------------------------
 __int64 __fastcall CNulRecord::WritePlaintext(void **this, unsigned __int16 a2, const unsigned __int8 *a3)
 {
   __int64 v3; // rsi
@@ -17,4 +19,3 @@ __int64 __fastcall CNulRecord::WritePlaintext(void **this, unsigned __int16 a2, 
   }
   return 0i64;
 }
-

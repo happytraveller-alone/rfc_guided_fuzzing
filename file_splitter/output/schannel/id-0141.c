@@ -1,4 +1,6 @@
-//----- (000000018000C160) ----------------------------------------------------
+// File count: 141
+// Total lines: 118
+----------------------------------------
 __int64 __fastcall SpUserQueryContextAttributes(__int64 a1, unsigned int a2, struct _SecPkgContext_TokenBinding *a3)
 {
   struct CSslUserContext *UserContext; // rax
@@ -116,4 +118,3 @@ __int64 __fastcall SpUserQueryContextAttributes(__int64 a1, unsigned int a2, str
 }
 // 1800363C3: variable 'v6' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

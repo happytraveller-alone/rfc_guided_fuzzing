@@ -1,4 +1,6 @@
-//----- (000000018002A25C) ----------------------------------------------------
+// File count: 773
+// Total lines: 12
+-----------------------------------------
 int __cdecl vsnwprintf(wchar_t *Buffer, size_t BufferCount, const wchar_t *Format, va_list Args)
 {
   unsigned __int64 *v8; // rax
@@ -10,4 +12,3 @@ int __cdecl vsnwprintf(wchar_t *Buffer, size_t BufferCount, const wchar_t *Forma
     return -1;
   return result;
 }
-

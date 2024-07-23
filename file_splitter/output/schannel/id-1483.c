@@ -1,4 +1,6 @@
-//----- (0000000180077740) ----------------------------------------------------
+// File count: 1483
+// Total lines: 97
+----------------------------------------
 __int64 __fastcall CTls13Record::WritePlaintext(CTls13Record *this, unsigned __int16 a2, const unsigned __int8 *a3)
 {
   int v3; // edi
@@ -95,4 +97,3 @@ __int64 __fastcall CTls13Record::WritePlaintext(CTls13Record *this, unsigned __i
   }
   return result;
 }
-

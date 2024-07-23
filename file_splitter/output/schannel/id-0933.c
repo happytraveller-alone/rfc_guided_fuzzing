@@ -1,4 +1,6 @@
-//----- (000000018004DD58) ----------------------------------------------------
+// File count: 933
+// Total lines: 37
+-----------------------------------------
 __int64 __fastcall CSslSerializeHelper::SerializeEncryptionKey(__int64 a1, int a2, __int64 a3, __int64 a4)
 {
   _DWORD *v4; // rdi
@@ -35,4 +37,3 @@ __int64 __fastcall CSslSerializeHelper::SerializeEncryptionKey(__int64 a1, int a
 }
 // 180082320: using guessed type wchar_t aOpaquekeyblob[14];
 // 180098528: using guessed type __int64 __fastcall SslExportKey(_QWORD, _QWORD, _QWORD);
-

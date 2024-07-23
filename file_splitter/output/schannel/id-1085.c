@@ -1,4 +1,6 @@
-//----- (000000018005A570) ----------------------------------------------------
+// File count: 1085
+// Total lines: 176
+---------------------------------------
 CSsl3TlsContext *__fastcall CSsl3TlsContext::`scalar deleting destructor'(CSsl3TlsContext *this)
 {
   bool v1; // zf
@@ -174,4 +176,3 @@ CSsl3TlsContext *__fastcall CSsl3TlsContext::`scalar deleting destructor'(CSsl3T
 // 18007CFB8: using guessed type void *ISslSerialize::`vftable';
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

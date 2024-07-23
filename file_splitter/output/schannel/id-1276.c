@@ -1,4 +1,6 @@
-//----- (0000000180064C60) ----------------------------------------------------
+// File count: 1276
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ComputeKeyShareExtensionSize(CTls13ClientHandshake *this)
 {
   unsigned int v2; // ebx
@@ -24,4 +26,3 @@ __int64 __fastcall CTls13ClientHandshake::ComputeKeyShareExtensionSize(CTls13Cli
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

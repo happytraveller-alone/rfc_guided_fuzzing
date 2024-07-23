@@ -1,4 +1,6 @@
-//----- (00000001800726B8) ----------------------------------------------------
+// File count: 1429
+// Total lines: 19
+----------------------------------------
 void __fastcall DTlsHandshakeQueue::~DTlsHandshakeQueue(DTlsHandshakeQueue *this)
 {
   DTlsMessage *v2; // rcx
@@ -17,4 +19,3 @@ void __fastcall DTlsHandshakeQueue::~DTlsHandshakeQueue(DTlsHandshakeQueue *this
     *((_QWORD *)this + 3) = 0i64;
   }
 }
-

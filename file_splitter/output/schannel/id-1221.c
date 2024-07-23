@@ -1,4 +1,6 @@
-//----- (00000001800613D0) ----------------------------------------------------
+// File count: 1221
+// Total lines: 93
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::SetNegotiatedSrtpParameters(
         CSsl3TlsClientContext *this,
         unsigned __int16 *const a2,
@@ -91,4 +93,3 @@ LABEL_29:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

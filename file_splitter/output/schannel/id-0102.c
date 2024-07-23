@@ -1,4 +1,6 @@
-//----- (0000000180008310) ----------------------------------------------------
+// File count: 102
+// Total lines: 67
+-----------------------------------------
 char __fastcall IsCertificateBlacklisted(
         struct _TLS_PARAMETERS *a1,
         unsigned int a2,
@@ -65,4 +67,3 @@ LABEL_12:
   }
   return 0;
 }
-

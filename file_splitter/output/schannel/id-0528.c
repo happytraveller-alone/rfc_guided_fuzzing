@@ -1,4 +1,6 @@
-//----- (0000000180026C74) ----------------------------------------------------
+// File count: 528
+// Total lines: 30
+-----------------------------------------
 __int64 __fastcall I_GetSignatureDetailsFromAlgId(int a1, __int64 a2, __int64 a3, _DWORD *a4, _DWORD *a5)
 {
   __int64 v6; // rdx
@@ -28,4 +30,3 @@ __int64 __fastcall I_GetSignatureDetailsFromAlgId(int a1, __int64 a2, __int64 a3
 }
 // 180092218: using guessed type int g_dwSignatureInfoTotalCount;
 // 180092220: using guessed type _QWORD g_pSignatureInfo[16];
-

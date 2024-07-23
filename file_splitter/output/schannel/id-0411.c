@@ -1,4 +1,6 @@
-//----- (0000000180018820) ----------------------------------------------------
+// File count: 411
+// Total lines: 10
+-----------------------------------------
 __int64 __fastcall CSslContext::GetClientAuthResults(CSslContext *this, unsigned __int64 *a2, int *a3)
 {
   __int64 result; // rax
@@ -8,4 +10,3 @@ __int64 __fastcall CSslContext::GetClientAuthResults(CSslContext *this, unsigned
   *a3 = 0;
   return result;
 }
-

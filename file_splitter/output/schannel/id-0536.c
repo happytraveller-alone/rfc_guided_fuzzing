@@ -1,4 +1,6 @@
-//----- (0000000180027150) ----------------------------------------------------
+// File count: 536
+// Total lines: 50
+-----------------------------------------
 void CTlsSignatureSuiteList::SetRsaSignatureFlags(void)
 {
   int v0; // r11d
@@ -48,4 +50,3 @@ void CTlsSignatureSuiteList::SetRsaSignatureFlags(void)
 // 180092800: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha512Flags;
 // 180092804: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha384Flags;
 // 180092808: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha256Flags;
-

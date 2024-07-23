@@ -1,4 +1,6 @@
-//----- (0000000180041E9C) ----------------------------------------------------
+// File count: 801
+// Total lines: 12
+-----------------------------------------
 __int64 WPP_SF_q(__int64 a1, unsigned __int16 a2, __int64 a3, ...)
 {
   __int64 v4; // [rsp+38h] [rbp-10h]
@@ -10,4 +12,3 @@ __int64 WPP_SF_q(__int64 a1, unsigned __int16 a2, __int64 a3, ...)
 }
 // 180041EC5: variable 'v4' is possibly undefined
 // 180041EC5: variable 'v5' is possibly undefined
-

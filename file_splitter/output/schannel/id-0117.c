@@ -1,4 +1,6 @@
-//----- (0000000180009AE4) ----------------------------------------------------
+// File count: 117
+// Total lines: 340
+----------------------------------------
 __int64 __fastcall CopyTlsParameters(
         struct _TLS_PARAMETERS *a1,
         unsigned int a2,
@@ -338,4 +340,3 @@ LABEL_46:
   return v18;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

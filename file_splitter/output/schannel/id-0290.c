@@ -1,4 +1,6 @@
-//----- (0000000180016390) ----------------------------------------------------
+// File count: 290
+// Total lines: 25
+-----------------------------------------
 bool __fastcall CSessionCacheClientItem::IsSameTargetName(CSessionCacheClientItem *this, char *a2)
 {
   const unsigned __int16 *v2; // rax
@@ -23,4 +25,3 @@ bool __fastcall CSessionCacheClientItem::IsSameTargetName(CSessionCacheClientIte
   while ( v4 );
   return !v5;
 }
-

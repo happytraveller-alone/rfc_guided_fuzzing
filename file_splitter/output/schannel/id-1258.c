@@ -1,4 +1,6 @@
-//----- (0000000180063BB0) ----------------------------------------------------
+// File count: 1258
+// Total lines: 36
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::ComputeCertificateEntryExtensionsSize(
         __int64 a1)
 {
@@ -34,4 +36,3 @@ __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::Compute
 }
 // 180063BD4: variable 'v3' is possibly undefined
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

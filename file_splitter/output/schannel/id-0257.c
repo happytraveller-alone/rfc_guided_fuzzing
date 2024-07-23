@@ -1,4 +1,6 @@
-//----- (0000000180014B9C) ----------------------------------------------------
+// File count: 257
+// Total lines: 43
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::ProcessHandshakeCommon(CSsl3TlsContext *this, unsigned __int8 *a2, unsigned int a3)
 {
   unsigned int v6; // edi
@@ -41,4 +43,3 @@ __int64 __fastcall CSsl3TlsContext::ProcessHandshakeCommon(CSsl3TlsContext *this
   }
   return v6;
 }
-

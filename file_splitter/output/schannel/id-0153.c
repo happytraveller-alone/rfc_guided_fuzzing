@@ -1,4 +1,6 @@
-//----- (000000018000D37C) ----------------------------------------------------
+// File count: 153
+// Total lines: 48
+-----------------------------------------
 void __fastcall CSslContext::SetCredentialGroup(CSslContext *this, struct CCredentialGroup *a2)
 {
   struct CCredentialGroup *v4; // rdx
@@ -46,4 +48,3 @@ void __fastcall CSslContext::SetCredentialGroup(CSslContext *this, struct CCrede
   }
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180016790) ----------------------------------------------------
+// File count: 297
+// Total lines: 12
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::SetClientEphemeralKey(CSsl3TlsClientContext *this, __int64 a2)
 {
   __int64 v4; // rcx
@@ -10,4 +12,3 @@ __int64 __fastcall CSsl3TlsClientContext::SetClientEphemeralKey(CSsl3TlsClientCo
   return 0i64;
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

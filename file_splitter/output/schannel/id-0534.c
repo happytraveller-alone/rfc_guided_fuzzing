@@ -1,4 +1,6 @@
-//----- (0000000180026FCC) ----------------------------------------------------
+// File count: 534
+// Total lines: 16
+-----------------------------------------
 __int64 __fastcall ComputeFlushPeriod(unsigned __int64 a1)
 {
   __int64 v1; // rax
@@ -14,4 +16,3 @@ __int64 __fastcall ComputeFlushPeriod(unsigned __int64 a1)
   RunningHash(&v3, (__int64)&v4, 8ui64);
   return 32769 * ((9 * v3) ^ ((unsigned int)(9 * v3) >> 11)) % 0x927C0 + 600000;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180070C68) ----------------------------------------------------
+// File count: 1419
+// Total lines: 43
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::ValidateProtectionProfiles(unsigned __int16 *const a1, unsigned __int16 a2, int a3)
 {
   CCipherMill *v4; // rcx
@@ -41,4 +43,3 @@ __int64 __fastcall CSsl3TlsContext::ValidateProtectionProfiles(unsigned __int16 
   return 2148074278i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

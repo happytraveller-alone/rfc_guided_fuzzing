@@ -1,4 +1,6 @@
-//----- (0000000180076330) ----------------------------------------------------
+// File count: 1471
+// Total lines: 424
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::DigestSupplementalDataMsg(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -422,4 +424,3 @@ LABEL_124:
 // 18007686C: variable 'lpWideCharStr' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

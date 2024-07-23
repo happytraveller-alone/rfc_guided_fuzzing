@@ -1,4 +1,6 @@
-//----- (000000018001DB80) ----------------------------------------------------
+// File count: 444
+// Total lines: 368
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::DigestClientHello(
         CTls13ServerContext *this,
         unsigned __int8 *Src,
@@ -366,4 +368,3 @@ LABEL_36:
 // 180092DC0: using guessed type __int64 qword_180092DC0;
 // 180092DD0: using guessed type __int128 xmmword_180092DD0;
 // 180092DE4: using guessed type char byte_180092DE4;
-

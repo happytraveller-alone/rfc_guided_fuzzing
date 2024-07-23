@@ -1,4 +1,6 @@
-//----- (0000000180029576) ----------------------------------------------------
+// File count: 664
+// Total lines: 13
+-----------------------------------------
 __int64 __fastcall _tailMerge_userenv_dll(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
 {
   __int64 v4; // rax
@@ -11,4 +13,3 @@ __int64 __fastcall _tailMerge_userenv_dll(__int64 a1, __int64 a2, __int64 a3, __
 }
 // 1800295B0: variable 'v4' is possibly undefined
 // 18008BF10: using guessed type int _DELAY_IMPORT_DESCRIPTOR_userenv_dll;
-

@@ -1,4 +1,6 @@
-//----- (00000001800432EC) ----------------------------------------------------
+// File count: 815
+// Total lines: 12
+-----------------------------------------
 __int64 __fastcall WPP_SF_d(__int64 a1, unsigned __int16 a2, __int64 a3, int a4)
 {
   __int64 v5; // [rsp+38h] [rbp-10h]
@@ -10,4 +12,3 @@ __int64 __fastcall WPP_SF_d(__int64 a1, unsigned __int16 a2, __int64 a3, int a4)
 }
 // 180043315: variable 'v5' is possibly undefined
 // 180043315: variable 'v6' is possibly undefined
-

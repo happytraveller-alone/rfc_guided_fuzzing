@@ -1,4 +1,6 @@
-//----- (000000018004648C) ----------------------------------------------------
+// File count: 863
+// Total lines: 33
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::QueryCertificateValidationResult(CSsl3TlsContext *this, void *a2)
 {
   __int64 v2; // rax
@@ -31,4 +33,3 @@ __int64 __fastcall CSsl3TlsContext::QueryCertificateValidationResult(CSsl3TlsCon
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

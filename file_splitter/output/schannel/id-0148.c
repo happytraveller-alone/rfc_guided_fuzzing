@@ -1,4 +1,6 @@
-//----- (000000018000CB70) ----------------------------------------------------
+// File count: 148
+// Total lines: 130
+----------------------------------------
 __int64 __fastcall TlsDecryptMessage(
         __int64 a1,
         __int64 a2,
@@ -128,4 +130,3 @@ LABEL_21:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800984E0: using guessed type __int64 __fastcall SslDecryptPacket(_QWORD, _QWORD, _QWORD);
-

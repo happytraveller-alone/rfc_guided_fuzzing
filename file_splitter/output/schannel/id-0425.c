@@ -1,4 +1,6 @@
-//----- (0000000180018F20) ----------------------------------------------------
+// File count: 425
+// Total lines: 8
+------------------------------------------
 CEphemKeyData *__fastcall CEphemKeyData::`vector deleting destructor'(CEphemKeyData *this, char a2)
 {
   CEphemKeyData::~CEphemKeyData(this);
@@ -6,4 +8,3 @@ CEphemKeyData *__fastcall CEphemKeyData::`vector deleting destructor'(CEphemKeyD
     SPExternalFree(this);
   return this;
 }
-

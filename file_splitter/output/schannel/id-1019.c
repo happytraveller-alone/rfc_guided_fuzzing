@@ -1,4 +1,6 @@
-//----- (0000000180055288) ----------------------------------------------------
+// File count: 1019
+// Total lines: 15
+----------------------------------------
 DWORD __fastcall CCredentialGroup::CheckCertStoreChangeNotification(CCredentialGroup *this, void *a2, void *a3)
 {
   DWORD v5; // eax
@@ -13,4 +15,3 @@ DWORD __fastcall CCredentialGroup::CheckCertStoreChangeNotification(CCredentialG
   else
     return GetLastError();
 }
-

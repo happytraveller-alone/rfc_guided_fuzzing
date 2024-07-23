@@ -1,4 +1,6 @@
-//----- (0000000180027CB0) ----------------------------------------------------
+// File count: 557
+// Total lines: 25
+-----------------------------------------
 __int64 __fastcall dllmain_crt_dispatch(__int64 a1, int a2, __int64 a3)
 {
   int v3; // edx
@@ -23,4 +25,3 @@ __int64 __fastcall dllmain_crt_dispatch(__int64 a1, int a2, __int64 a3)
   }
   return (unsigned __int8)result;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018000A498) ----------------------------------------------------
+// File count: 126
+// Total lines: 15
+-----------------------------------------
 _BOOL8 __fastcall IsIpAddress(PCWSTR AddressString)
 {
   USHORT Port[2]; // [rsp+20h] [rbp-A8h] BYREF
@@ -13,4 +15,3 @@ _BOOL8 __fastcall IsIpAddress(PCWSTR AddressString)
 }
 // 18000A498: using guessed type char var_98[4];
 // 18000A498: using guessed type ULONG ScopeId[3];
-

@@ -1,4 +1,6 @@
-//----- (000000018001610C) ----------------------------------------------------
+// File count: 287
+// Total lines: 66
+-----------------------------------------
 NTSTATUS __fastcall TlsOpenRegKey(PCWSTR Source, PCWSTR a2, PHANDLE KeyHandle)
 {
   struct _UNICODE_STRING *v6; // rbx
@@ -64,4 +66,3 @@ LABEL_10:
   }
   return result;
 }
-

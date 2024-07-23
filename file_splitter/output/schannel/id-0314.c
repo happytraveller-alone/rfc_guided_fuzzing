@@ -1,4 +1,6 @@
-//----- (0000000180017348) ----------------------------------------------------
+// File count: 314
+// Total lines: 20
+-----------------------------------------
 void __fastcall DestroyCachedSslProv(struct CACHED_SSL_PROVIDER *a1)
 {
   __int64 v2; // rcx
@@ -18,4 +20,3 @@ void __fastcall DestroyCachedSslProv(struct CACHED_SSL_PROVIDER *a1)
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

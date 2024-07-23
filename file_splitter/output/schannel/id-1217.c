@@ -1,4 +1,6 @@
-//----- (0000000180061134) ----------------------------------------------------
+// File count: 1217
+// Total lines: 28
+----------------------------------------
 unsigned __int8 __fastcall CSsl3TlsClientContext::IsMaliciousDowngrade(CSsl3TlsClientContext *this, int a2)
 {
   const unsigned __int8 near *const *v4; // rdx
@@ -26,4 +28,3 @@ unsigned __int8 __fastcall CSsl3TlsClientContext::IsMaliciousDowngrade(CSsl3TlsC
 }
 // 180082BB8: using guessed type const unsigned __int8 near *const CSsl3TlsContext::m_rgbTls11OrBelowDowngrade;
 // 180082BC0: using guessed type const unsigned __int8 near *const CSsl3TlsContext::m_rgbTls12Downgrade;
-

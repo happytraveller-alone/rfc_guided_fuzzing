@@ -1,4 +1,6 @@
-//----- (000000018000A534) ----------------------------------------------------
+// File count: 127
+// Total lines: 28
+-----------------------------------------
 void *__fastcall SetHandshakeHeader(__int64 a1, char a2, const void *a3, unsigned int a4, __int16 a5, int a6)
 {
   void *result; // rax
@@ -26,4 +28,3 @@ void *__fastcall SetHandshakeHeader(__int64 a1, char a2, const void *a3, unsigne
     return memcpy_0((void *)(a1 + 4 + (a6 != 0 ? 8 : 0)), a3, a4);
   return result;
 }
-

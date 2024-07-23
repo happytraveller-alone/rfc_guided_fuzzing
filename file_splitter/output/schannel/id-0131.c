@@ -1,4 +1,6 @@
-//----- (000000018000ADF4) ----------------------------------------------------
+// File count: 131
+// Total lines: 19
+-----------------------------------------
 void __fastcall CTlsSignatureSuiteList::BuildSupportedSignatureAlgorithms(
         CTlsSignatureSuiteList *this,
         unsigned __int8 *a2,
@@ -17,4 +19,3 @@ void __fastcall CTlsSignatureSuiteList::BuildSupportedSignatureAlgorithms(
     }
   }
 }
-

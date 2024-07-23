@@ -1,4 +1,6 @@
-//----- (000000018006F290) ----------------------------------------------------
+// File count: 1395
+// Total lines: 51
+----------------------------------------
 __int64 __fastcall CTls13ClientContext::UpdateHandshakeHash(
         CTls13ClientContext *this,
         unsigned __int8 *a2,
@@ -49,4 +51,3 @@ __int64 __fastcall CTls13ClientContext::UpdateHandshakeHash(
            a2,
            a3);
 }
-

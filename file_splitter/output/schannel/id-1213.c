@@ -1,4 +1,6 @@
-//----- (00000001800607B4) ----------------------------------------------------
+// File count: 1213
+// Total lines: 118
+---------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::DigestCertificateRequest(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -116,4 +118,3 @@ LABEL_27:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800858E8: using guessed type _DWORD g_Ssl3CertTypes[4];
-

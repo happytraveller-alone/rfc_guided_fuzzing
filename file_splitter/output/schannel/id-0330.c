@@ -1,4 +1,6 @@
-//----- (0000000180017E30) ----------------------------------------------------
+// File count: 330
+// Total lines: 15
+-----------------------------------------
 BOOLEAN RemoveExternalSchannelAlgorithms()
 {
   BOOLEAN result; // al
@@ -13,4 +15,3 @@ BOOLEAN RemoveExternalSchannelAlgorithms()
   return result;
 }
 // 1800921B0: using guessed type int dword_1800921B0;
-

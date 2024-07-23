@@ -1,4 +1,6 @@
-//----- (0000000180004FC4) ----------------------------------------------------
+// File count: 64
+// Total lines: 21
+------------------------------------------
 __int64 __fastcall GetEccBcryptKeyBlobFromKeyExchangeBlob(
         char a1,
         unsigned __int8 *a2,
@@ -19,4 +21,3 @@ __int64 __fastcall GetEccBcryptKeyBlobFromKeyExchangeBlob(
     return (unsigned int)-2146893048;
   return v5;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180002858) ----------------------------------------------------
+// File count: 21
+// Total lines: 23
+------------------------------------------
 __int64 __fastcall CSessionCacheClientItem::CloneCacheElement(
         CSessionCacheClientItem *this,
         struct CSessionCacheManager *a2,
@@ -21,4 +23,3 @@ __int64 __fastcall CSessionCacheClientItem::CloneCacheElement(
   }
   return result;
 }
-

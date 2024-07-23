@@ -1,4 +1,6 @@
-//----- (00000001800143B0) ----------------------------------------------------
+// File count: 243
+// Total lines: 49
+-----------------------------------------
 void __fastcall CSslContext::GetCertContextInfo(
         CSslContext *this,
         unsigned __int8 **a2,
@@ -47,4 +49,3 @@ void __fastcall CSslContext::GetCertContextInfo(
     a11);
   (*(void (__fastcall **)(CSslContext *, unsigned __int8 **, unsigned int *))(*(_QWORD *)this + 288i64))(this, a12, a13);
 }
-

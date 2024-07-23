@@ -1,4 +1,6 @@
-//----- (000000018005D574) ----------------------------------------------------
+// File count: 1161
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::GetCacheAppData(CSessionCacheItem *this, unsigned __int8 **a2, unsigned int *a3)
 {
   unsigned int v5; // ecx
@@ -21,4 +23,3 @@ __int64 __fastcall CSessionCacheItem::GetCacheAppData(CSessionCacheItem *this, u
   }
   return 0i64;
 }
-

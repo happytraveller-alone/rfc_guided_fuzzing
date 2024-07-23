@@ -1,4 +1,6 @@
-//----- (000000018000BFE0) ----------------------------------------------------
+// File count: 140
+// Total lines: 65
+-----------------------------------------
 __int64 __fastcall SpSealMessage(__int64 a1, int a2, struct _SecBufferDesc *a3)
 {
   struct CSslUserContext *UserContext; // rax
@@ -63,4 +65,3 @@ __int64 __fastcall SpSealMessage(__int64 a1, int a2, struct _SecBufferDesc *a3)
 // 18000C102: variable 'v14' is possibly undefined
 // 18000C110: variable 'v15' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

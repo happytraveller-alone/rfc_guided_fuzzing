@@ -1,4 +1,6 @@
-//----- (0000000180026E34) ----------------------------------------------------
+// File count: 532
+// Total lines: 55
+-----------------------------------------
 __int64 TlgRegisterAggregateProviderEx()
 {
   RTL_SRWLOCK *TlgAggregateSession; // rax
@@ -53,4 +55,3 @@ LABEL_8:
 }
 // 1800914A8: using guessed type __int64 qword_1800914A8;
 // 180092EE8: using guessed type __int64 qword_180092EE8;
-

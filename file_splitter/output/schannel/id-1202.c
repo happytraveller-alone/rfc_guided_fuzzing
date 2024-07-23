@@ -1,4 +1,6 @@
-//----- (000000018005F670) ----------------------------------------------------
+// File count: 1202
+// Total lines: 63
+----------------------------------------
 unsigned int __fastcall CSslCredential::GetEccEphemeralKeyInfo(
         CSslCredential *this,
         unsigned int a2,
@@ -61,4 +63,3 @@ LABEL_14:
   }
   return CSslCredential::GetEphemeralKeyInfo(this, a2, v6, a3);
 }
-

@@ -1,4 +1,6 @@
-//----- (00000001800544B4) ----------------------------------------------------
+// File count: 1009
+// Total lines: 93
+----------------------------------------
 __int64 __fastcall SPCheckKeyUsage(PCCERT_CONTEXT pCertContext, char *a2, int a3, int *a4)
 {
   int v4; // edi
@@ -91,4 +93,3 @@ LABEL_19:
 // 1800920E8: using guessed type __int64 g_ulAdditionalProbeSize;
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
-

@@ -1,4 +1,6 @@
-//----- (00000001800119B0) ----------------------------------------------------
+// File count: 207
+// Total lines: 992
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::TlsProtocolHandlerWorker(
         CSsl3TlsContext *this,
         struct SPBuffer *a2,
@@ -990,4 +992,3 @@ LABEL_45:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 1800119B0: using guessed type char var_730[8];
-

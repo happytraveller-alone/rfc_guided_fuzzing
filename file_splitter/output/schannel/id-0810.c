@@ -1,4 +1,6 @@
-//----- (000000018004312C) ----------------------------------------------------
+// File count: 810
+// Total lines: 26
+-----------------------------------------
 __int64 __fastcall McGenEventWrite_EtwEventWriteTransfer(__int64 a1, __int64 a2, __int64 a3, int a4, __int64 a5)
 {
   unsigned __int16 *v5; // r8
@@ -24,4 +26,3 @@ __int64 __fastcall McGenEventWrite_EtwEventWriteTransfer(__int64 a1, __int64 a2,
 }
 // 180080F00: using guessed type __int64 __fastcall EtwEventWriteTransfer(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD);
 // 180091388: using guessed type __int64 qword_180091388;
-

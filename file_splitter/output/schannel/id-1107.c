@@ -1,4 +1,6 @@
-//----- (000000018005B120) ----------------------------------------------------
+// File count: 1107
+// Total lines: 15
+----------------------------------------
 unsigned int __fastcall CTls13ClientContext::ImportApplicationTrafficSecret(
         CTls13ClientContext *this,
         unsigned __int64 a2,
@@ -13,4 +15,3 @@ unsigned int __fastcall CTls13ClientContext::ImportApplicationTrafficSecret(
            a4,
            a5);
 }
-

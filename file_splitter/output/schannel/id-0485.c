@@ -1,4 +1,6 @@
-//----- (000000018002329C) ----------------------------------------------------
+// File count: 485
+// Total lines: 33
+-----------------------------------------
 void __fastcall FlushEventEntryList(REGHANDLE RegHandle, PCEVENT_DESCRIPTOR EventDescriptor)
 {
   PCEVENT_DESCRIPTOR v2; // rdi
@@ -31,4 +33,3 @@ void __fastcall FlushEventEntryList(REGHANDLE RegHandle, PCEVENT_DESCRIPTOR Even
     while ( Keyword );
   }
 }
-

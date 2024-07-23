@@ -1,4 +1,6 @@
-//----- (000000018006F1C4) ----------------------------------------------------
+// File count: 1394
+// Total lines: 33
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::StoreClientShares(
         CTls13ServerContext *this,
         const unsigned __int8 *a2,
@@ -31,4 +33,3 @@ __int64 __fastcall CTls13ServerContext::StoreClientShares(
   }
   return 0i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018004705C) ----------------------------------------------------
+// File count: 871
+// Total lines: 36
+-----------------------------------------
 __int64 __fastcall CSslContext::SetApplicationData(CSslContext *this, void *a2, unsigned int a3)
 {
   unsigned int AppDataForSca; // edi
@@ -34,4 +36,3 @@ __int64 __fastcall CSslContext::SetApplicationData(CSslContext *this, void *a2, 
     SPExternalFree(v8);
   return AppDataForSca;
 }
-

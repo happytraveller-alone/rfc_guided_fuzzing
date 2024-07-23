@@ -1,4 +1,6 @@
-//----- (000000018000FF48) ----------------------------------------------------
+// File count: 188
+// Total lines: 48
+-----------------------------------------
 void __fastcall CCipherMill::GetBaseCipherSizes(CCipherMill *this, char a2, unsigned int *a3, unsigned int *a4)
 {
   CMasterCipherInfo *v7; // rax
@@ -46,4 +48,3 @@ void __fastcall CCipherMill::GetBaseCipherSizes(CCipherMill *this, char a2, unsi
   }
   RtlReleaseResource(&Resource);
 }
-

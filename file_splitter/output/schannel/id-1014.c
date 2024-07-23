@@ -1,4 +1,6 @@
-//----- (0000000180054F60) ----------------------------------------------------
+// File count: 1014
+// Total lines: 30
+----------------------------------------
 ULONG __fastcall McGenEventWrite_EventWriteTransfer(
         __int64 a1,
         const EVENT_DESCRIPTOR *a2,
@@ -28,4 +30,3 @@ ULONG __fastcall McGenEventWrite_EventWriteTransfer(
   return EventWriteTransfer(MS_Schannel_Provider_Context, a2, 0i64, 0i64, 1u, UserData);
 }
 // 180091388: using guessed type __int64 qword_180091388;
-

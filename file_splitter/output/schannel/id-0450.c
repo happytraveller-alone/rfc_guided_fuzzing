@@ -1,4 +1,6 @@
-//----- (0000000180020590) ----------------------------------------------------
+// File count: 450
+// Total lines: 183
+----------------------------------------
 struct CSessionCacheItem **__fastcall CSsl3TlsServerContext::`vector deleting destructor'(
         struct CSessionCacheItem **this)
 {
@@ -181,4 +183,3 @@ struct CSessionCacheItem **__fastcall CSsl3TlsServerContext::`vector deleting de
 // 18007CDB8: using guessed type void *CSslContext::`vftable';
 // 18007CFB8: using guessed type void *ISslSerialize::`vftable';
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

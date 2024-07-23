@@ -1,4 +1,6 @@
-//----- (0000000180020110) ----------------------------------------------------
+// File count: 449
+// Total lines: 198
+----------------------------------------
 CTls13ServerContext *__fastcall CTls13ServerContext::`scalar deleting destructor'(CTls13ServerContext *this)
 {
   void *v2; // rcx
@@ -196,4 +198,3 @@ CTls13ServerContext *__fastcall CTls13ServerContext::`scalar deleting destructor
 // 18007CFB8: using guessed type void *ISslSerialize::`vftable';
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

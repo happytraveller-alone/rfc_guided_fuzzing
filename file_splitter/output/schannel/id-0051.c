@@ -1,4 +1,6 @@
-//----- (00000001800040C8) ----------------------------------------------------
+// File count: 51
+// Total lines: 47
+------------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::DigestCertificateStatus(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -45,4 +47,3 @@ LABEL_10:
   }
   return 14i64;
 }
-

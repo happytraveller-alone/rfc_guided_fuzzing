@@ -1,4 +1,6 @@
-//----- (000000018005D9DC) ----------------------------------------------------
+// File count: 1167
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CSessionCacheItem::SerializeRemoteChain(
         CSessionCacheItem *this,
         unsigned __int8 *a2,
@@ -23,4 +25,3 @@ __int64 __fastcall CSessionCacheItem::SerializeRemoteChain(
   }
   return 0i64;
 }
-

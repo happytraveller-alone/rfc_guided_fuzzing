@@ -1,4 +1,6 @@
-//----- (000000018006F734) ----------------------------------------------------
+// File count: 1399
+// Total lines: 8
+-----------------------------------------
 DTlsMessage *__fastcall DTlsMessage::`scalar deleting destructor'(DTlsMessage *this)
 {
   DTlsMessage::~DTlsMessage(this);
@@ -6,4 +8,3 @@ DTlsMessage *__fastcall DTlsMessage::`scalar deleting destructor'(DTlsMessage *t
     SPExternalFree(this);
   return this;
 }
-

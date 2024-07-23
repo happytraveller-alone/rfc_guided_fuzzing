@@ -1,4 +1,6 @@
-//----- (0000000180015828) ----------------------------------------------------
+// File count: 275
+// Total lines: 41
+-----------------------------------------
 unsigned __int8 __fastcall CTlsSignatureSuiteList::IsSupportedSignatureSuiteList(
         CTlsSignatureSuiteList *this,
         struct CTlsSignatureSuiteList *a2)
@@ -39,4 +41,3 @@ unsigned __int8 __fastcall CTlsSignatureSuiteList::IsSupportedSignatureSuiteList
 // 180092800: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha512Flags;
 // 180092804: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha384Flags;
 // 180092808: using guessed type unsigned __int16 CTlsSignatureSuiteList::RsaSha256Flags;
-

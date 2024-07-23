@@ -1,4 +1,6 @@
-//----- (000000018000F7A4) ----------------------------------------------------
+// File count: 183
+// Total lines: 217
+----------------------------------------
 __int64 __fastcall GetUserKeysCallback(
         struct CSslUserContext *a1,
         void *(__stdcall *a2)(unsigned int),
@@ -215,4 +217,3 @@ LABEL_27:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082320: using guessed type wchar_t aOpaquekeyblob[14];
 // 180098528: using guessed type __int64 __fastcall SslExportKey(_QWORD, _QWORD, _QWORD);
-

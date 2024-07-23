@@ -1,4 +1,6 @@
-//----- (0000000180072F28) ----------------------------------------------------
+// File count: 1438
+// Total lines: 52
+----------------------------------------
 struct DTlsMessage *__fastcall DTlsHandshakeQueue::GetNextReadyHandshakeMsg(DTlsMsgMgr **this, __int64 a2, __int64 a3)
 {
   struct DTlsMessage *NextReadyMsg; // rdi
@@ -50,4 +52,3 @@ LABEL_14:
   return NextReadyMsg;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

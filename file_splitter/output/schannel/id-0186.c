@@ -1,4 +1,6 @@
-//----- (000000018000FDD4) ----------------------------------------------------
+// File count: 186
+// Total lines: 165
+----------------------------------------
 char __fastcall BuildUserRequestedAlgList(
         struct CCredentialGroup *a1,
         char a2,
@@ -163,4 +165,3 @@ LABEL_39:
   return 0;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

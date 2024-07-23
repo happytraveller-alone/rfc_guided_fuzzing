@@ -1,4 +1,6 @@
-//----- (0000000180001E7C) ----------------------------------------------------
+// File count: 14
+// Total lines: 24
+------------------------------------------
 void __fastcall ReverseInPlace(unsigned __int8 *a1, unsigned int a2)
 {
   unsigned int v2; // ebx
@@ -22,4 +24,3 @@ void __fastcall ReverseInPlace(unsigned __int8 *a1, unsigned int a2)
     while ( v2 < a2 >> 1 );
   }
 }
-

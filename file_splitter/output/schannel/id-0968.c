@@ -1,4 +1,6 @@
-//----- (0000000180050980) ----------------------------------------------------
+// File count: 968
+// Total lines: 12
+-----------------------------------------
 void __fastcall FreeExtVirtualAlloc(void *a1)
 {
   HANDLE CurrentProcess; // rax
@@ -10,4 +12,3 @@ void __fastcall FreeExtVirtualAlloc(void *a1)
   CurrentProcess = GetCurrentProcess();
   NtFreeVirtualMemory(CurrentProcess, &BaseAddress, &RegionSize, 0x8000u);
 }
-

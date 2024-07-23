@@ -1,4 +1,6 @@
-//----- (0000000180013210) ----------------------------------------------------
+// File count: 226
+// Total lines: 8
+------------------------------------------
 CCredentialGroup *__fastcall CCredentialGroup::`vector deleting destructor'(CCredentialGroup *this, char a2)
 {
   CCredentialGroup::~CCredentialGroup(this);
@@ -6,4 +8,3 @@ CCredentialGroup *__fastcall CCredentialGroup::`vector deleting destructor'(CCre
     SPExternalFree(this);
   return this;
 }
-

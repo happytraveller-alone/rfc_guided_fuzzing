@@ -1,4 +1,6 @@
-//----- (00000001800680E8) ----------------------------------------------------
+// File count: 1324
+// Total lines: 85
+----------------------------------------
 unsigned int __fastcall CTls13ServerHandshake::GenerateServerHelloOrHRR(
         CTls13ServerHandshake *this,
         char a2,
@@ -83,4 +85,3 @@ unsigned int __fastcall CTls13ServerHandshake::GenerateServerHelloOrHRR(
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 1800680E8: using guessed type __int16 var_18[2];
 // 1800680E8: using guessed type __int16 var_14[10];
-

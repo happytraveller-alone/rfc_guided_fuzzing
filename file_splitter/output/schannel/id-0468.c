@@ -1,4 +1,6 @@
-//----- (0000000180022D60) ----------------------------------------------------
+// File count: 468
+// Total lines: 41
+-----------------------------------------
 struct _SLIST_ENTRY *__fastcall CSslLookaside::Allocate(CSslLookaside *this)
 {
   SIZE_T v2; // rcx
@@ -39,4 +41,3 @@ struct _SLIST_ENTRY *__fastcall CSslLookaside::Allocate(CSslLookaside *this)
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

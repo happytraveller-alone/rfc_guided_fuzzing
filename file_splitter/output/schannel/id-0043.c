@@ -1,4 +1,6 @@
-//----- (0000000180003D4C) ----------------------------------------------------
+// File count: 43
+// Total lines: 24
+------------------------------------------
 void __fastcall CSslCredManager::DereferenceCredentialGroup(CSslCredManager *this, struct CCredentialGroup *a2)
 {
   struct _RTL_CRITICAL_SECTION *v3; // rdi
@@ -22,4 +24,3 @@ void __fastcall CSslCredManager::DereferenceCredentialGroup(CSslCredManager *thi
       (*(void (__fastcall **)(struct CCredentialGroup *, __int64))(*(_QWORD *)a2 + 8i64))(a2, 1i64);
   }
 }
-

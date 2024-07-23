@@ -1,4 +1,6 @@
-//----- (000000018005C184) ----------------------------------------------------
+// File count: 1138
+// Total lines: 59
+----------------------------------------
 __int64 __fastcall DecodeSigAndReverse(
         BYTE *pbEncoded,
         DWORD cbEncoded,
@@ -57,4 +59,3 @@ LABEL_10:
   }
   return (unsigned int)-2146893052;
 }
-

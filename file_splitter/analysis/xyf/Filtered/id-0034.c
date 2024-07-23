@@ -1,5 +1,5 @@
 //----- (00000001800032F0) ----------------------------------------------------
-CSessionCacheClientItem *__fastcall CSessionCacheClientItem::`vector deleting destructor'(
+CSessionCacheClientItem *__fastcall CSessionCacheClientItem::vector deleting destructor(
         CSessionCacheClientItem *this,
         char a2)
 {
@@ -9,3 +9,4 @@ CSessionCacheClientItem *__fastcall CSessionCacheClientItem::`vector deleting de
   return this;
 }
 
+// 析构函数

@@ -1,4 +1,6 @@
-//----- (00000001800169E0) ----------------------------------------------------
+// File count: 301
+// Total lines: 55
+-----------------------------------------
 __int64 __fastcall SpLsaQueryContextAttributes(__int64 a1, unsigned int a2, __int64 a3)
 {
   CCipherMill *v6; // rcx
@@ -53,4 +55,3 @@ __int64 __fastcall SpLsaQueryContextAttributes(__int64 a1, unsigned int a2, __in
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

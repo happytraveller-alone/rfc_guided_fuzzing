@@ -1,4 +1,6 @@
-//----- (0000000180065254) ----------------------------------------------------
+// File count: 1283
+// Total lines: 29
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ComputeSupportedVersionsExtensionSize(CTls13ClientHandshake *this)
 {
   __int64 v1; // r9
@@ -27,4 +29,3 @@ __int64 __fastcall CTls13ClientHandshake::ComputeSupportedVersionsExtensionSize(
   return result;
 }
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

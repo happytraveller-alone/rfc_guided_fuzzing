@@ -1,4 +1,6 @@
-//----- (0000000180054B34) ----------------------------------------------------
+// File count: 1011
+// Total lines: 111
+---------------------------------------
 __int64 __fastcall SerializeCertChain(
         __int64 a1,
         const struct _CERT_CONTEXT *a2,
@@ -109,4 +111,3 @@ LABEL_5:
   *a6 = v10;
   return v6;
 }
-

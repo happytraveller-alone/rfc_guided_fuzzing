@@ -1,4 +1,6 @@
-//----- (0000000180024FD0) ----------------------------------------------------
+// File count: 505
+// Total lines: 21
+-----------------------------------------
 void __fastcall CCipherMill::DeleteProviderList(CCipherMill *this)
 {
   __int64 i; // rdi
@@ -19,4 +21,3 @@ void __fastcall CCipherMill::DeleteProviderList(CCipherMill *this)
 // 1800924A0: using guessed type unsigned __int64 qword_1800924A0[32];
 // 180098480: using guessed type __int64 SslFreeBuffer(void);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

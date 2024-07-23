@@ -1,4 +1,6 @@
-//----- (0000000180001ED0) ----------------------------------------------------
+// File count: 15
+// Total lines: 98
+------------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GenerateResponse(CSsl3TlsClientContext *this, struct SPBuffer *a2)
 {
   unsigned int CcsAndFinish; // edi
@@ -96,4 +98,3 @@ LABEL_32:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800927C4: using guessed type int CSslGlobals::m_fDisableRenegoOnClient;
-

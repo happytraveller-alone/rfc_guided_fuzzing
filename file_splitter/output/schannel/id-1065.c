@@ -1,4 +1,6 @@
-//----- (0000000180059568) ----------------------------------------------------
+// File count: 1065
+// Total lines: 31
+----------------------------------------
 unsigned __int8 __fastcall CSessionCacheManager::LookupCacheForServerItem(
         CSessionCacheManager *this,
         struct CSslContext *a2,
@@ -29,4 +31,3 @@ unsigned __int8 __fastcall CSessionCacheManager::LookupCacheForServerItem(
   return 0;
 }
 // 1800595AD: variable 'Size' is possibly undefined
-

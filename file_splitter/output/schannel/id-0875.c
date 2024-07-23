@@ -1,4 +1,6 @@
-//----- (0000000180047320) ----------------------------------------------------
+// File count: 875
+// Total lines: 46
+-----------------------------------------
 __int64 __fastcall CSslContext::SetUiInformation(CSslContext *this, void *a2, unsigned int a3)
 {
   int v7; // ebx
@@ -44,4 +46,3 @@ __int64 __fastcall CSslContext::SetUiInformation(CSslContext *this, void *a2, un
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

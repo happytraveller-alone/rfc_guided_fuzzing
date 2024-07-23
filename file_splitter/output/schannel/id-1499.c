@@ -1,4 +1,6 @@
-//----- (00000001800785BC) ----------------------------------------------------
+// File count: 1499
+// Total lines: 49
+----------------------------------------
 __int64 __fastcall CTls13ExtClient::ParseSupportedVersionsExtension(
         CTls13ExtClient *this,
         unsigned __int8 *a2,
@@ -47,4 +49,3 @@ __int64 __fastcall CTls13ExtClient::ParseSupportedVersionsExtension(
 // 18007863B: variable 'v7' is possibly undefined
 // 180078652: variable 'v11' is possibly undefined
 // 180078659: variable 'v12' is possibly undefined
-

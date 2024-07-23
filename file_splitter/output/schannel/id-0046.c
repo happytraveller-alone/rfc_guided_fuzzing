@@ -1,4 +1,6 @@
-//----- (0000000180003EA4) ----------------------------------------------------
+// File count: 46
+// Total lines: 17
+------------------------------------------
 void __fastcall CSsl3TlsContext::FreeSelectedSrtpParameters(CSsl3TlsContext *this)
 {
   __int64 v1; // rdx
@@ -15,4 +17,3 @@ void __fastcall CSsl3TlsContext::FreeSelectedSrtpParameters(CSsl3TlsContext *thi
     *((_QWORD *)this + 101) = 0i64;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180006E00) ----------------------------------------------------
+// File count: 91
+// Total lines: 94
+------------------------------------------
 __int64 __fastcall CTlsSignatureSuiteList::GetRunningHashList(
         CTlsSignatureSuiteList *this,
         const unsigned __int16 *a2,
@@ -92,4 +94,3 @@ LABEL_5:
 // 180006E5D: variable 'a4' is possibly undefined
 // 180006E5D: variable 'v25' is possibly undefined
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
-

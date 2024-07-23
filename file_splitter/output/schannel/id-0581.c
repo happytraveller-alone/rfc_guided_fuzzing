@@ -1,4 +1,6 @@
-//----- (0000000180028878) ----------------------------------------------------
+// File count: 581
+// Total lines: 38
+-----------------------------------------
 void __fastcall _scrt_fastfail(unsigned int a1)
 {
   DWORD64 Rip; // rbx
@@ -36,4 +38,3 @@ void __fastcall _scrt_fastfail(unsigned int a1)
   if ( !UnhandledExceptionFilter(&ExceptionInfo) && !v4 )
     _crt_debugger_hook();
 }
-

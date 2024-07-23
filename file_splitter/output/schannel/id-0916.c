@@ -1,4 +1,6 @@
-//----- (000000018004D140) ----------------------------------------------------
+// File count: 916
+// Total lines: 14
+-----------------------------------------
 CSslCredManager *__fastcall CSslCredManager::`vector deleting destructor'(CSslCredManager *this, char a2)
 {
   *(_QWORD *)this = &IAllocate::`vftable';
@@ -12,4 +14,3 @@ CSslCredManager *__fastcall CSslCredManager::`vector deleting destructor'(CSslCr
   return this;
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
-

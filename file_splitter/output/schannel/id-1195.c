@@ -1,4 +1,6 @@
-//----- (000000018005E7C0) ----------------------------------------------------
+// File count: 1195
+// Total lines: 23
+----------------------------------------
 void __fastcall CSslServerKey::~CSslServerKey(CSslServerKey *this)
 {
   CCipherMill *v2; // rcx
@@ -21,4 +23,3 @@ void __fastcall CSslServerKey::~CSslServerKey(CSslServerKey *this)
 // 18007C298: using guessed type void *IAllocate::`vftable';
 // 18007D568: using guessed type void *CSslServerKey::`vftable';
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

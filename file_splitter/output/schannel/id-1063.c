@@ -1,4 +1,6 @@
-//----- (00000001800592E8) ----------------------------------------------------
+// File count: 1063
+// Total lines: 23
+----------------------------------------
 __int64 __fastcall CSessionCacheManager::CacheRetrieveNewServerItem(
         CSessionCacheManager *this,
         int a2,
@@ -21,4 +23,3 @@ __int64 __fastcall CSessionCacheManager::CacheRetrieveNewServerItem(
   }
   return result;
 }
-

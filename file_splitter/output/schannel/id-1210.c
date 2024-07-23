@@ -1,4 +1,6 @@
-//----- (00000001800603D0) ----------------------------------------------------
+// File count: 1210
+// Total lines: 8
+-----------------------------------------
 CTlsExtClient *__fastcall CTlsExtClient::`scalar deleting destructor'(CTlsExtClient *this, char a2)
 {
   CTlsExtClient::~CTlsExtClient(this);
@@ -6,4 +8,3 @@ CTlsExtClient *__fastcall CTlsExtClient::`scalar deleting destructor'(CTlsExtCli
     operator delete(this);
   return this;
 }
-

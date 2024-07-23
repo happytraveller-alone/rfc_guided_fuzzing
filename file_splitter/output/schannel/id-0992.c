@@ -1,4 +1,6 @@
-//----- (0000000180053180) ----------------------------------------------------
+// File count: 992
+// Total lines: 131
+----------------------------------------
 ULONG WPP_SF_SSSdiiDDDDDddiDDd(
         TRACEHANDLE LoggerHandle,
         __int64 a2,
@@ -129,4 +131,3 @@ ULONG WPP_SF_SSSdiiDDDDDddiDDd(
            0i64);
 }
 // 180083C60: using guessed type wchar_t aNull_0[5];
-

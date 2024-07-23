@@ -1,4 +1,6 @@
-//----- (0000000180009ED4) ----------------------------------------------------
+// File count: 119
+// Total lines: 41
+-----------------------------------------
 __int64 __fastcall GetEphemBlobFromKey(
         __int64 a1,
         __int64 a2,
@@ -39,4 +41,3 @@ __int64 __fastcall GetEphemBlobFromKey(
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098528: using guessed type __int64 __fastcall SslExportKey(_QWORD, _QWORD, _QWORD);
-

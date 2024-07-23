@@ -1,4 +1,6 @@
-//----- (00000001800032C4) ----------------------------------------------------
+// File count: 33
+// Total lines: 17
+------------------------------------------
 unsigned __int8 __fastcall HasTimeElapsed(unsigned int a1, unsigned int a2, unsigned int a3)
 {
   unsigned int v3; // eax
@@ -15,4 +17,3 @@ unsigned __int8 __fastcall HasTimeElapsed(unsigned int a1, unsigned int a2, unsi
   }
   return 1;
 }
-

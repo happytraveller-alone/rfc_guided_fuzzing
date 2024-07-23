@@ -1,4 +1,6 @@
-//----- (000000018006FF64) ----------------------------------------------------
+// File count: 1409
+// Total lines: 35
+----------------------------------------
 void __fastcall CTlsMessageFragment::Initialize(CTlsMessageFragment *this, struct CSsl3TlsContext *a2)
 {
   int v2; // eax
@@ -33,4 +35,3 @@ LABEL_9:
     v5 = 0xFFFFFF;
   *((_DWORD *)this + 2) = v5;
 }
-

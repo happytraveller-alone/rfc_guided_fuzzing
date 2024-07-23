@@ -1,4 +1,6 @@
-//----- (000000018000404C) ----------------------------------------------------
+// File count: 49
+// Total lines: 11
+------------------------------------------
 void __fastcall CSsl3TlsClientContext::SetDefCredSearched(__int64 a1, int a2)
 {
   const CERT_CHAIN_CONTEXT *v3; // rcx
@@ -9,4 +11,3 @@ void __fastcall CSsl3TlsClientContext::SetDefCredSearched(__int64 a1, int a2)
     CertFreeCertificateChain(v3);
   *(_QWORD *)(a1 + 1040) = 0i64;
 }
-

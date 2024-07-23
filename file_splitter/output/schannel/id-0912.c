@@ -1,4 +1,6 @@
-//----- (000000018004D070) ----------------------------------------------------
+// File count: 912
+// Total lines: 15
+-----------------------------------------
 void __fastcall WatchBcryptEvent(PVOID a1)
 {
   CCipherMill *v1; // rcx
@@ -13,4 +15,3 @@ void __fastcall WatchBcryptEvent(PVOID a1)
 }
 // 18004D09E: variable 'v1' is possibly undefined
 // 180092F44: using guessed type int g_fBuildingCiphers;
-

@@ -1,4 +1,6 @@
-//----- (000000018002A2C4) ----------------------------------------------------
+// File count: 774
+// Total lines: 19
+-----------------------------------------
 int snwprintf_s(
         wchar_t *const Buffer,
         const size_t BufferCount,
@@ -17,4 +19,3 @@ int snwprintf_s(
     return -1;
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180064218) ----------------------------------------------------
+// File count: 1266
+// Total lines: 73
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ComputeCertificateRequestSize(
         CTls13ServerHandshake *this,
         unsigned __int16 *a2)
@@ -71,4 +73,3 @@ LABEL_18:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
 // 180092F08: using guessed type int g_fSendIssuerList;
-

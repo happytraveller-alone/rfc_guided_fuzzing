@@ -1,4 +1,6 @@
-//----- (000000018005D7B0) ----------------------------------------------------
+// File count: 1164
+// Total lines: 63
+----------------------------------------
 __int64 __fastcall CSessionCacheServerItem::Serialize(
         CSessionCacheServerItem *this,
         struct CSslContext *a2,
@@ -61,4 +63,3 @@ LABEL_18:
     *a5 = *((_DWORD *)a3 + 3) + *((_DWORD *)a3 + 4);
   return v10;
 }
-

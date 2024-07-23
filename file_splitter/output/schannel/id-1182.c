@@ -1,4 +1,6 @@
-//----- (000000018005E1B0) ----------------------------------------------------
+// File count: 1182
+// Total lines: 32
+----------------------------------------
 char *__fastcall CSslScratchAllocator::Allocate(CSslScratchAllocator *this, unsigned __int64 a2, char a3)
 {
   unsigned __int16 v4; // ax
@@ -30,4 +32,3 @@ char *__fastcall CSslScratchAllocator::Allocate(CSslScratchAllocator *this, unsi
   }
   return v8 + 4;
 }
-

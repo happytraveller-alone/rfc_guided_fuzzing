@@ -1,4 +1,6 @@
-//----- (00000001800770E0) ----------------------------------------------------
+// File count: 1477
+// Total lines: 65
+----------------------------------------
 __int64 __fastcall CTls13Record::EndOfMessage(CTls13Record *this)
 {
   __int64 v2; // r8
@@ -63,4 +65,3 @@ LABEL_18:
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (0000000180072378) ----------------------------------------------------
+// File count: 1427
+// Total lines: 16
+----------------------------------------
 __int64 __fastcall CSslContext::RsaGenerateClientExchangeValue(
         CSslContext *this,
         unsigned __int8 *a2,
@@ -14,4 +16,3 @@ __int64 __fastcall CSslContext::RsaGenerateClientExchangeValue(
     return CSslContext::I_RsaGenerateEcdsaSignClientExchangeValue(this, a2, a3);
   return 2148074248i64;
 }
-

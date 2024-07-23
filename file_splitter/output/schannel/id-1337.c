@@ -1,4 +1,6 @@
-//----- (0000000180069444) ----------------------------------------------------
+// File count: 1337
+// Total lines: 95
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ServerContext,CTls13ExtServer>::ParseCertificateVerify(
         __int64 a1,
         __int64 a2,
@@ -93,4 +95,3 @@ LABEL_14:
   }
   return CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::VerifySignature(a1, (unsigned __int8 *)(a2 + 2), v11);
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018005C318) ----------------------------------------------------
+// File count: 1139
+// Total lines: 15
+----------------------------------------
 unsigned __int8 __fastcall DoesTlsParameterContainAlpnId(struct _TLS_PARAMETERS *a1, struct _UNICODE_STRING *a2)
 {
   unsigned int v4; // edi
@@ -13,4 +15,3 @@ unsigned __int8 __fastcall DoesTlsParameterContainAlpnId(struct _TLS_PARAMETERS 
   }
   return 1;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180026560) ----------------------------------------------------
+// File count: 521
+// Total lines: 25
+-----------------------------------------
 void __fastcall FipsWatchParamKey(char *a1, char a2)
 {
   CCipherMill *v3; // rcx
@@ -23,4 +25,3 @@ void __fastcall FipsWatchParamKey(char *a1, char a2)
 // 18002B67A: variable 'v3' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092F18: using guessed type int CSslGlobals::m_bFipsMode;
-

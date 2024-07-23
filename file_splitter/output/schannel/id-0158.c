@@ -1,4 +1,6 @@
-//----- (000000018000E544) ----------------------------------------------------
+// File count: 158
+// Total lines: 25
+-----------------------------------------
 __int64 __fastcall CSslSerializeHelper::SerializeDataBlob(__int64 a1, int a2, const void *a3, unsigned int a4)
 {
   unsigned int v4; // edi
@@ -23,4 +25,3 @@ __int64 __fastcall CSslSerializeHelper::SerializeDataBlob(__int64 a1, int a2, co
   }
   return 1359i64;
 }
-

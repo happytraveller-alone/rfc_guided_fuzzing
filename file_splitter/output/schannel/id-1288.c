@@ -1,4 +1,6 @@
-//----- (000000018006581C) ----------------------------------------------------
+// File count: 1288
+// Total lines: 141
+---------------------------------------
 int __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::GenerateCertVerifyContentHash(
         __int64 a1,
         char a2,
@@ -139,4 +141,3 @@ int __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::GenerateCer
   return result;
 }
 // 180098530: using guessed type __int64 __fastcall SslComputeSessionHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

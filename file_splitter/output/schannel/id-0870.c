@@ -1,4 +1,6 @@
-//----- (0000000180046EB8) ----------------------------------------------------
+// File count: 870
+// Total lines: 64
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::QuerySupportedSignatures(CSsl3TlsContext *this, void *a2)
 {
   int v5; // ebx
@@ -62,4 +64,3 @@ LABEL_7:
   return v8;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

@@ -1,4 +1,6 @@
-//----- (000000018005988C) ----------------------------------------------------
+// File count: 1068
+// Total lines: 32
+----------------------------------------
 __int64 __fastcall CSessionCacheManager::ShutdownSessionCache(CSessionCacheManager *this)
 {
   void *v3; // rcx
@@ -30,4 +32,3 @@ __int64 __fastcall CSessionCacheManager::ShutdownSessionCache(CSessionCacheManag
   (*(void (__fastcall **)(CSessionCacheManager *, __int64))(*(_QWORD *)this + 8i64))(this, 1i64);
   return 0i64;
 }
-

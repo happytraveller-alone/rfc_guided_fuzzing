@@ -1,4 +1,6 @@
-//----- (000000018006F3A0) ----------------------------------------------------
+// File count: 1397
+// Total lines: 149
+---------------------------------------
 __int64 __fastcall CTls13ServerContext::VerifyBinder(
         CTls13ServerContext *this,
         unsigned __int8 *a2,
@@ -147,4 +149,3 @@ __int64 __fastcall CTls13ServerContext::VerifyBinder(
 // 180098440: using guessed type __int64 __fastcall SslCreateHandshakeHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098558: using guessed type __int64 __fastcall SslDuplicateTranscriptHash(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

@@ -1,4 +1,6 @@
-//----- (000000018005E0E0) ----------------------------------------------------
+// File count: 1180
+// Total lines: 10
+----------------------------------------
 CSslLookasidePreallocate *__fastcall CSslLookasidePreallocate::`scalar deleting destructor'(
         CSslLookasidePreallocate *this,
         char a2)
@@ -8,4 +10,3 @@ CSslLookasidePreallocate *__fastcall CSslLookasidePreallocate::`scalar deleting 
     operator delete(this);
   return this;
 }
-

@@ -1,6 +1,6 @@
 use regex::Regex;
 use std::fs::{self, File, OpenOptions};
-use std::io::{BufRead, BufReader, Write, Result};
+use std::io::{BufRead, BufReader, Write, Result, Seek, SeekFrom};
 use std::path::{Path, PathBuf};
 
 fn main() -> Result<()> {
@@ -51,20 +51,30 @@ fn process_file(input_path: &str, output_dir: &Path, re: &Regex) -> Result<usize
 
     let mut current_file: Option<File> = None;
     let mut file_count = 0;
+    let mut line_count = 0;
+    let mut lines_buffer = Vec::new();
 
     for line in reader.lines() {
         let line = line?;
 
         if re.is_match(&line) {
+            if let Some(mut file) = current_file.take() {
+                write_buffered_lines(&mut file, &lines_buffer)?;
+                update_file_header(&mut file, file_count, line_count)?;
+                file.flush()?;
+            }
             current_file = create_new_file(output_dir, &mut file_count)?;
+            line_count = 0;
+            lines_buffer.clear();
         }
 
-        if let Some(ref mut file) = current_file {
-            writeln!(file, "{}", line)?;
-        }
+        lines_buffer.push(line);
+        line_count += 1;
     }
 
     if let Some(mut file) = current_file {
+        write_buffered_lines(&mut file, &lines_buffer)?;
+        update_file_header(&mut file, file_count, line_count)?;
         file.flush()?;
     }
 
@@ -79,10 +89,29 @@ fn create_new_file(output_dir: &Path, file_count: &mut usize) -> Result<Option<F
     *file_count += 1;
     let file_name = output_dir.join(format!("id-{:04}.c", file_count));
     let file = OpenOptions::new()
+        .read(true)
         .write(true)
         .create(true)
         .truncate(true)
         .open(file_name)?;
 
     Ok(Some(file))
+}
+
+fn update_file_header(file: &mut File, file_count: usize, line_count: usize) -> Result<()> {
+    file.seek(SeekFrom::Start(0))?;
+    writeln!(file, "// File count: {}", file_count)?;
+    writeln!(file, "// Total lines: {}", line_count - 1)?;
+    // writeln!(file, "\n")?;
+    Ok(())
+}
+
+fn write_buffered_lines(file: &mut File, lines: &[String]) -> Result<()> {
+    let mut non_empty_lines = lines.iter().rev().skip_while(|line| line.trim().is_empty()).collect::<Vec<_>>();
+    non_empty_lines.reverse();
+    
+    for line in non_empty_lines {
+        writeln!(file, "{}", line)?;
+    }
+    Ok(())
 }

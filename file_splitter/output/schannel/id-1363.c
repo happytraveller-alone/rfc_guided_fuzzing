@@ -1,4 +1,6 @@
-//----- (000000018006B70C) ----------------------------------------------------
+// File count: 1363
+// Total lines: 190
+---------------------------------------
 __int64 __fastcall CTls13ClientContext::GenerateClientFinished(CTls13ClientContext *this, struct SPBuffer *a2)
 {
   __int64 v2; // rsi
@@ -188,4 +190,3 @@ LABEL_24:
 // 18006B7B6: variable 'v7' is possibly undefined
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 18006B70C: using guessed type char var_40[4];
-

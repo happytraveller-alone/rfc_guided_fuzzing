@@ -1,4 +1,6 @@
-//----- (0000000180012AF0) ----------------------------------------------------
+// File count: 218
+// Total lines: 123
+----------------------------------------
 __int64 __fastcall InsertEventEntryInLookUpTable(
         __int64 a1,
         __int128 *a2,
@@ -121,4 +123,3 @@ LABEL_11:
     DestroyEventEntry(v7);
   return v9;
 }
-

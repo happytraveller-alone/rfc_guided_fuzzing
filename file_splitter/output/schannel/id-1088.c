@@ -1,4 +1,6 @@
-//----- (000000018005AAC0) ----------------------------------------------------
+// File count: 1088
+// Total lines: 11
+----------------------------------------
 CTls13ChangeCipherSpec *__fastcall CTls13ChangeCipherSpec::`vector deleting destructor'(
         CTls13ChangeCipherSpec *this,
         char a2)
@@ -9,4 +11,3 @@ CTls13ChangeCipherSpec *__fastcall CTls13ChangeCipherSpec::`vector deleting dest
   return this;
 }
 // 18007CB58: using guessed type void *CTls13ChangeCipherSpec::`vftable';
-

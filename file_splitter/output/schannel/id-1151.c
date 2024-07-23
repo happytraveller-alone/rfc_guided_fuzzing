@@ -1,4 +1,6 @@
-//----- (000000018005CD60) ----------------------------------------------------
+// File count: 1151
+// Total lines: 17
+----------------------------------------
 void __fastcall CSessionCacheItem::CompleteCacheAdd(
         CSessionCacheItem *this,
         struct CSessionCacheManager *a2,
@@ -15,4 +17,3 @@ void __fastcall CSessionCacheItem::CompleteCacheAdd(
     _InterlockedIncrement((volatile signed __int32 *)(*(_QWORD *)(v4 + 16) + 12i64));
   _InterlockedIncrement((volatile signed __int32 *)(*(_QWORD *)(v3 + 856) + 12i64));
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018004BDC0) ----------------------------------------------------
+// File count: 900
+// Total lines: 72
+-----------------------------------------
 BOOL __stdcall SslEmptyCacheW(LPWSTR pszTargetName, DWORD dwFlags)
 {
   _QWORD *v3; // rdi
@@ -70,4 +72,3 @@ LABEL_13:
   SetLastError(v4);
   return 0;
 }
-

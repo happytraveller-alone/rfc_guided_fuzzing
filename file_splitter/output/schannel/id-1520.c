@@ -1,4 +1,6 @@
-//----- (000000018007A740) ----------------------------------------------------
+// File count: 1520
+// Total lines: 57
+----------------------------------------
 __int64 __fastcall PAC_EncodeValidationInformation(
         struct _NETLOGON_VALIDATION_SAM_INFO3 *a1,
         unsigned __int8 **a2,
@@ -55,4 +57,3 @@ __int64 __fastcall PAC_EncodeValidationInformation(
   return v5;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

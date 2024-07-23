@@ -1,4 +1,6 @@
-//----- (000000018001E850) ----------------------------------------------------
+// File count: 446
+// Total lines: 394
+----------------------------------------
 __int64 __fastcall CCipherMill::FindAcceptableKeyXCurve(
         CCipherMill *this,
         struct CSsl3TlsServerContext *a2,
@@ -392,4 +394,3 @@ LABEL_132:
 // 18003211B: variable 'v41' is possibly undefined
 // 18003211B: variable 'v42' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

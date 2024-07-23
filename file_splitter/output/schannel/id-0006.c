@@ -1,4 +1,6 @@
-//----- (0000000180001604) ----------------------------------------------------
+// File count: 6
+// Total lines: 23
+-------------------------------------------
 ULONG __fastcall SslImpersonateClient(__int64 a1, int *a2)
 {
   ULONG result; // eax
@@ -21,4 +23,3 @@ ULONG __fastcall SslImpersonateClient(__int64 a1, int *a2)
   return result;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

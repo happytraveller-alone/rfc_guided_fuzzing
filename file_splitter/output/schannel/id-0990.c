@@ -1,4 +1,6 @@
-//----- (0000000180053078) ----------------------------------------------------
+// File count: 990
+// Total lines: 31
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogRCMPUsage(__int16 a1)
 {
   __int16 v1; // [rsp+30h] [rbp-48h] BYREF
@@ -29,4 +31,3 @@ void __fastcall CSchannelTelemetryContext::LogRCMPUsage(__int16 a1)
 // 180091490: using guessed type __int64 qword_180091490;
 // 180091498: using guessed type __int64 qword_180091498;
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

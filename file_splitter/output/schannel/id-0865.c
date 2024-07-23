@@ -1,4 +1,6 @@
-//----- (0000000180046670) ----------------------------------------------------
+// File count: 865
+// Total lines: 157
+----------------------------------------
 ULONG __fastcall CSsl3TlsContext::QueryIssuerList(CSsl3TlsContext *this, void *a2)
 {
   void *v2; // rsi
@@ -155,4 +157,3 @@ LABEL_12:
   return 0;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

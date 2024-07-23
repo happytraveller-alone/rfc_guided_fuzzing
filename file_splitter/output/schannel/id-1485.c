@@ -1,4 +1,6 @@
-//----- (00000001800779E0) ----------------------------------------------------
+// File count: 1485
+// Total lines: 53
+----------------------------------------
 __int64 __fastcall CNulRecord::EndOfMessage(CNulRecord *this)
 {
   __int64 v2; // rdx
@@ -51,4 +53,3 @@ __int64 __fastcall CNulRecord::EndOfMessage(CNulRecord *this)
   }
   return result;
 }
-

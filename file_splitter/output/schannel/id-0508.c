@@ -1,4 +1,6 @@
-//----- (000000018002516C) ----------------------------------------------------
+// File count: 508
+// Total lines: 9
+------------------------------------------
 __int64 __fastcall NotifyWNFConfigChangeEvent(struct _WNF_STATE_NAME a1)
 {
   if ( g_fEnableConfigChangeNtf )
@@ -7,4 +9,3 @@ __int64 __fastcall NotifyWNFConfigChangeEvent(struct _WNF_STATE_NAME a1)
 }
 // 180080E30: using guessed type __int64 __fastcall RtlPublishWnfStateData(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
 // 18009278C: using guessed type int g_fEnableConfigChangeNtf;
-

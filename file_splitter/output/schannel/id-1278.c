@@ -1,4 +1,6 @@
-//----- (0000000180064EBC) ----------------------------------------------------
+// File count: 1278
+// Total lines: 37
+----------------------------------------
 __int64 __fastcall CTls13ClientHandshake::ComputePskExtensionSize(CTls13ClientHandshake *this)
 {
   __int64 v2; // rcx
@@ -35,4 +37,3 @@ __int64 __fastcall CTls13ClientHandshake::ComputePskExtensionSize(CTls13ClientHa
   return 1359i64;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

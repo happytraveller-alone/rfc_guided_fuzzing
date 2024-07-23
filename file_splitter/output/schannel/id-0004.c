@@ -1,4 +1,6 @@
-//----- (00000001800011A0) ----------------------------------------------------
+// File count: 4
+// Total lines: 47
+-------------------------------------------
 __int64 __fastcall CSsl3TlsContext::AllocateAndGenerateCcsAndFinish(CSsl3TlsContext *this, struct SPBuffer *a2)
 {
   int v2; // r9d
@@ -45,4 +47,3 @@ __int64 __fastcall CSsl3TlsContext::AllocateAndGenerateCcsAndFinish(CSsl3TlsCont
     return CSsl3TlsContext::GenerateCcsAndFinishMessage(this, a2);
   return result;
 }
-

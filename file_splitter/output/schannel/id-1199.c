@@ -1,4 +1,6 @@
-//----- (000000018005F2E8) ----------------------------------------------------
+// File count: 1199
+// Total lines: 76
+----------------------------------------
 void __fastcall CSslCredential::DeleteCredential(CSslCredential *this)
 {
   void *v2; // rcx
@@ -74,4 +76,3 @@ void __fastcall CSslCredential::DeleteCredential(CSslCredential *this)
 // 18005F390: variable 'v7' is possibly undefined
 // 18005F3BE: variable 'v11' is possibly undefined
 // 18005F3BE: variable 'v12' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (0000000180044A44) ----------------------------------------------------
+// File count: 838
+// Total lines: 60
+-----------------------------------------
 void __fastcall LogBogusServerCertEvent(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -58,4 +60,3 @@ void __fastcall LogBogusServerCertEvent(
   }
 }
 // 180084FE0: using guessed type struct _EVENT_DESCRIPTOR SSLEVENT_BOGUS_SERVER_CERT;
-

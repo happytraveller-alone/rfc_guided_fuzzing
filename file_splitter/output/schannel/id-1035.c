@@ -1,4 +1,6 @@
-//----- (00000001800569FC) ----------------------------------------------------
+// File count: 1035
+// Total lines: 134
+---------------------------------------
 __int64 __fastcall CCredentialGroup::RemoveDuplicateIssuers(
         CCredentialGroup *this,
         unsigned __int8 *a2,
@@ -132,4 +134,3 @@ LABEL_27:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
-

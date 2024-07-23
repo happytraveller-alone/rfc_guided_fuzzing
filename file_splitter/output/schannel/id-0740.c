@@ -1,4 +1,6 @@
-//----- (0000000180029CB5) ----------------------------------------------------
+// File count: 740
+// Total lines: 9
+------------------------------------------
 __int64 __fastcall load__CryptObjectLocatorGet__YAPEAXPEAXKPEAU_CRYPTOAPI_BLOB___Z(
         __int64 a1,
         __int64 a2,
@@ -7,4 +9,3 @@ __int64 __fastcall load__CryptObjectLocatorGet__YAPEAXPEAXKPEAU_CRYPTOAPI_BLOB__
 {
   return _tailMerge_crypt32_dll(a1, a2, a3, a4);
 }
-

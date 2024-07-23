@@ -1,4 +1,6 @@
-//----- (0000000180058AC4) ----------------------------------------------------
+// File count: 1052
+// Total lines: 46
+----------------------------------------
 void __fastcall DbgDumpSubCreds(struct LSA_SCHANNEL_SUB_CRED *a1, unsigned int a2, __int64 a3)
 {
   unsigned int v3; // edi
@@ -44,4 +46,3 @@ void __fastcall DbgDumpSubCreds(struct LSA_SCHANNEL_SUB_CRED *a1, unsigned int a
 }
 // 180058B1C: variable 'a3' is possibly undefined
 // 180058B1C: variable 'v8' is possibly undefined
-

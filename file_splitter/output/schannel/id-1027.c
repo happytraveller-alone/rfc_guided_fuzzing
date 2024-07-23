@@ -1,4 +1,6 @@
-//----- (0000000180055DE0) ----------------------------------------------------
+// File count: 1027
+// Total lines: 53
+----------------------------------------
 __int64 __fastcall CCredentialGroup::GetFileFullPath(
         CCredentialGroup *this,
         const unsigned __int16 *a2,
@@ -51,4 +53,3 @@ __int64 __fastcall CCredentialGroup::GetFileFullPath(
   }
   return v5;
 }
-

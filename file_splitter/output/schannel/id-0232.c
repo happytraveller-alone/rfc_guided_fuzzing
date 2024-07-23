@@ -1,4 +1,6 @@
-//----- (00000001800138C8) ----------------------------------------------------
+// File count: 232
+// Total lines: 18
+-----------------------------------------
 __int64 __fastcall CBufferGetNextOffset(__int64 *a1, unsigned __int64 a2)
 {
   unsigned __int64 v2; // r9
@@ -16,4 +18,3 @@ __int64 __fastcall CBufferGetNextOffset(__int64 *a1, unsigned __int64 a2)
   *a1 = result + a2;
   return result;
 }
-

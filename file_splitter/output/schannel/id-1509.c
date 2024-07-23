@@ -1,4 +1,6 @@
-//----- (0000000180079214) ----------------------------------------------------
+// File count: 1509
+// Total lines: 110
+---------------------------------------
 char GetExternalHashAlgorithms()
 {
   NTSTATUS v0; // eax
@@ -108,4 +110,3 @@ LABEL_21:
 // 1800864D8: using guessed type wchar_t aTlscodepoint[13];
 // 180092324: using guessed type int g_dwHashInfoTotalCount;
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
-

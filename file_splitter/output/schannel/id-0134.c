@@ -1,4 +1,6 @@
-//----- (000000018000B0B0) ----------------------------------------------------
+// File count: 134
+// Total lines: 59
+-----------------------------------------
 __int64 __fastcall SpInitUserModeContext(__int64 a1, struct _SecBuffer *a2)
 {
   unsigned int v4; // ebx
@@ -57,4 +59,3 @@ __int64 __fastcall SpInitUserModeContext(__int64 a1, struct _SecBuffer *a2)
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800921A0: using guessed type int (__stdcall *g_pFreeContextBuffer)(void *);
-

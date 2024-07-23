@@ -1,4 +1,6 @@
-//----- (00000001800183B0) ----------------------------------------------------
+// File count: 361
+// Total lines: 12
+-----------------------------------------
 void __fastcall CSsl3TlsClientContext::GetCertSerialChain(
         CSsl3TlsClientContext *this,
         const unsigned __int8 **a2,
@@ -10,4 +12,3 @@ void __fastcall CSsl3TlsClientContext::GetCertSerialChain(
   *a3 = *(_DWORD *)(v3 + 360);
   *a2 = *(const unsigned __int8 **)(v3 + 352);
 }
-

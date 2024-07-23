@@ -1,4 +1,6 @@
-//----- (0000000180006358) ----------------------------------------------------
+// File count: 78
+// Total lines: 96
+------------------------------------------
 __int64 __fastcall CSessionCacheManager::ComputeClientCacheIndex(
         CSessionCacheManager *this,
         const unsigned __int16 *a2)
@@ -94,4 +96,3 @@ __int64 __fastcall CSessionCacheManager::ComputeClientCacheIndex(
   }
   return v4;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180028508) ----------------------------------------------------
+// File count: 568
+// Total lines: 12
+-----------------------------------------
 char _scrt_dllmain_crt_thread_attach()
 {
   if ( !_scrt_stub_for_acrt_thread_attach() )
@@ -10,4 +12,3 @@ char _scrt_dllmain_crt_thread_attach()
   }
   return 1;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180058A18) ----------------------------------------------------
+// File count: 1051
+// Total lines: 18
+----------------------------------------
 unsigned __int8 __fastcall CSslCredManager::CheckForGpEventAndUpdateIssuersList(CSslCredManager *this)
 {
   void *v2; // rcx
@@ -16,4 +18,3 @@ unsigned __int8 __fastcall CSslCredManager::CheckForGpEventAndUpdateIssuersList(
   return 1;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

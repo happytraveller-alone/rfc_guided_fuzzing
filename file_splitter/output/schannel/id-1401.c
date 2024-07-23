@@ -1,4 +1,6 @@
-//----- (000000018006F7A0) ----------------------------------------------------
+// File count: 1401
+// Total lines: 51
+----------------------------------------
 char __fastcall CSsl3TlsContext::CheckRecordValidity(CSsl3TlsContext *this, unsigned __int64 a2)
 {
   unsigned __int64 v3; // r9
@@ -49,4 +51,3 @@ char __fastcall CSsl3TlsContext::CheckRecordValidity(CSsl3TlsContext *this, unsi
   *((_QWORD *)this + 26) = v3 - 63;
   return v6;
 }
-

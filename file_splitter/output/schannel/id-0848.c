@@ -1,4 +1,6 @@
-//----- (0000000180045064) ----------------------------------------------------
+// File count: 848
+// Total lines: 11
+-----------------------------------------
 void __fastcall LogGlobalAcquireContextFailedEvent(unsigned __int16 *a1, unsigned int a2)
 {
   struct _UNICODE_STRING DestinationString; // [rsp+20h] [rbp-18h] BYREF
@@ -9,4 +11,3 @@ void __fastcall LogGlobalAcquireContextFailedEvent(unsigned __int16 *a1, unsigne
     SchEventWrite(&SSLEVENT_GLOBAL_ACQUIRE_CONTEXT_FAILED, L"ud", (__int64)&DestinationString, a2);
   }
 }
-

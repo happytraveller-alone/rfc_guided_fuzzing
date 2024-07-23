@@ -1,4 +1,6 @@
-//----- (000000018004D7A0) ----------------------------------------------------
+// File count: 926
+// Total lines: 78
+-----------------------------------------
 __int64 __fastcall ParseClientHello(unsigned __int8 *a1, unsigned int a2, struct SPBuffer *a3)
 {
   unsigned int v3; // r9d
@@ -76,4 +78,3 @@ __int64 __fastcall ParseClientHello(unsigned __int8 *a1, unsigned int a2, struct
   }
   return 0i64;
 }
-

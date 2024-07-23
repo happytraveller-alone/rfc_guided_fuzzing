@@ -1,4 +1,6 @@
-//----- (0000000180011F40) ----------------------------------------------------
+// File count: 208
+// Total lines: 111
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::GenerateResponseCommon(CSsl3TlsContext *this, struct SPBuffer *a2)
 {
   __int64 result; // rax
@@ -109,4 +111,3 @@ LABEL_26:
 }
 // 18003BDFC: variable 'v5' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

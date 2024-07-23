@@ -1,4 +1,6 @@
-//----- (00000001800451F4) ----------------------------------------------------
+// File count: 851
+// Total lines: 15
+-----------------------------------------
 void __fastcall LogReceiveAlertEvent(unsigned int a1, const unsigned __int16 *a2, char a3, unsigned __int8 a4)
 {
   int v5; // ebx
@@ -13,4 +15,3 @@ void __fastcall LogReceiveAlertEvent(unsigned int a1, const unsigned __int16 *a2
     SchEventWrite(&SSLEVENT_RECEIVE_FATAL_ALERT, L"dud", a1, &DestinationString, v6);
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180044FAC) ----------------------------------------------------
+// File count: 847
+// Total lines: 34
+-----------------------------------------
 void __fastcall LogGetCertificateChainFailureEvent(
         unsigned int a1,
         const unsigned __int16 *a2,
@@ -32,4 +34,3 @@ void __fastcall LogGetCertificateChainFailureEvent(
       a4->pbCertEncoded);
   }
 }
-

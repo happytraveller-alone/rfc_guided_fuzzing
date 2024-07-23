@@ -1,4 +1,6 @@
-//----- (0000000180071FC4) ----------------------------------------------------
+// File count: 1426
+// Total lines: 204
+---------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::ParseRsaServerKeyExchange(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -202,4 +204,3 @@ LABEL_52:
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180092F1C: using guessed type int g_fIgnoreExponentOfOne;
-

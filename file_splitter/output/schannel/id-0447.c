@@ -1,4 +1,6 @@
-//----- (000000018001ED90) ----------------------------------------------------
+// File count: 447
+// Total lines: 910
+----------------------------------------
 __int64 __fastcall SpAcceptLsaModeContext(
         struct CCredentialGroup *a1,
         __int64 a2,
@@ -908,4 +910,3 @@ LABEL_263:
 // 180092DD0: using guessed type __int128 xmmword_180092DD0;
 // 180092DE0: using guessed type int dword_180092DE0;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

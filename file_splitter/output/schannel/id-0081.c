@@ -1,4 +1,6 @@
-//----- (0000000180006620) ----------------------------------------------------
+// File count: 81
+// Total lines: 91
+------------------------------------------
 __int64 __fastcall CSsl3TlsContext::DigestFinish(CSsl3TlsContext *this, unsigned __int8 *Src, int a3)
 {
   int v3; // r14d
@@ -89,4 +91,3 @@ __int64 __fastcall CSsl3TlsContext::DigestFinish(CSsl3TlsContext *this, unsigned
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098538: using guessed type __int64 __fastcall SslComputeFinishedHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
-

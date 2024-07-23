@@ -1,4 +1,6 @@
-//----- (0000000180005324) ----------------------------------------------------
+// File count: 70
+// Total lines: 33
+------------------------------------------
 void __fastcall CSslContext::SetEccCurveInfo(CSslContext *this, int a2)
 {
   __int64 v2; // rax
@@ -31,4 +33,3 @@ void __fastcall CSslContext::SetEccCurveInfo(CSslContext *this, int a2)
     }
   }
 }
-

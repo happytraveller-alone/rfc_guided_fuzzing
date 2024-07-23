@@ -1,4 +1,6 @@
-//----- (0000000180022B30) ----------------------------------------------------
+// File count: 466
+// Total lines: 142
+----------------------------------------
 __int64 __fastcall CTls13Context::SetGenericExtensionBuffers(
         CTls13Context *this,
         struct _SecBufferDesc *const a2,
@@ -140,4 +142,3 @@ LABEL_36:
 // 18003FDA2: variable 'v14' is possibly undefined
 // 18003FE00: variable 'v20' is possibly undefined
 // 18003FE02: variable 'v16' is possibly undefined
-

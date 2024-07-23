@@ -1,4 +1,6 @@
-//----- (000000018005B628) ----------------------------------------------------
+// File count: 1123
+// Total lines: 22
+----------------------------------------
 unsigned __int16 __fastcall CSslContext::computeMaxPayload(CSslContext *this, int a2)
 {
   unsigned __int16 result; // ax
@@ -20,4 +22,3 @@ unsigned __int16 __fastcall CSslContext::computeMaxPayload(CSslContext *this, in
     return v5;
   return result;
 }
-

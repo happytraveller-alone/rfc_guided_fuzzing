@@ -1,4 +1,6 @@
-//----- (0000000180005298) ----------------------------------------------------
+// File count: 68
+// Total lines: 22
+------------------------------------------
 bool __fastcall CTlsSignatureSuiteList::IsSupportedCodePoint(CTlsSignatureSuiteList *this, __int16 a2)
 {
   unsigned __int8 SignatureSuiteInfoRowByCodePoint; // al
@@ -20,4 +22,3 @@ bool __fastcall CTlsSignatureSuiteList::IsSupportedCodePoint(CTlsSignatureSuiteL
 // 1800052AE: variable 'v5' is possibly undefined
 // 1800052C9: variable 'v4' is possibly undefined
 // 18002D6BE: variable 'v3' is possibly undefined
-

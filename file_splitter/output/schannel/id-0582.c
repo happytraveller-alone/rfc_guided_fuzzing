@@ -1,4 +1,6 @@
-//----- (00000001800289CC) ----------------------------------------------------
+// File count: 582
+// Total lines: 12
+-----------------------------------------
 void __cdecl RTC_Initialize()
 {
   void (**i)(void); // rbx
@@ -10,4 +12,3 @@ void __cdecl RTC_Initialize()
   }
 }
 // 1800871A0: using guessed type void (*_rtc_izz)(void);
-

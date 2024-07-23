@@ -1,4 +1,6 @@
-//----- (0000000180054118) ----------------------------------------------------
+// File count: 1005
+// Total lines: 31
+----------------------------------------
 __int64 __fastcall GetEndpointCerts(HCERTSTORE hCertStore, struct LSA_SCHANNEL_SUB_CRED *a2, unsigned int *a3)
 {
   unsigned int v3; // ebx
@@ -29,4 +31,3 @@ __int64 __fastcall GetEndpointCerts(HCERTSTORE hCertStore, struct LSA_SCHANNEL_S
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

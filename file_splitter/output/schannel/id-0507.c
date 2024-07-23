@@ -1,4 +1,6 @@
-//----- (0000000180025130) ----------------------------------------------------
+// File count: 507
+// Total lines: 17
+-----------------------------------------
 void __fastcall SslWatchParamKey(char *a1)
 {
   __int64 v1; // rbx
@@ -15,4 +17,3 @@ void __fastcall SslWatchParamKey(char *a1)
     NotifyWNFConfigChangeEvent(WNF_SCH_REGISTRY_RELOAD);
   }
 }
-

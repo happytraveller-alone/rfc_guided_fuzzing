@@ -1,4 +1,6 @@
-//----- (0000000180011FF0) ----------------------------------------------------
+// File count: 209
+// Total lines: 155
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::UnwrapMessage(CSsl3TlsContext *this, struct SPBuffer *a2)
 {
   __int16 v4; // r9
@@ -153,4 +155,3 @@ __int64 __fastcall CSsl3TlsContext::UnwrapMessage(CSsl3TlsContext *this, struct 
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 1800984E0: using guessed type __int64 __fastcall SslDecryptPacket(_QWORD, _QWORD, _QWORD);
-

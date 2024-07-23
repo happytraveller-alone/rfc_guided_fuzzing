@@ -1,4 +1,6 @@
-//----- (0000000180059674) ----------------------------------------------------
+// File count: 1067
+// Total lines: 104
+---------------------------------------
 __int64 __fastcall CSessionCacheTable::PurgeCacheEntries(
         CSessionCacheTable *this,
         unsigned int a2,
@@ -102,4 +104,3 @@ LABEL_17:
   return 0i64;
 }
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
-

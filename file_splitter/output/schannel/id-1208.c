@@ -1,4 +1,6 @@
-//----- (00000001800600F8) ----------------------------------------------------
+// File count: 1208
+// Total lines: 13
+----------------------------------------
 void __fastcall CSslCredential::RemoteCloseKeyHandle(CSslCredential *this, __int64 a2, int a3)
 {
   __int64 v3; // rdx
@@ -11,4 +13,3 @@ void __fastcall CSslCredential::RemoteCloseKeyHandle(CSslCredential *this, __int
     *((_QWORD *)this + 14) = 0i64;
   }
 }
-

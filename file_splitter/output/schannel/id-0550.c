@@ -1,4 +1,6 @@
-//----- (0000000180027B44) ----------------------------------------------------
+// File count: 550
+// Total lines: 78
+-----------------------------------------
 __int64 __fastcall LookUpTableFlushComplete(__int64 a1)
 {
   unsigned int v1; // edx
@@ -76,4 +78,3 @@ __int64 __fastcall LookUpTableFlushComplete(__int64 a1)
 // 1800849D8: using guessed type unsigned __int8 byte_1800849D8[219];
 // 180091880: using guessed type __int64 qword_180091880;
 // 180091888: using guessed type __int64 qword_180091888;
-

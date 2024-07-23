@@ -1,4 +1,6 @@
-//----- (0000000180022260) ----------------------------------------------------
+// File count: 461
+// Total lines: 356
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ParseClientHello(
         CTls13ServerHandshake *this,
         unsigned __int8 *a2,
@@ -354,4 +356,3 @@ LABEL_55:
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

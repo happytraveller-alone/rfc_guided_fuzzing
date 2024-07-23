@@ -1,4 +1,6 @@
-//----- (000000018002A428) ----------------------------------------------------
+// File count: 783
+// Total lines: 49
+-----------------------------------------
 BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
   int v4; // ebx
@@ -47,4 +49,3 @@ BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 // 180092199: using guessed type unsigned __int8 g_bInitCritSecInitialized;
 // 180092A60: using guessed type __int64 WPP_MAIN_CB;
 // 180092A88: using guessed type __int64 WPP_REGISTRATION_GUIDS;
-

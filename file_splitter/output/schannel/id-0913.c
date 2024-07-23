@@ -1,4 +1,6 @@
-//----- (000000018004D0C0) ----------------------------------------------------
+// File count: 913
+// Total lines: 16
+-----------------------------------------
 CSessionCacheManager *__fastcall CSessionCacheManager::`vector deleting destructor'(
         CSessionCacheManager *this,
         char a2)
@@ -14,4 +16,3 @@ CSessionCacheManager *__fastcall CSessionCacheManager::`vector deleting destruct
   return this;
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
-

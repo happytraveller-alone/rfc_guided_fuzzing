@@ -1,4 +1,6 @@
-//----- (000000018007A240) ----------------------------------------------------
+// File count: 1515
+// Total lines: 98
+----------------------------------------
 __int64 __fastcall _DbgpGetFileVersionString(LPCWSTR lpwstrFilename, __int64 a2, unsigned __int16 *a3)
 {
   void *v5; // rdi
@@ -96,4 +98,3 @@ LABEL_6:
   return v6;
 }
 // 18007A3AE: variable 'lpData' is possibly undefined
-

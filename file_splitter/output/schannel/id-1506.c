@@ -1,4 +1,6 @@
-//----- (0000000180078D70) ----------------------------------------------------
+// File count: 1506
+// Total lines: 116
+---------------------------------------
 char GetExternalCipherAlgorithms()
 {
   NTSTATUS v0; // eax
@@ -114,4 +116,3 @@ char GetExternalCipherAlgorithms()
 // 1800922A0: using guessed type _QWORD g_pCipherInfo[16];
 // 180092320: using guessed type int g_dwCipherInfoTotalCount;
 // 180078D70: using guessed type wchar_t Source[64];
-

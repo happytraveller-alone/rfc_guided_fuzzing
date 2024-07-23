@@ -1,4 +1,6 @@
-//----- (0000000180019220) ----------------------------------------------------
+// File count: 430
+// Total lines: 75
+-----------------------------------------
 __int64 __fastcall CTlsExtServer::GetServerHelloExtensionsLength(
         CTlsExtServer *this,
         char a2,
@@ -73,4 +75,3 @@ __int64 __fastcall CTlsExtServer::GetServerHelloExtensionsLength(
   *a4 = *((_WORD *)this + 10);
   return 0i64;
 }
-

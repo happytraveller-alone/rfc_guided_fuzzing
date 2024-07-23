@@ -1,4 +1,6 @@
-//----- (000000018004DA80) ----------------------------------------------------
+// File count: 930
+// Total lines: 33
+-----------------------------------------
 __int64 __fastcall ProcessRecord(int a1, _BYTE *a2, unsigned int a3, __int64 a4)
 {
   __int64 result; // rax
@@ -31,4 +33,3 @@ __int64 __fastcall ProcessRecord(int a1, _BYTE *a2, unsigned int a3, __int64 a4)
   *(_DWORD *)a4 = 4 - a3;
   return 2148074264i64;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180002D50) ----------------------------------------------------
+// File count: 29
+// Total lines: 138
+-----------------------------------------
 unsigned __int8 __fastcall CSessionCacheTable::ExpireAndPurgeItems(CSessionCacheTable *this, int *a2, int a3, char a4)
 {
   struct _RTL_RESOURCE *v8; // r12
@@ -136,4 +138,3 @@ LABEL_32:
   return 1;
 }
 // 180098238: using guessed type __int64 __fastcall LsaIModifyPerformanceCounter(_QWORD);
-

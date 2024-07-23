@@ -1,4 +1,6 @@
-//----- (0000000180022910) ----------------------------------------------------
+// File count: 464
+// Total lines: 143
+----------------------------------------
 void __fastcall CSsl3TlsServerContext::SetStateConnected(CSsl3TlsServerContext *this)
 {
   __int64 v1; // rax
@@ -141,4 +143,3 @@ void __fastcall CSsl3TlsServerContext::SetStateConnected(CSsl3TlsServerContext *
 // 180082BC8: using guessed type wchar_t aServer_0[7];
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 180022910: using guessed type char var_708[8];
-

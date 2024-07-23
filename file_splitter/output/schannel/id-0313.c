@@ -1,4 +1,6 @@
-//----- (0000000180017230) ----------------------------------------------------
+// File count: 313
+// Total lines: 104
+----------------------------------------
 __int64 SchannelShutdown(void)
 {
   BOOL v0; // ebx
@@ -102,4 +104,3 @@ __int64 SchannelShutdown(void)
 // 180092620: using guessed type __int64 LsaTable;
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 180092A90: using guessed type unsigned int g_cCachedPagedSslProvs;
-

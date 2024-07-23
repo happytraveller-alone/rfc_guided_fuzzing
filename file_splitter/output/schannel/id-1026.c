@@ -1,4 +1,6 @@
-//----- (0000000180055D18) ----------------------------------------------------
+// File count: 1026
+// Total lines: 41
+----------------------------------------
 __int64 __fastcall CCredentialGroup::FindCredential(
         CCredentialGroup *this,
         unsigned __int8 *a2,
@@ -39,4 +41,3 @@ __int64 __fastcall CCredentialGroup::FindCredential(
   RtlReleaseResource((PRTL_RESOURCE)((char *)this + 48));
   return v8;
 }
-

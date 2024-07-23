@@ -1,4 +1,6 @@
-//----- (0000000180027E30) ----------------------------------------------------
+// File count: 559
+// Total lines: 31
+-----------------------------------------
 _BOOL8 __fastcall dllmain_crt_process_detach(char a1)
 {
   char v3; // bl
@@ -29,4 +31,3 @@ _BOOL8 __fastcall dllmain_crt_process_detach(char a1)
 // 180027E92: variable 'v4' is possibly undefined
 // 180091A30: using guessed type int dword_180091A30;
 // 180091FC0: using guessed type int _scrt_current_native_startup_state;
-

@@ -1,4 +1,6 @@
-//----- (000000018000503C) ----------------------------------------------------
+// File count: 65
+// Total lines: 48
+------------------------------------------
 __int64 __fastcall EccGetEphemKey(
         __int64 a1,
         unsigned int a2,
@@ -46,4 +48,3 @@ __int64 __fastcall EccGetEphemKey(
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180098548: using guessed type __int64 __fastcall SslCreateEphemeralKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

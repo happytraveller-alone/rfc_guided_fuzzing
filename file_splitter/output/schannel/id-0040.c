@@ -1,4 +1,6 @@
-//----- (0000000180003C24) ----------------------------------------------------
+// File count: 40
+// Total lines: 40
+------------------------------------------
 void __fastcall CSessionCacheItem::ClearState(CSessionCacheItem *this)
 {
   __int64 v2; // rcx
@@ -38,4 +40,3 @@ void __fastcall CSessionCacheItem::ClearState(CSessionCacheItem *this)
     SPExternalFree(v9);
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

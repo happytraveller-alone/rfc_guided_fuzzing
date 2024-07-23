@@ -1,4 +1,6 @@
-//----- (0000000180042244) ----------------------------------------------------
+// File count: 804
+// Total lines: 209
+----------------------------------------
 __int64 __fastcall LoadImplicitCredentials(struct _UNICODE_STRING *a1, __int64 a2, struct LSA_SCHANNEL_CRED *a3)
 {
   void *v5; // r12
@@ -207,4 +209,3 @@ LABEL_47:
 // 180098018: using guessed type void __stdcall CryptObjectLocatorFree(void *);
 // 1800980D8: using guessed type void *__stdcall CryptObjectLocatorGet(void *, unsigned int, struct _CRYPTOAPI_BLOB *);
 // 180098168: using guessed type void *__stdcall CryptObjectLocatorGetContent(void *);
-

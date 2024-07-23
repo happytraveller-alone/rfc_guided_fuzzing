@@ -1,4 +1,6 @@
-//----- (0000000180044B64) ----------------------------------------------------
+// File count: 839
+// Total lines: 13
+-----------------------------------------
 void __fastcall LogCertMappingFailureEvent(unsigned int a1, const unsigned __int16 *a2, int a3)
 {
   int v5; // [rsp+20h] [rbp-38h]
@@ -11,4 +13,3 @@ void __fastcall LogCertMappingFailureEvent(unsigned int a1, const unsigned __int
     SchEventWrite(&SSLEVENT_CERT_MAPPING_FAILURE, L"dudb", a1, &DestinationString, v5, 0i64, 0i64);
   }
 }
-

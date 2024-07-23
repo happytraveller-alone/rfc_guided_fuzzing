@@ -1,4 +1,6 @@
-//----- (000000018005E0A0) ----------------------------------------------------
+// File count: 1179
+// Total lines: 8
+-----------------------------------------
 CSslLookaside *__fastcall CSslLookaside::`vector deleting destructor'(CSslLookaside *this, char a2)
 {
   CSslLookaside::~CSslLookaside(this);
@@ -6,4 +8,3 @@ CSslLookaside *__fastcall CSslLookaside::`vector deleting destructor'(CSslLookas
     operator delete(this);
   return this;
 }
-

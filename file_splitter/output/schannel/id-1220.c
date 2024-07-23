@@ -1,4 +1,6 @@
-//----- (0000000180061340) ----------------------------------------------------
+// File count: 1220
+// Total lines: 24
+----------------------------------------
 void __fastcall CSsl3TlsClientContext::SetActiveClientCred(
         CSsl3TlsClientContext *this,
         struct CSslCredential *a2,
@@ -22,4 +24,3 @@ void __fastcall CSsl3TlsClientContext::SetActiveClientCred(
   if ( a3 )
     *((_QWORD *)this + 17) = v3 | 0x80000;
 }
-

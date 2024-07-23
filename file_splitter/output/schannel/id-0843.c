@@ -1,4 +1,6 @@
-//----- (0000000180044D6C) ----------------------------------------------------
+// File count: 843
+// Total lines: 49
+-----------------------------------------
 void __fastcall LogCredPropertiesEvent(char a1, struct _CRYPT_KEY_PROV_INFO *a2, const struct _CERT_CONTEXT *a3)
 {
   const WCHAR *v5; // rbx
@@ -47,4 +49,3 @@ void __fastcall LogCredPropertiesEvent(char a1, struct _CRYPT_KEY_PROV_INFO *a2,
 // 180084E40: using guessed type wchar_t aKeyExchange[13];
 // 180084E60: using guessed type wchar_t aSignature[10];
 // 180084E78: using guessed type wchar_t aNA[4];
-

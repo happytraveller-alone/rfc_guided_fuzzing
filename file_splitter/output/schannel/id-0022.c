@@ -1,4 +1,6 @@
-//----- (00000001800028C8) ----------------------------------------------------
+// File count: 22
+// Total lines: 17
+------------------------------------------
 void __fastcall CSessionCacheManager::PurgeCacheForProcessId(CSessionCacheManager *this, int a2)
 {
   unsigned int v2; // edi
@@ -15,4 +17,3 @@ void __fastcall CSessionCacheManager::PurgeCacheForProcessId(CSessionCacheManage
     CSessionCacheManager::CacheExpireElements(this, 0, 0);
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180023370) ----------------------------------------------------
+// File count: 487
+// Total lines: 27
+-----------------------------------------
 __int64 __fastcall FlattenEventEntryTree(__int64 a1)
 {
   __int64 *v1; // rdx
@@ -25,4 +27,3 @@ __int64 __fastcall FlattenEventEntryTree(__int64 a1)
   }
   return result;
 }
-

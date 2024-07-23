@@ -1,4 +1,6 @@
-//----- (0000000180015E38) ----------------------------------------------------
+// File count: 282
+// Total lines: 37
+-----------------------------------------
 __int64 __fastcall CTlsExt::BuildTBExtension(
         CTlsExt *this,
         char a2,
@@ -35,4 +37,3 @@ __int64 __fastcall CTlsExt::BuildTBExtension(
   *a7 = (unsigned __int8 *)&v10[a5];
   return 0i64;
 }
-

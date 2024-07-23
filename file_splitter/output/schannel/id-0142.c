@@ -1,4 +1,6 @@
-//----- (000000018000C2D0) ----------------------------------------------------
+// File count: 142
+// Total lines: 74
+-----------------------------------------
 __int64 __fastcall SpUnsealMessage(__int64 a1, struct _SecBufferDesc *a2)
 {
   struct CSslUserContext *UserContext; // rax
@@ -72,4 +74,3 @@ __int64 __fastcall SpUnsealMessage(__int64 a1, struct _SecBufferDesc *a2)
 // 1800365BB: variable 'v11' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

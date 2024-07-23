@@ -1,4 +1,6 @@
-//----- (0000000180005FC4) ----------------------------------------------------
+// File count: 74
+// Total lines: 36
+------------------------------------------
 __int64 __fastcall ConvertSslVersionToSchannelProtocol(int a1)
 {
   int v1; // ecx
@@ -34,4 +36,3 @@ __int64 __fastcall ConvertSslVersionToSchannelProtocol(int a1)
     return 196608i64;
   return 0i64;
 }
-

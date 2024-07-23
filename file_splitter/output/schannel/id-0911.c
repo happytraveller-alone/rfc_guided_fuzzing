@@ -1,4 +1,6 @@
-//----- (000000018004CF24) ----------------------------------------------------
+// File count: 911
+// Total lines: 62
+-----------------------------------------
 void UnloadSslRegOptions(void)
 {
   __int64 v0; // rsi
@@ -60,4 +62,3 @@ void UnloadSslRegOptions(void)
     g_pszOcspReadDirectory = 0i64;
   }
 }
-

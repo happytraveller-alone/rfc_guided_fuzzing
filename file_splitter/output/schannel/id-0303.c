@@ -1,4 +1,6 @@
-//----- (0000000180016B6C) ----------------------------------------------------
+// File count: 303
+// Total lines: 52
+-----------------------------------------
 __int64 __fastcall CreateCachedSslProv(struct CACHED_SSL_PROVIDER *a1, const unsigned __int16 *a2)
 {
   unsigned int v4; // ebx
@@ -50,4 +52,3 @@ LABEL_6:
 // 180092F58: using guessed type int dword_180092F58;
 // 1800984F8: using guessed type __int64 __fastcall SslOpenProvider(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

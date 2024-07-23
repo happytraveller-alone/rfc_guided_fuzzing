@@ -1,4 +1,6 @@
-//----- (0000000180075EF8) ----------------------------------------------------
+// File count: 1468
+// Total lines: 26
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GenerateRenegotiateClientHello(
         CSsl3TlsClientContext *this,
         struct SPBuffer *a2)
@@ -24,4 +26,3 @@ __int64 __fastcall CSsl3TlsClientContext::GenerateRenegotiateClientHello(
   return (*(__int64 (__fastcall **)(CSsl3TlsClientContext *, struct SPBuffer *))(*(_QWORD *)this + 216i64))(this, a2);
 }
 // 180075F4C: variable 'v6' is possibly undefined
-

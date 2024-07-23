@@ -1,4 +1,6 @@
-//----- (0000000180004308) ----------------------------------------------------
+// File count: 54
+// Total lines: 98
+------------------------------------------
 __int64 __fastcall VerifyRsaParams(
         UCHAR *a1,
         unsigned __int8 *a2,
@@ -96,4 +98,3 @@ LABEL_9:
     BCryptDestroyKey(hKey);
   return v15;
 }
-

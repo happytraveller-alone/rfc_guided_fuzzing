@@ -1,4 +1,6 @@
-//----- (0000000180056BF0) ----------------------------------------------------
+// File count: 1036
+// Total lines: 98
+----------------------------------------
 __int64 __fastcall CCredentialGroup::RenewImplicitCertificates(void **this)
 {
   __int64 v2; // rcx
@@ -96,4 +98,3 @@ LABEL_10:
 // 180098018: using guessed type void __stdcall CryptObjectLocatorFree(void *);
 // 1800981A0: using guessed type _DWORD __stdcall CryptObjectLocatorIsChanged(void *);
 // 1800981A8: using guessed type void *__stdcall CryptObjectLocatorGetUpdated(void *);
-

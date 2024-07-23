@@ -1,4 +1,6 @@
-//----- (0000000180047838) ----------------------------------------------------
+// File count: 878
+// Total lines: 39
+-----------------------------------------
 void __fastcall ConvertNameString(struct _UNICODE_STRING *a1)
 {
   PWSTR Buffer; // rdx
@@ -37,4 +39,3 @@ void __fastcall ConvertNameString(struct _UNICODE_STRING *a1)
     a1->Length = 2 * v4;
   }
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018004F974) ----------------------------------------------------
+// File count: 958
+// Total lines: 25
+-----------------------------------------
 ULONG WPP_SF_ddd(TRACEHANDLE a1, __int64 a2, __int64 a3, int a4, ...)
 {
   int v5; // [rsp+88h] [rbp+20h] BYREF
@@ -23,4 +25,3 @@ ULONG WPP_SF_ddd(TRACEHANDLE a1, __int64 a2, __int64 a3, int a4, ...)
            4i64,
            0i64);
 }
-

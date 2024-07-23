@@ -1,4 +1,6 @@
-//----- (000000018006B3EC) ----------------------------------------------------
+// File count: 1360
+// Total lines: 14
+----------------------------------------
 __int64 __fastcall CTls13Context::GenerateCcsRecord(CTls13Context *this)
 {
   __int64 result; // rax
@@ -12,4 +14,3 @@ __int64 __fastcall CTls13Context::GenerateCcsRecord(CTls13Context *this)
   }
   return 0i64;
 }
-

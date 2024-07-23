@@ -1,4 +1,6 @@
-//----- (000000018004DE38) ----------------------------------------------------
+// File count: 935
+// Total lines: 36
+-----------------------------------------
 char __fastcall CSslUserContext::DTLSCheckRecordValidity(CSslUserContext *this, unsigned __int64 a2)
 {
   unsigned __int64 v2; // r8
@@ -34,4 +36,3 @@ char __fastcall CSslUserContext::DTLSCheckRecordValidity(CSslUserContext *this, 
   *((_QWORD *)this + 16) = v3 - 63;
   return v5;
 }
-

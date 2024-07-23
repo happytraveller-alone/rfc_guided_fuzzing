@@ -1,4 +1,6 @@
-//----- (000000018005DB20) ----------------------------------------------------
+// File count: 1170
+// Total lines: 28
+----------------------------------------
 __int64 __fastcall ComputeIssuerCacheIndex(unsigned __int8 *a1, unsigned int a2)
 {
   __int64 result; // rax
@@ -26,4 +28,3 @@ __int64 __fastcall ComputeIssuerCacheIndex(unsigned __int8 *a1, unsigned int a2)
   return result;
 }
 // 1800926FC: using guessed type int dword_1800926FC;
-

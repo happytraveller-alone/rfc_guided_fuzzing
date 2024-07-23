@@ -1,4 +1,6 @@
-//----- (0000000180065F08) ----------------------------------------------------
+// File count: 1290
+// Total lines: 36
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::GenerateCertificateAuthoritiesExtension(CTls13ServerHandshake *this)
 {
   __int64 result; // rax
@@ -34,4 +36,3 @@ __int64 __fastcall CTls13ServerHandshake::GenerateCertificateAuthoritiesExtensio
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180082C10: using guessed type _DWORD WPP_922678f99ae534148d3bb024010f1556_Traceguids[4];
-

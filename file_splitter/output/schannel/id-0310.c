@@ -1,4 +1,6 @@
-//----- (0000000180016FD0) ----------------------------------------------------
+// File count: 310
+// Total lines: 26
+-----------------------------------------
 __int64 InitializeClientSideSslProvCache(void)
 {
   unsigned int v0; // ebx
@@ -24,4 +26,3 @@ __int64 InitializeClientSideSslProvCache(void)
   return v0;
 }
 // 18003EB64: conditional instruction was optimized away because rax.8==0
-

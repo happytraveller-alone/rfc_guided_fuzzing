@@ -1,4 +1,6 @@
-//----- (0000000180019060) ----------------------------------------------------
+// File count: 428
+// Total lines: 189
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::AllocateAndGenerateNstCcsAndFinish(
         CSsl3TlsServerContext *this,
         struct SPBuffer *a2)
@@ -187,4 +189,3 @@ LABEL_22:
   return CcsAndFinishMessage;
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

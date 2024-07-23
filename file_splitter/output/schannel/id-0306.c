@@ -1,4 +1,6 @@
-//----- (0000000180016DA0) ----------------------------------------------------
+// File count: 306
+// Total lines: 9
+------------------------------------------
 __int64 __fastcall SpDeleteUserModeContext(__int64 a1)
 {
   if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0 )
@@ -7,4 +9,3 @@ __int64 __fastcall SpDeleteUserModeContext(__int64 a1)
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

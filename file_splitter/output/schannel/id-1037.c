@@ -1,4 +1,6 @@
-//----- (0000000180056DE8) ----------------------------------------------------
+// File count: 1037
+// Total lines: 49
+----------------------------------------
 __int64 __fastcall CCredentialGroup::RenewLocalStoreCertificates(CCredentialGroup *this)
 {
   char *v1; // rdi
@@ -47,4 +49,3 @@ __int64 __fastcall CCredentialGroup::RenewLocalStoreCertificates(CCredentialGrou
 }
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
-

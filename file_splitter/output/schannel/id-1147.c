@@ -1,4 +1,6 @@
-//----- (000000018005CC0C) ----------------------------------------------------
+// File count: 1147
+// Total lines: 29
+----------------------------------------
 __int64 WPP_SF_Sdd(__int64 a1, unsigned __int16 a2, __int64 a3, const wchar_t *a4, ...)
 {
   __int64 v4; // rax
@@ -27,4 +29,3 @@ __int64 WPP_SF_Sdd(__int64 a1, unsigned __int16 a2, __int64 a3, const wchar_t *a
   return EtwTraceMessage(a1, 43i64, a3, a2, a4, v5, (__int64 *)va, 4i64, va1);
 }
 // 180083C60: using guessed type wchar_t aNull_0[5];
-

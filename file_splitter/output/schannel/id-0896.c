@@ -1,4 +1,6 @@
-//----- (000000018004B59C) ----------------------------------------------------
+// File count: 896
+// Total lines: 294
+----------------------------------------
 __int64 __fastcall SslTryUpn(
         const struct _CERT_CONTEXT *a1,
         unsigned __int8 **a2,
@@ -292,4 +294,3 @@ LABEL_60:
 // 1800920F0: using guessed type __int64 g_pfnAllocate;
 // 1800920F8: using guessed type __int64 g_pfnFree;
 // 180092620: using guessed type __int64 LsaTable;
-

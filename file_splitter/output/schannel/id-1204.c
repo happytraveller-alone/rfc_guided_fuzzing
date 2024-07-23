@@ -1,4 +1,6 @@
-//----- (000000018005F83C) ----------------------------------------------------
+// File count: 1204
+// Total lines: 91
+----------------------------------------
 ULONG __fastcall CSslCredential::GetLocalServerKeyFromProvider(const struct _CERT_CONTEXT **this, __int64 a2)
 {
   __int64 v3; // rsi
@@ -89,4 +91,3 @@ LABEL_20:
 // 18005F96C: variable 'v14' is possibly undefined
 // 18007D568: using guessed type void *CSslServerKey::`vftable';
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

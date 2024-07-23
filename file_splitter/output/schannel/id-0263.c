@@ -1,4 +1,6 @@
-//----- (0000000180014FD4) ----------------------------------------------------
+// File count: 263
+// Total lines: 32
+-----------------------------------------
 __int64 __fastcall MapOidToKeyExch(char *a1)
 {
   const struct _OIDPROVMAP near *const *v2; // r8
@@ -30,4 +32,3 @@ __int64 __fastcall MapOidToKeyExch(char *a1)
   return 0i64;
 }
 // 18007D750: using guessed type const struct _OIDPROVMAP near *const g_CertTypes;
-

@@ -1,4 +1,6 @@
-//----- (0000000180044890) ----------------------------------------------------
+// File count: 834
+// Total lines: 30
+-----------------------------------------
 char __fastcall SslFreeCustomBuffer(__int64 a1, unsigned __int64 *a2, __int64 a3, char a4)
 {
   char v4; // di
@@ -28,4 +30,3 @@ char __fastcall SslFreeCustomBuffer(__int64 a1, unsigned __int64 *a2, __int64 a3
 // 180092628: using guessed type unsigned __int64 near *g_dwPackageId;
 // 180092630: using guessed type __int64 qword_180092630;
 // 180092DA0: using guessed type __int64 g_SslContextManager;
-

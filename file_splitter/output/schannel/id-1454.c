@@ -1,4 +1,6 @@
-//----- (0000000180073FE8) ----------------------------------------------------
+// File count: 1454
+// Total lines: 179
+---------------------------------------
 void __fastcall RunClientCertPolicy(struct CCredentialGroup *a1, PCCERT_CONTEXT pCertContext, _DWORD *a3)
 {
   _DWORD *v3; // rdi
@@ -177,4 +179,3 @@ LABEL_48:
 // 180084C80: using guessed type EVENT_DESCRIPTOR ChainBuildStop;
 // 180084C90: using guessed type EVENT_DESCRIPTOR ChainBuildStart;
 // 180092F00: using guessed type int Microsoft_Windows_Schannel_EventsEnableBits;
-

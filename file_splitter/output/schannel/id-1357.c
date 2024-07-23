@@ -1,4 +1,6 @@
-//----- (000000018006B000) ----------------------------------------------------
+// File count: 1357
+// Total lines: 13
+----------------------------------------
 void __fastcall CTls13Context::FreeEarlyKey(CTls13Context *this)
 {
   __int64 v2; // rcx
@@ -11,4 +13,3 @@ void __fastcall CTls13Context::FreeEarlyKey(CTls13Context *this)
   }
 }
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

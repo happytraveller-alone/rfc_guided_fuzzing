@@ -1,4 +1,6 @@
-//----- (000000018001118C) ----------------------------------------------------
+// File count: 202
+// Total lines: 414
+----------------------------------------
 __int64 __fastcall SpMapVersion3Certificate(void *a1, int a2, struct _SecBuffer *a3, struct LSA_SCHANNEL_CRED *a4)
 {
   unsigned int v7; // ebx
@@ -412,4 +414,3 @@ LABEL_26:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

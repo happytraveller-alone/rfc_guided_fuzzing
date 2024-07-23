@@ -1,4 +1,6 @@
-//----- (0000000180043B20) ----------------------------------------------------
+// File count: 824
+// Total lines: 33
+-----------------------------------------
 __int64 __fastcall SpSetCredentialsAttributes(
         struct CCredentialGroup *a1,
         int a2,
@@ -31,4 +33,3 @@ LABEL_10:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

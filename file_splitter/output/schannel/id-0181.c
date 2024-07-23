@@ -1,4 +1,6 @@
-//----- (000000018000F5C0) ----------------------------------------------------
+// File count: 181
+// Total lines: 62
+-----------------------------------------
 DWORD __fastcall SPLoadCertificate(unsigned __int8 *a1, DWORD LastError, const struct _CERT_CONTEXT **a3)
 {
   HCERTSTORE v6; // r14
@@ -60,4 +62,3 @@ LABEL_12:
   }
   return LastError;
 }
-

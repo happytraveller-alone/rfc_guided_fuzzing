@@ -1,4 +1,6 @@
-//----- (00000001800284B0) ----------------------------------------------------
+// File count: 566
+// Total lines: 18
+-----------------------------------------
 char _scrt_dllmain_after_initialize_c()
 {
   _crt_argv_mode startup_argv_mode; // eax
@@ -16,4 +18,3 @@ char _scrt_dllmain_after_initialize_c()
   }
   return 1;
 }
-

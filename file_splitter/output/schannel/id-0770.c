@@ -1,4 +1,6 @@
-//----- (000000018002A118) ----------------------------------------------------
+// File count: 770
+// Total lines: 21
+-----------------------------------------
 void __fastcall Init_thread_header(_DWORD *a1)
 {
   EnterCriticalSection(&CriticalSection);
@@ -19,4 +21,3 @@ LABEL_7:
 }
 // 180091990: using guessed type int Init_global_epoch;
 // 1800920C8: using guessed type int tls_index;
-

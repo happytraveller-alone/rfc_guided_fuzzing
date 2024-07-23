@@ -1,4 +1,6 @@
-//----- (00000001800164B0) ----------------------------------------------------
+// File count: 292
+// Total lines: 54
+-----------------------------------------
 __int64 __fastcall DeserializeCertContext(
         const struct _CERT_CONTEXT **ppvContext,
         unsigned __int8 *a2,
@@ -52,4 +54,3 @@ LABEL_9:
   return 2148074253i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

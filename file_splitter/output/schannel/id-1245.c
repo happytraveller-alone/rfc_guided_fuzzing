@@ -1,4 +1,6 @@
-//----- (00000001800634E0) ----------------------------------------------------
+// File count: 1245
+// Total lines: 48
+----------------------------------------
 __int64 __fastcall CTlsRecord::HashPskBinderTranscript(CTlsRecord *this, __int64 a2)
 {
   __int64 v4; // r9
@@ -46,4 +48,3 @@ __int64 __fastcall CTlsRecord::HashPskBinderTranscript(CTlsRecord *this, __int64
   return SslHashHandshake(v13, a2, v9, v8, 0);
 }
 // 180098420: using guessed type __int64 __fastcall SslHashHandshake(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

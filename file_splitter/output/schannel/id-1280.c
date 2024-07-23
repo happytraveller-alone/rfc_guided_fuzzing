@@ -1,4 +1,6 @@
-//----- (0000000180065098) ----------------------------------------------------
+// File count: 1280
+// Total lines: 46
+----------------------------------------
 __int64 __fastcall CTls13ServerHandshake::ComputeServerHelloOrHRRSize(
         CTls13ServerHandshake *this,
         __int64 a2,
@@ -44,4 +46,3 @@ LABEL_10:
   return result;
 }
 // 1800650E7: variable 'v8' is possibly undefined
-

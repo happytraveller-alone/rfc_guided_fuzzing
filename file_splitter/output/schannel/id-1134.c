@@ -1,4 +1,6 @@
-//----- (000000018005BBC8) ----------------------------------------------------
+// File count: 1134
+// Total lines: 32
+----------------------------------------
 int __fastcall DTLSCookieManager::init(DTLSCookieManager *this, const unsigned __int16 *a2)
 {
   UCHAR *v3; // rax
@@ -30,4 +32,3 @@ int __fastcall DTLSCookieManager::init(DTLSCookieManager *this, const unsigned _
   }
   return result;
 }
-

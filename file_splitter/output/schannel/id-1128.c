@@ -1,4 +1,6 @@
-//----- (000000018005B870) ----------------------------------------------------
+// File count: 1128
+// Total lines: 17
+----------------------------------------
 void __fastcall DTLSCookieManager::~DTLSCookieManager(DTLSCookieManager *this)
 {
   void *v2; // rcx
@@ -15,4 +17,3 @@ void __fastcall DTLSCookieManager::~DTLSCookieManager(DTLSCookieManager *this)
     SPExternalFree(v3);
   *((_DWORD *)this + 4) = 0;
 }
-

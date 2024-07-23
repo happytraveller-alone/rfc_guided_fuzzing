@@ -1,4 +1,6 @@
-//----- (0000000180012458) ----------------------------------------------------
+// File count: 214
+// Total lines: 31
+-----------------------------------------
 void __fastcall CSchannelTelemetryContext::LogKeyExchange(CSchannelTelemetryContext *this, int a2, int a3)
 {
   struct kexch *KeyExchangeInfo; // rax
@@ -29,4 +31,3 @@ void __fastcall CSchannelTelemetryContext::LogKeyExchange(CSchannelTelemetryCont
 // 18003C176: variable 'v5' is possibly undefined
 // 18003C176: variable 'v6' is possibly undefined
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
-

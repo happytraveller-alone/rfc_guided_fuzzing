@@ -1,4 +1,6 @@
-//----- (0000000180066274) ----------------------------------------------------
+// File count: 1293
+// Total lines: 28
+----------------------------------------
 __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::GenerateCertificateEntryExtensions(__int64 a1)
 {
   __int16 v1; // ax
@@ -26,4 +28,3 @@ __int64 __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::Generat
   return result;
 }
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
-

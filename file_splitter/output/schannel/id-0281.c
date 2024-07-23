@@ -1,4 +1,6 @@
-//----- (0000000180015AD0) ----------------------------------------------------
+// File count: 281
+// Total lines: 341
+----------------------------------------
 __int64 __fastcall SpMarshallSupplementalCredsV5(__int64 a1, unsigned __int8 *a2, unsigned int *a3, void **a4)
 {
   void **v4; // rax
@@ -339,4 +341,3 @@ LABEL_47:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

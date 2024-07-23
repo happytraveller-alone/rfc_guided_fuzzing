@@ -1,4 +1,6 @@
-//----- (00000001800441C4) ----------------------------------------------------
+// File count: 829
+// Total lines: 175
+----------------------------------------
 __int64 __fastcall SspNtStatusToSecStatus(NTSTATUS a1)
 {
   unsigned int v1; // edx
@@ -173,4 +175,3 @@ LABEL_83:
     return (unsigned int)-2146893052;
   return v1;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180014970) ----------------------------------------------------
+// File count: 253
+// Total lines: 11
+-----------------------------------------
 void __fastcall CSslContext::GetReadWriteApplicationTrafficSecrets(
         CSslContext *this,
         unsigned __int64 *a2,
@@ -9,4 +11,3 @@ void __fastcall CSslContext::GetReadWriteApplicationTrafficSecrets(
   if ( a3 )
     *a3 = 0i64;
 }
-

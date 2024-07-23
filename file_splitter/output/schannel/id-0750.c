@@ -1,4 +1,6 @@
-//----- (0000000180029D63) ----------------------------------------------------
+// File count: 750
+// Total lines: 13
+-----------------------------------------
 __int64 __fastcall _tailMerge_lsasrv_dll(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
 {
   __int64 v4; // rax
@@ -11,4 +13,3 @@ __int64 __fastcall _tailMerge_lsasrv_dll(__int64 a1, __int64 a2, __int64 a3, __i
 }
 // 180029D9D: variable 'v4' is possibly undefined
 // 18008BF90: using guessed type int _DELAY_IMPORT_DESCRIPTOR_lsasrv_dll;
-

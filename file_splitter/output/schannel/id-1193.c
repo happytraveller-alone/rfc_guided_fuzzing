@@ -1,4 +1,6 @@
-//----- (000000018005E6D0) ----------------------------------------------------
+// File count: 1193
+// Total lines: 31
+----------------------------------------
 CSslCredential *__fastcall CSslCredential::CSslCredential(CSslCredential *this)
 {
   char v2; // r9
@@ -29,4 +31,3 @@ CSslCredential *__fastcall CSslCredential::CSslCredential(CSslCredential *this)
 // 18005E6F0: variable 'v3' is possibly undefined
 // 18005E6F4: variable 'v4' is possibly undefined
 // 18007FD20: using guessed type void *CSslCredential::`vftable';
-

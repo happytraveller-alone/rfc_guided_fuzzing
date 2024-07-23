@@ -1,4 +1,6 @@
-//----- (00000001800159D0) ----------------------------------------------------
+// File count: 278
+// Total lines: 15
+-----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GetPeerCertValidationResults(
         CSsl3TlsClientContext *this,
         int *a2,
@@ -13,4 +15,3 @@ __int64 __fastcall CSsl3TlsClientContext::GetPeerCertValidationResults(
   *a3 = *(_DWORD *)(v3 + 220);
   return 0i64;
 }
-

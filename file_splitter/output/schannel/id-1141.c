@@ -1,4 +1,6 @@
-//----- (000000018005C498) ----------------------------------------------------
+// File count: 1141
+// Total lines: 96
+----------------------------------------
 __int64 __fastcall ImportNcryptExportBcrypt(struct CSslContext *a1, const unsigned __int16 *a2, void **a3)
 {
   BYTE *v6; // rdi
@@ -94,4 +96,3 @@ LABEL_15:
     NCryptFreeObject(hKey);
   return (unsigned int)CertPublicKeyBlob;
 }
-

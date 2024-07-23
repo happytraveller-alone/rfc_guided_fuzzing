@@ -1,4 +1,6 @@
-//----- (0000000180040EA4) ----------------------------------------------------
+// File count: 790
+// Total lines: 175
+----------------------------------------
 __int64 __fastcall RemotelyCloseClientKeyHandle(__int64 a1, __int64 a2, int a3)
 {
   int v6; // r14d
@@ -173,4 +175,3 @@ LABEL_49:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
-

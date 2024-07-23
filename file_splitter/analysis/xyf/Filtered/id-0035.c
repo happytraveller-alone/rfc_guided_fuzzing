@@ -8,7 +8,7 @@ void __fastcall CSessionCacheClientItem::~CSessionCacheClientItem(CSessionCacheC
   __int64 v6; // rcx
   void *v7; // rcx
 
-  *(_QWORD *)this = &CSessionCacheClientItem::`vftable';
+  *(_QWORD *)this = &CSessionCacheClientItem::vftable;
   v2 = (void *)*((_QWORD *)this + 42);
   if ( v2 )
     SPExternalFree(v2);
@@ -35,3 +35,5 @@ void __fastcall CSessionCacheClientItem::~CSessionCacheClientItem(CSessionCacheC
 }
 // 18007C210: using guessed type void *CSessionCacheClientItem::`vftable';
 
+
+// 析构函数

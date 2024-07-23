@@ -1,4 +1,6 @@
-//----- (000000018000F120) ----------------------------------------------------
+// File count: 176
+// Total lines: 43
+-----------------------------------------
 __int64 __fastcall LookupChecksumAlg(wchar_t *a1)
 {
   const wchar_t *v1; // rsi
@@ -41,4 +43,3 @@ __int64 __fastcall LookupChecksumAlg(wchar_t *a1)
   return v3;
 }
 // 18000F1A5: variable 'v5' is possibly undefined
-

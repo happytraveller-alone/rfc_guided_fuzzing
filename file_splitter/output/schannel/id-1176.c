@@ -1,4 +1,6 @@
-//----- (000000018005DF3C) ----------------------------------------------------
+// File count: 1176
+// Total lines: 19
+----------------------------------------
 __int64 __fastcall CSslLookasidePreallocate::CSslLookasidePreallocate(__int64 a1, int a2, int a3)
 {
   SIZE_T v6; // rdx
@@ -17,4 +19,3 @@ __int64 __fastcall CSslLookasidePreallocate::CSslLookasidePreallocate(__int64 a1
   return a1;
 }
 // 18007FCF8: using guessed type void *CSslLookasidePreallocate::`vftable';
-

@@ -1,4 +1,6 @@
-//----- (00000001800561B4) ----------------------------------------------------
+// File count: 1030
+// Total lines: 131
+---------------------------------------
 void __fastcall CCredentialGroup::InitializeCertificateStoreChange(CCredentialGroup *this)
 {
   void *v1; // rdx
@@ -129,4 +131,3 @@ LABEL_38:
 // 180082B38: using guessed type GUID WPP_2ffbdd3159b83638eae39e16ce6a3c9c_Traceguids;
 // 1800854C0: using guessed type wchar_t aRoot[5];
 // 180085538: using guessed type wchar_t aClientauthissu[17];
-

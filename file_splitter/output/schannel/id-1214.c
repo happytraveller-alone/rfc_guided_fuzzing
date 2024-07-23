@@ -1,4 +1,6 @@
-//----- (00000001800609DC) ----------------------------------------------------
+// File count: 1214
+// Total lines: 30
+----------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::DigestServerHelloVerifyRequest(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -28,4 +30,3 @@ LABEL_14:
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

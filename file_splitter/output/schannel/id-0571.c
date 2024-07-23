@@ -1,4 +1,6 @@
-//----- (00000001800285C4) ----------------------------------------------------
+// File count: 571
+// Total lines: 13
+-----------------------------------------
 int _scrt_dllmain_uninitialize_c()
 {
   int result; // eax
@@ -11,4 +13,3 @@ int _scrt_dllmain_uninitialize_c()
   return result;
 }
 // 180028CAA: using guessed type __int64 o__cexit_0(void);
-

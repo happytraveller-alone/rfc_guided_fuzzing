@@ -1,4 +1,6 @@
-//----- (0000000180018810) ----------------------------------------------------
+// File count: 410
+// Total lines: 9
+------------------------------------------
 __int64 __fastcall CSslContext::GenerateRsaCkeParameterList(
         CSslContext *this,
         struct _BCryptBufferDesc *a2,
@@ -7,4 +9,3 @@ __int64 __fastcall CSslContext::GenerateRsaCkeParameterList(
 {
   return 120i64;
 }
-

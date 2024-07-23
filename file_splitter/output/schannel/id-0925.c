@@ -1,4 +1,6 @@
-//----- (000000018004D660) ----------------------------------------------------
+// File count: 925
+// Total lines: 67
+-----------------------------------------
 __int64 __fastcall SslGetExtensions(
         __int64 a1,
         unsigned int a2,
@@ -65,4 +67,3 @@ LABEL_19:
   return 2148074333i64;
 }
 // 18004D763: conditional instruction was optimized away because di.1!=0
-

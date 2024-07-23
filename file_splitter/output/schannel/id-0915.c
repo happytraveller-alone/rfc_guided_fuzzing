@@ -1,4 +1,6 @@
-//----- (000000018004D100) ----------------------------------------------------
+// File count: 915
+// Total lines: 14
+-----------------------------------------
 CSslBasicAllocator *__fastcall CSslBasicAllocator::`vector deleting destructor'(CSslBasicAllocator *this, char a2)
 {
   *(_QWORD *)this = &IAllocate::`vftable';
@@ -12,4 +14,3 @@ CSslBasicAllocator *__fastcall CSslBasicAllocator::`vector deleting destructor'(
   return this;
 }
 // 18007C298: using guessed type void *IAllocate::`vftable';
-

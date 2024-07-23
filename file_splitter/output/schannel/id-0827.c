@@ -1,4 +1,6 @@
-//----- (0000000180044054) ----------------------------------------------------
+// File count: 827
+// Total lines: 34
+-----------------------------------------
 void __fastcall GenerateFatalAlertMessage(int a1, __int64 a2, __int16 a3, __int64 a4)
 {
   __int64 v7; // rdx
@@ -32,4 +34,3 @@ void __fastcall GenerateFatalAlertMessage(int a1, __int64 a2, __int16 a3, __int6
 // 180044082: variable 'v7' is possibly undefined
 // 1800440A9: variable 'v8' is possibly undefined
 // 1800440A9: variable 'v9' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (000000018006AADC) ----------------------------------------------------
+// File count: 1352
+// Total lines: 40
+----------------------------------------
 __int64 __fastcall CTls13Context::ExpandTrafficAndWriteKeys(
         CTls13Context *this,
         __int64 a2,
@@ -38,4 +40,3 @@ __int64 __fastcall CTls13Context::ExpandTrafficAndWriteKeys(
 }
 // 1800984C0: using guessed type __int64 __fastcall SslExpandTrafficKeys(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098520: using guessed type __int64 __fastcall SslExpandWriteKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
-

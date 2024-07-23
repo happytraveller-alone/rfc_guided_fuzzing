@@ -1,4 +1,6 @@
-//----- (0000000180053810) ----------------------------------------------------
+// File count: 1001
+// Total lines: 92
+----------------------------------------
 __int64 __fastcall CheckForLocalStoreCertificateRenewal(
         HCERTSTORE hCertStore,
         PCCERT_CONTEXT pCertContext,
@@ -90,4 +92,3 @@ LABEL_30:
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
-

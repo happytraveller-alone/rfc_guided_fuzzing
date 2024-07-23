@@ -1,4 +1,6 @@
-//----- (00000001800294C7) ----------------------------------------------------
+// File count: 660
+// Total lines: 13
+-----------------------------------------
 __int64 __fastcall _tailMerge_api_ms_win_security_sddl_l1_1_0_dll(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
 {
   __int64 v4; // rax
@@ -11,4 +13,3 @@ __int64 __fastcall _tailMerge_api_ms_win_security_sddl_l1_1_0_dll(__int64 a1, __
 }
 // 180029501: variable 'v4' is possibly undefined
 // 18008BEF0: using guessed type int _DELAY_IMPORT_DESCRIPTOR_api_ms_win_security_sddl_l1_1_0_dll;
-

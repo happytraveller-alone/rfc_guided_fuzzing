@@ -1,4 +1,6 @@
-//----- (00000001800790C4) ----------------------------------------------------
+// File count: 1507
+// Total lines: 37
+----------------------------------------
 __int64 __fastcall I_GetCipherDetailsFromAlgorithmName(wchar_t *String1, __int64 a2, __int64 a3, _DWORD *a4)
 {
   unsigned int v4; // ebx
@@ -35,4 +37,3 @@ LABEL_8:
 }
 // 1800922A0: using guessed type _QWORD g_pCipherInfo[16];
 // 180092320: using guessed type int g_dwCipherInfoTotalCount;
-

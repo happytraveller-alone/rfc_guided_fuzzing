@@ -1,4 +1,6 @@
-//----- (0000000180007FAC) ----------------------------------------------------
+// File count: 101
+// Total lines: 290
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::DigestRemoteCertificate(
         CSsl3TlsContext *this,
         unsigned __int8 *a2,
@@ -288,4 +290,3 @@ LABEL_66:
 // 180033D18: variable 'v41' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180083C60: using guessed type wchar_t aNull_0[5];
-

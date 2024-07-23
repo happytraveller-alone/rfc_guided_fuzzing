@@ -1,4 +1,6 @@
-//----- (0000000180061E5C) ----------------------------------------------------
+// File count: 1227
+// Total lines: 25
+----------------------------------------
 __int64 __fastcall CMasterEccCurveInfo::GetEccCurveFlags(CMasterEccCurveInfo *this, int a2, unsigned int *a3)
 {
   unsigned __int64 v3; // r9
@@ -23,4 +25,3 @@ LABEL_7:
   *a3 = *(_DWORD *)(i + 776);
   return 0i64;
 }
-

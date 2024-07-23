@@ -1,4 +1,6 @@
-//----- (00000001800230B0) ----------------------------------------------------
+// File count: 479
+// Total lines: 70
+-----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::Initialize(CSsl3TlsServerContext *this)
 {
   int v2; // edi
@@ -68,4 +70,3 @@ __int64 __fastcall CSsl3TlsServerContext::Initialize(CSsl3TlsServerContext *this
   return 14i64;
 }
 // 1800919A4: using guessed type int g_fEnableHelloVerifyRequest;
-

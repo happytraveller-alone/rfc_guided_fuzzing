@@ -1,4 +1,6 @@
-//----- (0000000180004658) ----------------------------------------------------
+// File count: 57
+// Total lines: 13
+------------------------------------------
 __int64 __fastcall CCipherMill::GetCurveInfo(CCipherMill *this, int a2, struct CEccCurveInfo **a3)
 {
   unsigned int CurveInfo; // ebx
@@ -11,4 +13,3 @@ __int64 __fastcall CCipherMill::GetCurveInfo(CCipherMill *this, int a2, struct C
   RtlReleaseResource(&Resource);
   return CurveInfo;
 }
-

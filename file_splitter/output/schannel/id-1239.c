@@ -1,4 +1,6 @@
-//----- (0000000180062C20) ----------------------------------------------------
+// File count: 1239
+// Total lines: 70
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::SelectTBParameters(
         CSsl3TlsServerContext *this,
         char a2,
@@ -68,4 +70,3 @@ LABEL_24:
   return v17;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

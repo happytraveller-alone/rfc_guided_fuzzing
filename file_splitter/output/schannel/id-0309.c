@@ -1,4 +1,6 @@
-//----- (0000000180016F2C) ----------------------------------------------------
+// File count: 309
+// Total lines: 39
+-----------------------------------------
 __int64 __fastcall CacheClientSideSslProv(struct CACHED_SSL_PROVIDER *a1)
 {
   unsigned int v2; // ebx
@@ -37,4 +39,3 @@ __int64 __fastcall CacheClientSideSslProv(struct CACHED_SSL_PROVIDER *a1)
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180092A90: using guessed type unsigned int g_cCachedPagedSslProvs;
-

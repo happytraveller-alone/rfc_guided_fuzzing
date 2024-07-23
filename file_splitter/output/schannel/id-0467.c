@@ -1,4 +1,6 @@
-//----- (0000000180022C10) ----------------------------------------------------
+// File count: 467
+// Total lines: 386
+----------------------------------------
 __int64 __fastcall CTls13ServerContext::ProcessHandshake(
         CTls13ServerContext *this,
         unsigned __int8 *a2,
@@ -384,4 +386,3 @@ LABEL_41:
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098450: using guessed type __int64 __fastcall SslExpandResumptionMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

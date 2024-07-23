@@ -1,4 +1,6 @@
-//----- (0000000180015484) ----------------------------------------------------
+// File count: 270
+// Total lines: 51
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::ValidateApplicationProtocolList(
         enum _SEC_APPLICATION_PROTOCOL_NEGOTIATION_EXT a1,
         unsigned __int8 *const a2,
@@ -49,4 +51,3 @@ __int64 __fastcall CSsl3TlsContext::ValidateApplicationProtocolList(
   return 2148074278i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

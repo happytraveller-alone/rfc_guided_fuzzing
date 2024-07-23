@@ -1,4 +1,6 @@
-//----- (00000001800138FC) ----------------------------------------------------
+// File count: 233
+// Total lines: 28
+-----------------------------------------
 int __fastcall CompareEventEntry(unsigned __int8 a1, __int64 a2, __int64 a3)
 {
   __int64 v3; // rbp
@@ -26,4 +28,3 @@ int __fastcall CompareEventEntry(unsigned __int8 a1, __int64 a2, __int64 a3)
   }
   return result;
 }
-

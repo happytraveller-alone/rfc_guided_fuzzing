@@ -1,4 +1,6 @@
-//----- (0000000180003CE4) ----------------------------------------------------
+// File count: 41
+// Total lines: 14
+------------------------------------------
 __int64 __fastcall CMasterCipherInfo::Dereference(CMasterCipherInfo *this)
 {
   unsigned __int32 v1; // ebx
@@ -12,4 +14,3 @@ __int64 __fastcall CMasterCipherInfo::Dereference(CMasterCipherInfo *this)
   return v1;
 }
 // 180092D90: using guessed type int CMasterCipherInfo::m_lMasterCiphersCount;
-

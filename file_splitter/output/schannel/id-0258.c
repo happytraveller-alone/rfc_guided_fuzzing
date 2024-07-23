@@ -1,4 +1,6 @@
-//----- (0000000180014C84) ----------------------------------------------------
+// File count: 258
+// Total lines: 40
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::DigestCcs(CSsl3TlsContext *this, unsigned __int8 *a2, int a3)
 {
   __int64 v4; // rcx
@@ -38,4 +40,3 @@ __int64 __fastcall CSsl3TlsContext::DigestCcs(CSsl3TlsContext *this, unsigned __
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

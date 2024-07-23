@@ -1,4 +1,6 @@
-//----- (000000018004D944) ----------------------------------------------------
+// File count: 928
+// Total lines: 24
+-----------------------------------------
 __int64 __fastcall ParseSsl2Hello(struct SPBuffer *a1)
 {
   unsigned __int8 *v1; // r8
@@ -22,4 +24,3 @@ __int64 __fastcall ParseSsl2Hello(struct SPBuffer *a1)
     return 2148074278i64;
   }
 }
-

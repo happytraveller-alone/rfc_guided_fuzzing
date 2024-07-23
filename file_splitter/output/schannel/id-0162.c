@@ -1,4 +1,6 @@
-//----- (000000018000E778) ----------------------------------------------------
+// File count: 162
+// Total lines: 34
+-----------------------------------------
 struct CSslUserContext *__fastcall CreateUserContext(size_t Size)
 {
   unsigned int v1; // edi
@@ -32,4 +34,3 @@ struct CSslUserContext *__fastcall CreateUserContext(size_t Size)
   return (struct CSslUserContext *)v3;
 }
 // 18007D058: using guessed type void *CSslUserContext::`vftable';
-

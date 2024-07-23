@@ -1,4 +1,6 @@
-//----- (0000000180013D04) ----------------------------------------------------
+// File count: 238
+// Total lines: 54
+-----------------------------------------
 __int64 __fastcall CMasterEccCurveInfo::GetEccCurveType(CMasterEccCurveInfo *this, char *a2, unsigned int *a3)
 {
   unsigned int v3; // r9d
@@ -52,4 +54,3 @@ LABEL_12:
   *a3 = *(_DWORD *)(780i64 * v8 + v10 + 772);
   return result;
 }
-

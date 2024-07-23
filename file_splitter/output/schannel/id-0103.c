@@ -1,4 +1,6 @@
-//----- (00000001800084B0) ----------------------------------------------------
+// File count: 103
+// Total lines: 55
+-----------------------------------------
 char __fastcall CCipherMill::IsUserSpecifiedCipherAllowed(
         __int64 a1,
         unsigned int *a2,
@@ -53,4 +55,3 @@ char __fastcall CCipherMill::IsUserSpecifiedCipherAllowed(
   RtlReleaseResource(&Resource);
   return v12;
 }
-

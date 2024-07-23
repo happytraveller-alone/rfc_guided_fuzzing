@@ -1,4 +1,6 @@
-//----- (0000000180046A38) ----------------------------------------------------
+// File count: 867
+// Total lines: 107
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::QueryKeyingMaterialCommon(
         CSsl3TlsContext *this,
         __int64 a2,
@@ -105,4 +107,3 @@ LABEL_15:
 // 180080FD8: using guessed type __int64 (__fastcall *_guard_xfg_dispatch_icall_fptr)(_QWORD, _QWORD, _QWORD);
 // 180092620: using guessed type __int64 LsaTable;
 // 180098560: using guessed type __int64 __fastcall SslExportKeyingMaterial(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD, _QWORD, _DWORD, _DWORD);
-

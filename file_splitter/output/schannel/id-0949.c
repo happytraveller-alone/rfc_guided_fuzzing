@@ -1,4 +1,6 @@
-//----- (000000018004E694) ----------------------------------------------------
+// File count: 949
+// Total lines: 70
+-----------------------------------------
 __int64 __fastcall SpQueryNegotiatedTlsExtensions(
         struct CSslUserContext *a1,
         struct _SecPkgContext_NegotiatedTlsExtensions *a2)
@@ -68,4 +70,3 @@ __int64 __fastcall SpQueryNegotiatedTlsExtensions(
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

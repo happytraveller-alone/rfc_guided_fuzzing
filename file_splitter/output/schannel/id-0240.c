@@ -1,4 +1,6 @@
-//----- (0000000180013ED0) ----------------------------------------------------
+// File count: 240
+// Total lines: 137
+----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetApplicationProtocols(CSsl3TlsContext *this, struct _SecBuffer *const a2)
 {
   unsigned __int16 *v2; // rsi
@@ -135,4 +137,3 @@ LABEL_19:
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

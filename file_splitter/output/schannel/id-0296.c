@@ -1,4 +1,6 @@
-//----- (0000000180016724) ----------------------------------------------------
+// File count: 296
+// Total lines: 20
+-----------------------------------------
 __int64 __fastcall CSsl3TlsContext::SetFalseStart(CSsl3TlsContext *this, void *a2, int a3)
 {
   unsigned int v3; // ebx
@@ -18,4 +20,3 @@ __int64 __fastcall CSsl3TlsContext::SetFalseStart(CSsl3TlsContext *this, void *a
   return v3;
 }
 // 180092620: using guessed type __int64 LsaTable;
-

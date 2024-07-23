@@ -1,4 +1,6 @@
-//----- (0000000180022E90) ----------------------------------------------------
+// File count: 471
+// Total lines: 40
+-----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::PreparseMessage(CSsl3TlsServerContext *this, struct SPBuffer *a2)
 {
   int v2; // eax
@@ -38,4 +40,3 @@ __int64 __fastcall CSsl3TlsServerContext::PreparseMessage(CSsl3TlsServerContext 
   return 2148074264i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

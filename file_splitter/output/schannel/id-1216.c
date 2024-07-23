@@ -1,4 +1,6 @@
-//----- (0000000180060B8C) ----------------------------------------------------
+// File count: 1216
+// Total lines: 290
+---------------------------------------
 __int64 __fastcall CSsl3TlsClientContext::GenerateCertVerify(
         CSsl3TlsClientContext *this,
         unsigned __int8 *a2,
@@ -288,4 +290,3 @@ LABEL_57:
 // 180060E2C: variable 'v27' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 180098588: using guessed type __int64 __fastcall SslComputeClientAuthHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
-

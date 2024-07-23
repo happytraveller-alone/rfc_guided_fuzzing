@@ -1,4 +1,6 @@
-//----- (0000000180029FA0) ----------------------------------------------------
+// File count: 767
+// Total lines: 39
+-----------------------------------------
 __int64 _scrt_initialize_thread_safe_statics()
 {
   HMODULE ModuleHandleW; // rbx
@@ -37,4 +39,3 @@ LABEL_7:
 // 18002A06A: control flows out of bounds to 18002A06F
 // 1800920B8: using guessed type __int64 (__fastcall *qword_1800920B8)(_QWORD, _QWORD, _QWORD);
 // 1800920C0: using guessed type __int64 (__fastcall *qword_1800920C0)(_QWORD);
-

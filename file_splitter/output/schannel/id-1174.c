@@ -1,4 +1,6 @@
-//----- (000000018005DDD0) ----------------------------------------------------
+// File count: 1174
+// Total lines: 39
+----------------------------------------
 void SPPurgeIssuerCache(void)
 {
   __int64 *v0; // rbx
@@ -37,4 +39,3 @@ void SPPurgeIssuerCache(void)
 // 180092704: using guessed type int dword_180092704;
 // 180092708: using guessed type __int64 qword_180092708;
 // 180092778: using guessed type int dword_180092778;
-

@@ -1,4 +1,6 @@
-//----- (0000000180024F64) ----------------------------------------------------
+// File count: 504
+// Total lines: 30
+-----------------------------------------
 void __fastcall CCipherMill::ClearCipherMill(CCipherMill *this, char a2)
 {
   if ( a2 )
@@ -28,4 +30,3 @@ void __fastcall CCipherMill::ClearCipherMill(CCipherMill *this, char a2)
   word_1800925D0 = 0;
 }
 // 1800925D0: using guessed type __int16 word_1800925D0;
-

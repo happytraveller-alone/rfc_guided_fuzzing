@@ -1,4 +1,6 @@
-//----- (00000001800643A0) ----------------------------------------------------
+// File count: 1267
+// Total lines: 40
+----------------------------------------
 int __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ComputeCertificateVerifySize(
         __int64 a1,
         _WORD *a2)
@@ -38,4 +40,3 @@ int __fastcall CTls13Handshake<CTls13ClientContext,CTls13ExtClient>::ComputeCert
   }
   return result;
 }
-

@@ -1,4 +1,6 @@
-//----- (000000018001BE70) ----------------------------------------------------
+// File count: 438
+// Total lines: 488
+----------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::EccGenerateServerExchangeValue(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -486,4 +488,3 @@ LABEL_37:
 // 180092330: using guessed type _QWORD g_pHashInfo[16];
 // 180098540: using guessed type __int64 __fastcall SslSignHash(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 18001BE70: using guessed type unsigned __int8 var_C8[4];
-

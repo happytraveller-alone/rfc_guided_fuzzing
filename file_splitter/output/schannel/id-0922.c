@@ -1,4 +1,6 @@
-//----- (000000018004D388) ----------------------------------------------------
+// File count: 922
+// Total lines: 72
+-----------------------------------------
 __int64 __fastcall ParseClientHello(
         const unsigned __int8 *a1,
         unsigned int a2,
@@ -70,4 +72,3 @@ __int64 __fastcall ParseClientHello(
   }
   return v4;
 }
-

@@ -1,4 +1,6 @@
-//----- (0000000180015A10) ----------------------------------------------------
+// File count: 279
+// Total lines: 23
+-----------------------------------------
 __int64 __fastcall SpInstanceInit(__int64 a1, __int64 a2)
 {
   unsigned int v3; // ebx
@@ -21,4 +23,3 @@ __int64 __fastcall SpInstanceInit(__int64 a1, __int64 a2)
   return result;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

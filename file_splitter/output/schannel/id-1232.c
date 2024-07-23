@@ -1,4 +1,6 @@
-//----- (0000000180062430) ----------------------------------------------------
+// File count: 1232
+// Total lines: 112
+---------------------------------------
 __int64 __fastcall CSsl3TlsServerContext::DigestUnifiedHello(
         CSsl3TlsServerContext *this,
         unsigned __int8 *a2,
@@ -110,4 +112,3 @@ LABEL_20:
 // 180062611: variable 'v13' is possibly undefined
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
 // 1800919AC: using guessed type int g_fAllowInsecureRenegoClients;
-

@@ -1,4 +1,6 @@
-//----- (0000000180050A40) ----------------------------------------------------
+// File count: 970
+// Total lines: 63
+-----------------------------------------
 __int64 __fastcall CloseClientKeyHandleCallback(__int64 a1, DWORD a2, unsigned int *a3)
 {
   int v4; // esi
@@ -61,4 +63,3 @@ LABEL_22:
   *a3 = 0;
   return result;
 }
-

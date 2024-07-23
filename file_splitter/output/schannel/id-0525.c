@@ -1,4 +1,6 @@
-//----- (0000000180026908) ----------------------------------------------------
+// File count: 525
+// Total lines: 108
+----------------------------------------
 CCipherSuiteInfo *__fastcall CCipherSuiteInfo::CCipherSuiteInfo(
         CCipherSuiteInfo *this,
         unsigned __int64 a2,
@@ -106,4 +108,3 @@ LABEL_11:
 // 18007F170: using guessed type wchar_t *off_18007F170;
 // 1800923B0: using guessed type int g_dwKeyExchangeInfoTotalCount;
 // 1800923C0: using guessed type _QWORD g_pKeyExchangeInfo[12];
-

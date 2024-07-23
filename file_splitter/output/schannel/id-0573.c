@@ -1,4 +1,6 @@
-//----- (0000000180028618) ----------------------------------------------------
+// File count: 573
+// Total lines: 20
+-----------------------------------------
 char __fastcall _scrt_initialize_crt(int a1)
 {
   char v1; // al
@@ -18,4 +20,3 @@ char __fastcall _scrt_initialize_crt(int a1)
   return 1;
 }
 // 180092001: using guessed type char byte_180092001;
-

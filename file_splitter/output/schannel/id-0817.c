@@ -1,4 +1,6 @@
-//----- (0000000180043384) ----------------------------------------------------
+// File count: 817
+// Total lines: 26
+-----------------------------------------
 __int64 __fastcall WPP_SF_s(__int64 a1, unsigned __int16 a2, __int64 a3, const char *a4)
 {
   __int64 v4; // rax
@@ -24,4 +26,3 @@ __int64 __fastcall WPP_SF_s(__int64 a1, unsigned __int16 a2, __int64 a3, const c
 }
 // 1800433CC: variable 'v7' is possibly undefined
 // 1800433CC: variable 'v8' is possibly undefined
-

@@ -1,4 +1,6 @@
-//----- (0000000180001820) ----------------------------------------------------
+// File count: 9
+// Total lines: 18
+-------------------------------------------
 __int64 __fastcall SpUserModeInitialize(int a1, _DWORD *a2, _QWORD *a3, _DWORD *a4)
 {
   if ( a2 && a3 && a4 )
@@ -16,4 +18,3 @@ __int64 __fastcall SpUserModeInitialize(int a1, _DWORD *a2, _QWORD *a3, _DWORD *
   return 3221225485i64;
 }
 // 1800912A0: using guessed type struct _SECPKG_USER_FUNCTION_TABLE near *SslTable;
-

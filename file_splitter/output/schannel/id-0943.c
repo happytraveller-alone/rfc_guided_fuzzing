@@ -1,4 +1,6 @@
-//----- (000000018004E228) ----------------------------------------------------
+// File count: 943
+// Total lines: 44
+-----------------------------------------
 __int64 __fastcall HandleSpecialMessage(
         struct CSslUserContext *a1,
         unsigned __int8 *a2,
@@ -42,4 +44,3 @@ __int64 __fastcall HandleSpecialMessage(
   return 0i64;
 }
 // 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);
-

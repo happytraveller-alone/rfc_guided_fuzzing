@@ -1,4 +1,6 @@
-//----- (0000000180028A88) ----------------------------------------------------
+// File count: 584
+// Total lines: 79
+-----------------------------------------
 int __cdecl _isa_available_init()
 {
   int v5; // r11d
@@ -77,4 +79,3 @@ int __cdecl _isa_available_init()
 // 180091984: using guessed type int _isa_enabled;
 // 180091988: using guessed type __int64 _memcpy_nt_iters;
 // 180092008: using guessed type int _favor;
-

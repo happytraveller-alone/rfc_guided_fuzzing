@@ -1,4 +1,6 @@
-//----- (00000001800024D0) ----------------------------------------------------
+// File count: 20
+// Total lines: 208
+-----------------------------------------
 __int64 __fastcall MakeEccDhPskSessionKeysHelper(struct CSsl3TlsContext *a1, __int64 a2, __int64 a3, char a4)
 {
   __int64 v8; // rcx
@@ -206,4 +208,3 @@ LABEL_28:
 // 1800984A0: using guessed type __int64 __fastcall SslGenerateMasterKey(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098530: using guessed type __int64 __fastcall SslComputeSessionHash(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _QWORD, _DWORD);
 // 180098570: using guessed type __int64 __fastcall SslFreeObject(_QWORD, _QWORD);
-

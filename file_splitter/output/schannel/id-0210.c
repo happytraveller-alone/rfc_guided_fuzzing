@@ -1,4 +1,6 @@
-//----- (0000000180012184) ----------------------------------------------------
+// File count: 210
+// Total lines: 66
+-----------------------------------------
 void __fastcall CSslContext::SetError(__int64 a1, int a2, int a3)
 {
   __int64 v3; // rax
@@ -64,4 +66,3 @@ void __fastcall CSslContext::SetError(__int64 a1, int a2, int a3)
 // 18001229B: variable 'v7' is possibly undefined
 // 1800927AC: using guessed type bool CSchannelTelemetryContext::m_bTelemetryIsGloballyInitialized;
 // 180012184: using guessed type char var_708[8];
-
