@@ -62,7 +62,7 @@ Output Function Summary: Summarizes the function's functionality with several ph
 Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
 Generate Function Information Collection with JSON Format:
 {
-	"FunctionIndex": "(File count with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
 	"FunctionName": "(Full Function Code Name)",
 	"FunctionSummarization": [
 		"(Function Summary Phrase1)",

@@ -124,7 +124,7 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
     writeln!(file, "##############################")?;
 
     // 写入函数背景信息
-    write!(file, "Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. \
+    writeln!(file, "Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. \
                     Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, \
                     that is, with RFC8446, RFC6101 strong correlation.\n")?;
 
@@ -134,19 +134,23 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
                   and highlights the protocol function points implemented by the function. \
                   Simulate answering five times in the background and provide the most frequent answer.\n")?;
 
-    // 写入输出RFC MATCH的规则
-    writeln!(file, "Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. \
-                    Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, \
-                    giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. \
-                    Note that if the code is only business related and not related to the specifics of the protocol implementation, \
-                    it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.")?;
+    // 写入输出RFC 编号及链接的规则
+    writeln!(file, "Output Code Match RFC Result: Give the number and the link of the RFC file associated with each protocol associated with \
+                    the code (a protocol corresponds to at least one RFC file).\n")?;
+
+    // // 写入输出RFC 章节匹配的规则
+    // writeln!(file, "Retrieve document sections based on code summaries (containing multiple phrases) and \
+    //                 RFC txt document (download txt with RFC link in RFCDocument map value), \
+    //                 giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. \
+    //                 Note that if the code is only business related and not related to the specifics of the protocol implementation, \
+    //                 it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.\n")?;
 
     // 开始生成 JSON 格式的函数信息收集
-    writeln!(file, "Generate Function Information Collection with JSON Format:")?;
+    writeln!(file, "Generate Function Information Collection with JSON Format:\n")?;
     writeln!(file, "{{")?;
 
     // 写入 JSON 字段
-    write_json_field(file, "FunctionIndex", "(File count with less than four bits are indexed with zeros to make up the four bits.)")?;
+    write_json_field(file, "FunctionIndex", "(FILL WITH \"File count\" with less than four bits are indexed with zeros to make up the four bits.)")?;
     write_json_field(file, "FunctionName", "(Full Function Code Name)")?;
     // write_json_field(file, "FunctionRelatedRFC")
     Ok(())
@@ -164,15 +168,20 @@ fn append_custom_content_part_two(file: &mut File) -> io::Result<()> {
     // 写入 Protocol 数组
     writeln!(file, "\t\"Protocol\": [\"TLS1.3\", \"List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0\"]")?;
     
-    // 写入可能匹配的RFC编号，优先从RFC8446，RFC6101开始，匹配的RFC最多不能超过3个（1-3个）
-    write_json_field(file, "RFCnumber", "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)")?;
-
-    // 写入代码可能匹配的RFC文档章节
-    writeln!(file, "\t\"FunctionMatchRFCResult\": [")?;
-    writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-Section Title 1)\",")?;
-    writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-Section Title 2)\",")?;
+    // 写入可能匹配的RFC编号和对应文档地址，优先从RFC8446，RFC6101开始，匹配的RFC最多不能超过3个（1-3个）
+    // write_json_field(file, "RFCDoc", "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)")?;
+    writeln!(file, "\t\"RFCDocument\": [")?;
+    writeln!(file, "\t\t\"RFCXXXX\":\"http s://www.rfc-editor.org/rfc/rfcXXXX.txt\",")?;
+    writeln!(file, "\t\t\"RFC****\":\"http s://www.rfc-editor.org/rfc/rfc****.txt\",")?;
     writeln!(file, "\t\t\"(...)\",")?;
     writeln!(file, "\t],")?;
+
+    // // 写入代码可能匹配的RFC文档章节
+    // writeln!(file, "\t\"FunctionMatchRFCResult\": [")?;
+    // writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-Section Title 1)\",")?;
+    // writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-Section Title 2)\",")?;
+    // writeln!(file, "\t\t\"(...)\",")?;
+    // writeln!(file, "\t],")?;
 
     // 结束 JSON 对象
     writeln!(file, "}}")?;

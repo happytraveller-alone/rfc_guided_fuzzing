@@ -1,0 +1,14 @@
+{
+	"FunctionIndex": "0002",
+	"FunctionName": "dynamic_initializer_for__g_SslContextManager__",
+	"FunctionSummarization": [
+		"Constructor call for CSslContextManager",
+		"Registers destructor with atexit",
+		"Initializes global CSslContextManager object"
+	],
+	"Protocol": ["TLS1.3", "SSL 3.0"],
+	"RFCDocument": [
+		"RFC8446": "https://www.rfc-editor.org/rfc/rfc8446.txt",
+		"RFC6101": "https://www.rfc-editor.org/rfc/rfc6101.txt"
+	]
+}

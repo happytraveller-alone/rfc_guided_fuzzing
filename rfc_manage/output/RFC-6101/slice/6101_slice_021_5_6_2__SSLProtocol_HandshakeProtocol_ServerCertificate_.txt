@@ -1,0 +1,37 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.6.2. SSLProtocol_HandshakeProtocol_ServerCertificate_ ---
+If the server is to be authenticated (which is generally the case),
+   the server sends its certificate immediately following the server
+   hello message.  The certificate type must be appropriate for the
+   selected cipher suite's key exchange algorithm, and is generally an
+   X.509.v3 certificate (or a modified X.509 certificate in the case of
+   FORTEZZA(tm) [FOR]).  The same message type will be used for the
+   client's response to a certificate request message.
+
+        opaque ASN.1Cert<1..2^24-1>;
+        struct {
+            ASN.1Cert certificate_list<1..2^24-1>;
+        } Certificate;
+
+   certificate_list:  This is a sequence (chain) of X.509.v3
+      certificates, ordered with the sender's certificate first followed
+      by any certificate authority certificates proceeding sequentially
+      upward.
+
+   Note: PKCS #7 [PKCS7] is not used as the format for the certificate
+   vector because PKCS #6 [PKCS6] extended certificates are not used.
+   Also, PKCS #7 defines a Set rather than a Sequence, making the task
+   of parsing the list more difficult.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

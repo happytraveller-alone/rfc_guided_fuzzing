@@ -1,0 +1,92 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.6.3. SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_ ---
+The server key exchange message is sent by the server if it has no
+   certificate, has a certificate only used for signing (e.g., DSS [DSS]
+   certificates, signing-only RSA [RSA] certificates), or FORTEZZA KEA
+   key exchange is used.  This message is not used if the server
+   certificate contains Diffie-Hellman [DH1] parameters.
+
+   Note: According to current US export law, RSA moduli larger than 512
+   bits may not be used for key exchange in software exported from the
+   US.  With this message, larger RSA keys may be used as signature-only
+   certificates to sign temporary shorter RSA keys for key exchange.
+
+        enum { rsa, diffie_hellman, fortezza_kea }
+               KeyExchangeAlgorithm;
+
+        struct {
+            opaque rsa_modulus<1..2^16-1>;
+            opaque rsa_exponent<1..2^16-1>;
+        } ServerRSAParams;
+
+   rsa_modulus:  The modulus of the server's temporary RSA key.
+
+   rsa_exponent:  The public exponent of the server's temporary RSA key.
+
+        struct {
+            opaque dh_p<1..2^16-1>;
+            opaque dh_g<1..2^16-1>;
+            opaque dh_Ys<1..2^16-1>;
+        } ServerDHParams;     /* Ephemeral DH parameters */
+
+   dh_p:  The prime modulus used for the Diffie-Hellman operation.
+
+   dh_g:  The generator used for the Diffie-Hellman operation.
+
+   dh_Ys:  The server's Diffie-Hellman public value (gX mod p).
+
+        struct {
+            opaque r_s [128];
+        } ServerFortezzaParams;
+
+   r_s:  Server random number for FORTEZZA KEA (Key Exchange Algorithm).
+
+        struct {
+            select (KeyExchangeAlgorithm) {
+                case diffie_hellman:
+                    ServerDHParams params;
+                    Signature signed_params;
+                case rsa:
+                    ServerRSAParams params;
+                    Signature signed_params;
+                case fortezza_kea:
+                    ServerFortezzaParams params;
+            };
+        } ServerKeyExchange;
+
+   params:  The server's key exchange parameters.
+
+   signed_params:  A hash of the corresponding params value, with the
+      signature appropriate to that hash applied.
+
+   md5_hash:  MD5(ClientHello.random + ServerHello.random +
+      ServerParams);
+
+   sha_hash:  SHA(ClientHello.random + ServerHello.random +
+      ServerParams);
+
+        enum { anonymous, rsa, dsa } SignatureAlgorithm;
+
+        digitally-signed struct {
+            select(SignatureAlgorithm) {
+                case anonymous: struct { };
+                case rsa:
+                    opaque md5_hash[16];
+                    opaque sha_hash[20];
+                case dsa:
+                    opaque sha_hash[20];
+            };
+        } Signature;
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

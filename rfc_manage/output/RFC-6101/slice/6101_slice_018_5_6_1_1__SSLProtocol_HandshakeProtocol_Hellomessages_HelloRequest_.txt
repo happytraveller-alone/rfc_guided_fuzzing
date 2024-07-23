@@ -1,0 +1,34 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.6.1.1. SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_ ---
+The hello request message may be sent by the server at any time, but
+   will be ignored by the client if the handshake protocol is already
+   underway.  It is a simple notification that the client should begin
+   the negotiation process anew by sending a client hello message when
+   convenient.
+
+   Note: Since handshake messages are intended to have transmission
+   precedence over application data, it is expected that the negotiation
+   begin in no more than one or two times the transmission time of a
+   maximum-length application data message.
+
+   After sending a hello request, servers should not repeat the request
+   until the subsequent handshake negotiation is complete.  A client
+   that receives a hello request while in a handshake negotiation state
+   should simply ignore the message.
+
+   The structure of a hello request message is as follows:
+
+        struct { } HelloRequest;
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

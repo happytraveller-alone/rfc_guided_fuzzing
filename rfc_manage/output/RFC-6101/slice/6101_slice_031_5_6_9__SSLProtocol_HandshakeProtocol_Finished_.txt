@@ -1,0 +1,54 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.6.9. SSLProtocol_HandshakeProtocol_Finished_ ---
+A finished message is always sent immediately after a change cipher
+   spec message to verify that the key exchange and authentication
+   processes were successful.  The finished message is the first
+   protected with the just-negotiated algorithms, keys, and secrets.  No
+   acknowledgment of the finished message is required; parties may begin
+   sending encrypted data immediately after sending the finished
+   message.  Recipients of finished messages must verify that the
+   contents are correct.
+
+        enum { client(0x434C4E54), server(0x53525652) } Sender;
+
+        struct {
+            opaque md5_hash[16];
+            opaque sha_hash[20];
+        } Finished;
+
+   md5_hash:  MD5(master_secret + pad2 + MD5(handshake_messages + Sender
+      + master_secret + pad1));
+
+   sha_hash:  SHA(master_secret + pad2 + SHA(handshake_messages + Sender
+      + master_secret + pad1));
+
+   handshake_messages:  All of the data from all handshake messages up
+      to but not including this message.  This is only data visible at
+      the handshake layer and does not include record layer headers.
+
+   It is a fatal error if a finished message is not preceeded by a
+   change cipher spec message at the appropriate point in the handshake.
+
+   The hash contained in finished messages sent by the server
+   incorporate Sender.server; those sent by the client incorporate
+   Sender.client.  The value handshake_messages includes all handshake
+   messages starting at client hello up to but not including this
+   finished message.  This may be different from handshake_messages in
+   Section 5.6.8 because it would include the certificate verify message
+   (if sent).
+
+   Note: Change cipher spec messages are not handshake messages and are
+   not included in the hash computations.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]
