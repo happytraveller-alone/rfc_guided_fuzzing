@@ -1,0 +1,351 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 256
+// Total lines: 226
+
+//----- (0000000180014AB0) ----------------------------------------------------
+__int64 __fastcall CSsl3TlsContext::ProcessRecord(__int64 a1, int a2, unsigned __int8 *a3, unsigned int a4)
+{
+  unsigned int v4; // ebp
+  unsigned __int8 *v5; // rsi
+  __int64 v8; // rax
+  bool v9; // cl
+  int v10; // ebx
+  __int64 v11; // r14
+  unsigned int v12; // ebx
+  __int64 result; // rax
+  __int64 v14; // r10
+  unsigned int v15; // r9d
+  unsigned int v16; // ecx
+  CTlsMessageFragment *v17; // rcx
+  unsigned int v18; // eax
+  bool v19; // zf
+  _QWORD *Memory; // rax
+  CCipherMill *v21; // rcx
+  bool v22; // zf
+  CCipherMill *v23; // rcx
+  bool v24; // zf
+  unsigned int v25; // eax
+  bool v26; // zf
+  int v27; // eax
+  unsigned int v28[4]; // [rsp+30h] [rbp-38h] BYREF
+  unsigned __int8 v29; // [rsp+70h] [rbp+8h] BYREF
+
+  v4 = a4;
+  v5 = a3;
+  if ( *(_BYTE *)(a1 + 233) )
+    return CSsl3TlsContext::DtlsProcessRecord(a1, a2, a3, a4);
+  v8 = *(_QWORD *)(a1 + 464);
+  v28[0] = 0;
+  v9 = 1;
+  if ( !v8 || !*(_DWORD *)(v8 + 36) )
+  {
+LABEL_3:
+    v10 = a2 - 21;
+    if ( !v10 )
+    {
+      if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0 )
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 57i64, &WPP_906ebfdb0b6e356d5c7c2dbe304d0682_Traceguids);
+      v27 = TlsParseAlertMessage(v5, v4, (unsigned __int8 *)(a1 + 473), &v29);
+      v12 = v27;
+      if ( v27 )
+      {
+        if ( v27 == -2146892953 || *(_DWORD *)(a1 + 36) < 0x302u || (*(_DWORD *)(a1 + 64) & 0x800A00AA) == 0 )
+        {
+          if ( v4 == 2 )
+            LogReceiveAlertEvent(
+              *(_DWORD *)(*(_QWORD *)(a1 + 80) + 212i64),
+              (const unsigned __int16 *)(*(_QWORD *)(a1 + 80) + 216i64),
+              *v5,
+              v5[1]);
+        }
+        else
+        {
+          CSslContext::SetError(a1, 14, v27);
+          return (unsigned int)-2146893018;
+        }
+      }
+      else if ( v29 )
+      {
+        *(_BYTE *)(a1 + 552) = 1;
+        *(_DWORD *)(a1 + 68) = 75;
+      }
+      return v12;
+    }
+    if ( v10 != 1 )
+      return 0;
+    while ( v4 >= 4 )
+    {
+      v11 = v5[3] + (v5[1] << 16) + (v5[2] << 8);
+      if ( v11 + 4 > (unsigned __int64)v4 )
+      {
+        v17 = *(CTlsMessageFragment **)(a1 + 464);
+        if ( v17 )
+          goto LABEL_52;
+        if ( (*(_DWORD *)(a1 + 64) & 0x40051555) != 0 )
+        {
+          if ( (*(_DWORD *)(a1 + 136) & 0x100i64) == 0 )
+            goto LABEL_36;
+          v18 = CSslGlobals::m_dwTlsMessageLimitSrvClientAuth;
+          if ( CSslGlobals::m_dwTlsMessageLimitSrv > CSslGlobals::m_dwTlsMessageLimitSrvClientAuth )
+            v18 = CSslGlobals::m_dwTlsMessageLimitSrv;
+          if ( v18 )
+          {
+LABEL_36:
+            v19 = CSslGlobals::m_dwTlsMessageLimitSrv == 0;
+            goto LABEL_38;
+          }
+          goto LABEL_41;
+        }
+        v19 = CSslGlobals::m_dwTlsMessageLimitClient == 0;
+LABEL_38:
+        if ( !v19 )
+        {
+          Memory = CSslContext::GetMemory((CSslContext *)a1, 0x30u);
+          if ( !Memory )
+          {
+            v21 = WPP_GLOBAL_Control;
+            v22 = WPP_GLOBAL_Control == (CCipherMill *)&WPP_GLOBAL_Control;
+LABEL_47:
+            if ( !v22 && (*((_BYTE *)v21 + 28) & 1) != 0 )
+              WPP_SF_(*((_QWORD *)v21 + 2), 68i64, &WPP_906ebfdb0b6e356d5c7c2dbe304d0682_Traceguids);
+            return 14;
+          }
+LABEL_51:
+          *Memory = 0i64;
+          *(_QWORD *)((char *)Memory + 12) = 256i64;
+          Memory[3] = 0i64;
+          Memory[4] = 0i64;
+          *(_QWORD *)(a1 + 464) = Memory;
+          CTlsMessageFragment::Initialize((CTlsMessageFragment *)Memory, (struct CSsl3TlsContext *)a1);
+          v17 = *(CTlsMessageFragment **)(a1 + 464);
+LABEL_52:
+          v28[0] = 0;
+          return (unsigned int)CTlsMessageFragment::SaveFragment(v17, v5, v4, 1, v28);
+        }
+LABEL_41:
+        v23 = WPP_GLOBAL_Control;
+        v24 = WPP_GLOBAL_Control == (CCipherMill *)&WPP_GLOBAL_Control;
+LABEL_43:
+        if ( !v24 && (*((_BYTE *)v23 + 28) & 1) != 0 )
+          WPP_SF_(*((_QWORD *)v23 + 2), 67i64, &WPP_906ebfdb0b6e356d5c7c2dbe304d0682_Traceguids);
+        v12 = -2146893018;
+        CSslContext::SetErrorAndFatalAlert(a1, 12, -2146893018, 0xAu);
+        return v12;
+      }
+      v12 = CSsl3TlsContext::ProcessHandshakeCommon((CSsl3TlsContext *)a1, v5, (int)v11 + 4);
+      if ( !v12 )
+      {
+        v5 += v11 + 4;
+        v4 += -4 - v11;
+        if ( v4 )
+          continue;
+      }
+      return v12;
+    }
+    v17 = *(CTlsMessageFragment **)(a1 + 464);
+    if ( v17 )
+      goto LABEL_52;
+    if ( (*(_DWORD *)(a1 + 64) & 0x40051555) != 0 )
+    {
+      if ( (*(_DWORD *)(a1 + 136) & 0x100i64) != 0 )
+      {
+        v25 = CSslGlobals::m_dwTlsMessageLimitSrvClientAuth;
+        if ( CSslGlobals::m_dwTlsMessageLimitSrv > CSslGlobals::m_dwTlsMessageLimitSrvClientAuth )
+          v25 = CSslGlobals::m_dwTlsMessageLimitSrv;
+        if ( !v25 )
+        {
+LABEL_42:
+          v23 = WPP_GLOBAL_Control;
+          v24 = WPP_GLOBAL_Control == (CCipherMill *)&WPP_GLOBAL_Control;
+          goto LABEL_43;
+        }
+      }
+      v26 = CSslGlobals::m_dwTlsMessageLimitSrv == 0;
+    }
+    else
+    {
+      v26 = CSslGlobals::m_dwTlsMessageLimitClient == 0;
+    }
+    if ( !v26 )
+    {
+      Memory = CSslContext::GetMemory((CSslContext *)a1, 0x30u);
+      if ( !Memory )
+      {
+        v21 = WPP_GLOBAL_Control;
+        v22 = WPP_GLOBAL_Control == (CCipherMill *)&WPP_GLOBAL_Control;
+        goto LABEL_47;
+      }
+      goto LABEL_51;
+    }
+    goto LABEL_42;
+  }
+  if ( a2 != 22 )
+  {
+    if ( a2 == 21 )
+      *(_QWORD *)(v8 + 32) = 0i64;
+LABEL_12:
+    result = 0i64;
+    if ( !v9 )
+      return result;
+    goto LABEL_3;
+  }
+  result = CTlsMessageFragment::SaveFragment((CTlsMessageFragment *)v8, a3, a4, 0, v28);
+  if ( !(_DWORD)result )
+  {
+    v14 = *(_QWORD *)(a1 + 464);
+    v15 = *(_DWORD *)(v14 + 32);
+    v16 = *(_DWORD *)(v14 + 40) != 0 ? 12 : 4;
+    if ( (v15 <= v16 || *(_DWORD *)(v14 + 36) < v15)
+      && (*(_DWORD *)(v14 + 36) < v16
+       || *(unsigned __int8 *)(*(_QWORD *)(v14 + 24) + 3i64)
+        + (*(unsigned __int8 *)(*(_QWORD *)(v14 + 24) + 1i64) << 16)
+        + (*(unsigned __int8 *)(*(_QWORD *)(v14 + 24) + 2i64) << 8)) )
+    {
+      return 0i64;
+    }
+    if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0 )
+    {
+      WPP_SF_d(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x45u,
+        (__int64)&WPP_906ebfdb0b6e356d5c7c2dbe304d0682_Traceguids,
+        v15);
+      v14 = *(_QWORD *)(a1 + 464);
+    }
+    result = CSsl3TlsContext::ProcessHandshakeCommon(
+               (CSsl3TlsContext *)a1,
+               *(unsigned __int8 **)(v14 + 24),
+               *(_DWORD *)(v14 + 32));
+    if ( !(_DWORD)result )
+    {
+      *(_QWORD *)(*(_QWORD *)(a1 + 464) + 32i64) = 0i64;
+      v5 += v28[0];
+      v4 -= v28[0];
+      v9 = v4 != 0;
+      goto LABEL_12;
+    }
+  }
+  return result;
+}
+// 180041CB0: using guessed type __int64 __fastcall WPP_SF_(_QWORD, _QWORD, _QWORD);

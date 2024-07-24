@@ -205,8 +205,8 @@ Generate Function Information Collection with JSON Format:
 		"(...)"
 	],
 	"FunctionMatchRFCResult": [
-		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
-		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
 		"(...)",
 	],
 }

@@ -1,0 +1,16 @@
+{
+	"FunctionIndex": "0009",
+	"FunctionName": "SpUserModeInitialize",
+	"FunctionSummarization": [
+		"Initialize user mode components",
+		"Set function table pointer",
+		"Check input parameters",
+		"Log initialization events",
+		"Return status code"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC6101-5.1-SSLProtocol_SessionandConnectionStates_",
+		"RFC6101-5.2-SSLProtocol_RecordLayer_",
+		"RFC8446-4-HandshakeProtocol_"
+	]
+}

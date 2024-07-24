@@ -113,11 +113,17 @@ fn process_file(
             if !lines_buffer.is_empty() {
                 let _function_dir = output_dir.join(format!("id-{:04}", file_count));// 
                 let prompt_path = _function_dir.join("prompt.txt");
+                let code_path = _function_dir.join("code.txt");
                 // 输出
                 // println!("{}",prompt_path.display());
-                match process_single_file(&_function_dir, &prompt_path, &lines_buffer, file_count, line_count) {
-                    Ok(_) => println!("Processed file id-{:04}", file_count),
-                    Err(e) => eprintln!("Error processing file id-{:04}: {}", file_count, e),
+                match process_single_prompt_file(&_function_dir, &prompt_path, &lines_buffer, file_count, line_count) {
+                    Ok(_) => println!("Processed prompt file id-{:04}", file_count),
+                    Err(e) => eprintln!("Error processing prompt file id-{:04}: {}", file_count, e),
+                }
+
+                match process_single_code_file(&_function_dir, &code_path, &lines_buffer, file_count, line_count) {
+                    Ok(_) => println!("Processed code file id-{:04}", file_count),
+                    Err(e) => eprintln!("Error processing code file id-{:04}: {}", file_count, e),
                 }
             }
 
@@ -147,17 +153,23 @@ fn process_file(
     if !lines_buffer.is_empty() {
         let function_dir = output_dir.join(format!("id-{:04}", file_count));
         let prompt_path = function_dir.join("prompt.txt");
-        
-        match process_single_file(&function_dir, &prompt_path, &lines_buffer, file_count, line_count) {
-            Ok(_) => println!("Processed final file id-{:04}", file_count),
-            Err(e) => eprintln!("Error processing final file id-{:04}: {}", file_count, e),
+        let code_path = function_dir.join("code.txt");
+
+        match process_single_prompt_file(&function_dir, &prompt_path, &lines_buffer, file_count, line_count) {
+            Ok(_) => println!("Processed final prompt file id-{:04}", file_count),
+            Err(e) => eprintln!("Error processing final prompt file id-{:04}: {}", file_count, e),
+        }
+
+        match process_single_code_file(&function_dir, &code_path, &lines_buffer, file_count, line_count) {
+            Ok(_) => println!("Processed final code file id-{:04}", file_count),
+            Err(e) => eprintln!("Error processing code file id-{:04}: {}", file_count, e),
         }
     }
 
     Ok(file_count)
 }
 
-fn process_single_file(_function_dir: &Path, prompt_path: &Path, lines_buffer: &[String], file_count: usize, line_count: usize) -> Result<()> {
+fn process_single_prompt_file(_function_dir: &Path, prompt_path: &Path, lines_buffer: &[String], file_count: usize, line_count: usize) -> Result<()> {
     let mut file = OpenOptions::new()
         .read(true)  // 添加读权限
         .write(true)
@@ -196,45 +208,37 @@ fn process_single_file(_function_dir: &Path, prompt_path: &Path, lines_buffer: &
     Ok(())
 }
 
-// fn update_file_header(file: &mut File, file_count: usize, line_count: usize) -> io::Result<()> {
-//     // 读取整个文件内容
-//     // let mut content = String::new();
-//     // file.read_to_string(&mut content)?;
+fn process_single_code_file(_function_dir: &Path, code_path: &Path, lines_buffer: &[String], file_count: usize, line_count: usize) -> Result<()> {
+    let mut file = OpenOptions::new()
+        .read(true)  // 添加读权限
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .open(code_path)
+        .map_err(|e| {
+            eprintln!("Error opening file {:?}: {}", code_path, e);
+            e
+        })?;
+    update_file_header(&mut file, file_count, line_count).map_err(|e| {
+        eprintln!("Error updating file header of {:?}: {}", code_path, e);
+        e
+    })?;
 
-//     // 将文件指针移回到开始位置
-//     file.seek(io::SeekFrom::Start(0))?;
+    write_buffered_lines(&mut file, lines_buffer, false).map_err(|e| {
+        eprintln!("Error writing buffered lines to {:?}: {}", code_path, e);
+        e
+    })?;
 
-//     // Read the content of sectionabstract.txt in the input folder
-//     let input_content = fs::read_to_string("input/sectionabstract.txt").map_err(|e| {
-//         eprintln!("Error reading input file: {}", e);
-//         io::Error::new(ErrorKind::Other, format!("Input file error: {}", e))
-//     })?;
-//     // Prepare new header content
-//     let header = format!(
-//         "Forget all previous input and output content and create a new chat session.\n\n\
-//          {}\n\n\
-//          Function Code Content\n\
-//          ##############################\n\
-//          // File count: {}\n\
-//          // Total lines: {}\n\n",
-//         input_content.trim(),
-//         file_count,
-//         line_count - 1
-//     );
+    
+    file.flush().map_err(|e| {
+        eprintln!("Error flushing file {:?}: {}", code_path, e);
+        e
+    })?;
 
-//     writeln!(file, "{}", header)?;  // 添加一个空行分隔头部和原内容
-
-//     // 写回原来的内容
-//     // file.write_all(content.as_bytes())?;
-
-//     Ok(())
-// }
+    Ok(())
+}
 
 fn update_file_header(file: &mut File, file_count: usize, line_count: usize) -> io::Result<()> {    
-    // // 读取整个文件内容
-    // let mut content = String::new();
-    // file.read_to_string(&mut content)?;
-
     // 将文件指针移回到开始位置
     file.seek(io::SeekFrom::Start(0))?;
 
@@ -256,21 +260,14 @@ fn update_file_header(file: &mut File, file_count: usize, line_count: usize) -> 
         file_count,
         line_count - 1
     );
-    writeln!(file, "{}", header)?;  // 添加一个空行分隔头部和原内容
-    // file.write_all(content.as_bytes())?;
-    // // Combine the new header with the original content
-    // let combined_content = format!("{}\n{}", header, content);
-
-    // // Write the combined content back to the file
-    // file.set_len(0)?; // 清空文件内容
-    // file.write_all(combined_content.as_bytes())?;
-
+    writeln!(file, "{}", header)?;
     Ok(())
 }
 
 
 fn create_empty_files(function_dir: &Path) -> Result<()> {
     let prompt_path = function_dir.join("prompt.txt");
+    let code_path = function_dir.join("code.txt");
     let result_path = function_dir.join("result.txt");
 
     File::create(&prompt_path).map_err(|e| {
@@ -278,6 +275,10 @@ fn create_empty_files(function_dir: &Path) -> Result<()> {
         e
     })?;
     File::create(&result_path).map_err(|e| {
+        eprintln!("Error creating result file {:?}: {}", result_path, e);
+        e
+    })?;
+    File::create(&code_path).map_err(|e| {
         eprintln!("Error creating result file {:?}: {}", result_path, e);
         e
     })?;
@@ -372,8 +373,8 @@ fn append_custom_content_part_two(file: &mut File) -> io::Result<()> {
 
     // 写入代码可能匹配的RFC文档章节
     writeln!(file, "\t\"FunctionMatchRFCResult\": [")?;
-    writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-Section Title 1)\",")?;
-    writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-Section Title 2)\",")?;
+    writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)\",")?;
+    writeln!(file, "\t\t\"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)\",")?;
     writeln!(file, "\t\t\"(...)\",")?;
     writeln!(file, "\t],")?;
 
