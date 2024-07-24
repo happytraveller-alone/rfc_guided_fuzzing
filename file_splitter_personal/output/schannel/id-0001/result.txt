@@ -1,0 +1,14 @@
+{
+	"FunctionIndex": "0001",
+	"FunctionName": "dynamic_initializer_for__g_cCipherMill__",
+	"FunctionSummarization": [
+		"Initialization of cipher mill object",
+		"Registration of atexit function",
+		"Memory management",
+		"Potential cryptographic setup"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFC6101-5.6.7-Client Key Exchange Message)",
+		"(RFC8446-4.1.2-ClientHello)"
+	]
+}

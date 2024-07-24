@@ -5,3 +5,7 @@ edition = "2021"
 
 [dependencies]
 regex = "1.5.4"
+
+[profile.release]
+opt-level = 3  # 优化级别，0到3，3是最高优化
+debug = false  # 是否包含调试信息

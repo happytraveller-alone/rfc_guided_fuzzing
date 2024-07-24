@@ -1,0 +1,421 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 439
+// Total lines: 263
+
+//----- (000000018001C410) ----------------------------------------------------
+__int64 __fastcall CCipherMill::FindAcceptableCipherSuiteAndCred(
+        CCipherMill *this,
+        struct CSsl3TlsServerContext *a2,
+        unsigned int *a3,
+        unsigned int a4,
+        unsigned __int8 a5,
+        struct _UNICODE_STRING *a6,
+        unsigned __int8 a7,
+        struct CCipherSuiteInfo **a8,
+        struct CSslCredential **a9,
+        unsigned int *a10,
+        unsigned __int8 *a11)
+{
+  __int64 v11; // rbp
+  struct CCipherSuiteInfo **v14; // r13
+  struct CSslCredential **v15; // rax
+  unsigned __int8 *v16; // rbx
+  unsigned int *v17; // rcx
+  unsigned int AcceptableCipherSuite; // ebx
+  unsigned __int64 v19; // rsi
+  __int64 v20; // rdi
+  char v21; // r12
+  enum _eTlsHashAlgorithm v22; // r9d
+  int v23; // r11d
+  __int64 v24; // rax
+  CSessionCacheItem *v25; // rcx
+  __int64 v26; // rax
+  int v27; // edx
+  CCipherMill *v28; // r10
+  __int64 v29; // r8
+  unsigned int *v30; // rdx
+  unsigned int *v31; // rax
+  unsigned int AcceptableCredential; // eax
+  struct CSslCredential **v33; // rcx
+  struct CSslCredential *v34; // rax
+  struct CSslCredential **v36; // rcx
+  unsigned int PrfHashDetails; // eax
+  struct CSslCredential **v38; // rcx
+  struct _UNICODE_STRING *v39; // [rsp+20h] [rbp-A8h]
+  __int64 v40; // [rsp+28h] [rbp-A0h]
+  unsigned __int8 v41; // [rsp+50h] [rbp-78h]
+  int v42; // [rsp+54h] [rbp-74h]
+  enum _eTlsHashAlgorithm v43; // [rsp+58h] [rbp-70h] BYREF
+  unsigned int v44; // [rsp+5Ch] [rbp-6Ch] BYREF
+  unsigned int v45; // [rsp+60h] [rbp-68h]
+  struct CSslCredential *v46; // [rsp+68h] [rbp-60h] BYREF
+  struct CCipherSuiteInfo *v47; // [rsp+70h] [rbp-58h]
+  struct CSslCredential *v48; // [rsp+78h] [rbp-50h]
+  unsigned __int64 v49; // [rsp+80h] [rbp-48h]
+  bool v50; // [rsp+D0h] [rbp+8h]
+  CSessionCacheItem *v51; // [rsp+D8h] [rbp+10h] BYREF
+
+  v11 = a4;
+  if ( !a2 )
+    return 2148074333i64;
+  if ( !a3 )
+    return 2148074333i64;
+  if ( !a4 )
+    return 2148074333i64;
+  v14 = a8;
+  if ( !a8 )
+    return 2148074333i64;
+  v15 = a9;
+  if ( !a9 )
+    return 2148074333i64;
+  if ( !a10 )
+    return 2148074333i64;
+  v16 = a11;
+  if ( !a11 )
+    return 2148074333i64;
+  *a10 = 0;
+  v17 = (unsigned int *)xmmword_1800925B0;
+  *v15 = 0i64;
+  if ( (*((_DWORD *)a2 + 34) & 0x20000000) != 0 )
+    v17 = (unsigned int *)*(&xmmword_1800925B0 + 1);
+  *v16 = 0;
+  AcceptableCipherSuite = -2146893007;
+  *v14 = 0i64;
+  v47 = 0i64;
+  v48 = 0i64;
+  v45 = 0;
+  v41 = 0;
+  if ( !v17 || (v19 = *(_QWORD *)v17, v20 = v17[2], !*(_QWORD *)v17) || !(_DWORD)v20 )
+  {
+    AcceptableCipherSuite = -2146893052;
+    goto LABEL_45;
+  }
+  v50 = (*((_DWORD *)a2 + 16) & 0x1000) != 0;
+  v21 = a5;
+  v22 = TlsHashAlgorithm_None;
+  v43 = TlsHashAlgorithm_None;
+  v23 = 0;
+  v42 = 0;
+  if ( a5 )
+  {
+    v24 = *(_QWORD *)a2;
+    v51 = 0i64;
+    (*(void (__fastcall **)(struct CSsl3TlsServerContext *, CSessionCacheItem **, unsigned int *, _QWORD))(v24 + 232))(
+      a2,
+      &v51,
+      a3,
+      0i64);
+    if ( !v51 )
+    {
+      AcceptableCipherSuite = -2146893052;
+      goto LABEL_45;
+    }
+    RtlAcquireResourceShared((PRTL_RESOURCE)((char *)v51 + 72), 1u);
+    v25 = v51;
+    if ( v50 )
+    {
+      PrfHashDetails = CSessionCacheItem::GetPrfHashDetails(v51, 0i64, &v43);
+      v25 = v51;
+      if ( PrfHashDetails )
+      {
+        AcceptableCipherSuite = PrfHashDetails;
+        RtlReleaseResource((PRTL_RESOURCE)((char *)v51 + 72));
+        goto LABEL_45;
+      }
+    }
+    else
+    {
+      v26 = *((_QWORD *)v51 + 22);
+      if ( v26 )
+        v27 = *(_DWORD *)(v26 + 28);
+      else
+        v27 = 0;
+      v42 = v27;
+    }
+    RtlReleaseResource((PRTL_RESOURCE)((char *)v25 + 72));
+    v22 = v43;
+    v23 = v42;
+  }
+  v49 = v19 + 864 * v20;
+  if ( v19 >= v49 )
+  {
+LABEL_45:
+    v36 = a9;
+    *v14 = 0i64;
+    *v36 = 0i64;
+    *a10 = 0;
+    *a11 = 0;
+    return AcceptableCipherSuite;
+  }
+  v28 = WPP_GLOBAL_Control;
+  while ( 1 )
+  {
+    v29 = *(unsigned int *)(v19 + 28);
+    v46 = 0i64;
+    v44 = 0;
+    LOBYTE(v51) = 0;
+    if ( !(_DWORD)v29 || (v30 = &a3[v11], v31 = a3, a3 >= v30) )
+    {
+LABEL_26:
+      if ( v28 != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)v28 + 28) & 4) != 0 )
+      {
+        WPP_SF_S(
+          *((_QWORD *)v28 + 2),
+          0x26u,
+          (__int64)&WPP_bcb3b342e8be3997fa3752f6a9108bb3_Traceguids,
+          (const wchar_t *)(v19 + 74));
+LABEL_57:
+        v28 = WPP_GLOBAL_Control;
+      }
+LABEL_28:
+      AcceptableCipherSuite = -2146893007;
+      goto LABEL_29;
+    }
+    while ( (_DWORD)v29 != *v31 )
+    {
+      if ( ++v31 >= v30 )
+        goto LABEL_26;
+    }
+    if ( v21 && v23 != (_DWORD)v29 && !v50 )
+    {
+      if ( v28 != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)v28 + 28) & 4) != 0 )
+      {
+        LODWORD(v40) = v23;
+        LODWORD(v39) = v29;
+        WPP_SF_SDD(*((_QWORD *)v28 + 2), 0x27u, v29, (const wchar_t *)(v19 + 74), v39, v40);
+        goto LABEL_57;
+      }
+      goto LABEL_28;
+    }
+    AcceptableCipherSuite = CCipherMill::FindAcceptableCipherSuite(
+                              (CCipherMill *)v17,
+                              a2,
+                              (struct CCipherSuiteInfo *)v19,
+                              v21,
+                              a6,
+                              a7,
+                              v22,
+                              &v44,
+                              (unsigned __int8 *)&v51);
+    if ( AcceptableCipherSuite )
+      goto LABEL_55;
+    if ( *(_DWORD *)(v19 + 48) == 4 )
+    {
+      *v14 = (struct CCipherSuiteInfo *)v19;
+      return AcceptableCipherSuite;
+    }
+    AcceptableCredential = CCipherMill::FindAcceptableCredential(
+                             (CCipherMill *)v17,
+                             a2,
+                             (struct CCipherSuiteInfo *)v19,
+                             v21,
+                             a6,
+                             a7,
+                             &v46);
+    AcceptableCipherSuite = AcceptableCredential;
+    if ( !AcceptableCredential )
+    {
+      v33 = a9;
+      v34 = v46;
+      *v14 = (struct CCipherSuiteInfo *)v19;
+      *v33 = v34;
+      *a10 = v44;
+      *a11 = (unsigned __int8)v51;
+      return AcceptableCipherSuite;
+    }
+    if ( AcceptableCredential == -2146893007 && v46 && !v47 )
+    {
+      v48 = v46;
+      v45 = v44;
+      v41 = (unsigned __int8)v51;
+      v47 = (struct CCipherSuiteInfo *)v19;
+LABEL_55:
+      v28 = WPP_GLOBAL_Control;
+      goto LABEL_29;
+    }
+    v28 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0 )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x28u,
+        (__int64)&WPP_bcb3b342e8be3997fa3752f6a9108bb3_Traceguids,
+        (const wchar_t *)(v19 + 74));
+      v28 = WPP_GLOBAL_Control;
+    }
+LABEL_29:
+    v19 += 864i64;
+    if ( v19 >= v49 )
+      break;
+    v22 = v43;
+    v23 = v42;
+  }
+  if ( !AcceptableCipherSuite )
+    return AcceptableCipherSuite;
+  if ( !v47 )
+    goto LABEL_45;
+  v38 = a9;
+  AcceptableCipherSuite = 0;
+  *v14 = v47;
+  *v38 = v48;
+  *a10 = v45;
+  *a11 = v41;
+  return AcceptableCipherSuite;
+}
+// 18001C6A4: variable 'v17' is possibly undefined
+// 180030A87: variable 'v39' is possibly undefined
+// 180030A87: variable 'v40' is possibly undefined
+##############################
+Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you've initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you're reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols)) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.
