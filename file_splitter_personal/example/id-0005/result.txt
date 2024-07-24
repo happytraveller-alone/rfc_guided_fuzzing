@@ -1,0 +1,17 @@
+{
+	"FunctionIndex": "0005",
+	"FunctionName": "VerifyServerCertificate",
+	"FunctionSummarization": [
+		"Load server certificate",
+		"Set certificate properties",
+		"Acquire certificate chain",
+		"Verify certificate chain policy",
+		"Handle verification errors"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC6101-Section5.6.2-SSL Protocol Handshake Protocol Server Certificate",
+		"RFC6101-Section6.1-SSL Protocol Asymmetric Cryptographic Computations",
+		"RFC8446-Section4.4.2-Handshake Protocol Authentication Messages Certificate",
+		"RFC8446-Section4.4.3-Handshake Protocol Authentication Messages Certificate Verify"
+	]
+}

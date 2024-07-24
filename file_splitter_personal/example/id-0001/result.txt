@@ -1,0 +1,13 @@
+{
+	"FunctionIndex": "0001",
+	"FunctionName": "dynamic_initializer_for__g_cCipherMill__",
+	"FunctionSummarization": [
+		"Initialize cipher context",
+		"Register atexit handler",
+		"CCipherMill constructor"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC6101-Section6.2-SSL Protocol Symmetric Cryptographic Calculations and the CipherSpec",
+		"RFC8446-Section7.1-Cryptographic Computations Key Schedule"
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"FunctionIndex": "0010",
+	"FunctionName": "SslInitContextManager",
+	"FunctionSummarization": [
+		"Initialize SSL context manager",
+		"Read registry settings",
+		"Allocate memory for locks and lists",
+		"Initialize locks and lists",
+		"Check and set configuration flags"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC6101-5.1-SSLProtocol_SessionandConnectionStates_",
+		"RFC6101-6.2-CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_",
+		"RFC8446-7-CryptographicComputations_"
+	]
+}
