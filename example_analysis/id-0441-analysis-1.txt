@@ -1,0 +1,18 @@
+{
+	"FunctionIndex": "0441",
+	"FunctionName": "CTls13ExtServer::ParseExtension",
+	"FunctionSummarization": [
+		"Parse TLS 1.3 extensions",
+		"Handle pre-shared key extension",
+		"Handle supported versions extension",
+		"Handle PSK key exchange modes extension",
+		"Handle key share extension",
+		"Retrieve generic extension"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC8446-Section4.2.11-Handshake Protocol Extensions - Pre-Shared Key Extension",
+		"RFC8446-Section4.2.1-Handshake Protocol Extensions - Supported Versions",
+		"RFC8446-Section4.2.9-Handshake Protocol Extensions - Pre-Shared Key Exchange Modes",
+		"RFC8446-Section4.2.8-Handshake Protocol Extensions - Key Share"
+	]
+}

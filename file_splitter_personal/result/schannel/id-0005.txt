@@ -1,0 +1,20 @@
+{
+    "FunctionIndex": "0005",
+    "FunctionName": "VerifyServerCertificate",
+    "FunctionSummarization": [
+        "Certificate loading and context property setting",
+        "Certificate chain building",
+        "Chain policy verification",
+        "Error handling and alerts",
+        "Logging and event tracing"
+    ],
+    "FunctionMatchRFCResult": [
+        "RFC6101-5.6.2-SSLProtocol_HandshakeProtocol_ServerCertificate_",
+        "RFC6101-5.6.3-SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_",
+        "RFC6101-5.6.4-SSLProtocol_HandshakeProtocol_CertificateRequest_",
+        "RFC6101-6.1-CryptographicComputations_AsymmetricCryptographicComputations_",
+        "RFC8446-4.4.2-HandshakeProtocol_AuthenticationMessages_Certificate_",
+        "RFC8446-4.4.3-HandshakeProtocol_AuthenticationMessages_CertificateVerify_",
+        "RFC8446-7.1-CryptographicComputations_KeySchedule_"
+    ]
+}

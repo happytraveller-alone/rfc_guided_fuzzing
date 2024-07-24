@@ -1,6 +1,6 @@
 use regex::Regex;
 use std::fs::{self, File, OpenOptions};
-use std::io::{self, Read, BufRead, BufReader, Write, Result, Seek, SeekFrom};
+use std::io::{self, BufRead, BufReader, Read, Result, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 
 fn main() -> Result<()> {
@@ -50,7 +50,12 @@ fn prepare_output_directory(input_path: &str, output_dir: &str) -> Result<PathBu
     Ok(sub_output_dir)
 }
 
-fn process_file(input_path: &str, output_dir: &Path, result_dir: &Path, re: &Regex) -> Result<usize> {
+fn process_file(
+    input_path: &str,
+    output_dir: &Path,
+    result_dir: &Path,
+    re: &Regex,
+) -> Result<usize> {
     let file = File::open(input_path)?;
     let reader = BufReader::new(file);
 
@@ -136,6 +141,15 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
     // 添加分隔线
     writeln!(file, "##############################")?;
 
+    // 写入角色
+    writeln!(file, "Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, \
+                    and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to \
+                    correspond to a section of the RFC documentation, which will help you understand the code better. \
+                    The driver you're reversing is Schannel.dll, and you've initially determined that the corresponding network protocols \
+                    are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. \
+                    You need to get a function summary of the function you're reversing, and then correspond to the potential RFC sections \
+                    based on the name of the function and the function summary.")?;
+
     // 写入函数背景信息
     writeln!(file, "Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. \
                     Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, \
@@ -159,7 +173,10 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
                     it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.\n")?;
 
     // 开始生成 JSON 格式的函数信息收集
-    writeln!(file, "Generate Function Information Collection with JSON Format:\n")?;
+    writeln!(
+        file,
+        "Generate Function Information Collection with JSON Format:\n"
+    )?;
     writeln!(file, "{{")?;
 
     // 写入 JSON 字段
@@ -170,7 +187,6 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
 }
 
 fn append_custom_content_part_two(file: &mut File) -> io::Result<()> {
-    
     // 写入 FunctionSummarization 数组
     writeln!(file, "\t\"FunctionSummarization\": [")?;
     writeln!(file, "\t\t\"(Function Summary Phrase1)\",")?;
@@ -180,7 +196,7 @@ fn append_custom_content_part_two(file: &mut File) -> io::Result<()> {
 
     // 写入 Protocol 数组
     // writeln!(file, "\t\"Protocol\": [\"TLS1.3\", \"List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0\"]")?;
-    
+
     // 写入可能匹配的RFC编号和对应文档地址，优先从RFC8446，RFC6101开始，匹配的RFC最多不能超过3个（1-3个）
     // write_json_field(file, "RFCDoc", "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)")?;
     // writeln!(file, "\t\"RFCDocument\": [")?;
@@ -200,7 +216,10 @@ fn append_custom_content_part_two(file: &mut File) -> io::Result<()> {
     writeln!(file, "}}")?;
 
     // 添加最后的提醒
-    writeln!(file, "\nRemember just output the Function Information Collection result.")?;
+    writeln!(
+        file,
+        "\nRemember just output the Function Information Collection result."
+    )?;
 
     Ok(())
 }
@@ -247,9 +266,13 @@ fn update_file_header(file: &mut File, file_count: usize, line_count: usize) -> 
 }
 
 fn write_buffered_lines(file: &mut File, lines: &[String], json_format: bool) -> Result<()> {
-    let mut non_empty_lines = lines.iter().rev().skip_while(|line| line.trim().is_empty()).collect::<Vec<_>>();
+    let mut non_empty_lines = lines
+        .iter()
+        .rev()
+        .skip_while(|line| line.trim().is_empty())
+        .collect::<Vec<_>>();
     non_empty_lines.reverse();
-    
+
     for line in non_empty_lines {
         if json_format {
             writeln!(file, "\t\t{}", line)?;
