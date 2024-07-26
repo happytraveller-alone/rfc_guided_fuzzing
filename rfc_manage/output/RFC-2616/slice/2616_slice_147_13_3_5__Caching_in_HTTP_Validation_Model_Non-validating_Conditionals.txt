@@ -1,0 +1,22 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 13.3.5. Caching in HTTP_Validation Model_Non-validating Conditionals ---
+The principle behind entity tags is that only the service author
+   knows the semantics of a resource well enough to select an
+   appropriate cache validation mechanism, and the specification of any
+   validator comparison function more complex than byte-equality would
+   open up a can of worms. Thus, comparisons of any other headers
+   (except Last-Modified, for compatibility with HTTP/1.0) are never
+   used for purposes of validating a cache entry.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

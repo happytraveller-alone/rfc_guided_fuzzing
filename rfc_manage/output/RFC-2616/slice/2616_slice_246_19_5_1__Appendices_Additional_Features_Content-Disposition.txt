@@ -1,0 +1,43 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 19.5.1. Appendices_Additional Features_Content-Disposition ---
+The Content-Disposition response-header field has been proposed as a
+   means for the origin server to suggest a default filename if the user
+   requests that the content is saved to a file. This usage is derived
+   from the definition of Content-Disposition in RFC 1806 [35].
+
+        content-disposition = "Content-Disposition" ":"
+                              disposition-type *( ";" disposition-parm )
+        disposition-type = "attachment" | disp-extension-token
+        disposition-parm = filename-parm | disp-extension-parm
+        filename-parm = "filename" "=" quoted-string
+        disp-extension-token = token
+        disp-extension-parm = token "=" ( token | quoted-string )
+
+   An example is
+
+        Content-Disposition: attachment; filename="fname.ext"
+
+   The receiving user agent SHOULD NOT respect any directory path
+   information present in the filename-parm parameter, which is the only
+   parameter believed to apply to HTTP implementations at this time. The
+   filename SHOULD be treated as a terminal component only.
+
+   If this header is used in a response with the application/octet-
+   stream content-type, the implied suggestion is that the user agent
+   should not display the response, but directly enter a `save response
+   as...' dialog.
+
+   See section 15.5 for Content-Disposition security issues.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

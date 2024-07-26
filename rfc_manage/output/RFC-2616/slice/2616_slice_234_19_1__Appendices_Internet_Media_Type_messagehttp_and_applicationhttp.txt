@@ -1,0 +1,53 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 19.1. Appendices_Internet Media Type messagehttp and applicationhttp ---
+In addition to defining the HTTP/1.1 protocol, this document serves
+   as the specification for the Internet media type "message/http" and
+   "application/http". The message/http type can be used to enclose a
+   single HTTP request or response message, provided that it obeys the
+   MIME restrictions for all "message" types regarding line length and
+   encodings. The application/http type can be used to enclose a
+   pipeline of one or more HTTP request or response messages (not
+   intermixed). The following is to be registered with IANA [17].
+
+       Media Type name:         message
+       Media subtype name:      http
+       Required parameters:     none
+       Optional parameters:     version, msgtype
+        version: The HTTP-Version number of the enclosed message
+                 (e.g., "1.1"). If not present, the version can be
+                 determined from the first line of the body.
+        msgtype: The message type -- "request" or "response". If not
+                 present, the type can be determined from the first
+                 line of the body.
+       Encoding considerations: only "7bit", "8bit", or "binary" are
+                                permitted
+       Security considerations: none
+
+       Media Type name:         application
+       Media subtype name:      http
+       Required parameters:     none
+       Optional parameters:     version, msgtype
+        version: The HTTP-Version number of the enclosed messages
+                 (e.g., "1.1"). If not present, the version can be
+                 determined from the first line of the body.
+        msgtype: The message type -- "request" or "response". If not
+                 present, the type can be determined from the first
+                 line of the body.
+       Encoding considerations: HTTP messages enclosed by this type
+                 are in "binary" format; use of an appropriate
+                 Content-Transfer-Encoding is required when
+                 transmitted via E-mail.
+       Security considerations: none
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

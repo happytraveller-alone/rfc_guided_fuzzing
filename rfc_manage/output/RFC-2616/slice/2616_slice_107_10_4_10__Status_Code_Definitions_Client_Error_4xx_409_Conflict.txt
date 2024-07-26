@@ -1,0 +1,33 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.4.10. Status Code Definitions_Client Error 4xx_409 Conflict ---
+The request could not be completed due to a conflict with the current
+   state of the resource. This code is only allowed in situations where
+   it is expected that the user might be able to resolve the conflict
+   and resubmit the request. The response body SHOULD include enough
+
+   information for the user to recognize the source of the conflict.
+   Ideally, the response entity would include enough information for the
+   user or user agent to fix the problem; however, that might not be
+   possible and is not required.
+
+   Conflicts are most likely to occur in response to a PUT request. For
+   example, if versioning were being used and the entity being PUT
+   included changes to a resource which conflict with those made by an
+   earlier (third-party) request, the server might use the 409 response
+   to indicate that it can't complete the request. In this case, the
+   response entity would likely contain a list of the differences
+   between the two versions in a format defined by the response
+   Content-Type.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

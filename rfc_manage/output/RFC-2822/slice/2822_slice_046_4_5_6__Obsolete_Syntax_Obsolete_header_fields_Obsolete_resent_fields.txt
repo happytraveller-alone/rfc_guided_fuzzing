@@ -1,0 +1,38 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.5.6. Obsolete Syntax_Obsolete header fields_Obsolete resent fields ---
+The obsolete syntax adds a "Resent-Reply-To:" field, which consists
+   of the field name, the optional comments and folding white space, the
+   colon, and a comma separated list of addresses.
+
+obs-resent-from =       "Resent-From" *WSP ":" mailbox-list CRLF
+
+obs-resent-send =       "Resent-Sender" *WSP ":" mailbox CRLF
+
+obs-resent-date =       "Resent-Date" *WSP ":" date-time CRLF
+
+obs-resent-to   =       "Resent-To" *WSP ":" address-list CRLF
+
+obs-resent-cc   =       "Resent-Cc" *WSP ":" address-list CRLF
+
+obs-resent-bcc  =       "Resent-Bcc" *WSP ":"
+                         (address-list / [CFWS]) CRLF
+
+obs-resent-mid  =       "Resent-Message-ID" *WSP ":" msg-id CRLF
+
+obs-resent-rply =       "Resent-Reply-To" *WSP ":" address-list CRLF
+
+   As with other resent fields, the "Resent-Reply-To:" field is to be
+   treated as trace information only.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

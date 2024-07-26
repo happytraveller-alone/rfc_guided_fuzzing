@@ -1,0 +1,32 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.3.4. Status Code Definitions_Redirection 3xx_303 See Other ---
+The response to the request can be found under a different URI and
+   SHOULD be retrieved using a GET method on that resource. This method
+   exists primarily to allow the output of a POST-activated script to
+   redirect the user agent to a selected resource. The new URI is not a
+   substitute reference for the originally requested resource. The 303
+   response MUST NOT be cached, but the response to the second
+   (redirected) request might be cacheable.
+
+   The different URI SHOULD be given by the Location field in the
+   response. Unless the request method was HEAD, the entity of the
+   response SHOULD contain a short hypertext note with a hyperlink to
+   the new URI(s).
+
+      Note: Many pre-HTTP/1.1 user agents do not understand the 303
+      status. When interoperability with such clients is a concern, the
+      302 status code may be used instead, since most user agents react
+      to a 302 response as described here for 303.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -1,0 +1,60 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 1.1. Scope ---
+This standard specifies a syntax for text messages that are sent
+   between computer users, within the framework of "electronic mail"
+   messages.  This standard supersedes the one specified in Request For
+   Comments (RFC) 822, "Standard for the Format of ARPA Internet Text
+   Messages" [RFC822], updating it to reflect current practice and
+   incorporating incremental changes that were specified in other RFCs
+   [STD3].
+
+   This standard specifies a syntax only for text messages.  In
+   particular, it makes no provision for the transmission of images,
+   audio, or other sorts of structured data in electronic mail messages.
+   There are several extensions published, such as the MIME document
+   series [RFC2045, RFC2046, RFC2049], which describe mechanisms for the
+   transmission of such data through electronic mail, either by
+   extending the syntax provided here or by structuring such messages to
+   conform to this syntax.  Those mechanisms are outside of the scope of
+   this standard.
+
+   In the context of electronic mail, messages are viewed as having an
+   envelope and contents.  The envelope contains whatever information is
+   needed to accomplish transmission and delivery.  (See [RFC2821] for a
+   discussion of the envelope.)  The contents comprise the object to be
+   delivered to the recipient.  This standard applies only to the format
+   and some of the semantics of message contents.  It contains no
+   specification of the information in the envelope.
+
+   However, some message systems may use information from the contents
+   to create the envelope.  It is intended that this standard facilitate
+   the acquisition of such information by programs.
+
+   This specification is intended as a definition of what message
+   content format is to be passed between systems.  Though some message
+   systems locally store messages in this format (which eliminates the
+   need for translation between formats) and others use formats that
+   differ from the one specified in this standard, local storage is
+   outside of the scope of this standard.
+
+   Note: This standard is not intended to dictate the internal formats
+   used by sites, the specific message system features that they are
+   expected to support, or any of the characteristics of user interface
+   programs that create or read messages.  In addition, this standard
+   does not specify an encoding of the characters for either transport
+   or storage; that is, it does not specify the number of bits used or
+   how those bits are specifically transferred over the wire or stored
+   on disk.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

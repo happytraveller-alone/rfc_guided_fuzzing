@@ -1,0 +1,41 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 2.1.1. Lexical Analysis of Messages_General Description_Line Length Limits ---
+There are two limits that this specification places on the number of
+   characters in a line.  Each line of characters MUST be no more than
+   998 characters, and SHOULD be no more than 78 characters, excluding
+   the CRLF.
+
+   The 998 character limit is due to limitations in many implementations
+   that send, receive, or store IMF messages which simply cannot handle
+   more than 998 characters on a line.  Receiving implementations would
+   do well to handle an arbitrarily large number of characters in a line
+   for robustness sake.  However, there are so many implementations that
+   (in compliance with the transport requirements of [RFC5321]) do not
+   accept messages containing more than 1000 characters including the CR
+   and LF per line, it is important for implementations not to create
+   such messages.
+
+   The more conservative 78 character recommendation is to accommodate
+   the many implementations of user interfaces that display these
+   messages which may truncate, or disastrously wrap, the display of
+   more than 78 characters per line, in spite of the fact that such
+   implementations are non-conformant to the intent of this
+   specification (and that of [RFC5321] if they actually cause
+   information to be lost).  Again, even though this limitation is put
+   on messages, it is incumbent upon implementations that display
+   messages to handle an arbitrarily large number of characters in a
+   line (certainly at least up to the 998 character limit) for the sake
+   of robustness.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

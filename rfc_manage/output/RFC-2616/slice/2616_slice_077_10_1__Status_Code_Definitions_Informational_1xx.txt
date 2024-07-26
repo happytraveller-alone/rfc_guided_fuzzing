@@ -1,0 +1,34 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.1. Status Code Definitions_Informational 1xx ---
+This class of status code indicates a provisional response,
+   consisting only of the Status-Line and optional headers, and is
+   terminated by an empty line. There are no required headers for this
+   class of status code. Since HTTP/1.0 did not define any 1xx status
+   codes, servers MUST NOT send a 1xx response to an HTTP/1.0 client
+   except under experimental conditions.
+
+   A client MUST be prepared to accept one or more 1xx status responses
+   prior to a regular response, even if the client does not expect a 100
+   (Continue) status message. Unexpected 1xx status responses MAY be
+   ignored by a user agent.
+
+   Proxies MUST forward 1xx responses, unless the connection between the
+   proxy and its client has been closed, or unless the proxy itself
+   requested the generation of the 1xx response. (For example, if a
+
+   proxy adds a "Expect: 100-continue" field when it forwards a request,
+   then it need not forward the corresponding 100 (Continue)
+   response(s).)
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -1,0 +1,25 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.5.4. Status Code Definitions_Server Error 5xx_503 Service Unavailable ---
+The server is currently unable to handle the request due to a
+   temporary overloading or maintenance of the server. The implication
+   is that this is a temporary condition which will be alleviated after
+   some delay. If known, the length of the delay MAY be indicated in a
+   Retry-After header. If no Retry-After is given, the client SHOULD
+   handle the response as it would for a 500 response.
+
+      Note: The existence of the 503 status code does not imply that a
+      server must use it when becoming overloaded. Some servers may wish
+      to simply refuse the connection.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

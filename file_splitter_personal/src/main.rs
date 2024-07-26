@@ -5,6 +5,7 @@ use std::io::{self, BufRead, BufReader, ErrorKind, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 use std::process;
 use std::time::Instant;
+use std::path::MAIN_SEPARATOR;
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 enum OutputLevel {
     // Error,
@@ -250,7 +251,7 @@ fn process_buffer(
     )?;
 
     wrap_error(
-        process_code_slice_file(&code_slice_path, lines_buffer),
+        process_code_slice_file(&code_dir, lines_buffer, file_count),
         "Failed to process code slice file",
     )?;
 
@@ -310,14 +311,18 @@ fn prepare_new_function_dir(output_dir: &Path, file_count: usize) -> io::Result<
     Ok(())
 }
 
-fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> io::Result<()> {
+fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
+    let initial_file_name = format!("id-{:04}.txt", file_count);
+    let initial_code_slice_path = code_dir.join(&initial_file_name);
+
+    // 创建并写入文件
     let mut file = wrap_error(
         OpenOptions::new()
             .write(true)
             .create(true)
             .truncate(true)
-            .open(code_slice_path),
-        &format!("Failed to open code slice file {:?}", code_slice_path),
+            .open(&initial_code_slice_path),
+        &format!("Failed to open code slice file {:?}", initial_code_slice_path),
     )?;
 
     wrap_error(
@@ -327,8 +332,85 @@ fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> i
 
     wrap_error(file.flush(), "Failed to flush code slice file")?;
 
+    // 关闭文件
+    drop(file);
+
+    // 读取文件第二行并解析函数名
+    if lines_buffer.len() >= 2 {
+        let function_declaration = &lines_buffer[1];
+        let function_name = extract_function_name(function_declaration);
+        
+        if !function_name.is_empty() {
+            let new_file_name = format!("{}.txt", function_name);
+            let new_code_slice_path = code_dir.join(&new_file_name);
+
+            // 重命名文件
+            wrap_error(
+                fs::rename(&initial_code_slice_path, &new_code_slice_path),
+                &format!("Failed to rename file from {:?} to {:?}", initial_code_slice_path, new_code_slice_path),
+            )?;
+        }
+    }
+
     Ok(())
 }
+
+// fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
+//     if lines_buffer.len() < 2 {
+//         return Err(io::Error::new(
+//             ErrorKind::InvalidData,
+//             "Not enough lines in buffer to process code slice file",
+//         ));
+//     }
+
+//     let function_declaration = &lines_buffer[1];
+//     let function_name = extract_function_name(function_declaration);
+//     let file_name = if function_name.is_empty() {
+//         format!("id-{:04}.txt", file_count)
+//     } else {
+//         format!("{}.txt", function_name)
+//     };
+
+//     let code_slice_path = code_dir.join(&file_name);
+
+//     let mut file = wrap_error(
+//         OpenOptions::new()
+//             .write(true)
+//             .create(true)
+//             .truncate(true)
+//             .open(&code_slice_path),
+//         &format!("Failed to open code slice file {:?}", code_slice_path),
+//     )?;
+
+//     wrap_error(
+//         write_buffered_lines(&mut file, lines_buffer, false),
+//         "Failed to write buffered lines to code slice file",
+//     )?;
+
+//     wrap_error(file.flush(), "Failed to flush code slice file")?;
+
+//     Ok(())
+// }
+
+// fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> io::Result<()> {
+//     let mut file = wrap_error(
+//         OpenOptions::new()
+//             .write(true)
+//             .create(true)
+//             .truncate(true)
+//             .open(code_slice_path),
+//         &format!("Failed to open code slice file {:?}", code_slice_path),
+//     )?;
+
+//     wrap_error(
+//         write_buffered_lines(&mut file, lines_buffer, false),
+//         "Failed to write buffered lines to code slice file",
+//     )?;
+
+//     wrap_error(file.flush(), "Failed to flush code slice file")?;
+
+//     Ok(())
+// }
 
 fn process_single_prompt_file(
     _function_dir: &Path,
@@ -451,13 +533,30 @@ fn append_custom_content(file: &mut File) -> io::Result<()> {
     write_role_description(file)?;
     write_function_background(file)?;
     write_output_function_summary(file)?;
-    write_retrieve_document_sections(file)?;
-    write_thinking_chain(file)?;
-    write_json_format(file)?;
+    // write_retrieve_document_sections(file)?;
+    write_insert_code_comments(file)?;
+    // write_thinking_chain(file)?;
+    // write_json_format(file)?;
+    write_json_code_format(file)?;
     write_attention(file)?;
     Ok(())
 }
-
+// 
+fn write_insert_code_comments(file: &mut File) -> io::Result<()> {
+    writeln!(file, "Now the function you want to work with is the following, \
+                    which returns the contents of the corresponding RFC document in the same way as the example, \
+                    and you need to do your best to refer to the original RFC document at every point where the control changes \
+                    (e.g., if, else if, else, case, switch, while, return, label). \
+                    ATTENTION! There may not be a corresponding RFC text in the code where the control flow changes, \
+                    but you need to add comments as well (comments should be strongly related to the conceptual content of the RFC document, \
+                    not abstract generic concepts).")
+}
+fn write_json_code_format(file: &mut File) -> io::Result<()> {
+    writeln!(
+        file,
+        "Generate Function Code with inserted Code Comments in C Clang Format wrap in Mardown:\n"
+    )
+}
 fn seek_to_end(file: &mut File) -> io::Result<()> {
     wrap_error(file.seek(SeekFrom::End(0)), "Failed to seek to end of file").map(|_| ())
     // 将 u64 转换为 ()
@@ -580,4 +679,33 @@ fn write_buffered_lines(file: &mut File, lines: &[String], json_format: bool) ->
         }
     }
     Ok(())
+}
+
+fn extract_function_name(declaration: &str) -> String {
+    // 使用正则表达式来匹配最后一个空格到左括号之间的内容
+    let re = Regex::new(r"\s([^\s(]+)\s*\(").unwrap();
+    if let Some(captures) = re.captures(declaration) {
+        if let Some(function_name) = captures.get(1) {
+            let name = function_name.as_str();
+            // 替换或删除不适合文件名的字符
+            return sanitize_filename(name);
+        }
+    }
+    String::new()
+}
+
+fn sanitize_filename(name: &str) -> String {
+    // 定义不允许在文件名中使用的字符
+    let invalid_chars: &[char] = &['<', '>', ':', '"', '/', '\\', '|', '?', '*'];
+    
+    name.chars()
+        .map(|c| if invalid_chars.contains(&c) || c == MAIN_SEPARATOR {
+            '_'
+        } else {
+            c
+        })
+        .collect::<String>()
+        .trim_start_matches('_')
+        .trim_end_matches('_')
+        .to_string()
 }

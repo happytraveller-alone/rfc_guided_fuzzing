@@ -1,0 +1,31 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 14.37. Header Field Definitions_Retry-After ---
+The Retry-After response-header field can be used with a 503 (Service
+   Unavailable) response to indicate how long the service is expected to
+   be unavailable to the requesting client. This field MAY also be used
+   with any 3xx (Redirection) response to indicate the minimum time the
+   user-agent is asked wait before issuing the redirected request. The
+   value of this field can be either an HTTP-date or an integer number
+   of seconds (in decimal) after the time of the response.
+
+       Retry-After  = "Retry-After" ":" ( HTTP-date | delta-seconds )
+
+   Two examples of its use are
+
+       Retry-After: Fri, 31 Dec 1999 23:59:59 GMT
+       Retry-After: 120
+
+   In the latter example, the delay is 2 minutes.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

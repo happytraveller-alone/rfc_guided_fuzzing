@@ -1,0 +1,31 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 13.2.5. Caching in HTTP_Expiration Model_Disambiguating Expiration Values ---
+Because expiration values are assigned optimistically, it is possible
+   for two caches to contain fresh values for the same resource that are
+   different.
+
+   If a client performing a retrieval receives a non-first-hand response
+   for a request that was already fresh in its own cache, and the Date
+   header in its existing cache entry is newer than the Date on the new
+   response, then the client MAY ignore the response. If so, it MAY
+   retry the request with a "Cache-Control: max-age=0" directive (see
+   section 14.9), to force a check with the origin server.
+
+   If a cache has two fresh responses for the same representation with
+   different validators, it MUST use the one with the more recent Date
+   header. This situation might arise because the cache is pooling
+   responses from other caches, or because a client has asked for a
+   reload or a revalidation of an apparently fresh cache entry.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

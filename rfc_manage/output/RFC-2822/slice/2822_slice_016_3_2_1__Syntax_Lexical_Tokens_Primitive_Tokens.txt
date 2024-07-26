@@ -1,0 +1,48 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.2.1. Syntax_Lexical Tokens_Primitive Tokens ---
+The following are primitive tokens referred to elsewhere in this
+   standard, but not otherwise defined in [RFC2234].  Some of them will
+   not appear anywhere else in the syntax, but they are convenient to
+   refer to in other parts of this document.
+
+   Note: The "specials" below are just such an example.  Though the
+   specials token does not appear anywhere else in this standard, it is
+   useful for implementers who use tools that lexically analyze
+   messages.  Each of the characters in specials can be used to indicate
+   a tokenization point in lexical analysis.
+
+NO-WS-CTL       =       %d1-8 /         ; US-ASCII control characters
+                        %d11 /          ;  that do not include the
+                        %d12 /          ;  carriage return, line feed,
+                        %d14-31 /       ;  and white space characters
+                        %d127
+
+text            =       %d1-9 /         ; Characters excluding CR and LF
+                        %d11 /
+                        %d12 /
+                        %d14-127 /
+                        obs-text
+
+specials        =       "(" / ")" /     ; Special characters used in
+                        "<" / ">" /     ;  other parts of the syntax
+                        "[" / "]" /
+                        ":" / ";" /
+                        "@" / "\" /
+                        "," / "." /
+                        DQUOTE
+
+   No special semantics are attached to these tokens.  They are simply
+   single characters.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

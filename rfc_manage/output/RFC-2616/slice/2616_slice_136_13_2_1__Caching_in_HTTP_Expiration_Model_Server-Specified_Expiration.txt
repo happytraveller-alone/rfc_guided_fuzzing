@@ -1,0 +1,52 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 13.2.1. Caching in HTTP_Expiration Model_Server-Specified Expiration ---
+HTTP caching works best when caches can entirely avoid making
+   requests to the origin server. The primary mechanism for avoiding
+   requests is for an origin server to provide an explicit expiration
+   time in the future, indicating that a response MAY be used to satisfy
+   subsequent requests. In other words, a cache can return a fresh
+   response without first contacting the server.
+
+   Our expectation is that servers will assign future explicit
+   expiration times to responses in the belief that the entity is not
+   likely to change, in a semantically significant way, before the
+   expiration time is reached. This normally preserves semantic
+   transparency, as long as the server's expiration times are carefully
+   chosen.
+
+   The expiration mechanism applies only to responses taken from a cache
+   and not to first-hand responses forwarded immediately to the
+   requesting client.
+
+   If an origin server wishes to force a semantically transparent cache
+   to validate every request, it MAY assign an explicit expiration time
+   in the past. This means that the response is always stale, and so the
+   cache SHOULD validate it before using it for subsequent requests. See
+   section 14.9.4 for a more restrictive way to force revalidation.
+
+   If an origin server wishes to force any HTTP/1.1 cache, no matter how
+   it is configured, to validate every request, it SHOULD use the "must-
+   revalidate" cache-control directive (see section 14.9).
+
+   Servers specify explicit expiration times using either the Expires
+   header, or the max-age directive of the Cache-Control header.
+
+   An expiration time cannot be used to force a user agent to refresh
+   its display or reload a resource; its semantics apply only to caching
+   mechanisms, and such mechanisms need only check a resource's
+   expiration status when a new request for that resource is initiated.
+   See section 13.13 for an explanation of the difference between caches
+   and history mechanisms.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

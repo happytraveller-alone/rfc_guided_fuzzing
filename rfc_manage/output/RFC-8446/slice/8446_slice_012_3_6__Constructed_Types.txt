@@ -1,0 +1,33 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.6. Constructed Types ---
+Structure types may be constructed from primitive types for
+   convenience.  Each specification declares a new, unique type.  The
+   syntax used for definitions is much like that of C.
+
+      struct {
+          T1 f1;
+          T2 f2;
+          ...
+          Tn fn;
+      } T;
+
+   Fixed- and variable-length vector fields are allowed using the
+   standard vector syntax.  Structures V1 and V2 in the variants example
+   (Section 3.8) demonstrate this.
+
+   The fields within a structure may be qualified using the type's name,
+   with a syntax much like that available for enumerateds.  For example,
+   T.f2 refers to the second field of the previous declaration.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

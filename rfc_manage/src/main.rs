@@ -96,8 +96,7 @@ fn process_rfc_content(input_file: &PathBuf) -> Result<String, Box<dyn Error>> {
     let regexes = Regexes {
         header_footer: Regex::new(r"^RFC \d+\s+.*\s+\w+ \d{4}$|^.*\s+\[Page \d+\]$")?,
         page_break: Regex::new(r"\f")?,
-        section_title: Regex::new(r"^(\d+)\.\s+(.*)")?,
-        section_title_two: Regex::new(r"^(\d+)\s+(.*)")?,
+        section_title: Regex::new(r"^(\d+(?:\.\d+)*\.?)\s+(.*)")?,
     };
 
     process_content(reader, &regexes)
@@ -107,7 +106,7 @@ struct Regexes {
     header_footer: Regex,
     page_break: Regex,
     section_title: Regex,
-    section_title_two: Regex,
+    // section_title_two: Regex,
 }
 
 /// 处理文档内容
@@ -135,18 +134,6 @@ fn process_content(reader: BufReader<File>, regexes: &Regexes) -> Result<String,
         }
 
         if let Some(captures) = regexes.section_title.captures(&line) {
-            if let Some(section_result) = process_section(
-                &captures,
-                &mut found_intro,
-                &mut in_main_content,
-                &mut iana_passed,
-            ) {
-                match section_result {
-                    SectionResult::Skip(should_skip) => skip_section = should_skip,
-                    SectionResult::Break => break,
-                }
-            }
-        } else if let Some(captures) = regexes.section_title_two.captures(&line) {
             if let Some(section_result) = process_section(
                 &captures,
                 &mut found_intro,
@@ -353,7 +340,8 @@ fn extract_sections(
     ),
     Box<dyn Error>,
 > {
-    let section_regex = Regex::new(r"(?m)^(\d+(?:\.\d+)*\.)\s+(.*?)$")?;
+    // let section_regex = Regex::new(r"(?m)^(\d+(?:\.\d+)*\.)\s+(.*?)$")?;
+    let section_regex = Regex::new(r"(?m)^(\d+(?:\.\d+)*\.?)\s+(.*?)$")?;
     let mut sections = Vec::new();
     let mut section_map = BTreeMap::new();
     let mut current_section = String::new();
@@ -370,15 +358,13 @@ fn extract_sections(
                 ));
                 current_section.clear();
             }
-            let number = captures.get(1).unwrap().as_str().to_string();
+            let mut number = captures.get(1).unwrap().as_str().to_string();
+            if !number.ends_with('.') {
+                number.push('.');
+            }
             let title = captures.get(2).unwrap().as_str().to_string();
             current_number = SectionNumber(number.clone());
-            // current_title = title.clone(); // 只保存标题，不包含章节编号
-            // 优化标题：删减多余空格
-            current_title = title
-                .chars()
-                .filter(|&c| !c.is_whitespace() && c != '-')
-                .collect::<String>();
+            current_title = title.trim().to_string();
             section_map.insert(current_number.clone(), current_title.clone());
         } else {
             current_section.push_str(line);
@@ -390,7 +376,7 @@ fn extract_sections(
         sections.push((
             current_number.clone(),
             current_title.clone(),
-            current_section.clone(),
+            current_section.trim().to_string(),
         ));
     }
 
@@ -401,36 +387,36 @@ fn process_section_map(map: &mut BTreeMap<SectionNumber, String>) {
     let mut processed_map = BTreeMap::new();
 
     for (key, value) in map.clone().iter() {
-        let parts: Vec<&str> = key.0.split('.').collect();
-        if parts.len() == 2 && parts[1].is_empty() {
-            // This is a top-level section, no change needed
-            processed_map.insert(key.clone(), value.clone());
-        } else {
-            // This is a sub-section, we need to add parent sections
-            let mut new_value = String::new();
-            let mut current_key = String::new();
+        let parts: Vec<&str> = key.0.trim_end_matches('.').split('.').collect();
+        let mut new_value = Vec::new();
+        let mut current_key = String::new();
 
-            for (i, part) in parts.iter().enumerate() {
-                if i == parts.len() - 1 {
-                    break;
-                }
-                current_key.push_str(part);
+        for (i, part) in parts.iter().enumerate() {
+            if i > 0 {
                 current_key.push('.');
-                if let Some(section_title) = map.get(&SectionNumber(current_key.clone())) {
-                    if !new_value.is_empty() {
-                        new_value.push_str("_");
-                    }
-                    new_value.push_str(section_title);
-                }
             }
-
-            if !new_value.is_empty() {
-                new_value.push_str("_");
+            current_key.push_str(part);
+            
+            if let Some(section_title) = map.get(&SectionNumber(current_key.clone() + ".")) {
+                new_value.push(section_title.clone());
             }
-            // new_value.push_str(value);
-
-            processed_map.insert(key.clone(), new_value);
         }
+
+        // Remove the last element (current section title) if it exists
+        new_value.pop();
+
+        // Remove '/' from the current section title
+        
+        
+        let full_value = if new_value.is_empty() {
+            value.clone()
+        } else {
+            new_value.join("_") + "_" + value
+        };
+        let cleaned_value = full_value.replace("/", "");
+        // Remove the trailing dot from the key
+        let clean_key = SectionNumber(key.0.trim_end_matches('.').to_string());
+        processed_map.insert(clean_key, cleaned_value);
     }
 
     *map = processed_map;
@@ -614,42 +600,3 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-// let pre_processed_content = pre_process_rfc_content(&input_file)?;
-//     let pre_processed_file = rfc_output_dir.join(format!("{}_pre_processed.txt", rfc_number));
-//     save_content(&pre_processed_content, &pre_processed_file)?;
-// fn pre_process_rfc_content(input_file: &PathBuf) -> Result<String, Box<dyn Error>> {
-//     let reader = BufReader::new(File::open(input_file)?);
-//     let regexes = Regexes {
-//         header_footer: Regex::new(r"^RFC \d+\s+.*\s+\w+ \d{4}$|^.*\s+\[Page \d+\]$")?,
-//         page_break: Regex::new(r"\f")?,
-//         section_title: Regex::new(r"^(\d+)\.\s+(.*)")?,
-//         section_title_two: Regex::new(r"^(\d+)\s+(.*)")?,
-//     };
-
-//     let mut content = String::new();
-//     let mut found_intro = false;
-
-//     for line in reader.lines() {
-//         let line = line?;
-//         let line = regexes.page_break.replace_all(&line, "").to_string();
-
-//         if regexes.header_footer.is_match(&line) {
-//             continue;
-//         }
-
-//         if line.trim() == body_start!() {
-//             found_intro = true;
-//         }
-
-//         if found_intro {
-//             content.push_str(&line);
-//             content.push('\n');
-//         }
-//     }
-
-//     if !found_intro {
-//         return Err("未找到介绍部分".into());
-//     }
-
-//     Ok(content.trim().to_string())
-// }

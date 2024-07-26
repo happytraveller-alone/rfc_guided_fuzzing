@@ -1,0 +1,28 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.3. Numbers ---
+The basic numeric data type is an unsigned byte (uint8).  All larger
+   numeric data types are constructed from a fixed-length series of
+   bytes concatenated as described in Section 3.1 and are also unsigned.
+   The following numeric types are predefined.
+
+      uint8 uint16[2];
+      uint8 uint24[3];
+      uint8 uint32[4];
+      uint8 uint64[8];
+
+   All values, here and elsewhere in the specification, are transmitted
+   in network byte (big-endian) order; the uint32 represented by the hex
+   bytes 01 02 03 04 is equivalent to the decimal value 16909060.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

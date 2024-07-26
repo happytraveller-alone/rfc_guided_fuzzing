@@ -1,0 +1,52 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.4.1. Handshake Protocol_Authentication Messages_The Transcript Hash ---
+Many of the cryptographic computations in TLS make use of a
+   transcript hash.  This value is computed by hashing the concatenation
+   of each included handshake message, including the handshake message
+   header carrying the handshake message type and length fields, but not
+   including record layer headers.  I.e.,
+
+    Transcript-Hash(M1, M2, ... Mn) = Hash(M1 || M2 || ... || Mn)
+
+   As an exception to this general rule, when the server responds to a
+   ClientHello with a HelloRetryRequest, the value of ClientHello1 is
+   replaced with a special synthetic handshake message of handshake type
+   "message_hash" containing Hash(ClientHello1).  I.e.,
+
+  Transcript-Hash(ClientHello1, HelloRetryRequest, ... Mn) =
+      Hash(message_hash ||        /* Handshake type */
+           00 00 Hash.length  ||  /* Handshake message length (bytes) */
+           Hash(ClientHello1) ||  /* Hash of ClientHello1 */
+           HelloRetryRequest  || ... || Mn)
+
+   The reason for this construction is to allow the server to do a
+   stateless HelloRetryRequest by storing just the hash of ClientHello1
+   in the cookie, rather than requiring it to export the entire
+   intermediate hash state (see Section 4.2.2).
+
+   For concreteness, the transcript hash is always taken from the
+   following sequence of handshake messages, starting at the first
+   ClientHello and including only those messages that were sent:
+   ClientHello, HelloRetryRequest, ClientHello, ServerHello,
+   EncryptedExtensions, server CertificateRequest, server Certificate,
+   server CertificateVerify, server Finished, EndOfEarlyData, client
+   Certificate, client CertificateVerify, client Finished.
+
+   In general, implementations can implement the transcript by keeping a
+   running transcript hash value based on the negotiated hash.  Note,
+   however, that subsequent post-handshake authentications do not
+   include each other, just the messages through the end of the main
+   handshake.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

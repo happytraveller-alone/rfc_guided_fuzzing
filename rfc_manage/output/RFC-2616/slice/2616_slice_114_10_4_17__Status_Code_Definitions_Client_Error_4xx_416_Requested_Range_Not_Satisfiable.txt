@@ -1,0 +1,28 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.4.17. Status Code Definitions_Client Error 4xx_416 Requested Range Not Satisfiable ---
+A server SHOULD return a response with this status code if a request
+   included a Range request-header field (section 14.35), and none of
+   the range-specifier values in this field overlap the current extent
+   of the selected resource, and the request did not include an If-Range
+   request-header field. (For byte-ranges, this means that the first-
+   byte-pos of all of the byte-range-spec values were greater than the
+   current length of the selected resource.)
+
+   When this status code is returned for a byte-range request, the
+   response SHOULD include a Content-Range entity-header field
+   specifying the current length of the selected resource (see section
+   14.16). This response MUST NOT use the multipart/byteranges content-
+   type.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

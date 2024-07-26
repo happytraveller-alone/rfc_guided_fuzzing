@@ -1,0 +1,252 @@
+1.1	Purpose
+1.2	Requirements
+1.3	Terminology
+1.4	Overall Operation
+2	Notational Conventions and Generic Grammar
+2.1	Notational Conventions and Generic Grammar_Augmented BNF
+2.2	Notational Conventions and Generic Grammar_Basic Rules
+3	Protocol Parameters
+3.1	Protocol Parameters_HTTP Version
+3.2	Protocol Parameters_Uniform Resource Identifiers
+3.2.1	Protocol Parameters_Uniform Resource Identifiers_General Syntax
+3.2.2	Protocol Parameters_Uniform Resource Identifiers_http URL
+3.2.3	Protocol Parameters_Uniform Resource Identifiers_URI Comparison
+3.3	Protocol Parameters_DateTime Formats
+3.3.1	Protocol Parameters_DateTime Formats_Full Date
+3.3.2	Protocol Parameters_DateTime Formats_Delta Seconds
+3.4	Protocol Parameters_Character Sets
+3.4.1	Protocol Parameters_Character Sets_Missing Charset
+3.5	Protocol Parameters_Content Codings
+3.6	Protocol Parameters_Transfer Codings
+3.6.1	Protocol Parameters_Transfer Codings_Chunked Transfer Coding
+3.7	Protocol Parameters_Media Types
+3.7.1	Protocol Parameters_Media Types_Canonicalization and Text Defaults
+3.7.2	Protocol Parameters_Media Types_Multipart Types
+3.8	Protocol Parameters_Product Tokens
+3.9	Protocol Parameters_Quality Values
+3.10	Protocol Parameters_Language Tags
+3.11	Protocol Parameters_Entity Tags
+3.12	Protocol Parameters_Range Units
+4	HTTP Message
+4.1	HTTP Message_Message Types
+4.2	HTTP Message_Message Headers
+4.3	HTTP Message_Message Body
+4.4	HTTP Message_Message Length
+4.5	HTTP Message_General Header Fields
+5	Request
+5.1	Request_Request-Line
+5.1.1	Request_Request-Line_Method
+5.1.2	Request_Request-Line_Request-URI
+5.2	Request_The Resource Identified by a Request
+5.3	Request_Request Header Fields
+6	Response
+6.1	Response_Status-Line
+6.1.1	Response_Status-Line_Status Code and Reason Phrase
+6.2	Response_Response Header Fields
+7	Entity
+7.1	Entity_Entity Header Fields
+7.2	Entity_Entity Body
+7.2.1	Entity_Entity Body_Type
+7.2.2	Entity_Entity Body_Entity Length
+8	Connections
+8.1	Connections_Persistent Connections
+8.1.1	Connections_Persistent Connections_Purpose
+8.1.2	Connections_Persistent Connections_Overall Operation
+8.1.2.1	Connections_Persistent Connections_Overall Operation_Negotiation
+8.1.2.2	Connections_Persistent Connections_Overall Operation_Pipelining
+8.1.3	Connections_Persistent Connections_Proxy Servers
+8.1.4	Connections_Persistent Connections_Practical Considerations
+8.2	Connections_Message Transmission Requirements
+8.2.1	Connections_Message Transmission Requirements_Persistent Connections and Flow Control
+8.2.2	Connections_Message Transmission Requirements_Monitoring Connections for Error Status Messages
+8.2.3	Connections_Message Transmission Requirements_Use of the 100 (Continue) Status
+8.2.4	Connections_Message Transmission Requirements_Client Behavior if Server Prematurely Closes Connection
+9	Method Definitions
+9.1	Method Definitions_Safe and Idempotent Methods
+9.1.1	Method Definitions_Safe and Idempotent Methods_Safe Methods
+9.1.2	Method Definitions_Safe and Idempotent Methods_Idempotent Methods
+9.2	Method Definitions_OPTIONS
+9.3	Method Definitions_GET
+9.4	Method Definitions_HEAD
+9.5	Method Definitions_POST
+9.6	Method Definitions_PUT
+9.7	Method Definitions_DELETE
+9.8	Method Definitions_TRACE
+9.9	Method Definitions_CONNECT
+10	Status Code Definitions
+10.1	Status Code Definitions_Informational 1xx
+10.1.1	Status Code Definitions_Informational 1xx_100 Continue
+10.1.2	Status Code Definitions_Informational 1xx_101 Switching Protocols
+10.2	Status Code Definitions_Successful 2xx
+10.2.1	Status Code Definitions_Successful 2xx_200 OK
+10.2.2	Status Code Definitions_Successful 2xx_201 Created
+10.2.3	Status Code Definitions_Successful 2xx_202 Accepted
+10.2.4	Status Code Definitions_Successful 2xx_203 Non-Authoritative Information
+10.2.5	Status Code Definitions_Successful 2xx_204 No Content
+10.2.6	Status Code Definitions_Successful 2xx_205 Reset Content
+10.2.7	Status Code Definitions_Successful 2xx_206 Partial Content
+10.3	Status Code Definitions_Redirection 3xx
+10.3.1	Status Code Definitions_Redirection 3xx_300 Multiple Choices
+10.3.2	Status Code Definitions_Redirection 3xx_301 Moved Permanently
+10.3.3	Status Code Definitions_Redirection 3xx_302 Found
+10.3.4	Status Code Definitions_Redirection 3xx_303 See Other
+10.3.5	Status Code Definitions_Redirection 3xx_304 Not Modified
+10.3.6	Status Code Definitions_Redirection 3xx_305 Use Proxy
+10.3.7	Status Code Definitions_Redirection 3xx_306 (Unused)
+10.3.8	Status Code Definitions_Redirection 3xx_307 Temporary Redirect
+10.4	Status Code Definitions_Client Error 4xx
+10.4.1	Status Code Definitions_Client Error 4xx_400 Bad Request
+10.4.2	Status Code Definitions_Client Error 4xx_401 Unauthorized
+10.4.3	Status Code Definitions_Client Error 4xx_402 Payment Required
+10.4.4	Status Code Definitions_Client Error 4xx_403 Forbidden
+10.4.5	Status Code Definitions_Client Error 4xx_404 Not Found
+10.4.6	Status Code Definitions_Client Error 4xx_405 Method Not Allowed
+10.4.7	Status Code Definitions_Client Error 4xx_406 Not Acceptable
+10.4.8	Status Code Definitions_Client Error 4xx_407 Proxy Authentication Required
+10.4.9	Status Code Definitions_Client Error 4xx_408 Request Timeout
+10.4.10	Status Code Definitions_Client Error 4xx_409 Conflict
+10.4.11	Status Code Definitions_Client Error 4xx_410 Gone
+10.4.12	Status Code Definitions_Client Error 4xx_411 Length Required
+10.4.13	Status Code Definitions_Client Error 4xx_412 Precondition Failed
+10.4.14	Status Code Definitions_Client Error 4xx_413 Request Entity Too Large
+10.4.15	Status Code Definitions_Client Error 4xx_414 Request-URI Too Long
+10.4.16	Status Code Definitions_Client Error 4xx_415 Unsupported Media Type
+10.4.17	Status Code Definitions_Client Error 4xx_416 Requested Range Not Satisfiable
+10.4.18	Status Code Definitions_Client Error 4xx_417 Expectation Failed
+10.5	Status Code Definitions_Server Error 5xx
+10.5.1	Status Code Definitions_Server Error 5xx_500 Internal Server Error
+10.5.2	Status Code Definitions_Server Error 5xx_501 Not Implemented
+10.5.3	Status Code Definitions_Server Error 5xx_502 Bad Gateway
+10.5.4	Status Code Definitions_Server Error 5xx_503 Service Unavailable
+10.5.5	Status Code Definitions_Server Error 5xx_504 Gateway Timeout
+10.5.6	Status Code Definitions_Server Error 5xx_505 HTTP Version Not Supported
+11	Access Authentication
+12	Content Negotiation
+12.1	Content Negotiation_Server-driven Negotiation
+12.2	Content Negotiation_Agent-driven Negotiation
+12.3	Content Negotiation_Transparent Negotiation
+13	Caching in HTTP
+13.1.1	Caching in HTTP_Cache Correctness
+13.1.2	Caching in HTTP_Warnings
+13.1.3	Caching in HTTP_Cache-control Mechanisms
+13.1.4	Caching in HTTP_Explicit User Agent Warnings
+13.1.5	Caching in HTTP_Exceptions to the Rules and Warnings
+13.1.6	Caching in HTTP_Client-controlled Behavior
+13.2	Caching in HTTP_Expiration Model
+13.2.1	Caching in HTTP_Expiration Model_Server-Specified Expiration
+13.2.2	Caching in HTTP_Expiration Model_Heuristic Expiration
+13.2.3	Caching in HTTP_Expiration Model_Age Calculations
+13.2.4	Caching in HTTP_Expiration Model_Expiration Calculations
+13.2.5	Caching in HTTP_Expiration Model_Disambiguating Expiration Values
+13.2.6	Caching in HTTP_Expiration Model_Disambiguating Multiple Responses
+13.3	Caching in HTTP_Validation Model
+13.3.1	Caching in HTTP_Validation Model_Last-Modified Dates
+13.3.2	Caching in HTTP_Validation Model_Entity Tag Cache Validators
+13.3.3	Caching in HTTP_Validation Model_Weak and Strong Validators
+13.3.4	Caching in HTTP_Validation Model_Rules for When to Use Entity Tags and Last-Modified Dates
+13.3.5	Caching in HTTP_Validation Model_Non-validating Conditionals
+13.4	Caching in HTTP_Response Cacheability
+13.5	Caching in HTTP_Constructing Responses From Caches
+13.5.1	Caching in HTTP_Constructing Responses From Caches_End-to-end and Hop-by-hop Headers
+13.5.2	Caching in HTTP_Constructing Responses From Caches_Non-modifiable Headers
+13.5.3	Caching in HTTP_Constructing Responses From Caches_Combining Headers
+13.5.4	Caching in HTTP_Constructing Responses From Caches_Combining Byte Ranges
+13.6	Caching in HTTP_Caching Negotiated Responses
+13.7	Caching in HTTP_Shared and Non-Shared Caches
+13.8	Caching in HTTP_Errors or Incomplete Response Cache Behavior
+13.9	Caching in HTTP_Side Effects of GET and HEAD
+13.10	Caching in HTTP_Invalidation After Updates or Deletions
+13.11	Caching in HTTP_Write-Through Mandatory
+13.12	Caching in HTTP_Cache Replacement
+13.13	Caching in HTTP_History Lists
+14	Header Field Definitions
+14.1	Header Field Definitions_Accept
+14.2	Header Field Definitions_Accept-Charset
+14.3	Header Field Definitions_Accept-Encoding
+14.4	Header Field Definitions_Accept-Language
+14.5	Header Field Definitions_Accept-Ranges
+14.6	Header Field Definitions_Age
+14.7	Header Field Definitions_Allow
+14.8	Header Field Definitions_Authorization
+14.9	Header Field Definitions_Cache-Control
+14.9.1	Header Field Definitions_Cache-Control_What is Cacheable
+14.9.2	Header Field Definitions_Cache-Control_What May be Stored by Caches
+14.9.3	Header Field Definitions_Cache-Control_Modifications of the Basic Expiration Mechanism
+14.9.4	Header Field Definitions_Cache-Control_Cache Revalidation and Reload Controls
+14.9.5	Header Field Definitions_Cache-Control_No-Transform Directive
+14.9.6	Header Field Definitions_Cache-Control_Cache Control Extensions
+14.10	Header Field Definitions_Connection
+14.11	Header Field Definitions_Content-Encoding
+14.12	Header Field Definitions_Content-Language
+14.13	Header Field Definitions_Content-Length
+14.14	Header Field Definitions_Content-Location
+14.15	Header Field Definitions_Content-MD5
+14.16	Header Field Definitions_Content-Range
+14.17	Header Field Definitions_Content-Type
+14.18	Header Field Definitions_Date
+14.18.1	Header Field Definitions_Date_Clockless Origin Server Operation
+14.19	Header Field Definitions_ETag
+14.20	Header Field Definitions_Expect
+14.21	Header Field Definitions_Expires
+14.22	Header Field Definitions_From
+14.23	Header Field Definitions_Host
+14.24	Header Field Definitions_If-Match
+14.25	Header Field Definitions_If-Modified-Since
+14.26	Header Field Definitions_If-None-Match
+14.27	Header Field Definitions_If-Range
+14.28	Header Field Definitions_If-Unmodified-Since
+14.29	Header Field Definitions_Last-Modified
+14.30	Header Field Definitions_Location
+14.31	Header Field Definitions_Max-Forwards
+14.32	Header Field Definitions_Pragma
+14.33	Header Field Definitions_Proxy-Authenticate
+14.34	Header Field Definitions_Proxy-Authorization
+14.35	Header Field Definitions_Range
+14.35.1	Header Field Definitions_Range_Byte Ranges
+14.35.2	Header Field Definitions_Range_Range Retrieval Requests
+14.36	Header Field Definitions_Referer
+14.37	Header Field Definitions_Retry-After
+14.38	Header Field Definitions_Server
+14.39	Header Field Definitions_TE
+14.40	Header Field Definitions_Trailer
+14.41	Header Field Definitions_Transfer-Encoding
+14.42	Header Field Definitions_Upgrade
+14.43	Header Field Definitions_User-Agent
+14.44	Header Field Definitions_Vary
+14.45	Header Field Definitions_Via
+14.46	Header Field Definitions_Warning
+14.47	Header Field Definitions_WWW-Authenticate
+15	Security Considerations
+15.1	Security Considerations_Personal Information
+15.1.1	Security Considerations_Personal Information_Abuse of Server Log Information
+15.1.2	Security Considerations_Personal Information_Transfer of Sensitive Information
+15.1.3	Security Considerations_Personal Information_Encoding Sensitive Information in URI's
+15.1.4	Security Considerations_Personal Information_Privacy Issues Connected to Accept Headers
+15.2	Security Considerations_Attacks Based On File and Path Names
+15.3	Security Considerations_DNS Spoofing
+15.4	Security Considerations_Location Headers and Spoofing
+15.5	Security Considerations_Content-Disposition Issues
+15.6	Security Considerations_Authentication Credentials and Idle Clients
+15.7	Security Considerations_Proxies and Caching
+15.7.1	Security Considerations_Proxies and Caching_Denial of Service Attacks on Proxies
+16	Acknowledgments
+19	Appendices
+19.1	Appendices_Internet Media Type messagehttp and applicationhttp
+19.2	Appendices_Internet Media Type multipartbyteranges
+19.3	Appendices_Tolerant Applications
+19.4	Appendices_Differences Between HTTP Entities and RFC 2045 Entities
+19.4.1	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_MIME-Version
+19.4.2	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_Conversion to Canonical Form
+19.4.3	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_Conversion of Date Formats
+19.4.4	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_Introduction of Content-Encoding
+19.4.5	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_No Content-Transfer-Encoding
+19.4.6	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_Introduction of Transfer-Encoding
+19.4.7	Appendices_Differences Between HTTP Entities and RFC 2045 Entities_MHTML and Line Length Limitations
+19.5	Appendices_Additional Features
+19.5.1	Appendices_Additional Features_Content-Disposition
+19.6	Appendices_Compatibility with Previous Versions
+19.6.1	Appendices_Compatibility with Previous Versions_Changes from HTTP1.0
+19.6.1.1	Appendices_Compatibility with Previous Versions_Changes from HTTP1.0_Changes to Simplify Multi-homed Web Servers and Conserve IP
+19.6.2	Appendices_Compatibility with Previous Versions_Compatibility with HTTP1.0 Persistent Connections
+19.6.3	Appendices_Compatibility with Previous Versions_Changes from RFC 2068
+20	Index

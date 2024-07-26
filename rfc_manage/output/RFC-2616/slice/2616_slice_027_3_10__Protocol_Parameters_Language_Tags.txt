@@ -1,0 +1,40 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.10. Protocol Parameters_Language Tags ---
+A language tag identifies a natural language spoken, written, or
+   otherwise conveyed by human beings for communication of information
+   to other human beings. Computer languages are explicitly excluded.
+   HTTP uses language tags within the Accept-Language and Content-
+   Language fields.
+
+   The syntax and registry of HTTP language tags is the same as that
+   defined by RFC 1766 [1]. In summary, a language tag is composed of 1
+   or more parts: A primary language tag and a possibly empty series of
+   subtags:
+
+        language-tag  = primary-tag *( "-" subtag )
+        primary-tag   = 1*8ALPHA
+        subtag        = 1*8ALPHA
+
+   White space is not allowed within the tag and all tags are case-
+   insensitive. The name space of language tags is administered by the
+   IANA. Example tags include:
+
+       en, en-US, en-cockney, i-cherokee, x-pig-latin
+
+   where any two-letter primary-tag is an ISO-639 language abbreviation
+   and any two-letter initial subtag is an ISO-3166 country code. (The
+   last three tags above are not registered tags; all but the last are
+   examples of tags which could be registered in future.)
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -1,0 +1,36 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.5.4. Obsolete Syntax_Obsolete Header Fields_Obsolete Identification Fields ---
+The obsolete "In-Reply-To:" and "References:" fields differ from the
+   current syntax in that they allow phrase (words or quoted strings) to
+   appear.  The obsolete forms of the left and right sides of msg-id
+   allow interspersed CFWS, making them syntactically identical to
+   local-part and domain, respectively.
+
+   obs-message-id  =   "Message-ID" *WSP ":" msg-id CRLF
+
+   obs-in-reply-to =   "In-Reply-To" *WSP ":" *(phrase / msg-id) CRLF
+
+   obs-references  =   "References" *WSP ":" *(phrase / msg-id) CRLF
+
+   obs-id-left     =   local-part
+
+   obs-id-right    =   domain
+
+   For purposes of interpretation, the phrases in the "In-Reply-To:" and
+   "References:" fields are ignored.
+
+   Semantically, none of the optional CFWS in the local-part and the
+   domain is part of the obs-id-left and obs-id-right, respectively.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

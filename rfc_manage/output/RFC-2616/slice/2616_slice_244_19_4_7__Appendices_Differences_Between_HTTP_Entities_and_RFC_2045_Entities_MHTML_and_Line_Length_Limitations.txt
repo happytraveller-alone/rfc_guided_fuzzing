@@ -1,0 +1,23 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 19.4.7. Appendices_Differences Between HTTP Entities and RFC 2045 Entities_MHTML and Line Length Limitations ---
+HTTP implementations which share code with MHTML [45] implementations
+   need to be aware of MIME line length limitations. Since HTTP does not
+   have this limitation, HTTP does not fold long lines. MHTML messages
+   being transported by HTTP follow all conventions of MHTML, including
+   line length limitations and folding, canonicalization, etc., since
+   HTTP transports all message-bodies as payload (see section 3.7.2) and
+   does not interpret the content or any MIME header lines that might be
+   contained therein.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -1,0 +1,43 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 14.2. Header Field Definitions_Accept-Charset ---
+The Accept-Charset request-header field can be used to indicate what
+   character sets are acceptable for the response. This field allows
+   clients capable of understanding more comprehensive or special-
+   purpose character sets to signal that capability to a server which is
+   capable of representing documents in those character sets.
+
+      Accept-Charset = "Accept-Charset" ":"
+              1#( ( charset | "*" )[ ";" "q" "=" qvalue ] )
+
+   Character set values are described in section 3.4. Each charset MAY
+   be given an associated quality value which represents the user's
+   preference for that charset. The default value is q=1. An example is
+
+      Accept-Charset: iso-8859-5, unicode-1-1;q=0.8
+
+   The special value "*", if present in the Accept-Charset field,
+   matches every character set (including ISO-8859-1) which is not
+   mentioned elsewhere in the Accept-Charset field. If no "*" is present
+   in an Accept-Charset field, then all character sets not explicitly
+   mentioned get a quality value of 0, except for ISO-8859-1, which gets
+   a quality value of 1 if not explicitly mentioned.
+
+   If no Accept-Charset header is present, the default is that any
+   character set is acceptable. If an Accept-Charset header is present,
+   and if the server cannot send a response which is acceptable
+   according to the Accept-Charset header, then the server SHOULD send
+   an error response with the 406 (not acceptable) status code, though
+   the sending of an unacceptable response is also allowed.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

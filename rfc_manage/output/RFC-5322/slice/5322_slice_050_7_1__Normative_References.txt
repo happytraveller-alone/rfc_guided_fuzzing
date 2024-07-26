@@ -1,0 +1,35 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 7.1. Normative References ---
+[ANSI.X3-4.1986]  American National Standards Institute, "Coded
+                     Character Set - 7-bit American Standard Code for
+                     Information Interchange", ANSI X3.4, 1986.
+
+   [RFC1034]         Mockapetris, P., "Domain names - concepts and
+                     facilities", STD 13, RFC 1034, November 1987.
+
+   [RFC1035]         Mockapetris, P., "Domain names - implementation and
+                     specification", STD 13, RFC 1035, November 1987.
+
+   [RFC1123]         Braden, R., "Requirements for Internet Hosts -
+                     Application and Support", STD 3, RFC 1123,
+                     October 1989.
+
+   [RFC2119]         Bradner, S., "Key words for use in RFCs to Indicate
+                     Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC5234]         Crocker, D. and P. Overell, "Augmented BNF for
+                     Syntax Specifications: ABNF", STD 68, RFC 5234,
+                     January 2008.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

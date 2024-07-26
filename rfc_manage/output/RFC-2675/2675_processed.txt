@@ -1,3 +1,17 @@
+1.1 Document History
+
+   This document merges and updates material that was previously
+   published in two separate documents:
+
+   -  The specification of the Jumbo Payload option previously appeared
+      as part of the IPv6 specification in RFC 1883.  RFC 1883 has been
+      superseded by RFC 2460, which no longer includes specification of
+      the Jumbo Payload option.
+
+   -  The specification of TCP and UDP enhancements to support
+      jumbograms previously appeared as RFC 2147.  RFC 2147 is obsoleted
+      by this document.
+
 2. Format of the Jumbo Payload Option
 
    The Jumbo Payload option is carried in an IPv6 Hop-by-Hop Options

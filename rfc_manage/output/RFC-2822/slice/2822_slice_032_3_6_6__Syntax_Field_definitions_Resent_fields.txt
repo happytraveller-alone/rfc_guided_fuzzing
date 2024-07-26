@@ -1,0 +1,100 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.6.6. Syntax_Field definitions_Resent fields ---
+Resent fields SHOULD be added to any message that is reintroduced by
+   a user into the transport system.  A separate set of resent fields
+   SHOULD be added each time this is done.  All of the resent fields
+   corresponding to a particular resending of the message SHOULD be
+   together.  Each new set of resent fields is prepended to the message;
+   that is, the most recent set of resent fields appear earlier in the
+   message.  No other fields in the message are changed when resent
+   fields are added.
+
+   Each of the resent fields corresponds to a particular field elsewhere
+   in the syntax.  For instance, the "Resent-Date:" field corresponds to
+   the "Date:" field and the "Resent-To:" field corresponds to the "To:"
+   field.  In each case, the syntax for the field body is identical to
+   the syntax given previously for the corresponding field.
+
+   When resent fields are used, the "Resent-From:" and "Resent-Date:"
+   fields MUST be sent.  The "Resent-Message-ID:" field SHOULD be sent.
+   "Resent-Sender:" SHOULD NOT be used if "Resent-Sender:" would be
+   identical to "Resent-From:".
+
+resent-date     =       "Resent-Date:" date-time CRLF
+
+resent-from     =       "Resent-From:" mailbox-list CRLF
+
+resent-sender   =       "Resent-Sender:" mailbox CRLF
+
+resent-to       =       "Resent-To:" address-list CRLF
+
+resent-cc       =       "Resent-Cc:" address-list CRLF
+
+resent-bcc      =       "Resent-Bcc:" (address-list / [CFWS]) CRLF
+
+resent-msg-id   =       "Resent-Message-ID:" msg-id CRLF
+
+   Resent fields are used to identify a message as having been
+   reintroduced into the transport system by a user.  The purpose of
+   using resent fields is to have the message appear to the final
+   recipient as if it were sent directly by the original sender, with
+   all of the original fields remaining the same.  Each set of resent
+   fields correspond to a particular resending event.  That is, if a
+   message is resent multiple times, each set of resent fields gives
+   identifying information for each individual time.  Resent fields are
+   strictly informational.  They MUST NOT be used in the normal
+   processing of replies or other such automatic actions on messages.
+
+   Note: Reintroducing a message into the transport system and using
+   resent fields is a different operation from "forwarding".
+   "Forwarding" has two meanings: One sense of forwarding is that a mail
+   reading program can be told by a user to forward a copy of a message
+   to another person, making the forwarded message the body of the new
+   message.  A forwarded message in this sense does not appear to have
+   come from the original sender, but is an entirely new message from
+   the forwarder of the message.  On the other hand, forwarding is also
+   used to mean when a mail transport program gets a message and
+   forwards it on to a different destination for final delivery.  Resent
+   header fields are not intended for use with either type of
+   forwarding.
+
+   The resent originator fields indicate the mailbox of the person(s) or
+   system(s) that resent the message.  As with the regular originator
+   fields, there are two forms: a simple "Resent-From:" form which
+   contains the mailbox of the individual doing the resending, and the
+   more complex form, when one individual (identified in the
+   "Resent-Sender:" field) resends a message on behalf of one or more
+   others (identified in the "Resent-From:" field).
+
+   Note: When replying to a resent message, replies behave just as they
+   would with any other message, using the original "From:",
+
+   "Reply-To:", "Message-ID:", and other fields.  The resent fields are
+   only informational and MUST NOT be used in the normal processing of
+   replies.
+
+   The "Resent-Date:" indicates the date and time at which the resent
+   message is dispatched by the resender of the message.  Like the
+   "Date:" field, it is not the date and time that the message was
+   actually transported.
+
+   The "Resent-To:", "Resent-Cc:", and "Resent-Bcc:" fields function
+   identically to the "To:", "Cc:", and "Bcc:" fields respectively,
+   except that they indicate the recipients of the resent message, not
+   the recipients of the original message.
+
+   The "Resent-Message-ID:" field provides a unique identifier for the
+   resent message.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

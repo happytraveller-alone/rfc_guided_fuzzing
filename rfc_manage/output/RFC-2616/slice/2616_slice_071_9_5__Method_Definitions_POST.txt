@@ -1,0 +1,57 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 9.5. Method Definitions_POST ---
+The POST method is used to request that the origin server accept the
+   entity enclosed in the request as a new subordinate of the resource
+   identified by the Request-URI in the Request-Line. POST is designed
+   to allow a uniform method to cover the following functions:
+
+      - Annotation of existing resources;
+
+      - Posting a message to a bulletin board, newsgroup, mailing list,
+        or similar group of articles;
+
+      - Providing a block of data, such as the result of submitting a
+        form, to a data-handling process;
+
+      - Extending a database through an append operation.
+
+   The actual function performed by the POST method is determined by the
+   server and is usually dependent on the Request-URI. The posted entity
+   is subordinate to that URI in the same way that a file is subordinate
+   to a directory containing it, a news article is subordinate to a
+   newsgroup to which it is posted, or a record is subordinate to a
+   database.
+
+   The action performed by the POST method might not result in a
+   resource that can be identified by a URI. In this case, either 200
+   (OK) or 204 (No Content) is the appropriate response status,
+   depending on whether or not the response includes an entity that
+   describes the result.
+
+   If a resource has been created on the origin server, the response
+   SHOULD be 201 (Created) and contain an entity which describes the
+   status of the request and refers to the new resource, and a Location
+   header (see section 14.30).
+
+   Responses to this method are not cacheable, unless the response
+   includes appropriate Cache-Control or Expires header fields. However,
+   the 303 (See Other) response can be used to direct the user agent to
+   retrieve a cacheable resource.
+
+   POST requests MUST obey the message transmission requirements set out
+   in section 8.2.
+
+   See section 15.1.3 for security considerations.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

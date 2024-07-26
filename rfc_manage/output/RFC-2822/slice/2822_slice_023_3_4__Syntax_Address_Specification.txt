@@ -1,0 +1,69 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.4. Syntax_Address Specification ---
+Addresses occur in several message header fields to indicate senders
+   and recipients of messages.  An address may either be an individual
+   mailbox, or a group of mailboxes.
+
+address         =       mailbox / group
+
+mailbox         =       name-addr / addr-spec
+
+name-addr       =       [display-name] angle-addr
+
+angle-addr      =       [CFWS] "<" addr-spec ">" [CFWS] / obs-angle-addr
+
+group           =       display-name ":" [mailbox-list / CFWS] ";"
+                        [CFWS]
+
+display-name    =       phrase
+
+mailbox-list    =       (mailbox *("," mailbox)) / obs-mbox-list
+
+address-list    =       (address *("," address)) / obs-addr-list
+
+   A mailbox receives mail.  It is a conceptual entity which does not
+   necessarily pertain to file storage.  For example, some sites may
+   choose to print mail on a printer and deliver the output to the
+   addressee's desk.  Normally, a mailbox is comprised of two parts: (1)
+   an optional display name that indicates the name of the recipient
+   (which could be a person or a system) that could be displayed to the
+   user of a mail application, and (2) an addr-spec address enclosed in
+   angle brackets ("<" and ">").  There is also an alternate simple form
+   of a mailbox where the addr-spec address appears alone, without the
+   recipient's name or the angle brackets.  The Internet addr-spec
+   address is described in section 3.4.1.
+
+   Note: Some legacy implementations used the simple form where the
+   addr-spec appears without the angle brackets, but included the name
+   of the recipient in parentheses as a comment following the addr-spec.
+   Since the meaning of the information in a comment is unspecified,
+   implementations SHOULD use the full name-addr form of the mailbox,
+   instead of the legacy form, to specify the display name associated
+   with a mailbox.  Also, because some legacy implementations interpret
+   the comment, comments generally SHOULD NOT be used in address fields
+   to avoid confusing such implementations.
+
+   When it is desirable to treat several mailboxes as a single unit
+   (i.e., in a distribution list), the group construct can be used.  The
+   group construct allows the sender to indicate a named group of
+   recipients. This is done by giving a display name for the group,
+   followed by a colon, followed by a comma separated list of any number
+   of mailboxes (including zero and one), and ending with a semicolon.
+   Because the list of mailboxes can be empty, using the group construct
+   is also a simple way to communicate to recipients that the message
+   was sent to one or more named sets of recipients, without actually
+   providing the individual mailbox address for each of those
+   recipients.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

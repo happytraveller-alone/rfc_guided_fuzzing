@@ -1,0 +1,34 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.6.8. Syntax_Field definitions_Optional fields ---
+Fields may appear in messages that are otherwise unspecified in this
+   standard.  They MUST conform to the syntax of an optional-field.
+   This is a field name, made up of the printable US-ASCII characters
+   except SP and colon, followed by a colon, followed by any text which
+   conforms to unstructured.
+
+   The field names of any optional-field MUST NOT be identical to any
+   field name specified elsewhere in this standard.
+
+optional-field  =       field-name ":" unstructured CRLF
+
+field-name      =       1*ftext
+
+ftext           =       %d33-57 /               ; Any character except
+                        %d59-126                ;  controls, SP, and
+                                                ;  ":".
+
+   For the purposes of this standard, any optional field is
+   uninterpreted.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

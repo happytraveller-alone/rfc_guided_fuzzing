@@ -1,0 +1,43 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 19.6. Appendices_Compatibility with Previous Versions ---
+It is beyond the scope of a protocol specification to mandate
+   compliance with previous versions. HTTP/1.1 was deliberately
+   designed, however, to make supporting previous versions easy. It is
+   worth noting that, at the time of composing this specification
+   (1996), we would expect commercial HTTP/1.1 servers to:
+
+      - recognize the format of the Request-Line for HTTP/0.9, 1.0, and
+        1.1 requests;
+
+      - understand any valid request in the format of HTTP/0.9, 1.0, or
+        1.1;
+
+      - respond appropriately with a message in the same major version
+        used by the client.
+
+   And we would expect HTTP/1.1 clients to:
+
+      - recognize the format of the Status-Line for HTTP/1.0 and 1.1
+        responses;
+
+      - understand any valid response in the format of HTTP/0.9, 1.0, or
+        1.1.
+
+   For most implementations of HTTP/1.0, each connection is established
+   by the client prior to the request and closed by the server after
+   sending the response. Some implementations implement the Keep-Alive
+   version of persistent connections described in section 19.7.1 of RFC
+   2068 [33].
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

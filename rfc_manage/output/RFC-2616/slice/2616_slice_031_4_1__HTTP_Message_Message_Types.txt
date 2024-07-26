@@ -1,0 +1,42 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1. HTTP Message_Message Types ---
+HTTP messages consist of requests from client to server and responses
+   from server to client.
+
+       HTTP-message   = Request | Response     ; HTTP/1.1 messages
+
+   Request (section 5) and Response (section 6) messages use the generic
+   message format of RFC 822 [9] for transferring entities (the payload
+   of the message). Both types of message consist of a start-line, zero
+   or more header fields (also known as "headers"), an empty line (i.e.,
+   a line with nothing preceding the CRLF) indicating the end of the
+   header fields, and possibly a message-body.
+
+        generic-message = start-line
+                          *(message-header CRLF)
+                          CRLF
+                          [ message-body ]
+        start-line      = Request-Line | Status-Line
+
+   In the interest of robustness, servers SHOULD ignore any empty
+   line(s) received where a Request-Line is expected. In other words, if
+   the server is reading the protocol stream at the beginning of a
+   message and receives a CRLF first, it should ignore the CRLF.
+
+   Certain buggy HTTP/1.0 client implementations generate extra CRLF's
+   after a POST request. To restate what is explicitly forbidden by the
+   BNF, an HTTP/1.1 client MUST NOT preface or follow a request with an
+   extra CRLF.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

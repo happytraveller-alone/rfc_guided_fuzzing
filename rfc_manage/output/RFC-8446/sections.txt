@@ -1,67 +1,83 @@
-4.	HandshakeProtocol
-4.1.	HandshakeProtocol_KeyExchangeMessages_
-4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
-4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
-4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
-4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
-4.2.	HandshakeProtocol_Extensions_
-4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
-4.2.2.	HandshakeProtocol_Extensions_Cookie_
-4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
-4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
-4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
-4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
-4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
-4.2.8.	HandshakeProtocol_Extensions_KeyShare_
-4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
-4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
-4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
-4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
-4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
-4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
-4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
-4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
-4.3.	HandshakeProtocol_ServerParameters_
-4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
-4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
-4.4.	HandshakeProtocol_AuthenticationMessages_
-4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
-4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
-4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
-4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
-4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
-4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
-4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
-4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
-4.5.	HandshakeProtocol_EndofEarlyData_
-4.6.	HandshakeProtocol_PostHandshakeMessages_
-4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
-4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
-4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
-5.	RecordProtocol
-5.1.	RecordProtocol_RecordLayer_
-5.2.	RecordProtocol_RecordPayloadProtection_
-5.3.	RecordProtocol_PerRecordNonce_
-5.4.	RecordProtocol_RecordPadding_
-5.5.	RecordProtocol_LimitsonKeyUsage_
-6.	AlertProtocol
-6.1.	AlertProtocol_ClosureAlerts_
-6.2.	AlertProtocol_ErrorAlerts_
-7.	CryptographicComputations
-7.1.	CryptographicComputations_KeySchedule_
-7.2.	CryptographicComputations_UpdatingTrafficSecrets_
-7.3.	CryptographicComputations_TrafficKeyCalculation_
-7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
-7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
-7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
-7.5.	CryptographicComputations_Exporters_
-8.	0RTTandAntiReplay
-8.1.	0RTTandAntiReplay_SingleUseTickets_
-8.2.	0RTTandAntiReplay_ClientHelloRecording_
-8.3.	0RTTandAntiReplay_FreshnessChecks_
-9.	ComplianceRequirements
-9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
-9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
-9.3.	ComplianceRequirements_ProtocolInvariants_
-10.	SecurityConsiderations
-11.	IANAConsiderations
+1.1	Conventions and Terminology
+1.2	Major Differences from TLS 1.2
+1.3	Updates Affecting TLS 1.2
+2.1	Incorrect DHE Share
+2.2	Resumption and Pre-Shared Key (PSK)
+2.3	0-RTT Data
+3.1	Basic Block Size
+3.2	Miscellaneous
+3.3	Numbers
+3.4	Vectors
+3.5	Enumerateds
+3.6	Constructed Types
+3.7	Constants
+3.8	Variants
+4	Handshake Protocol
+4.1	Handshake Protocol_Key Exchange Messages
+4.1.1	Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation
+4.1.2	Handshake Protocol_Key Exchange Messages_Client Hello
+4.1.3	Handshake Protocol_Key Exchange Messages_Server Hello
+4.1.4	Handshake Protocol_Key Exchange Messages_Hello Retry Request
+4.2	Handshake Protocol_Extensions
+4.2.1	Handshake Protocol_Extensions_Supported Versions
+4.2.2	Handshake Protocol_Extensions_Cookie
+4.2.3	Handshake Protocol_Extensions_Signature Algorithms
+4.2.4	Handshake Protocol_Extensions_Certificate Authorities
+4.2.5	Handshake Protocol_Extensions_OID Filters
+4.2.6	Handshake Protocol_Extensions_Post-Handshake Client Authentication
+4.2.7	Handshake Protocol_Extensions_Supported Groups
+4.2.8	Handshake Protocol_Extensions_Key Share
+4.2.8.1	Handshake Protocol_Extensions_Key Share_Diffie-Hellman Parameters
+4.2.8.2	Handshake Protocol_Extensions_Key Share_ECDHE Parameters
+4.2.9	Handshake Protocol_Extensions_Pre-Shared Key Exchange Modes
+4.2.10	Handshake Protocol_Extensions_Early Data Indication
+4.2.11	Handshake Protocol_Extensions_Pre-Shared Key Extension
+4.2.11.1	Handshake Protocol_Extensions_Pre-Shared Key Extension_Ticket Age
+4.2.11.2	Handshake Protocol_Extensions_Pre-Shared Key Extension_PSK Binder
+4.2.11.3	Handshake Protocol_Extensions_Pre-Shared Key Extension_Processing Order
+4.3	Handshake Protocol_Server Parameters
+4.3.1	Handshake Protocol_Server Parameters_Encrypted Extensions
+4.3.2	Handshake Protocol_Server Parameters_Certificate Request
+4.4	Handshake Protocol_Authentication Messages
+4.4.1	Handshake Protocol_Authentication Messages_The Transcript Hash
+4.4.2	Handshake Protocol_Authentication Messages_Certificate
+4.4.2.1	Handshake Protocol_Authentication Messages_Certificate_OCSP Status and SCT Extensions
+4.4.2.2	Handshake Protocol_Authentication Messages_Certificate_Server Certificate Selection
+4.4.2.3	Handshake Protocol_Authentication Messages_Certificate_Client Certificate Selection
+4.4.2.4	Handshake Protocol_Authentication Messages_Certificate_Receiving a Certificate Message
+4.4.3	Handshake Protocol_Authentication Messages_Certificate Verify
+4.4.4	Handshake Protocol_Authentication Messages_Finished
+4.5	Handshake Protocol_End of Early Data
+4.6	Handshake Protocol_Post-Handshake Messages
+4.6.1	Handshake Protocol_Post-Handshake Messages_New Session Ticket Message
+4.6.2	Handshake Protocol_Post-Handshake Messages_Post-Handshake Authentication
+4.6.3	Handshake Protocol_Post-Handshake Messages_Key and Initialization Vector Update
+5	Record Protocol
+5.1	Record Protocol_Record Layer
+5.2	Record Protocol_Record Payload Protection
+5.3	Record Protocol_Per-Record Nonce
+5.4	Record Protocol_Record Padding
+5.5	Record Protocol_Limits on Key Usage
+6	Alert Protocol
+6.1	Alert Protocol_Closure Alerts
+6.2	Alert Protocol_Error Alerts
+7	Cryptographic Computations
+7.1	Cryptographic Computations_Key Schedule
+7.2	Cryptographic Computations_Updating Traffic Secrets
+7.3	Cryptographic Computations_Traffic Key Calculation
+7.4	Cryptographic Computations_(EC)DHE Shared Secret Calculation
+7.4.1	Cryptographic Computations_(EC)DHE Shared Secret Calculation_Finite Field Diffie-Hellman
+7.4.2	Cryptographic Computations_(EC)DHE Shared Secret Calculation_Elliptic Curve Diffie-Hellman
+7.5	Cryptographic Computations_Exporters
+8	0-RTT and Anti-Replay
+8.1	0-RTT and Anti-Replay_Single-Use Tickets
+8.2	0-RTT and Anti-Replay_Client Hello Recording
+8.3	0-RTT and Anti-Replay_Freshness Checks
+9	Compliance Requirements
+9.1	Compliance Requirements_Mandatory-to-Implement Cipher Suites
+9.2	Compliance Requirements_Mandatory-to-Implement Extensions
+9.3	Compliance Requirements_Protocol Invariants
+10	Security Considerations
+11	IANA Considerations
+12.1	Normative References
+12.2	Informative References

@@ -1,0 +1,23 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.1. TCP Jumbograms_TCP MSS ---
+When determining what MSS value to send, if the MTU of the directly
+   attached interface minus 60 [IPv6, Section 8.3] is greater than or
+   equal to 65,535, then set the MSS value to 65,535.
+
+   When an MSS value of 65,535 is received, it is to be treated as
+   infinity.  The actual MSS is determined by subtracting 60 from the
+   value learned by performing Path MTU Discovery [MTU-DISC] over the
+   path to the TCP peer.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

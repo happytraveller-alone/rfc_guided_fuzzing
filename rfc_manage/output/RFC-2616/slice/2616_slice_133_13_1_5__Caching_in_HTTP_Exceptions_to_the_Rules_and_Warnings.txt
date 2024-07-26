@@ -1,0 +1,28 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 13.1.5. Caching in HTTP_Exceptions to the Rules and Warnings ---
+In some cases, the operator of a cache MAY choose to configure it to
+   return stale responses even when not requested by clients. This
+   decision ought not be made lightly, but may be necessary for reasons
+   of availability or performance, especially when the cache is poorly
+   connected to the origin server. Whenever a cache returns a stale
+   response, it MUST mark it as such (using a Warning header) enabling
+   the client software to alert the user that there might be a potential
+   problem.
+
+   It also allows the user agent to take steps to obtain a first-hand or
+   fresh response. For this reason, a cache SHOULD NOT return a stale
+   response if the client explicitly requests a first-hand or fresh one,
+   unless it is impossible to comply for technical or policy reasons.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

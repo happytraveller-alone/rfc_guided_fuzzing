@@ -1,0 +1,41 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.4. Obsolete Syntax_Obsolete Addressing ---
+There are three primary differences in addressing.  First, mailbox
+   addresses were allowed to have a route portion before the addr-spec
+   when enclosed in "<" and ">".  The route is simply a comma-separated
+   list of domain names, each preceded by "@", and the list terminated
+   by a colon.  Second, CFWS were allowed between the period-separated
+   elements of local-part and domain (i.e., dot-atom was not used).  In
+   addition, local-part is allowed to contain quoted-string in addition
+   to just atom.  Finally, mailbox-list and address-list were allowed to
+   have "null" members.  That is, there could be two or more commas in
+   such a list with nothing in between them.
+
+obs-angle-addr  =       [CFWS] "<" [obs-route] addr-spec ">" [CFWS]
+
+obs-route       =       [CFWS] obs-domain-list ":" [CFWS]
+
+obs-domain-list =       "@" domain *(*(CFWS / "," ) [CFWS] "@" domain)
+
+obs-local-part  =       word *("." word)
+
+obs-domain      =       atom *("." atom)
+
+obs-mbox-list   =       1*([mailbox] [CFWS] "," [CFWS]) [mailbox]
+
+obs-addr-list   =       1*([address] [CFWS] "," [CFWS]) [address]
+
+   When interpreting addresses, the route portion SHOULD be ignored.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

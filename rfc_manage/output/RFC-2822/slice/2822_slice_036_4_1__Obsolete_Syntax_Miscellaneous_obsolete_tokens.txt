@@ -1,0 +1,50 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1. Obsolete Syntax_Miscellaneous obsolete tokens ---
+These syntactic elements are used elsewhere in the obsolete syntax or
+   in the main syntax.  The obs-char and obs-qp elements each add ASCII
+   value 0. Bare CR and bare LF are added to obs-text and obs-utext.
+   The period character is added to obs-phrase. The obs-phrase-list
+   provides for "empty" elements in a comma-separated list of phrases.
+
+   Note: The "period" (or "full stop") character (".") in obs-phrase is
+   not a form that was allowed in earlier versions of this or any other
+   standard.  Period (nor any other character from specials) was not
+   allowed in phrase because it introduced a parsing difficulty
+   distinguishing between phrases and portions of an addr-spec (see
+   section 4.4).  It appears here because the period character is
+   currently used in many messages in the display-name portion of
+   addresses, especially for initials in names, and therefore must be
+   interpreted properly.  In the future, period may appear in the
+   regular syntax of phrase.
+
+obs-qp          =       "\" (%d0-127)
+
+obs-text        =       *LF *CR *(obs-char *LF *CR)
+
+obs-char        =       %d0-9 / %d11 /          ; %d0-127 except CR and
+                        %d12 / %d14-127         ;  LF
+
+obs-utext       =       obs-text
+
+obs-phrase      =       word *(word / "." / CFWS)
+
+obs-phrase-list =       phrase / 1*([phrase] [CFWS] "," [CFWS]) [phrase]
+
+   Bare CR and bare LF appear in messages with two different meanings.
+   In many cases, bare CR or bare LF are used improperly instead of CRLF
+   to indicate line separators.  In other cases, bare CR and bare LF are
+   used simply as ASCII control characters with their traditional ASCII
+   meanings.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

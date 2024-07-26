@@ -1,0 +1,30 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.2.5. Status Code Definitions_Successful 2xx_204 No Content ---
+The server has fulfilled the request but does not need to return an
+   entity-body, and might want to return updated metainformation. The
+   response MAY include new or updated metainformation in the form of
+   entity-headers, which if present SHOULD be associated with the
+   requested variant.
+
+   If the client is a user agent, it SHOULD NOT change its document view
+   from that which caused the request to be sent. This response is
+   primarily intended to allow input for actions to take place without
+   causing a change to the user agent's active document view, although
+   any new or updated metainformation SHOULD be applied to the document
+   currently in the user agent's active view.
+
+   The 204 response MUST NOT include a message-body, and thus is always
+   terminated by the first empty line after the header fields.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

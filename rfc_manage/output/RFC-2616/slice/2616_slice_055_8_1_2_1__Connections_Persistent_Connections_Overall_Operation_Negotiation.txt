@@ -1,0 +1,41 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 8.1.2.1. Connections_Persistent Connections_Overall Operation_Negotiation ---
+An HTTP/1.1 server MAY assume that a HTTP/1.1 client intends to
+   maintain a persistent connection unless a Connection header including
+   the connection-token "close" was sent in the request. If the server
+   chooses to close the connection immediately after sending the
+   response, it SHOULD send a Connection header including the
+   connection-token close.
+
+   An HTTP/1.1 client MAY expect a connection to remain open, but would
+   decide to keep it open based on whether the response from a server
+   contains a Connection header with the connection-token close. In case
+   the client does not want to maintain a connection for more than that
+   request, it SHOULD send a Connection header including the
+   connection-token close.
+
+   If either the client or the server sends the close token in the
+   Connection header, that request becomes the last one for the
+   connection.
+
+   Clients and servers SHOULD NOT assume that a persistent connection is
+   maintained for HTTP versions less than 1.1 unless it is explicitly
+   signaled. See section 19.6.2 for more information on backward
+   compatibility with HTTP/1.0 clients.
+
+   In order to remain persistent, all messages on the connection MUST
+   have a self-defined message length (i.e., one not defined by closure
+   of the connection), as described in section 4.4.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

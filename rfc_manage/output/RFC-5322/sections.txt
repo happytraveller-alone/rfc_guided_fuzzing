@@ -1,0 +1,51 @@
+1.1	Scope
+1.2	Notational Conventions
+1.2.1	Notational Conventions_Requirements Notation
+1.2.2	Notational Conventions_Syntactic Notation
+1.2.3	Notational Conventions_Structure of This Document
+2	Lexical Analysis of Messages
+2.1	Lexical Analysis of Messages_General Description
+2.1.1	Lexical Analysis of Messages_General Description_Line Length Limits
+2.2	Lexical Analysis of Messages_Header Fields
+2.2.1	Lexical Analysis of Messages_Header Fields_Unstructured Header Field Bodies
+2.2.2	Lexical Analysis of Messages_Header Fields_Structured Header Field Bodies
+2.2.3	Lexical Analysis of Messages_Header Fields_Long Header Fields
+2.3	Lexical Analysis of Messages_Body
+3	Syntax
+3.2	Syntax_Lexical Tokens
+3.2.1	Syntax_Lexical Tokens_Quoted characters
+3.2.2	Syntax_Lexical Tokens_Folding White Space and Comments
+3.2.3	Syntax_Lexical Tokens_Atom
+3.2.4	Syntax_Lexical Tokens_Quoted Strings
+3.2.5	Syntax_Lexical Tokens_Miscellaneous Tokens
+3.3	Syntax_Date and Time Specification
+3.4	Syntax_Address Specification
+3.4.1	Syntax_Address Specification_Addr-Spec Specification
+3.5	Syntax_Overall Message Syntax
+3.6	Syntax_Field Definitions
+3.6.1	Syntax_Field Definitions_The Origination Date Field
+3.6.2	Syntax_Field Definitions_Originator Fields
+3.6.3	Syntax_Field Definitions_Destination Address Fields
+3.6.4	Syntax_Field Definitions_Identification Fields
+3.6.5	Syntax_Field Definitions_Informational Fields
+3.6.6	Syntax_Field Definitions_Resent Fields
+3.6.7	Syntax_Field Definitions_Trace Fields
+3.6.8	Syntax_Field Definitions_Optional Fields
+4	Obsolete Syntax
+4.1	Obsolete Syntax_Miscellaneous Obsolete Tokens
+4.2	Obsolete Syntax_Obsolete Folding White Space
+4.3	Obsolete Syntax_Obsolete Date and Time
+4.4	Obsolete Syntax_Obsolete Addressing
+4.5	Obsolete Syntax_Obsolete Header Fields
+4.5.1	Obsolete Syntax_Obsolete Header Fields_Obsolete Origination Date Field
+4.5.2	Obsolete Syntax_Obsolete Header Fields_Obsolete Originator Fields
+4.5.3	Obsolete Syntax_Obsolete Header Fields_Obsolete Destination Address Fields
+4.5.4	Obsolete Syntax_Obsolete Header Fields_Obsolete Identification Fields
+4.5.5	Obsolete Syntax_Obsolete Header Fields_Obsolete Informational Fields
+4.5.6	Obsolete Syntax_Obsolete Header Fields_Obsolete Resent Fields
+4.5.7	Obsolete Syntax_Obsolete Header Fields_Obsolete Trace Fields
+4.5.8	Obsolete Syntax_Obsolete Header Fields_Obsolete optional fields
+5	Security Considerations
+6	IANA Considerations
+7.1	Normative References
+7.2	Informative References

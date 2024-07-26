@@ -1,0 +1,37 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 10.4.7. Status Code Definitions_Client Error 4xx_406 Not Acceptable ---
+The resource identified by the request is only capable of generating
+   response entities which have content characteristics not acceptable
+   according to the accept headers sent in the request.
+
+   Unless it was a HEAD request, the response SHOULD include an entity
+   containing a list of available entity characteristics and location(s)
+   from which the user or user agent can choose the one most
+   appropriate. The entity format is specified by the media type given
+   in the Content-Type header field. Depending upon the format and the
+   capabilities of the user agent, selection of the most appropriate
+   choice MAY be performed automatically. However, this specification
+   does not define any standard for such automatic selection.
+
+      Note: HTTP/1.1 servers are allowed to return responses which are
+      not acceptable according to the accept headers sent in the
+      request. In some cases, this may even be preferable to sending a
+      406 response. User agents are encouraged to inspect the headers of
+      an incoming response to determine if it is acceptable.
+
+   If the response could be unacceptable, a user agent SHOULD
+   temporarily stop receipt of more data and query the user for a
+   decision on further actions.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

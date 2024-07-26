@@ -1,0 +1,34 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 8.1. 0-RTT and Anti-Replay_Single-Use Tickets ---
+The simplest form of anti-replay defense is for the server to only
+   allow each session ticket to be used once.  For instance, the server
+   can maintain a database of all outstanding valid tickets, deleting
+   each ticket from the database as it is used.  If an unknown ticket is
+   provided, the server would then fall back to a full handshake.
+
+   If the tickets are not self-contained but rather are database keys,
+   and the corresponding PSKs are deleted upon use, then connections
+   established using PSKs enjoy forward secrecy.  This improves security
+   for all 0-RTT data and PSK usage when PSK is used without (EC)DHE.
+
+   Because this mechanism requires sharing the session database between
+   server nodes in environments with multiple distributed servers, it
+   may be hard to achieve high rates of successful PSK 0-RTT connections
+   when compared to self-encrypted tickets.  Unlike session databases,
+   session tickets can successfully do PSK-based session establishment
+   even without consistent storage, though when 0-RTT is allowed they
+   still require consistent storage for anti-replay of 0-RTT data, as
+   detailed in the following section.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

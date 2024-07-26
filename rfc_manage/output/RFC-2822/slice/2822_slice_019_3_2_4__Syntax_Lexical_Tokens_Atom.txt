@@ -1,0 +1,46 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.2.4. Syntax_Lexical Tokens_Atom ---
+Several productions in structured header field bodies are simply
+   strings of certain basic characters.  Such productions are called
+   atoms.
+
+   Some of the structured header field bodies also allow the period
+   character (".", ASCII value 46) within runs of atext.  An additional
+   "dot-atom" token is defined for those purposes.
+
+atext           =       ALPHA / DIGIT / ; Any character except controls,
+                        "!" / "#" /     ;  SP, and specials.
+                        "$" / "%" /     ;  Used for atoms
+                        "&" / "'" /
+                        "*" / "+" /
+                        "-" / "/" /
+                        "=" / "?" /
+                        "^" / "_" /
+                        "`" / "{" /
+                        "|" / "}" /
+                        "~"
+
+atom            =       [CFWS] 1*atext [CFWS]
+
+dot-atom        =       [CFWS] dot-atom-text [CFWS]
+
+dot-atom-text   =       1*atext *("." 1*atext)
+
+   Both atom and dot-atom are interpreted as a single unit, comprised of
+   the string of characters that make it up.  Semantically, the optional
+   comments and FWS surrounding the rest of the characters are not part
+   of the atom; the atom is only the run of atext characters in an atom,
+   or the atext and "." characters in a dot-atom.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]
