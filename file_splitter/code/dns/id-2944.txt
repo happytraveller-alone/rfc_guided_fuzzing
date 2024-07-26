@@ -1,0 +1,23 @@
+//----- (0000000140155D0C) ----------------------------------------------------
+bool __fastcall DnsAddr_IsClear(_DWORD *a1)
+{
+  int v1; // edx
+  bool result; // al
+
+  v1 = *(unsigned __int16 *)a1;
+  result = 0;
+  if ( v1 == 23 )
+  {
+    if ( !a1[5] && !a1[4] && !a1[3] )
+      return a1[2] == 0;
+  }
+  else if ( v1 == 2 )
+  {
+    return a1[1] == 0;
+  }
+  else
+  {
+    return v1 == 0;
+  }
+  return result;
+}

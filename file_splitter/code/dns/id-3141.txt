@@ -1,0 +1,66 @@
+//----- (00000001401668D8) ----------------------------------------------------
+__int64 __fastcall getServiceConfig(
+        SC_HANDLE a1,
+        const CHAR *a2,
+        SC_HANDLE *a3,
+        struct _QUERY_SERVICE_CONFIGA **a4,
+        DWORD *a5)
+{
+  DWORD LastError; // ebx
+  DWORD v6; // ebp
+  DWORD dwCurrentState; // r12d
+  SC_HANDLE v10; // rax
+  SC_HANDLE v11; // rdi
+  struct _QUERY_SERVICE_CONFIGA *v12; // rax
+  DWORD pcbBytesNeeded; // [rsp+20h] [rbp-68h] BYREF
+  struct _SERVICE_STATUS ServiceStatus; // [rsp+28h] [rbp-60h] BYREF
+
+  LastError = 0;
+  pcbBytesNeeded = 0;
+  v6 = 0;
+  dwCurrentState = 0;
+  if ( a4 )
+    *a4 = 0i64;
+  v10 = OpenServiceA(a1, a2, 0xC0000000);
+  v11 = v10;
+  if ( !v10 || !QueryServiceStatus(v10, &ServiceStatus) )
+    goto LABEL_15;
+  dwCurrentState = ServiceStatus.dwCurrentState;
+  if ( !a4 )
+    goto LABEL_16;
+  if ( !QueryServiceConfigA(v11, 0i64, 0, &pcbBytesNeeded) )
+  {
+    LastError = GetLastError();
+    if ( LastError != 122 )
+      goto LABEL_16;
+    v6 = pcbBytesNeeded;
+    LastError = 0;
+  }
+  if ( pDnsAllocFunction )
+    v12 = (struct _QUERY_SERVICE_CONFIGA *)pDnsAllocFunction(v6);
+  else
+    v12 = (struct _QUERY_SERVICE_CONFIGA *)LocalAlloc(0x40u, v6);
+  *a4 = v12;
+  if ( !v12 )
+  {
+    LastError = 14;
+    goto LABEL_16;
+  }
+  if ( !QueryServiceConfigA(v11, v12, v6, &pcbBytesNeeded) )
+LABEL_15:
+    LastError = GetLastError();
+LABEL_16:
+  if ( a3 )
+  {
+    *a3 = v11;
+  }
+  else if ( v11 )
+  {
+    CloseServiceHandle(v11);
+  }
+  if ( a5 )
+    *a5 = dwCurrentState;
+  return LastError;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9ED0: using guessed type __int64 (__fastcall *pDnsAllocFunction)(_QWORD);

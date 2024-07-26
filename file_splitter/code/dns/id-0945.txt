@@ -1,0 +1,13 @@
+//----- (000000014007FC50) ----------------------------------------------------
+__int64 __fastcall Dnssrv_R_DnssrvQuery2(
+        void *a1,
+        unsigned int a2,
+        __int64 a3,
+        __int64 a4,
+        char *a5,
+        char *a6,
+        _DWORD *a7,
+        _QWORD *a8)
+{
+  return Dnssrv_R_DnssrvQuery3(a1, a2, a3, a4, a5, 0i64, a6, a7, a8);
+}

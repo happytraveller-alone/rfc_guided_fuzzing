@@ -1,0 +1,138 @@
+//----- (00000001400BB83C) ----------------------------------------------------
+void __fastcall Up_ApplyTempUpdatesToDatabase(__int64 a1, __int64 a2)
+{
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  __int64 i; // rbx
+  __int64 v6; // rbp
+  __int64 v7; // r14
+  bool v8; // zf
+  __int64 v9; // rcx
+  __int64 **v10; // rbx
+  __int64 **v11; // rbp
+  __int64 *v12; // rsi
+  unsigned __int16 v13; // dx
+
+  v4 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xADu,
+      (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+      a2,
+      *(_QWORD *)(a1 + 16));
+    v4 = WPP_GLOBAL_Control;
+  }
+  if ( (*(_BYTE *)(a1 + 388) & 1) == 0 )
+  {
+    checkTempNodesForUpdateEffect(a1, a2);
+    v4 = WPP_GLOBAL_Control;
+  }
+  if ( (*((_DWORD *)v4 + 17) & 0x80000) != 0 )
+  {
+    Dbg_UpdateList("Update list after signing, before swap back suppression", a2);
+    v4 = WPP_GLOBAL_Control;
+  }
+  if ( (*(_DWORD *)(a2 + 40) & 0x4000000) != 0 )
+  {
+    Dnssec_ProcessTrustAnchorsChanges((__int64 ***)a2);
+    v4 = WPP_GLOBAL_Control;
+  }
+  for ( i = *(_QWORD *)(a2 + 16); ; i = *(_QWORD *)(i + 24) )
+  {
+    if ( !i )
+    {
+      if ( (*((_DWORD *)v4 + 17) & 0x80000) != 0 )
+      {
+        Dbg_UpdateList("Update list -- before no-op suppression", a2);
+        v4 = WPP_GLOBAL_Control;
+      }
+      v10 = *(__int64 ***)a2;
+      v11 = (__int64 **)a2;
+      if ( *(_QWORD *)a2 )
+      {
+        while ( g_fDnsServiceExit != 1 )
+        {
+          v12 = v10[1];
+          if ( v12 && (*((_DWORD *)v12 + 21) & 0x88880000) == -2004353024 )
+          {
+            v10[1] = (__int64 *)v12[1];
+            if ( *((_DWORD *)v12 + 18) != 255 && *((_DWORD *)v12 + 18) != 18 )
+            {
+              if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0 )
+              {
+                v10[1] = v12;
+                Dbg_Update("Suppressing update at no-op node:", (__int64)v10);
+                v10[1] = (__int64 *)v12[1];
+              }
+              Up_DetachAndFreeUpdateGivenPrevious(a2, v11, (int *)v10);
+              v10 = v11;
+            }
+            v4 = WPP_GLOBAL_Control;
+          }
+          v11 = v10;
+          v10 = (__int64 **)*v10;
+          if ( !v10 )
+            goto LABEL_37;
+        }
+        if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v4 + 17) & 0x80000) != 0
+          && *((_BYTE *)v4 + 65) >= 4u )
+        {
+          v13 = 176;
+          goto LABEL_44;
+        }
+      }
+      else
+      {
+LABEL_37:
+        if ( (*((_DWORD *)v4 + 17) & 0x80000) != 0 )
+          Dbg_UpdateList("Update list after no-op suppression -- read for completion", a2);
+      }
+      return;
+    }
+    if ( g_fDnsServiceExit == 1 )
+      break;
+    if ( *(_DWORD *)(i + 72) )
+    {
+      v6 = *(_QWORD *)(i + 8);
+      Dbase_LockEx(v6, 2, (__int64)"ds\\dns\\server\\server\\update.c", 12);
+      v7 = *(_QWORD *)(v6 + 64);
+      *(_QWORD *)(v6 + 64) = *(_QWORD *)(i + 64);
+      *(_DWORD *)(v6 + 92) ^= (*(_DWORD *)(v6 + 92) ^ *(_DWORD *)(i + 92)) & 0x260133;
+      v8 = (*(_DWORD *)(v6 + 92) & 0x100) == 0;
+      *(_BYTE *)(v6 + 96) = *(_BYTE *)(i + 96);
+      if ( !v8 )
+        *(_DWORD *)(a1 + 396) |= 0x400u;
+      NTree_ChangeAncestorCounters((volatile signed __int32 **)v6, v7 != 0);
+      Dbase_UnlockEx(v9, 2, (__int64)"ds\\dns\\server\\server\\update.c", 29);
+      *(_QWORD *)(i + 64) = v7;
+      goto LABEL_21;
+    }
+    if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v4 + 17) & 0x80000) != 0
+      && *((_BYTE *)v4 + 65) >= 5u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)v4 + 7),
+        0xAFu,
+        (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+        (const char *)(i + 102));
+LABEL_21:
+      v4 = WPP_GLOBAL_Control;
+      continue;
+    }
+  }
+  if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v4 + 17) & 0x80000) != 0
+    && *((_BYTE *)v4 + 65) >= 4u )
+  {
+    v13 = 174;
+LABEL_44:
+    WPP_SF_(*((_QWORD *)v4 + 7), v13, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+  }
+}
+// 1400BB9BF: variable 'v9' is possibly undefined
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

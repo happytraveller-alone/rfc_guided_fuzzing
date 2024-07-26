@@ -1,0 +1,17 @@
+//----- (0000000140119D7C) ----------------------------------------------------
+__int64 __fastcall Name_AppendDottedNameToCountName(unsigned __int8 *a1, _BYTE *a2)
+{
+  const char *v4; // rax
+  unsigned __int8 v6[272]; // [rsp+20h] [rbp-128h] BYREF
+
+  if ( (unsigned int)Name_ConvertFileNameToCountNameEx(v6, a2, 0i64, 1) != 123 )
+    return Name_AppendCountName(a1, v6);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    v4 = (const char *)FormatLabelA(0i64, a2);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x11u, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids, v4);
+  }
+  return 123i64;
+}

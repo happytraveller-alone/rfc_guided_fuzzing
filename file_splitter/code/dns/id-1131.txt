@@ -1,0 +1,10 @@
+//----- (0000000140090E90) ----------------------------------------------------
+char *__fastcall NbstatWireWrite(__int64 a1, u_long *a2, unsigned __int64 a3, __int64 a4)
+{
+  if ( !(unsigned int)Wire_TestForBytesRemaining((unsigned __int64)a2, a3, 12i64) )
+    return 0i64;
+  *a2 = htonl(*(_DWORD *)(a4 + 56));
+  a2[1] = htonl(*(_DWORD *)(a4 + 60));
+  a2[2] = htonl(*(_DWORD *)(a4 + 64));
+  return Name_WriteCountNameToPacketEx(a1, (unsigned __int64)(a2 + 3), (unsigned __int8 *)(a4 + 68), 0);
+}

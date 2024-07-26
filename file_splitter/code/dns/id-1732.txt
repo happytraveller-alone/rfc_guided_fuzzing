@@ -1,0 +1,5 @@
+//----- (00000001400DD6C0) ----------------------------------------------------
+int __fastcall std::ctype<char>::do_tolower(__int64 a1, unsigned __int8 a2)
+{
+  return Tolower(a2, (const _Ctypevec *)(a1 + 16));
+}

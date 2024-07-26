@@ -1,0 +1,157 @@
+//----- (00000001400A0D50) ----------------------------------------------------
+void __fastcall Sock_EnlistSocket(HANDLE FileHandle, int a2, __int64 a3, int a4, int a5, _QWORD *a6)
+{
+  unsigned __int64 v10; // rdi
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  const char *v12; // rax
+  _QWORD *v13; // rbx
+  void *v14; // rax
+  _DWORD *v15; // rax
+  __int128 v16; // xmm1
+  _QWORD *v17; // rax
+  __int64 i; // rcx
+  int v19; // eax
+  __int16 v20; // r8
+  __int64 v21; // rax
+  const char *v22; // rax
+  _QWORD *v23; // rcx
+
+  if ( a6 )
+    *a6 = 0i64;
+  v10 = (unsigned __int64)(unsigned int)g_OverlapCount << 6;
+  if ( v10 > 0xFFFFFFFF )
+    return;
+  if ( !a5 )
+  {
+    v11 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_10;
+    }
+    v12 = DnsAddr_Ntoa((struct in_addr *)a3);
+    WPP_SF_Dds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Cu,
+      (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+      (int)FileHandle,
+      a2,
+      (__int64)v12);
+  }
+  v11 = WPP_GLOBAL_Control;
+LABEL_10:
+  if ( g_fDnsServiceExit == 1 )
+  {
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v11 + 17) & 0x2000) != 0
+      && *((_BYTE *)v11 + 65) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)v11 + 7), 0x4Du, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, (int)FileHandle);
+    }
+    closesocket((SOCKET)FileHandle);
+    return;
+  }
+  v13 = Mem_AllocZero(0xE8ui64, 17i64, "ds\\dns\\server\\server\\socket.c", 3811);
+  if ( !v13 )
+    return;
+  v14 = Mem_AllocZero((unsigned int)v10, 17i64, "ds\\dns\\server\\server\\socket.c", 3818);
+  v13[28] = v14;
+  if ( v14 )
+  {
+    v15 = FastMutex_Create();
+    v13[15] = v15;
+    if ( v15 )
+    {
+      *((_OWORD *)v13 + 2) = *(_OWORD *)a3;
+      *((_OWORD *)v13 + 3) = *(_OWORD *)(a3 + 16);
+      *((_OWORD *)v13 + 4) = *(_OWORD *)(a3 + 32);
+      v16 = *(_OWORD *)(a3 + 48);
+      v13[2] = FileHandle;
+      *((_DWORD *)v13 + 24) = a2;
+      *((_OWORD *)v13 + 5) = v16;
+      *((_DWORD *)v13 + 26) = a4;
+      *((_DWORD *)v13 + 25) = a5;
+      EnterCriticalSection(&g_SocketListCs);
+      v17 = (_QWORD *)qword_1401C87F8;
+      if ( *(__int64 **)qword_1401C87F8 != &g_SocketList )
+        __fastfail(3u);
+      ++g_SocketListCount;
+      *v13 = &g_SocketList;
+      v13[1] = v17;
+      *v17 = v13;
+      qword_1401C87F8 = (__int64)v13;
+      if ( a4 )
+      {
+        if ( a2 == 2 )
+        {
+          if ( !CreateIoCompletionPort(FileHandle, g_hUdpCompletionPort, (ULONG_PTR)v13, g_ProcessorCount) )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x4Eu,
+                (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+            }
+LABEL_40:
+            LeaveCriticalSection(&g_SocketListCs);
+            if ( !a5
+              && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v22 = DnsAddr_Ntoa((struct in_addr *)a3);
+              WPP_SF_ddsq(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x4Fu,
+                (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+                (int)FileHandle,
+                a2,
+                (__int64)v22);
+            }
+            return;
+          }
+        }
+        else
+        {
+          for ( i = 0i64; (unsigned int)i < g_fdsListenTcp.fd_count; i = (unsigned int)(i + 1) )
+          {
+            if ( (HANDLE)g_fdsListenTcp.fd_array[i] == FileHandle )
+              break;
+          }
+          if ( (_DWORD)i == g_fdsListenTcp.fd_count && g_fdsListenTcp.fd_count < 0x12C )
+          {
+            g_fdsListenTcp.fd_array[i] = (SOCKET)FileHandle;
+            ++g_fdsListenTcp.fd_count;
+          }
+          LOBYTE(v19) = DnsAddr_IsClear((_DWORD *)v13 + 8);
+          if ( v19 )
+          {
+            v21 = g_TcpZeroBoundSocket;
+            if ( *((_WORD *)v13 + 16) == v20 )
+              v21 = (__int64)FileHandle;
+            g_TcpZeroBoundSocket = v21;
+          }
+        }
+      }
+      if ( a6 )
+        *a6 = v13;
+      goto LABEL_40;
+    }
+  }
+  v23 = (_QWORD *)v13[28];
+  if ( v23 )
+    Mem_Free(v23, (unsigned int)v10, 17i64, (__int64)"ds\\dns\\server\\server\\socket.c", 3916);
+  Mem_Free(v13, 232i64, 17i64, (__int64)"ds\\dns\\server\\server\\socket.c", 3918);
+}
+// 1400A0FDF: variable 'v19' is possibly undefined
+// 1400A0FEC: variable 'v20' is possibly undefined
+// 1401B8084: using guessed type int g_SocketListCount;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1401C87F0: using guessed type __int64 g_SocketList;
+// 1401C87F8: using guessed type __int64 qword_1401C87F8;
+// 1401C8828: using guessed type int g_OverlapCount;
+// 1401C8858: using guessed type __int64 g_TcpZeroBoundSocket;

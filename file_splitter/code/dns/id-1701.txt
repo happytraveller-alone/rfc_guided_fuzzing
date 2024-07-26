@@ -1,0 +1,42 @@
+//----- (00000001400D94A0) ----------------------------------------------------
+__int64 __fastcall Xfr_InitializeSecondaryZoneTimeouts(__int64 a1, __int64 a2)
+{
+  __int64 NextRecord; // rdi
+  __int64 v4; // rcx
+  __int64 result; // rax
+  int v6; // esi
+  u_long v7; // eax
+  u_long v8; // eax
+
+  NextRecord = 0i64;
+  *(_DWORD *)(a1 + 1544) = 0;
+  v4 = *(_QWORD *)(a1 + 40);
+  if ( v4 )
+    NextRecord = RR_FindNextRecordEx(v4, 0, 6u, 0i64, 0, 0);
+  *(_QWORD *)(a1 + 336) = NextRecord;
+  result = GetCurrentTimeInSeconds(v4, a2);
+  v6 = result;
+  if ( NextRecord )
+  {
+    v7 = ntohl(*(_DWORD *)(NextRecord + 56));
+    *(_DWORD *)(a1 + 512) = v7;
+    *(_DWORD *)(a1 + 516) = v7;
+    v8 = ntohl(*(_DWORD *)(NextRecord + 68));
+    *(_DWORD *)(a1 + 1508) = 0;
+    result = v6 + v8;
+    *(_DWORD *)(a1 + 396) &= 0xFFFF9FFF;
+    *(_DWORD *)(a1 + 1160) &= ~1u;
+    *(_DWORD *)(a1 + 1532) = result;
+  }
+  else
+  {
+    *(_DWORD *)(a1 + 396) |= 0x6000u;
+    *(_DWORD *)(a1 + 1160) |= 1u;
+    *(_DWORD *)(a1 + 1532) = 0;
+    *(_DWORD *)(a1 + 1508) = 0;
+  }
+  return result;
+}
+// 1400D94E2: variable 'v4' is possibly undefined
+// 1400D94E2: variable 'a2' is possibly undefined
+// 140183D98: using guessed type __int64 __fastcall GetCurrentTimeInSeconds(_QWORD, _QWORD);

@@ -1,0 +1,173 @@
+//----- (0000000140116428) ----------------------------------------------------
+__int64 __fastcall SD_CreateClientSD(_QWORD *a1, __int64 a2, __int64 a3, __int64 a4, int a5)
+{
+  int v6; // eax
+  int ThreadSids; // ebx
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  unsigned __int16 v9; // dx
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  unsigned __int16 v11; // dx
+  _QWORD *v12; // rax
+  _QWORD *v13; // rdi
+  PSECURITY_DESCRIPTOR pSecurityDescriptor[2]; // [rsp+40h] [rbp-30h] BYREF
+  __int128 v16; // [rsp+50h] [rbp-20h]
+  __int64 v17; // [rsp+60h] [rbp-10h]
+  void *v18; // [rsp+98h] [rbp+28h] BYREF
+  void *v19; // [rsp+A0h] [rbp+30h] BYREF
+  ULONG BufferLength; // [rsp+A8h] [rbp+38h] BYREF
+  int v21; // [rsp+ACh] [rbp+3Ch]
+
+  v21 = HIDWORD(a4);
+  v19 = 0i64;
+  v18 = 0i64;
+  BufferLength = 0;
+  v17 = 0i64;
+  *(_OWORD *)pSecurityDescriptor = 0i64;
+  v16 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xDu, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+  }
+  SetLastError(0);
+  v6 = CSecurityDescriptor::Initialize((CSecurityDescriptor *)pSecurityDescriptor);
+  ThreadSids = 0;
+  if ( v6 < 0 )
+    ThreadSids = v6;
+  if ( ThreadSids < 0 )
+  {
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v9 = 14;
+LABEL_17:
+      WPP_SF_(*((_QWORD *)v8 + 7), v9, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+      goto LABEL_58;
+    }
+    goto LABEL_58;
+  }
+  ThreadSids = CSecurityDescriptor::GetThreadSids(&v19, &v18);
+  if ( ThreadSids >= 0 )
+  {
+    ThreadSids = CSecurityDescriptor::Allow((struct _ACL **)pSecurityDescriptor, v19, 0xF017Fu, 0);
+    if ( ThreadSids >= 0 )
+    {
+      if ( !a5 )
+        goto LABEL_34;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x11u, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+      }
+      ThreadSids = CSecurityDescriptor::Allow((struct _ACL **)pSecurityDescriptor, g_pAuthenticatedUserSid, 0x20028u, 0);
+      if ( ThreadSids < 0 )
+      {
+        v10 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+        {
+          goto LABEL_57;
+        }
+        v11 = 18;
+      }
+      else
+      {
+LABEL_34:
+        ThreadSids = CSecurityDescriptor::SetOwner((CSecurityDescriptor *)pSecurityDescriptor, v19, 0);
+        if ( ThreadSids >= 0 )
+        {
+          ThreadSids = CSecurityDescriptor::SetGroup((CSecurityDescriptor *)pSecurityDescriptor, v18, 0);
+          if ( ThreadSids >= 0 )
+          {
+            BufferLength = GetSecurityDescriptorLength(pSecurityDescriptor[0]);
+            v12 = Mem_Alloc(BufferLength, 12i64, "ds\\dns\\server\\server\\sdutl.cxx", 287);
+            v13 = v12;
+            if ( !v12 )
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                WPP_SF_(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x15u,
+                  (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+              }
+              ThreadSids = 0;
+              goto LABEL_58;
+            }
+            ThreadSids = RtlAbsoluteToSelfRelativeSD(pSecurityDescriptor[0], v12, &BufferLength);
+            if ( ThreadSids )
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                WPP_SF_(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x16u,
+                  (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+              }
+              Mem_Free(v13, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\sdutl.cxx", 308);
+              v13 = 0i64;
+            }
+            *a1 = v13;
+LABEL_57:
+            operator delete(v19);
+            operator delete(v18);
+            goto LABEL_58;
+          }
+          v10 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          {
+            goto LABEL_57;
+          }
+          v11 = 20;
+        }
+        else
+        {
+          v10 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          {
+            goto LABEL_57;
+          }
+          v11 = 19;
+        }
+      }
+    }
+    else
+    {
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_57;
+      }
+      v11 = 16;
+    }
+    WPP_SF_(*((_QWORD *)v10 + 7), v11, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+    goto LABEL_57;
+  }
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = 15;
+    goto LABEL_17;
+  }
+LABEL_58:
+  CSecurityDescriptor::~CSecurityDescriptor((CSecurityDescriptor *)pSecurityDescriptor);
+  return (unsigned int)ThreadSids;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

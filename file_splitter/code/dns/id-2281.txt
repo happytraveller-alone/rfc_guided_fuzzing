@@ -1,0 +1,94 @@
+//----- (000000014011BE38) ----------------------------------------------------
+__int64 __fastcall parseTtlDirective(__int64 a1)
+{
+  int v2; // eax
+  u_long v3; // ecx
+  int v4; // eax
+  CDnsClientSubnetRecordsTrie *v5; // rcx
+  unsigned __int16 v6; // dx
+  __int64 v8; // rdx
+  unsigned __int64 v9; // rcx
+  __int64 v10; // r9
+  int v11; // r10d
+  __int64 v12; // rdx
+  char *v13; // rcx
+  __int64 v14; // r8
+  char v15; // al
+  int v16; // eax
+  char String[24]; // [rsp+20h] [rbp-28h] BYREF
+
+  *(_DWORD *)a1 = 0;
+  v2 = *(_DWORD *)(a1 + 1684);
+  if ( v2 == 1 )
+  {
+    v3 = *(_DWORD *)(a1 + 264);
+    *(_DWORD *)(a1 + 268) = v3;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 25) < 5u )
+    {
+      return 0i64;
+    }
+    v4 = ntohl(v3);
+    v5 = WPP_GLOBAL_Control;
+    v6 = 19;
+LABEL_6:
+    WPP_SF_D(*((_QWORD *)v5 + 2), v6, (__int64)&WPP_e002fba1c5a3348727e1b5bc526e7b6c_Traceguids, v4);
+    return 0i64;
+  }
+  if ( v2 == 2 )
+  {
+    v8 = *(_QWORD *)(a1 + 1704);
+    if ( v8 )
+    {
+      v9 = *(unsigned int *)(a1 + 1712);
+      if ( (unsigned int)(v9 - 1) <= 0x12 )
+      {
+        v10 = (unsigned int)v9;
+        if ( v9 <= 0x7FFFFFFE )
+        {
+          v11 = 0;
+          v12 = v8 - (_QWORD)String;
+          v13 = String;
+          v14 = 20i64;
+          do
+          {
+            if ( !(v14 + v10 - 20) )
+              break;
+            v15 = v13[v12];
+            if ( !v15 )
+              break;
+            *v13++ = v15;
+            --v14;
+          }
+          while ( v14 );
+          if ( !v14 )
+          {
+            --v13;
+            v11 = -2147024774;
+          }
+          *v13 = 0;
+          if ( v11 >= 0 )
+          {
+            v16 = atoi(String);
+            if ( v16 > 0 )
+            {
+              v4 = htonl(v16);
+              *(_DWORD *)(a1 + 268) = v4;
+              v5 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                || (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) == 0
+                || *((_BYTE *)WPP_GLOBAL_Control + 25) < 5u )
+              {
+                return 0i64;
+              }
+              v6 = 20;
+              goto LABEL_6;
+            }
+          }
+        }
+      }
+    }
+  }
+  return 3222394113i64;
+}

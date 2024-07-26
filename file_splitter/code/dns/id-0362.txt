@@ -1,0 +1,20 @@
+//----- (000000014002F520) ----------------------------------------------------
+__int64 *__fastcall Dp_GetNext(__int64 *a1)
+{
+  __int64 *v3; // rax
+  __int64 *v4; // rbx
+
+  if ( !dword_1401B9954 )
+    return 0i64;
+  EnterCriticalSection(&g_DpCS);
+  v3 = &g_DpList;
+  if ( a1 )
+    v3 = a1;
+  v4 = (__int64 *)*v3;
+  if ( (__int64 *)*v3 == &g_DpList )
+    v4 = 0i64;
+  LeaveCriticalSection(&g_DpCS);
+  return v4;
+}
+// 1401B8D20: using guessed type __int64 g_DpList;
+// 1401B9954: using guessed type int dword_1401B9954;

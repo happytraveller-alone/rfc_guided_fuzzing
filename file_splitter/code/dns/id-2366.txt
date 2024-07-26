@@ -1,0 +1,44 @@
+//----- (0000000140122D10) ----------------------------------------------------
+__int64 __fastcall SrvUnknownFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  int v8; // edi
+  int v9; // ebx
+  unsigned __int8 *v10; // rbx
+  _WORD *v11; // rax
+  int v12[4]; // [rsp+30h] [rbp-D0h] BYREF
+  unsigned __int8 v13[272]; // [rsp+40h] [rbp-C0h] BYREF
+  __int16 v14[3]; // [rsp+150h] [rbp+50h] BYREF
+  unsigned __int8 v15[256]; // [rsp+156h] [rbp+56h] BYREF
+  char v16[10]; // [rsp+256h] [rbp+156h] BYREF
+
+  v12[0] = 0;
+  memset_0(v14, 0, 0x106ui64);
+  if ( a2 < 3 )
+    return 3222394115i64;
+  if ( !(unsigned int)File_ParseDwordToken(v12, a3 + 16, 0i64) )
+    return 3222394113i64;
+  v8 = v12[0];
+  if ( v12[0] > 0x106u )
+    return 3222394113i64;
+  v9 = a2 - 2;
+  v12[0] = 262;
+  if ( !v9 )
+    return 3222394113i64;
+  if ( (unsigned int)buildByteBufferFromHexStringTokens(v14, v12, v9, a3 + 32, (unsigned __int64)v16) )
+    return 3222394113i64;
+  if ( v12[0] != v8 )
+    return 3222394113i64;
+  v10 = (unsigned __int8 *)v14 + (unsigned int)v12[0];
+  if ( v15 >= v10 || Name_PacketNameToCountNameForUnknown(v13, (unsigned __int64)v14 + (unsigned int)v12[0], v15) != v10 )
+    return 3222394113i64;
+  v11 = RR_AllocateEx(v13[0] + 8, 0, 0);
+  if ( !v11 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v11;
+  v11[28] = v14[0];
+  v11[29] = v14[1];
+  v11[30] = v14[2];
+  Name_CopyCountName(v11 + 31, v13);
+  return 0i64;
+}
+// 140122D10: using guessed type char var_3A[10];

@@ -1,0 +1,24 @@
+//----- (0000000140001C50) ----------------------------------------------------
+__int64 Aging_UpdateAgingTime()
+{
+  __int64 result; // rax
+  __int64 v1; // rbx
+  struct _FILETIME SystemTimeAsFileTime; // [rsp+30h] [rbp+8h] BYREF
+
+  GetSystemTimeAsFileTime(&SystemTimeAsFileTime);
+  result = *(_QWORD *)&SystemTimeAsFileTime / 36000000000i64;
+  v1 = *(_QWORD *)&SystemTimeAsFileTime / 36000000000i64;
+  if ( *(_QWORD *)&SystemTimeAsFileTime / 36000000000i64 > 0 )
+  {
+    g_CurrentTimeHours = *(_QWORD *)&SystemTimeAsFileTime / 36000000000i64;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids, v1);
+    }
+    return (unsigned int)v1;
+  }
+  return result;
+}
+// 1401B8C1C: using guessed type int g_CurrentTimeHours;

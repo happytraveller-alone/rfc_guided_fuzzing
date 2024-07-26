@@ -1,0 +1,51 @@
+//----- (0000000140131640) ----------------------------------------------------
+__int64 *__fastcall CDnsPolicy_FQDNCriteriaTree::GetCriteriaNodes(
+        CDnsPolicy_FQDNCriteriaTree *this,
+        struct _lookup_name *a2,
+        __int64 a3)
+{
+  __int64 *v6; // rax
+  __int64 *v7; // rbx
+  _QWORD *v8; // rax
+  struct _DnsTreeNode *v9; // rax
+  __int64 v10; // rcx
+  __int64 v11; // rdi
+  _QWORD *v12; // rax
+  __int64 v13; // rdx
+  char pExceptionObject[40]; // [rsp+30h] [rbp-28h] BYREF
+  __int64 v16; // [rsp+78h] [rbp+20h] BYREF
+
+  v16 = 0i64;
+  v6 = (__int64 *)operator new(0x18ui64);
+  v7 = v6;
+  if ( v6 )
+  {
+    v6[1] = 0i64;
+    v8 = operator new(0x18ui64);
+    if ( !v8 )
+    {
+      std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+    }
+    *v7 = (__int64)v8;
+    *v8 = v8;
+    *(_QWORD *)(*v7 + 8) = *v7;
+  }
+  else
+  {
+    v7 = 0i64;
+  }
+  v9 = CDnsPolicy_FQDNCriteriaTree::LookupFQDNCriteriaNode(this, a2, a3);
+  if ( v9 )
+    v16 = *((_QWORD *)v9 + 8);
+  v11 = *v7;
+  v12 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(v10, *v7, *(_QWORD *)(*v7 + 8), &v16);
+  v13 = v7[1];
+  if ( v13 == 0x1FFFFFFFFFFFFFFEi64 )
+    std::_Xlength_error("list<T> too long");
+  v7[1] = v13 + 1;
+  *(_QWORD *)(v11 + 8) = v12;
+  *(_QWORD *)v12[1] = v12;
+  return v7;
+}
+// 1401316EF: variable 'v10' is possibly undefined

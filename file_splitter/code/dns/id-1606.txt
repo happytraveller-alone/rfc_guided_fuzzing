@@ -1,0 +1,120 @@
+//----- (00000001400CB2C4) ----------------------------------------------------
+void __fastcall Zone_ListInsertZone(__int64 a1)
+{
+  __int64 v1; // rsi
+  struct _RTL_CRITICAL_SECTION *v2; // rbp
+  __int64 v4; // rbx
+  int v5; // ecx
+  __int64 *v6; // rbx
+  __int64 **v7; // rax
+  __int64 *i; // rdx
+  const unsigned __int16 **NextZone; // rax
+  bool v10; // zf
+  int v11; // eax
+  BOOL v12; // edx
+  BOOL v13; // ecx
+  int v14; // eax
+
+  v1 = *(_QWORD *)(a1 + 200);
+  v2 = &csZoneList;
+  v4 = 0i64;
+  if ( v1 )
+    v2 = (struct _RTL_CRITICAL_SECTION *)(v1 + 64);
+  EnterCriticalSection(v2);
+  v5 = bFirstZoneInserted;
+  if ( bFirstZoneInserted )
+  {
+    if ( v1 )
+      v4 = *(_QWORD *)(v1 + 48);
+    else
+      v4 = qword_1401BA3B8;
+  }
+  if ( g_fServiceStarting && bFirstZoneInserted )
+  {
+    if ( dword_1401B9728 == 2 )
+    {
+LABEL_12:
+      v6 = &listheadZone;
+      if ( v1 )
+        v6 = (__int64 *)(v1 + 40);
+      v7 = (__int64 **)v6[1];
+      if ( *v7 != v6 )
+        __fastfail(3u);
+      goto LABEL_25;
+    }
+    if ( (int)wcsicmp_ThatWorks(*(PCNZWCH *)(a1 + 24), *(const WCHAR **)(v4 + 24)) > 0 )
+    {
+      v5 = bFirstZoneInserted;
+      goto LABEL_12;
+    }
+  }
+  for ( i = 0i64; ; i = v6 )
+  {
+    NextZone = Zone_ListGetNextZoneEx((const unsigned __int16 **)v1, i, 1);
+    v6 = (__int64 *)NextZone;
+    if ( !NextZone )
+      break;
+    if ( (int)wcsicmp_ThatWorks(*(PCNZWCH *)(a1 + 24), NextZone[3]) < 0 )
+      goto LABEL_22;
+  }
+  v6 = &listheadZone;
+  if ( v1 )
+    v6 = (__int64 *)(v1 + 40);
+LABEL_22:
+  v7 = (__int64 **)v6[1];
+  if ( *v7 != v6 )
+    __fastfail(3u);
+  v5 = bFirstZoneInserted;
+LABEL_25:
+  *(_QWORD *)a1 = v6;
+  *(_QWORD *)(a1 + 8) = v7;
+  *v7 = (__int64 *)a1;
+  v6[1] = a1;
+  if ( v1 )
+    ++*(_DWORD *)(v1 + 56);
+  else
+    ++g_ZoneCount;
+  if ( !v5 )
+    v5 = 1;
+  v10 = (*(_BYTE *)(a1 + 396) & 4) == 0;
+  bFirstZoneInserted = v5;
+  if ( v10 )
+  {
+    v11 = *(_DWORD *)(a1 + 372);
+    if ( v11 )
+    {
+      if ( v11 != 5 && a1 != g_pTrustAnchorsZone )
+      {
+        v12 = v11 == 4;
+        v13 = v11 == 3;
+        v14 = *(_DWORD *)(a1 + 388) & 1;
+        if ( g_isRegisteredForUTC == 1 )
+        {
+          _InterlockedAdd(&dword_1401B95F0, 1u);
+          if ( v14 )
+            _InterlockedAdd(&dword_1401B95F4, 1u);
+          else
+            _InterlockedAdd(&dword_1401B95F8, 1u);
+          if ( v13 )
+            _InterlockedAdd(&dword_1401B95FC, 1u);
+          if ( v12 )
+            _InterlockedAdd(&dword_1401B9600, 1u);
+        }
+      }
+    }
+  }
+  LeaveCriticalSection(v2);
+}
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B8C54: using guessed type int g_fServiceStarting;
+// 1401B90C4: using guessed type int bFirstZoneInserted;
+// 1401B9190: using guessed type int g_isRegisteredForUTC;
+// 1401B95F0: using guessed type int dword_1401B95F0;
+// 1401B95F4: using guessed type int dword_1401B95F4;
+// 1401B95F8: using guessed type int dword_1401B95F8;
+// 1401B95FC: using guessed type int dword_1401B95FC;
+// 1401B9600: using guessed type int dword_1401B9600;
+// 1401B9728: using guessed type int dword_1401B9728;
+// 1401BA3B0: using guessed type __int64 listheadZone;
+// 1401BA3B8: using guessed type __int64 qword_1401BA3B8;
+// 1401BA3C0: using guessed type int g_ZoneCount;

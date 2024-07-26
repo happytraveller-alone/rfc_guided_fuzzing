@@ -1,0 +1,21 @@
+//----- (0000000140001130) ----------------------------------------------------
+int sub_140001130()
+{
+  _QWORD *v0; // rax
+  char pExceptionObject[40]; // [rsp+20h] [rbp-28h] BYREF
+
+  v0 = operator new(0x130ui64);
+  if ( !v0 )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  qword_1401B9288 = (__int64)v0;
+  *v0 = v0;
+  *(_QWORD *)(qword_1401B9288 + 8) = qword_1401B9288;
+  *(_QWORD *)(qword_1401B9288 + 16) = qword_1401B9288;
+  *(_BYTE *)(qword_1401B9288 + 296) = 1;
+  *(_BYTE *)(qword_1401B9288 + 297) = 1;
+  return atexit(std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::~_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>);
+}
+// 1401B9288: using guessed type __int64 qword_1401B9288;

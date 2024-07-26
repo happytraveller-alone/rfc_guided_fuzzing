@@ -1,0 +1,25 @@
+//----- (00000001400AE0D0) ----------------------------------------------------
+__int64 __fastcall threadTopFunction(__int64 (__fastcall **Parameter)(__int64))
+{
+  __int64 (__fastcall *v2)(_QWORD); // rdi
+  __int64 (__fastcall *v3)(__int64); // rsi
+
+  v2 = *Parameter;
+  v3 = Parameter[1];
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xAu,
+      (__int64)&WPP_6ca4fd025e513a987df6fb94f4a49df0_Traceguids,
+      v2,
+      v3);
+  }
+  Mem_Free(Parameter, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\thread.c", 145);
+  return v2(v3);
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B8C60: using guessed type int g_bHitException;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

@@ -1,0 +1,5 @@
+//----- (00000001400133C0) ----------------------------------------------------
+__int64 __fastcall processStubLine(unsigned int a1, __int64 a2, __int64 a3)
+{
+  return createSecondaryZone(3, a1, a2, a3);
+}

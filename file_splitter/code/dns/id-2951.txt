@@ -1,0 +1,29 @@
+//----- (0000000140156044) ----------------------------------------------------
+STRSAFE_LPSTR __fastcall DnsAddr_WriteStructString_A(char *a1, char *a2)
+{
+  STRSAFE_LPSTR result; // rax
+  int v5; // [rsp+20h] [rbp-98h]
+  int v6; // [rsp+28h] [rbp-90h]
+  int v7; // [rsp+30h] [rbp-88h]
+  int v8; // [rsp+38h] [rbp-80h]
+  char v9[80]; // [rsp+50h] [rbp-68h] BYREF
+
+  DnsAddr_WriteIpString_A(v9, a2);
+  v8 = *((unsigned __int16 *)a2 + 1);
+  v7 = *((_DWORD *)a2 + 10);
+  v6 = *((_DWORD *)a2 + 9);
+  v5 = *((_DWORD *)a2 + 8);
+  result = Dns_SprintfPointerA(
+             a1,
+             200i64,
+             "af=%d, salen=%d, [sub=%d, flag=%08x] p=%u, addr=%s",
+             *(unsigned __int16 *)a2,
+             v5,
+             v6,
+             v7,
+             v8,
+             v9);
+  if ( !result )
+    return a1;
+  return result;
+}

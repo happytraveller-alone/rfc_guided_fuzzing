@@ -1,0 +1,6 @@
+//----- (0000000140167E34) ----------------------------------------------------
+void **std::iostream_category(void)
+{
+  return &off_1401B2010;
+}
+// 1401B2010: using guessed type void *off_1401B2010;

@@ -1,0 +1,29 @@
+//----- (000000014003D6A0) ----------------------------------------------------
+__int64 __fastcall MemAtoi(unsigned __int8 *a1, int a2)
+{
+  __int64 result; // rax
+  int v3; // r9d
+  unsigned __int8 *v4; // r8
+  int v5; // ecx
+  int v6; // eax
+
+  LODWORD(result) = 0;
+  v3 = 0;
+  v4 = a1;
+  if ( *a1 == 45 )
+  {
+    v3 = 1;
+    v4 = a1 + 1;
+  }
+  do
+  {
+    v5 = 5 * result;
+    v6 = *v4++;
+    result = (unsigned int)(v6 + 2 * v5 - 48);
+    --a2;
+  }
+  while ( a2 );
+  if ( v3 )
+    return (unsigned int)-(int)result;
+  return result;
+}

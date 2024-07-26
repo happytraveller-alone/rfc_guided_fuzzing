@@ -1,0 +1,157 @@
+//----- (000000014011B468) ----------------------------------------------------
+char *__fastcall readNextToken(__int64 a1, _DWORD *a2, _DWORD *a3)
+{
+  char *v3; // rbx
+  int v4; // r15d
+  unsigned __int64 v5; // rbp
+  __int64 v8; // rsi
+  unsigned __int16 v9; // r14
+  char *v10; // rdi
+  CDnsClientSubnetRecordsTrie *v11; // r8
+  char v12; // al
+  unsigned __int16 v13; // r14
+  int v14; // ebp
+  void *v15; // rax
+  __int64 v16; // rdx
+  __int64 v17; // r8
+  __int64 v19; // [rsp+20h] [rbp-48h]
+  __int64 v20; // [rsp+28h] [rbp-40h]
+  __int64 v21; // [rsp+38h] [rbp-30h]
+  __int16 v22; // [rsp+70h] [rbp+8h]
+
+  v3 = *(char **)(a1 + 32);
+  v4 = 0;
+  v5 = *(_QWORD *)(a1 + 24);
+  *a3 = 0;
+  v22 = 256;
+  do
+  {
+    if ( (unsigned __int64)v3 >= v5 )
+      goto LABEL_49;
+    v8 = (unsigned __int8)*v3++;
+    v9 = DnsFileCharPropertyTable[v8];
+  }
+  while ( (v9 & 0x400) != 0 );
+  if ( (unsigned __int64)v3 >= v5 )
+    goto LABEL_49;
+  v10 = v3 - 1;
+  if ( (unsigned __int64)(v3 - 1) > *(_QWORD *)(a1 + 32) )
+    *a3 = 1;
+  v11 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    WPP_SF_qqcdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      (unsigned __int8)v8,
+      (__int64)WPP_GLOBAL_Control,
+      v3,
+      v3 - 1,
+      v8,
+      (unsigned __int8)v8,
+      v9);
+    v11 = WPP_GLOBAL_Control;
+  }
+  if ( (v9 & 0x100) == 0 )
+  {
+LABEL_23:
+    if ( (_BYTE)v8 == 34 )
+    {
+      v10 = v3;
+      v22 = 512;
+    }
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v11 + 28) & 0x20) != 0
+      && *((_BYTE *)v11 + 25) >= 5u )
+    {
+      LODWORD(v20) = v5 - (_DWORD)v3;
+      LOBYTE(v19) = *v10;
+      WPP_SF_qcd(*((_QWORD *)v11 + 2), (__int64)a2, (__int64)v11, v10, v19, v20);
+      v11 = WPP_GLOBAL_Control;
+    }
+    while ( 1 )
+    {
+      v8 = (unsigned __int8)*v3++;
+      v13 = DnsFileCharPropertyTable[v8];
+      if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v11 + 28) & 0x20) != 0
+        && *((_BYTE *)v11 + 25) >= 5u )
+      {
+        LODWORD(v20) = v13;
+        LODWORD(v19) = (unsigned __int8)v8;
+        WPP_SF_cdD(*((_QWORD *)v11 + 2), (__int64)DnsFileCharPropertyTable, (__int64)v11, v8, v19, v20);
+        v11 = WPP_GLOBAL_Control;
+      }
+      if ( (v13 & 0x708) == 0 || v4 )
+      {
+        v4 = 0;
+      }
+      else
+      {
+        if ( (v13 & (unsigned __int16)v22) != 0 )
+        {
+          --v3;
+          goto LABEL_41;
+        }
+        LOBYTE(v4) = (_BYTE)v8 == 92;
+      }
+      if ( (unsigned __int64)v3 >= v5 )
+        goto LABEL_41;
+    }
+  }
+  if ( (_BYTE)v8 == 59 )
+  {
+    while ( (unsigned __int64)v3 < v5 )
+    {
+      v12 = *v3++;
+      if ( v12 == 10 )
+      {
+        if ( (unsigned __int64)v3 >= v5 )
+          break;
+        v10 = v3 - 1;
+        goto LABEL_41;
+      }
+    }
+LABEL_49:
+    *a2 = 0;
+    *(_DWORD *)(a1 + 40) = 0;
+    return 0i64;
+  }
+  if ( (_BYTE)v8 != 10 && (unsigned __int8)(v8 - 40) > 1u )
+  {
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v11 + 28) & 0x20) != 0
+      && *((_BYTE *)v11 + 25) >= 4u )
+    {
+      LODWORD(v19) = v9;
+      WPP_SF_DDqq(*((_QWORD *)v11 + 2), (__int64)a2, (__int64)v11, (unsigned __int8)v8, v19, v3, v3 - 1);
+      v11 = WPP_GLOBAL_Control;
+    }
+    goto LABEL_23;
+  }
+LABEL_41:
+  *a2 = (_DWORD)v3 - (_DWORD)v10;
+  if ( v22 == 512 && (_BYTE)v8 == 34 )
+    ++v3;
+  v14 = v5 - (_DWORD)v3;
+  *(_QWORD *)(a1 + 32) = v3;
+  *(_DWORD *)(a1 + 40) = v14;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    v15 = FormatLabelA((unsigned int)*a2, v10);
+    LODWORD(v21) = v14;
+    LODWORD(v19) = *a2;
+    WPP_SF_qdsqd(*((_QWORD *)WPP_GLOBAL_Control + 2), v16, v17, v10, v19, v15, v3, v21);
+  }
+  return v10;
+}
+// 14011B5AC: variable 'a2' is possibly undefined
+// 14011B5AC: variable 'v19' is possibly undefined
+// 14011B5FA: variable 'v20' is possibly undefined
+// 14011B708: variable 'v16' is possibly undefined
+// 14011B708: variable 'v17' is possibly undefined
+// 14011B708: variable 'v21' is possibly undefined
+// 140193F30: using guessed type _WORD DnsFileCharPropertyTable[256];

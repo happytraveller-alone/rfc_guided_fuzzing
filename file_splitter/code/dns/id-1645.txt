@@ -1,0 +1,49 @@
+//----- (00000001400D03CC) ----------------------------------------------------
+__int64 __fastcall RefreshOrExpireSecondaryZoneScopes(__int64 a1, int a2, __int64 a3, unsigned int a4)
+{
+  __int64 result; // rax
+  unsigned int v6; // edi
+  __int64 *i; // rbx
+  __int64 v8; // rsi
+  int v9; // eax
+  int v10; // [rsp+50h] [rbp+8h] BYREF
+  __int64 *v11; // [rsp+60h] [rbp+18h] BYREF
+
+  v11 = 0i64;
+  v10 = 0;
+  if ( !a1 )
+    return 87i64;
+  if ( *(_DWORD *)(a1 + 372) != 2 )
+    return 9611i64;
+  if ( !*(_QWORD *)(a1 + 184) )
+    return 0i64;
+  result = Get_SnapShot_ScopeMap(*(_QWORD *)(a1 + 160), *(_QWORD *)(a1 + 168), 1, a4, &v10, &v11);
+  v6 = result;
+  if ( !(_DWORD)result && v10 )
+  {
+    for ( i = v11; i; i = (__int64 *)i[1] )
+    {
+      v8 = *i;
+      if ( a2 && (v6 = Xfr_OkToForceRefresh(*i)) != 0 )
+      {
+        v6 = 0;
+      }
+      else
+      {
+        v9 = *(_DWORD *)(v8 + 1524);
+        if ( v9 != -1 )
+        {
+          *(_DWORD *)(v8 + 1524) = -1;
+          *(_DWORD *)(v8 + 1528) = v9;
+        }
+        if ( a2 )
+          Xfr_ForceZoneRefresh(v8);
+        else
+          Xfr_ForceZoneExpiration(v8, 0);
+      }
+    }
+    Free_ScopeList(v11);
+    return v6;
+  }
+  return result;
+}

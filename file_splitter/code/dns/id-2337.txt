@@ -1,0 +1,26 @@
+//----- (000000014011FEB0) ----------------------------------------------------
+__int64 __fastcall AaaaFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  __int64 result; // rax
+  _BYTE *v7; // rax
+  const char *v8; // r9
+
+  if ( a2 != 1 )
+    return (unsigned int)(-(a2 > 1) - 1072573181);
+  v7 = RR_AllocateEx(0x10u, 0, 0);
+  if ( !v7 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v7;
+  if ( (unsigned int)Dns_Ip6StringToAddressEx_A(
+                       (struct in6_addr *)(v7 + 56),
+                       *(char **)a3,
+                       *(unsigned int *)(a3 + 8),
+                       v8) )
+    return 0i64;
+  *(_DWORD *)(a4 + 1600) = 1618;
+  result = 3222394113i64;
+  *(_QWORD *)(a4 + 1608) = a3;
+  *(_DWORD *)(a4 + 1596) = -1072573180;
+  return result;
+}
+// 14011FEFF: variable 'v8' is possibly undefined

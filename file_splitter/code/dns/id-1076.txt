@@ -1,0 +1,61 @@
+//----- (000000014008C078) ----------------------------------------------------
+__int64 __fastcall RR_ListDelete(__int64 a1)
+{
+  int v2; // esi
+  __int64 *i; // rax
+  __int64 v4; // rbx
+  __int64 v5; // rcx
+  int v7; // [rsp+20h] [rbp-28h]
+  unsigned int v8; // [rsp+50h] [rbp+8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v7 = *(unsigned __int8 *)(a1 + 97);
+    WPP_SF_qd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x39u,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      a1,
+      v7);
+  }
+  v8 = -1;
+  acquireUpdate(DbaseLock, 0xFFFFFFFF, &v8, 1);
+  v2 = a1 && *(_QWORD *)(a1 + 64);
+  *(_DWORD *)(a1 + 76) = 0;
+  if ( (*(_BYTE *)(a1 + 92) & 1) != 0 )
+  {
+    RR_CheckNameErrorTimeout(a1, 1, 0, 0i64);
+    v8 = -1;
+    releaseUpdate(DbaseLock, &v8, 1);
+  }
+  else
+  {
+    if ( !*(_QWORD *)(a1 + 56) )
+    {
+      for ( i = *(__int64 **)(a1 + 64); i; i = (__int64 *)*i )
+      {
+        if ( *((_BYTE *)i + 8) == 8 )
+        {
+          v8 = -1;
+          releaseUpdate(DbaseLock, &v8, 1);
+          return 13i64;
+        }
+      }
+    }
+    Dbase_LockEx(a1, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 203);
+    v4 = *(_QWORD *)(a1 + 64);
+    *(_QWORD *)(a1 + 64) = 0i64;
+    RR_ListResetNodeFlags(a1);
+    NTree_ChangeAncestorCounters((volatile signed __int32 **)a1, v2);
+    Dbase_UnlockEx(v5, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 211);
+    v8 = -1;
+    releaseUpdate(DbaseLock, &v8, 1);
+    insertNodeIntoTimeoutSystem(a1);
+    Timeout_FreeWithFunctionEx(v4, (__int64)RR_ListFree, (__int64)"ds\\dns\\server\\server\\rrlist.c", 3554);
+  }
+  return 0i64;
+}
+// 14008C1A5: variable 'v5' is possibly undefined
+// 1401EC5E8: using guessed type __int64 DbaseLock;

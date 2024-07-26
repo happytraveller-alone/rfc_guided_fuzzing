@@ -1,0 +1,81 @@
+//----- (000000014001282C) ----------------------------------------------------
+ULONG __fastcall Template_zsz(
+        REGHANDLE RegHandle,
+        PCEVENT_DESCRIPTOR EventDescriptor,
+        const unsigned __int16 *a3,
+        const char *a4,
+        const unsigned __int16 *a5)
+{
+  __int64 v6; // rdx
+  int v8; // r10d
+  __int64 v9; // rax
+  ULONG v10; // ecx
+  const wchar_t *v11; // r11
+  const wchar_t *v12; // rax
+  __int64 v13; // rcx
+  int v14; // ecx
+  const char *v15; // rax
+  bool v16; // zf
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-48h] BYREF
+  const char *v19; // [rsp+30h] [rbp-38h]
+  int v20; // [rsp+38h] [rbp-30h]
+  int v21; // [rsp+3Ch] [rbp-2Ch]
+  const wchar_t *v22; // [rsp+40h] [rbp-28h]
+  int v23; // [rsp+48h] [rbp-20h]
+  int v24; // [rsp+4Ch] [rbp-1Ch]
+
+  v6 = -1i64;
+  v8 = 10;
+  if ( a3 )
+  {
+    v9 = -1i64;
+    do
+      ++v9;
+    while ( a3[v9] );
+    v10 = 2 * v9 + 2;
+  }
+  else
+  {
+    v10 = 10;
+  }
+  UserData.Size = v10;
+  v11 = L"NULL";
+  UserData.Reserved = 0;
+  v12 = L"NULL";
+  if ( a3 )
+    v12 = a3;
+  UserData.Ptr = (ULONGLONG)v12;
+  if ( a4 )
+  {
+    v13 = -1i64;
+    do
+      ++v13;
+    while ( a4[v13] );
+    v14 = v13 + 1;
+  }
+  else
+  {
+    v14 = 5;
+  }
+  v20 = v14;
+  v15 = "NULL";
+  v21 = 0;
+  if ( a4 )
+    v15 = a4;
+  v19 = v15;
+  v16 = a5 == 0i64;
+  if ( a5 )
+  {
+    do
+      ++v6;
+    while ( a5[v6] );
+    v8 = 2 * v6 + 2;
+    v16 = a5 == 0i64;
+  }
+  if ( !v16 )
+    v11 = a5;
+  v23 = v8;
+  v22 = v11;
+  v24 = 0;
+  return EventWrite(RegHandle, EventDescriptor, 3u, &UserData);
+}

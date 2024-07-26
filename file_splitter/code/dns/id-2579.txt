@@ -1,0 +1,82 @@
+//----- (0000000140130FC4) ----------------------------------------------------
+struct _DnsTreeNode *__fastcall CDnsPolicy_FQDNCriteriaTree::LookupFQDNCriteriaNode(
+        CDnsPolicy_FQDNCriteriaTree *this,
+        struct _lookup_name *a2,
+        __int64 a3)
+{
+  __int64 v4; // rdi
+  __int64 v6; // rbp
+  int v7; // eax
+  const char *CriteriaTypeString; // rax
+  __int64 v10; // rbx
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  const void **v12; // r14
+  unsigned int v13; // r12d
+  void *v14; // r13
+  void *v15; // rax
+  _BYTE *ChildNode; // rax
+
+  v4 = *(unsigned __int16 *)a2;
+  v6 = *((_QWORD *)this + 1);
+  if ( !(*(unsigned int (__fastcall **)(CDnsPolicy_FQDNCriteriaTree *))(*(_QWORD *)this + 8i64))(this) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v7 = (**(__int64 (__fastcall ***)(CDnsPolicy_FQDNCriteriaTree *))this)(this);
+      CriteriaTypeString = GetCriteriaTypeString(v7);
+      WPP_SF_sq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x18u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        CriteriaTypeString);
+    }
+    return 0i64;
+  }
+  v10 = v4;
+  if ( (_DWORD)v4 )
+  {
+    v11 = WPP_GLOBAL_Control;
+    v12 = (const void **)((char *)a2 + 8 * v4 + 8);
+    while ( 1 )
+    {
+      v13 = *((unsigned __int8 *)a2 + v10 + 327);
+      v14 = (void *)*--v12;
+      --v10;
+      if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v11 + 17) & 0x400000) != 0
+        && *((_BYTE *)v11 + 65) >= 5u )
+      {
+        v15 = FormatLabelA(v13, *v12);
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x19u,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          v13,
+          (__int64)v15);
+      }
+      ChildNode = NTree_FindOrCreateChildNodeEx(v6, v14, v13, 0, 0i64, 0x34u, 0i64, 1, a3);
+      v6 = (__int64)ChildNode;
+      if ( !ChildNode )
+        break;
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x1Au,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          ChildNode + 102);
+        v11 = WPP_GLOBAL_Control;
+      }
+      if ( !v10 )
+        return (struct _DnsTreeNode *)v6;
+    }
+    return 0i64;
+  }
+  return (struct _DnsTreeNode *)v6;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

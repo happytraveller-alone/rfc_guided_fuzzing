@@ -1,0 +1,40 @@
+//----- (00000001400E2CB0) ----------------------------------------------------
+struct _DnssrvRpcTrustPoint *__fastcall TrustPoint::GetRPCObject(LPCRITICAL_SECTION lpCriticalSection)
+{
+  _DWORD *v2; // rax
+  _DWORD *v3; // rbx
+  LONG RecursionCount; // edx
+  int v5; // ecx
+  char *p_OwningThread; // rcx
+  void *v7; // rax
+
+  EnterCriticalSection(lpCriticalSection);
+  v2 = MIDL_user_allocate(0x38ui64);
+  v3 = v2;
+  if ( v2 )
+  {
+    memset_0(v2, 0, 0x38ui64);
+    RecursionCount = lpCriticalSection[3].RecursionCount;
+    v5 = 3;
+    *v3 = 1;
+    if ( (RecursionCount & 0xFFFFFFFB) != 0 )
+      v5 = RecursionCount;
+    v3[4] = v5;
+    p_OwningThread = (char *)&lpCriticalSection[3].OwningThread;
+    v3[12] = lpCriticalSection[12].LockSemaphore;
+    *((_QWORD *)v3 + 3) = lpCriticalSection[12].DebugInfo;
+    *((_QWORD *)v3 + 5) = *(_QWORD *)&lpCriticalSection[12].LockCount;
+    *((_QWORD *)v3 + 4) = lpCriticalSection[12].OwningThread;
+    if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+      p_OwningThread = *(char **)p_OwningThread;
+    v7 = Dns_StringCopyAllocate(p_OwningThread, 0, 2i64, 2);
+    *((_QWORD *)v3 + 1) = v7;
+    if ( !v7 )
+    {
+      MIDL_user_free(v3);
+      v3 = 0i64;
+    }
+  }
+  LeaveCriticalSection(lpCriticalSection);
+  return (struct _DnssrvRpcTrustPoint *)v3;
+}

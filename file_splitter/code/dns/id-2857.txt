@@ -1,0 +1,17 @@
+//----- (000000014014E5E0) ----------------------------------------------------
+void **__fastcall CDnsRRLStateKey::`scalar deleting destructor'(void **this, char a2)
+{
+  *this = &CDnsRRLStateKey::`vftable';
+  if ( (unsigned __int64)this[6] >= 0x10 )
+    operator delete(this[3]);
+  this[5] = 0i64;
+  this[6] = (void *)15;
+  *((_BYTE *)this + 24) = 0;
+  *this = &IDnsRRLStateKey::`vftable';
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+// 1401720F8: using guessed type void *IDnsRRLStateKey::`vftable';
+// 140172250: using guessed type void *CDnsRRLStateKey::`vftable';
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

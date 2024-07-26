@@ -1,0 +1,44 @@
+//----- (0000000140072344) ----------------------------------------------------
+void __fastcall processCacheUpdateQueryResponse(__int64 *a1, __int64 a2)
+{
+  unsigned int v3; // ebp
+  __int64 v5; // rdi
+  int v6; // esi
+  __int64 v7; // rax
+  int v8; // edi
+  unsigned int v9; // [rsp+58h] [rbp+10h] BYREF
+
+  v9 = 0;
+  v3 = 0;
+  _InterlockedIncrement(&dword_1401C7EC0);
+  v5 = *(_QWORD *)(a2 + 1264);
+  if ( v5 )
+  {
+    Dbase_LockEx(0i64, 2, (__int64)"ds\\dns\\server\\server\\recurse.c", 134);
+    v6 = Recurse_CacheMessageResourceRecords(*a1, a2, (int *)&v9);
+    if ( v6
+      && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Cu,
+        (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+        v6);
+    }
+    v7 = *(_QWORD *)(v5 + 1528);
+    if ( !v7 || !*(_DWORD *)(v7 + 1464) )
+      v3 = 2;
+    v8 = v9;
+    if ( !(unsigned int)Dnssec_ValidateRecords((struct _DNS_MSGINFO *)a2, a1, v3, v6, v9, 1) )
+      Recurse_HandleCacheUpdateResult((struct _DNS_MSGINFO *)a2, *a1, v6, v8);
+  }
+  else
+  {
+    _InterlockedIncrement(&dword_1401C7EC4);
+    Packet_Free(a2);
+  }
+}
+// 1401C7EC0: using guessed type int dword_1401C7EC0;
+// 1401C7EC4: using guessed type int dword_1401C7EC4;

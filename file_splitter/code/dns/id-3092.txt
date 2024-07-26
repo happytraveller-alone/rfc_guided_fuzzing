@@ -1,0 +1,40 @@
+//----- (0000000140161EC0) ----------------------------------------------------
+int __fastcall AtmaRecordPrint(__int64 (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3, const char *a4)
+{
+  int result; // eax
+
+  if ( a1 )
+    result = a1(a2, "\tAddress type   = %d\r\n", *(unsigned __int8 *)(a3 + 32), a4);
+  if ( (byte_1401BA001 & 4) != 0 )
+    result = WPP_SF_D(
+               22i64,
+               (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids,
+               *(unsigned __int8 *)(a3 + 32),
+               (int)a4);
+  if ( a3 != -33 )
+  {
+    if ( *(_BYTE *)(a3 + 32) == 1 )
+    {
+      if ( a1 )
+        result = a1(a2, "\tAddress        = %s\r\n", a3 + 33, a4);
+      if ( (byte_1401BA001 & 4) != 0 )
+        return WPP_SF_s(23i64, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, a3 + 33, a4);
+    }
+    else
+    {
+      return DnsPrint_RawBinary(
+               (void (*)(__int64, const char *, ...))a1,
+               a2,
+               (__int64)"\tAddress        = ",
+               "\t                 ",
+               a3 + 33,
+               *(unsigned __int16 *)(a3 + 18) - 1,
+               0);
+    }
+  }
+  return result;
+}
+// 140161F65: conditional instruction was optimized away because rdi.8!=FFFFFFFFFFFFFFDF
+// 140161F14: variable 'a4' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;

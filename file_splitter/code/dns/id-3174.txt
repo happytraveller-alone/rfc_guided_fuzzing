@@ -1,0 +1,13 @@
+//----- (00000001401682A8) ----------------------------------------------------
+void __fastcall std::_Locinfo::_Locinfo_dtor(struct std::_Locinfo *a1)
+{
+  const char *v1; // rdx
+
+  if ( *((_QWORD *)a1 + 5) )
+  {
+    v1 = (const char *)*((_QWORD *)a1 + 5);
+    if ( !v1 )
+      v1 = (char *)a1 + 48;
+    setlocale(0, v1);
+  }
+}

@@ -1,0 +1,28 @@
+//----- (00000001400A9E10) ----------------------------------------------------
+__int64 __fastcall Rpc_RemoveZonePolicy(__int64 a1, __int64 a2, __int64 a3, __int64 a4, int a5, wchar_t *Str)
+{
+  unsigned int v8; // ebx
+
+  if ( !(unsigned int)IsValidFileName(Str) )
+    return 9982i64;
+  v8 = Zone_LockForWriteEx(a3, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\srvrpc.c", 129);
+  if ( v8 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x46u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        *(const unsigned __int16 **)(a3 + 24));
+    }
+  }
+  else
+  {
+    v8 = Remove_CDNSPolicy(a3, (char *)Str, 1);
+    Zone_UnlockAfterWriteEx(a3, 1, (__int64)"ds\\dns\\server\\server\\srvrpc.c", 138);
+  }
+  return v8;
+}

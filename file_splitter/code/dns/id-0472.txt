@@ -1,0 +1,224 @@
+//----- (000000014003CD90) ----------------------------------------------------
+__int64 __fastcall Ds_SetZoneDp(__int64 a1, __int64 a2, int a3)
+{
+  int v6; // ebx
+  wchar_t *v7; // r8
+  const CHAR *v8; // r8
+  int LastError; // eax
+  __int64 v10; // rcx
+  __int64 v11; // rax
+  __int64 v12; // rcx
+  int v13; // eax
+  __int64 v14; // rcx
+  signed int v15; // r15d
+  wchar_t *v16; // r14
+  __int64 TickCount; // rbx
+  time_t v18; // rax
+  HRESULT v19; // eax
+  __int64 v20; // rcx
+  signed int v21; // r15d
+  __int64 v22; // rbx
+  time_t v23; // rax
+  __int64 v24; // rax
+  int v25; // r9d
+  int v26; // r9d
+  const wchar_t *v27; // rdx
+  const char *v28; // r8
+  wchar_t Buffer[104]; // [rsp+50h] [rbp-B0h] BYREF
+  __int16 WideCharStr[256]; // [rsp+120h] [rbp+20h] BYREF
+
+  v6 = 0;
+  if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+  {
+    EnterCriticalSection(&csZoneList);
+    if ( !a2 || !*(_QWORD *)(a2 + 40) )
+      goto LABEL_37;
+    memset_0(Buffer, 0, 0xC8ui64);
+    if ( a1 == g_pCacheZone )
+    {
+      v7 = (wchar_t *)L"RootDNSServers";
+    }
+    else
+    {
+      if ( _stricmp("TrustAnchors", *(const char **)(a1 + 16)) )
+      {
+        v8 = *(const CHAR **)(a1 + 16);
+        WideCharStr[0] = 0;
+        MultiByteToWideChar(0xFDE9u, 0, v8, -1, (LPWSTR)WideCharStr, 256);
+        if ( !WideCharStr[0] )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            LastError = GetLastError();
+            WPP_SF_D(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0xA2u,
+              (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+              LastError);
+          }
+          v6 = 123;
+          goto LABEL_50;
+        }
+LABEL_17:
+        v10 = *(_QWORD *)(a1 + 192);
+        v11 = -1i64;
+        if ( v10 )
+        {
+          do
+            ++v11;
+          while ( *(_WORD *)(v10 + 2 * v11) );
+          v12 = -1i64;
+          do
+            ++v12;
+          while ( *(_WORD *)(*(_QWORD *)(a2 + 40) + 2 * v12) );
+          v13 = v12 + v11;
+          v14 = -1i64;
+          do
+            ++v14;
+          while ( WideCharStr[v14] );
+          v15 = 2 * (v14 + v13) + 196;
+          v16 = (wchar_t *)Mem_Alloc(v15, 9i64, "ds\\dns\\server\\server\\ds.c", 7034);
+          if ( !v16 )
+          {
+LABEL_24:
+            v6 = 14;
+            goto LABEL_50;
+          }
+          if ( a3 )
+          {
+            TickCount = GetTickCount();
+            v18 = time(0i64);
+            v6 = StringCchPrintfW(Buffer, 100i64, L"..InProgress-%08I64X%08I64X-", v18, TickCount);
+            if ( v6 < 0 )
+              goto LABEL_50;
+          }
+          v19 = StringCbPrintfW(
+                  v16,
+                  v15,
+                  L"cn=%s%s,%sDC=%s,%s%s",
+                  Buffer,
+                  *(_QWORD *)(a1 + 192),
+                  L"cn=ZoneScopeContainer,",
+                  WideCharStr,
+                  L"cn=MicrosoftDNS,",
+                  *(_QWORD *)(a2 + 40));
+        }
+        else
+        {
+          do
+            ++v11;
+          while ( *(_WORD *)(*(_QWORD *)(a2 + 40) + 2 * v11) );
+          v20 = -1i64;
+          do
+            ++v20;
+          while ( WideCharStr[v20] );
+          v21 = 2 * (v20 + v11) + 152;
+          v16 = (wchar_t *)Mem_Alloc(v21, 9i64, "ds\\dns\\server\\server\\ds.c", 7079);
+          if ( !v16 )
+            goto LABEL_24;
+          if ( a3 )
+          {
+            v22 = GetTickCount();
+            v23 = time(0i64);
+            v6 = StringCchPrintfW(Buffer, 100i64, L"..InProgress-%08I64X%08I64X-", v23, v22);
+            if ( v6 < 0 )
+              goto LABEL_50;
+          }
+          v19 = StringCbPrintfW(
+                  v16,
+                  v21,
+                  L"DC=%s%s,%s%s",
+                  Buffer,
+                  WideCharStr,
+                  L"cn=MicrosoftDNS,",
+                  *(_QWORD *)(a2 + 40));
+        }
+        v6 = v19;
+        if ( v19 < 0 )
+          goto LABEL_50;
+        Timeout_FreeWithFunctionEx(*(_QWORD *)(a1 + 840), 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 7115);
+        *(_QWORD *)(a1 + 840) = v16;
+LABEL_37:
+        if ( !*(_QWORD *)(a1 + 192) )
+        {
+          v24 = *(_QWORD *)(a1 + 848);
+          if ( v24 != a2 )
+          {
+            if ( v24 )
+            {
+              v25 = _InterlockedDecrement((volatile signed __int32 *)(v24 + 108));
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+              {
+                WPP_SF_Ds(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0xA3u,
+                  (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                  v25,
+                  *(_QWORD *)(*(_QWORD *)(a1 + 848) + 24i64));
+              }
+            }
+            if ( a2 )
+            {
+              v26 = _InterlockedIncrement((volatile signed __int32 *)(a2 + 108));
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+              {
+                WPP_SF_Ds(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0xA4u,
+                  (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                  v26,
+                  *(_QWORD *)(a2 + 24));
+              }
+            }
+          }
+        }
+        *(_QWORD *)(a1 + 848) = a2;
+        goto LABEL_50;
+      }
+      v7 = (wchar_t *)L"..TrustAnchors";
+    }
+    if ( (int)StringCchCopyW((char *)WideCharStr, 256i64, (char *)v7) < 0 )
+    {
+      v6 = 87;
+LABEL_50:
+      LeaveCriticalSection(&csZoneList);
+      goto LABEL_51;
+    }
+    goto LABEL_17;
+  }
+  v6 = 9611;
+LABEL_51:
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v27 = L"Default";
+    if ( *(_QWORD *)(a1 + 192) )
+      v27 = *(const wchar_t **)(a1 + 192);
+    if ( a2 )
+      v28 = *(const char **)(a2 + 24);
+    else
+      v28 = "NULL";
+    WPP_SF_sdqsSS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      (__int64)v27,
+      (__int64)v28,
+      *(const char **)(a1 + 16),
+      v6,
+      a2,
+      (__int64)v28,
+      *(_QWORD *)(a1 + 840),
+      (__int64)v27);
+  }
+  return (unsigned int)v6;
+}
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 14018BA40: using guessed type wchar_t aCnZonescopecon[23];
+// 1401EC628: using guessed type __int64 g_pCacheZone;
+// 14003CD90: using guessed type WCHAR WideCharStr[256];

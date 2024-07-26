@@ -1,0 +1,78 @@
+//----- (00000001400427D8) ----------------------------------------------------
+__int64 __fastcall writeDelegationToDs(__int64 a1, __int64 a2)
+{
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  int v5; // eax
+  __int64 i; // r9
+  _BYTE *GlueNodeForDbaseName; // rax
+  __int64 v8; // rbp
+  int v9; // r14d
+  int v10; // eax
+  __int64 NextRecord; // rax
+  __int64 v12; // rsi
+
+  v4 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x134u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      (const char *)(a2 + 102));
+    v4 = WPP_GLOBAL_Control;
+  }
+  if ( !*(_DWORD *)(a1 + 372) || *(_BYTE *)(a2 + 96) == 67 )
+  {
+    v5 = Ds_WriteNodeToDs(0i64, a2, 0xFFu, 2, a1, 0);
+    if ( v5
+      && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x136u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v5);
+    }
+    for ( i = 0i64; ; i = v12 )
+    {
+      NextRecord = RR_FindNextRecordEx(a2, 0, 2u, i, 0, 0);
+      v12 = NextRecord;
+      if ( !NextRecord )
+        break;
+      GlueNodeForDbaseName = Lookup_FindGlueNodeForDbaseName(a1, NextRecord + 56);
+      v8 = (__int64)GlueNodeForDbaseName;
+      if ( GlueNodeForDbaseName )
+      {
+        v9 = Ds_WriteNodeToDs(0i64, (__int64)GlueNodeForDbaseName, 1u, 1, a1, 0);
+        v10 = Ds_WriteNodeToDs(0i64, v8, 0x1Cu, 1, a1, 0);
+        if ( (v9 || (v9 = v10) != 0)
+          && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x137u,
+            (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+            v9);
+        }
+      }
+    }
+  }
+  else if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_DWORD *)v4 + 17) & 0x400) != 0
+         && *((_BYTE *)v4 + 65) >= 4u )
+  {
+    WPP_SF_ss(
+      *((_QWORD *)v4 + 7),
+      0x135u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      (const char *)(a2 + 102),
+      *(_QWORD *)(a1 + 16));
+  }
+  return 0i64;
+}

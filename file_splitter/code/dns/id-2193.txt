@@ -1,0 +1,31 @@
+//----- (0000000140115824) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::GetThreadSids(void **a1, void **a2)
+{
+  HANDLE CurrentThread; // rax
+  signed int LastError; // ecx
+  __int64 result; // rax
+  unsigned int TokenSids; // ebx
+  void *TokenHandle; // [rsp+30h] [rbp+8h] BYREF
+
+  TokenHandle = 0i64;
+  if ( a1 )
+    *a1 = 0i64;
+  if ( a2 )
+    *a2 = 0i64;
+  CurrentThread = GetCurrentThread();
+  if ( OpenThreadToken(CurrentThread, 8u, 1, &TokenHandle) )
+  {
+    TokenSids = CSecurityDescriptor::GetTokenSids(TokenHandle, a1, a2);
+    if ( TokenHandle )
+      CloseHandle(TokenHandle);
+    return TokenSids;
+  }
+  else
+  {
+    LastError = GetLastError();
+    result = (unsigned __int16)LastError | 0x80070000;
+    if ( LastError <= 0 )
+      return (unsigned int)LastError;
+  }
+  return result;
+}

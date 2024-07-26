@@ -1,0 +1,10 @@
+//----- (0000000140169A38) ----------------------------------------------------
+void __fastcall __ArrayUnwind(char *a1, __int64 a2, int a3, void (__fastcall *a4)(char *))
+{
+  while ( --a3 >= 0 )
+  {
+    a1 -= a2;
+    a4(a1);
+  }
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

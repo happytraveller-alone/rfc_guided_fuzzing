@@ -1,0 +1,99 @@
+//----- (000000014015B50C) ----------------------------------------------------
+void *__fastcall Dns_StringCopyAllocate(char *lpMultiByteStr, unsigned int cbMultiByte, __int64 a3, int a4)
+{
+  unsigned __int64 v5; // rbx
+  unsigned int v6; // ebp
+  char v8; // al
+  GUID *v9; // rcx
+  __int64 v10; // rdx
+  char v11; // al
+  DWORD v12; // ecx
+  unsigned int BufferLengthForStringCopy; // eax
+  _WORD *v15; // rax
+  void *v16; // rdi
+  unsigned int v17[4]; // [rsp+40h] [rbp-268h] BYREF
+  GUID v18[33]; // [rsp+50h] [rbp-258h] BYREF
+
+  v5 = cbMultiByte;
+  v6 = a3;
+  v8 = byte_1401BA003;
+  if ( (byte_1401BA003 & 0x10) != 0 )
+  {
+    WPP_SF_(16i64, (unsigned __int16)&WPP_55e0bf752fa338bf02c5c4b0361aeb86_Traceguids, a3);
+    v8 = byte_1401BA003;
+  }
+  if ( (v8 & 4) != 0 )
+  {
+    if ( v5 <= 0x7FFFFFFE )
+    {
+      v9 = v18;
+      v10 = 521i64;
+      do
+      {
+        if ( !(v10 + v5 - 521) )
+          break;
+        v11 = *((_BYTE *)&v9->Data1 + lpMultiByteStr - (char *)v18);
+        if ( !v11 )
+          break;
+        LOBYTE(v9->Data1) = v11;
+        v9 = (GUID *)((char *)v9 + 1);
+        --v10;
+      }
+      while ( v10 );
+      if ( !v10 )
+        v9 = (GUID *)((char *)v9 - 1);
+      LOBYTE(v9->Data1) = 0;
+    }
+    else
+    {
+      LOBYTE(v18[0].Data1) = 0;
+    }
+    WPP_SF_sqddd(0x11ui64, (USHORT)&WPP_55e0bf752fa338bf02c5c4b0361aeb86_Traceguids, v18, lpMultiByteStr, v5, v6, a4);
+  }
+  if ( !lpMultiByteStr )
+  {
+    v12 = 87;
+LABEL_16:
+    SetLastError(v12);
+    return 0i64;
+  }
+  if ( !(_DWORD)v5 )
+  {
+    v5 = -1i64;
+    if ( v6 == 1 )
+    {
+      do
+        ++v5;
+      while ( *(_WORD *)&lpMultiByteStr[2 * v5] );
+      LODWORD(v5) = (unsigned __int16)v5;
+    }
+    else
+    {
+      do
+        ++v5;
+      while ( lpMultiByteStr[v5] );
+    }
+  }
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy((WCHAR *)lpMultiByteStr, v5, v6, a4);
+  v17[0] = BufferLengthForStringCopy;
+  if ( !BufferLengthForStringCopy )
+  {
+    v12 = 13;
+    goto LABEL_16;
+  }
+  v15 = Dns_AllocZero(BufferLengthForStringCopy);
+  v16 = v15;
+  if ( !v15 )
+  {
+    v12 = 14;
+    goto LABEL_16;
+  }
+  if ( !(unsigned int)Dns_StringCopy(v15, v17, (WCHAR *)lpMultiByteStr, v5, v6, a4) )
+  {
+    Dns_Free(v16);
+    return 0i64;
+  }
+  return v16;
+}
+// 1401BA003: using guessed type char byte_1401BA003;
+// 14015B50C: using guessed type unsigned int var_268[4];

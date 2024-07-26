@@ -1,0 +1,61 @@
+//----- (0000000140122420) ----------------------------------------------------
+__int64 __fastcall SoaUnknownFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  int v8; // ebx
+  int v9; // edi
+  char *v10; // rbx
+  unsigned __int8 *v11; // rax
+  unsigned __int8 *v12; // rsi
+  _BYTE *v13; // rax
+  _BYTE *v14; // rdi
+  unsigned __int8 *v15; // rbx
+  int v16; // eax
+  int v17[4]; // [rsp+30h] [rbp-D0h] BYREF
+  unsigned __int8 v18[272]; // [rsp+40h] [rbp-C0h] BYREF
+  unsigned __int8 v19[272]; // [rsp+150h] [rbp+50h] BYREF
+  char v20[544]; // [rsp+260h] [rbp+160h] BYREF
+
+  v17[0] = 0;
+  memset_0(v20, 0, 0x214ui64);
+  if ( a2 < 3 )
+    return 3222394115i64;
+  if ( !(unsigned int)File_ParseDwordToken(v17, a3 + 16, 0i64) )
+    return 3222394113i64;
+  v8 = v17[0];
+  if ( v17[0] > 0x214u )
+    return 3222394113i64;
+  v9 = a2 - 2;
+  if ( !v9 )
+    return 3222394113i64;
+  if ( (unsigned int)buildByteBufferFromHexStringTokens(v20, v17, v9, a3 + 32, (unsigned __int64)&v20[v17[0]]) )
+    return 3222394113i64;
+  if ( v17[0] != v8 )
+    return 3222394113i64;
+  v10 = &v20[v17[0]];
+  if ( v20 >= v10 )
+    return 3222394113i64;
+  v11 = Name_PacketNameToCountNameForUnknown(v18, (unsigned __int64)&v20[v17[0]], (unsigned __int8 *)v20);
+  if ( !v11 )
+    return 3222394113i64;
+  if ( v11 >= (unsigned __int8 *)v10 )
+    return 3222394113i64;
+  v12 = Name_PacketNameToCountNameForUnknown(v19, (unsigned __int64)v10, v11);
+  if ( v12 + 20 != (unsigned __int8 *)v10 )
+    return 3222394113i64;
+  v13 = RR_AllocateEx(v19[0] + 22 + v18[0] + 2, 0, 0);
+  v14 = v13;
+  if ( !v13 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v13;
+  v15 = v13 + 76;
+  *(_OWORD *)(v13 + 56) = *(_OWORD *)v12;
+  *((_DWORD *)v13 + 18) = *((_DWORD *)v12 + 4);
+  Name_CopyCountName(v13 + 76, v18);
+  Name_CopyCountName(&v15[*v15 + 2], v19);
+  *(_DWORD *)(a4 + 812) = 1;
+  v16 = *((_DWORD *)v14 + 18);
+  *(_DWORD *)(a4 + 264) = v16;
+  *(_DWORD *)(a4 + 268) = v16;
+  return 0i64;
+}
+// 140122420: using guessed type unsigned __int8 var_250[544];

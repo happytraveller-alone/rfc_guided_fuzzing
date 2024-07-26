@@ -1,0 +1,90 @@
+//----- (000000014001703C) ----------------------------------------------------
+__int64 *__fastcall Lookup_FindNsecNodeCoveringDbaseName(__int64 a1, __int64 *a2, unsigned __int8 *a3)
+{
+  unsigned __int8 *v3; // r14
+  __int64 v6; // rax
+  __int64 NextRecord; // rbx
+  _QWORD *v8; // rbx
+  _QWORD *v9; // rax
+  int v10; // eax
+  __int64 *v11; // rax
+  __int64 v12; // r8
+  __int64 *v14; // [rsp+40h] [rbp-C0h] BYREF
+  _QWORD *v15; // [rsp+48h] [rbp-B8h] BYREF
+  unsigned __int8 v16[272]; // [rsp+50h] [rbp-B0h] BYREF
+
+  v14 = 0i64;
+  v3 = a3;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v6 = *(_QWORD *)(a1 + 16);
+    else
+      v6 = 0i64;
+    WPP_SF_qs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x1Fu,
+      (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids,
+      a3,
+      v6);
+  }
+  if ( a1 )
+  {
+    if ( (*(_BYTE *)(a1 + 396) & 0x20) != 0 )
+    {
+      NextRecord = RR_FindNextRecordEx(*(_QWORD *)(a1 + 40), 0, 0x33u, 0i64, 0, 0);
+      if ( NextRecord )
+      {
+        Name_CopyCountName(v16, v3);
+        Validator_HashDbName(v16, NextRecord, *(unsigned __int8 **)(a1 + 32), 0);
+        v3 = v16;
+      }
+    }
+    v8 = 0i64;
+    if ( a2 )
+    {
+      v9 = (_QWORD *)RR_FindNextRecordEx((__int64)a2, 0, 0xFFF1u, 0i64, 0, 0);
+      v8 = v9;
+      if ( v9 )
+        v8 = RR_CopyRecordListWithOwnerName(a2, v9, v9);
+    }
+    v15 = v8;
+    if ( v8 && (v10 = nameMatchOrCoveredByNSECSet(v3, (__int64 *)&v15, 1u, 0, 2, 0i64), v8 = v15, v10 == 2) )
+    {
+      v14 = a2;
+    }
+    else
+    {
+      v11 = (__int64 *)Lookup_ZoneNode(
+                         a1,
+                         v3 + 2,
+                         0i64,
+                         0i64,
+                         16,
+                         (__int64 *)0xFFFFFFFFFFFFFFFFi64,
+                         (__int64 *)&v14,
+                         0i64);
+      if ( v11 )
+      {
+        if ( v11[8] )
+        {
+          v14 = 0i64;
+        }
+        else
+        {
+          v14 = 0i64;
+          v12 = *v11;
+          if ( (*(_BYTE *)(a1 + 396) & 0x20) != 0 )
+            NTree_FindBestNSEC3Node((__int64 *)&v14, (__int64)v11, v12, 0);
+          else
+            NTree_FindBestNSECNode(&v14, (__int64)v11, v12, 0);
+        }
+      }
+    }
+    if ( v8 )
+      RR_ListFree(v8);
+  }
+  return v14;
+}

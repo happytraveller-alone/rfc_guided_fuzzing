@@ -1,0 +1,586 @@
+//----- (0000000140039B18) ----------------------------------------------------
+__int64 __fastcall Ds_LoadRootDseAttributes(LDAP *ld)
+{
+  LDAP *v1; // rsi
+  unsigned int v2; // ebx
+  WCHAR *v3; // r14
+  WCHAR *v4; // r13
+  DWORD TickCount; // ebx
+  ULONG v6; // edi
+  ULONG LastError; // ecx
+  PWSTR v8; // rdx
+  LDAPMessage *entry; // rax
+  WCHAR *v10; // r12
+  __int64 v11; // rbx
+  PWCHAR *v12; // rax
+  char **v13; // rdi
+  PWCHAR v14; // rax
+  __int64 v15; // r15
+  ULONG v16; // eax
+  ULONG v17; // r15d
+  size_t v18; // rcx
+  unsigned int v19; // r14d
+  CDnsClientSubnetRecordsTrie *v20; // rcx
+  __int64 *v21; // r11
+  unsigned __int16 *v22; // rax
+  int v23; // edx
+  int v24; // r8d
+  unsigned __int16 *v25; // rax
+  int v26; // edx
+  int v27; // r8d
+  __int64 v28; // rbx
+  __int64 v29; // rbx
+  char *v30; // rax
+  __int64 v31; // r8
+  __int64 v32; // rax
+  PWSTR v33; // rax
+  __int64 v34; // rbx
+  __int64 v35; // r10
+  __int64 v36; // rbx
+  __int64 v37; // rbx
+  char *v38; // rax
+  _QWORD *v39; // rax
+  __int64 v40; // rsi
+  DWORD v42; // edi
+  ULONG v43; // eax
+  LDAPMessage *v44; // rdx
+  ULONG v45; // ebx
+  LDAPMessage *v46; // rax
+  ULONG v47; // eax
+  PWCHAR *valuesW; // rax
+  PWCHAR v49; // rax
+  __int64 v50; // rbx
+  __int64 v51; // rbx
+  char *v52; // rax
+  WCHAR *v53; // r14
+  LDAPMessage *v54; // rax
+  const wchar_t **v55; // rax
+  unsigned __int16 v56; // dx
+  __int64 v57; // rcx
+  int v58; // r8d
+  LDAPMessage *v59; // rax
+  const wchar_t **v60; // rax
+  unsigned __int16 v61; // dx
+  __int64 v62; // rcx
+  int v63; // r8d
+  DWORD PrimaryDomainInformation; // eax
+  CDnsClientSubnetRecordsTrie *v65; // rcx
+  unsigned __int16 v66; // dx
+  int v67; // r9d
+  char *v68; // r8
+  CDnsClientSubnetRecordsTrie *v69; // rcx
+  __int64 v70; // [rsp+60h] [rbp-39h]
+  PVOID Buffer; // [rsp+68h] [rbp-31h] BYREF
+  PWSTR v72; // [rsp+70h] [rbp-29h]
+  __int64 v73; // [rsp+78h] [rbp-21h]
+  LDAPMessage *v74; // [rsp+80h] [rbp-19h]
+  PWSTR v75[2]; // [rsp+88h] [rbp-11h] BYREF
+  PWSTR attrs[11]; // [rsp+98h] [rbp-1h] BYREF
+  int v78; // [rsp+108h] [rbp+6Fh]
+  PLDAPMessage res; // [rsp+110h] [rbp+77h] BYREF
+  char **v80; // [rsp+118h] [rbp+7Fh]
+
+  attrs[0] = (PWSTR)L"serverReference";
+  v1 = ld;
+  res = 0i64;
+  v75[0] = (PWSTR)L"msDS-Behavior-Version";
+  v2 = 0;
+  attrs[1] = 0i64;
+  v3 = 0i64;
+  v75[1] = 0i64;
+  Buffer = 0i64;
+  v4 = 0i64;
+  if ( _InterlockedIncrement(&dword_1401B8D60) != 1 )
+    goto LABEL_77;
+  if ( !ld )
+  {
+    v2 = 87;
+    goto LABEL_77;
+  }
+  TickCount = GetTickCount();
+  v6 = ldap_search_ext_sW(v1, 0i64, 0, g_szWildCardFilter, 0i64, 0, 0i64, 0i64, &g_LdapTimeout, 0, &res);
+  _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - TickCount);
+  if ( v6 )
+  {
+    LastError = v6;
+LABEL_6:
+    v8 = 0i64;
+LABEL_7:
+    v2 = Ds_ErrorHandler(LastError, (__int64)v8, v1, 0);
+    goto LABEL_73;
+  }
+  entry = ldap_first_entry(v1, res);
+  v74 = entry;
+  if ( !entry )
+  {
+    LastError = LdapGetLastError();
+    goto LABEL_6;
+  }
+  v10 = DSEAttributes[0];
+  v72 = DSEAttributes[0];
+  if ( !DSEAttributes[0] )
+  {
+LABEL_85:
+    ldap_msgfree(res);
+    res = 0i64;
+    Ds_TestDSEAttributesForRODCMode();
+    v42 = GetTickCount();
+    v43 = ldap_search_ext_sW(v1, base, 0, g_szWildCardFilter, attrs, 0, 0i64, 0i64, &g_LdapTimeout, 0, &res);
+    v44 = res;
+    v45 = v43;
+    if ( res )
+    {
+      _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - v42);
+      v44 = res;
+    }
+    if ( v45 )
+    {
+      v8 = base;
+      LastError = v45;
+      goto LABEL_7;
+    }
+    v46 = ldap_first_entry(v1, v44);
+    if ( !v46 )
+    {
+      v47 = LdapGetLastError();
+      v8 = base;
+      LastError = v47;
+      goto LABEL_7;
+    }
+    valuesW = ldap_get_valuesW(v1, v46, (const PWSTR)L"serverReference");
+    v13 = (char **)valuesW;
+    if ( !valuesW || (v49 = *valuesW) == 0i64 )
+    {
+LABEL_66:
+      v2 = 87;
+      goto LABEL_67;
+    }
+    v50 = -1i64;
+    do
+      ++v50;
+    while ( v49[v50] );
+    v51 = v50 + 1;
+    v52 = (char *)Mem_Alloc(2 * (int)v51, 12i64, "ds\\dns\\server\\server\\ds.c", 4207);
+    v53 = (WCHAR *)v52;
+    if ( !v52 )
+    {
+LABEL_79:
+      v2 = 14;
+      goto LABEL_71;
+    }
+    if ( (int)StringCchCopyW(v52, v51, *v13) < 0 )
+      goto LABEL_84;
+    Timeout_FreeWithFunctionEx((__int64)g_dnMachineAcct, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 4220);
+    g_dnMachineAcct = v53;
+    ldap_value_freeW((PWCHAR *)v13);
+    v13 = 0i64;
+    if ( res )
+    {
+      ldap_msgfree(res);
+      res = 0i64;
+    }
+    ldap_search_ext_sW(v1, g_dnMachineAcct, 0, g_szWildCardFilter, v75, 0, 0i64, 0i64, &g_LdapTimeout, 0, &res);
+    if ( !res )
+    {
+LABEL_120:
+      ldap_search_ext_sW(v1, DistinguishedName, 0, g_szWildCardFilter, v75, 0, 0i64, 0i64, &g_LdapTimeout, 0, &res);
+      if ( res )
+      {
+        v59 = ldap_first_entry(v1, res);
+        if ( v59 )
+        {
+          v60 = (const wchar_t **)ldap_get_valuesW(v1, v59, (const PWSTR)L"msDS-Behavior-Version");
+          v13 = (char **)v60;
+          if ( v60 && *v60 )
+          {
+            if ( dword_1401B9888 == -1 || dword_1401B9888 <= (unsigned int)_wtoi(*v60) )
+              g_ulDsDomainVersion = _wtoi((const wchar_t *)*v13);
+            else
+              g_ulDsDomainVersion = dword_1401B9888;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+            {
+              goto LABEL_139;
+            }
+            v61 = 78;
+            v62 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+          }
+          else
+          {
+            v63 = 0;
+            if ( (unsigned int)(dword_1401B9888 - 1) <= 0xFFFFFFFD )
+              v63 = dword_1401B9888;
+            g_ulDsDomainVersion = v63;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+            {
+              goto LABEL_139;
+            }
+            v62 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+            v61 = 79;
+          }
+          WPP_SF_SD(v62, v61, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, L"msDS-Behavior-Version");
+        }
+      }
+LABEL_139:
+      PrimaryDomainInformation = DsRoleGetPrimaryDomainInformation(0i64, DsRolePrimaryDomainInfoBasic, (PBYTE *)&Buffer);
+      v2 = PrimaryDomainInformation;
+      if ( PrimaryDomainInformation )
+      {
+        v65 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_71;
+        }
+        v66 = 80;
+        v67 = PrimaryDomainInformation;
+        goto LABEL_144;
+      }
+      if ( !Buffer )
+      {
+        v67 = 13;
+        v2 = 13;
+        v65 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_71;
+        }
+        v66 = 81;
+        goto LABEL_144;
+      }
+      v68 = (char *)*((_QWORD *)Buffer + 1);
+      if ( !v68 || !*((_QWORD *)Buffer + 3) || !*((_QWORD *)Buffer + 2) )
+      {
+        v67 = 13;
+        v2 = 13;
+        v65 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_71;
+        }
+        v66 = 82;
+LABEL_144:
+        WPP_SF_D(*((_QWORD *)v65 + 7), v66, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, v67);
+        goto LABEL_71;
+      }
+      if ( (int)StringCchCopyW((char *)g_wszDsRoleDomainFlatName, 16i64, v68) >= 0
+        && (int)StringCchCopyW((char *)g_wszDsRoleDomainName, 256i64, *((char **)Buffer + 2)) >= 0
+        && (int)StringCchCopyW((char *)g_wszDsRoleDomainForestName, 256i64, *((char **)Buffer + 3)) >= 0 )
+      {
+        v69 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+        {
+          if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_S(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x53u,
+              (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+              g_wszDsRoleDomainFlatName);
+            v69 = WPP_GLOBAL_Control;
+          }
+          if ( v69 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+          {
+            if ( (*((_DWORD *)v69 + 17) & 0x400) != 0 && *((_BYTE *)v69 + 65) >= 4u )
+            {
+              WPP_SF_S(
+                *((_QWORD *)v69 + 7),
+                0x54u,
+                (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                g_wszDsRoleDomainName);
+              v69 = WPP_GLOBAL_Control;
+            }
+            if ( v69 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)v69 + 17) & 0x400) != 0
+              && *((_BYTE *)v69 + 65) >= 4u )
+            {
+              WPP_SF_S(
+                *((_QWORD *)v69 + 7),
+                0x55u,
+                (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                g_wszDsRoleDomainForestName);
+            }
+          }
+        }
+        goto LABEL_71;
+      }
+LABEL_84:
+      v2 = 87;
+      goto LABEL_71;
+    }
+    v54 = ldap_first_entry(v1, res);
+    if ( v54 )
+    {
+      v55 = (const wchar_t **)ldap_get_valuesW(v1, v54, (const PWSTR)L"msDS-Behavior-Version");
+      v13 = (char **)v55;
+      if ( !v55 || !*v55 )
+      {
+        v58 = 0;
+        if ( (unsigned int)(dword_1401B9890 - 1) <= 0xFFFFFFFD )
+          v58 = dword_1401B9890;
+        g_ulDsDsaVersion = v58;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+        {
+          goto LABEL_118;
+        }
+        v57 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+        v56 = 77;
+        goto LABEL_117;
+      }
+      if ( dword_1401B9890 == -1 || dword_1401B9890 <= (unsigned int)_wtoi(*v55) )
+        g_ulDsDsaVersion = _wtoi((const wchar_t *)*v13);
+      else
+        g_ulDsDsaVersion = dword_1401B9890;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v56 = 76;
+        v57 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+LABEL_117:
+        WPP_SF_SD(v57, v56, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, L"msDS-Behavior-Version");
+      }
+    }
+LABEL_118:
+    if ( res )
+    {
+      ldap_msgfree(res);
+      res = 0i64;
+    }
+    goto LABEL_120;
+  }
+  v11 = 0i64;
+  v70 = 0i64;
+  while ( 1 )
+  {
+    v12 = ldap_get_valuesW(v1, entry, v10);
+    v13 = (char **)v12;
+    if ( !v12 || (v14 = *v12) == 0i64 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_S(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x48u,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          v10);
+      }
+      goto LABEL_84;
+    }
+    v15 = 3 * v11;
+    v73 = 3 * v11;
+    if ( LODWORD(DSEAttributes[3 * v11 + 1]) )
+      break;
+    v36 = -1i64;
+    do
+      ++v36;
+    while ( v14[v36] );
+    v37 = v36 + 1;
+    v38 = (char *)Mem_Alloc(2 * (int)v37, 12i64, "ds\\dns\\server\\server\\ds.c", 4091);
+    v3 = (WCHAR *)v38;
+    if ( !v38 )
+      goto LABEL_79;
+    if ( (int)StringCchCopyW(v38, v37, *v13) < 0 )
+      goto LABEL_84;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_SS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Bu,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v10,
+        (__int64)v3);
+    }
+LABEL_49:
+    v33 = DSEAttributes[v15 + 2];
+    if ( v33 )
+    {
+      if ( LODWORD(DSEAttributes[v15 + 1]) )
+      {
+        v34 = 0i64;
+        if ( *(_QWORD *)v33 )
+        {
+          v35 = 0i64;
+          do
+          {
+            Timeout_FreeWithFunctionEx(
+              *(_QWORD *)&DSEAttributes[v15 + 2][v35],
+              0i64,
+              (__int64)"ds\\dns\\server\\server\\ds.c",
+              4123);
+            ++v34;
+            v35 = 4 * v34;
+          }
+          while ( *(_QWORD *)&DSEAttributes[v15 + 2][4 * v34] );
+          v1 = ld;
+        }
+      }
+      Timeout_FreeWithFunctionEx((__int64)DSEAttributes[v15 + 2], 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 4126);
+    }
+    ldap_value_freeW((PWCHAR *)v13);
+    v11 = v70 + 1;
+    DSEAttributes[v15 + 2] = v3;
+    v70 = v11;
+    v10 = DSEAttributes[3 * v11];
+    v72 = v10;
+    if ( !v10 )
+      goto LABEL_85;
+    entry = v74;
+  }
+  v16 = ldap_count_valuesW((PWCHAR *)v13);
+  v17 = v16;
+  if ( !v16 )
+  {
+LABEL_48:
+    v15 = v73;
+    goto LABEL_49;
+  }
+  v18 = 8 * v16 + 8;
+  if ( v16 >= 0x7FFFFFFF )
+    goto LABEL_79;
+  if ( (int)v18 <= (int)v16 )
+    goto LABEL_79;
+  if ( v16 >= 0xFFFFFFF )
+    goto LABEL_79;
+  v4 = (WCHAR *)Mem_AllocZero(v18, 12i64, "ds\\dns\\server\\server\\ds.c", 4014);
+  if ( !v4 )
+    goto LABEL_79;
+  v78 = 0;
+  v19 = 0;
+  if ( !v17 )
+  {
+LABEL_47:
+    v32 = v19;
+    v3 = v4;
+    *(_QWORD *)&v4[4 * v32] = 0i64;
+    v4 = 0i64;
+    goto LABEL_48;
+  }
+  v20 = WPP_GLOBAL_Control;
+  v21 = (__int64 *)v13;
+  v80 = v13;
+  while ( v11 == 9 )
+  {
+    v22 = (unsigned __int16 *)*v21;
+    do
+    {
+      v23 = *(unsigned __int16 *)((char *)qword_1401B6B70 + (_QWORD)v22 - *v21);
+      v24 = *v22 - v23;
+      if ( v24 )
+        break;
+      ++v22;
+    }
+    while ( v23 );
+    if ( v24 )
+    {
+      v25 = (unsigned __int16 *)*v21;
+      do
+      {
+        v26 = *(unsigned __int16 *)((char *)v25 + qword_1401B6B58 - *v21);
+        v27 = *v25 - v26;
+        if ( v27 )
+          break;
+        ++v25;
+      }
+      while ( v26 );
+      if ( v27 )
+        break;
+    }
+    if ( v20 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v20 + 17) & 0x400) != 0
+      && *((_BYTE *)v20 + 65) >= 4u )
+    {
+      WPP_SF_SS(*((_QWORD *)v20 + 7), 0x49u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, v10, *v21);
+      v20 = WPP_GLOBAL_Control;
+      v21 = (__int64 *)v80;
+    }
+    --v19;
+LABEL_46:
+    v80 = (char **)++v21;
+    ++v19;
+    if ( ++v78 >= v17 )
+      goto LABEL_47;
+  }
+  v28 = -1i64;
+  do
+    ++v28;
+  while ( *(_WORD *)(*v21 + 2 * v28) );
+  v29 = v28 + 1;
+  v30 = (char *)Mem_Alloc(2 * (int)v29, 12i64, "ds\\dns\\server\\server\\ds.c", 4053);
+  *(_QWORD *)&v4[4 * v19] = v30;
+  if ( v30 )
+  {
+    if ( (int)StringCchCopyW(v30, v29, *v80) < 0 )
+      goto LABEL_66;
+    v20 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      v10 = v72;
+    }
+    else
+    {
+      v10 = v72;
+      WPP_SF_SLS(*((_QWORD *)WPP_GLOBAL_Control + 7), 0i64, v31, v72, v19, *(_QWORD *)&v4[4 * v19]);
+      v20 = WPP_GLOBAL_Control;
+    }
+    v11 = v70;
+    v21 = (__int64 *)v80;
+    goto LABEL_46;
+  }
+  v2 = 14;
+LABEL_67:
+  if ( v4 )
+  {
+    v39 = *(_QWORD **)v4;
+    if ( *(_QWORD *)v4 )
+    {
+      v40 = 0i64;
+      do
+      {
+        Mem_Free(v39, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 4410);
+        ++v40;
+        v39 = *(_QWORD **)&v4[4 * v40];
+      }
+      while ( v39 );
+    }
+  }
+LABEL_71:
+  if ( v13 )
+    ldap_value_freeW((PWCHAR *)v13);
+LABEL_73:
+  if ( res )
+    ldap_msgfree(res);
+  if ( Buffer )
+    DsRoleFreeMemory(Buffer);
+LABEL_77:
+  _InterlockedDecrement(&dword_1401B8D60);
+  return v2;
+}
+// 140039E42: variable 'v31' is possibly undefined
+// 1401B6B00: using guessed type PWSTR DSEAttributes[3];
+// 1401B6B58: using guessed type __int64 qword_1401B6B58;
+// 1401B7F68: using guessed type int g_ulDsDomainVersion;
+// 1401B7F74: using guessed type int g_ulDsDsaVersion;
+// 1401B8D60: using guessed type int dword_1401B8D60;
+// 1401B9888: using guessed type int dword_1401B9888;
+// 1401B9890: using guessed type int dword_1401B9890;
+// 1401C7D48: using guessed type int dword_1401C7D48;
+// 1401EBF00: using guessed type unsigned __int16 g_wszDsRoleDomainFlatName[16];
+// 1401EBF20: using guessed type unsigned __int16 g_wszDsRoleDomainName[256];
+// 1401EC120: using guessed type unsigned __int16 g_wszDsRoleDomainForestName[256];

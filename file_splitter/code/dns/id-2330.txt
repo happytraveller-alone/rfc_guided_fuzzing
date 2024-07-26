@@ -1,0 +1,17 @@
+//----- (000000014011F540) ----------------------------------------------------
+__int64 __fastcall PtrFileRead(__int64 a1, unsigned int a2, const void **a3, __int64 a4, int a5)
+{
+  _BYTE *v7; // rax
+  unsigned __int8 v8[272]; // [rsp+30h] [rbp-128h] BYREF
+
+  if ( a2 != 1 )
+    return (unsigned int)(-(a2 > 1) - 1072573181);
+  if ( (unsigned int)File_ReadCountNameFromToken(v8, 0i64, a4, a3, a5) )
+    return 3222394113i64;
+  v7 = RR_AllocateEx(v8[0] + 2, 0, 0);
+  if ( !v7 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v7;
+  Name_CopyCountName(v7 + 56, v8);
+  return 0i64;
+}

@@ -1,0 +1,351 @@
+//----- (00000001400D1D30) ----------------------------------------------------
+__int64 __fastcall Rpc_ResetZoneTypeEx(__int64 a1, const wchar_t **a2, __int64 a3, __int64 a4, int a5, __int64 a6)
+{
+  const wchar_t *v6; // rax
+  unsigned int v9; // edi
+  CDnsClientSubnetRecordsTrie *v10; // r10
+  int v12; // r13d
+  int v13; // r15d
+  unsigned int v14; // r14d
+  const wchar_t *v15; // rdx
+  const char *v16; // rcx
+  int v17; // ecx
+  unsigned int v18; // eax
+  CDnsClientSubnetRecordsTrie *v19; // rcx
+  unsigned __int16 v20; // dx
+  UINT v21; // ecx
+  __int64 v22; // rdx
+  __int64 v23; // rcx
+  __int64 v24; // rax
+  __int128 *v25; // r9
+  const wchar_t *v26; // rcx
+  const wchar_t *v27; // rax
+  unsigned __int16 v28; // r8
+  __int128 *v29; // rcx
+  __int128 v30; // xmm0
+  const wchar_t *v31; // rcx
+  const wchar_t *v32; // rax
+  const char *v33; // rax
+  const char *v34; // rcx
+  const char *v35; // rcx
+  const wchar_t *v36; // rax
+  int v37; // [rsp+50h] [rbp-B0h] BYREF
+  int v38[3]; // [rsp+54h] [rbp-ACh] BYREF
+  __int128 v39; // [rsp+60h] [rbp-A0h] BYREF
+  void *v40; // [rsp+70h] [rbp-90h]
+  __int128 v41; // [rsp+80h] [rbp-80h] BYREF
+  const wchar_t *v42; // [rsp+90h] [rbp-70h]
+  WCHAR Buffer[64]; // [rsp+A0h] [rbp-60h] BYREF
+
+  v6 = L".";
+  v37 = 0;
+  if ( a6 )
+  {
+    v12 = *(_DWORD *)(a3 + 372);
+    v13 = *(_DWORD *)(a6 + 16);
+    v14 = *(_DWORD *)(a6 + 40);
+    if ( a2 )
+    {
+      if ( v12 != 1 && v13 != 1 )
+      {
+        v9 = 9611;
+LABEL_18:
+        v10 = WPP_GLOBAL_Control;
+        goto LABEL_7;
+      }
+      if ( v14 )
+      {
+        v9 = 9553;
+        goto LABEL_18;
+      }
+    }
+    v10 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( a2 )
+        v15 = *a2;
+      else
+        v15 = L".";
+      v16 = "file-backed";
+      if ( v14 )
+        v16 = "DS-integrated";
+      WPP_SF_sSDDss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        (__int64)v15,
+        a3,
+        *(const char **)(a3 + 16),
+        (__int64)v15,
+        v13,
+        *(_DWORD *)(a6 + 44),
+        (__int64)v16,
+        *(_QWORD *)(a6 + 32));
+      v10 = WPP_GLOBAL_Control;
+    }
+    v17 = *(_DWORD *)(a3 + 388);
+    if ( (v17 & 1) != 0 && (v17 & 6) != 0 )
+    {
+      v9 = 9568;
+      goto LABEL_6;
+    }
+    if ( *(_DWORD *)(a3 + 372) == 1
+      && ((*(_BYTE *)(a3 + 1040) & 4) != 0 || *(_QWORD *)(a3 + 1136))
+      && ((v17 & 1) != 0 || v13 != 1 || v14) )
+    {
+      v9 = 9102;
+      goto LABEL_6;
+    }
+    if ( ((v17 & 1) != 0 && (dword_1401B9750 || g_fDsReadOnlyDcMode) || (*(_BYTE *)(a3 + 1160) & 0x40) != 0) && v14 )
+    {
+      v9 = 9569;
+      goto LABEL_6;
+    }
+    if ( *(_QWORD *)(a3 + 184) && (unsigned int)(v13 - 1) > 1 )
+    {
+      v9 = 9955;
+      goto LABEL_6;
+    }
+    v9 = Zone_LockForWriteEx(a3, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\zonerpc.c", 137);
+    if ( v9 )
+    {
+LABEL_110:
+      v10 = WPP_GLOBAL_Control;
+      v6 = L".";
+      goto LABEL_7;
+    }
+    if ( v13 != 1 )
+    {
+      switch ( v13 )
+      {
+        case 2:
+          v18 = zoneResetToSecondary(a3, *(CHAR **)(a6 + 32), *(_DWORD **)(a6 + 56));
+          break;
+        case 3:
+          v18 = zoneResetToStub(
+                  a3,
+                  v14,
+                  *(CHAR **)(a6 + 32),
+                  *(_DWORD **)(a6 + 56),
+                  *(_DWORD *)(a6 + 88),
+                  *(char **)(a6 + 96));
+          break;
+        case 4:
+          v18 = zoneResetToForwarder(
+                  a3,
+                  v14,
+                  *(CHAR **)(a6 + 32),
+                  *(_DWORD **)(a6 + 56),
+                  *(_DWORD *)(a6 + 88),
+                  *(char **)(a6 + 96));
+LABEL_66:
+          v9 = v18;
+          if ( v12 == 1 )
+          {
+            if ( *(_DWORD *)(a3 + 372) == 1 )
+              goto LABEL_81;
+            v9 = Reg_DeleteValue(0, 0i64, a3, "IsKeymaster");
+            if ( v9 )
+            {
+              v19 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+              {
+                v20 = 44;
+LABEL_73:
+                WPP_SF_s(
+                  *((_QWORD *)v19 + 7),
+                  v20,
+                  (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+                  *(const char **)(a3 + 16));
+                goto LABEL_81;
+              }
+              goto LABEL_81;
+            }
+          }
+          else
+          {
+            if ( *(_DWORD *)(a3 + 372) != 1 || (*(_BYTE *)(a3 + 1040) & 2) == 0 )
+              goto LABEL_81;
+            v38[0] = 1;
+            v9 = Reg_SetValue(0, 0i64, a3, "IsKeymaster", 4u, (BYTE *)v38, 4u);
+            if ( v9 )
+            {
+              v19 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+              {
+                v20 = 45;
+                goto LABEL_73;
+              }
+LABEL_81:
+              if ( v9 )
+                goto LABEL_83;
+            }
+          }
+          Config_UpdateBootInfo();
+          goto LABEL_83;
+        default:
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_sd(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x2Bu,
+              (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+              *(const char **)(a3 + 16));
+          }
+          v9 = 9611;
+LABEL_83:
+          Zone_UnlockAfterWriteEx(a3, 1, (__int64)"ds\\dns\\server\\server\\zonerpc.c", 13);
+          if ( v37 )
+            Xfr_ForceZoneExpiration(a3, 0);
+          if ( v9 )
+            goto LABEL_110;
+          memset_0(Buffer, 0, sizeof(Buffer));
+          switch ( v13 )
+          {
+            case 1:
+              v21 = 12022;
+              break;
+            case 2:
+              v21 = 12023;
+              break;
+            case 3:
+              v21 = 12024;
+              break;
+            case 4:
+              v21 = 12025;
+              break;
+            default:
+              goto LABEL_95;
+          }
+          Dns_GetResourceString(v21, Buffer, 64i64);
+LABEL_95:
+          LogZoneProperty(a3, "Type", Buffer);
+          LogZoneProperty(a3, "DatabaseFile", *(const unsigned __int16 **)(a3 + 144));
+          v23 = *(unsigned int *)(a3 + 372);
+          v24 = *(_QWORD *)(a3 + 16);
+          if ( (*(_BYTE *)(a3 + 388) & 1) != 0 )
+          {
+            if ( v12 != (_DWORD)v23 )
+            {
+              *((_QWORD *)&v41 + 1) = *(unsigned int *)(a3 + 372);
+              v25 = &v41;
+              *(_QWORD *)&v41 = v24;
+              v26 = L"N/A";
+              v27 = *(const wchar_t **)(a3 + 840);
+              v28 = 3;
+              LOWORD(v37) = 1027;
+              BYTE2(v37) = 1;
+              if ( v27 )
+                v26 = v27;
+              v42 = v26;
+              v29 = &v39;
+              v39 = DNS_EVENT_ZONE_RESET_TYPE_COMPLETE_DS;
+              goto LABEL_109;
+            }
+            v30 = DNS_EVENT_ZONE_MOVE_COMPLETE_DS;
+            *(_QWORD *)&v39 = *(_QWORD *)(a3 + 16);
+            v31 = L"N/A";
+            v32 = *(const wchar_t **)(a3 + 840);
+            v25 = &v39;
+            LOWORD(v37) = 259;
+            v28 = 2;
+            if ( v32 )
+              v31 = v32;
+            *((_QWORD *)&v39 + 1) = v31;
+          }
+          else
+          {
+            *(_QWORD *)&v39 = *(_QWORD *)(a3 + 16);
+            v33 = *(const char **)(a3 + 136);
+            if ( v12 == (_DWORD)v23 )
+            {
+              v35 = "N/A";
+              if ( v33 )
+                v35 = *(const char **)(a3 + 136);
+              *((_QWORD *)&v39 + 1) = v35;
+              if ( a2 )
+                v36 = *a2;
+              else
+                v36 = L".";
+              v30 = DNS_EVENT_ZONE_MOVE_COMPLETE_FILE;
+              v40 = (void *)v36;
+              LOWORD(v37) = 771;
+            }
+            else
+            {
+              v30 = DNS_EVENT_ZONE_RESET_TYPE_COMPLETE_FILE;
+              *((_QWORD *)&v39 + 1) = v23;
+              v34 = "N/A";
+              LOWORD(v37) = 1027;
+              if ( v33 )
+                v34 = v33;
+              v40 = (void *)v34;
+            }
+            BYTE2(v37) = 3;
+            v28 = 3;
+            v25 = &v39;
+          }
+          v41 = v30;
+          v29 = &v41;
+LABEL_109:
+          Eventlog_LogEvent((__int64)v29, v22, v28, (unsigned __int16 **)v25, (unsigned __int8 *)&v37, 0, 0, 0i64);
+          goto LABEL_110;
+      }
+      v37 = 1;
+      goto LABEL_66;
+    }
+    if ( v14 )
+      v18 = Rpc_ZoneResetToDsPrimary(
+              a3,
+              *(unsigned int *)(a6 + 44),
+              0i64,
+              *(_DWORD *)(a6 + 88),
+              *(char **)(a6 + 96),
+              0x10000000);
+    else
+      v18 = zoneResetToPrimary(a2, a3, *(CHAR **)(a6 + 32));
+    goto LABEL_66;
+  }
+  v9 = 87;
+  v10 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    return v9;
+  if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x29u, (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids, 87);
+    v10 = WPP_GLOBAL_Control;
+LABEL_6:
+    v6 = L".";
+  }
+LABEL_7:
+  if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v10 + 68) & 4) != 0
+    && *((_BYTE *)v10 + 65) >= 4u )
+  {
+    if ( a2 )
+      v6 = *a2;
+    WPP_SF_DsS(
+      *((_QWORD *)v10 + 7),
+      0x2Eu,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      v9,
+      *(_QWORD *)(a3 + 16),
+      (__int64)v6);
+  }
+  return v9;
+}
+// 1400D2370: variable 'v22' is possibly undefined
+// 140186C38: using guessed type __int128 DNS_EVENT_ZONE_RESET_TYPE_COMPLETE_DS;
+// 140186DF0: using guessed type __int128 DNS_EVENT_ZONE_MOVE_COMPLETE_DS;
+// 1401870D0: using guessed type __int128 DNS_EVENT_ZONE_RESET_TYPE_COMPLETE_FILE;
+// 140187A88: using guessed type __int128 DNS_EVENT_ZONE_MOVE_COMPLETE_FILE;
+// 14018B7F8: using guessed type wchar_t aNA[4];
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9750: using guessed type int dword_1401B9750;
+// 1400D1D30: using guessed type int var_10C[3];

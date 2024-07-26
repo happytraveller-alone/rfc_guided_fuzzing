@@ -1,0 +1,28 @@
+//----- (0000000140165DF0) ----------------------------------------------------
+_WORD *__fastcall NxtDnsRecordConvert(__int64 a1)
+{
+  __int64 v2; // rsi
+  unsigned int BufferLengthForStringCopy; // eax
+  int v4; // ecx
+  _WORD *result; // rax
+  _WORD *v6; // rbx
+  __int64 v7; // rcx
+  unsigned int v8; // [rsp+40h] [rbp+8h] BYREF
+
+  v2 = 2 - (unsigned int)((*(_DWORD *)(a1 + 20) & 0x18) == 8);
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy(*(WCHAR **)(a1 + 32), 0, v2, 2);
+  v4 = *(unsigned __int16 *)(a1 + 40);
+  v8 = BufferLengthForStringCopy;
+  result = Rpc_AllocateRecord(BufferLengthForStringCopy + 2 * v4 + 3);
+  v6 = result;
+  if ( result )
+  {
+    result[12] = *(_WORD *)(a1 + 40);
+    memcpy_0(result + 13, (const void *)(a1 + 42), 2i64 * *(unsigned __int16 *)(a1 + 40));
+    v7 = (unsigned __int16)v6[12];
+    LOBYTE(v6[v7 + 13]) = v8;
+    Dns_StringCopy((_WORD *)((char *)&v6[v7 + 13] + 1), &v8, *(WCHAR **)(a1 + 32), 0, v2, 2);
+    return v6;
+  }
+  return result;
+}

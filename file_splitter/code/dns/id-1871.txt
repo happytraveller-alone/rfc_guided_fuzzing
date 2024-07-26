@@ -1,0 +1,5 @@
+//----- (00000001400E73B0) ----------------------------------------------------
+void __noreturn std::wstring::_Xlen()
+{
+  std::_Xlength_error("string too long");
+}

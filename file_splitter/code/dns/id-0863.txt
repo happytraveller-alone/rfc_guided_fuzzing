@@ -1,0 +1,43 @@
+//----- (00000001400771AC) ----------------------------------------------------
+HKEY __fastcall OpenZoneKey(const WCHAR *a1, const WCHAR *a2)
+{
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  unsigned __int16 v5; // dx
+  HKEY result; // rax
+
+  if ( !a2 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x57u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids);
+    }
+    return 0i64;
+  }
+  if ( !Reg_ZoneKeyPresent(a1, a2) )
+  {
+    v4 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return 0i64;
+    }
+    v5 = 88;
+    goto LABEL_16;
+  }
+  result = Reg_OpenZone(a1, a2, 0i64);
+  if ( result )
+    return result;
+  v4 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v5 = 89;
+LABEL_16:
+    WPP_SF_S(*((_QWORD *)v4 + 7), v5, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a2);
+  }
+  return 0i64;
+}

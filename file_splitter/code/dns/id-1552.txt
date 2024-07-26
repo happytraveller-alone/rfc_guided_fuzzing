@@ -1,0 +1,55 @@
+//----- (00000001400C4264) ----------------------------------------------------
+__int64 __fastcall Zone_CreateAutomaticReverseZone(char *a1, const wchar_t **a2)
+{
+  unsigned int v4; // esi
+  const wchar_t *v5; // rax
+  __int64 v6; // rax
+  const wchar_t *v7; // rax
+  __int64 v9; // [rsp+50h] [rbp+8h] BYREF
+
+  if ( a1 && (v6 = Lookup_ZoneTreeNodeFromDottedNameEx(a1, 0, 0x2000000, (__int64)a2)) != 0 )
+  {
+    v9 = *(_QWORD *)(v6 + 56);
+    if ( v9 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        if ( a2 )
+          v7 = *a2;
+        else
+          v7 = L".";
+        WPP_SF_sS(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x56u,
+          (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+          a1,
+          (__int64)v7);
+      }
+      return 0i64;
+    }
+  }
+  else
+  {
+    v9 = 0i64;
+  }
+  v4 = Zone_CreateNewPrimaryEx(&v9, a1, 0i64, 0i64, 0xFu, 0i64, 0, a2);
+  if ( v4
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v5 = *a2;
+    else
+      v5 = L".";
+    WPP_SF_sSD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x57u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      a1,
+      (__int64)v5);
+  }
+  return v4;
+}

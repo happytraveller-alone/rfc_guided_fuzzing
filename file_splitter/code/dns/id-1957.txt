@@ -1,0 +1,220 @@
+//----- (00000001400F124C) ----------------------------------------------------
+__int64 __fastcall DnsOls_PublishDnskeyRRListAndSignScopes(struct _zone_info *a1, unsigned __int16 *a2, int a3, int a4)
+{
+  __int64 v4; // r15
+  struct _zone_info *v5; // rdi
+  unsigned int v7; // eax
+  unsigned int v10; // ebx
+  int v11; // r14d
+  int v12; // ebp
+  const wchar_t *v13; // rbp
+  __int64 v14; // rcx
+  _QWORD *v15; // rax
+  int v16; // r8d
+  CDnsClientSubnetRecordsTrie *v17; // rcx
+  unsigned __int16 v18; // dx
+  __int64 v19; // rcx
+  const unsigned __int16 *v21; // r9
+  __int64 v22; // rcx
+  __int64 NextElement_ScopeMap; // rax
+  int v24; // [rsp+30h] [rbp-48h]
+  unsigned int v25; // [rsp+34h] [rbp-44h] BYREF
+  int v26[16]; // [rsp+38h] [rbp-40h] BYREF
+  unsigned int v27; // [rsp+80h] [rbp+8h] BYREF
+  int v28; // [rsp+98h] [rbp+20h]
+
+  v28 = a4;
+  v4 = 0i64;
+  v5 = a1;
+  v24 = 0;
+  v7 = 0;
+  v27 = 0;
+  v10 = 0;
+  v26[0] = 1;
+  v11 = 0;
+  v12 = 0;
+  if ( a1 && a2 )
+  {
+    if ( *((_QWORD *)a1 + 24) )
+    {
+      v10 = 87;
+      goto LABEL_34;
+    }
+    v13 = L"Default";
+    while ( !v10 )
+    {
+      if ( g_fDnsServiceExit == 1 || !(unsigned int)Thread_ServiceCheck(1) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x99u, (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids);
+        }
+        goto LABEL_27;
+      }
+      if ( *((_QWORD *)v5 + 24) )
+      {
+        Zone_LockForWriteEx((__int64)v5, 1, 0xFFFFFFFF, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 244);
+        v14 = dwMilliseconds;
+        v27 = 1;
+        if ( dwMilliseconds )
+          Sleep(dwMilliseconds);
+        v4 = *((_QWORD *)v5 + 24);
+      }
+      v15 = (_QWORD *)RR_ListCopy(v14, a2, 0);
+      if ( !v15 )
+      {
+        v10 = 14;
+        goto LABEL_27;
+      }
+      v16 = v28;
+      if ( *((_QWORD *)v5 + 24) )
+        v16 = 0;
+      v10 = DnsOls_PublishDnskeyRRList(v5, v15, v16);
+      v25 = v10;
+      if ( v10 )
+      {
+        v17 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_27;
+        }
+        v18 = 154;
+        goto LABEL_24;
+      }
+      if ( a3 )
+      {
+        if ( *((_QWORD *)v5 + 24) )
+        {
+          v10 = DnsOls_SyncZoneScopeForSigning((__int64)v5, (__int64)a1 + 1040);
+          if ( v10 )
+          {
+            v17 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+            {
+              goto LABEL_27;
+            }
+            v18 = 155;
+LABEL_24:
+            v19 = *((_QWORD *)v17 + 7);
+            if ( *((_QWORD *)v5 + 24) )
+              v13 = (const wchar_t *)*((_QWORD *)v5 + 24);
+            WPP_SF_DSs(
+              v19,
+              v18,
+              (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+              v10,
+              (__int64)v13,
+              *((_QWORD *)v5 + 2));
+            goto LABEL_27;
+          }
+        }
+        else
+        {
+          if ( (*((_DWORD *)a1 + 260) & 0xC000) != 0 )
+            v11 = 1;
+          if ( (*((_BYTE *)v5 + 1040) & 0x10) != 0 && !*((_QWORD *)v5 + 131) && *((_BYTE *)v5 + 1045) )
+          {
+            v11 = 1;
+            Mem_Free(*((_QWORD **)v5 + 136), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 5430);
+            *((_QWORD *)v5 + 136) = 0i64;
+            *((_DWORD *)v5 + 274) = 0;
+          }
+        }
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v21 = L"Default";
+          if ( *((_QWORD *)a1 + 24) )
+            v21 = (const unsigned __int16 *)*((_QWORD *)a1 + 24);
+          WPP_SF_Ss(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x9Cu,
+            (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+            v21,
+            *((_QWORD *)a1 + 2));
+        }
+        v10 = DnsOls_SignZone(
+                v5,
+                0i64,
+                255i64,
+                (*((_QWORD *)v5 + 24) == 0i64 ? 3 : 0) | (v11 != 0 ? 0x40 : 0) | 0x200u,
+                0i64);
+        v25 = v10;
+        if ( v10 )
+        {
+          v17 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+          {
+            goto LABEL_27;
+          }
+          v18 = 157;
+          goto LABEL_24;
+        }
+      }
+      if ( *((_QWORD *)v5 + 24) )
+      {
+        Zone_UnlockAfterWriteEx((__int64)v5, 1, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 144);
+        v27 = 0;
+      }
+      else
+      {
+        if ( !*((_QWORD *)v5 + 23) )
+          goto LABEL_27;
+        v22 = *((_QWORD *)a1 + 21);
+        v26[0] = -1;
+        acquireRead(v22, 0xFFFFFFFF, (unsigned int *)v26);
+        v24 = 1;
+        Zone_UnlockAfterWriteEx((__int64)v5, 1, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 137);
+        v26[0] = 0;
+      }
+      NextElement_ScopeMap = Get_NextElement_ScopeMap(*((_QWORD *)a1 + 20), v4, &v25);
+      v10 = v25;
+      v5 = (struct _zone_info *)NextElement_ScopeMap;
+      if ( !NextElement_ScopeMap )
+        goto LABEL_27;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x98u,
+        (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+        v10,
+        *((_QWORD *)a1 + 2));
+    }
+LABEL_27:
+    v7 = v27;
+    v12 = v24;
+  }
+  else
+  {
+    v10 = 87;
+  }
+  if ( v7 )
+    Zone_UnlockAfterWriteEx((__int64)v5, 1, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 157);
+  if ( v12 )
+  {
+    v27 = -1;
+    releaseRead(*((_QWORD *)a1 + 21), &v27, 1);
+  }
+  if ( !v26[0] )
+    Zone_LockForWriteEx((__int64)a1, 1, 0xFFFFFFFF, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 171);
+LABEL_34:
+  RR_ListFree(a2);
+  return v10;
+}
+// 1400F1331: variable 'v14' is possibly undefined
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1400F124C: using guessed type unsigned int var_40[16];

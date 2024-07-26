@@ -1,0 +1,243 @@
+//----- (000000014015B148) ----------------------------------------------------
+__int64 __fastcall Dns_StringCopy(_WORD *a1, unsigned int *a2, WCHAR *a3, int a4, int a5, int a6)
+{
+  __int64 v6; // rbx
+  char v10; // al
+  int v11; // eax
+  unsigned int BufferLengthForStringCopy; // eax
+  unsigned int v13; // edi
+  unsigned int v14; // ebp
+  DWORD v15; // ecx
+  __int64 result; // rax
+  UINT v17; // ecx
+  unsigned int v18; // eax
+  __int64 v19; // rcx
+  UINT v20; // ecx
+  unsigned int v21; // eax
+  __int64 v22; // rcx
+  __int64 v23; // rdx
+  __int16 *v24; // rcx
+  int LastError; // r10d
+  int v26; // r11d
+  const wchar_t *v27; // r8
+  signed __int64 v28; // r8
+  __int16 v29; // ax
+  const unsigned __int8 *v30; // r8
+  signed __int64 v31; // r8
+  char v32; // al
+  __int64 cbMultiByte; // [rsp+28h] [rbp-4C0h]
+  LPCCH lpDefaultChar; // [rsp+30h] [rbp-4B8h]
+  char v35[528]; // [rsp+70h] [rbp-478h] BYREF
+  __int16 v36[264]; // [rsp+280h] [rbp-268h] BYREF
+
+  LODWORD(v6) = a4;
+  v10 = byte_1401BA003;
+  if ( (byte_1401BA003 & 4) != 0 )
+  {
+    WPP_SF_(13i64, (unsigned __int16)&WPP_55e0bf752fa338bf02c5c4b0361aeb86_Traceguids, (__int64)a3);
+    v10 = byte_1401BA003;
+  }
+  if ( (v10 & 4) != 0 )
+  {
+    if ( a2 )
+      v11 = *a2;
+    else
+      v11 = 0;
+    WPP_SF_qqdqddd((__int64)a1, (__int64)a2, a1, a2, v11, a3, v6, a5, a6);
+  }
+  if ( !a3 )
+    goto LABEL_74;
+  if ( !(_DWORD)v6 )
+  {
+    v6 = -1i64;
+    if ( a5 == 1 )
+    {
+      do
+        ++v6;
+      while ( a3[v6] );
+      LODWORD(v6) = (unsigned __int16)v6;
+    }
+    else
+    {
+      do
+        ++v6;
+      while ( *((_BYTE *)a3 + v6) );
+    }
+  }
+  if ( !a2 )
+  {
+LABEL_74:
+    v15 = 87;
+    goto LABEL_75;
+  }
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy(a3, v6, (unsigned int)a5, a6);
+  v13 = BufferLengthForStringCopy;
+  if ( BufferLengthForStringCopy )
+  {
+    if ( BufferLengthForStringCopy > *a2 )
+    {
+      SetLastError(0xEAu);
+      *a2 = v13;
+      return 0i64;
+    }
+    *a2 = BufferLengthForStringCopy;
+    if ( a5 == 1 )
+    {
+      switch ( a6 )
+      {
+        case 1:
+          v14 = 2 * v6;
+          if ( BufferLengthForStringCopy >= 2 * (int)v6 + 2 )
+          {
+            a1[(unsigned int)v6] = 0;
+            memcpy_0(a1, a3, v14);
+            return v14 + 2;
+          }
+LABEL_22:
+          v15 = 234;
+LABEL_75:
+          SetLastError(v15);
+          return 0i64;
+        case 2:
+          v17 = 65001;
+LABEL_28:
+          v18 = WideCharToMultiByte(v17, 0, a3, v6, (LPSTR)a1, BufferLengthForStringCopy, 0i64, 0i64);
+          if ( v18 || !(_DWORD)v6 )
+          {
+            v19 = v18;
+            result = v18 + 1;
+            *((_BYTE *)a1 + v19) = 0;
+            return result;
+          }
+          break;
+        case 3:
+          v17 = 0;
+          goto LABEL_28;
+      }
+LABEL_46:
+      LastError = GetLastError();
+      if ( (byte_1401BA003 & 0x10) != 0 )
+      {
+        v26 = *a2;
+        if ( (unsigned int)v6 <= 0x7FFFFFFEui64 )
+        {
+          v27 = &LocaleName;
+          v23 = 261i64;
+          if ( a5 == 1 )
+            v27 = a3;
+          v24 = v36;
+          v28 = (char *)v27 - (char *)v36;
+          do
+          {
+            if ( !((unsigned int)v6 + v23 - 261) )
+              break;
+            v29 = *(__int16 *)((char *)v24 + v28);
+            if ( !v29 )
+              break;
+            *v24++ = v29;
+            --v23;
+          }
+          while ( v23 );
+          if ( !v23 )
+            --v24;
+          *v24 = 0;
+        }
+        else
+        {
+          v36[0] = 0;
+        }
+        if ( (unsigned int)v6 <= 0x7FFFFFFEui64 )
+        {
+          v30 = (const unsigned __int8 *)a3;
+          v24 = (__int16 *)v35;
+          if ( a5 == 1 )
+            v30 = &Annotation;
+          v23 = 521i64;
+          v31 = v30 - (const unsigned __int8 *)v35;
+          do
+          {
+            if ( !((unsigned int)v6 + v23 - 521) )
+              break;
+            v32 = *((_BYTE *)v24 + v31);
+            if ( !v32 )
+              break;
+            *(_BYTE *)v24 = v32;
+            v24 = (__int16 *)((char *)v24 + 1);
+            --v23;
+          }
+          while ( v23 );
+          if ( !v23 )
+            v24 = (__int16 *)((char *)v24 - 1);
+          *(_BYTE *)v24 = 0;
+        }
+        else
+        {
+          v35[0] = 0;
+        }
+        LODWORD(lpDefaultChar) = v13;
+        LODWORD(cbMultiByte) = v26;
+        WPP_SF_LqqddqsSddd((__int64)v24, v23, LastError, a1, a2, cbMultiByte, lpDefaultChar, a3, v35, v36, v6, a5, a6);
+      }
+      v15 = 13;
+      goto LABEL_75;
+    }
+    if ( a6 == a5 )
+    {
+      if ( (int)v6 + 1 <= BufferLengthForStringCopy )
+      {
+        memcpy_0(a1, a3, (unsigned int)v6);
+        result = (unsigned int)(v6 + 1);
+        *((_BYTE *)a1 + (unsigned int)v6) = 0;
+        return result;
+      }
+      goto LABEL_22;
+    }
+    if ( a6 != 1 )
+    {
+      if ( a5 == 2 )
+      {
+        if ( a6 != 3 )
+          goto LABEL_46;
+        result = Dns_Utf8ToOrFromAnsi((char *)a1, BufferLengthForStringCopy, (unsigned __int8 *)a3, v6, 2, 3);
+      }
+      else
+      {
+        if ( a5 != 3 || a6 != 2 )
+          goto LABEL_46;
+        result = Dns_Utf8ToOrFromAnsi((char *)a1, BufferLengthForStringCopy, (unsigned __int8 *)a3, v6, 3, 2);
+      }
+      if ( (_DWORD)result )
+        return result;
+      goto LABEL_46;
+    }
+    if ( a5 == 2 )
+    {
+      v20 = 65001;
+    }
+    else
+    {
+      if ( a5 != 3 )
+        goto LABEL_46;
+      v20 = 0;
+    }
+    v21 = MultiByteToWideChar(v20, 8u, (LPCCH)a3, v6, a1, BufferLengthForStringCopy >> 1);
+    if ( v21 || !(_DWORD)v6 )
+    {
+      v22 = v21;
+      result = 2 * v21 + 2;
+      a1[v22] = 0;
+      return result;
+    }
+    goto LABEL_46;
+  }
+  SetLastError(0xDu);
+  *a2 = 0;
+  return 0i64;
+}
+// 14015B1DA: variable 'a1' is possibly undefined
+// 14015B1DA: variable 'a2' is possibly undefined
+// 14015B4C9: variable 'v24' is possibly undefined
+// 14015B4C9: variable 'v23' is possibly undefined
+// 14015B4C9: variable 'cbMultiByte' is possibly undefined
+// 14015B4C9: variable 'lpDefaultChar' is possibly undefined
+// 1401BA003: using guessed type char byte_1401BA003;

@@ -1,0 +1,1526 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 2183
+// Total lines: 1369
+
+//----- (0000000140113990) ----------------------------------------------------
+TLG_STATUS __fastcall DnsTelemetryLogData(__int64 a1, __int64 a2, __int64 a3, const GUID *a4)
+{
+  unsigned int v4; // edx
+  const GUID *v5; // r8
+  const struct _TlgProvider_t *v6; // rcx
+  TLG_STATUS result; // eax
+  UINT32 v8; // [rsp+20h] [rbp-50h]
+  EVENT_DATA_DESCRIPTOR pData; // [rsp+30h] [rbp-40h] BYREF
+  int *v10; // [rsp+50h] [rbp-20h]
+  __int64 v11; // [rsp+58h] [rbp-18h]
+
+  if ( g_isRegisteredForUTC == 1 )
+  {
+    v4 = dword_1401B5F20;
+    if ( (unsigned int)dword_1401B5F20 > 5 )
+    {
+      v5 = pActivityId;
+      v6 = hProvider;
+      if ( ((unsigned __int64)pActivityId & 0x400000000000i64) != 0 )
+      {
+        result = 0;
+        if ( (TraceLoggingHProvider)((unsigned __int64)hProvider & 0x400000000000i64) == hProvider )
+        {
+          v11 = 4i64;
+          v10 = &SrvTelemetryInfo;
+          result = TlgWrite(hProvider, &unk_14019E67E, pActivityId, a4, v8, &pData);
+          v6 = hProvider;
+          v5 = pActivityId;
+          v4 = dword_1401B5F20;
+        }
+      }
+      if ( v4 > 5 )
+      {
+        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+        {
+          result = 0;
+          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+          {
+            v11 = 4i64;
+            v10 = &dword_1401B95B4;
+            result = TlgWrite(v6, &unk_14019E586, v5, a4, v8, &pData);
+            v6 = hProvider;
+            v5 = pActivityId;
+            v4 = dword_1401B5F20;
+          }
+        }
+        if ( v4 > 5 )
+        {
+          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+          {
+            result = 0;
+            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+            {
+              v11 = 4i64;
+              v10 = &dword_1401B95B8;
+              result = TlgWrite(v6, &unk_14019E501, v5, a4, v8, &pData);
+              v6 = hProvider;
+              v5 = pActivityId;
+              v4 = dword_1401B5F20;
+            }
+          }
+          if ( v4 > 5 )
+          {
+            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+            {
+              result = 0;
+              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+              {
+                v11 = 4i64;
+                v10 = &dword_1401B95BC;
+                result = TlgWrite(v6, &unk_14019DDF8, v5, a4, v8, &pData);
+                v6 = hProvider;
+                v5 = pActivityId;
+                v4 = dword_1401B5F20;
+              }
+            }
+            if ( v4 > 5 )
+            {
+              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+              {
+                result = 0;
+                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                {
+                  v11 = 4i64;
+                  v10 = &dword_1401B95C0;
+                  result = TlgWrite(v6, &unk_14019E05E, v5, a4, v8, &pData);
+                  v6 = hProvider;
+                  v5 = pActivityId;
+                  v4 = dword_1401B5F20;
+                }
+              }
+              if ( v4 > 5 )
+              {
+                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                {
+                  result = 0;
+                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                  {
+                    v11 = 4i64;
+                    v10 = &dword_1401B95C4;
+                    result = TlgWrite(v6, &unk_14019E763, v5, a4, v8, &pData);
+                    v6 = hProvider;
+                    v5 = pActivityId;
+                    v4 = dword_1401B5F20;
+                  }
+                }
+                if ( v4 > 5 )
+                {
+                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                  {
+                    result = 0;
+                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                    {
+                      v11 = 4i64;
+                      v10 = &dword_1401B95C8;
+                      result = TlgWrite(v6, &unk_14019E14F, v5, a4, v8, &pData);
+                      v6 = hProvider;
+                      v5 = pActivityId;
+                      v4 = dword_1401B5F20;
+                    }
+                  }
+                  if ( v4 > 5 )
+                  {
+                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                    {
+                      result = 0;
+                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                      {
+                        v11 = 4i64;
+                        v10 = &dword_1401B95CC;
+                        result = TlgWrite(v6, &unk_14019E2ED, v5, a4, v8, &pData);
+                        v6 = hProvider;
+                        v5 = pActivityId;
+                        v4 = dword_1401B5F20;
+                      }
+                    }
+                    if ( v4 > 5 )
+                    {
+                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                      {
+                        result = 0;
+                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                        {
+                          v11 = 4i64;
+                          v10 = (int *)&qword_1401B95D0;
+                          result = TlgWrite(v6, &unk_14019EC04, v5, a4, v8, &pData);
+                          v6 = hProvider;
+                          v5 = pActivityId;
+                          v4 = dword_1401B5F20;
+                        }
+                      }
+                      if ( v4 > 5 )
+                      {
+                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                        {
+                          result = 0;
+                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                          {
+                            v11 = 4i64;
+                            v10 = (int *)&qword_1401B95D0 + 1;
+                            result = TlgWrite(v6, &unk_14019E7FC, v5, a4, v8, &pData);
+                            v6 = hProvider;
+                            v5 = pActivityId;
+                            v4 = dword_1401B5F20;
+                          }
+                        }
+                        if ( v4 > 5 )
+                        {
+                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                          {
+                            result = 0;
+                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                            {
+                              v11 = 4i64;
+                              v10 = &dword_1401B95D8;
+                              result = TlgWrite(v6, &unk_14019E61E, v5, a4, v8, &pData);
+                              v6 = hProvider;
+                              v5 = pActivityId;
+                              v4 = dword_1401B5F20;
+                            }
+                          }
+                          if ( v4 > 5 )
+                          {
+                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                            {
+                              result = 0;
+                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                              {
+                                v11 = 4i64;
+                                v10 = &dword_1401B95E0;
+                                result = TlgWrite(v6, &unk_14019EB42, v5, a4, v8, &pData);
+                                v6 = hProvider;
+                                v5 = pActivityId;
+                                v4 = dword_1401B5F20;
+                              }
+                            }
+                            if ( v4 > 5 )
+                            {
+                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                              {
+                                result = 0;
+                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                {
+                                  v11 = 4i64;
+                                  v10 = &dword_1401B95DC;
+                                  result = TlgWrite(v6, &unk_14019E737, v5, a4, v8, &pData);
+                                  v6 = hProvider;
+                                  v5 = pActivityId;
+                                  v4 = dword_1401B5F20;
+                                }
+                              }
+                              if ( v4 > 5 )
+                              {
+                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                {
+                                  result = 0;
+                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                  {
+                                    v10 = &dword_1401B95EC;
+                                    v11 = 4i64;
+                                    result = TlgWrite(v6, &unk_14019E6C3, v5, a4, v8, &pData);
+                                    v6 = hProvider;
+                                    v5 = pActivityId;
+                                    v4 = dword_1401B5F20;
+                                  }
+                                }
+                                if ( v4 > 5 )
+                                {
+                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                  {
+                                    result = 0;
+                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                    {
+                                      v10 = &dword_1401B95E8;
+                                      v11 = 4i64;
+                                      result = TlgWrite(v6, &unk_14019EB73, v5, a4, v8, &pData);
+                                      v6 = hProvider;
+                                      v5 = pActivityId;
+                                      v4 = dword_1401B5F20;
+                                    }
+                                  }
+                                  if ( v4 > 5 )
+                                  {
+                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                    {
+                                      result = 0;
+                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                      {
+                                        v10 = &dword_1401B95E4;
+                                        v11 = 4i64;
+                                        result = TlgWrite(v6, &unk_14019DE3F, v5, a4, v8, &pData);
+                                        v6 = hProvider;
+                                        v5 = pActivityId;
+                                        v4 = dword_1401B5F20;
+                                      }
+                                    }
+                                    if ( v4 > 5 )
+                                    {
+                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                      {
+                                        result = 0;
+                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                        {
+                                          v10 = &dword_1401B95EC;
+                                          v11 = 4i64;
+                                          result = TlgWrite(v6, &unk_14019E6C3, v5, a4, v8, &pData);
+                                          v6 = hProvider;
+                                          v5 = pActivityId;
+                                          v4 = dword_1401B5F20;
+                                        }
+                                      }
+                                      if ( v4 > 5 )
+                                      {
+                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                        {
+                                          result = 0;
+                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                          {
+                                            v10 = &dword_1401B95E8;
+                                            v11 = 4i64;
+                                            result = TlgWrite(v6, &unk_14019EB73, v5, a4, v8, &pData);
+                                            v6 = hProvider;
+                                            v5 = pActivityId;
+                                            v4 = dword_1401B5F20;
+                                          }
+                                        }
+                                        if ( v4 > 5 )
+                                        {
+                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                          {
+                                            result = 0;
+                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                            {
+                                              v10 = &dword_1401B95E4;
+                                              v11 = 4i64;
+                                              result = TlgWrite(v6, &unk_14019DE3F, v5, a4, v8, &pData);
+                                              v6 = hProvider;
+                                              v5 = pActivityId;
+                                              v4 = dword_1401B5F20;
+                                            }
+                                          }
+                                          if ( v4 > 5 )
+                                          {
+                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                            {
+                                              result = 0;
+                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                              {
+                                                v11 = 4i64;
+                                                v10 = &dword_1401B95F0;
+                                                result = TlgWrite(v6, &unk_14019EBA5, v5, a4, v8, &pData);
+                                                v6 = hProvider;
+                                                v5 = pActivityId;
+                                                v4 = dword_1401B5F20;
+                                              }
+                                            }
+                                            if ( v4 > 5 )
+                                            {
+                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                              {
+                                                result = 0;
+                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                {
+                                                  v11 = 4i64;
+                                                  v10 = &dword_1401B95F4;
+                                                  result = TlgWrite(v6, &unk_14019E99F, v5, a4, v8, &pData);
+                                                  v6 = hProvider;
+                                                  v5 = pActivityId;
+                                                  v4 = dword_1401B5F20;
+                                                }
+                                              }
+                                              if ( v4 > 5 )
+                                              {
+                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                {
+                                                  result = 0;
+                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                  {
+                                                    v11 = 4i64;
+                                                    v10 = &dword_1401B95F8;
+                                                    result = TlgWrite(v6, &unk_14019EA74, v5, a4, v8, &pData);
+                                                    v6 = hProvider;
+                                                    v5 = pActivityId;
+                                                    v4 = dword_1401B5F20;
+                                                  }
+                                                }
+                                                if ( v4 > 5 )
+                                                {
+                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                  {
+                                                    result = 0;
+                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                    {
+                                                      v11 = 4i64;
+                                                      v10 = &dword_1401B95FC;
+                                                      result = TlgWrite(v6, &unk_14019DFF0, v5, a4, v8, &pData);
+                                                      v6 = hProvider;
+                                                      v5 = pActivityId;
+                                                      v4 = dword_1401B5F20;
+                                                    }
+                                                  }
+                                                  if ( v4 > 5 )
+                                                  {
+                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                    {
+                                                      result = 0;
+                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                      {
+                                                        v11 = 4i64;
+                                                        v10 = &dword_1401B9600;
+                                                        result = TlgWrite(v6, &unk_14019DFC0, v5, a4, v8, &pData);
+                                                        v6 = hProvider;
+                                                        v5 = pActivityId;
+                                                        v4 = dword_1401B5F20;
+                                                      }
+                                                    }
+                                                    if ( v4 > 5 )
+                                                    {
+                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                      {
+                                                        result = 0;
+                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                        {
+                                                          v11 = 4i64;
+                                                          v10 = &dword_1401B9618;
+                                                          result = TlgWrite(v6, &unk_14019DCE7, v5, a4, v8, &pData);
+                                                          v6 = hProvider;
+                                                          v5 = pActivityId;
+                                                          v4 = dword_1401B5F20;
+                                                        }
+                                                      }
+                                                      if ( v4 > 5 )
+                                                      {
+                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                        {
+                                                          result = 0;
+                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                          {
+                                                            v11 = 4i64;
+                                                            v10 = &dword_1401B9608;
+                                                            result = TlgWrite(v6, &unk_14019E4CB, v5, a4, v8, &pData);
+                                                            v6 = hProvider;
+                                                            v5 = pActivityId;
+                                                            v4 = dword_1401B5F20;
+                                                          }
+                                                        }
+                                                        if ( v4 > 5 )
+                                                        {
+                                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                          {
+                                                            result = 0;
+                                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                            {
+                                                              v11 = 4i64;
+                                                              v10 = &dword_1401B9604;
+                                                              result = TlgWrite(v6, &unk_14019EA3C, v5, a4, v8, &pData);
+                                                              v6 = hProvider;
+                                                              v5 = pActivityId;
+                                                              v4 = dword_1401B5F20;
+                                                            }
+                                                          }
+                                                          if ( v4 > 5 )
+                                                          {
+                                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                            {
+                                                              result = 0;
+                                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                              {
+                                                                v11 = 4i64;
+                                                                v10 = &dword_1401B960C;
+                                                                result = TlgWrite(
+                                                                           v6,
+                                                                           &unk_14019E1F5,
+                                                                           v5,
+                                                                           a4,
+                                                                           v8,
+                                                                           &pData);
+                                                                v6 = hProvider;
+                                                                v5 = pActivityId;
+                                                                v4 = dword_1401B5F20;
+                                                              }
+                                                            }
+                                                            if ( v4 > 5 )
+                                                            {
+                                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                              {
+                                                                result = 0;
+                                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                {
+                                                                  v11 = 4i64;
+                                                                  v10 = &dword_1401B9610;
+                                                                  result = TlgWrite(
+                                                                             v6,
+                                                                             &unk_14019E827,
+                                                                             v5,
+                                                                             a4,
+                                                                             v8,
+                                                                             &pData);
+                                                                  v6 = hProvider;
+                                                                  v5 = pActivityId;
+                                                                  v4 = dword_1401B5F20;
+                                                                }
+                                                              }
+                                                              if ( v4 > 5 )
+                                                              {
+                                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                {
+                                                                  result = 0;
+                                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                  {
+                                                                    v11 = 4i64;
+                                                                    v10 = &dword_1401B962C;
+                                                                    result = TlgWrite(
+                                                                               v6,
+                                                                               &unk_14019E3A3,
+                                                                               v5,
+                                                                               a4,
+                                                                               v8,
+                                                                               &pData);
+                                                                    v6 = hProvider;
+                                                                    v5 = pActivityId;
+                                                                    v4 = dword_1401B5F20;
+                                                                  }
+                                                                }
+                                                                if ( v4 > 5 )
+                                                                {
+                                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                  {
+                                                                    result = 0;
+                                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                    {
+                                                                      v11 = 4i64;
+                                                                      v10 = &dword_1401B9620;
+                                                                      result = TlgWrite(
+                                                                                 v6,
+                                                                                 &unk_14019E5F8,
+                                                                                 v5,
+                                                                                 a4,
+                                                                                 v8,
+                                                                                 &pData);
+                                                                      v6 = hProvider;
+                                                                      v5 = pActivityId;
+                                                                      v4 = dword_1401B5F20;
+                                                                    }
+                                                                  }
+                                                                  if ( v4 > 5 )
+                                                                  {
+                                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                    {
+                                                                      result = 0;
+                                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                      {
+                                                                        v11 = 4i64;
+                                                                        v10 = &dword_1401B9624;
+                                                                        result = TlgWrite(
+                                                                                   v6,
+                                                                                   &unk_14019EB1B,
+                                                                                   v5,
+                                                                                   a4,
+                                                                                   v8,
+                                                                                   &pData);
+                                                                        v6 = hProvider;
+                                                                        v5 = pActivityId;
+                                                                        v4 = dword_1401B5F20;
+                                                                      }
+                                                                    }
+                                                                    if ( v4 > 5 )
+                                                                    {
+                                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                      {
+                                                                        result = 0;
+                                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                        {
+                                                                          v11 = 4i64;
+                                                                          v10 = &dword_1401B9630;
+                                                                          result = TlgWrite(
+                                                                                     v6,
+                                                                                     &unk_14019E266,
+                                                                                     v5,
+                                                                                     a4,
+                                                                                     v8,
+                                                                                     &pData);
+                                                                          v6 = hProvider;
+                                                                          v5 = pActivityId;
+                                                                          v4 = dword_1401B5F20;
+                                                                        }
+                                                                      }
+                                                                      if ( v4 > 5 )
+                                                                      {
+                                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                        {
+                                                                          result = 0;
+                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                          {
+                                                                            v11 = 4i64;
+                                                                            v10 = &dword_1401B9634;
+                                                                            result = TlgWrite(
+                                                                                       v6,
+                                                                                       &unk_14019E95C,
+                                                                                       v5,
+                                                                                       a4,
+                                                                                       v8,
+                                                                                       &pData);
+                                                                            v6 = hProvider;
+                                                                            v5 = pActivityId;
+                                                                            v4 = dword_1401B5F20;
+                                                                          }
+                                                                        }
+                                                                        if ( v4 > 5 )
+                                                                        {
+                                                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                          {
+                                                                            result = 0;
+                                                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                            {
+                                                                              v11 = 4i64;
+                                                                              v10 = &dword_1401B9650;
+                                                                              result = TlgWrite(
+                                                                                         v6,
+                                                                                         &unk_14019E2A7,
+                                                                                         v5,
+                                                                                         a4,
+                                                                                         v8,
+                                                                                         &pData);
+                                                                              v6 = hProvider;
+                                                                              v5 = pActivityId;
+                                                                              v4 = dword_1401B5F20;
+                                                                            }
+                                                                          }
+                                                                          if ( v4 > 5 )
+                                                                          {
+                                                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                            {
+                                                                              result = 0;
+                                                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                              {
+                                                                                v11 = 4i64;
+                                                                                v10 = &dword_1401B9654;
+                                                                                result = TlgWrite(
+                                                                                           v6,
+                                                                                           &unk_14019DD7A,
+                                                                                           v5,
+                                                                                           a4,
+                                                                                           v8,
+                                                                                           &pData);
+                                                                                v6 = hProvider;
+                                                                                v5 = pActivityId;
+                                                                                v4 = dword_1401B5F20;
+                                                                              }
+                                                                            }
+                                                                            if ( v4 > 5 )
+                                                                            {
+                                                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                              {
+                                                                                result = 0;
+                                                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                {
+                                                                                  v11 = 4i64;
+                                                                                  v10 = &dword_1401B9658;
+                                                                                  result = TlgWrite(
+                                                                                             v6,
+                                                                                             &unk_14019E108,
+                                                                                             v5,
+                                                                                             a4,
+                                                                                             v8,
+                                                                                             &pData);
+                                                                                  v6 = hProvider;
+                                                                                  v5 = pActivityId;
+                                                                                  v4 = dword_1401B5F20;
+                                                                                }
+                                                                              }
+                                                                              if ( v4 > 5 )
+                                                                              {
+                                                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                {
+                                                                                  result = 0;
+                                                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                  {
+                                                                                    v11 = 4i64;
+                                                                                    v10 = &dword_1401B9644;
+                                                                                    result = TlgWrite(
+                                                                                               v6,
+                                                                                               &unk_14019E91D,
+                                                                                               v5,
+                                                                                               a4,
+                                                                                               v8,
+                                                                                               &pData);
+                                                                                    v6 = hProvider;
+                                                                                    v5 = pActivityId;
+                                                                                    v4 = dword_1401B5F20;
+                                                                                  }
+                                                                                }
+                                                                                if ( v4 > 5 )
+                                                                                {
+                                                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                  {
+                                                                                    result = 0;
+                                                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                    {
+                                                                                      v11 = 4i64;
+                                                                                      v10 = &dword_1401B9648;
+                                                                                      result = TlgWrite(
+                                                                                                 v6,
+                                                                                                 &unk_14019DEE6,
+                                                                                                 v5,
+                                                                                                 a4,
+                                                                                                 v8,
+                                                                                                 &pData);
+                                                                                      v6 = hProvider;
+                                                                                      v5 = pActivityId;
+                                                                                      v4 = dword_1401B5F20;
+                                                                                    }
+                                                                                  }
+                                                                                  if ( v4 > 5 )
+                                                                                  {
+                                                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                    {
+                                                                                      result = 0;
+                                                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                      {
+                                                                                        v11 = 4i64;
+                                                                                        v10 = &dword_1401B964C;
+                                                                                        result = TlgWrite(
+                                                                                                   v6,
+                                                                                                   &unk_14019E8DD,
+                                                                                                   v5,
+                                                                                                   a4,
+                                                                                                   v8,
+                                                                                                   &pData);
+                                                                                        v6 = hProvider;
+                                                                                        v5 = pActivityId;
+                                                                                        v4 = dword_1401B5F20;
+                                                                                      }
+                                                                                    }
+                                                                                    if ( v4 > 5 )
+                                                                                    {
+                                                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                      {
+                                                                                        result = 0;
+                                                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                        {
+                                                                                          v11 = 4i64;
+                                                                                          v10 = &dword_1401B9678;
+                                                                                          result = TlgWrite(
+                                                                                                     v6,
+                                                                                                     &unk_14019E401,
+                                                                                                     v5,
+                                                                                                     a4,
+                                                                                                     v8,
+                                                                                                     &pData);
+                                                                                          v6 = hProvider;
+                                                                                          v5 = pActivityId;
+                                                                                          v4 = dword_1401B5F20;
+                                                                                        }
+                                                                                      }
+                                                                                      if ( v4 > 5 )
+                                                                                      {
+                                                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                        {
+                                                                                          result = 0;
+                                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                          {
+                                                                                            v11 = 4i64;
+                                                                                            v10 = &dword_1401B967C;
+                                                                                            result = TlgWrite(v6, &unk_14019E175, v5, a4, v8, &pData);
+                                                                                            v6 = hProvider;
+                                                                                            v5 = pActivityId;
+                                                                                            v4 = dword_1401B5F20;
+                                                                                          }
+                                                                                        }
+                                                                                        if ( v4 > 5 )
+                                                                                        {
+                                                                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                          {
+                                                                                            result = 0;
+                                                                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                            {
+                                                                                              v11 = 4i64;
+                                                                                              v10 = &dword_1401B9684;
+                                                                                              result = TlgWrite(v6, &unk_14019DCA2, v5, a4, v8, &pData);
+                                                                                              v6 = hProvider;
+                                                                                              v5 = pActivityId;
+                                                                                              v4 = dword_1401B5F20;
+                                                                                            }
+                                                                                          }
+                                                                                          if ( v4 > 5 )
+                                                                                          {
+                                                                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                            {
+                                                                                              result = 0;
+                                                                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                              {
+                                                                                                v11 = 4i64;
+                                                                                                v10 = &dword_1401B9688;
+                                                                                                result = TlgWrite(v6, &unk_14019E443, v5, a4, v8, &pData);
+                                                                                                v6 = hProvider;
+                                                                                                v5 = pActivityId;
+                                                                                                v4 = dword_1401B5F20;
+                                                                                              }
+                                                                                            }
+                                                                                            if ( v4 > 5 )
+                                                                                            {
+                                                                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                              {
+                                                                                                result = 0;
+                                                                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                {
+                                                                                                  v11 = 4i64;
+                                                                                                  v10 = &dword_1401B968C;
+                                                                                                  result = TlgWrite(v6, &unk_14019DF27, v5, a4, v8, &pData);
+                                                                                                  v6 = hProvider;
+                                                                                                  v5 = pActivityId;
+                                                                                                  v4 = dword_1401B5F20;
+                                                                                                }
+                                                                                              }
+                                                                                              if ( v4 > 5 )
+                                                                                              {
+                                                                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                {
+                                                                                                  result = 0;
+                                                                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                  {
+                                                                                                    v11 = 4i64;
+                                                                                                    v10 = &dword_1401B9660;
+                                                                                                    result = TlgWrite(v6, &unk_14019E21C, v5, a4, v8, &pData);
+                                                                                                    v6 = hProvider;
+                                                                                                    v5 = pActivityId;
+                                                                                                    v4 = dword_1401B5F20;
+                                                                                                  }
+                                                                                                }
+                                                                                                if ( v4 > 5 )
+                                                                                                {
+                                                                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                  {
+                                                                                                    result = 0;
+                                                                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                    {
+                                                                                                      v11 = 4i64;
+                                                                                                      v10 = &dword_1401B9668;
+                                                                                                      result = TlgWrite(v6, &unk_14019DF71, v5, a4, v8, &pData);
+                                                                                                      v6 = hProvider;
+                                                                                                      v5 = pActivityId;
+                                                                                                      v4 = dword_1401B5F20;
+                                                                                                    }
+                                                                                                  }
+                                                                                                  if ( v4 > 5 )
+                                                                                                  {
+                                                                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                    {
+                                                                                                      result = 0;
+                                                                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                      {
+                                                                                                        v10 = dword_1401B966C;
+                                                                                                        v11 = 4i64;
+                                                                                                        result = TlgWrite(v6, &unk_14019E0BA, v5, a4, v8, &pData);
+                                                                                                        v6 = hProvider;
+                                                                                                        v5 = pActivityId;
+                                                                                                        v4 = dword_1401B5F20;
+                                                                                                      }
+                                                                                                    }
+                                                                                                    if ( v4 > 5 )
+                                                                                                    {
+                                                                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                      {
+                                                                                                        result = 0;
+                                                                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                        {
+                                                                                                          v11 = 4i64;
+                                                                                                          v10 = &dword_1401B9664;
+                                                                                                          result = TlgWrite(v6, &unk_14019E317, v5, a4, v8, &pData);
+                                                                                                          v6 = hProvider;
+                                                                                                          v5 = pActivityId;
+                                                                                                          v4 = dword_1401B5F20;
+                                                                                                        }
+                                                                                                      }
+                                                                                                      if ( v4 > 5 )
+                                                                                                      {
+                                                                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                        {
+                                                                                                          result = 0;
+                                                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                          {
+                                                                                                            v11 = 4i64;
+                                                                                                            v10 = &dword_1401B965C;
+                                                                                                            result = TlgWrite(v6, &unk_14019E01C, v5, a4, v8, &pData);
+                                                                                                            v6 = hProvider;
+                                                                                                            v5 = pActivityId;
+                                                                                                            v4 = dword_1401B5F20;
+                                                                                                          }
+                                                                                                        }
+                                                                                                        if ( v4 > 5 )
+                                                                                                        {
+                                                                                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                          {
+                                                                                                            result = 0;
+                                                                                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                            {
+                                                                                                              v10 = dword_1401B966C;
+                                                                                                              v11 = 4i64;
+                                                                                                              result = TlgWrite(v6, &unk_14019E89A, v5, a4, v8, &pData);
+                                                                                                              v6 = hProvider;
+                                                                                                              v5 = pActivityId;
+                                                                                                              v4 = dword_1401B5F20;
+                                                                                                            }
+                                                                                                          }
+                                                                                                          if ( v4 > 5 )
+                                                                                                          {
+                                                                                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                            {
+                                                                                                              result = 0;
+                                                                                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                              {
+                                                                                                                v10 = dword_1401B966C;
+                                                                                                                v11 = 4i64;
+                                                                                                                result = TlgWrite(v6, &unk_14019DC5B, v5, a4, v8, &pData);
+                                                                                                                v6 = hProvider;
+                                                                                                                v5 = pActivityId;
+                                                                                                                v4 = dword_1401B5F20;
+                                                                                                              }
+                                                                                                            }
+                                                                                                            if ( v4 > 5 )
+                                                                                                            {
+                                                                                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                              {
+                                                                                                                result = 0;
+                                                                                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                {
+                                                                                                                  v11 = 4i64;
+                                                                                                                  v10 = &dword_1401B9690;
+                                                                                                                  result = TlgWrite(v6, &unk_14019E649, v5, a4, v8, &pData);
+                                                                                                                  v6 = hProvider;
+                                                                                                                  v5 = pActivityId;
+                                                                                                                  v4 = dword_1401B5F20;
+                                                                                                                }
+                                                                                                              }
+                                                                                                              if ( v4 > 5 )
+                                                                                                              {
+                                                                                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                {
+                                                                                                                  result = 0;
+                                                                                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                  {
+                                                                                                                    v11 = 4i64;
+                                                                                                                    v10 = &dword_1401B9694;
+                                                                                                                    result = TlgWrite(v6, &unk_14019E083, v5, a4, v8, &pData);
+                                                                                                                    v6 = hProvider;
+                                                                                                                    v5 = pActivityId;
+                                                                                                                    v4 = dword_1401B5F20;
+                                                                                                                  }
+                                                                                                                }
+                                                                                                                if ( v4 > 5 )
+                                                                                                                {
+                                                                                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                  {
+                                                                                                                    result = 0;
+                                                                                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                    {
+                                                                                                                      v11 = 4i64;
+                                                                                                                      v10 = &dword_1401B9698;
+                                                                                                                      result = TlgWrite(v6, &unk_14019E7C9, v5, a4, v8, &pData);
+                                                                                                                      v6 = hProvider;
+                                                                                                                      v5 = pActivityId;
+                                                                                                                      v4 = dword_1401B5F20;
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                  if ( v4 > 5 )
+                                                                                                                  {
+                                                                                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                    {
+                                                                                                                      result = 0;
+                                                                                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                      {
+                                                                                                                        v11 = 4i64;
+                                                                                                                        v10 = &dword_1401B969C;
+                                                                                                                        result = TlgWrite(v6, &unk_14019E5C3, v5, a4, v8, &pData);
+                                                                                                                        v6 = hProvider;
+                                                                                                                        v5 = pActivityId;
+                                                                                                                        v4 = dword_1401B5F20;
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                    if ( v4 > 5 )
+                                                                                                                    {
+                                                                                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                      {
+                                                                                                                        result = 0;
+                                                                                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                        {
+                                                                                                                          v11 = 4i64;
+                                                                                                                          v10 = &dword_1401B96A4;
+                                                                                                                          result = TlgWrite(v6, &unk_14019E9C9, v5, a4, v8, &pData);
+                                                                                                                          v6 = hProvider;
+                                                                                                                          v5 = pActivityId;
+                                                                                                                          v4 = dword_1401B5F20;
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                      if ( v4 > 5 )
+                                                                                                                      {
+                                                                                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                        {
+                                                                                                                          result = 0;
+                                                                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                          {
+                                                                                                                            v11 = 4i64;
+                                                                                                                            v10 = &dword_1401B96AC;
+                                                                                                                            result = TlgWrite(v6, &unk_14019DE6C, v5, a4, v8, &pData);
+                                                                                                                            v6 = hProvider;
+                                                                                                                            v5 = pActivityId;
+                                                                                                                            v4 = dword_1401B5F20;
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                        if ( v4 > 5 )
+                                                                                                                        {
+                                                                                                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                          {
+                                                                                                                            result = 0;
+                                                                                                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                            {
+                                                                                                                              v10 = dword_1401B96B0;
+                                                                                                                              v11 = 4i64;
+                                                                                                                              result = TlgWrite(v6, &unk_14019DC19, v5, a4, v8, &pData);
+                                                                                                                              v6 = hProvider;
+                                                                                                                              v5 = pActivityId;
+                                                                                                                              v4 = dword_1401B5F20;
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                          if ( v4 > 5 )
+                                                                                                                          {
+                                                                                                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                            {
+                                                                                                                              result = 0;
+                                                                                                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                              {
+                                                                                                                                v11 = 4i64;
+                                                                                                                                v10 = &dword_1401B96A8;
+                                                                                                                                result = TlgWrite(v6, &unk_14019E545, v5, a4, v8, &pData);
+                                                                                                                                v6 = hProvider;
+                                                                                                                                v5 = pActivityId;
+                                                                                                                                v4 = dword_1401B5F20;
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                            if ( v4 > 5 )
+                                                                                                                            {
+                                                                                                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                              {
+                                                                                                                                result = 0;
+                                                                                                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                {
+                                                                                                                                  v11 = 4i64;
+                                                                                                                                  v10 = &dword_1401B96A0;
+                                                                                                                                  result = TlgWrite(v6, &unk_14019E864, v5, a4, v8, &pData);
+                                                                                                                                  v6 = hProvider;
+                                                                                                                                  v5 = pActivityId;
+                                                                                                                                  v4 = dword_1401B5F20;
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                              if ( v4 > 5 )
+                                                                                                                              {
+                                                                                                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                {
+                                                                                                                                  result = 0;
+                                                                                                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                  {
+                                                                                                                                    v10 = dword_1401B96B0;
+                                                                                                                                    v11 = 4i64;
+                                                                                                                                    result = TlgWrite(v6, &unk_14019DEAF, v5, a4, v8, &pData);
+                                                                                                                                    v6 = hProvider;
+                                                                                                                                    v5 = pActivityId;
+                                                                                                                                    v4 = dword_1401B5F20;
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                                if ( v4 > 5 )
+                                                                                                                                {
+                                                                                                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                  {
+                                                                                                                                    result = 0;
+                                                                                                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                    {
+                                                                                                                                      v10 = dword_1401B96B0;
+                                                                                                                                      v11 = 4i64;
+                                                                                                                                      result = TlgWrite(v6, &unk_14019E6FC, v5, a4, v8, &pData);
+                                                                                                                                      v6 = hProvider;
+                                                                                                                                      v5 = pActivityId;
+                                                                                                                                      v4 = dword_1401B5F20;
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                  if ( v4 > 5 )
+                                                                                                                                  {
+                                                                                                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                    {
+                                                                                                                                      result = 0;
+                                                                                                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                      {
+                                                                                                                                        v11 = 4i64;
+                                                                                                                                        v10 = &dword_1401B96BC;
+                                                                                                                                        result = TlgWrite(v6, &unk_14019DDC2, v5, a4, v8, &pData);
+                                                                                                                                        v6 = hProvider;
+                                                                                                                                        v5 = pActivityId;
+                                                                                                                                        v4 = dword_1401B5F20;
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                    if ( v4 > 5 )
+                                                                                                                                    {
+                                                                                                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                      {
+                                                                                                                                        result = 0;
+                                                                                                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                        {
+                                                                                                                                          v11 = 4i64;
+                                                                                                                                          v10 = &dword_1401B96C0;
+                                                                                                                                          result = TlgWrite(v6, &unk_14019EA07, v5, a4, v8, &pData);
+                                                                                                                                          v6 = hProvider;
+                                                                                                                                          v5 = pActivityId;
+                                                                                                                                          v4 = dword_1401B5F20;
+                                                                                                                                        }
+                                                                                                                                      }
+                                                                                                                                      if ( v4 > 5 )
+                                                                                                                                      {
+                                                                                                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                        {
+                                                                                                                                          result = 0;
+                                                                                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                          {
+                                                                                                                                            v11 = 4i64;
+                                                                                                                                            v10 = &dword_1401B96C8;
+                                                                                                                                            result = TlgWrite(v6, &unk_14019E3C8, v5, a4, v8, &pData);
+                                                                                                                                            v6 = hProvider;
+                                                                                                                                            v5 = pActivityId;
+                                                                                                                                            v4 = dword_1401B5F20;
+                                                                                                                                          }
+                                                                                                                                        }
+                                                                                                                                        if ( v4 > 5 )
+                                                                                                                                        {
+                                                                                                                                          if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                          {
+                                                                                                                                            result = 0;
+                                                                                                                                            if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                            {
+                                                                                                                                              v11 = 4i64;
+                                                                                                                                              v10 = &dword_1401B96CC;
+                                                                                                                                              result = TlgWrite(v6, &unk_14019EAE0, v5, a4, v8, &pData);
+                                                                                                                                              v6 = hProvider;
+                                                                                                                                              v5 = pActivityId;
+                                                                                                                                              v4 = dword_1401B5F20;
+                                                                                                                                            }
+                                                                                                                                          }
+                                                                                                                                          if ( v4 > 5 )
+                                                                                                                                          {
+                                                                                                                                            if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                            {
+                                                                                                                                              result = 0;
+                                                                                                                                              if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                              {
+                                                                                                                                                v11 = 4i64;
+                                                                                                                                                v10 = &dword_1401B96D0;
+                                                                                                                                                result = TlgWrite(v6, &unk_14019E78B, v5, a4, v8, &pData);
+                                                                                                                                                v6 = hProvider;
+                                                                                                                                                v5 = pActivityId;
+                                                                                                                                                v4 = dword_1401B5F20;
+                                                                                                                                              }
+                                                                                                                                            }
+                                                                                                                                            if ( v4 > 5 )
+                                                                                                                                            {
+                                                                                                                                              if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                              {
+                                                                                                                                                result = 0;
+                                                                                                                                                if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                {
+                                                                                                                                                  v11 = 4i64;
+                                                                                                                                                  v10 = &dword_1401B96D4;
+                                                                                                                                                  result = TlgWrite(v6, &unk_14019DD53, v5, a4, v8, &pData);
+                                                                                                                                                  v6 = hProvider;
+                                                                                                                                                  v5 = pActivityId;
+                                                                                                                                                  v4 = dword_1401B5F20;
+                                                                                                                                                }
+                                                                                                                                              }
+                                                                                                                                              if ( v4 > 5 )
+                                                                                                                                              {
+                                                                                                                                                if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                                {
+                                                                                                                                                  result = 0;
+                                                                                                                                                  if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                  {
+                                                                                                                                                    v11 = 4i64;
+                                                                                                                                                    v10 = &dword_1401B96DC;
+                                                                                                                                                    result = TlgWrite(v6, &unk_14019E1B6, v5, a4, v8, &pData);
+                                                                                                                                                    v6 = hProvider;
+                                                                                                                                                    v5 = pActivityId;
+                                                                                                                                                    v4 = dword_1401B5F20;
+                                                                                                                                                  }
+                                                                                                                                                }
+                                                                                                                                                if ( v4 > 5 )
+                                                                                                                                                {
+                                                                                                                                                  if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                                  {
+                                                                                                                                                    result = 0;
+                                                                                                                                                    if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                    {
+                                                                                                                                                      v11 = 4i64;
+                                                                                                                                                      v10 = &dword_1401B96E0;
+                                                                                                                                                      result = TlgWrite(v6, &unk_14019DD11, v5, a4, v8, &pData);
+                                                                                                                                                      v6 = hProvider;
+                                                                                                                                                      v5 = pActivityId;
+                                                                                                                                                      v4 = dword_1401B5F20;
+                                                                                                                                                    }
+                                                                                                                                                  }
+                                                                                                                                                  if ( v4 > 5 )
+                                                                                                                                                  {
+                                                                                                                                                    if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                                    {
+                                                                                                                                                      result = 0;
+                                                                                                                                                      if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                      {
+                                                                                                                                                        v11 = 4i64;
+                                                                                                                                                        v10 = &dword_1401B96D8;
+                                                                                                                                                        result = TlgWrite(v6, &unk_14019EBCD, v5, a4, v8, &pData);
+                                                                                                                                                        v6 = hProvider;
+                                                                                                                                                        v5 = pActivityId;
+                                                                                                                                                        v4 = dword_1401B5F20;
+                                                                                                                                                      }
+                                                                                                                                                    }
+                                                                                                                                                    if ( v4 > 5 )
+                                                                                                                                                    {
+                                                                                                                                                      if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                                      {
+                                                                                                                                                        result = 0;
+                                                                                                                                                        if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                        {
+                                                                                                                                                          v11 = 4i64;
+                                                                                                                                                          v10 = &dword_1401B9638;
+                                                                                                                                                          result = TlgWrite(v6, &unk_14019E364, v5, a4, v8, &pData);
+                                                                                                                                                          v6 = hProvider;
+                                                                                                                                                          v5 = pActivityId;
+                                                                                                                                                          v4 = dword_1401B5F20;
+                                                                                                                                                        }
+                                                                                                                                                      }
+                                                                                                                                                      if ( v4 > 5 )
+                                                                                                                                                      {
+                                                                                                                                                        if ( ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                                        {
+                                                                                                                                                          result = 0;
+                                                                                                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                          {
+                                                                                                                                                            v11 = 4i64;
+                                                                                                                                                            v10 = &dword_1401B963C;
+                                                                                                                                                            result = TlgWrite(v6, &unk_14019E48A, v5, a4, v8, &pData);
+                                                                                                                                                            v6 = hProvider;
+                                                                                                                                                            v5 = pActivityId;
+                                                                                                                                                            v4 = dword_1401B5F20;
+                                                                                                                                                          }
+                                                                                                                                                        }
+                                                                                                                                                        if ( v4 > 5 && ((unsigned __int64)v5 & 0x400000000000i64) != 0 )
+                                                                                                                                                        {
+                                                                                                                                                          result = 0;
+                                                                                                                                                          if ( (const struct _TlgProvider_t *)((unsigned __int64)v6 & 0x400000000000i64) == v6 )
+                                                                                                                                                          {
+                                                                                                                                                            v11 = 4i64;
+                                                                                                                                                            v10 = &dword_1401B9640;
+                                                                                                                                                            return TlgWrite(v6, &unk_14019EAA0, v5, a4, v8, &pData);
+                                                                                                                                                          }
+                                                                                                                                                        }
+                                                                                                                                                      }
+                                                                                                                                                    }
+                                                                                                                                                  }
+                                                                                                                                                }
+                                                                                                                                              }
+                                                                                                                                            }
+                                                                                                                                          }
+                                                                                                                                        }
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              }
+                                                                                                            }
+                                                                                                          }
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return result;
+}
+// 140113A27: variable 'v8' is possibly undefined
+// 140113A7B: variable 'a4' is possibly undefined
+// 1401B5F20: using guessed type int dword_1401B5F20;
+// 1401B9190: using guessed type int g_isRegisteredForUTC;
+// 1401B95B0: using guessed type int SrvTelemetryInfo;
+// 1401B95B4: using guessed type int dword_1401B95B4;
+// 1401B95B8: using guessed type int dword_1401B95B8;
+// 1401B95BC: using guessed type int dword_1401B95BC;
+// 1401B95C0: using guessed type int dword_1401B95C0;
+// 1401B95C4: using guessed type int dword_1401B95C4;
+// 1401B95C8: using guessed type int dword_1401B95C8;
+// 1401B95CC: using guessed type int dword_1401B95CC;
+// 1401B95D0: using guessed type __int64 qword_1401B95D0;
+// 1401B95D8: using guessed type int dword_1401B95D8;
+// 1401B95DC: using guessed type int dword_1401B95DC;
+// 1401B95E0: using guessed type int dword_1401B95E0;
+// 1401B95E4: using guessed type int dword_1401B95E4;
+// 1401B95E8: using guessed type int dword_1401B95E8;
+// 1401B95EC: using guessed type int dword_1401B95EC;
+// 1401B95F0: using guessed type int dword_1401B95F0;
+// 1401B95F4: using guessed type int dword_1401B95F4;
+// 1401B95F8: using guessed type int dword_1401B95F8;
+// 1401B95FC: using guessed type int dword_1401B95FC;
+// 1401B9600: using guessed type int dword_1401B9600;
+// 1401B9604: using guessed type int dword_1401B9604;
+// 1401B9608: using guessed type int dword_1401B9608;
+// 1401B960C: using guessed type int dword_1401B960C;
+// 1401B9610: using guessed type int dword_1401B9610;
+// 1401B9618: using guessed type int dword_1401B9618;
+// 1401B9620: using guessed type int dword_1401B9620;
+// 1401B9624: using guessed type int dword_1401B9624;
+// 1401B962C: using guessed type int dword_1401B962C;
+// 1401B9630: using guessed type int dword_1401B9630;
+// 1401B9634: using guessed type int dword_1401B9634;
+// 1401B9638: using guessed type int dword_1401B9638;
+// 1401B963C: using guessed type int dword_1401B963C;
+// 1401B9640: using guessed type int dword_1401B9640;
+// 1401B9644: using guessed type int dword_1401B9644;
+// 1401B9648: using guessed type int dword_1401B9648;
+// 1401B964C: using guessed type int dword_1401B964C;
+// 1401B9650: using guessed type int dword_1401B9650;
+// 1401B9654: using guessed type int dword_1401B9654;
+// 1401B9658: using guessed type int dword_1401B9658;
+// 1401B965C: using guessed type int dword_1401B965C;
+// 1401B9660: using guessed type int dword_1401B9660;
+// 1401B9664: using guessed type int dword_1401B9664;
+// 1401B9668: using guessed type int dword_1401B9668;
+// 1401B966C: using guessed type signed __int32 dword_1401B966C[3];
+// 1401B9678: using guessed type int dword_1401B9678;
+// 1401B967C: using guessed type int dword_1401B967C;
+// 1401B9684: using guessed type int dword_1401B9684;
+// 1401B9688: using guessed type int dword_1401B9688;
+// 1401B968C: using guessed type int dword_1401B968C;
+// 1401B9690: using guessed type int dword_1401B9690;
+// 1401B9694: using guessed type int dword_1401B9694;
+// 1401B9698: using guessed type int dword_1401B9698;
+// 1401B969C: using guessed type int dword_1401B969C;
+// 1401B96A0: using guessed type int dword_1401B96A0;
+// 1401B96A4: using guessed type int dword_1401B96A4;
+// 1401B96A8: using guessed type int dword_1401B96A8;
+// 1401B96AC: using guessed type int dword_1401B96AC;
+// 1401B96B0: using guessed type signed __int32 dword_1401B96B0[3];
+// 1401B96BC: using guessed type int dword_1401B96BC;
+// 1401B96C0: using guessed type int dword_1401B96C0;
+// 1401B96C8: using guessed type int dword_1401B96C8;
+// 1401B96CC: using guessed type int dword_1401B96CC;
+// 1401B96D0: using guessed type int dword_1401B96D0;
+// 1401B96D4: using guessed type int dword_1401B96D4;
+// 1401B96D8: using guessed type int dword_1401B96D8;
+// 1401B96DC: using guessed type int dword_1401B96DC;
+// 1401B96E0: using guessed type int dword_1401B96E0;
+##############################
+Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+		"(...)"
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.

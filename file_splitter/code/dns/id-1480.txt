@@ -1,0 +1,132 @@
+//----- (00000001400B96B8) ----------------------------------------------------
+__int64 __fastcall rejectUpdateWithRcode(__int64 a1, int a2)
+{
+  const char *v4; // rax
+  const char *v5; // rsi
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  int v7; // eax
+  __int64 v8; // rax
+  __int64 v9; // rax
+  __int64 result; // rax
+  __int64 v11; // [rsp+28h] [rbp-30h]
+  __int128 v12; // [rsp+30h] [rbp-28h] BYREF
+
+  v4 = DnsAddr_Ntoa((struct in_addr *)(a1 + 64));
+  v5 = v4;
+  v6 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v11 = (__int64)v4;
+    v7 = a2;
+    if ( a2 > 19 )
+      v7 = 19;
+    WPP_SF_sqs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x76u,
+      (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+      ResponseCodeStringTable[v7],
+      a1,
+      v11);
+    v6 = WPP_GLOBAL_Control;
+  }
+  if ( (unsigned int)a2 > 6 )
+  {
+    switch ( a2 )
+    {
+      case 7:
+        _InterlockedIncrement(&dword_1401C8170);
+        goto LABEL_45;
+      case 8:
+        _InterlockedIncrement(&dword_1401C8174);
+        goto LABEL_45;
+      case 9:
+        _InterlockedIncrement(&dword_1401C8178);
+        goto LABEL_45;
+      case 10:
+        _InterlockedIncrement(&dword_1401C817C);
+        goto LABEL_45;
+    }
+LABEL_37:
+    if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v6 + 17) & 0x80000) != 0
+      && *((_BYTE *)v6 + 65) >= 2u )
+    {
+      WPP_SF_D(*((_QWORD *)v6 + 7), 0x7Au, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, a2);
+    }
+    goto LABEL_45;
+  }
+  switch ( a2 )
+  {
+    case 6:
+      _InterlockedIncrement(&dword_1401C816C);
+      break;
+    case 1:
+      v12 = DNS_EVENT_BAD_UPDATE_PACKET;
+      if ( a1 )
+      {
+        EventLog_BadPacket(&v12, a1);
+        v6 = WPP_GLOBAL_Control;
+      }
+      if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v6 + 17) & 0x80000) != 0
+        && *((_BYTE *)v6 + 65) >= 4u )
+      {
+        WPP_SF_s(*((_QWORD *)v6 + 7), 0x78u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v5);
+      }
+      _InterlockedIncrement(&dword_1401C815C);
+      break;
+    case 2:
+      if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v6 + 17) & 0x80000) != 0
+        && *((_BYTE *)v6 + 65) >= 4u )
+      {
+        WPP_SF_s(*((_QWORD *)v6 + 7), 0x77u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v5);
+      }
+      break;
+    case 3:
+      _InterlockedIncrement(&dword_1401C8160);
+      break;
+    case 4:
+      _InterlockedIncrement(&dword_1401C8164);
+      break;
+    case 5:
+      if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v6 + 17) & 0x80000) != 0
+        && *((_BYTE *)v6 + 65) >= 4u )
+      {
+        WPP_SF_qs(*((_QWORD *)v6 + 7), 0x79u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, a1, v5);
+      }
+      _InterlockedIncrement(&dword_1401C8168);
+      break;
+    default:
+      goto LABEL_37;
+  }
+LABEL_45:
+  v8 = *(_QWORD *)(a1 + 208);
+  if ( v8 )
+  {
+    v9 = *(_QWORD *)(v8 + 1648);
+    if ( v9 )
+      _InterlockedIncrement64((volatile signed __int64 *)(v9 + 1416));
+  }
+  Reject_RequestIntact(a1, (unsigned __int8)a2, 0);
+  _InterlockedIncrement(&dword_1401C8158);
+  result = pcDynamicUpdateRejected;
+  _InterlockedIncrement((volatile signed __int32 *)pcDynamicUpdateRejected);
+  return result;
+}
+// 14017B700: using guessed type char *ResponseCodeStringTable[20];
+// 140187608: using guessed type __int128 DNS_EVENT_BAD_UPDATE_PACKET;
+// 1401C8158: using guessed type int dword_1401C8158;
+// 1401C815C: using guessed type int dword_1401C815C;
+// 1401C8160: using guessed type int dword_1401C8160;
+// 1401C8164: using guessed type int dword_1401C8164;
+// 1401C8168: using guessed type int dword_1401C8168;
+// 1401C816C: using guessed type int dword_1401C816C;
+// 1401C8170: using guessed type int dword_1401C8170;
+// 1401C8174: using guessed type int dword_1401C8174;
+// 1401C8178: using guessed type int dword_1401C8178;
+// 1401C817C: using guessed type int dword_1401C817C;
+// 1401C8608: using guessed type __int64 pcDynamicUpdateRejected;

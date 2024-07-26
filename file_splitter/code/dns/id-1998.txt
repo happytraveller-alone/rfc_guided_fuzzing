@@ -1,0 +1,158 @@
+//----- (00000001400F5A4C) ----------------------------------------------------
+__int64 __fastcall DnsOls_DiscoverZoneKeymasterFqdn(__int64 a1, __int64 a2, int a3, LDAP *a4)
+{
+  unsigned int KeymasterHostName; // ebx
+  char *v6; // r12
+  int v7; // r13d
+  LDAP *v8; // r15
+  const char *v9; // rax
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  int v11; // eax
+  int KeymasterSettingsObject; // r9d
+  const char *v13; // r15
+  const char *v14; // r9
+  LDAPMessage *res; // [rsp+40h] [rbp-10h] BYREF
+  char *v17; // [rsp+90h] [rbp+40h] BYREF
+  int v18; // [rsp+98h] [rbp+48h] BYREF
+  int v19; // [rsp+A0h] [rbp+50h]
+  LDAP *v20; // [rsp+A8h] [rbp+58h] BYREF
+
+  v20 = a4;
+  v19 = a3;
+  KeymasterHostName = 0;
+  res = 0i64;
+  v6 = 0i64;
+  v7 = 0;
+  v8 = a4;
+  v17 = 0i64;
+  v18 = 1;
+  if ( a1 == g_pCacheZone || a1 == g_pTrustAnchorsZone )
+    goto LABEL_29;
+  if ( (*(_BYTE *)(a1 + 1040) & 2) != 0 )
+  {
+    v9 = (const char *)Dns_StringCopyAllocate((char *)Str, 0, 2i64, 2);
+    v6 = (char *)v9;
+    v10 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 5u )
+    {
+      goto LABEL_30;
+    }
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x32u, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids, v9);
+LABEL_29:
+    v10 = WPP_GLOBAL_Control;
+LABEL_30:
+    v13 = *(const char **)(a1 + 1080);
+    if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v10 + 17) & 0x200000) != 0
+      && *((_BYTE *)v10 + 65) >= 5u )
+    {
+      WPP_SF_ss(
+        *((_QWORD *)v10 + 7),
+        0x36u,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        v6,
+        *(_QWORD *)(a1 + 16));
+    }
+    *(_QWORD *)(a1 + 1080) = v6;
+    v6 = 0i64;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_ss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x37u,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        v13,
+        *(_QWORD *)(a1 + 16));
+    }
+    Timeout_FreeWithFunctionEx((__int64)v13, 0i64, (__int64)"ds\\dns\\server\\server\\olsds.cpp", 2043);
+    goto LABEL_39;
+  }
+  if ( !a4 )
+  {
+    v7 = 1;
+    v11 = Ds_BindToFsmo((__int64 *)&v20, &v18, a3);
+    if ( v11 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x33u,
+          (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+          v11);
+      }
+      KeymasterHostName = 9906;
+      goto LABEL_39;
+    }
+    v8 = v20;
+  }
+  KeymasterSettingsObject = DnsOls_FindKeymasterSettingsObject(v8, a1, &res);
+  if ( KeymasterSettingsObject )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x34u,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        KeymasterSettingsObject,
+        *(_QWORD *)(a1 + 16));
+    }
+    KeymasterHostName = 13;
+  }
+  else
+  {
+    KeymasterHostName = DnsOls_FindKeymasterHostName(v8, a1, res, (__int64 *)&v17);
+    if ( !KeymasterHostName )
+    {
+      v6 = v17;
+      goto LABEL_29;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x35u,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        KeymasterHostName,
+        *(_QWORD *)(a1 + 16));
+    }
+    v6 = v17;
+    KeymasterHostName = 13;
+  }
+LABEL_39:
+  Mem_Free(v6, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsds.cpp", 2051);
+  if ( res )
+    ldap_msgfree(res);
+  if ( !v18 && v7 && !v19 )
+    Ds_LdapUnbind(&v20);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v14 = "is not";
+    if ( (*(_BYTE *)(a1 + 1040) & 2) != 0 )
+      v14 = "is";
+    WPP_SF_Dsss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x38u,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      KeymasterHostName,
+      *(_QWORD *)(a1 + 1080),
+      (__int64)v14,
+      *(_QWORD *)(a1 + 16));
+  }
+  return KeymasterHostName;
+}
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

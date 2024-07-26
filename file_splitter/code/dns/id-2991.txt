@@ -1,0 +1,28 @@
+//----- (0000000140158508) ----------------------------------------------------
+void __fastcall Dns_EnlistSecurityContext(__int64 a1)
+{
+  int CurrentTimeInSeconds; // eax
+  __int64 v3; // rdx
+  __int64 v4; // rcx
+
+  CurrentTimeInSeconds = Dns_GetCurrentTimeInSeconds();
+  if ( !*(_DWORD *)(a1 + 156) )
+    *(_DWORD *)(a1 + 156) = CurrentTimeInSeconds;
+  if ( !*(_DWORD *)(a1 + 164) )
+    *(_DWORD *)(a1 + 164) = CurrentTimeInSeconds + 14400;
+  *(_DWORD *)(a1 + 160) = CurrentTimeInSeconds + 160;
+  EnterCriticalSection(&SecurityContextListCS);
+  ++SecContextQueue;
+  *(_QWORD *)a1 = SecurityContextListHead;
+  SecurityContextListHead = a1;
+  if ( !*(_DWORD *)(a1 + 148) )
+    ++SecContextQueueInNego;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x2000) != 0 )
+    DnsPrint_SecurityContextList(v4, v3, (__int64)"After add", (const char *)a1);
+  LeaveCriticalSection(&SecurityContextListCS);
+}
+// 140158592: variable 'v4' is possibly undefined
+// 140158592: variable 'v3' is possibly undefined
+// 1401B9E2C: using guessed type int SecContextQueueInNego;
+// 1401B9E30: using guessed type int SecContextQueue;
+// 1401B9E50: using guessed type __int64 SecurityContextListHead;

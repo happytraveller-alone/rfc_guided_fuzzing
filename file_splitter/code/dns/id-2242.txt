@@ -1,0 +1,34 @@
+//----- (00000001401196CC) ----------------------------------------------------
+__int64 __fastcall RR_DispatchFunctionForType(__int64 a1, unsigned __int16 a2)
+{
+  unsigned __int16 v2; // r8
+  __int64 result; // rax
+
+  v2 = a2;
+  if ( a2 )
+  {
+    if ( a2 > 0x34u )
+    {
+      if ( (unsigned __int16)(a2 + 255) <= 1u )
+        v2 = a2 + 308;
+      else
+        v2 = 0;
+    }
+    if ( !v2 )
+      return *(_QWORD *)a1;
+    result = *(_QWORD *)(a1 + 8i64 * v2);
+    if ( !result )
+      return *(_QWORD *)a1;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xAu, (__int64)&WPP_78f9f773bfac3ce873e2989308e70330_Traceguids);
+    }
+    return 0i64;
+  }
+  return result;
+}

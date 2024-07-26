@@ -1,0 +1,64 @@
+//----- (00000001400D3B30) ----------------------------------------------------
+__int64 __fastcall Rpc_ResetZoneScavengeServers(__int64 a1, __int64 a2, __int64 a3, int a4, int a5, unsigned int *Src)
+{
+  __int64 v7; // rsi
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  _DWORD *v10; // rax
+
+  v7 = 0i64;
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_sq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x50u,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      *(const char **)(a3 + 16));
+  }
+  if ( *(_DWORD *)(a3 + 372) != 1 )
+    return 9611i64;
+  if ( a5 != 34 && a5 != 4 )
+    return 87i64;
+  if ( (*(_BYTE *)(a3 + 388) & 1) != 0 && (dword_1401B9750 || g_fDsReadOnlyDcMode)
+    || (*(_BYTE *)(a3 + 1160) & 0x40) != 0 )
+  {
+    return 9569i64;
+  }
+  if ( (*(_BYTE *)(a3 + 396) & 1) == 0 )
+  {
+    Timeout_FreeAndReplaceZoneDataEx(
+      (__int64)v8,
+      (__int64 *)(a3 + 1008),
+      0i64,
+      (__int64)DnsAddrArray_Free,
+      (__int64)"ds\\dns\\server\\server\\zonerpc.c",
+      4583);
+    return 9611i64;
+  }
+  if ( Src )
+  {
+    v10 = a5 == 34 ? DnsAddrArray_CopyAndExpand(Src, 0i64, 0i64, a4) : DnsAddrArray_CreateFromIp4Array(Src, a2, a3, a4);
+    v7 = (__int64)v10;
+    if ( !v10 )
+      return 14i64;
+  }
+  Timeout_FreeAndReplaceZoneDataEx(
+    (__int64)v8,
+    (__int64 *)(a3 + 1008),
+    v7,
+    (__int64)DnsAddrArray_Free,
+    (__int64)"ds\\dns\\server\\server\\zonerpc.c",
+    4571);
+  Ds_WriteZoneProperties(0i64, a3);
+  LogAddrArrayProperty(0x237u, a3, 0i64, *(_QWORD *)(a3 + 1008));
+  return 0i64;
+}
+// 1400D3BF0: variable 'a4' is possibly undefined
+// 1400D3BF7: variable 'a2' is possibly undefined
+// 1400D3BF7: variable 'a3' is possibly undefined
+// 1400D3C31: variable 'v8' is possibly undefined
+// 1401560E0: using guessed type __int64 __fastcall DnsAddrArray_Free();
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9750: using guessed type int dword_1401B9750;

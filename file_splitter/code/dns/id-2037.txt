@@ -1,0 +1,54 @@
+//----- (00000001400FC110) ----------------------------------------------------
+unsigned __int64 __fastcall findLowestCostSite(struct DS_SITE_COST_INFO *a1, unsigned int a2)
+{
+  unsigned int v2; // r8d
+  unsigned int v3; // ebx
+  unsigned int v4; // r10d
+  DWORD *p_cost; // rax
+
+  v2 = 0;
+  v3 = -1;
+  v4 = -1;
+  if ( a2 )
+  {
+    p_cost = &a1->cost;
+    do
+    {
+      if ( !*(p_cost - 1) && *p_cost < v4 )
+      {
+        v4 = *p_cost;
+        v3 = v2;
+        if ( !*p_cost )
+          break;
+      }
+      ++v2;
+      p_cost += 2;
+    }
+    while ( v2 < a2 );
+  }
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0 )
+  {
+    if ( v3 == -1 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xAu,
+          (__int64)&WPP_9f3fa3b6e1fd31b2a2f779badde708de_Traceguids,
+          a2);
+      }
+    }
+    else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_Ddd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xBu,
+        (__int64)&WPP_9f3fa3b6e1fd31b2a2f779badde708de_Traceguids,
+        v3);
+    }
+  }
+  return v3;
+}

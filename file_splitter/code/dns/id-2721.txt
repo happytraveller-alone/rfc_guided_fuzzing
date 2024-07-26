@@ -1,0 +1,6 @@
+//----- (0000000140142FB0) ----------------------------------------------------
+void __fastcall CDNSPolicyCriteriaNetProtocol::Begin(CDNSPolicyCriteriaNetProtocol *this)
+{
+  *((_QWORD *)this + 20) = *((_QWORD *)this + 16);
+  *((_DWORD *)this + 3) = 1;
+}

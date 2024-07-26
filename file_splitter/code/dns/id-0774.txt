@@ -1,0 +1,39 @@
+//----- (000000014006B3F4) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall PQ_CleanupPacketQueueHandles(__int64 a1)
+{
+  CDnsClientSubnetRecordsTrie **result; // rax
+  void *v3; // rcx
+
+  if ( a1 )
+  {
+    v3 = *(void **)(a1 + 72);
+    if ( v3 )
+      CloseHandle(v3);
+    DnsDeleteCriticalSection((struct _RTL_CRITICAL_SECTION *)(a1 + 16));
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      return (CDnsClientSubnetRecordsTrie **)WPP_SF_s(
+                                               *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                               0x14u,
+                                               (__int64)&WPP_ea3280c01ae0350ebb797dd5efafc371_Traceguids,
+                                               *(const char **)(a1 + 56));
+    }
+  }
+  else
+  {
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      return (CDnsClientSubnetRecordsTrie **)WPP_SF_(
+                                               *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                               0x13u,
+                                               (__int64)&WPP_ea3280c01ae0350ebb797dd5efafc371_Traceguids);
+    }
+  }
+  return result;
+}

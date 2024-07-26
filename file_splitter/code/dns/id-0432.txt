@@ -1,0 +1,79 @@
+//----- (0000000140037264) ----------------------------------------------------
+__int64 __fastcall buildDsNodeNameFromNode(wchar_t *Buffer, __int64 *a2, __int64 a3)
+{
+  __int64 v4; // rbx
+  __int64 *v6; // r9
+  int LastError; // eax
+  __int64 result; // rax
+  unsigned __int64 v9; // rax
+  CHAR MultiByteStr[256]; // [rsp+30h] [rbp-348h] BYREF
+  char v11[16]; // [rsp+130h] [rbp-248h] BYREF
+  WCHAR WideCharStr[264]; // [rsp+140h] [rbp-238h] BYREF
+
+  v4 = a3;
+  if ( (*(_DWORD *)(a3 + 84) & 0x88880000) == -2004353024 )
+    v4 = *(_QWORD *)(a3 + 8);
+  v6 = (__int64 *)a2[5];
+  if ( (__int64 *)v4 == v6 || v4 == a2[8] )
+  {
+    v9 = -1i64;
+    do
+      ++v9;
+    while ( *(_WORD *)(a2[105] + 2 * v9) );
+    if ( v9 > 0x4FA )
+      return 123i64;
+    result = StringCchPrintfW(Buffer, 1280i64, L"DC=@,%s");
+  }
+  else
+  {
+    if ( !Name_PlaceNodeNameInBuffer(MultiByteStr, (unsigned __int64)v11, (__int64 *)v4, v6) )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_sS(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xAu,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          (const char *)(v4 + 102),
+          a2[3]);
+      }
+      return 123i64;
+    }
+    WideCharStr[0] = 0;
+    MultiByteToWideChar(0xFDE9u, 0, MultiByteStr, -1, WideCharStr, 256);
+    if ( !WideCharStr[0] )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        LastError = GetLastError();
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xBu,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          LastError);
+      }
+      return 123i64;
+    }
+    result = StringCchPrintfW(Buffer, 1280i64, L"DC=%s,%s", WideCharStr, a2[105]);
+  }
+  if ( (int)result >= 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xCu,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        Buffer);
+    }
+    return 0i64;
+  }
+  return result;
+}
+// 140037264: using guessed type char var_248[16];

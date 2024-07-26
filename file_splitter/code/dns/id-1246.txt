@@ -1,0 +1,43 @@
+//----- (00000001400A16C0) ----------------------------------------------------
+void Sock_CloseAllSockets()
+{
+  __int64 v0; // rax
+  SOCKET v1; // rdi
+  int v2; // eax
+  __int64 v3; // rbx
+
+  if ( g_SocketListCount != 0x80000000 )
+  {
+    EnterCriticalSection(&g_SocketListCs);
+    while ( 1 )
+    {
+      v3 = g_SocketList;
+      if ( (__int64 *)g_SocketList == &g_SocketList )
+        break;
+      v0 = *(_QWORD *)g_SocketList;
+      if ( *(__int64 **)(g_SocketList + 8) != &g_SocketList || *(_QWORD *)(v0 + 8) != g_SocketList )
+        __fastfail(3u);
+      --g_SocketListCount;
+      g_SocketList = v0;
+      *(_QWORD *)(v0 + 8) = &g_SocketList;
+      v1 = *(_QWORD *)(v3 + 16);
+      v2 = closesocket(v1);
+      if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+        && v2
+        && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WSAGetLastError();
+        WPP_SF_Dd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x59u,
+          (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+          v1);
+      }
+      Timeout_FreeWithFunctionEx(v3, (__int64)Sock_Free, (__int64)"ds\\dns\\server\\server\\socket.c", 4436);
+    }
+    LeaveCriticalSection(&g_SocketListCs);
+  }
+}
+// 1401B8084: using guessed type int g_SocketListCount;
+// 1401C87F0: using guessed type __int64 g_SocketList;

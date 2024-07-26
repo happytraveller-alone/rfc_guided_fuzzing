@@ -1,0 +1,23 @@
+//----- (00000001400E2D80) ----------------------------------------------------
+struct _DnssrvRpcTrustPoint *__fastcall TrustPoint::GetEmptyRPCObject(char *a1)
+{
+  _DWORD *v2; // rax
+  _DWORD *v3; // rbx
+  void *v5; // rax
+
+  v2 = MIDL_user_allocate(0x38ui64);
+  v3 = v2;
+  if ( !v2 )
+    return 0i64;
+  memset_0(v2, 0, 0x38ui64);
+  v3[4] = 0;
+  *v3 = 1;
+  v5 = Dns_StringCopyAllocate(a1, 0, 2i64, 2);
+  *((_QWORD *)v3 + 1) = v5;
+  if ( !v5 )
+  {
+    MIDL_user_free(v3);
+    return 0i64;
+  }
+  return (struct _DnssrvRpcTrustPoint *)v3;
+}

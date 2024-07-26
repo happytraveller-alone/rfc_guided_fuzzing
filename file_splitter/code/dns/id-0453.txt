@@ -1,0 +1,97 @@
+//----- (0000000140039414) ----------------------------------------------------
+__int64 __fastcall Ds_ReadServerObjectSD(__int64 a1, __int64 a2, int a3)
+{
+  LDAP *v3; // rbx
+  void *SD; // rbp
+  char *BaseDnsDn; // rax
+  char *v7; // rdi
+  int v8; // eax
+  int v9; // esi
+  unsigned int v10; // ebx
+  LDAPMessage *entry; // rax
+  void *ServerControls[2]; // [rsp+60h] [rbp-28h] BYREF
+  void *attrs[2]; // [rsp+70h] [rbp-18h] BYREF
+  PLDAPMessage res; // [rsp+98h] [rbp+10h] BYREF
+
+  res = 0i64;
+  v3 = pServerLdap;
+  SD = 0i64;
+  ServerControls[1] = 0i64;
+  attrs[1] = 0i64;
+  ServerControls[0] = &SecurityDescriptorControl_DGO;
+  attrs[0] = off_1401B6C40;
+  if ( !(unsigned int)Ds_IsDsServer(a3 != 0 ? 2 : 0)
+    || g_pServerObjectSD && (unsigned int)(dword_1401B9714 - dword_1401B8D64) < 0x1E )
+  {
+    return 0i64;
+  }
+  dword_1401B8D64 = dword_1401B9714;
+  BaseDnsDn = Ds_GenerateBaseDnsDn(1);
+  v7 = BaseDnsDn;
+  if ( !BaseDnsDn )
+    return 14i64;
+  v8 = ldap_search_ext_sW(
+         v3,
+         (const PWSTR)BaseDnsDn,
+         0,
+         0i64,
+         (PZPWSTR)attrs,
+         0,
+         (PLDAPControlW *)ServerControls,
+         0i64,
+         &g_LdapTimeout,
+         0,
+         &res);
+  v9 = v8;
+  if ( v8 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x40u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v8,
+        (__int64)v7);
+    }
+    v10 = 14;
+  }
+  else
+  {
+    entry = ldap_first_entry(v3, res);
+    if ( entry )
+    {
+      SD = Ds_ReadSD(v3, entry);
+      if ( !SD )
+        v9 = 14;
+      v10 = v9;
+    }
+    else
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x41u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+      }
+      v10 = 9701;
+    }
+  }
+  Mem_Free(v7, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 3329);
+  if ( res )
+    ldap_msgfree(res);
+  if ( !v10 )
+  {
+    Timeout_FreeWithFunctionEx(g_pServerObjectSD, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 3338);
+    g_pServerObjectSD = (__int64)SD;
+  }
+  return v10;
+}
+// 1401B8D64: using guessed type int dword_1401B8D64;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401C94B0: using guessed type __int64 g_pServerObjectSD;
+// 1401EC440: using guessed type __int64 SecurityDescriptorControl_DGO;
+// 140039414: using guessed type PLDAPControlW var_28[2];
+// 140039414: using guessed type PWSTR var_18[2];

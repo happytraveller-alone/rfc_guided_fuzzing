@@ -1,0 +1,56 @@
+//----- (000000014011D380) ----------------------------------------------------
+STRSAFE_LPSTR __fastcall SoaFileWrite(__int64 a1, char *a2, unsigned __int64 a3)
+{
+  char *v5; // rax
+  char *v6; // r14
+  char *v7; // rax
+  u_long v9; // [rsp+20h] [rbp-68h]
+  u_long v10; // [rsp+30h] [rbp-58h]
+  u_long v11; // [rsp+40h] [rbp-48h]
+  u_long v12; // [rsp+50h] [rbp-38h]
+  u_long v13; // [rsp+60h] [rbp-28h]
+
+  v5 = sprintfSafeA(a2, a3 - (_QWORD)a2, " ");
+  v6 = v5;
+  if ( v5 )
+  {
+    v7 = File_WriteRawNameToFileBuffer(v5, a3, (char *)(a1 + 78));
+    v6 = v7;
+    if ( v7 )
+    {
+      v6 = sprintfSafeA(v7, a3 - (_QWORD)v7, " ");
+      if ( v6 )
+      {
+        v6 = File_WriteRawNameToFileBuffer(v6, a3, (char *)(*(unsigned __int8 *)(a1 + 76) + a1 + 80));
+        if ( v6 )
+        {
+          v13 = ntohl(*(_DWORD *)(a1 + 72));
+          v12 = ntohl(*(_DWORD *)(a1 + 68));
+          v11 = ntohl(*(_DWORD *)(a1 + 64));
+          v10 = ntohl(*(_DWORD *)(a1 + 60));
+          v9 = ntohl(*(_DWORD *)(a1 + 56));
+          return sprintfSafeA(
+                   v6,
+                   a3 - (_QWORD)v6,
+                   " (\r\n"
+                   "%s\t\t%-10u   ; serial number\r\n"
+                   "%s\t\t%-10u   ; refresh\r\n"
+                   "%s\t\t%-10u   ; retry\r\n"
+                   "%s\t\t%-10u   ; expire\r\n"
+                   "%s\t\t%-10u ) ; default TTL\r\n",
+                   "                        ",
+                   v9,
+                   "                        ",
+                   v10,
+                   "                        ",
+                   v11,
+                   "                        ",
+                   v12,
+                   "                        ",
+                   v13);
+        }
+      }
+    }
+  }
+  return v6;
+}

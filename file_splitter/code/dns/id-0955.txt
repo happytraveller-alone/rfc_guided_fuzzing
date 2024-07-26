@@ -1,0 +1,17 @@
+//----- (0000000140080D30) ----------------------------------------------------
+__int64 __fastcall Rpc_QueryDwordProperty(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        char *a6,
+        _DWORD *a7,
+        int *a8)
+{
+  if ( a5 != 2 || !a6 || !a8 || !a7 )
+    return 87i64;
+  if ( a3 )
+    return Rpc_QueryZoneDwordProperty(a1, a2, a3, a6, a7, a8);
+  return Rpc_QueryServerDwordProperty(a1, a6, a2, 0i64, a7, a8);
+}

@@ -1,0 +1,52 @@
+//----- (000000014009BC18) ----------------------------------------------------
+__int64 __fastcall Reject_Request(__int64 a1, unsigned __int16 a2, char a3)
+{
+  __int64 v6; // rax
+  __int64 v7; // rbp
+  __int64 v8; // rax
+  __int64 result; // rax
+  __int16 v10; // r11
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_qd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x2Cu,
+      (__int64)&WPP_398a615c07233f5235cf23860937c5e7_Traceguids,
+      a1,
+      a2);
+  }
+  v6 = *(_QWORD *)(a1 + 464);
+  if ( v6 )
+    v7 = *(_QWORD *)(v6 + 56);
+  else
+    v7 = 0i64;
+  v8 = *(unsigned __int16 *)(a1 + 6302);
+  *(_BYTE *)(a1 + 6306) |= 0x80u;
+  *(_QWORD *)(a1 + 32) = v8 + a1 + 6304;
+  *(_DWORD *)(a1 + 6310) = 0;
+  *(_WORD *)(a1 + 6314) = 0;
+  if ( a2 > 0xFu )
+  {
+    *(_DWORD *)(a1 + 592) |= 2u;
+    *(_WORD *)(a1 + 600) = dword_1401B98E8;
+    *(_BYTE *)(a1 + 596) = a2 >> 4;
+    *(_BYTE *)(a1 + 597) = 0;
+  }
+  *(_BYTE *)(a1 + 6307) &= 0xF0u;
+  *(_BYTE *)(a1 + 6307) |= a2 & 0xF;
+  if ( (a3 & 1) != 0 || (result = checkAndSuppressBadSender(a1), !(_DWORD)result) )
+  {
+    Stats_updateErrorStats(a2);
+    Stat_IncrementZoneQueryStats(v7, *(_WORD *)(a1 + 480), 2);
+    v10 = *(_WORD *)(a1 + 604);
+    *(_DWORD *)(a1 + 592) &= ~2u;
+    *(_WORD *)(a1 + 600) = v10;
+    *(_DWORD *)(a1 + 592) |= 2 * (v10 != 0);
+    return Send_Msg(a1, 0);
+  }
+  return result;
+}
+// 1401B98E8: using guessed type int dword_1401B98E8;

@@ -1,0 +1,129 @@
+//----- (0000000140093D20) ----------------------------------------------------
+__int64 __fastcall RR_PacketTtlForCachedRecord(__int64 a1, __int64 a2, __int64 a3)
+{
+  __int16 v4; // cx
+  unsigned int v5; // r15d
+  u_long v7; // r14d
+  __int64 v8; // rdx
+  int v9; // eax
+  __int64 v10; // r8
+  unsigned int v11; // ebp
+  int v12; // eax
+  __int64 v13; // r8
+  unsigned int v14; // eax
+  int CurrentTimeInSeconds; // eax
+  int v16; // r14d
+  int v17; // eax
+  __int64 v18; // r8
+
+  v4 = *(_WORD *)(a1 + 10);
+  v5 = a2;
+  if ( (v4 & 0x2000) != 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_qDDD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        a2,
+        a3,
+        a1,
+        *(_DWORD *)(a1 + 20),
+        *(unsigned __int8 *)(a1 + 8),
+        a2);
+    }
+    return 0xFFFFFFFFi64;
+  }
+  v7 = *(_DWORD *)(a1 + 20);
+  v8 = *(unsigned int *)(a1 + 16);
+  if ( (v4 & 0x20) != 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      v9 = ntohl(v7);
+      WPP_SF_DDDqD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Du, v10, v9);
+    }
+    return v7;
+  }
+  v11 = 0;
+  if ( *(_BYTE *)(a1 + 8) == 8 && !v7 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      v12 = ntohl(0x100E0000u);
+      WPP_SF_DDDqD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Eu, v13, v12);
+    }
+    return 269352960i64;
+  }
+  if ( dword_1401B9924 && (*(_WORD *)(a1 + 12) == 0xF0F0 || (v4 & 0x80u) != 0) && (unsigned int)v8 < v5 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_DDDqDDD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        v8,
+        (unsigned int)dword_1401B9924,
+        *(unsigned __int16 *)(a1 + 12));
+    }
+LABEL_28:
+    *(_WORD *)(a1 + 10) |= 0x2000u;
+    return 0xFFFFFFFFi64;
+  }
+  v14 = *(_DWORD *)(a1 + 20);
+  if ( dword_1401B991C )
+    v14 = v8 + dword_1401B9920;
+  if ( v14 < v5 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_DDDDqD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        *(unsigned __int8 *)(a1 + 8),
+        (unsigned int)-dword_1401B991C,
+        *(unsigned __int16 *)(a1 + 12));
+    }
+    goto LABEL_28;
+  }
+  if ( dword_1401B991C || (v4 & 0x800) != 0 )
+  {
+    if ( v7 < (unsigned int)v8 )
+      goto LABEL_44;
+    v16 = v7 - v8;
+  }
+  else
+  {
+    if ( (v4 & 0x10) != 0 )
+      goto LABEL_44;
+    CurrentTimeInSeconds = Dns_GetCurrentTimeInSeconds();
+    v16 = v7 - CurrentTimeInSeconds;
+    dword_1401B9714 = CurrentTimeInSeconds;
+    if ( v16 <= 0 )
+      goto LABEL_44;
+  }
+  v11 = (((v16 << 16) | v16 & 0xFF00) << 8) | ((unsigned int)(HIWORD(v16) | v16 & 0xFF0000) >> 8);
+LABEL_44:
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v17 = ntohl(v11);
+    WPP_SF_DDDqD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x31u, v18, v17);
+  }
+  return v11;
+}
+// 140093DFB: variable 'v10' is possibly undefined
+// 140093E70: variable 'v13' is possibly undefined
+// 140094018: variable 'v18' is possibly undefined
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B991C: using guessed type int dword_1401B991C;
+// 1401B9920: using guessed type int dword_1401B9920;
+// 1401B9924: using guessed type int dword_1401B9924;

@@ -1,0 +1,536 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 917
+// Total lines: 411
+
+//----- (000000014007CA5C) ----------------------------------------------------
+__int64 __fastcall DnsRq_InsertNewRemoteQuery(__int64 a1, unsigned __int16 a2, unsigned __int16 a3, _WORD *a4, int *a5)
+{
+  __int64 v7; // r8
+  __int64 v9; // r11
+  int v10; // r9d
+  int v11; // r13d
+  int v12; // edi
+  unsigned int v13; // ebx
+  CDnsClientSubnetRecordsTrie *v14; // r10
+  int v15; // eax
+  __int64 v16; // rdx
+  int v17; // eax
+  __int64 v18; // rcx
+  unsigned int NameHashIndex; // eax
+  __int64 v20; // rsi
+  struct _RTL_AVL_TABLE *v21; // rax
+  __int64 *inserted; // rax
+  __int64 v23; // rsi
+  _QWORD *v24; // rdx
+  _QWORD *v25; // rcx
+  unsigned int v26; // r8d
+  const char *v27; // rdx
+  __int16 v28; // ax
+  unsigned __int16 v29; // si
+  __int64 v30; // rax
+  BOOLEAN v31; // al
+  unsigned int XidHashIndex; // eax
+  char *v33; // rcx
+  char *v34; // rax
+  char **v35; // rdx
+  __int64 v36; // r8
+  int v37; // ecx
+  PVOID TableContext; // [rsp+20h] [rbp-50h]
+  __int64 v40; // [rsp+28h] [rbp-48h]
+  __int64 v41; // [rsp+30h] [rbp-40h]
+  __int64 v42; // [rsp+38h] [rbp-38h]
+  int v43; // [rsp+60h] [rbp-10h]
+  unsigned int v44; // [rsp+64h] [rbp-Ch] BYREF
+  unsigned int v45; // [rsp+68h] [rbp-8h] BYREF
+  int v46; // [rsp+6Ch] [rbp-4h]
+  __int64 Buffer; // [rsp+B0h] [rbp+40h] BYREF
+  unsigned __int8 NewElement; // [rsp+C8h] [rbp+58h] BYREF
+
+  Buffer = a1;
+  v7 = 0i64;
+  v46 = 0;
+  v9 = a1;
+  v45 = 0;
+  v10 = 0;
+  v43 = 0;
+  v11 = 0;
+  v12 = 1;
+  if ( a4 )
+    *a4 = 0;
+  if ( a5 )
+    *a5 = 0;
+  if ( !a1 )
+  {
+    v13 = 87;
+LABEL_7:
+    v14 = WPP_GLOBAL_Control;
+    goto LABEL_15;
+  }
+  EnterCriticalSection((LPCRITICAL_SECTION)(g_pRemoteQueryQueue + 16));
+  v9 = Buffer;
+  v46 = 1;
+  if ( *(_DWORD *)(Buffer + 560) + g_TotalQueuedRecursiveQueries >= (unsigned int)dword_1401B9830 )
+  {
+    v14 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_qd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xDu,
+        (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+        Buffer,
+        dword_1401B9830);
+      v9 = Buffer;
+      v14 = WPP_GLOBAL_Control;
+    }
+    v13 = 122;
+    v7 = 0i64;
+LABEL_14:
+    v10 = 0;
+    goto LABEL_15;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xEu,
+      (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+      Buffer,
+      a2,
+      a3);
+    v9 = Buffer;
+  }
+  v7 = 0i64;
+  *(_QWORD *)(v9 + 520) = v9 + 512;
+  v13 = 0;
+  *(_QWORD *)(v9 + 512) = v9 + 512;
+  v9 = Buffer;
+  if ( Buffer && (v7 = *(_QWORD *)(Buffer + 1400)) != 0 )
+  {
+    v17 = Name_ConvertPacketNameToLookupNameEx(Buffer, (unsigned __int8 *)(Buffer + 6316), (unsigned __int16 *)v7, 1);
+    v9 = Buffer;
+    v7 = 0i64;
+    if ( !v17 )
+      v13 = 123;
+  }
+  else
+  {
+    v13 = 87;
+  }
+  if ( v13 )
+  {
+    v14 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      goto LABEL_105;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      HIDWORD(TableContext) = HIDWORD(v9);
+      WPP_SF_Dq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xFu,
+        (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+        v13);
+      v9 = Buffer;
+      v7 = 0i64;
+      v14 = WPP_GLOBAL_Control;
+    }
+    goto LABEL_14;
+  }
+  *(_WORD *)(v9 + 496) = a2;
+  *(_WORD *)(Buffer + 498) = a3;
+  *(_DWORD *)(Buffer + 500) = -1;
+  v18 = Buffer;
+  if ( a2 == 1
+    && dword_1401B97F0 != (_DWORD)v7
+    && *(_QWORD *)(Buffer + 528) == Buffer + 528
+    && *(_QWORD *)(Buffer + 1264) == v7 )
+  {
+    v44 = v7;
+    NameHashIndex = generateNameHashIndex(Buffer, (int *)&v44);
+    v7 = 0i64;
+    v13 = NameHashIndex;
+    if ( NameHashIndex )
+      goto LABEL_94;
+    v20 = v44;
+    if ( !g_RemoteNameHashArray[v44] )
+    {
+      v21 = (struct _RTL_AVL_TABLE *)Mem_AllocZero(0x68ui64, 0i64, "ds\\dns\\server\\server\\remotequerysystem.c", 732);
+      v7 = 0i64;
+      g_RemoteNameHashArray[v20] = (__int64)v21;
+      if ( !v21 )
+      {
+        v9 = Buffer;
+        v13 = 14;
+        v10 = 0;
+        goto LABEL_7;
+      }
+      RtlInitializeGenericTableAvl(
+        v21,
+        (PRTL_AVL_COMPARE_ROUTINE)nameHashArrayCompareFunc,
+        (PRTL_AVL_ALLOCATE_ROUTINE)nameHashArrayAllocFunc,
+        (PRTL_AVL_FREE_ROUTINE)nameHashArrayFreeFunc,
+        0i64);
+    }
+    inserted = (__int64 *)RtlInsertElementGenericTableAvl(
+                            (PRTL_AVL_TABLE)g_RemoteNameHashArray[v20],
+                            &Buffer,
+                            8u,
+                            &NewElement);
+    if ( !NewElement )
+    {
+      v23 = *inserted;
+      if ( *(_WORD *)(*inserted + 6304) == *(_WORD *)(Buffer + 6304)
+        && (unsigned int)DnsAddr_IsEqual((_WORD *)(v23 + 64), (_WORD *)(Buffer + 64), 0xFFFF) )
+      {
+        _InterlockedAdd(&dword_1401C7F1C, 1u);
+        v10 = 1;
+        v43 = 1;
+        v14 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_qq(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x10u,
+            (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+            Buffer,
+            v23);
+          v14 = WPP_GLOBAL_Control;
+          v10 = 1;
+        }
+      }
+      else
+      {
+        _InterlockedAdd(&dword_1401C7F20, 1u);
+        v24 = *(_QWORD **)(v23 + 536);
+        v25 = (_QWORD *)(Buffer + 528);
+        if ( *v24 != v23 + 528 )
+          __fastfail(3u);
+        *v25 = v23 + 528;
+        v25[1] = v24;
+        *v24 = v25;
+        *(_QWORD *)(v23 + 536) = v25;
+        _InterlockedAdd((volatile signed __int32 *)(v23 + 560), 1u);
+        ++g_TotalQueuedRecursiveQueries;
+        v14 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_qq(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x11u,
+            (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+            Buffer,
+            v23);
+          v14 = WPP_GLOBAL_Control;
+        }
+        v10 = 0;
+      }
+      v9 = Buffer;
+      v7 = 0i64;
+      v12 = 0;
+      goto LABEL_15;
+    }
+    _InterlockedAdd(&g_RemoteNameHashCount, 1u);
+    v26 = v44;
+    *(_DWORD *)(Buffer + 500) = v44;
+    ++g_TotalQueuedRecursiveQueries;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      LODWORD(TableContext) = v26;
+      WPP_SF_qd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x12u,
+        (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+        Buffer,
+        TableContext);
+    }
+    v18 = Buffer;
+  }
+  else
+  {
+    v11 = 1;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v27 = "not ";
+      if ( *(_QWORD *)(Buffer + 528) == Buffer + 528 )
+        v27 = (const char *)&Annotation;
+      LODWORD(v40) = a3;
+      LODWORD(TableContext) = a2;
+      WPP_SF_qDDqs(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        (__int64)v27,
+        a3,
+        Buffer,
+        TableContext,
+        v40,
+        *(_QWORD *)(Buffer + 1264),
+        v27);
+      v18 = Buffer;
+    }
+  }
+  v28 = PQ_QueuePacketWithXid(g_pRemoteQueryQueue, v18);
+  v7 = 0i64;
+  v29 = v28;
+  if ( !v28 )
+  {
+    v14 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x14u,
+        (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+        Buffer);
+      v14 = WPP_GLOBAL_Control;
+      v7 = 0i64;
+    }
+    v9 = Buffer;
+    v30 = *(unsigned int *)(Buffer + 500);
+    if ( (_DWORD)v30 != -1 )
+    {
+      v31 = RtlDeleteElementGenericTableAvl((PRTL_AVL_TABLE)g_RemoteNameHashArray[v30], &Buffer);
+      v7 = 0i64;
+      if ( v31 )
+      {
+        *(_DWORD *)(Buffer + 500) = -1;
+        _InterlockedDecrement(&g_RemoteNameHashCount);
+        --g_TotalQueuedRecursiveQueries;
+      }
+      v14 = WPP_GLOBAL_Control;
+      v9 = Buffer;
+    }
+    v13 = 122;
+    goto LABEL_81;
+  }
+  if ( v11 )
+    g_TotalQueuedRecursiveQueries += 1 + *(_DWORD *)(Buffer + 560);
+  if ( a4 )
+    *a4 = v28;
+  XidHashIndex = generateXidHashIndex(v28, (int *)&v45);
+  v7 = 0i64;
+  v13 = XidHashIndex;
+  if ( XidHashIndex )
+  {
+LABEL_94:
+    v9 = Buffer;
+    v14 = WPP_GLOBAL_Control;
+LABEL_81:
+    v10 = 0;
+    goto LABEL_15;
+  }
+  v33 = (char *)(Buffer + 512);
+  v34 = (char *)&g_RemoteXidHashArray + 16 * v45;
+  v35 = (char **)*((_QWORD *)v34 + 1);
+  if ( *v35 != v34 )
+    __fastfail(v13 + 3);
+  *(_QWORD *)v33 = v34;
+  *((_QWORD *)v33 + 1) = v35;
+  *v35 = v33;
+  *((_QWORD *)v34 + 1) = v33;
+  _InterlockedAdd(&g_RemoteXidHashCount, 1u);
+  v36 = v45;
+  *(_DWORD *)(Buffer + 504) = v45;
+  v14 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+  {
+    LODWORD(v7) = 0;
+    goto LABEL_105;
+  }
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    LODWORD(v41) = *(_DWORD *)(g_pRemoteQueryQueue + 96);
+    LODWORD(v40) = v36;
+    LODWORD(TableContext) = v29;
+    WPP_SF_qDdd(*((_QWORD *)WPP_GLOBAL_Control + 7), v29, v36, Buffer, TableContext, v40, v41);
+    v14 = WPP_GLOBAL_Control;
+  }
+  v9 = Buffer;
+  v7 = 0i64;
+  v10 = 0;
+LABEL_15:
+  if ( v14 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v14 + 17) & 0x4000) != 0
+    && *((_BYTE *)v14 + 65) >= 4u )
+  {
+    if ( v9 )
+      v7 = *(unsigned __int16 *)(v9 + 498);
+    v15 = 0;
+    if ( v9 )
+      v16 = *(unsigned __int16 *)(v9 + 496);
+    else
+      v16 = 0i64;
+    if ( v9 )
+      v37 = *(_DWORD *)(v9 + 504);
+    else
+      v37 = 0;
+    if ( v9 )
+      v15 = *(_DWORD *)(v9 + 500);
+    LODWORD(v42) = v7;
+    LODWORD(v41) = v16;
+    LODWORD(v40) = v37;
+    LODWORD(TableContext) = v15;
+    WPP_SF_qddDDddd(*((_QWORD *)v14 + 7), v16, v7, v9, TableContext, v40, v41, v42, v13, v12, v10);
+    v9 = Buffer;
+    LODWORD(v7) = 0;
+  }
+  if ( v43 != (_DWORD)v7 )
+  {
+    Packet_FreeAttachedMessages(v9);
+    Packet_Free(Buffer);
+    LODWORD(v7) = 0;
+    v12 = 0;
+  }
+LABEL_105:
+  if ( a5 )
+    *a5 = v12;
+  if ( v46 != (_DWORD)v7 )
+    LeaveCriticalSection((LPCRITICAL_SECTION)(g_pRemoteQueryQueue + 16));
+  return v13;
+}
+// 14007CF1D: variable 'TableContext' is possibly undefined
+// 14007CF95: variable 'v40' is possibly undefined
+// 14007D12E: variable 'v41' is possibly undefined
+// 14007D19D: variable 'v42' is possibly undefined
+// 1401B97F0: using guessed type int dword_1401B97F0;
+// 1401B9830: using guessed type int dword_1401B9830;
+// 1401C7F1C: using guessed type int dword_1401C7F1C;
+// 1401C7F20: using guessed type int dword_1401C7F20;
+// 1401C9538: using guessed type __int64 g_pRemoteQueryQueue;
+// 1401CA540: using guessed type int g_RemoteXidHashCount;
+// 1401CA560: using guessed type __int64 g_RemoteNameHashArray[256];
+// 1401CAD60: using guessed type int g_RemoteNameHashCount;
+// 1401CAD64: using guessed type int g_TotalQueuedRecursiveQueries;

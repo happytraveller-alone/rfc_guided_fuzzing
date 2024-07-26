@@ -1,0 +1,120 @@
+//----- (00000001400D2650) ----------------------------------------------------
+__int64 __fastcall Rpc_DeleteZone(__int64 a1, const wchar_t **a2, __int64 a3)
+{
+  CDnsClientSubnetRecordsTrie *v5; // rcx
+  const unsigned __int16 *v6; // rdi
+  const wchar_t *v7; // rax
+  unsigned __int16 v8; // dx
+  __int64 result; // rax
+  int v10; // eax
+  int v11; // eax
+  int v12; // eax
+  unsigned int v13; // esi
+  const unsigned __int16 **v14; // rax
+
+  v5 = WPP_GLOBAL_Control;
+  v6 = L".";
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v7 = *a2;
+    else
+      v7 = L".";
+    WPP_SF_sS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x31u,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      *(const char **)(a3 + 16),
+      (__int64)v7);
+    v5 = WPP_GLOBAL_Control;
+  }
+  if ( *(int *)(a3 + 432) > 0 )
+  {
+    if ( v5 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)v5 + 68) & 4) == 0
+      || *((_BYTE *)v5 + 65) < 4u )
+    {
+      return 0i64;
+    }
+    if ( a2 )
+      v6 = *a2;
+    v8 = 50;
+LABEL_15:
+    WPP_SF_sS(
+      *((_QWORD *)v5 + 7),
+      v8,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      *(const char **)(a3 + 16),
+      (__int64)v6);
+    return 0i64;
+  }
+  v10 = *(_DWORD *)(a3 + 372);
+  if ( !v10 || v10 == 5 )
+    return 9611i64;
+  v11 = *(_DWORD *)(a3 + 388) & 1;
+  if ( v11 && (dword_1401B9750 || g_fDsReadOnlyDcMode) || (*(_BYTE *)(a3 + 1160) & 0x40) != 0 )
+    return 9569i64;
+  if ( dword_1401B9728 == 3 && v11 )
+  {
+    if ( v5 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v5 + 68) & 4) != 0
+      && *((_BYTE *)v5 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v5 + 7), 0x33u, (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids);
+    }
+    return 9611i64;
+  }
+  result = Zone_LockForWriteEx(a3, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\zonerpc.c", 158);
+  if ( (_DWORD)result )
+  {
+    if ( *(int *)(a3 + 432) > 0 )
+    {
+      v5 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        return 0i64;
+      }
+      if ( a2 )
+        v6 = *a2;
+      v8 = 52;
+      goto LABEL_15;
+    }
+  }
+  else
+  {
+    v12 = Zone_Delete((struct _zone_info *)a3, 0x10000000, 1, 2, 1);
+    v13 = v12;
+    if ( v12 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x35u,
+          (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+          v12);
+      }
+      if ( *(char *)(a3 + 428) < 0 && *(_DWORD *)(a3 + 404) == GetCurrentThreadId() )
+        Zone_UnlockAfterWriteEx(a3, 1, (__int64)"ds\\dns\\server\\server\\zonerpc.c", 200);
+    }
+    else if ( (Microsoft_Windows_DNSServerEnableBits & 0x10000000) != 0 )
+    {
+      v14 = *(const unsigned __int16 ***)(a3 + 200);
+      if ( v14 )
+        v6 = *v14;
+      Template_zz(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_ZONE_DELETE, *(const unsigned __int16 **)(a3 + 24), v6);
+    }
+    return v13;
+  }
+  return result;
+}
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9100: using guessed type int Microsoft_Windows_DNSServerEnableBits;
+// 1401B9728: using guessed type int dword_1401B9728;
+// 1401B9750: using guessed type int dword_1401B9750;

@@ -1,0 +1,85 @@
+//----- (0000000140049478) ----------------------------------------------------
+__int64 Ds_TestAndReconnect()
+{
+  unsigned int v0; // ebx
+  __int64 result; // rax
+  __int64 v2; // rdx
+  LDAP *v3; // rbx
+  __int64 v4; // r8
+  int v5; // ebx
+  __int128 v6; // [rsp+40h] [rbp-18h] BYREF
+  unsigned int v7; // [rsp+60h] [rbp+8h] BYREF
+  PLDAP v8; // [rsp+68h] [rbp+10h] BYREF
+
+  v0 = 0;
+  v7 = 0;
+  if ( pServerLdap || g_bDisabledDs || (result = Ds_OpenServer(4096), v7 = result, (v0 = result) == 0) )
+  {
+    EnterCriticalSection(pcsLdap);
+    if ( g_bDisabledDs )
+    {
+      if ( dword_1401B9714 <= (unsigned int)(g_dwLastLdapReconnectTime + 30) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_Dd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x1F5u,
+            (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+            dword_1401B9714);
+        }
+        v0 = 9717;
+      }
+      else
+      {
+        _InterlockedIncrement(&dword_1401C7D60);
+        v3 = Ds_Connect(0i64, 0, &v7);
+        if ( v3 )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_Lqq(*((_QWORD *)WPP_GLOBAL_Control + 7), v2, v4, dword_1401B9714);
+          }
+          v8 = pServerLdap;
+          pServerLdap = v3;
+          Ds_LdapUnbind(&v8);
+          g_bDisabledDs = 0;
+          v0 = v7;
+        }
+        else
+        {
+          v5 = v7;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            WPP_SF_D(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x1F3u,
+              (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+              v7);
+          }
+          v6 = DNS_EVENT_DS_OPEN_FAILED;
+          Eventlog_LogEvent((__int64)&v6, v2, 0, 0i64, 0i64, v5, 0, 0i64);
+          v0 = 9717;
+        }
+        g_dwLastLdapReconnectTime = dword_1401B9714;
+      }
+    }
+    LeaveCriticalSection(pcsLdap);
+    return v0;
+  }
+  return result;
+}
+// 140049568: variable 'v2' is possibly undefined
+// 1400495A6: variable 'v4' is possibly undefined
+// 140186AB8: using guessed type __int128 DNS_EVENT_DS_OPEN_FAILED;
+// 1401B8D70: using guessed type int g_dwLastLdapReconnectTime;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401C7D60: using guessed type int dword_1401C7D60;
+// 1401EC330: using guessed type int g_bDisabledDs;
+// 140049478: using guessed type __int128 var_18;

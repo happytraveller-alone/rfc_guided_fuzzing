@@ -1,0 +1,5 @@
+//----- (00000001400E9850) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateInfoList::size(CDnsRRLStateInfoList *this)
+{
+  return *((unsigned int *)this + 2);
+}

@@ -1,0 +1,23 @@
+//----- (0000000140154170) ----------------------------------------------------
+__int64 __fastcall Rpc_GetVirtualizationInstance(__int64 a1, __int64 a2, CHAR **a3, __int64 a4, _DWORD *a5, void ***a6)
+{
+  void **RPCVirtualizationInstanceInfo; // rax
+
+  RPCVirtualizationInstanceInfo = AllocateRPCVirtualizationInstanceInfo(a3);
+  if ( RPCVirtualizationInstanceInfo )
+  {
+    *a6 = RPCVirtualizationInstanceInfo;
+    *a5 = 62;
+    return 0i64;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x18u, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+    }
+    return 14i64;
+  }
+}

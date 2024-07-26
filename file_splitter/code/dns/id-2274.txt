@@ -1,0 +1,78 @@
+//----- (000000014011B740) ----------------------------------------------------
+__int64 __fastcall File_GetNextLine(__int64 a1)
+{
+  unsigned int v1; // ebx
+  unsigned int v3; // esi
+  int v4; // ebp
+  __int64 result; // rax
+  __int64 v6; // r14
+  int v7; // r8d
+  __int64 v8; // rax
+  __int64 v9; // rcx
+  char *v10; // rax
+  char *v11; // rdx
+  int v12; // [rsp+40h] [rbp+8h] BYREF
+  int v13; // [rsp+48h] [rbp+10h] BYREF
+
+  v1 = 0;
+  v3 = 0;
+  v4 = 0;
+  if ( !*(_DWORD *)(a1 + 1664) )
+    return 1008i64;
+  ++*(_DWORD *)(a1 + 1680);
+  v6 = a1 + 1624;
+  while ( 1 )
+  {
+    v10 = readNextToken(v6, &v13, &v12);
+    v11 = v10;
+    if ( !v10 )
+      break;
+    v7 = v13;
+    if ( v13 == 1 )
+    {
+      switch ( *v10 )
+      {
+        case 10:
+          if ( v3 && !v4 )
+            goto LABEL_22;
+          ++*(_DWORD *)(a1 + 1680);
+          break;
+        case 40:
+          v4 = 1;
+          break;
+        case 41:
+          v4 = 0;
+          break;
+        default:
+          goto LABEL_13;
+      }
+    }
+    else
+    {
+LABEL_13:
+      if ( !v3 )
+        *(_DWORD *)(a1 + 1676) = (unsigned __int8)v12;
+      v8 = 2i64 * v3;
+      v9 = v3++;
+      *(_QWORD *)(a1 + 8 * v8 + 1688) = v11;
+      *(_DWORD *)(a1 + 16 * (v9 + 106)) = v7;
+      if ( v3 >= 0x200 )
+      {
+        v1 = 9655;
+        goto LABEL_22;
+      }
+    }
+  }
+  if ( *(_DWORD *)(a1 + 1664) )
+  {
+    *(_DWORD *)(a1 + 1600) = 1505;
+    result = 9655i64;
+    *(_QWORD *)(a1 + 1608) = 0i64;
+    return result;
+  }
+  if ( !v3 )
+    v1 = 1008;
+LABEL_22:
+  *(_DWORD *)(a1 + 1684) = v3;
+  return v1;
+}

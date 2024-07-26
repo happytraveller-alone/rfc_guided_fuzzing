@@ -1,0 +1,64 @@
+//----- (00000001401457F0) ----------------------------------------------------
+__int64 __fastcall CDNSPolicyCriteriaFqdn::DeleteCriteria(CDNSPolicyCriteriaFqdn *this)
+{
+  void **v1; // rax
+  void **v3; // rdi
+  void **v4; // rsi
+  void **v5; // rax
+  void **v6; // rdi
+  void **v7; // rsi
+  _QWORD *v8; // rax
+  bool v9; // cf
+  __int64 result; // rax
+
+  v1 = (void **)*((_QWORD *)this + 8);
+  v3 = (void **)*v1;
+  *v1 = v1;
+  *(_QWORD *)(*((_QWORD *)this + 8) + 8i64) = *((_QWORD *)this + 8);
+  *((_QWORD *)this + 9) = 0i64;
+  if ( v3 != *((void ***)this + 8) )
+  {
+    do
+    {
+      v4 = (void **)*v3;
+      if ( (unsigned __int64)v3[5] >= 0x10 )
+        operator delete(v3[2]);
+      v3[5] = (void *)15;
+      v3[4] = 0i64;
+      *((_BYTE *)v3 + 16) = 0;
+      operator delete(v3);
+      v3 = v4;
+    }
+    while ( v4 != *((void ***)this + 8) );
+  }
+  v5 = (void **)*((_QWORD *)this + 11);
+  v6 = (void **)*v5;
+  *v5 = v5;
+  *(_QWORD *)(*((_QWORD *)this + 11) + 8i64) = *((_QWORD *)this + 11);
+  *((_QWORD *)this + 12) = 0i64;
+  if ( v6 != *((void ***)this + 11) )
+  {
+    do
+    {
+      v7 = (void **)*v6;
+      if ( (unsigned __int64)v6[5] >= 0x10 )
+        operator delete(v6[2]);
+      v6[5] = (void *)15;
+      v6[4] = 0i64;
+      *((_BYTE *)v6 + 16) = 0;
+      operator delete(v6);
+      v6 = v7;
+    }
+    while ( v7 != *((void ***)this + 11) );
+  }
+  v8 = (_QWORD *)((char *)this + 24);
+  v9 = *((_QWORD *)this + 6) < 8ui64;
+  *((_QWORD *)this + 5) = 0i64;
+  if ( !v9 )
+    v8 = (_QWORD *)*v8;
+  *(_WORD *)v8 = 0;
+  result = 0i64;
+  *((_QWORD *)this + 2) = 0i64;
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

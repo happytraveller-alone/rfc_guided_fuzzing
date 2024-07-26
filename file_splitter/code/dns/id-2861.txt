@@ -1,0 +1,48 @@
+//----- (000000014014E870) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateInfo::UpdateResponseAvail(__int64 a1, int a2)
+{
+  unsigned int v2; // ebx
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  unsigned __int16 v5; // dx
+
+  v2 = 0;
+  if ( g_DnsRRLConfigParams )
+  {
+    if ( a2 == 4 )
+    {
+      *(_DWORD *)(a1 + 64) = *((_DWORD *)g_DnsRRLConfigParams + 1);
+      v4 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v5 = 13;
+LABEL_11:
+        WPP_SF_Dd(*((_QWORD *)v4 + 7), v5, (__int64)&WPP_9d24e83261bb323d145bf67b982c6afc_Traceguids, a2);
+      }
+    }
+    else
+    {
+      *(_DWORD *)(a1 + 64) = *(_DWORD *)g_DnsRRLConfigParams;
+      v4 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v5 = 14;
+        goto LABEL_11;
+      }
+    }
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xFu, (__int64)&WPP_9d24e83261bb323d145bf67b982c6afc_Traceguids);
+    }
+    return 87;
+  }
+  return v2;
+}

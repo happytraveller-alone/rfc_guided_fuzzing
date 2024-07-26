@@ -1,0 +1,44 @@
+//----- (000000014015C5A0) ----------------------------------------------------
+_WORD *__fastcall Sig_RecordBuildW(int a1, __int64 a2)
+{
+  __int64 v3; // rdi
+  _WORD *Record; // rbx
+  __int16 v5; // ax
+  int v7; // [rsp+40h] [rbp+8h] BYREF
+
+  v7 = 0;
+  if ( a1 == 9 )
+  {
+    v3 = -1i64;
+    do
+      ++v3;
+    while ( *(_WORD *)(*(_QWORD *)(a2 + 64) + 2 * v3) );
+    Record = Dns_AllocateRecordEx((unsigned __int16)(v3 + 40));
+    if ( !Record )
+      return 0i64;
+    Record[16] = Dns_RecordTypeForNameW(*(WCHAR **)a2, 0);
+    *((_BYTE *)Record + 34) = wcstoul(*(const wchar_t **)(a2 + 8), 0i64, 10);
+    *((_BYTE *)Record + 35) = wcstoul(*(const wchar_t **)(a2 + 16), 0i64, 10);
+    *((_DWORD *)Record + 9) = wcstoul(*(const wchar_t **)(a2 + 24), 0i64, 10);
+    *((_DWORD *)Record + 10) = Dns_ParseSigTimeW(*(__int64 **)(a2 + 32));
+    *((_DWORD *)Record + 11) = Dns_ParseSigTimeW(*(__int64 **)(a2 + 40));
+    Record[24] = wcstoul(*(const wchar_t **)(a2 + 48), 0i64, 10);
+    *((_QWORD *)Record + 7) = *(_QWORD *)(a2 + 56);
+    if ( Record != (_WORD *)-64i64
+      && !(unsigned int)Dns_SecurityBase64StringToKey_W(
+                          (_BYTE *)Record + 64,
+                          &v7,
+                          *(_QWORD *)(a2 + 64),
+                          v3,
+                          (int)Record + 64) )
+    {
+      v5 = v7;
+      Record[25] = v7;
+      Record[9] = v5 + 32;
+      return Record;
+    }
+    Dns_RecordFree((void **)Record);
+  }
+  SetLastError(0xDu);
+  return 0i64;
+}

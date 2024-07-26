@@ -1,0 +1,14 @@
+//----- (000000014010BE40) ----------------------------------------------------
+void __fastcall DnsOls_ChildDsPollingCallback(struct _DnsTreeNode *a1)
+{
+  char *v2; // rax
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v2 = Dbg_NodeName((__int64)a1);
+    WPP_SF_sd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x33u, (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids, v2);
+  }
+  performChildDsRebuild(a1, 0i64);
+}

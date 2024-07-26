@@ -1,0 +1,121 @@
+//----- (0000000140032424) ----------------------------------------------------
+__int64 __fastcall Ds_CheckZoneForDeletion(__int64 a1)
+{
+  const unsigned __int16 *v1; // rsi
+  __int64 v3; // r9
+  __int64 v4; // r8
+  const wchar_t *v5; // rdx
+  __int64 v7; // r8
+  const wchar_t *v8; // rdx
+  __int64 v9; // rcx
+  __int64 v10; // rcx
+  __int64 v11; // rcx
+  __int64 v12; // rdx
+  bool v13; // zf
+  const wchar_t *v14; // rax
+  __int128 v15; // xmm0
+  __int64 *v16; // r9
+  unsigned __int16 v17; // r8
+  __int64 v18[2]; // [rsp+40h] [rbp-20h] BYREF
+  __int128 v19; // [rsp+50h] [rbp-10h] BYREF
+  __int64 v20; // [rsp+70h] [rbp+10h] BYREF
+
+  v1 = L"Default";
+  if ( ++*(_DWORD *)(a1 + 436) >= 2u )
+  {
+    if ( (qword_1401B9780 & 0x2000) != 0 && (unsigned int)Log_EnterLock() )
+    {
+      v7 = *(_QWORD *)(a1 + 16);
+      g_pszCurrentLogLevelString = (__int64)"DSPOLL";
+      v8 = L"Default";
+      if ( *(_QWORD *)(a1 + 192) )
+        v8 = *(const wchar_t **)(a1 + 192);
+      Log_Printf("Scope %S in Zone %s has been deleted from the DS and will now be deleted from memory\n", v8, v7);
+      g_pszCurrentLogLevelString = 0i64;
+      Log_LeaveLock();
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( *(_QWORD *)(a1 + 192) )
+        v1 = *(const unsigned __int16 **)(a1 + 192);
+      WPP_SF_Ss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x6Fu,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        v1,
+        *(_QWORD *)(a1 + 16));
+    }
+    if ( *(_QWORD *)(a1 + 192) )
+    {
+      v9 = *(_QWORD *)(a1 + 416);
+      LODWORD(v20) = -1;
+      if ( v9 && (((unsigned int)getTlsCounter(v9, 2, (unsigned int *)&v20) + 1) & 0xFFFFFFFE) != 0
+        || (v10 = *(_QWORD *)(a1 + 416), LODWORD(v20) = -1, v10)
+        && (((unsigned int)getTlsCounter(v10, 0, (unsigned int *)&v20) + 1) & 0xFFFFFFFE) != 0 )
+      {
+        Zone_UnlockAfterWriteEx(a1, 1, (__int64)"ds\\dns\\server\\server\\dpart.c", 152);
+      }
+      v11 = a1;
+      if ( *(_QWORD *)(a1 + 328) )
+        v11 = *(_QWORD *)(a1 + 328);
+      Scope_Delete(v11, *(const unsigned __int16 **)(a1 + 192), 0);
+      v13 = *(_DWORD *)(a1 + 372) == 0;
+      v18[0] = *(_QWORD *)(a1 + 192);
+      v14 = L"..Cache";
+      if ( !v13 )
+        v14 = *(const wchar_t **)(a1 + 24);
+      v15 = DNS_EVENT_DS_ZONESCOPE_DELETE_DETECTED;
+      v18[1] = (__int64)v14;
+      v16 = v18;
+      v17 = 2;
+    }
+    else
+    {
+      Zone_Delete((struct _zone_info *)a1, 0, 1, 1, 0);
+      v16 = &v20;
+      v15 = DNS_EVENT_DS_ZONE_DELETE_DETECTED;
+      v20 = *(_QWORD *)(a1 + 24);
+      v17 = 1;
+    }
+    v19 = v15;
+    Eventlog_LogEvent((__int64)&v19, v12, v17, (unsigned __int16 **)v16, (unsigned __int8 *)1, 0, 0, 0i64);
+    return 1i64;
+  }
+  else
+  {
+    if ( (qword_1401B9780 & 0x2000) != 0 && (unsigned int)Log_EnterLock() )
+    {
+      v3 = *(unsigned int *)(a1 + 436);
+      v4 = *(_QWORD *)(a1 + 16);
+      g_pszCurrentLogLevelString = (__int64)"DSPOLL";
+      v5 = L"Default";
+      if ( *(_QWORD *)(a1 + 192) )
+        v5 = *(const wchar_t **)(a1 + 192);
+      Log_Printf("Scope %S in Zone %s has been missing from the DS on %u poll(s)\n", v5, v4, v3);
+      g_pszCurrentLogLevelString = 0i64;
+      Log_LeaveLock();
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( *(_QWORD *)(a1 + 192) )
+        v1 = *(const unsigned __int16 **)(a1 + 192);
+      WPP_SF_Ssd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x6Eu,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        v1,
+        *(_QWORD *)(a1 + 16));
+    }
+    return 0i64;
+  }
+}
+// 1400326CE: variable 'v12' is possibly undefined
+// 140185FF8: using guessed type __int128 DNS_EVENT_DS_ZONESCOPE_DELETE_DETECTED;
+// 140186DD0: using guessed type __int128 DNS_EVENT_DS_ZONE_DELETE_DETECTED;
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 1401B8F28: using guessed type __int64 g_pszCurrentLogLevelString;
+// 1401B9780: using guessed type __int64 qword_1401B9780;

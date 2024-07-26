@@ -1,0 +1,37 @@
+//----- (0000000140161900) ----------------------------------------------------
+void __fastcall MinfoRecordPrint(void (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3)
+{
+  WCHAR *v6; // rdi
+  const wchar_t *v7; // rax
+  const unsigned __int16 *v8; // rdi
+  const wchar_t *v9; // rax
+  __int64 v10; // [rsp+20h] [rbp-438h]
+  __int16 v11[256]; // [rsp+30h] [rbp-428h] BYREF
+  __int16 v12[256]; // [rsp+230h] [rbp-228h] BYREF
+
+  if ( a1 )
+  {
+    v6 = *(WCHAR **)(a3 + 40);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v6 = (WCHAR *)recordStringWide(a3, v6, v11);
+    v7 = *(const wchar_t **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v7 = recordStringWide(a3, *(WCHAR **)(a3 + 32), v12);
+    a1(a2, "\tMailbox        = %ls\r\n\tErrorsMbox     = %ls\r\n", v7, v6);
+  }
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    v8 = *(const unsigned __int16 **)(a3 + 40);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v8 = recordStringWide(a3, *(WCHAR **)(a3 + 40), v11);
+    v9 = *(const wchar_t **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v9 = recordStringWide(a3, *(WCHAR **)(a3 + 32), v12);
+    WPP_SF_SS(16i64, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, (__int64)v9, v8, v10);
+  }
+}
+// 1401619E8: variable 'v10' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 140161900: using guessed type _WORD var_428[256];
+// 140161900: using guessed type _WORD var_228[256];

@@ -1,0 +1,14 @@
+//----- (00000001400666B8) ----------------------------------------------------
+void __fastcall destroyKeyStringArray(struct _zone_info *a1, struct _dnsskd *a2, unsigned __int16 **a3, int a4)
+{
+  unsigned int i; // edi
+
+  for ( i = 0; i < 3; ++i )
+  {
+    if ( !*a3 )
+      break;
+    if ( a4 )
+      DnsOls_DeleteCertAndKey(a1, a2, *a3);
+    Mem_Free(*a3++, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olskeyrollover.c", 400);
+  }
+}

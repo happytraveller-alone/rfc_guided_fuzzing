@@ -1,0 +1,5 @@
+//----- (000000014014E2D0) ----------------------------------------------------
+void __fastcall CDnsRRLStateKey::SetIPv6(CDnsRRLStateKey *this, int a2)
+{
+  *((_DWORD *)this + 17) = a2;
+}

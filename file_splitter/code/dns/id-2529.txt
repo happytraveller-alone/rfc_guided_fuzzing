@@ -1,0 +1,6 @@
+//----- (000000014012E760) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy::Name(const void **a1, __int64 a2)
+{
+  CDnsPolicy::GetPolicyName(a1, a2);
+  return a2;
+}

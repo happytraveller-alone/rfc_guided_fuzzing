@@ -1,0 +1,47 @@
+//----- (00000001401187D0) ----------------------------------------------------
+ULONG WPP_SF_ddsd(TRACEHANDLE a1, __int64 a2, __int64 a3, int a4, ...)
+{
+  __int64 v4; // rdx
+  __int64 v5; // rdx
+  const char *v6; // rax
+  int v8; // [rsp+98h] [rbp+20h] BYREF
+  __int64 v9; // [rsp+A0h] [rbp+28h] BYREF
+  va_list va; // [rsp+A0h] [rbp+28h]
+  const char *v11; // [rsp+A8h] [rbp+30h]
+  va_list va1; // [rsp+B0h] [rbp+38h] BYREF
+
+  va_start(va1, a4);
+  va_start(va, a4);
+  v9 = va_arg(va1, _QWORD);
+  v11 = va_arg(va1, const char *);
+  v8 = a4;
+  if ( v11 )
+  {
+    v4 = -1i64;
+    do
+      ++v4;
+    while ( v11[v4] );
+    v5 = v4 + 1;
+  }
+  else
+  {
+    v5 = 5i64;
+  }
+  v6 = "NULL";
+  if ( v11 )
+    v6 = v11;
+  return TraceMessage(
+           a1,
+           0x2Bu,
+           &WPP_772ae84e4aa83dd2ec494ba833f0aab1_Traceguids,
+           0x11u,
+           &v8,
+           4i64,
+           va,
+           4i64,
+           v6,
+           v5,
+           va1,
+           4i64,
+           0i64);
+}

@@ -1,0 +1,99 @@
+//----- (00000001400980D4) ----------------------------------------------------
+__int64 __fastcall GetZoneScope(__int64 a1, WCHAR *a2, __int64 *a3)
+{
+  __int64 v5; // rdi
+  int v6; // ecx
+  unsigned int v7; // ebx
+  unsigned int valid; // eax
+  __int64 v9; // r8
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  unsigned __int16 v11; // dx
+
+  if ( !a2 || !a3 )
+  {
+    v7 = 87;
+    v10 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return v7;
+    }
+    v11 = 69;
+LABEL_38:
+    WPP_SF_D(*((_QWORD *)v10 + 7), v11, (__int64)&WPP_94ace1326352386894146b7c4d888c88_Traceguids, v7);
+    return v7;
+  }
+  *a3 = 0i64;
+  v5 = g_pCacheZone;
+  if ( a1 )
+    v5 = a1;
+  v6 = *(_DWORD *)(v5 + 372);
+  if ( ((unsigned int)(v6 - 1) > 1 || (*(_BYTE *)(v5 + 396) & 6) != 0 || v5 == g_pTrustAnchorsZone) && v6 )
+  {
+    v7 = 9603;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x46u, (__int64)&WPP_94ace1326352386894146b7c4d888c88_Traceguids);
+    }
+    return v7;
+  }
+  valid = IsValidScopeName(a2, v5, 0);
+  v7 = valid;
+  if ( !valid )
+  {
+    v7 = LookUp_ScopeMap(*(_QWORD *)(v5 + 160), *(_QWORD *)(v5 + 168), v9, 0x2710u, a2, a3);
+    if ( v7 )
+    {
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        return v7;
+      }
+      v11 = 71;
+    }
+    else
+    {
+      if ( *a3 )
+        return v7;
+      v7 = 9952;
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        return v7;
+      }
+      v11 = 72;
+    }
+    goto LABEL_38;
+  }
+  if ( valid != 9953 )
+  {
+    v10 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return v7;
+    }
+    v11 = 74;
+    goto LABEL_38;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x49u, (__int64)&WPP_94ace1326352386894146b7c4d888c88_Traceguids);
+  }
+  v7 = 0;
+  *a3 = v5;
+  return v7;
+}
+// 1400981B6: variable 'v9' is possibly undefined
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

@@ -1,0 +1,136 @@
+//----- (0000000140131C30) ----------------------------------------------------
+__int64 *__fastcall CDnsPolicy_SubnetRecordCriteriaTree::AddCriteriaNode(__int64 a1, __int64 a2, __int64 a3)
+{
+  const unsigned __int16 *v6; // r9
+  __int64 *v7; // rax
+  CDnsPolicy_CriteriaNode *v8; // rdi
+  CDnsPolicy_CriteriaNode *v9; // rdi
+  __int64 *v10; // rax
+  __int64 v11; // rcx
+  __int64 *v12; // rdi
+  _QWORD *v13; // rax
+  int LastError; // eax
+  __int64 *result; // rax
+  __int64 v16; // rsi
+  _QWORD *v17; // rdx
+  __int64 v18; // rax
+  __int64 *v19; // [rsp+38h] [rbp-39h] BYREF
+  __int64 v20[4]; // [rsp+40h] [rbp-31h] BYREF
+  const void *pExceptionObject[3]; // [rsp+60h] [rbp-11h] BYREF
+  unsigned __int64 v22; // [rsp+78h] [rbp+7h]
+  CDnsPolicy_CriteriaNode *v23; // [rsp+88h] [rbp+17h]
+
+  v20[2] = -2i64;
+  v20[3] = a2;
+  std::_Tree<std::_Tmap_traits<std::wstring,CDnsPolicy_CriteriaNode *,bool (*)(std::wstring const &,std::wstring const &),std::allocator<std::pair<std::wstring const,CDnsPolicy_CriteriaNode *>>,0>>::find(
+    *(_QWORD *)(a1 + 8),
+    &v19,
+    a2);
+  if ( v19 == *(__int64 **)(*(_QWORD *)(a1 + 8) + 8i64) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      if ( *(_QWORD *)(a2 + 24) < 8ui64 )
+        v6 = (const unsigned __int16 *)a2;
+      else
+        v6 = *(const unsigned __int16 **)a2;
+      WPP_SF_Sq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x26u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        v6);
+    }
+    v7 = (__int64 *)operator new(0x38ui64);
+    v8 = (CDnsPolicy_CriteriaNode *)v7;
+    v19 = v7;
+    if ( v7 )
+    {
+      memset_0(v7, 0, 0x38ui64);
+      v9 = CDnsPolicy_CriteriaNode::CDnsPolicy_CriteriaNode(v8);
+    }
+    else
+    {
+      v9 = 0i64;
+    }
+    v19 = (__int64 *)v9;
+    *((_WORD *)v9 + 24) = 0;
+    CDnsPolicy_CriteriaNode::AddNextCriteriaTrees(v9, 6u);
+    LODWORD(v20[0]) = -1;
+    acquireWrite(a3, 0xFFFFFFFF, (unsigned int *)v20);
+    v22 = 7i64;
+    pExceptionObject[2] = 0i64;
+    LOWORD(pExceptionObject[0]) = 0;
+    std::wstring::assign(pExceptionObject, (const void **)a2, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+    v23 = v9;
+    std::_Tree<std::_Tmap_traits<std::wstring,CDnsPolicy_CriteriaNode *,bool (*)(std::wstring const &,std::wstring const &),std::allocator<std::pair<std::wstring const,CDnsPolicy_CriteriaNode *>>,0>>::insert<std::pair<std::wstring,CDnsPolicy_CriteriaNode *>>(
+      *(_QWORD *)(a1 + 8),
+      (__int64)v20,
+      (__int64)pExceptionObject);
+    if ( v22 >= 8 )
+      operator delete((void *)pExceptionObject[0]);
+    Lock_ReleaseWrite(a3);
+  }
+  else
+  {
+    v19 = (__int64 *)v19[8];
+  }
+  v10 = (__int64 *)operator new(0x18ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v12 = v10;
+  v20[0] = (__int64)v10;
+  if ( v10 )
+  {
+    v10[1] = 0i64;
+    v13 = operator new(0x18ui64);
+    if ( !v13 )
+    {
+      std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+    }
+    *v12 = (__int64)v13;
+    *v13 = v13;
+    *(_QWORD *)(*v12 + 8) = *v12;
+  }
+  else
+  {
+    v12 = 0i64;
+  }
+  if ( v12 )
+  {
+    v16 = *v12;
+    v17 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(v11, *v12, *(_QWORD *)(*v12 + 8), &v19);
+    v18 = v12[1];
+    if ( v18 == 0x1FFFFFFFFFFFFFFEi64 )
+      std::_Xlength_error("list<T> too long");
+    v12[1] = v18 + 1;
+    *(_QWORD *)(v16 + 8) = v17;
+    *(_QWORD *)v17[1] = v17;
+    if ( *(_QWORD *)(a2 + 24) >= 8ui64 )
+      operator delete(*(void **)a2);
+    result = v12;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      LastError = GetLastError();
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x27u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        LastError);
+    }
+    if ( *(_QWORD *)(a2 + 24) >= 8ui64 )
+      operator delete(*(void **)a2);
+    result = 0i64;
+  }
+  *(_QWORD *)(a2 + 24) = 7i64;
+  *(_QWORD *)(a2 + 16) = 0i64;
+  *(_WORD *)a2 = 0;
+  return result;
+}
+// 140131E66: variable 'v11' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

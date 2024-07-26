@@ -1,0 +1,80 @@
+//----- (00000001400F847C) ----------------------------------------------------
+__int64 __fastcall DnsOls_AddSkdToZone(__int64 a1, __int64 a2)
+{
+  unsigned int v2; // ebx
+  _QWORD *v5; // r14
+  __int64 v6; // rbp
+  _QWORD *i; // r15
+  int v8; // eax
+  CDnsClientSubnetRecordsTrie *v9; // rax
+  char *v10; // rax
+  char *v11; // rax
+
+  v2 = 0;
+  v5 = 0i64;
+  if ( !a1 || *(_DWORD *)(a1 + 372) != 1 || !a2 )
+  {
+    v2 = 87;
+LABEL_20:
+    v9 = WPP_GLOBAL_Control;
+    goto LABEL_21;
+  }
+  *(_QWORD *)a2 = 0i64;
+  v6 = *(_QWORD *)(a1 + 1136);
+  if ( !v6 )
+  {
+    *(_QWORD *)(a1 + 1136) = a2;
+LABEL_14:
+    Dns_SetPropsOnAllZoneScopes((__int64 *)a1, 2u, a1, 0, 0i64);
+    goto LABEL_20;
+  }
+  for ( i = *(_QWORD **)(a1 + 1136); ; i = (_QWORD *)*i )
+  {
+    v8 = memcmp_0(i + 1, (const void *)(a2 + 8), 0x10ui64);
+    if ( !v8 )
+      break;
+    if ( v8 > 0 || !*i )
+    {
+      if ( v5 )
+      {
+        *(_QWORD *)a2 = *v5;
+        *v5 = a2;
+        goto LABEL_20;
+      }
+      *(_QWORD *)a2 = v6;
+      *(_QWORD *)(a1 + 1136) = a2;
+      goto LABEL_14;
+    }
+    v5 = i;
+  }
+  v2 = 13;
+  v9 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    return v2;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v10 = Dbg_GuidString((const IID *)(a2 + 8));
+    WPP_SF_Ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xCu,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      (const unsigned __int16 *)v10,
+      *(_QWORD *)(a1 + 16));
+    goto LABEL_20;
+  }
+LABEL_21:
+  if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v9 + 17) & 0x200000) != 0
+    && *((_BYTE *)v9 + 65) >= 4u )
+  {
+    v11 = Dbg_GuidString((const IID *)(a2 + 8));
+    WPP_SF_DSs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xDu,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      v2,
+      (__int64)v11,
+      *(_QWORD *)(a1 + 16));
+  }
+  return v2;
+}

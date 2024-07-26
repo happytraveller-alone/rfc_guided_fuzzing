@@ -1,0 +1,47 @@
+//----- (0000000140118E48) ----------------------------------------------------
+__int64 __fastcall Mem_VerifyHeapBlock(__int64 a1, unsigned int a2, unsigned int a3)
+{
+  __int64 v5; // rax
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  unsigned __int16 v8; // dx
+  unsigned int v9; // [rsp+20h] [rbp-18h]
+  int v10; // [rsp+28h] [rbp-10h]
+
+  if ( a1 )
+  {
+    v5 = a1 - 16;
+    if ( a1 == 16 || *(_BYTE *)(v5 + 4) != 0xBB || *(_QWORD *)(v5 + 8) != 0xFE0C0C0C0C0C0CEFui64 )
+      return 0i64;
+    if ( a2 && a2 != *(unsigned __int8 *)(v5 + 5) )
+    {
+      v7 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || *((char *)WPP_GLOBAL_Control + 28) >= 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 25) < 4u )
+      {
+        return 0i64;
+      }
+      v10 = *(unsigned __int8 *)(v5 + 5);
+      v8 = 15;
+      v9 = a2;
+LABEL_12:
+      WPP_SF_qdD(*((_QWORD *)v7 + 2), v8, (__int64)&WPP_772ae84e4aa83dd2ec494ba833f0aab1_Traceguids, a1, v9, v10);
+      return 0i64;
+    }
+    v8 = 16;
+    if ( a3 && a3 > (*(_WORD *)(v5 + 6) & 0xFFFCu) - 16 )
+    {
+      v7 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || *((char *)WPP_GLOBAL_Control + 28) >= 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 25) < 4u )
+      {
+        return 0i64;
+      }
+      v10 = (*(_WORD *)(v5 + 6) & 0xFFFC) - 16;
+      v9 = a3;
+      goto LABEL_12;
+    }
+  }
+  return 1i64;
+}

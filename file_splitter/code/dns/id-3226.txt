@@ -1,0 +1,11 @@
+//----- (000000014016D880) ----------------------------------------------------
+void **sub_14016D880()
+{
+  void **result; // rax
+
+  result = &std::error_category::`vftable';
+  off_1401B2010 = &std::error_category::`vftable';
+  return result;
+}
+// 140171000: using guessed type void *std::error_category::`vftable';
+// 1401B2010: using guessed type void *off_1401B2010;

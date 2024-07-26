@@ -1,0 +1,38 @@
+//----- (0000000140115634) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::Revoke(CSecurityDescriptor *this, const unsigned __int16 *a2)
+{
+  int PrincipalSID; // edi
+  int v5; // esi
+  struct _ACL *v6; // rbx
+  int v7; // ebx
+  bool v8; // zf
+  PSID pSid1; // [rsp+50h] [rbp+18h] BYREF
+
+  PrincipalSID = 0;
+  v5 = 250;
+  do
+  {
+    if ( --v5 <= 0 )
+      break;
+    v6 = (struct _ACL *)*((_QWORD *)this + 3);
+    pSid1 = 0i64;
+    PrincipalSID = CSecurityDescriptor::GetPrincipalSID(a2, &pSid1);
+    if ( PrincipalSID >= 0 )
+    {
+      v7 = CSecurityDescriptor::RemovePrincipalFromACL(v6, pSid1);
+      operator delete(pSid1);
+      PrincipalSID = 0;
+      if ( v7 < 0 )
+        PrincipalSID = v7;
+    }
+    v8 = PrincipalSID == 0;
+    if ( PrincipalSID >= 0 )
+    {
+      SetSecurityDescriptorDacl(*(PSECURITY_DESCRIPTOR *)this, 1, *((PACL *)this + 3), 0);
+      v8 = PrincipalSID == 0;
+    }
+  }
+  while ( v8 );
+  return (unsigned int)PrincipalSID;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

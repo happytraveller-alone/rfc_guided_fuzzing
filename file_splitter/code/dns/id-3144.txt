@@ -1,0 +1,72 @@
+//----- (0000000140167108) ----------------------------------------------------
+__int64 __fastcall makeSpn(__int64 a1, WCHAR *a2, __int64 a3, __int64 a4, __int64 a5, void **a6)
+{
+  unsigned int v7; // ebx
+  WCHAR *v8; // rax
+  void *v9; // rax
+  DWORD pcSpnLength; // [rsp+40h] [rbp-C0h] BYREF
+  PADDRINFOW ppResult; // [rsp+48h] [rbp-B8h] BYREF
+  ADDRINFOW pHints; // [rsp+50h] [rbp-B0h] BYREF
+  WCHAR pNodeBuffer[256]; // [rsp+80h] [rbp-80h] BYREF
+
+  pcSpnLength = 0;
+  v7 = 0;
+  ppResult = 0i64;
+  memset_0(&pHints.ai_family, 0, 0x2Cui64);
+  pHints.ai_flags = 4;
+  if ( !GetAddrInfoW(a2, 0i64, &pHints, &ppResult) )
+  {
+    pNodeBuffer[0] = 0;
+    if ( !GetNameInfoW(ppResult->ai_addr, ppResult->ai_addrlen, pNodeBuffer, 0xFFu, 0i64, 0, 0) )
+    {
+      v8 = pNodeBuffer;
+      if ( !pNodeBuffer[0] )
+        v8 = a2;
+      a2 = v8;
+    }
+  }
+  if ( ppResult )
+    FreeAddrInfoW(ppResult);
+  *a6 = 0i64;
+  if ( DsMakeSpnW(L"Rpcss", a2, 0i64, 0, 0i64, &pcSpnLength, 0i64) != 111 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xBu,
+        (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids,
+        a2);
+    }
+    v7 = -1073741811;
+    goto LABEL_22;
+  }
+  v9 = MIDL_user_allocate(2i64 * pcSpnLength);
+  *a6 = v9;
+  if ( !v9 )
+  {
+    v7 = -1073741801;
+LABEL_22:
+    MIDL_user_free(*a6);
+    *a6 = 0i64;
+    return v7;
+  }
+  if ( DsMakeSpnW(L"Rpcss", a2, 0i64, 0, 0i64, &pcSpnLength, (LPWSTR)v9) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xCu,
+        (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids,
+        a2);
+    }
+    v7 = -1073741595;
+    goto LABEL_22;
+  }
+  return v7;
+}

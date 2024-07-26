@@ -1,0 +1,19 @@
+//----- (00000001401478EC) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy::IsPolicyNegativeType(CDnsPolicy *this)
+{
+  _QWORD *v1; // rax
+  _QWORD *v3; // rbx
+
+  v1 = (_QWORD *)*((_QWORD *)this + 14);
+  v3 = (_QWORD *)*v1;
+  if ( (_QWORD *)*v1 == v1 )
+    return 0i64;
+  while ( (*(unsigned int (__fastcall **)(_QWORD))(*(_QWORD *)v3[2] + 56i64))(v3[2]) != 1 )
+  {
+    v3 = (_QWORD *)*v3;
+    if ( v3 == *((_QWORD **)this + 14) )
+      return 0i64;
+  }
+  return 1i64;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

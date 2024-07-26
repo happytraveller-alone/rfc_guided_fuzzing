@@ -1,0 +1,14 @@
+//----- (0000000140126B88) ----------------------------------------------------
+void __fastcall DnsSign::CNCryptObjectWrapper::~CNCryptObjectWrapper(NCRYPT_KEY_HANDLE *this)
+{
+  NCRYPT_KEY_HANDLE v2; // rcx
+
+  v2 = *this;
+  if ( v2 )
+  {
+    if ( *((_BYTE *)this + 8) )
+      NCryptDeleteKey(v2, 0);
+    NCryptFreeObject(*this);
+    *this = 0i64;
+  }
+}

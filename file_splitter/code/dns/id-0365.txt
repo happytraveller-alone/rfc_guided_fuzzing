@@ -1,0 +1,47 @@
+//----- (000000014002F738) ----------------------------------------------------
+__int64 __fastcall Dp_RemoveFromList(__int64 *a1)
+{
+  unsigned int v2; // edi
+  __int64 *i; // rax
+  __int64 v4; // rdx
+  __int64 *v5; // rcx
+  __int64 v6; // rcx
+
+  v2 = 1168;
+  for ( i = Dp_GetNext(0i64); i; i = Dp_GetNext(i) )
+  {
+    if ( i == a1 )
+    {
+      v4 = *i;
+      v5 = (__int64 *)i[1];
+      if ( *(__int64 **)(*i + 8) != i || (__int64 *)*v5 != i )
+        __fastfail(3u);
+      *v5 = v4;
+      *(_QWORD *)(v4 + 8) = v5;
+      _InterlockedDecrement(&g_DpListEntryCount);
+      break;
+    }
+  }
+  if ( i == a1 )
+  {
+    if ( a1 == (__int64 *)g_pForestDp )
+    {
+      g_pForestDp = 0i64;
+    }
+    else
+    {
+      v6 = g_pDomainDp;
+      if ( a1 == (__int64 *)g_pDomainDp )
+        v6 = 0i64;
+      g_pDomainDp = v6;
+    }
+  }
+  else
+  {
+    return 9002;
+  }
+  return v2;
+}
+// 1401B8C98: using guessed type __int64 g_pDomainDp;
+// 1401B8CA0: using guessed type __int64 g_pForestDp;
+// 1401B8D18: using guessed type int g_DpListEntryCount;

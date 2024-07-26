@@ -1,0 +1,32 @@
+//----- (00000001401616E0) ----------------------------------------------------
+void __fastcall MxRecordPrint(void (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3)
+{
+  WCHAR *v6; // r9
+  __int64 v7; // r9
+  __int64 v8; // [rsp+20h] [rbp-238h]
+  __int16 v9[256]; // [rsp+30h] [rbp-228h] BYREF
+
+  if ( a1 )
+  {
+    v6 = *(WCHAR **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v6 = (WCHAR *)recordStringWide(a3, v6, v9);
+    a1(a2, "\tPreference     = %d\r\n\tExchange       = %ls\r\n", *(unsigned __int16 *)(a3 + 40), v6);
+  }
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    v7 = *(_QWORD *)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      LODWORD(v7) = (unsigned int)recordStringWide(a3, *(WCHAR **)(a3 + 32), v9);
+    WPP_SF_DS(
+      14i64,
+      (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids,
+      *(unsigned __int16 *)(a3 + 40),
+      v7,
+      v8);
+  }
+}
+// 14016177E: variable 'v8' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 1401616E0: using guessed type _WORD var_228[256];

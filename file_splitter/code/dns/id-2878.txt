@@ -1,0 +1,16 @@
+//----- (000000014014FA90) ----------------------------------------------------
+void __fastcall CDnsRRLStateInfoList::InsertTail(CDnsRRLStateInfoList *this, struct IDnsRRLStateInfo *a2)
+{
+  CDnsRRLStateInfoList *v2; // rdx
+  CDnsRRLStateInfoList **v3; // r8
+
+  v2 = (struct IDnsRRLStateInfo *)((char *)a2 + 8);
+  v3 = (CDnsRRLStateInfoList **)*((_QWORD *)this + 3);
+  if ( *v3 != (CDnsRRLStateInfoList *)((char *)this + 16) )
+    __fastfail(3u);
+  *(_QWORD *)v2 = (char *)this + 16;
+  *((_QWORD *)v2 + 1) = v3;
+  *v3 = v2;
+  *((_QWORD *)this + 3) = v2;
+  ++*((_DWORD *)this + 2);
+}

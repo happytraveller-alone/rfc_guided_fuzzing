@@ -1,0 +1,71 @@
+//----- (00000001400CB498) ----------------------------------------------------
+void __fastcall Zone_ListRemoveZone(__int64 *a1)
+{
+  __int64 v1; // rdi
+  struct _RTL_CRITICAL_SECTION *v2; // rsi
+  __int64 *i; // rdx
+  __int64 *NextZone; // rax
+  __int64 *v6; // rcx
+  __int64 **v7; // rax
+  int v8; // eax
+  BOOL v9; // ebx
+
+  v1 = a1[25];
+  v2 = &csZoneList;
+  if ( v1 )
+    v2 = (struct _RTL_CRITICAL_SECTION *)(v1 + 64);
+  EnterCriticalSection(v2);
+  for ( i = 0i64; ; i = NextZone )
+  {
+    NextZone = (__int64 *)Zone_ListGetNextZoneEx((const unsigned __int16 **)v1, i, 0);
+    if ( !NextZone )
+      break;
+    if ( NextZone == a1 )
+    {
+      v6 = (__int64 *)*a1;
+      v7 = (__int64 **)a1[1];
+      if ( *(__int64 **)(*a1 + 8) != a1 || *v7 != a1 )
+        __fastfail(3u);
+      *v7 = v6;
+      v6[1] = (__int64)v7;
+      if ( v1 )
+        --*(_DWORD *)(v1 + 56);
+      else
+        --g_ZoneCount;
+      if ( (*((_BYTE *)a1 + 396) & 4) == 0 )
+      {
+        v8 = *((_DWORD *)a1 + 93);
+        if ( v8 )
+        {
+          if ( v8 != 5 && a1 != (__int64 *)g_pTrustAnchorsZone )
+            DnsTelemetryAdjustZoneHostedCount(0, *((_DWORD *)a1 + 97) & 1, v8 == 3, v8 == 4);
+        }
+      }
+      if ( a1 == (__int64 *)g_pzoneLocalGlobalNames )
+      {
+        v9 = g_fDnsServiceExit != 1;
+        EnterCriticalSection(&g_csGlobalNames);
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x20000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_q(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xBu,
+            (__int64)&WPP_034409074b35327309cc7655b9f6aa4d_Traceguids,
+            g_pzoneLocalGlobalNames);
+        }
+        g_pzoneLocalGlobalNames = 0i64;
+        if ( v9 )
+          Gnz_TimeoutTasks(1);
+        LeaveCriticalSection(&g_csGlobalNames);
+      }
+      break;
+    }
+  }
+  LeaveCriticalSection(v2);
+}
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B8EF8: using guessed type __int64 g_pzoneLocalGlobalNames;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1401BA3C0: using guessed type int g_ZoneCount;

@@ -1,0 +1,113 @@
+//----- (0000000140037B58) ----------------------------------------------------
+__int64 __fastcall buildDsRecordSet(__int64 a1, __int64 a2, __int64 a3, unsigned __int16 a4)
+{
+  unsigned int v5; // r14d
+  __int16 v6; // si
+  char *v10; // rax
+  int v11; // eax
+  char v12; // bl
+  __int64 v13; // rbx
+  CDnsClientSubnetRecordsTrie *v14; // rcx
+  unsigned __int16 v15; // di
+  char *v16; // rax
+  char *v17; // rax
+  unsigned int inited; // [rsp+40h] [rbp-38h] BYREF
+  int v20[3]; // [rsp+44h] [rbp-34h] BYREF
+
+  v5 = 0;
+  v6 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v10 = Dbg_NodeName(a3);
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x16u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      a4,
+      (__int64)v10);
+  }
+  inited = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &inited);
+  v11 = RR_ListCountRecords(a3, a4, 0);
+  v20[0] = v11;
+  v12 = v11;
+  if ( !v11 )
+    goto LABEL_34;
+  inited = Ds_InitModBufferCount(a1, v11);
+  v5 = inited;
+  if ( inited )
+    goto LABEL_34;
+  v13 = *(_QWORD *)(a3 + 64);
+  if ( !v13 )
+    goto LABEL_33;
+  v14 = WPP_GLOBAL_Control;
+  do
+  {
+    if ( (*(_BYTE *)(v13 + 8) & 1) == 0 && *(char *)(v13 + 10) >= 0 )
+    {
+      v15 = *(_WORD *)(v13 + 12);
+      if ( ((unsigned __int16)(v15 - 46) <= 2u || (unsigned __int16)(v15 - 50) <= 1u)
+        && (*(_DWORD *)(a2 + 372) == 1 && (*(_BYTE *)(a2 + 1040) & 4) != 0 || *(_QWORD *)(a2 + 1136))
+        && a2 != g_pTrustAnchorsZone )
+      {
+        if ( v14 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v14 + 17) & 0x400) != 0
+          && *((_BYTE *)v14 + 65) >= 5u )
+        {
+          v16 = Dbg_NodeName(a3);
+          WPP_SF_Ds(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x17u,
+            (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+            v15,
+            (__int64)v16);
+LABEL_30:
+          v14 = WPP_GLOBAL_Control;
+        }
+      }
+      else
+      {
+        if ( a4 == 255 || a4 == v15 )
+        {
+          if ( !v6 || v15 == v6 )
+            v6 = *(_WORD *)(v13 + 12);
+          else
+            v6 = 3;
+          Ds_WriteRecordToBuffer(a1, v13, 1i64, 0);
+          goto LABEL_30;
+        }
+        if ( v15 > a4 )
+          break;
+      }
+    }
+    v13 = *(_QWORD *)v13;
+  }
+  while ( v13 );
+  v5 = inited;
+LABEL_33:
+  v12 = v20[0];
+  *(_WORD *)(a1 + 16) = v6;
+LABEL_34:
+  v20[0] = -1;
+  releaseRead(DbaseLock, (unsigned int *)v20, 1);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v17 = Dbg_NodeName(a3);
+    WPP_SF_DDDs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x18u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      v5,
+      v12,
+      a4,
+      (__int64)v17);
+  }
+  return v5;
+}
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401EC5E8: using guessed type __int64 DbaseLock;
+// 140037B58: using guessed type unsigned int var_34[3];

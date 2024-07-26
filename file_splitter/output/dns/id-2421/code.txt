@@ -1,0 +1,197 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 2421
+// Total lines: 72
+
+//----- (0000000140126BF0) ----------------------------------------------------
+struct _Dbase_Record *__fastcall DnsSign::GenerateDsFromDnskey(
+        DnsSign *this,
+        struct _Dbase_Record *a2,
+        unsigned __int8 *a3,
+        const struct _CountName *a4)
+{
+  u_long v4; // esi
+  char v6; // r14
+  unsigned __int16 HashSizeByDigestType; // bp
+  struct _Dbase_Record *result; // rax
+  struct _Dbase_Record *v10; // rbx
+  unsigned __int16 v11; // dx
+  u_short v12; // dx
+  const unsigned __int16 *v13; // rdx
+  DnsSign::CCNGAlgorithmManager *v14; // rcx
+  BCRYPT_ALG_HANDLE HashAlgorithmProviderByDigestType; // rax
+  NTSTATUS v16; // eax
+  unsigned __int8 *v17; // rdx
+  NTSTATUS v18; // eax
+  unsigned __int8 *v19; // rdx
+  NTSTATUS v20; // eax
+  unsigned __int8 *v21; // rdx
+  BCRYPT_HASH_HANDLE hHash[15]; // [rsp+30h] [rbp-78h] BYREF
+
+  hHash[5] = (BCRYPT_HASH_HANDLE)-2i64;
+  v4 = (unsigned int)a4;
+  v6 = (char)a2;
+  HashSizeByDigestType = DnsSign::CCNGAlgorithmManager::GetHashSizeByDigestType(this, (__int64)a2);
+  result = (struct _Dbase_Record *)RR_AllocateEx(HashSizeByDigestType + 4, 0, 0);
+  v10 = result;
+  if ( result )
+  {
+    hHash[6] = result;
+    *((_WORD *)result + 6) = 43;
+    *((_DWORD *)result + 5) = htonl(v4);
+    if ( *((_WORD *)this + 6) == 48 && (v11 = *((_WORD *)this + 7), v11 > 4u) )
+      v12 = RR_CalculateDnsKeyTagEx((unsigned __int8 *)this + 56, v11);
+    else
+      v12 = 0;
+    *((_WORD *)v10 + 28) = htons(v12);
+    *((_BYTE *)v10 + 58) = *((_BYTE *)this + 59);
+    *((_BYTE *)v10 + 59) = v6;
+    memset(hHash, 0, 32);
+    LOBYTE(v13) = v6;
+    HashAlgorithmProviderByDigestType = DnsSign::CCNGAlgorithmManager::GetHashAlgorithmProviderByDigestType(v14, v13);
+    DnsSign::CHashObject::Start(hHash, HashAlgorithmProviderByDigestType);
+    v16 = BCryptHashData(hHash[0], a3 + 2, *a3, 0);
+    if ( v16 < 0 )
+      DnsSign::CHashObject::HashData((DnsSign::CHashObject *)(unsigned int)v16, v17);
+    v18 = BCryptHashData(hHash[0], (PUCHAR)this + 56, *((unsigned __int16 *)this + 7), 0);
+    if ( v18 < 0 )
+      DnsSign::CHashObject::HashData((DnsSign::CHashObject *)(unsigned int)v18, v19);
+    v20 = BCryptFinishHash(hHash[0], (PUCHAR)v10 + 60, HashSizeByDigestType, 0);
+    if ( v20 < 0 )
+      DnsSign::CHashObject::End((DnsSign::CHashObject *)(unsigned int)v20, v21);
+    if ( hHash[0] )
+      BCryptDestroyHash(hHash[0]);
+    if ( hHash[1] )
+      operator delete(hHash[1]);
+    memset(&hHash[1], 0, 24);
+    Mem_Free(0i64, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\zone.cpp", 239);
+    return v10;
+  }
+  return result;
+}
+// 140126C99: variable 'v14' is possibly undefined
+// 140126C99: variable 'v13' is possibly undefined
+// 140126CC7: variable 'v17' is possibly undefined
+// 140126CE9: variable 'v19' is possibly undefined
+// 140126D0A: variable 'v21' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

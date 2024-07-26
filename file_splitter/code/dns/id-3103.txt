@@ -1,0 +1,121 @@
+//----- (0000000140162DB0) ----------------------------------------------------
+BOOL __fastcall DnsPrint_Record(__int64 a1, __int64 a2, __int64 a3, _QWORD *a4)
+{
+  __int64 v5; // r8
+  __int64 v6; // rcx
+  unsigned __int16 v7; // r12
+  unsigned __int16 v8; // r13
+  char *v9; // rax
+  const char *v10; // r15
+  char *v11; // rax
+  const wchar_t *v12; // rbx
+  const char *v13; // r15
+  unsigned __int16 v14; // ax
+  char v15; // r9
+  void (__fastcall *v16)(_QWORD, _QWORD, _QWORD *); // rax
+  unsigned int v18; // [rsp+38h] [rbp-2A0h]
+  unsigned int v19; // [rsp+50h] [rbp-288h]
+  const wchar_t *v20; // [rsp+90h] [rbp-248h]
+  __int16 v21[256]; // [rsp+A0h] [rbp-238h] BYREF
+
+  DnsPrint_Lock();
+  if ( a4 )
+  {
+    v7 = *((_WORD *)a4 + 8);
+    v8 = *((_WORD *)a4 + 9);
+    if ( v7 == 41 )
+    {
+      if ( (byte_1401BA001 & 4) != 0 )
+      {
+        v9 = private_StringForRecordType(0x29u);
+        v10 = "UNKNOWN";
+        v20 = (const wchar_t *)a4[1];
+        if ( v9 )
+          v10 = v9;
+        if ( (*((_DWORD *)a4 + 5) & 0x18) != 8 )
+          v20 = recordStringWide((__int64)a4, (WCHAR *)a4[1], v21);
+        v19 = (*((_DWORD *)a4 + 5) >> 2) & 1;
+        WPP_SF_qqSsddDddddddddd(
+          *((unsigned __int16 *)a4 + 14),
+          v19,
+          a4,
+          *a4,
+          v20,
+          v10,
+          41,
+          *((unsigned __int16 *)a4 + 14),
+          *((_DWORD *)a4 + 5),
+          *((_DWORD *)a4 + 5) & 3,
+          v19,
+          (*((_DWORD *)a4 + 5) >> 3) & 3,
+          *((unsigned __int8 *)a4 + 26),
+          *((unsigned __int8 *)a4 + 27),
+          *((unsigned __int16 *)a4 + 12) >> 15,
+          a4[3] & 0x7FFF,
+          *((unsigned __int16 *)a4 + 15),
+          v8);
+      }
+    }
+    else if ( (byte_1401BA001 & 4) != 0 )
+    {
+      v11 = private_StringForRecordType(v7);
+      v12 = (const wchar_t *)a4[1];
+      v13 = "UNKNOWN";
+      if ( v11 )
+        v13 = v11;
+      if ( (*((_DWORD *)a4 + 5) & 0x18) != 8 )
+        v12 = recordStringWide((__int64)a4, (WCHAR *)a4[1], v21);
+      v18 = *((_DWORD *)a4 + 5);
+      WPP_SF_qqSsdDdddddd(
+        v8,
+        v18 & 3,
+        a4,
+        *a4,
+        v12,
+        v13,
+        v7,
+        v18,
+        v18 & 3,
+        (v18 >> 2) & 1,
+        (v18 >> 3) & 3,
+        *((_DWORD *)a4 + 6),
+        *((_DWORD *)a4 + 7),
+        v8);
+    }
+    if ( v8 )
+    {
+      v14 = Dns_RecordTableIndexForType(v7);
+      if ( v14 )
+      {
+        v16 = (void (__fastcall *)(_QWORD, _QWORD, _QWORD *))RRPrintTable[v14];
+        if ( v16 )
+        {
+          v16(0i64, 0i64, a4);
+        }
+        else if ( (v15 & 4) != 0 )
+        {
+          v6 = 44i64;
+          goto LABEL_25;
+        }
+      }
+      else if ( (v15 & 4) != 0 )
+      {
+        v6 = 43i64;
+        goto LABEL_25;
+      }
+    }
+  }
+  else if ( (byte_1401BA001 & 4) != 0 )
+  {
+    v6 = 39i64;
+LABEL_25:
+    WPP_SF_(v6, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, v5);
+  }
+  return DnsPrint_Unlock();
+}
+// 14016300A: variable 'v15' is possibly undefined
+// 140163029: variable 'v5' is possibly undefined
+// 140172480: using guessed type _QWORD RRPrintTable[1];
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 140162DB0: using guessed type _WORD var_238[256];

@@ -1,0 +1,93 @@
+//----- (000000014005092C) ----------------------------------------------------
+ULONG __fastcall Template_zzzqb(
+        __int64 a1,
+        const EVENT_DESCRIPTOR *a2,
+        const unsigned __int16 *a3,
+        const unsigned __int16 *a4,
+        const unsigned __int16 *a5,
+        int a6,
+        __int64 a7)
+{
+  __int64 v7; // rcx
+  int v9; // edx
+  __int64 v10; // rax
+  ULONG v11; // r10d
+  const wchar_t *v12; // r11
+  const wchar_t *v13; // rax
+  __int64 v14; // rax
+  int v15; // r8d
+  const wchar_t *v16; // rax
+  bool v17; // zf
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-60h] BYREF
+  const wchar_t *v20; // [rsp+30h] [rbp-50h]
+  int v21; // [rsp+38h] [rbp-48h]
+  int v22; // [rsp+3Ch] [rbp-44h]
+  const wchar_t *v23; // [rsp+40h] [rbp-40h]
+  int v24; // [rsp+48h] [rbp-38h]
+  int v25; // [rsp+4Ch] [rbp-34h]
+  int *v26; // [rsp+50h] [rbp-30h]
+  __int64 v27; // [rsp+58h] [rbp-28h]
+  __int64 v28; // [rsp+60h] [rbp-20h]
+  int v29; // [rsp+68h] [rbp-18h]
+  int v30; // [rsp+6Ch] [rbp-14h]
+
+  v7 = -1i64;
+  v9 = 10;
+  if ( a3 )
+  {
+    v10 = -1i64;
+    do
+      ++v10;
+    while ( a3[v10] );
+    v11 = 2 * v10 + 2;
+  }
+  else
+  {
+    v11 = 10;
+  }
+  UserData.Size = v11;
+  v12 = L"NULL";
+  UserData.Reserved = 0;
+  v13 = L"NULL";
+  if ( a3 )
+    v13 = a3;
+  UserData.Ptr = (ULONGLONG)v13;
+  if ( a4 )
+  {
+    v14 = -1i64;
+    do
+      ++v14;
+    while ( a4[v14] );
+    v15 = 2 * v14 + 2;
+  }
+  else
+  {
+    v15 = 10;
+  }
+  v21 = v15;
+  v16 = L"NULL";
+  v22 = 0;
+  if ( a4 )
+    v16 = a4;
+  v20 = v16;
+  v17 = a5 == 0i64;
+  if ( a5 )
+  {
+    do
+      ++v7;
+    while ( a5[v7] );
+    v9 = 2 * v7 + 2;
+    v17 = a5 == 0i64;
+  }
+  if ( !v17 )
+    v12 = a5;
+  v24 = v9;
+  v23 = v12;
+  v26 = &a6;
+  v28 = a7;
+  v29 = a6;
+  v25 = 0;
+  v27 = 4i64;
+  v30 = 0;
+  return EventWrite(Microsoft_Windows_DNS_Server_ServiceHandle, a2, 5u, &UserData);
+}

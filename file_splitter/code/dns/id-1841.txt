@@ -1,0 +1,16 @@
+//----- (00000001400E646C) ----------------------------------------------------
+void __fastcall std::streambuf::~streambuf<char,std::char_traits<char>>(__int64 a1)
+{
+  std::locale *v1; // rdi
+
+  v1 = *(std::locale **)(a1 + 104);
+  *(_QWORD *)a1 = &std::streambuf::`vftable';
+  if ( v1 )
+  {
+    std::locale::~locale(v1);
+    operator delete(v1);
+  }
+  std::_Mutex::~_Mutex((LPCRITICAL_SECTION *)(a1 + 8));
+}
+// 140171418: using guessed type void *std::streambuf::`vftable';
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

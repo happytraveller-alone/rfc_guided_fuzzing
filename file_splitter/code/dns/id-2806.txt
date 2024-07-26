@@ -1,0 +1,27 @@
+//----- (000000014014B394) ----------------------------------------------------
+_QWORD *__fastcall std::_List_val<std::string>::_Buynode(__int64 a1, __int64 a2, __int64 a3, const void **a4)
+{
+  _QWORD *v7; // rax
+  _QWORD *v8; // rbx
+  const void **v9; // rcx
+  char pExceptionObject[32]; // [rsp+38h] [rbp-20h] BYREF
+
+  v7 = operator new(0x38ui64);
+  v8 = v7;
+  if ( !v7 )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *v7 = a2;
+  v7[1] = a3;
+  v9 = (const void **)(v7 + 2);
+  if ( v7 != (_QWORD *)-16i64 )
+  {
+    v7[5] = 15i64;
+    v7[4] = 0i64;
+    *(_BYTE *)v9 = 0;
+    std::string::assign(v9, a4, 0i64, (char *)0xFFFFFFFFFFFFFFFFi64);
+  }
+  return v8;
+}

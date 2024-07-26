@@ -1,0 +1,73 @@
+//----- (0000000140054CBC) ----------------------------------------------------
+__int64 __fastcall Gnz_UpdateAllowed(__int64 a1, __int64 a2, unsigned __int8 *a3)
+{
+  unsigned int v3; // ebx
+  __int64 v6; // rdi
+  _BYTE *v7; // rax
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  _BYTE *v9; // rsi
+  unsigned __int16 v11[184]; // [rsp+40h] [rbp-308h] BYREF
+  __int16 v12[184]; // [rsp+1B0h] [rbp-198h] BYREF
+
+  v3 = 0;
+  if ( !dword_1401B998C )
+    return v3;
+  if ( !dword_1401B99A4 )
+    return v3;
+  v6 = g_pzoneLocalGlobalNames;
+  if ( !g_pzoneLocalGlobalNames )
+    return v3;
+  if ( !(unsigned int)Name_ConvertPacketNameToLookupNameEx(a2, a3, v11, 1) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x20000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x3Fu,
+        (__int64)&WPP_034409074b35327309cc7655b9f6aa4d_Traceguids,
+        a2);
+    }
+    return v3;
+  }
+  v11[0] -= *(unsigned __int8 *)(a1 + 384);
+  Name_ShallowCopyLookupName(v12, (__int64)v11);
+  Name_AppendLookupName((unsigned __int16 *)v12);
+  v7 = Lookup_ZoneNode(v6, 0i64, 0i64, (unsigned __int16 *)v12, 17, 0i64, 0i64, 0i64);
+  v8 = WPP_GLOBAL_Control;
+  v9 = v7;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x20000) == 0 )
+    goto LABEL_14;
+  if ( !v7 )
+  {
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      return v3;
+    }
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x40u, (__int64)&WPP_034409074b35327309cc7655b9f6aa4d_Traceguids, a2);
+    v8 = WPP_GLOBAL_Control;
+LABEL_14:
+    if ( !v9 )
+      return v3;
+  }
+  if ( (*((_DWORD *)v9 + 23) & 0x110) == 0 )
+  {
+    if ( *((_QWORD *)v9 + 8) )
+    {
+      v3 = 5;
+      if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v8 + 17) & 0x20000) != 0
+        && *((_BYTE *)v8 + 65) >= 4u )
+      {
+        WPP_SF_Dq(*((_QWORD *)v8 + 7), 0x41u, (__int64)&WPP_034409074b35327309cc7655b9f6aa4d_Traceguids, 5);
+      }
+    }
+  }
+  return v3;
+}
+// 1401B8EF8: using guessed type __int64 g_pzoneLocalGlobalNames;
+// 1401B998C: using guessed type int dword_1401B998C;
+// 1401B99A4: using guessed type int dword_1401B99A4;
+// 140054CBC: using guessed type unsigned __int16 var_198[184];

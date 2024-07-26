@@ -1,0 +1,55 @@
+//----- (000000014014FE30) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateHashMap::Insert(
+        CDnsRRLStateHashMap *this,
+        struct IDnsRRLStateKey *a2,
+        struct IDnsRRLStateInfo *a3,
+        int a4)
+{
+  __int64 v6; // rcx
+  __int64 *v7; // rbx
+  __int64 v9; // rbx
+  __int64 *v10; // rax
+  __int64 v11; // rdi
+  _QWORD *v12; // rdx
+  __int64 v13; // rax
+  __int64 *v14[2]; // [rsp+20h] [rbp-28h] BYREF
+  char v15[24]; // [rsp+30h] [rbp-18h] BYREF
+  struct IDnsRRLStateKey *v16; // [rsp+58h] [rbp+10h] BYREF
+
+  v16 = a2;
+  if ( a4 )
+  {
+    v6 = *((_QWORD *)this + 1);
+    v7 = *(__int64 **)(v6 + 8);
+    if ( *std::_Hash<std::tr1::_Umap_traits<IDnsRRLStateKey *,IDnsRRLStateInfo *,std::_Hash_compare<IDnsRRLStateKey *,CDnsRRLStateKeyHasher,CDnsRRLStateKeyEqual>,std::allocator<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>,0>>::find(
+            v6,
+            v14,
+            &v16) != v7 )
+      return 183i64;
+    a2 = v16;
+  }
+  v9 = *((_QWORD *)this + 1);
+  v14[0] = (__int64 *)a2;
+  v14[1] = (__int64 *)a3;
+  v10 = *(__int64 **)(v9 + 8);
+  v11 = *v10;
+  v12 = std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>::_Buynode(
+          (__int64)this,
+          *v10,
+          *(_QWORD *)(*v10 + 8),
+          v14);
+  v13 = *(_QWORD *)(v9 + 16);
+  if ( v13 == 0xFFFFFFFFFFFFFFEi64 )
+    std::_Xlength_error("list<T> too long");
+  *(_QWORD *)(v9 + 16) = v13 + 1;
+  *(_QWORD *)(v11 + 8) = v12;
+  *(_QWORD *)v12[1] = v12;
+  std::_Hash<std::tr1::_Umap_traits<IDnsRRLStateKey *,IDnsRRLStateInfo *,std::_Hash_compare<IDnsRRLStateKey *,CDnsRRLStateKeyHasher,CDnsRRLStateKeyEqual>,std::allocator<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>,0>>::_Insert(
+    v9,
+    (__int64)v15,
+    v14,
+    **(__int64 ****)(v9 + 8));
+  return 0i64;
+}
+// 14014FE96: variable 'this' is possibly undefined
+// 14014FE30: using guessed type char var_18[24];

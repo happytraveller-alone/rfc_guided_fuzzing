@@ -1,0 +1,12 @@
+//----- (00000001400E5384) ----------------------------------------------------
+struct _RTL_CRITICAL_SECTION *__fastcall std::unique_ptr<TrustPoint>::~unique_ptr<TrustPoint>(
+        struct _RTL_CRITICAL_SECTION **a1)
+{
+  struct _RTL_CRITICAL_SECTION *v1; // rcx
+  struct _RTL_CRITICAL_SECTION *result; // rax
+
+  v1 = *a1;
+  if ( v1 )
+    return TrustPoint::`scalar deleting destructor'(v1);
+  return result;
+}

@@ -1,0 +1,28 @@
+//----- (00000001400569B0) ----------------------------------------------------
+char *__fastcall logPrefix(const char *a1)
+{
+  DWORD CurrentThreadId; // eax
+  char *result; // rax
+  int v4; // edx
+  struct _SYSTEMTIME SystemTime; // [rsp+30h] [rbp-68h] BYREF
+  CHAR v6[64]; // [rsp+40h] [rbp-58h] BYREF
+
+  memset_0(v6, 0, 0x3Dui64);
+  GetLocalTime(&SystemTime);
+  Dns_WriteFormattedSystemTimeToBuffer(v6, &SystemTime);
+  CurrentThreadId = GetCurrentThreadId();
+  if ( a1 )
+    result = sprintfSafeA(lpMultiByteStr, (unsigned int)qword_1401B8F90, "%s %04X %-7s ", v6, CurrentThreadId, a1);
+  else
+    result = sprintfSafeA(lpMultiByteStr, (unsigned int)qword_1401B8F90, "%s %03X ", v6, CurrentThreadId);
+  if ( result )
+  {
+    v4 = (_DWORD)result - (_DWORD)lpMultiByteStr;
+    if ( result - lpMultiByteStr <= (unsigned __int64)(unsigned int)qword_1401B8F90 )
+    {
+      lpMultiByteStr = result;
+      LODWORD(qword_1401B8F90) = qword_1401B8F90 - v4;
+    }
+  }
+  return result;
+}

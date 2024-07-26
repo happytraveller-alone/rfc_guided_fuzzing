@@ -1,0 +1,93 @@
+//----- (000000014012CC90) ----------------------------------------------------
+struct std::locale::facet *__fastcall std::use_facet<std::numpunct<unsigned short>>(__int64 *a1)
+{
+  char v2; // si
+  __int64 v3; // rbp
+  unsigned __int64 v4; // rdi
+  __int64 v5; // rcx
+  struct std::locale::facet *v6; // rbx
+  struct std::locale::_Locimp *v7; // rax
+  char *v8; // rdx
+  mbstate_t v9; // rdx
+  char v10; // r8
+  __int64 v11; // rcx
+  char v13[112]; // [rsp+28h] [rbp-70h] BYREF
+  int v14; // [rsp+A0h] [rbp+8h] BYREF
+  char v15; // [rsp+A8h] [rbp+10h] BYREF
+  struct std::locale::facet *v16; // [rsp+B0h] [rbp+18h]
+
+  v2 = 0;
+  v14 = 0;
+  std::_Lockit::_Lockit((std::_Lockit *)&v15, 0);
+  v3 = std::_Facetptr<std::numpunct<unsigned short>>::_Psave;
+  v4 = std::numpunct<unsigned short>::id;
+  if ( !std::numpunct<unsigned short>::id )
+  {
+    std::_Lockit::_Lockit((std::_Lockit *)&v14, 0);
+    if ( !std::numpunct<unsigned short>::id )
+      std::numpunct<unsigned short>::id = ++std::locale::id::_Id_cnt;
+    std::_Lockit::~_Lockit((std::_Lockit *)&v14);
+    v4 = std::numpunct<unsigned short>::id;
+  }
+  v5 = *a1;
+  if ( v4 >= *(_QWORD *)(*a1 + 24) )
+    v6 = 0i64;
+  else
+    v6 = *(struct std::locale::facet **)(*(_QWORD *)(v5 + 16) + 8 * v4);
+  if ( !v6 )
+  {
+    if ( *(_BYTE *)(v5 + 36) )
+    {
+      v7 = std::locale::_Getgloballocale();
+      if ( v4 >= *((_QWORD *)v7 + 3) )
+        v6 = 0i64;
+      else
+        v6 = *(struct std::locale::facet **)(*((_QWORD *)v7 + 2) + 8 * v4);
+    }
+    if ( !v6 )
+    {
+      if ( v3 )
+      {
+        v6 = (struct std::locale::facet *)v3;
+      }
+      else
+      {
+        v6 = (struct std::locale::facet *)operator new(0x30ui64);
+        v16 = v6;
+        if ( v6 )
+        {
+          v8 = *(char **)(*a1 + 40);
+          if ( !v8 )
+            v8 = (char *)(*a1 + 48);
+          std::_Locinfo::_Locinfo((std::_Locinfo *)v13, v8);
+          v2 = 1;
+          v14 = 1;
+          *((_QWORD *)v6 + 1) = 0i64;
+          *(_QWORD *)v6 = &std::numpunct<unsigned short>::`vftable';
+          std::numpunct<unsigned short>::_Init((__int64)v6, v9, v10);
+        }
+        else
+        {
+          v6 = 0i64;
+        }
+        if ( (v2 & 1) != 0 )
+          std::_Locinfo::~_Locinfo((std::_Locinfo *)v13);
+        std::_Facetptr<std::numpunct<unsigned short>>::_Psave = (__int64)v6;
+        std::_Lockit::_Lockit((std::_Lockit *)&v14, 0);
+        v11 = *((_QWORD *)v6 + 1);
+        if ( v11 != -1 )
+          *((_QWORD *)v6 + 1) = v11 + 1;
+        std::_Lockit::~_Lockit((std::_Lockit *)&v14);
+        std::locale::facet::_Facet_Register(v6);
+      }
+    }
+  }
+  std::_Lockit::~_Lockit((std::_Lockit *)&v15);
+  return v6;
+}
+// 14012CDB2: variable 'v9' is possibly undefined
+// 14012CDB2: variable 'v10' is possibly undefined
+// 1401717E8: using guessed type void *std::numpunct<unsigned short>::`vftable';
+// 1401B85A8: using guessed type int std::locale::id::_Id_cnt;
+// 1401B9D90: using guessed type __int64 std::_Facetptr<std::numpunct<unsigned short>>::_Psave;
+// 1401B9FB8: using guessed type __int64 std::numpunct<unsigned short>::id;

@@ -1,0 +1,35 @@
+//----- (000000014015D4FC) ----------------------------------------------------
+__int64 __fastcall Dns_NameCompare_W(PCNZWCH lpString1, PCNZWCH lpString2)
+{
+  unsigned int v2; // ebx
+  __int64 v3; // r9
+  __int64 cchCount2; // r8
+
+  v2 = 0;
+  if ( !lpString1 || !lpString2 )
+    return 0i64;
+  v3 = -1i64;
+  cchCount2 = -1i64;
+  do
+    ++cchCount2;
+  while ( lpString1[cchCount2] );
+  do
+    ++v3;
+  while ( lpString2[v3] );
+  if ( (_DWORD)v3 != (_DWORD)cchCount2 )
+  {
+    if ( (_DWORD)v3 == (_DWORD)cchCount2 + 1 )
+    {
+      if ( lpString2[(int)cchCount2] != 46 )
+        return 0i64;
+    }
+    else
+    {
+      if ( (_DWORD)v3 + 1 != (_DWORD)cchCount2 || lpString1[(int)v3] != 46 )
+        return 0i64;
+      LODWORD(cchCount2) = v3;
+    }
+  }
+  LOBYTE(v2) = CompareStringW(0x7Fu, 1u, lpString1, cchCount2, lpString2, cchCount2) == 2;
+  return v2;
+}

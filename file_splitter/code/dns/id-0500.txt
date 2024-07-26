@@ -1,0 +1,64 @@
+//----- (00000001400437C0) ----------------------------------------------------
+__int64 __fastcall setPropertyValueToDsProperty(int *a1, _QWORD *a2, unsigned int a3)
+{
+  size_t v3; // rsi
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  void *v8; // rax
+  void *v9; // rsi
+
+  v3 = a3;
+  v6 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qqd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x159u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      a1,
+      a2,
+      a3);
+    v6 = WPP_GLOBAL_Control;
+  }
+  if ( a1[3] != 1 )
+    goto LABEL_13;
+  if ( (_DWORD)v3 )
+  {
+    if ( (_DWORD)v3 != *a1 )
+    {
+      if ( v6 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+        return 13i64;
+      if ( (*((_DWORD *)v6 + 17) & 0x400) == 0 || *((_BYTE *)v6 + 65) < 4u )
+      {
+LABEL_13:
+        if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v6 + 17) & 0x400) != 0
+          && *((_BYTE *)v6 + 65) >= 4u )
+        {
+          WPP_SF_Ddd(*((_QWORD *)v6 + 7), 0x15Bu, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, *a1);
+        }
+        return 13i64;
+      }
+      WPP_SF_(*((_QWORD *)v6 + 7), 0x15Au, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+LABEL_12:
+      v6 = WPP_GLOBAL_Control;
+      goto LABEL_13;
+    }
+    memcpy_0(a2, a1 + 5, v3);
+  }
+  else if ( *a1 )
+  {
+    v8 = Mem_Alloc(*a1, 12i64, "ds\\dns\\server\\server\\ds.c", 13521);
+    v9 = v8;
+    if ( !v8 )
+      goto LABEL_12;
+    memcpy_0(v8, a1 + 5, (unsigned int)*a1);
+    *a2 = v9;
+  }
+  else
+  {
+    *a2 = 0i64;
+  }
+  return 0i64;
+}

@@ -1,0 +1,75 @@
+//----- (0000000140100938) ----------------------------------------------------
+__int64 __fastcall setRolloverAction(struct _zone_info *a1, struct _dnsskd *a2, unsigned int a3)
+{
+  __int64 v3; // rbx
+  unsigned int v5; // edi
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  __int64 v9; // rax
+  struct _dnsskd *i; // rdx
+
+  v3 = 0i64;
+  v5 = 0;
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v9 = *((_QWORD *)a1 + 2);
+    else
+      v9 = 0i64;
+    WPP_SF_Dqs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x42u,
+      (__int64)&WPP_fcf90f505e41335ad1a88e0d5ede2d0c_Traceguids,
+      a3,
+      (char)a2,
+      v9);
+    v8 = WPP_GLOBAL_Control;
+  }
+  if ( !a1 || !a2 )
+  {
+    v5 = 87;
+    goto LABEL_29;
+  }
+  if ( a3 > 3 )
+  {
+    v5 = 9567;
+    goto LABEL_29;
+  }
+  if ( *((_DWORD *)a2 + 24) > 1u )
+  {
+    v5 = 9116;
+    goto LABEL_29;
+  }
+  if ( a3 == 2 )
+  {
+    if ( !*((_DWORD *)a2 + 9) || !*((_QWORD *)a2 + 21) )
+    {
+      v5 = 9117;
+      goto LABEL_29;
+    }
+LABEL_27:
+    *((_DWORD *)a2 + 18) = a3;
+    v8 = WPP_GLOBAL_Control;
+    goto LABEL_29;
+  }
+  if ( a3 != 3 )
+    goto LABEL_27;
+  for ( i = (struct _dnsskd *)*((_QWORD *)a1 + 142); i; i = *(struct _dnsskd **)i )
+  {
+    if ( i != a2 && *((_DWORD *)i + 9) == *((_DWORD *)a2 + 9) && *((_DWORD *)i + 18) != 3 && *((_DWORD *)i + 23) != 1 )
+      goto LABEL_27;
+  }
+  v5 = 9104;
+LABEL_29:
+  if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v8 + 68) & 4) != 0
+    && *((_BYTE *)v8 + 65) >= 4u )
+  {
+    if ( a1 )
+      v3 = *((_QWORD *)a1 + 2);
+    WPP_SF_Ds(*((_QWORD *)v8 + 7), 0x43u, (__int64)&WPP_fcf90f505e41335ad1a88e0d5ede2d0c_Traceguids, v5, v3);
+  }
+  return v5;
+}

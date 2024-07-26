@@ -1,0 +1,56 @@
+//----- (00000001400C3114) ----------------------------------------------------
+__int64 __fastcall Zone_WriteBack(__int64 a1, int a2, int a3)
+{
+  unsigned int v6; // edi
+  const char *v7; // rax
+  __int64 v8; // rdx
+  __int64 v9; // r8
+  int v10; // r9d
+
+  v6 = 1;
+  if ( !a1
+    || (*(_BYTE *)(a1 + 388) & 1) != 0 && (dword_1401B9750 || g_fDsReadOnlyDcMode)
+    || (*(_BYTE *)(a1 + 1160) & 0x40) != 0 )
+  {
+    return 0i64;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v7 = "not dirty";
+    if ( (*(_DWORD *)(a1 + 396) & 0x200) != 0 )
+      v7 = "dirty";
+    WPP_SF_sds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x43u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const char **)(a1 + 16),
+      a2,
+      (__int64)v7);
+  }
+  if ( *(_DWORD *)(a1 + 372) )
+  {
+    if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+    {
+      if ( a2 )
+        Ds_CheckForAndForceSerialWrite(a1, 1u);
+    }
+    else if ( (*(_DWORD *)(a1 + 396) & 0x200) != 0 )
+    {
+      v6 = File_WriteZoneToFile(a1, 0i64, a3);
+      if ( !a2 )
+        Xfr_SendNotify(a1, v8, v9, v10);
+    }
+  }
+  else
+  {
+    Zone_WriteBackRootHints(0);
+  }
+  return v6;
+}
+// 1400C3218: variable 'v8' is possibly undefined
+// 1400C3218: variable 'v9' is possibly undefined
+// 1400C3218: variable 'v10' is possibly undefined
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9750: using guessed type int dword_1401B9750;

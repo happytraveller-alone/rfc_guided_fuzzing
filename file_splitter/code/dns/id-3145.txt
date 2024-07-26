@@ -1,0 +1,188 @@
+//----- (0000000140167310) ----------------------------------------------------
+RPC_BINDING_HANDLE __fastcall Dnssrv_CreateRPCBindingHandle(wchar_t *String2, __int64 a2, char a3)
+{
+  RPC_WSTR v3; // rsi
+  unsigned int v5; // eax
+  int v6; // r15d
+  int v7; // r8d
+  int ProtocolToUse; // edi
+  RPC_STATUS v9; // eax
+  DWORD v10; // ebx
+  RPC_STATUS v11; // eax
+  __int64 v12; // rcx
+  __int64 v13; // r8
+  __int64 v14; // r9
+  CDnsClientSubnetRecordsTrie *v15; // rcx
+  unsigned __int16 v16; // dx
+  int v17; // r9d
+  RPC_STATUS v18; // eax
+  int v19; // eax
+  __int64 v21; // [rsp+20h] [rbp-50h]
+  RPC_BINDING_HANDLE Binding; // [rsp+40h] [rbp-30h] BYREF
+  RPC_WSTR String; // [rsp+48h] [rbp-28h] BYREF
+  RPC_WSTR ServerPrincName; // [rsp+50h] [rbp-20h] BYREF
+  RPC_SECURITY_QOS SecurityQos; // [rsp+58h] [rbp-18h] BYREF
+
+  String = 0i64;
+  v3 = 0i64;
+  Binding = 0i64;
+  ServerPrincName = 0i64;
+  v5 = 1;
+  v6 = a3 & 1;
+  SecurityQos.Version = 1;
+  v7 = a3 & 2;
+  if ( v7 )
+    v5 = 9;
+  SecurityQos.IdentityTracking = 0;
+  SecurityQos.Capabilities = v5;
+  SecurityQos.ImpersonationType = (v7 != 0) + 3;
+  ProtocolToUse = FindProtocolToUse(String2);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0xDu,
+      (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids,
+      ProtocolToUse);
+  }
+  if ( ProtocolToUse == 4 )
+  {
+    v9 = RpcStringBindingComposeW(
+           0i64,
+           L"ncalrpc",
+           0i64,
+           L"DNSSERVERLPC",
+           L"Security=Impersonation Static True",
+           &String);
+  }
+  else if ( ProtocolToUse == 2 )
+  {
+    v9 = RpcStringBindingComposeW(
+           0i64,
+           L"ncacn_np",
+           String2,
+           L"\\PIPE\\DNSSERVER",
+           L"Security=Impersonation Static True",
+           &String);
+  }
+  else
+  {
+    v9 = RpcStringBindingComposeW(0i64, (RPC_WSTR)L"ncacn_ip_tcp", String2, (RPC_WSTR)&LocaleName, 0i64, &String);
+  }
+  v10 = v9;
+  if ( v9 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_Dd(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xEu,
+        (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids,
+        ProtocolToUse);
+    }
+    goto LABEL_48;
+  }
+  v11 = RpcBindingFromStringBindingW(String, &Binding);
+  v10 = v11;
+  if ( v11 )
+  {
+    v15 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 25) < 4u )
+    {
+      goto LABEL_48;
+    }
+    v16 = 15;
+    goto LABEL_22;
+  }
+  if ( ProtocolToUse == 1 )
+  {
+    if ( v6 )
+    {
+      v18 = RpcBindingSetAuthInfoA(Binding, (RPC_CSTR)"DnsServerApp", 2u, 0xAu, 0i64, 0);
+    }
+    else
+    {
+      if ( !(unsigned int)makeSpn(v12, String2, v13, v14, v21, (void **)&ServerPrincName) )
+      {
+        v3 = ServerPrincName;
+        v11 = RpcBindingSetAuthInfoExW(Binding, ServerPrincName, 6u, 9u, 0i64, 0, &SecurityQos);
+        v10 = v11;
+        if ( v11 )
+        {
+          v15 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 25) < 4u )
+          {
+            goto LABEL_48;
+          }
+          v16 = 16;
+LABEL_22:
+          v17 = v11;
+LABEL_23:
+          WPP_SF_D(*((_QWORD *)v15 + 2), v16, (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids, v17);
+          goto LABEL_48;
+        }
+        goto LABEL_39;
+      }
+      v18 = RpcBindingSetAuthInfoExA(Binding, (RPC_CSTR)"DnsServerApp", 2u, 9u, 0i64, 0, &SecurityQos);
+      v3 = ServerPrincName;
+    }
+    v10 = v18;
+    if ( v18 )
+    {
+      v15 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 25) < 4u )
+      {
+        goto LABEL_48;
+      }
+      v16 = 17;
+      v17 = v18;
+      goto LABEL_23;
+    }
+  }
+LABEL_39:
+  v19 = RpcMgmtSetComTimeout(Binding, 0);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x12u, (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids, v19);
+  }
+  RpcBindingSetOption(Binding, 0xCu, 0x493E0ui64);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_Dd(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0x13u,
+      (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids,
+      300000);
+  }
+  v10 = 0;
+LABEL_48:
+  RpcStringFreeW(&String);
+  MIDL_user_free(v3);
+  if ( !v10 )
+    return Binding;
+  SetLastError(v10);
+  return 0i64;
+}
+// 1401674EE: variable 'v12' is possibly undefined
+// 1401674EE: variable 'v13' is possibly undefined
+// 1401674EE: variable 'v14' is possibly undefined
+// 1401674EE: variable 'v21' is possibly undefined
+// 140199A80: using guessed type wchar_t aSecurityImpers[35];
+// 140199AC8: using guessed type wchar_t aDnsserverlpc[13];
+// 140199AE8: using guessed type wchar_t aNcalrpc[8];
+// 140199AF8: using guessed type wchar_t aPipeDnsserver[16];
+// 140199B18: using guessed type wchar_t aNcacnNp[9];

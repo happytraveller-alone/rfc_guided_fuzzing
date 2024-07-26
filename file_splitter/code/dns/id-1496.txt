@@ -1,0 +1,91 @@
+//----- (00000001400BC3BC) ----------------------------------------------------
+void __fastcall initiateDsPeerUpdate(__int64 a1)
+{
+  __int64 v1; // rdi
+  CDnsClientSubnetRecordsTrie *v2; // rcx
+  const char *v3; // rbx
+  __int64 v4; // rax
+  unsigned __int16 v5; // dx
+  unsigned int v6; // [rsp+40h] [rbp+8h] BYREF
+
+  v1 = *(_QWORD *)(a1 + 24);
+  v2 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xC1u,
+      (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+      (const char *)(v1 + 102));
+    v2 = WPP_GLOBAL_Control;
+  }
+  v3 = 0i64;
+  if ( v1 )
+  {
+    if ( *(_BYTE *)(v1 + 96) != 0xF2 )
+    {
+      if ( v2 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v2 + 17) & 0x80000) != 0
+        && *((_BYTE *)v2 + 65) >= 4u )
+      {
+        v4 = *(_QWORD *)(v1 + 56);
+        if ( v4 )
+          v3 = *(const char **)(v4 + 16);
+        WPP_SF_s(*((_QWORD *)v2 + 7), 0xC2u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v3);
+      }
+      return;
+    }
+    if ( (dword_1401B9840 & 0x1000000) != 0 )
+    {
+      if ( v2 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)v2 + 17) & 0x80000) == 0
+        || *((_BYTE *)v2 + 65) < 4u )
+      {
+        return;
+      }
+      v5 = 195;
+      goto LABEL_18;
+    }
+    v6 = -1;
+    acquireWrite(g_hPeerUpdateLock, 0xFFFFFFFF, &v6);
+    g_pnodePeerUpdateNode = v1;
+    if ( g_dwPeerUpdateVersion )
+    {
+      ++g_dwPeerUpdateVersion;
+      Lock_ReleaseWrite(g_hPeerUpdateLock);
+      return;
+    }
+    g_dwPeerUpdateVersion = 1;
+    Lock_TransferWrite(g_hPeerUpdateLock);
+    if ( Thread_Create("UpdateDsPeerThread", Up_DsPeerThread, v1, 0) )
+    {
+      v2 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        return;
+      }
+      v5 = 196;
+LABEL_18:
+      WPP_SF_(*((_QWORD *)v2 + 7), v5, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+      return;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xC5u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+    }
+    Lock_AssumeWrite(g_hPeerUpdateLock);
+    Lock_ReleaseWrite(g_hPeerUpdateLock);
+    g_pnodePeerUpdateNode = 0i64;
+    g_dwPeerUpdateVersion = 0;
+  }
+}
+// 1401B90A0: using guessed type int g_dwPeerUpdateVersion;
+// 1401B90A8: using guessed type __int64 g_pnodePeerUpdateNode;
+// 1401B90B0: using guessed type __int64 g_hPeerUpdateLock;
+// 1401B9840: using guessed type int dword_1401B9840;

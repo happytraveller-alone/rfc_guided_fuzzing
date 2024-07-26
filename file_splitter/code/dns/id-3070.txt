@@ -1,0 +1,120 @@
+//----- (0000000140160C6C) ----------------------------------------------------
+__int64 __fastcall Dns_Utf8ToOrFromAnsi(char *a1, __int64 a2, unsigned __int8 *a3, unsigned int a4, int a5, int a6)
+{
+  _WORD *v6; // rbx
+  __int64 v7; // rdi
+  unsigned int v9; // r10d
+  char *v10; // r14
+  char v11; // al
+  int v12; // ecx
+  unsigned __int8 *v13; // rdx
+  unsigned __int8 v15; // al
+  unsigned int BufferLengthForStringCopy; // eax
+  bool v17; // zf
+  DWORD v18; // ecx
+  unsigned int v19; // edi
+  unsigned int v21; // [rsp+50h] [rbp-B0h] BYREF
+  unsigned int v22; // [rsp+58h] [rbp-A8h] BYREF
+  _WORD v23[264]; // [rsp+60h] [rbp-A0h] BYREF
+  char v24[528]; // [rsp+270h] [rbp+170h] BYREF
+
+  v6 = v23;
+  LODWORD(v7) = a4;
+  v9 = a2;
+  v21 = a2;
+  v10 = a1;
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    if ( a4 <= 0x7FFFFFFEui64 )
+    {
+      a1 = v24;
+      a2 = 521i64;
+      do
+      {
+        if ( !(a2 + a4 - 521i64) )
+          break;
+        v11 = a1[a3 - (unsigned __int8 *)v24];
+        if ( !v11 )
+          break;
+        *a1++ = v11;
+        --a2;
+      }
+      while ( a2 );
+      if ( !a2 )
+        --a1;
+      *a1 = 0;
+    }
+    else
+    {
+      v24[0] = 0;
+    }
+    WPP_SF_qdqsddd((__int64)a1, a2, (__int64)v10, v9, (char)a3, (__int64)v24);
+    v9 = v21;
+  }
+  if ( !(_DWORD)v7 )
+  {
+    v7 = -1i64;
+    do
+      ++v7;
+    while ( a3[v7] );
+  }
+  v12 = v7;
+  v13 = a3;
+  do
+  {
+    if ( !v12-- )
+    {
+      if ( v10 )
+      {
+        if ( v9 <= (unsigned int)v7 )
+        {
+LABEL_33:
+          v18 = 122;
+LABEL_34:
+          SetLastError(v18);
+          if ( v6 != v23 )
+            Dns_Free(v6);
+          return 0i64;
+        }
+        memcpy_0(v10, a3, (unsigned int)v7);
+        v10[(unsigned int)v7] = 0;
+      }
+      return (unsigned int)(v7 + 1);
+    }
+    v15 = *v13++;
+  }
+  while ( v15 < 0x80u );
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy((WCHAR *)a3, v7, (unsigned int)a5, 1);
+  if ( BufferLengthForStringCopy > 0x208 )
+  {
+    v6 = Dns_StringCopyAllocate((char *)a3, v7, (unsigned int)a5, 1);
+    v17 = v6 == 0i64;
+    goto LABEL_20;
+  }
+  v22 = 520;
+  if ( !BufferLengthForStringCopy )
+    goto LABEL_21;
+  v17 = (unsigned int)Dns_StringCopy(v23, &v22, (WCHAR *)a3, v7, a5, 1) == 0;
+LABEL_20:
+  if ( v17 )
+  {
+LABEL_21:
+    v18 = 13;
+    goto LABEL_34;
+  }
+  if ( v10 )
+  {
+    v19 = Dns_StringCopy(v10, &v21, v6, 0, 1u, a6);
+    if ( !v19 )
+      goto LABEL_33;
+  }
+  else
+  {
+    v19 = Dns_GetBufferLengthForStringCopy(v6, 0, 1i64, a6);
+  }
+  if ( v6 != v23 )
+    Dns_Free(v6);
+  return v19;
+}
+// 1401BA001: using guessed type char byte_1401BA001;
+// 140160C6C: using guessed type _WORD var_460[264];

@@ -1,0 +1,68 @@
+//----- (0000000140166620) ----------------------------------------------------
+__int64 __fastcall DnsConvertRecordToRpcBuffer(__int64 a1)
+{
+  unsigned __int16 v2; // bp
+  __int64 v3; // rbx
+  unsigned __int16 v4; // r9
+  __int64 v5; // r10
+  _WORD *(__fastcall *v6)(__int64); // rax
+  __int64 v7; // rax
+  __int64 v8; // rdi
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xBu, (__int64)&WPP_1cf03a86840f3b056f397766d2887306_Traceguids, a1);
+  }
+  v2 = *(_WORD *)(a1 + 16);
+  v3 = 0i64;
+  v4 = Dns_RecordTableIndexForType(v2);
+  if ( v4 >= 0x39u )
+    v4 = 0;
+  if ( !v4 || (v6 = (_WORD *(__fastcall *)(__int64))RecordToRpcConvertTable[v4]) == 0i64 )
+  {
+    if ( (CDnsClientSubnetRecordsTrie **)v5 != &WPP_GLOBAL_Control
+      && (*(_BYTE *)(v5 + 28) & 4) != 0
+      && *(_BYTE *)(v5 + 25) >= 4u )
+    {
+      WPP_SF_D(*(_QWORD *)(v5 + 16), 0xCu, (__int64)&WPP_1cf03a86840f3b056f397766d2887306_Traceguids, v2);
+    }
+    v6 = UnknownDnsRecordConvert;
+  }
+  v7 = (__int64)v6(a1);
+  v8 = v7;
+  if ( v7 )
+  {
+    *(_WORD *)(v7 + 2) = v2;
+    *(_DWORD *)(v7 + 12) = *(_DWORD *)(a1 + 24);
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    {
+      if ( (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xEu, (__int64)&WPP_1cf03a86840f3b056f397766d2887306_Traceguids);
+        v9 = WPP_GLOBAL_Control;
+      }
+      if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v9 + 28) & 4) != 0
+        && *((_BYTE *)v9 + 25) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)v9 + 2), 0xFu, (__int64)&WPP_1cf03a86840f3b056f397766d2887306_Traceguids);
+      }
+    }
+    return v8;
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    GetLastError();
+    WPP_SF_Dd(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xDu, (__int64)&WPP_1cf03a86840f3b056f397766d2887306_Traceguids, v2);
+  }
+  return v3;
+}
+// 1401666B6: variable 'v5' is possibly undefined
+// 140172650: using guessed type _QWORD RecordToRpcConvertTable[1];
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

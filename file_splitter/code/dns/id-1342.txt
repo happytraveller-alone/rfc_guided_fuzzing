@@ -1,0 +1,36 @@
+//----- (00000001400AAB80) ----------------------------------------------------
+__int64 Rpc_ClearStatistics()
+{
+  __int64 v0; // rdx
+  __int64 v1; // rcx
+  int CurrentTimeInSeconds; // eax
+  char *v3; // rcx
+  unsigned int v4; // ebx
+  int v5; // edi
+  struct _SYSTEMTIME SystemTime; // [rsp+20h] [rbp-28h] BYREF
+
+  GetSystemTime(&SystemTime);
+  CurrentTimeInSeconds = GetCurrentTimeInSeconds(v1, v0);
+  v3 = (char *)Src;
+  v4 = 0;
+  v5 = CurrentTimeInSeconds;
+  while ( v3 )
+  {
+    ++v4;
+    if ( v3[6] )
+      memset_0(v3 + 8, 0, *((unsigned __int16 *)v3 + 2));
+    v3 = (char *)*(&Src + 2 * v4);
+  }
+  dword_1401C7FCC = v5;
+  xmmword_1401C7FE8 = (__int128)SystemTime;
+  if ( (dword_1401B9104 & 0x800) != 0 )
+    TemplateEventDescriptor(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_CLEAR_STATISTICS);
+  return 0i64;
+}
+// 1400AABA4: variable 'v1' is possibly undefined
+// 1400AABA4: variable 'v0' is possibly undefined
+// 140183D98: using guessed type __int64 __fastcall GetCurrentTimeInSeconds(_QWORD, _QWORD);
+// 140186028: using guessed type EVENT_DESCRIPTOR DNS_EVENT_CLEAR_STATISTICS;
+// 1401B9104: using guessed type int dword_1401B9104;
+// 1401C7FCC: using guessed type int dword_1401C7FCC;
+// 1401C7FE8: using guessed type __int128 xmmword_1401C7FE8;

@@ -1,0 +1,52 @@
+//----- (00000001400DEFCC) ----------------------------------------------------
+__int64 __fastcall TrustAnchor::TrustAnchor(__int64 a1, __int64 a2, int a3)
+{
+  struct _Dbase_Record *v5; // rax
+  __int64 v6; // rax
+  __int64 v7; // rcx
+  __int64 v8; // rbx
+  __int16 v9; // r11
+  unsigned __int16 v10; // dx
+  __int128 v12; // [rsp+28h] [rbp-20h] BYREF
+  int v13; // [rsp+60h] [rbp+18h] BYREF
+
+  v13 = a3;
+  *(_QWORD *)a1 = 0i64;
+  *(_QWORD *)(a1 + 8) = 0i64;
+  v5 = TrustAnchor::CopyResourceRecord((struct _Dbase_Record *)a2);
+  v12 = 0i64;
+  std::tr1::shared_ptr<_Dbase_Record>::_Resetp<_Dbase_Record>(&v12, (__int64)v5);
+  v6 = *((_QWORD *)&v12 + 1);
+  *((_QWORD *)&v12 + 1) = *(_QWORD *)(a1 + 8);
+  v7 = *((_QWORD *)&v12 + 1);
+  *(_QWORD *)(a1 + 8) = v6;
+  *(_QWORD *)a1 = v12;
+  if ( v7 )
+  {
+    if ( _InterlockedExchangeAdd((volatile signed __int32 *)(v7 + 8), 0xFFFFFFFF) == 1 )
+    {
+      v8 = *((_QWORD *)&v12 + 1);
+      (***((void (__fastcall ****)(_QWORD))&v12 + 1))(*((_QWORD *)&v12 + 1));
+      if ( _InterlockedExchangeAdd((volatile signed __int32 *)(v8 + 12), 0xFFFFFFFF) == 1 )
+        (*(void (__fastcall **)(_QWORD))(**((_QWORD **)&v12 + 1) + 8i64))(*((_QWORD *)&v12 + 1));
+    }
+  }
+  *(_QWORD *)(a1 + 24) = 0i64;
+  *(_QWORD *)(a1 + 32) = 0i64;
+  *(_DWORD *)(a1 + 16) = 0;
+  TrustAnchor::SetState((TrustAnchor *)a1, (const enum TRUSTANCHOR_STATE *)&v13, 0);
+  if ( *(_WORD *)(a2 + 12) == 43 )
+  {
+    *(_WORD *)(a1 + 20) = ntohs(*(_WORD *)(a2 + 56));
+  }
+  else
+  {
+    v9 = RR_CalculateDnsKeyTagEx((unsigned __int8 *)(a2 + 56), *(_WORD *)(a2 + 14));
+    if ( v10 > 2u && *(char *)(a2 + 57) < 0 )
+      v9 -= 128;
+    *(_WORD *)(a1 + 20) = v9;
+  }
+  return a1;
+}
+// 1400DF0C2: variable 'v10' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

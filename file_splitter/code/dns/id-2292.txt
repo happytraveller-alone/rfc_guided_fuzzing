@@ -1,0 +1,7 @@
+//----- (000000014011D010) ----------------------------------------------------
+__int64 __fastcall DnsDeleteCriticalSection(struct _RTL_CRITICAL_SECTION *a1)
+{
+  DeleteCriticalSection(a1);
+  memset_0(a1, 0, sizeof(struct _RTL_CRITICAL_SECTION));
+  return 0i64;
+}

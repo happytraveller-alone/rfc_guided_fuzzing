@@ -1,0 +1,13 @@
+//----- (000000014011D0CC) ----------------------------------------------------
+__int64 __fastcall GenerateGuid(_QWORD *a1, int a2)
+{
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xBu, (__int64)&WPP_d9948e74a2d93630ee22323d1e8c197e_Traceguids, a2);
+  }
+  *a1 = 0i64;
+  a1[1] = 0i64;
+  return 13i64;
+}

@@ -1,0 +1,9 @@
+//----- (00000001400E9A00) ----------------------------------------------------
+__int64 __fastcall DnsSign::CDnsKeyPair::GetKeyName(__int64 a1, __int64 a2)
+{
+  *(_QWORD *)(a2 + 24) = 7i64;
+  *(_QWORD *)(a2 + 16) = 0i64;
+  *(_WORD *)a2 = 0;
+  std::wstring::assign((const void **)a2, (const void **)(a1 + 120), 0i64, 0xFFFFFFFFFFFFFFFFui64);
+  return a2;
+}

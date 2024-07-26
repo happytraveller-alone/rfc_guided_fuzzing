@@ -1,0 +1,8 @@
+//----- (0000000140143BA0) ----------------------------------------------------
+__int64 __fastcall CDNSPolicyCriteriaFqdn::End(CDNSPolicyCriteriaFqdn *this)
+{
+  if ( !*((_DWORD *)this + 3) || *((_QWORD *)this + 14) != *((_QWORD *)this + 8) )
+    return 0i64;
+  *((_DWORD *)this + 3) = 0;
+  return 1i64;
+}

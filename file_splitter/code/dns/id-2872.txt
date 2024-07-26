@@ -1,0 +1,25 @@
+//----- (000000014014F414) ----------------------------------------------------
+void __fastcall CDnsRRLManager::ReturnThreadLock(CDnsRRLManager *this, struct IDnsRRLStateInfo *a2)
+{
+  CDnsRRLManager *v2; // rbp
+  __int64 v4; // rax
+  struct CDnsRRLThreadLocks *v5; // rbx
+  _DWORD *v6; // rdi
+
+  v2 = g_DnsRRLManager;
+  EnterCriticalSection((LPCRITICAL_SECTION)((char *)g_DnsRRLManager + 48));
+  if ( (*(unsigned int (__fastcall **)(struct IDnsRRLStateInfo *))(*(_QWORD *)a2 + 80i64))(a2) == 1 )
+  {
+    v4 = (*(__int64 (__fastcall **)(struct IDnsRRLStateInfo *))(*(_QWORD *)a2 + 104i64))(a2);
+    v5 = g_DnsRRLThreadLock;
+    v6 = (_DWORD *)v4;
+    EnterCriticalSection((LPCRITICAL_SECTION)((char *)g_DnsRRLThreadLock + 16));
+    *v6 = 0;
+    LeaveCriticalSection((LPCRITICAL_SECTION)((char *)v5 + 16));
+    (*(void (__fastcall **)(struct IDnsRRLStateInfo *, _QWORD))(*(_QWORD *)a2 + 112i64))(a2, 0i64);
+  }
+  (*(void (__fastcall **)(struct IDnsRRLStateInfo *))(*(_QWORD *)a2 + 96i64))(a2);
+  LeaveCriticalSection((LPCRITICAL_SECTION)((char *)v2 + 48));
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9258: using guessed type struct CDnsRRLThreadLocks *g_DnsRRLThreadLock;

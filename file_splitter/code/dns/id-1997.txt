@@ -1,0 +1,123 @@
+//----- (00000001400F57E4) ----------------------------------------------------
+__int64 __fastcall DnsOls_FindKeymasterHostName(LDAP *ld, __int64 a2, LDAPMessage *a3, __int64 *a4)
+{
+  __int64 v4; // rdi
+  unsigned __int16 *v9; // rbp
+  _QWORD *v10; // r14
+  unsigned int v11; // ebx
+  const unsigned __int16 *dnW; // rax
+  CDnsClientSubnetRecordsTrie *v13; // rcx
+  unsigned __int16 v14; // dx
+  unsigned __int64 v15; // rax
+  _QWORD *ServerObjectFromDs; // rax
+  char *v17; // rcx
+  void *v18; // rax
+  unsigned int v20; // [rsp+68h] [rbp+10h] BYREF
+
+  v4 = 0i64;
+  v20 = 0;
+  *a4 = 0i64;
+  v9 = 0i64;
+  v10 = 0i64;
+  if ( !a2 )
+    goto LABEL_2;
+  dnW = ldap_get_dnW(ld, a3);
+  v9 = (unsigned __int16 *)dnW;
+  if ( !dnW )
+  {
+    v13 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_2;
+    }
+    v14 = 44;
+LABEL_8:
+    WPP_SF_qs(
+      *((_QWORD *)v13 + 7),
+      v14,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      a3,
+      *(_QWORD *)(a2 + 16));
+LABEL_2:
+    v11 = 13;
+    goto LABEL_34;
+  }
+  v13 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_S(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Du, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids, dnW);
+    v13 = WPP_GLOBAL_Control;
+  }
+  v15 = -1i64;
+  do
+    ++v15;
+  while ( v9[v15] );
+  if ( v15 <= 0x10 )
+  {
+    if ( v13 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)v13 + 17) & 0x200000) == 0
+      || *((_BYTE *)v13 + 65) < 2u )
+    {
+      goto LABEL_2;
+    }
+    v14 = 46;
+    goto LABEL_8;
+  }
+  if ( v13 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v13 + 17) & 0x200000) != 0
+    && *((_BYTE *)v13 + 65) >= 4u )
+  {
+    WPP_SF_S(*((_QWORD *)v13 + 7), 0x2Fu, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids, v9 + 16);
+  }
+  ServerObjectFromDs = Ds_ReadServerObjectFromDs(ld, v9 + 16, (int *)&v20);
+  v11 = v20;
+  v10 = ServerObjectFromDs;
+  if ( v20 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x30u,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        v20,
+        (__int64)(v9 + 16));
+    }
+  }
+  else if ( ServerObjectFromDs && (v17 = (char *)ServerObjectFromDs[1]) != 0i64 )
+  {
+    v18 = Dns_StringCopyAllocate(v17, 0, 1i64, 2);
+    *a4 = (__int64)v18;
+    if ( !v18 )
+      v11 = 14;
+  }
+  else
+  {
+    v11 = 13;
+  }
+LABEL_34:
+  Ds_FreeServerObject(v10);
+  if ( v9 )
+    ldap_memfreeW(v9);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v4 = *(_QWORD *)(a2 + 16);
+    WPP_SF_Dss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x31u,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      v11,
+      *a4,
+      v4);
+  }
+  return v11;
+}

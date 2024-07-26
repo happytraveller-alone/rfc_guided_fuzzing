@@ -1,0 +1,180 @@
+//----- (0000000140146C60) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy::DeletePolicy(const void **this, int a2, __int64 a3)
+{
+  char v5; // bl
+  unsigned int v6; // r14d
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  __int64 v8; // rax
+  const void **v9; // rax
+  _QWORD **v10; // rbx
+  int v11; // eax
+  _QWORD *v12; // rdi
+  const void ***v13; // rax
+  const void **v14; // rcx
+  const void **v15; // rbx
+  char *v16; // rdi
+  const void *v17; // rbp
+  _QWORD *v18; // rax
+  _QWORD *v19; // rbx
+  WCHAR *v20; // rdx
+  const unsigned __int16 *v21; // rcx
+  const unsigned __int16 *v22; // rdx
+  void **v23; // rax
+  void **v24; // rbx
+  void **v25; // rbp
+  void ***v26; // rbx
+  __int64 v28; // [rsp+28h] [rbp-70h] BYREF
+  __int64 v29[2]; // [rsp+30h] [rbp-68h] BYREF
+  void *v30[5]; // [rsp+40h] [rbp-58h] BYREF
+
+  v29[1] = -2i64;
+  v5 = 0;
+  v6 = 0;
+  v7 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v8 = CDnsPolicy::Name(this, (__int64)v30);
+    v5 = 1;
+    if ( *(_QWORD *)(v8 + 24) >= 8ui64 )
+      v8 = *(_QWORD *)v8;
+    WPP_SF_S(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Fu,
+      (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+      (const unsigned __int16 *)v8);
+    v7 = WPP_GLOBAL_Control;
+  }
+  if ( (v5 & 1) != 0 && v30[3] >= (void *)8 )
+  {
+    operator delete(v30[0]);
+    v7 = WPP_GLOBAL_Control;
+  }
+  v9 = (const void **)this[14];
+  v10 = (_QWORD **)*v9;
+  if ( *v9 != v9 )
+  {
+    while ( 1 )
+    {
+      if ( v7 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v7 + 17) & 0x400000) != 0
+        && *((_BYTE *)v7 + 65) >= 4u )
+      {
+        v11 = (*(__int64 (__fastcall **)(_QWORD *))(*v10[2] + 40i64))(v10[2]);
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x50u,
+          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+          v11);
+      }
+      v6 = (*(__int64 (__fastcall **)(_QWORD *))(*v10[2] + 8i64))(v10[2]);
+      v12 = v10[2];
+      if ( v12 )
+      {
+        if ( v12[6] >= 8ui64 )
+          operator delete((void *)v12[3]);
+        v12[6] = 7i64;
+        v12[5] = 0i64;
+        *((_WORD *)v12 + 12) = 0;
+        operator delete(v12);
+      }
+      v10 = (_QWORD **)*v10;
+      if ( v10 == this[14] )
+        break;
+      v7 = WPP_GLOBAL_Control;
+    }
+  }
+  v13 = (const void ***)this[14];
+  v14 = *v13;
+  *v13 = (const void **)v13;
+  *((_QWORD *)this[14] + 1) = this[14];
+  this[15] = 0i64;
+  if ( v14 != this[14] )
+  {
+    do
+    {
+      v15 = (const void **)*v14;
+      operator delete(v14);
+      v14 = v15;
+    }
+    while ( v15 != this[14] );
+  }
+  v16 = (char *)this[17];
+  if ( v16 )
+  {
+    v17 = this[18];
+    v18 = (_QWORD *)*((_QWORD *)v16 + 2);
+    v19 = (_QWORD *)*v18;
+    if ( (_QWORD *)*v18 != v18 )
+    {
+      do
+      {
+        if ( v17 )
+        {
+          v28 = 0i64;
+          if ( a2 )
+          {
+            v20 = (WCHAR *)(v19 + 2);
+            if ( v19[5] >= 8ui64 )
+              v20 = *(WCHAR **)v20;
+            GetZoneScope((__int64)v17, v20, &v28);
+            _InterlockedDecrement((volatile signed __int32 *)(v28 + 308));
+          }
+        }
+        else
+        {
+          v29[0] = 0i64;
+          v21 = (const unsigned __int16 *)(v19 + 2);
+          if ( v19[5] < 8ui64 )
+            v22 = (const unsigned __int16 *)(v19 + 2);
+          else
+            v22 = *(const unsigned __int16 **)v21;
+          if ( *v22 != Source[0] || v22[1] != Source[1] )
+          {
+            if ( v19[5] >= 8ui64 )
+              v21 = *(const unsigned __int16 **)v21;
+            GetServerScope(v21, v29, a3);
+            _InterlockedDecrement((volatile signed __int32 *)(v29[0] + 24));
+          }
+        }
+        v19 = (_QWORD *)*v19;
+      }
+      while ( v19 != *((_QWORD **)v16 + 2) );
+    }
+    v23 = (void **)*((_QWORD *)v16 + 2);
+    v24 = (void **)*v23;
+    *v23 = v23;
+    *(_QWORD *)(*((_QWORD *)v16 + 2) + 8i64) = *((_QWORD *)v16 + 2);
+    *((_QWORD *)v16 + 3) = 0i64;
+    if ( v24 != *((void ***)v16 + 2) )
+    {
+      do
+      {
+        v25 = (void **)*v24;
+        if ( (unsigned __int64)v24[5] >= 8 )
+          operator delete(v24[2]);
+        v24[5] = (void *)7;
+        v24[4] = 0i64;
+        *((_WORD *)v24 + 8) = 0;
+        operator delete(v24);
+        v24 = v25;
+      }
+      while ( v25 != *((void ***)v16 + 2) );
+    }
+    *(_QWORD *)(v16 + 4) = 0i64;
+    *(_DWORD *)v16 = 0;
+    v26 = (void ***)this[17];
+    if ( v26 )
+    {
+      std::list<std::pair<std::wstring,unsigned long>>::~list<std::pair<std::wstring,unsigned long>>(v26 + 2);
+      operator delete(v26);
+    }
+    this[17] = 0i64;
+  }
+  this[18] = 0i64;
+  return v6;
+}
+// 140146EA8: variable 'a3' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

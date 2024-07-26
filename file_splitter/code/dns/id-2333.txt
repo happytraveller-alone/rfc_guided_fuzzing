@@ -1,0 +1,118 @@
+//----- (000000014011F8A0) ----------------------------------------------------
+__int64 __fastcall TxtFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  unsigned int v4; // ebx
+  __int64 v5; // rsi
+  unsigned int v6; // r13d
+  _QWORD *v8; // r12
+  _DWORD *v10; // rcx
+  __int64 v11; // rdx
+  _QWORD *v12; // rax
+  int v14; // eax
+  bool v15; // zf
+  char *v16; // r15
+  char *i; // rdi
+  unsigned int v18; // r9d
+  unsigned int v19; // edi
+  _BYTE *v20; // rax
+  char v21; // [rsp+30h] [rbp-158h] BYREF
+
+  v4 = 0;
+  v5 = a2;
+  v6 = 0;
+  v8 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    WPP_SF_Dd(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0xAu,
+      (__int64)&WPP_c20138d5241a3be0cb763fdad3f8e9ba_Traceguids,
+      *(unsigned __int16 *)(a4 + 808));
+  }
+  if ( *(_WORD *)(a4 + 808) == 13 )
+  {
+    v14 = 0;
+    v15 = (_WORD)v5 == 2;
+  }
+  else
+  {
+    if ( *(_WORD *)(a4 + 808) != 19 )
+    {
+      if ( *(_WORD *)(a4 + 808) != 20 || (unsigned __int16)(v5 - 1) <= 1u )
+        goto LABEL_9;
+      return 3222394116i64;
+    }
+    v14 = 0;
+    v15 = (_WORD)v5 == 1;
+  }
+  LOBYTE(v14) = v15;
+  if ( !v14 )
+    return 3222394116i64;
+  if ( !(_DWORD)v5 )
+    goto LABEL_20;
+LABEL_9:
+  v10 = (_DWORD *)(a3 + 8);
+  v11 = v5;
+  do
+  {
+    v6 += *v10 + 1;
+    v10 += 4;
+    --v11;
+  }
+  while ( v11 );
+  if ( v6 > 0x100 )
+  {
+    v12 = Mem_Alloc(v6, 0i64, "ds\\dns\\server\\dnscore\\rrfile.c", 556);
+    v8 = v12;
+    if ( !v12 )
+      return 14i64;
+    v16 = (char *)v12;
+  }
+  else
+  {
+LABEL_20:
+    v16 = &v21;
+  }
+  *(_QWORD *)(a4 + 800) = 0i64;
+  for ( i = v16; (_DWORD)v5; LODWORD(v5) = v5 - 1 )
+  {
+    v18 = *(_DWORD *)(a3 + 8);
+    if ( v18 )
+    {
+      i = File_CopyFileTextData(i, v6, *(char **)a3, v18, 1);
+      if ( !i )
+        goto LABEL_29;
+    }
+    else
+    {
+      *i++ = 0;
+    }
+    a3 += 16i64;
+  }
+  v19 = (_DWORD)i - (_DWORD)v16;
+  if ( v19 > 0xFFFF )
+  {
+LABEL_29:
+    *(_DWORD *)(a4 + 1600) = 1616;
+    v4 = -1072573183;
+    *(_QWORD *)(a4 + 1608) = a3;
+  }
+  else
+  {
+    v20 = RR_AllocateEx(v19, 0, 0);
+    if ( v20 )
+    {
+      *(_QWORD *)(a4 + 800) = v20;
+      memcpy_0(v20 + 56, v16, v19);
+    }
+    else
+    {
+      v4 = 14;
+    }
+  }
+  if ( v8 )
+    Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\rrfile.c", 645);
+  return v4;
+}

@@ -1,0 +1,56 @@
+//----- (0000000140154818) ----------------------------------------------------
+void __fastcall Zone_WriteBackDirtyVirtualizationInstances(int a1)
+{
+  _QWORD *v2; // rax
+  _QWORD *v3; // rbx
+  __int64 *v4; // rax
+  __int64 i; // rax
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x22u, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids, a1);
+  }
+  if ( (unsigned int)Dns_VirtualInstanceTree_AcquireReadLock() )
+  {
+    v2 = *(_QWORD **)(*(_QWORD *)g_pVirtualizationManager + 8i64);
+    v3 = (_QWORD *)*v2;
+    if ( (_QWORD *)*v2 != v2 )
+    {
+      do
+      {
+        Zone_WriteBackDirtyZones((const unsigned __int16 **)v3[4], a1);
+        if ( !*((_BYTE *)v3 + 41) )
+        {
+          v4 = (__int64 *)v3[2];
+          if ( *((_BYTE *)v4 + 41) )
+          {
+            for ( i = v3[1]; !*(_BYTE *)(i + 41) && v3 == *(_QWORD **)(i + 16); i = *(_QWORD *)(i + 8) )
+              v3 = (_QWORD *)i;
+            v3 = (_QWORD *)i;
+          }
+          else
+          {
+            do
+            {
+              v3 = v4;
+              v4 = (__int64 *)*v4;
+            }
+            while ( !*((_BYTE *)v4 + 41) );
+          }
+        }
+      }
+      while ( v3 != *(_QWORD **)(*(_QWORD *)g_pVirtualizationManager + 8i64) );
+    }
+    Dns_VirtualInstanceTree_ReleaseReadLock();
+    Zone_WriteBackDirtyZones(0i64, a1);
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x23u, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+  }
+}
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

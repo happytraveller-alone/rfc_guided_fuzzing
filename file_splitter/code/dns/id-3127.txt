@@ -1,0 +1,17 @@
+//----- (0000000140165F10) ----------------------------------------------------
+_WORD *__fastcall UnknownDnsRecordConvert(__int64 a1)
+{
+  size_t v1; // rsi
+  _WORD *result; // rax
+  _WORD *v4; // rbx
+
+  v1 = *(unsigned int *)(a1 + 32);
+  result = Rpc_AllocateRecord(*(_DWORD *)(a1 + 32));
+  v4 = result;
+  if ( result )
+  {
+    memcpy_0(result + 12, (const void *)(a1 + 36), v1);
+    return v4;
+  }
+  return result;
+}

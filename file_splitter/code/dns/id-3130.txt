@@ -1,0 +1,23 @@
+//----- (0000000140166270) ----------------------------------------------------
+_WORD *__fastcall NbstatDnsRecordConvert(__int64 a1)
+{
+  __int64 v2; // rsi
+  _WORD *result; // rax
+  _WORD *v4; // rbx
+  unsigned int BufferLengthForStringCopy; // [rsp+40h] [rbp+8h] BYREF
+
+  v2 = 2 - (unsigned int)((*(_DWORD *)(a1 + 20) & 0x18) == 8);
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy(*(WCHAR **)(a1 + 48), 0, v2, 2);
+  result = Rpc_AllocateRecord(BufferLengthForStringCopy + 14);
+  v4 = result;
+  if ( result )
+  {
+    *((_DWORD *)result + 6) = *(_DWORD *)(a1 + 32);
+    *((_DWORD *)result + 7) = *(_DWORD *)(a1 + 36);
+    *((_DWORD *)result + 8) = *(_DWORD *)(a1 + 40);
+    *((_BYTE *)result + 36) = BufferLengthForStringCopy;
+    Dns_StringCopy((_WORD *)((char *)result + 37), &BufferLengthForStringCopy, *(WCHAR **)(a1 + 48), 0, v2, 2);
+    return v4;
+  }
+  return result;
+}

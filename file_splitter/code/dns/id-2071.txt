@@ -1,0 +1,83 @@
+//----- (00000001401031EC) ----------------------------------------------------
+struct _dnsskd *__fastcall Rpc_CreateNewSKD(struct _zone_info *a1, struct _DnssrvRpcZoneSKDSettings *a2)
+{
+  int RR; // esi
+  __int64 v3; // rbx
+  _DWORD *Skd; // rax
+  char *v7; // rcx
+  void *v8; // rax
+  char *v9; // rcx
+  void *v10; // rax
+  char *v11; // rcx
+  void *v12; // rax
+  char *v13; // rcx
+  void *v14; // rax
+  __int64 v15; // rdx
+  unsigned int v16; // r8d
+  __int64 v17; // rdx
+  unsigned int v18; // r8d
+
+  RR = 0;
+  v3 = 0i64;
+  if ( **((_DWORD **)a2 + 1) == 1 )
+  {
+    Skd = Dns_AllocateSkd();
+    v3 = (__int64)Skd;
+    if ( Skd )
+    {
+      *(_OWORD *)(Skd + 2) = *(_OWORD *)(*((_QWORD *)a2 + 1) + 8i64);
+      v7 = *(char **)(*((_QWORD *)a2 + 1) + 24i64);
+      if ( !v7 || (v8 = Dns_StringCopyAllocate(v7, 0, 1i64, 1), (*(_QWORD *)(v3 + 24) = v8) != 0i64) )
+      {
+        *(_DWORD *)(v3 + 32) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 32i64);
+        *(_DWORD *)(v3 + 36) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 36i64);
+        *(_BYTE *)(v3 + 40) = *(_BYTE *)(*((_QWORD *)a2 + 1) + 40i64);
+        *(_DWORD *)(v3 + 44) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 44i64);
+        *(_DWORD *)(v3 + 48) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 48i64);
+        *(_DWORD *)(v3 + 52) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 52i64);
+        *(_DWORD *)(v3 + 56) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 56i64);
+        *(_DWORD *)(v3 + 60) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 60i64);
+        *(_DWORD *)(v3 + 64) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 64i64);
+        *(_DWORD *)(v3 + 68) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 68i64);
+        *(_DWORD *)(v3 + 72) = *(_DWORD *)(*((_QWORD *)a2 + 1) + 72i64);
+        *(_QWORD *)(v3 + 76) = *(_QWORD *)(*((_QWORD *)a2 + 2) + 24i64);
+        *(_QWORD *)(v3 + 84) = *(_QWORD *)(*((_QWORD *)a2 + 2) + 32i64);
+        *(_DWORD *)(v3 + 92) = *(_DWORD *)(*((_QWORD *)a2 + 2) + 40i64);
+        *(_DWORD *)(v3 + 96) = *(_DWORD *)(*((_QWORD *)a2 + 2) + 44i64);
+        *(_DWORD *)(v3 + 100) = *(_DWORD *)(*((_QWORD *)a2 + 3) + 24i64);
+        *(_DWORD *)(v3 + 104) = *(_DWORD *)(*((_QWORD *)a2 + 3) + 28i64);
+        *(_DWORD *)(v3 + 108) = *(_DWORD *)(*((_QWORD *)a2 + 3) + 32i64);
+        *(_QWORD *)(v3 + 116) = *(_QWORD *)(*((_QWORD *)a2 + 3) + 36i64);
+        v9 = *(char **)(*((_QWORD *)a2 + 2) + 48i64);
+        if ( !v9 || (v10 = Dns_StringCopyAllocate(v9, 0, 1i64, 1), (*(_QWORD *)(v3 + 144) = v10) != 0i64) )
+        {
+          v11 = *(char **)(*((_QWORD *)a2 + 2) + 56i64);
+          if ( !v11 || (v12 = Dns_StringCopyAllocate(v11, 0, 1i64, 1), (*(_QWORD *)(v3 + 168) = v12) != 0i64) )
+          {
+            v13 = *(char **)(*((_QWORD *)a2 + 2) + 64i64);
+            if ( !v13 || (v14 = Dns_StringCopyAllocate(v13, 0, 1i64, 1), (*(_QWORD *)(v3 + 192) = v14) != 0i64) )
+            {
+              *(_DWORD *)(v3 + 160) = *(_DWORD *)(*((_QWORD *)a2 + 3) + 72i64);
+              *(_DWORD *)(v3 + 184) = *(_DWORD *)(*((_QWORD *)a2 + 3) + 76i64);
+              *(_DWORD *)(v3 + 208) = *(_DWORD *)(*((_QWORD *)a2 + 3) + 80i64);
+              v15 = *((_QWORD *)a2 + 3);
+              v16 = *(_DWORD *)(v15 + 44);
+              if ( !v16
+                || (RR = Rpc_CreateRR(a1, *(unsigned __int8 **)(v15 + 48), v16, (struct _Dbase_Record **)(v3 + 128))) == 0 )
+              {
+                v17 = *((_QWORD *)a2 + 3);
+                v18 = *(_DWORD *)(v17 + 56);
+                if ( v18 )
+                  RR = Rpc_CreateRR(a1, *(unsigned __int8 **)(v17 + 64), v18, (struct _Dbase_Record **)(v3 + 136));
+                if ( !RR )
+                  return (struct _dnsskd *)v3;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  Dns_FreeSkd(v3);
+  return 0i64;
+}

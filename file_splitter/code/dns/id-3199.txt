@@ -1,0 +1,6 @@
+//----- (00000001401691C8) ----------------------------------------------------
+void *__fastcall operator new(size_t a1, const struct std::nothrow_t *a2)
+{
+  return operator new(a1);
+}
+// 1401691C8: could not find valid save-restore pair for rbp

@@ -1,0 +1,65 @@
+//----- (000000014011DD50) ----------------------------------------------------
+STRSAFE_LPSTR __fastcall WinsFileWrite(__int64 a1, __int64 a2, unsigned __int64 a3)
+{
+  int v3; // r9d
+  char *v5; // rbx
+  __int64 v7; // rbp
+  size_t v8; // rdi
+  char *v9; // rcx
+  char *v10; // rax
+  int v12; // [rsp+20h] [rbp-98h]
+  __int64 v13; // [rsp+20h] [rbp-98h]
+  __int64 v14; // [rsp+28h] [rbp-90h]
+  __int64 v15; // [rsp+30h] [rbp-88h]
+  __int64 v16; // [rsp+38h] [rbp-80h]
+  char v17[80]; // [rsp+40h] [rbp-78h] BYREF
+
+  v3 = *(_DWORD *)(a1 + 56);
+  v5 = (char *)a2;
+  if ( v3 )
+  {
+    Dns_WriteStringsForFlag(v17, a2, a3, v3);
+    v5 = sprintfSafeA(v5, a3 - (_QWORD)v5, "%s ", v17);
+    if ( !v5 )
+      return v5;
+  }
+  v12 = *(_DWORD *)(a1 + 64);
+  v5 = sprintfSafeA(v5, a3 - (_QWORD)v5, "L%d C%d (", *(unsigned int *)(a1 + 60), v12);
+  if ( !v5 )
+    return v5;
+  if ( *(_WORD *)(a1 + 12) != 0xFF01 )
+  {
+    v10 = File_WriteRawNameToFileBuffer(v5, a3, (char *)(a1 + 70));
+    v5 = v10;
+    if ( !v10 )
+      return v5;
+    v8 = a3 - (_QWORD)v10;
+    v9 = v10;
+    return sprintfSafeA(v9, v8, " )\r\n");
+  }
+  v7 = 0i64;
+  if ( !*(_DWORD *)(a1 + 68) )
+  {
+LABEL_8:
+    v8 = a3 - (_QWORD)v5;
+    v9 = v5;
+    return sprintfSafeA(v9, v8, " )\r\n");
+  }
+  while ( 1 )
+  {
+    LODWORD(v16) = *(unsigned __int8 *)(a1 + 4 * v7 + 75);
+    LODWORD(v15) = *(unsigned __int8 *)(a1 + 4 * v7 + 74);
+    LODWORD(v14) = *(unsigned __int8 *)(a1 + 4 * v7 + 73);
+    LODWORD(v13) = *(unsigned __int8 *)(a1 + 4 * v7 + 72);
+    v5 = sprintfSafeA(v5, a3 - (_QWORD)v5, "\r\n%s\t\t%d.%d.%d.%d", "                        ", v13, v14, v15, v16);
+    if ( !v5 )
+      return v5;
+    v7 = (unsigned int)(v7 + 1);
+    if ( (unsigned int)v7 >= *(_DWORD *)(a1 + 68) )
+      goto LABEL_8;
+  }
+}
+// 14011DE32: variable 'v13' is possibly undefined
+// 14011DE32: variable 'v14' is possibly undefined
+// 14011DE32: variable 'v15' is possibly undefined
+// 14011DE32: variable 'v16' is possibly undefined

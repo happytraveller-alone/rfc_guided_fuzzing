@@ -1,0 +1,16 @@
+//----- (000000014011D128) ----------------------------------------------------
+__int64 __fastcall GuidFromString(__int64 a1, int a2)
+{
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0xCu,
+      (__int64)&WPP_d9948e74a2d93630ee22323d1e8c197e_Traceguids,
+      a2,
+      a1);
+  }
+  return 87i64;
+}

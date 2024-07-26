@@ -1,0 +1,72 @@
+//----- (0000000140126BF0) ----------------------------------------------------
+struct _Dbase_Record *__fastcall DnsSign::GenerateDsFromDnskey(
+        DnsSign *this,
+        struct _Dbase_Record *a2,
+        unsigned __int8 *a3,
+        const struct _CountName *a4)
+{
+  u_long v4; // esi
+  char v6; // r14
+  unsigned __int16 HashSizeByDigestType; // bp
+  struct _Dbase_Record *result; // rax
+  struct _Dbase_Record *v10; // rbx
+  unsigned __int16 v11; // dx
+  u_short v12; // dx
+  const unsigned __int16 *v13; // rdx
+  DnsSign::CCNGAlgorithmManager *v14; // rcx
+  BCRYPT_ALG_HANDLE HashAlgorithmProviderByDigestType; // rax
+  NTSTATUS v16; // eax
+  unsigned __int8 *v17; // rdx
+  NTSTATUS v18; // eax
+  unsigned __int8 *v19; // rdx
+  NTSTATUS v20; // eax
+  unsigned __int8 *v21; // rdx
+  BCRYPT_HASH_HANDLE hHash[15]; // [rsp+30h] [rbp-78h] BYREF
+
+  hHash[5] = (BCRYPT_HASH_HANDLE)-2i64;
+  v4 = (unsigned int)a4;
+  v6 = (char)a2;
+  HashSizeByDigestType = DnsSign::CCNGAlgorithmManager::GetHashSizeByDigestType(this, (__int64)a2);
+  result = (struct _Dbase_Record *)RR_AllocateEx(HashSizeByDigestType + 4, 0, 0);
+  v10 = result;
+  if ( result )
+  {
+    hHash[6] = result;
+    *((_WORD *)result + 6) = 43;
+    *((_DWORD *)result + 5) = htonl(v4);
+    if ( *((_WORD *)this + 6) == 48 && (v11 = *((_WORD *)this + 7), v11 > 4u) )
+      v12 = RR_CalculateDnsKeyTagEx((unsigned __int8 *)this + 56, v11);
+    else
+      v12 = 0;
+    *((_WORD *)v10 + 28) = htons(v12);
+    *((_BYTE *)v10 + 58) = *((_BYTE *)this + 59);
+    *((_BYTE *)v10 + 59) = v6;
+    memset(hHash, 0, 32);
+    LOBYTE(v13) = v6;
+    HashAlgorithmProviderByDigestType = DnsSign::CCNGAlgorithmManager::GetHashAlgorithmProviderByDigestType(v14, v13);
+    DnsSign::CHashObject::Start(hHash, HashAlgorithmProviderByDigestType);
+    v16 = BCryptHashData(hHash[0], a3 + 2, *a3, 0);
+    if ( v16 < 0 )
+      DnsSign::CHashObject::HashData((DnsSign::CHashObject *)(unsigned int)v16, v17);
+    v18 = BCryptHashData(hHash[0], (PUCHAR)this + 56, *((unsigned __int16 *)this + 7), 0);
+    if ( v18 < 0 )
+      DnsSign::CHashObject::HashData((DnsSign::CHashObject *)(unsigned int)v18, v19);
+    v20 = BCryptFinishHash(hHash[0], (PUCHAR)v10 + 60, HashSizeByDigestType, 0);
+    if ( v20 < 0 )
+      DnsSign::CHashObject::End((DnsSign::CHashObject *)(unsigned int)v20, v21);
+    if ( hHash[0] )
+      BCryptDestroyHash(hHash[0]);
+    if ( hHash[1] )
+      operator delete(hHash[1]);
+    memset(&hHash[1], 0, 24);
+    Mem_Free(0i64, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\zone.cpp", 239);
+    return v10;
+  }
+  return result;
+}
+// 140126C99: variable 'v14' is possibly undefined
+// 140126C99: variable 'v13' is possibly undefined
+// 140126CC7: variable 'v17' is possibly undefined
+// 140126CE9: variable 'v19' is possibly undefined
+// 140126D0A: variable 'v21' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

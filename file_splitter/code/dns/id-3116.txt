@@ -1,0 +1,108 @@
+//----- (0000000140165438) ----------------------------------------------------
+__int64 __fastcall DnssrvUpdateRecordEx(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        unsigned __int16 *a4,
+        const char *a5,
+        const char *a6,
+        __int64 a7,
+        __int64 a8)
+{
+  RPC_BINDING_HANDLE RPCBindingHandle; // r14
+  char v10; // si
+  int v11; // edi
+  __int64 v12; // rdx
+  int Pointer; // eax
+  unsigned int v14; // ebx
+  CDnsClientSubnetRecordsTrie *v15; // rcx
+  unsigned __int16 v16; // dx
+  __int64 v18; // [rsp+20h] [rbp-A8h]
+  __int64 v19; // [rsp+28h] [rbp-A0h]
+  int v20; // [rsp+38h] [rbp-90h]
+
+  RPCBindingHandle = 0i64;
+  v10 = 0;
+  v11 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_DSssqq(*((_QWORD *)WPP_GLOBAL_Control + 2), a2, a3, (__int64)a4, a4, a5, a6, v20);
+  }
+  do
+  {
+    if ( v11 == 1 )
+      v10 |= 1u;
+    Dnssrv_FreeRPCBindingHandle(RPCBindingHandle);
+    RPCBindingHandle = Dnssrv_CreateRPCBindingHandle(a4, v12, v10);
+    if ( v11 )
+    {
+      Pointer = (unsigned int)NdrClientCall3(
+                                (MIDL_STUBLESS_PROXY_INFO *)&pProxyInfo,
+                                4u,
+                                0i64,
+                                RPCBindingHandle,
+                                a4,
+                                a5,
+                                a6,
+                                0i64,
+                                a8).Pointer;
+      v14 = Pointer;
+      v15 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        v16 = 64;
+        goto LABEL_16;
+      }
+    }
+    else
+    {
+      LODWORD(v19) = 0;
+      LODWORD(v18) = 458752;
+      Pointer = (unsigned int)NdrClientCall3(
+                                (MIDL_STUBLESS_PROXY_INFO *)&pProxyInfo,
+                                9u,
+                                0i64,
+                                RPCBindingHandle,
+                                v18,
+                                v19,
+                                a4,
+                                a5,
+                                a6,
+                                0i64,
+                                a8).Pointer;
+      v14 = Pointer;
+      v15 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        v16 = 63;
+LABEL_16:
+        WPP_SF_D(*((_QWORD *)v15 + 2), v16, (__int64)&WPP_c3aa91ee5f413f0864512d3322b2b0c5_Traceguids, Pointer);
+        v15 = WPP_GLOBAL_Control;
+      }
+    }
+    if ( v14 == 1825 || v14 == 1722 || v14 == 1753 || !v11 && (!v14 || v14 - 1700 > 0x53) )
+      v11 = 2;
+    else
+      ++v11;
+    if ( v15 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v15 + 28) & 4) != 0
+      && *((_BYTE *)v15 + 25) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)v15 + 2), 0x41u, (__int64)&WPP_c3aa91ee5f413f0864512d3322b2b0c5_Traceguids, v14);
+    }
+  }
+  while ( v11 < 2 );
+  printExtendedRpcErrorInfo(v14);
+  Dnssrv_FreeRPCBindingHandle(RPCBindingHandle);
+  return v14;
+}
+// 1401654D2: variable 'v20' is possibly undefined
+// 1401654F9: variable 'v12' is possibly undefined
+// 14016555A: variable 'v18' is possibly undefined
+// 14016555A: variable 'v19' is possibly undefined

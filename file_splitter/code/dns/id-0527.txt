@@ -1,0 +1,44 @@
+//----- (0000000140048B3C) ----------------------------------------------------
+void __fastcall logDsError(LDAP *a1, int a2, int a3)
+{
+  int *ExtendedLdapErrString; // rax
+  __int64 v6; // rdx
+  __int128 v7; // [rsp+40h] [rbp-18h] BYREF
+  unsigned __int16 *v8; // [rsp+60h] [rbp+8h] BYREF
+  int v9; // [rsp+68h] [rbp+10h] BYREF
+
+  if ( a1 )
+  {
+    v9 = a2;
+    if ( !g_fReceivedDemotionSignal )
+    {
+      v9 = 0;
+      ldap_get_optionW(a1, 52, &v9);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_dddD(*((_QWORD *)WPP_GLOBAL_Control + 7));
+      }
+      ExtendedLdapErrString = Ds_GetExtendedLdapErrString(a1);
+      v8 = (unsigned __int16 *)ExtendedLdapErrString;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_S(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x1E1u,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          (const unsigned __int16 *)ExtendedLdapErrString);
+      }
+      v7 = DNS_EVENT_DS_INTERFACE_ERROR;
+      Eventlog_LogEvent((__int64)&v7, v6, 1u, &v8, 0i64, a3, 0, 0i64);
+      Ds_FreeExtendedLdapErrString((int *)v8);
+    }
+  }
+}
+// 140048C2C: variable 'v6' is possibly undefined
+// 140186058: using guessed type __int128 DNS_EVENT_DS_INTERFACE_ERROR;
+// 1401B9070: using guessed type int g_fReceivedDemotionSignal;
+// 140048B3C: using guessed type __int128 var_18;

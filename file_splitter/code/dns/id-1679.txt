@@ -1,0 +1,90 @@
+//----- (00000001400D6AA0) ----------------------------------------------------
+__int64 __fastcall Rpc_QueryZoneStringProperty(int a1, __int64 a2, __int64 a3, const char *a4, _DWORD *a5, _QWORD *a6)
+{
+  _QWORD *v8; // rdi
+  __int64 v9; // r9
+  const wchar_t **v10; // rax
+  const wchar_t *v11; // r8
+  __int64 v12; // rax
+  char *v13; // rcx
+  __int64 v14; // r8
+  unsigned __int8 *v15; // rsi
+  unsigned int v16; // ebx
+  unsigned int v17; // r14d
+  wchar_t *v18; // rax
+
+  v8 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a3 )
+      v9 = *(_QWORD *)(a3 + 16);
+    else
+      v9 = 0i64;
+    v10 = *(const wchar_t ***)(a3 + 200);
+    if ( v10 )
+      v11 = *v10;
+    else
+      v11 = L".";
+    WPP_SF_DsSs(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x74u, (__int64)v11, a1, (__int64)a4, (__int64)v11, v9);
+  }
+  if ( !a3 || (v12 = *(_QWORD *)(a3 + 328)) == 0 )
+    v12 = a3;
+  if ( !*(_QWORD *)(v12 + 200) )
+  {
+    if ( !_stricmp(a4, "BreakOnNameUpdate") )
+    {
+      v13 = *(char **)(a3 + 1640);
+      goto LABEL_29;
+    }
+    if ( *(_DWORD *)(a3 + 372) == 1 && !_stricmp(a4, "NSEC3UserSalt") )
+    {
+      v8 = *(_QWORD **)(a3 + 1048);
+      if ( v8 )
+      {
+        v13 = *(char **)(a3 + 1048);
+        v14 = 1i64;
+LABEL_31:
+        v8 = Dns_StringCopyAllocate(v13, 0, v14, 1);
+      }
+LABEL_32:
+      *a6 = v8;
+      *a5 = 3;
+      return 0i64;
+    }
+    if ( !_stricmp(a4, "NSEC3CurrentSalt") )
+    {
+      v15 = *(unsigned __int8 **)(a3 + 1088);
+      v16 = *(_DWORD *)(a3 + 1096);
+      if ( v15 )
+      {
+        v17 = 2 * v16 + 1;
+        v18 = (wchar_t *)Mem_Alloc(2 * v17, 0i64, "ds\\dns\\server\\server\\zonerpc.c", 7186);
+        v8 = v18;
+        if ( v18 )
+        {
+          if ( (unsigned int)Reg_BinaryBlobToString(v15, v18, v16, v17) )
+          {
+            Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zonerpc.c", 7196);
+            v8 = 0i64;
+          }
+        }
+      }
+      goto LABEL_32;
+    }
+    if ( *(_DWORD *)(a3 + 372) == 1 && !_stricmp(a4, "Keymaster") )
+    {
+      DnsOls_DiscoverZoneKMFqdnImpersonate(a3);
+      v13 = *(char **)(a3 + 1080);
+LABEL_29:
+      if ( v13 )
+      {
+        v14 = 2i64;
+        goto LABEL_31;
+      }
+      goto LABEL_32;
+    }
+  }
+  return 9553i64;
+}

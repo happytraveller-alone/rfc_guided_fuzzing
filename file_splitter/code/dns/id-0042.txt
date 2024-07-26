@@ -1,0 +1,36 @@
+//----- (0000000140002BF0) ----------------------------------------------------
+__int64 Scavenge_TimeReset()
+{
+  int v0; // eax
+
+  if ( g_ScavengeLock )
+  {
+    if ( dword_1401B9904 )
+      v0 = g_LastScavengeTime + 3600 * dword_1401B9904;
+    else
+      v0 = -1;
+    g_NextScavengeTime = v0;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_dddd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x30u,
+        (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids,
+        g_LastScavengeTime);
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Fu, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids);
+  }
+  return 0i64;
+}
+// 1401B7EA0: using guessed type int g_ScavengeLock;
+// 1401B8C14: using guessed type int g_NextScavengeTime;
+// 1401B8C18: using guessed type int g_LastScavengeTime;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9904: using guessed type int dword_1401B9904;

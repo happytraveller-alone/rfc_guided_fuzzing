@@ -1,0 +1,89 @@
+//----- (0000000140010A48) ----------------------------------------------------
+__int64 __fastcall loadZoneScopes(__int64 a1)
+{
+  __int64 result; // rax
+  __int64 i; // rbx
+  __int64 v4; // rdx
+  int Zone; // esi
+  unsigned __int16 **v6; // rax
+  unsigned __int16 *v7; // rcx
+  const unsigned __int16 *v8; // rsi
+  const unsigned __int16 **v9; // rax
+  const unsigned __int16 *v10; // rcx
+  unsigned int v11[4]; // [rsp+40h] [rbp-48h] BYREF
+  __int128 v12; // [rsp+50h] [rbp-38h] BYREF
+  unsigned __int16 *v13[3]; // [rsp+60h] [rbp-28h] BYREF
+
+  v11[0] = -1;
+  result = acquireRead(*(_QWORD *)(a1 + 168), 0x2710u, v11);
+  if ( (_DWORD)result == -1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      return WPP_SF_D(
+               *((_QWORD *)WPP_GLOBAL_Control + 7),
+               0x22u,
+               (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+               9607);
+    }
+  }
+  else
+  {
+    for ( i = Get_NextElement_ScopeMap(*(_QWORD *)(a1 + 160), 0i64, 0i64);
+          i;
+          i = Get_NextElement_ScopeMap(*(_QWORD *)(a1 + 160), (__int64)v8, 0i64) )
+    {
+      Zone = loadZone(i, 0);
+      if ( Zone )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x23u,
+            (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+            *(const unsigned __int16 **)(i + 192));
+        }
+        v13[0] = *(unsigned __int16 **)(i + 192);
+        v13[1] = *(unsigned __int16 **)(a1 + 24);
+        v6 = *(unsigned __int16 ***)(a1 + 200);
+        if ( v6 )
+          v7 = *v6;
+        else
+          v7 = L".";
+        v13[2] = v7;
+        v12 = DNS_EVENT_LOAD_ZONESCOPE_FAILED_SERVICE_START;
+        Eventlog_LogEvent((__int64)&v12, v4, 3u, v13, 0i64, Zone, 0, 0i64);
+      }
+      if ( !i || (v8 = *(const unsigned __int16 **)(i + 192)) == 0i64 )
+        v8 = L"Default";
+      if ( (dword_1401B9144 & 0x800) != 0 )
+      {
+        v9 = *(const unsigned __int16 ***)(a1 + 200);
+        if ( v9 )
+          v10 = *v9;
+        else
+          v10 = L".";
+        Template_zzzsz(
+          (__int64)v10,
+          v4,
+          v8,
+          *(const unsigned __int16 **)(a1 + 24),
+          *(const unsigned __int16 **)(i + 144),
+          Str,
+          v10);
+      }
+    }
+    v11[0] = -1;
+    return releaseRead(*(_QWORD *)(a1 + 168), v11, 1);
+  }
+  return result;
+}
+// 140010BAB: variable 'v4' is possibly undefined
+// 1401877D8: using guessed type __int128 DNS_EVENT_LOAD_ZONESCOPE_FAILED_SERVICE_START;
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 1401B9144: using guessed type int dword_1401B9144;

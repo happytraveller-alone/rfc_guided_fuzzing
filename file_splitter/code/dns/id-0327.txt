@@ -1,0 +1,55 @@
+//----- (000000014002C55C) ----------------------------------------------------
+__int64 __fastcall Dnssec_ValidateDNSKEYRevocation(__int64 *a1, __int64 a2)
+{
+  unsigned int v4; // esi
+  unsigned __int16 v5; // bx
+  __int64 v6; // r11
+  unsigned __int16 v7; // dx
+  char *v8; // rax
+  unsigned __int16 v9; // dx
+  __int64 v10; // r11
+  unsigned __int16 v11; // dx
+  int v13; // [rsp+60h] [rbp-138h] BYREF
+  int v14[3]; // [rsp+64h] [rbp-134h] BYREF
+  unsigned __int8 v15[272]; // [rsp+70h] [rbp-128h] BYREF
+
+  Name_NodeToCountName(v15, a1, 1);
+  v4 = Dns_ValidateRRset(v15, a2, v15, 0x30u, a1[8], a1[8], 1u, v14, &v13, 0i64, 0i64, 0i64);
+  if ( v4 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 3u )
+    {
+      v5 = RR_CalculateDnsKeyTagEx((unsigned __int8 *)(a2 + 56), *(_WORD *)(a2 + 14));
+      if ( v7 > 2u && *(char *)(v6 + 1) < 0 )
+        v5 -= 128;
+      v8 = Dbg_NodeName((__int64)a1);
+      v9 = 187;
+LABEL_16:
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        v9,
+        (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids,
+        v5,
+        (__int64)v8);
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v5 = RR_CalculateDnsKeyTagEx((unsigned __int8 *)(a2 + 56), *(_WORD *)(a2 + 14));
+    if ( v11 > 2u && *(char *)(v10 + 1) < 0 )
+      v5 -= 128;
+    v8 = Dbg_NodeName((__int64)a1);
+    v9 = 188;
+    goto LABEL_16;
+  }
+  return v4;
+}
+// 14002C634: variable 'v7' is possibly undefined
+// 14002C636: variable 'v6' is possibly undefined
+// 14002C68D: variable 'v11' is possibly undefined
+// 14002C68F: variable 'v10' is possibly undefined
+// 14002C55C: using guessed type int var_134[3];

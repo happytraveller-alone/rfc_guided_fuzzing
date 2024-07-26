@@ -1,0 +1,5 @@
+//----- (000000014014E490) ----------------------------------------------------
+struct IDnsRRLStateKey *__fastcall CDnsRRLStateInfo::GetStateKey(CDnsRRLStateInfo *this)
+{
+  return (struct IDnsRRLStateKey *)*((_QWORD *)this + 9);
+}

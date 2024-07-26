@@ -1,0 +1,50 @@
+//----- (00000001401154A4) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::SetGroup(CSecurityDescriptor *this, void *a2, BOOL a3)
+{
+  signed int v6; // ecx
+  __int64 result; // rax
+  void *v8; // rcx
+  DWORD LengthSid; // esi
+  void *v10; // rax
+  signed int LastError; // ebx
+
+  if ( SetSecurityDescriptorGroup(*(PSECURITY_DESCRIPTOR *)this, 0i64, a3) )
+  {
+    v8 = (void *)*((_QWORD *)this + 2);
+    if ( v8 )
+    {
+      operator delete(v8);
+      *((_QWORD *)this + 2) = 0i64;
+    }
+    if ( !a2 )
+      return 0i64;
+    LengthSid = GetLengthSid(a2);
+    v10 = Dns_MemNew<unsigned char>(LengthSid);
+    *((_QWORD *)this + 2) = v10;
+    if ( !v10 )
+      return 2147942414i64;
+    if ( CopySid(LengthSid, v10, a2)
+      && SetSecurityDescriptorGroup(*(PSECURITY_DESCRIPTOR *)this, *((PSID *)this + 2), a3) )
+    {
+      return 0i64;
+    }
+    else
+    {
+      LastError = GetLastError();
+      operator delete(*((void **)this + 2));
+      *((_QWORD *)this + 2) = 0i64;
+      result = (unsigned __int16)LastError | 0x80070000;
+      if ( LastError <= 0 )
+        return (unsigned int)LastError;
+    }
+  }
+  else
+  {
+    v6 = GetLastError();
+    result = (unsigned __int16)v6 | 0x80070000;
+    if ( v6 <= 0 )
+      return (unsigned int)v6;
+  }
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

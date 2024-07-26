@@ -1,0 +1,37 @@
+//----- (000000014007E5B0) ----------------------------------------------------
+void *__stdcall MIDL_user_allocate(size_t size)
+{
+  int v1; // ebx
+  void *v3; // rdi
+
+  v1 = size;
+  if ( size <= 0xFFFFFFFF )
+  {
+    v3 = Mem_Alloc(size, 20i64, "ds\\dns\\server\\server\\rpc.c", 626);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_Dq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x25u,
+        (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids,
+        v1);
+    }
+    return v3;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x24u,
+        (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids,
+        size);
+    }
+    return 0i64;
+  }
+}

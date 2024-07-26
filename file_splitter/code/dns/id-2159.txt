@@ -1,0 +1,145 @@
+//----- (00000001401117A0) ----------------------------------------------------
+void __fastcall Zone_Free(__int64 a1, __int64 a2, __int64 a3)
+{
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  int v5; // r8d
+  _QWORD *v6; // rax
+  __int64 v7; // rdx
+  void *v8; // rcx
+  _QWORD *v9; // rcx
+  _QWORD *v10; // rcx
+  _QWORD *v11; // rcx
+  __int64 v12; // rcx
+  __int64 v13; // rdi
+  _QWORD *v14; // rbp
+  _QWORD *i; // r14
+
+  if ( a1 )
+  {
+    v4 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_sl(*((_QWORD *)WPP_GLOBAL_Control + 7), a2, a3, *(const char **)(a1 + 16));
+      v4 = WPP_GLOBAL_Control;
+    }
+    if ( *(int *)(a1 + 432) >= 7 )
+    {
+      v5 = 0;
+      v6 = (_QWORD *)(a1 + 88);
+      v7 = 0i64;
+      while ( !*v6 )
+      {
+        ++v5;
+        ++v7;
+        v6 += 2;
+        if ( v7 >= 3 )
+        {
+          v8 = *(void **)(a1 + 976);
+          if ( v8 )
+          {
+            CloseHandle(v8);
+            *(_QWORD *)(a1 + 976) = 0i64;
+          }
+          Lock_Destroy(*(_QWORD *)(a1 + 296));
+          v9 = *(_QWORD **)(a1 + 1648);
+          if ( v9 )
+            Mem_Free(v9, 1448i64, 16i64, (__int64)"ds\\dns\\server\\server\\zone.c", 386);
+          v10 = *(_QWORD **)(a1 + 24);
+          *(_QWORD *)(a1 + 1648) = 0i64;
+          Mem_Free(v10, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 193);
+          Mem_Free(*(_QWORD **)(a1 + 16), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 194);
+          Mem_Free(*(_QWORD **)(a1 + 32), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 195);
+          Mem_Free(*(_QWORD **)(a1 + 144), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 197);
+          Mem_Free(*(_QWORD **)(a1 + 136), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 198);
+          Mem_Free(*(_QWORD **)(a1 + 840), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 199);
+          Mem_Free(*(_QWORD **)(a1 + 952), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 200);
+          Mem_Free(*(_QWORD **)(a1 + 856), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 201);
+          Dns_Free(*(void **)(a1 + 552));
+          Dns_Free(*(void **)(a1 + 560));
+          if ( *(_DWORD *)(a1 + 372) == 1 )
+          {
+            Mem_Free(*(_QWORD **)(a1 + 968), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 208);
+            Dns_Free(*(void **)(a1 + 1032));
+            FreeOLSParams(a1 + 1040);
+          }
+          else
+          {
+            Dns_Free(*(void **)(a1 + 1168));
+            Dns_Free(*(void **)(a1 + 1176));
+          }
+          Mem_Free(*(_QWORD **)(a1 + 360), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 223);
+          v11 = *(_QWORD **)(a1 + 1632);
+          *(_DWORD *)(a1 + 368) = 0;
+          Mem_Free(v11, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 226);
+          Mem_Free(*(_QWORD **)(a1 + 1640), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 228);
+          CloseHandle(*(HANDLE *)(a1 + 408));
+          if ( *(char *)(a1 + 428) < 0 )
+          {
+            Lock_AssumeWrite(*(_QWORD *)(a1 + 416));
+            Lock_ReleaseWrite(*(_QWORD *)(a1 + 416));
+          }
+          Lock_Destroy(*(_QWORD *)(a1 + 416));
+          if ( *(_BYTE *)(a1 + 176) )
+          {
+            Lock_AssumeWrite(*(_QWORD *)(a1 + 168));
+            Lock_ReleaseWrite(*(_QWORD *)(a1 + 168));
+          }
+          v12 = *(_QWORD *)(a1 + 168);
+          if ( v12 )
+          {
+            Lock_Destroy(v12);
+            *(_QWORD *)(a1 + 168) = 0i64;
+          }
+          v13 = *(_QWORD *)(a1 + 160);
+          if ( v13 )
+          {
+            v14 = *(_QWORD **)(*(_QWORD *)(v13 + 8) + 8i64);
+            for ( i = v14; !*((_BYTE *)i + 41); v14 = i )
+            {
+              std::_Tree<std::_Tmap_traits<_lookup_name *,_DnsTreeNode *,DnsSign::CLookupNameCompare,std::allocator<std::pair<_lookup_name * const,_DnsTreeNode *>>,0>>::_Erase(
+                v13,
+                (void **)i[2]);
+              i = (_QWORD *)*i;
+              operator delete(v14);
+            }
+            *(_QWORD *)(*(_QWORD *)(v13 + 8) + 8i64) = *(_QWORD *)(v13 + 8);
+            **(_QWORD **)(v13 + 8) = *(_QWORD *)(v13 + 8);
+            *(_QWORD *)(*(_QWORD *)(v13 + 8) + 16i64) = *(_QWORD *)(v13 + 8);
+            *(_QWORD *)(v13 + 16) = 0i64;
+            operator delete(*(void **)(a1 + 160));
+            *(_QWORD *)(a1 + 160) = 0i64;
+          }
+          if ( *(_BYTE *)(a1 + 320) )
+          {
+            Lock_AssumeWrite(*(_QWORD *)(a1 + 312));
+            Lock_ReleaseWrite(*(_QWORD *)(a1 + 312));
+          }
+          Lock_Destroy(*(_QWORD *)(a1 + 312));
+          if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+            --dword_1401B972C;
+          Mem_Free((_QWORD *)a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 278);
+          return;
+        }
+      }
+      if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v4 + 68) & 0x10) != 0
+        && *((_BYTE *)v4 + 65) >= 4u )
+      {
+        WPP_SF_sqD(
+          *((_QWORD *)v4 + 7),
+          0xCu,
+          (__int64)&WPP_5dd087cb468e333d3a5b59f2603de819_Traceguids,
+          *(const char **)(a1 + 16));
+      }
+    }
+    else
+    {
+      _InterlockedIncrement((volatile signed __int32 *)(a1 + 432));
+      Timeout_FreeWithFunctionEx(a1, (__int64)Zone_Free, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 159);
+    }
+  }
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B972C: using guessed type int dword_1401B972C;

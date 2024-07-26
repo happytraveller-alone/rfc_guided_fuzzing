@@ -1,0 +1,32 @@
+//----- (00000001400825CC) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie *__fastcall Wire_PacketNameError(struct in_addr *a1, __int64 a2, unsigned __int16 a3)
+{
+  CDnsClientSubnetRecordsTrie *result; // rax
+  int v5; // ebx
+  const char *v6; // rax
+  int v7; // [rsp+28h] [rbp-20h]
+  __int128 v8; // [rsp+30h] [rbp-18h] BYREF
+
+  result = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v5 = a3;
+    v6 = DnsAddr_Ntoa(a1 + 16);
+    v7 = v5;
+    result = (CDnsClientSubnetRecordsTrie *)WPP_SF_qsD(
+                                              *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                              0xCu,
+                                              (__int64)&WPP_95413813eca334a66ae97b50395580a7_Traceguids,
+                                              a1,
+                                              v6,
+                                              v7);
+  }
+  v8 = DNS_EVENT_INVALID_PACKET_DOMAIN_NAME;
+  if ( a1 )
+    return (CDnsClientSubnetRecordsTrie *)EventLog_BadPacket(&v8, (__int64)a1);
+  return result;
+}
+// 140187290: using guessed type __int128 DNS_EVENT_INVALID_PACKET_DOMAIN_NAME;
+// 1400825CC: using guessed type __int128 var_18;

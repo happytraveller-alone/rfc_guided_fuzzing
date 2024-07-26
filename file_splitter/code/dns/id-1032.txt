@@ -1,0 +1,25 @@
+//----- (0000000140087E20) ----------------------------------------------------
+char *__fastcall SoaFlatWrite(_DWORD *a1, __int64 a2, _BYTE *a3, unsigned __int64 a4)
+{
+  _BYTE *v5; // rsi
+  unsigned __int8 *v9; // rbx
+  char *v10; // rcx
+
+  v5 = a3;
+  if ( *(_WORD *)(a2 + 12) == 6 )
+  {
+    if ( a4 - (unsigned __int64)a3 < 0x14 )
+      return 0i64;
+    a1[6] = htonl(*(_DWORD *)(a2 + 56));
+    a1[7] = htonl(*(_DWORD *)(a2 + 60));
+    a1[8] = htonl(*(_DWORD *)(a2 + 64));
+    a1[9] = htonl(*(_DWORD *)(a2 + 68));
+    a1[10] = htonl(*(_DWORD *)(a2 + 72));
+    v5 += 20;
+  }
+  v9 = (unsigned __int8 *)(a2 + 76);
+  v10 = Name_WriteDbaseNameToRpcBuffer(v5, a4, v9, 0);
+  if ( !v10 )
+    return 0i64;
+  return Name_WriteDbaseNameToRpcBuffer(v10, a4, &v9[*v9 + 2], 1);
+}

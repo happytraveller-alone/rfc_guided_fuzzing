@@ -1,0 +1,11 @@
+//----- (00000001400DD5B4) ----------------------------------------------------
+std::runtime_error *__fastcall std::runtime_error::runtime_error(
+        std::runtime_error *this,
+        const struct std::runtime_error *a2)
+{
+  exception::exception(this, a2);
+  *(_QWORD *)this = &std::runtime_error::`vftable';
+  return this;
+}
+// 140171610: using guessed type void *std::runtime_error::`vftable';
+// 140184C20: using guessed type exception *exception::exception(exception *__hidden this, const struct exception *);

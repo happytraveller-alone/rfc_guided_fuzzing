@@ -1,0 +1,19 @@
+//----- (000000014006EF38) ----------------------------------------------------
+_BYTE *__fastcall RR_CreateAAAARecord(__int64 a1, int a2)
+{
+  _BYTE *result; // rax
+
+  result = 0i64;
+  if ( a1 && *(_WORD *)a1 == 23 )
+  {
+    result = RR_AllocateEx(0x10u, 0, 0x21u);
+    if ( result )
+    {
+      *((_DWORD *)result + 6) = 0;
+      *((_WORD *)result + 6) = 28;
+      *((_DWORD *)result + 5) = a2;
+      *(_OWORD *)(result + 56) = *(_OWORD *)(a1 + 8);
+    }
+  }
+  return result;
+}

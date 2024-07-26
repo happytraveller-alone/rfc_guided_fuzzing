@@ -1,0 +1,12 @@
+//----- (0000000140088160) ----------------------------------------------------
+char *__fastcall MinfoFlatWrite(__int64 a1, __int64 a2, _BYTE *a3, unsigned __int64 a4)
+{
+  unsigned __int8 *v5; // rbx
+  char *result; // rax
+
+  v5 = (unsigned __int8 *)(a2 + 56);
+  result = Name_WriteDbaseNameToRpcBuffer(a3, a4, (unsigned __int8 *)(a2 + 56), 0);
+  if ( result )
+    return Name_WriteDbaseNameToRpcBuffer(result, a4, &v5[*v5 + 2], 0);
+  return result;
+}

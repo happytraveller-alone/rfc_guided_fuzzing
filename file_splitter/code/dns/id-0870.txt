@@ -1,0 +1,56 @@
+//----- (0000000140077CA4) ----------------------------------------------------
+HKEY __fastcall Reg_OpenVirtualizationInstance(HKEY hKey, LPCWSTR lpSubKey)
+{
+  int v2; // edi
+  HKEY v4; // rbx
+  int v6; // [rsp+68h] [rbp+10h] BYREF
+  HKEY phkResult; // [rsp+70h] [rbp+18h] BYREF
+
+  phkResult = 0i64;
+  v2 = 0;
+  v6 = 0;
+  v4 = hKey;
+  if ( !lpSubKey )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x70u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids);
+    }
+    return 0i64;
+  }
+  if ( !hKey )
+  {
+    v4 = OpenVirtualizationInstances(0, &v6);
+    if ( !v4 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x71u,
+          (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+          v6);
+      }
+      return 0i64;
+    }
+    v2 = 1;
+  }
+  if ( RegCreateKeyExW(v4, lpSubKey, 0, (LPWSTR)L"DnsRegistryClass", 0, 0x2001Fu, 0i64, &phkResult, 0i64)
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_SD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x72u,
+      (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+      lpSubKey);
+  }
+  if ( v2 )
+    RegCloseKey(v4);
+  return phkResult;
+}

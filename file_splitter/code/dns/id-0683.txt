@@ -1,0 +1,82 @@
+//----- (0000000140060BA8) ----------------------------------------------------
+HRESULT __stdcall StringCchCatExW(
+        STRSAFE_LPWSTR pszDest,
+        size_t cchDest,
+        STRSAFE_LPCWSTR pszSrc,
+        STRSAFE_LPWSTR *ppszDestEnd,
+        size_t *pcchRemaining,
+        DWORD dwFlags)
+{
+  HRESULT v6; // r9d
+  size_t v8; // rcx
+  STRSAFE_LPWSTR v9; // rax
+  size_t v10; // rax
+  unsigned __int64 v11; // rdx
+  wchar_t *v12; // rcx
+  unsigned __int64 v13; // r11
+  char *v14; // r8
+  wchar_t v15; // ax
+
+  v6 = 0;
+  if ( cchDest - 1 > 0x7FFFFFFE )
+    v6 = -2147024809;
+  if ( v6 >= 0 )
+  {
+    v8 = cchDest;
+    v9 = pszDest;
+    v6 = 0;
+    if ( cchDest )
+    {
+      do
+      {
+        if ( !*v9 )
+          break;
+        ++v9;
+        --v8;
+      }
+      while ( v8 );
+      if ( v8 )
+      {
+        v10 = cchDest - v8;
+        goto LABEL_11;
+      }
+    }
+    v6 = -2147024809;
+  }
+  v10 = 0i64;
+LABEL_11:
+  if ( v6 >= 0 )
+  {
+    v11 = cchDest - v10;
+    v12 = &pszDest[v10];
+    v6 = 0;
+    if ( v11 > 1 )
+    {
+      v13 = 2147483646 - v11;
+      v14 = (char *)((char *)pszSrc - (char *)v12);
+      do
+      {
+        if ( !(v13 + v11) )
+          break;
+        v15 = *(wchar_t *)((char *)v12 + (_QWORD)v14);
+        if ( !v15 )
+          break;
+        *v12++ = v15;
+        --v11;
+      }
+      while ( v11 );
+      if ( !v11 )
+      {
+        --v12;
+        v6 = -2147024774;
+      }
+      *v12 = 0;
+    }
+    else if ( *pszSrc )
+    {
+      return pszDest != 0i64 ? -2147024774 : -2147024809;
+    }
+  }
+  return v6;
+}
+// 140060C32: conditional instruction was optimized away because rdx.8>=2u

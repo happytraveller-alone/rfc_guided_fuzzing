@@ -1,0 +1,87 @@
+//----- (0000000140015438) ----------------------------------------------------
+__int64 __fastcall Dbase_Initialize(_QWORD *a1, const wchar_t **a2)
+{
+  _QWORD *v4; // rax
+  _QWORD *v5; // rax
+  _QWORD *v6; // rcx
+  __int64 v7; // r11
+  __int64 v8; // rbx
+  const char *v9; // r9
+  const wchar_t *v11; // rax
+  const char *v12; // r9
+
+  if ( !a2 )
+  {
+    g_pCacheZone = 0i64;
+    DbaseLockCount = 0;
+    DbaseLockThread = 0;
+    DbaseLock = (__int64)Lock_Create();
+    if ( !DbaseLock )
+      goto LABEL_15;
+  }
+  v4 = NTree_InitializeEx(0);
+  *a1 = v4;
+  if ( v4
+    && (*((_DWORD *)v4 + 23) |= 0x10u,
+        a1[1] = Lookup_ZoneTreeNodeFromDottedNameEx("in-addr.arpa", 0, 0x4000000, (__int64)a2),
+        v5 = (_QWORD *)Lookup_ZoneTreeNodeFromDottedNameEx("ip6.arpa", 0, 0x4000000, (__int64)a2),
+        v6 = (_QWORD *)a1[1],
+        a1[3] = v5,
+        v6)
+    && v5 )
+  {
+    a1[4] = *v5;
+    a1[2] = *v6;
+    *(_DWORD *)(*a1 + 92i64) |= 0x8000u;
+    *(_DWORD *)(a1[1] + 92i64) |= 0x8000u;
+    *(_DWORD *)(a1[3] + 92i64) |= 0x8000u;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v7 = a1[1];
+      v8 = *a1;
+      v9 = "database";
+      if ( a2 )
+        v9 = "virtual database";
+      WPP_SF_sqsdqsd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        v7 + 102,
+        *(unsigned __int8 *)(v8 + 101),
+        v9,
+        v8,
+        v8 + 102,
+        *(_BYTE *)(v8 + 101),
+        v7,
+        v7 + 102);
+    }
+    return 1i64;
+  }
+  else
+  {
+LABEL_15:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( a2 )
+        v11 = *a2;
+      else
+        v11 = L".";
+      v12 = "default";
+      if ( a2 )
+        v12 = "Virtual";
+      WPP_SF_sS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xEu,
+        (__int64)&WPP_75ee3295d73a3653ab900aec7a5649ff_Traceguids,
+        v12,
+        (__int64)v11);
+    }
+    return 0i64;
+  }
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;
+// 1401EC5F0: using guessed type int DbaseLockCount;
+// 1401EC5F4: using guessed type int DbaseLockThread;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

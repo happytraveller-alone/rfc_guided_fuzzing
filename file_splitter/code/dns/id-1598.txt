@@ -1,0 +1,106 @@
+//----- (00000001400C9944) ----------------------------------------------------
+__int64 __fastcall Scope_CreateDefaultRecords(__int64 a1, __int64 a2, int a3)
+{
+  int v4; // r14d
+  int v6; // eax
+  unsigned int v7; // ebx
+  int DefaultSoa; // eax
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned __int16 v10; // dx
+  int v11; // eax
+  int v12; // r14d
+
+  v4 = 0;
+  Zone_LockForWriteEx(a1, 1, 0, (__int64)"ds\\dns\\server\\server\\zone.c", 155);
+  if ( (a3 & 0x10000000) != 0 )
+  {
+    v6 = RpcUtil_SwitchSecurityContext(0);
+    v7 = v6;
+    if ( v6 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xDAu,
+          (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+          v6);
+      }
+      goto LABEL_32;
+    }
+    v4 = 1;
+  }
+  DefaultSoa = Zone_CreateDefaultSoa(a1, 0i64);
+  v7 = DefaultSoa;
+  if ( DefaultSoa )
+  {
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v10 = 219;
+LABEL_23:
+      WPP_SF_D(*((_QWORD *)v9 + 7), v10, (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids, DefaultSoa);
+    }
+  }
+  else
+  {
+    DefaultSoa = Zone_CreateDefaultNs(a1);
+    v7 = DefaultSoa;
+    if ( DefaultSoa )
+    {
+      v9 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v10 = 220;
+        goto LABEL_23;
+      }
+    }
+    else
+    {
+      memset_0((void *)(a1 + 1568), 0, 0x40ui64);
+      *(_DWORD *)(a1 + 1608) |= 0x80000000;
+      DefaultSoa = Zone_GetZoneInfoFromResourceRecords(a1);
+      v7 = DefaultSoa;
+      if ( DefaultSoa )
+      {
+        v9 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v10 = 221;
+          goto LABEL_23;
+        }
+      }
+    }
+  }
+  if ( v4 )
+  {
+    v11 = RpcUtil_SwitchSecurityContext(1);
+    v12 = v11;
+    if ( v11 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xDEu,
+          (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+          v11);
+      }
+      if ( !v7 )
+        v7 = v12;
+    }
+  }
+LABEL_32:
+  Zone_UnlockAfterWriteEx(a1, 1, (__int64)"ds\\dns\\server\\server\\zone.c", 242);
+  return v7;
+}

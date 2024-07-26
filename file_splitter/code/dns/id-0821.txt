@@ -1,0 +1,30 @@
+//----- (0000000140071FA4) ----------------------------------------------------
+void __fastcall Recurse_ResumeSuspendedQuery(__int64 a1)
+{
+  __int64 v1; // rbx
+  __int64 v3; // rsi
+
+  v1 = *(_QWORD *)(a1 + 1264);
+  v3 = *(_QWORD *)(v1 + 1528);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qqq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x43u,
+      (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+      a1,
+      v1,
+      v3);
+  }
+  if ( !v3 || !(unsigned int)Dnssec_ResumeSuspendedValidation(v1) )
+  {
+    _InterlockedIncrement(&dword_1401C7ED0);
+    Recurse_Question((struct _DNS_MSGINFO *)v1, 0i64, *(_WORD *)(v1 + 496), *(_WORD *)(v1 + 498));
+  }
+  _InterlockedIncrement(&dword_1401C7EC4);
+  Packet_Free(a1);
+}
+// 1401C7EC4: using guessed type int dword_1401C7EC4;
+// 1401C7ED0: using guessed type int dword_1401C7ED0;

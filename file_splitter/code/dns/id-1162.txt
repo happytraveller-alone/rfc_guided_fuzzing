@@ -1,0 +1,14 @@
+//----- (0000000140095960) ----------------------------------------------------
+__int64 __fastcall Dnssrv_R_DnssrvUpdateRecord3(
+        int a1,
+        char a2,
+        __int64 a3,
+        __int64 a4,
+        char *a5,
+        WCHAR *a6,
+        char *a7,
+        __int64 a8,
+        __int64 a9)
+{
+  return Dnssrv_R_DnssrvUpdateRecord4(a1, a2, a3, a4, 0i64, a5, a6, a7, a8, a9);
+}

@@ -1,0 +1,32 @@
+//----- (000000014012DFEC) ----------------------------------------------------
+BCRYPT_ALG_HANDLE __fastcall DnsSign::OpenBCryptAlgorithmProvider(LPCWSTR pszAlgId, const unsigned __int16 *a2)
+{
+  int v3; // edi
+  BCRYPT_ALG_HANDLE phAlgorithm[2]; // [rsp+30h] [rbp-98h] BYREF
+  char v6[56]; // [rsp+40h] [rbp-88h] BYREF
+  char pExceptionObject[56]; // [rsp+78h] [rbp-50h] BYREF
+
+  phAlgorithm[1] = (BCRYPT_ALG_HANDLE)-2i64;
+  phAlgorithm[0] = 0i64;
+  v3 = BCryptOpenAlgorithmProvider(phAlgorithm, pszAlgId, 0i64, 0);
+  if ( v3 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xAu,
+        (__int64)&WPP_a9354bd5cd823ab7126e1b8d4348d392_Traceguids,
+        pszAlgId);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v6, v3);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v6, 0xD6DBAu, pszAlgId);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v6);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  return phAlgorithm[0];
+}

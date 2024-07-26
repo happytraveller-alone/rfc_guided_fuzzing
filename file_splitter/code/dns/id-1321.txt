@@ -1,0 +1,11 @@
+//----- (00000001400A8F20) ----------------------------------------------------
+__int64 Rpc_PrepareForUninstall()
+{
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x30u, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids, 0);
+  }
+  return 0i64;
+}

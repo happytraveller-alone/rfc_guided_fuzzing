@@ -1,0 +1,114 @@
+//----- (0000000140076DA8) ----------------------------------------------------
+__int64 __fastcall Reg_DeleteKeySubtree(unsigned int a1, HKEY a2, const unsigned __int16 *a3)
+{
+  int v6; // ebp
+  unsigned int v7; // ebx
+  LSTATUS v8; // eax
+  DWORD cchName; // [rsp+40h] [rbp-248h] BYREF
+  unsigned int v11; // [rsp+44h] [rbp-244h]
+  HKEY hKey; // [rsp+48h] [rbp-240h] BYREF
+  WCHAR SubKey[264]; // [rsp+50h] [rbp-238h] BYREF
+
+  hKey = 0i64;
+  v11 = a1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_S(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x3Au, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a3);
+  }
+  v6 = a1 & 0x10000000;
+  if ( (a1 & 0x10000000) == 0 || (v7 = RpcUtil_SwitchSecurityContext(0)) == 0 )
+  {
+    v7 = RegDeleteKeyW(a2, a3);
+    if ( !v7 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Sq(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x3Bu,
+          (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+          a3);
+      }
+      goto LABEL_36;
+    }
+    if ( a3 )
+    {
+      v7 = RegOpenKeyExW(a2, a3, 0, 0x2001Fu, &hKey);
+      if ( v7 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_Sqd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x3Cu,
+            (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+            a3);
+        }
+        goto LABEL_36;
+      }
+      a2 = hKey;
+    }
+    if ( a2 )
+    {
+      while ( 1 )
+      {
+        cchName = 261;
+        v8 = RegEnumKeyExW(a2, 0, SubKey, &cchName, 0i64, 0i64, 0i64, 0i64);
+        v7 = v8;
+        if ( v8 )
+          break;
+        v7 = Reg_DeleteKeySubtree(v11, a2, SubKey);
+        if ( v7 )
+          goto LABEL_30;
+      }
+      if ( v8 == 259 )
+      {
+        v7 = 0;
+      }
+      else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+             && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+             && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Dd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x3Du,
+          (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+          0);
+      }
+LABEL_30:
+      if ( a3 )
+      {
+        v7 = RegDeleteKeyW(a2, a3);
+        if ( v7 )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_S(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x3Eu,
+              (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+              a3);
+          }
+        }
+      }
+    }
+    else
+    {
+      v7 = 87;
+    }
+  }
+LABEL_36:
+  if ( hKey )
+    RegCloseKey(hKey);
+  if ( v6 )
+    return (unsigned int)RpcUtil_SwitchSecurityContext(1);
+  return v7;
+}

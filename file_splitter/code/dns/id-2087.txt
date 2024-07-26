@@ -1,0 +1,49 @@
+//----- (0000000140105BC8) ----------------------------------------------------
+struct _Dbase_Record *__fastcall DnsOls_CurrentNsec3RecordForNode(
+        struct _DnsTreeNode *a1,
+        struct _DnsUpdateList *a2,
+        int *a3)
+{
+  _BYTE *v5; // rsi
+  __int64 NextRecord; // rax
+  _QWORD *v8; // rdx
+  unsigned __int16 *v9; // rcx
+  __int64 v10; // r8
+  __int64 v11; // rax
+
+  v5 = 0i64;
+  NextRecord = RR_FindNextRecordEx((__int64)a1, 0, 0x32u, 0i64, 0, 0);
+  v8 = *(_QWORD **)a2;
+  v9 = (unsigned __int16 *)NextRecord;
+  if ( *(_QWORD *)a2 )
+  {
+    do
+    {
+      v10 = v8[1];
+      if ( (*(_DWORD *)(v10 + 84) & 0x88880000) == -2004353024 )
+        v10 = *(_QWORD *)(v10 + 8);
+      if ( (struct _DnsTreeNode *)v10 == a1 )
+      {
+        v11 = v8[2];
+        if ( v11 )
+        {
+          if ( *(_WORD *)(v11 + 12) == 50 )
+            v9 = (unsigned __int16 *)v8[2];
+        }
+      }
+      v8 = (_QWORD *)*v8;
+    }
+    while ( v8 );
+  }
+  if ( v9 )
+  {
+    v5 = RR_Copy(v9);
+    if ( !v5 && a3 )
+      *a3 = 14;
+  }
+  else if ( a3 )
+  {
+    *a3 = 13;
+  }
+  return (struct _Dbase_Record *)v5;
+}

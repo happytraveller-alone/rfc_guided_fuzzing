@@ -1,0 +1,32 @@
+//----- (00000001400991D0) ----------------------------------------------------
+_BYTE *__fastcall NxtWireRead(__int64 a1, __int64 a2, unsigned __int8 *a3, unsigned __int16 a4)
+{
+  unsigned __int8 *v4; // rdi
+  unsigned __int8 *v5; // rsi
+  _BYTE *v6; // rax
+  _BYTE *v7; // rbx
+  size_t v8; // rdi
+  unsigned __int8 v10[272]; // [rsp+30h] [rbp-138h] BYREF
+
+  v4 = &a3[a4];
+  v5 = Name_PacketNameToCountNameEx(v10, a2, a3, (unsigned __int64)v4);
+  if ( !v5 )
+    return 0i64;
+  v6 = RR_AllocateEx(v10[0] + 18, 0, 0);
+  v7 = v6;
+  if ( !v6 )
+    return 0i64;
+  Name_CopyCountName(v6 + 72, v10);
+  v8 = v4 - v5;
+  if ( v8 < 0x10 )
+  {
+    *((_QWORD *)v7 + 7) = 0i64;
+    *((_QWORD *)v7 + 8) = 0i64;
+  }
+  else
+  {
+    v8 = 16i64;
+  }
+  memcpy_0(v7 + 56, v5, v8);
+  return v7;
+}

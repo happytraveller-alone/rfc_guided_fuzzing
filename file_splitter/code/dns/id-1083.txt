@@ -1,0 +1,133 @@
+//----- (000000014008CA44) ----------------------------------------------------
+void __fastcall GetRRDataCopyWithDbName(unsigned __int16 *a1, _QWORD *a2, _QWORD *a3)
+{
+  unsigned int v4; // r9d
+  _BYTE *v6; // rax
+  _BYTE *v7; // rax
+  _BYTE *v8; // rax
+  unsigned int v9; // r9d
+  unsigned int v10; // r9d
+  unsigned int v11; // r9d
+  _BYTE *v12; // rax
+  unsigned int v13; // r9d
+  unsigned int v14; // r9d
+  unsigned int v15; // r9d
+  unsigned int v16; // r9d
+  unsigned int v17; // r9d
+  unsigned int v18; // r9d
+  unsigned int v19; // r9d
+  _BYTE *v20; // rax
+  _BYTE *v21; // rax
+  _BYTE *v22; // rax
+  _BYTE *v23; // rax
+  _BYTE *v24; // rax
+  _BYTE *v25; // rax
+
+  *a2 = 0i64;
+  v4 = a1[6];
+  if ( v4 > 0x18 )
+  {
+    v13 = v4 - 30;
+    if ( !v13 )
+    {
+      v25 = RR_Copy(a1);
+      *a2 = v25;
+      v7 = v25 + 72;
+      goto LABEL_31;
+    }
+    v14 = v13 - 3;
+    if ( !v14 )
+    {
+      v24 = RR_Copy(a1);
+      *a2 = v24;
+      v7 = v24 + 62;
+      goto LABEL_31;
+    }
+    v15 = v14 - 5;
+    if ( !v15 )
+    {
+      v23 = RR_Copy(a1);
+      *a2 = v23;
+      v7 = v23 + 73;
+      goto LABEL_31;
+    }
+    v16 = v15 - 1;
+    if ( !v16 )
+      goto LABEL_10;
+    v17 = v16 - 7;
+    if ( v17 )
+    {
+      v18 = v17 - 1;
+      if ( v18 )
+      {
+        v19 = v18 - 203;
+        if ( v19 )
+        {
+          if ( v19 != 65032 )
+            return;
+          v20 = RR_Copy(a1);
+          *a2 = v20;
+          v7 = v20 + 68;
+        }
+        else
+        {
+          v21 = RR_Copy(a1);
+          *a2 = v21;
+          v7 = v21 + 67;
+        }
+        goto LABEL_31;
+      }
+      goto LABEL_10;
+    }
+LABEL_27:
+    v22 = RR_Copy(a1);
+    *a2 = v22;
+    v7 = v22 + 74;
+    goto LABEL_31;
+  }
+  if ( v4 == 24 )
+    goto LABEL_27;
+  if ( a1[6] > 0xEu )
+  {
+    v9 = v4 - 15;
+    if ( !v9 )
+      goto LABEL_16;
+    v10 = v9 - 2;
+    if ( !v10 )
+      goto LABEL_10;
+    v11 = v10 - 1;
+    if ( !v11 || v11 == 3 )
+    {
+LABEL_16:
+      v12 = RR_Copy(a1);
+      *a2 = v12;
+      v7 = v12 + 58;
+      goto LABEL_31;
+    }
+  }
+  else
+  {
+    if ( v4 == 14 )
+      goto LABEL_10;
+    if ( a1[6] < 2u )
+      return;
+    if ( a1[6] <= 5u )
+      goto LABEL_10;
+    if ( v4 == 6 )
+    {
+      v8 = RR_Copy(a1);
+      *a2 = v8;
+      v7 = v8 + 76;
+      goto LABEL_31;
+    }
+    if ( v4 - 7 <= 2 || v4 == 12 )
+    {
+LABEL_10:
+      v6 = RR_Copy(a1);
+      *a2 = v6;
+      v7 = v6 + 56;
+LABEL_31:
+      *a3 = v7;
+    }
+  }
+}

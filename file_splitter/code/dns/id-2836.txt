@@ -1,0 +1,5 @@
+//----- (000000014014E240) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateKey::GetIPMaskValue(CDnsRRLStateKey *this, unsigned int a2)
+{
+  return *((unsigned int *)this + a2 + 2);
+}

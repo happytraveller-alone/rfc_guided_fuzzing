@@ -1,0 +1,78 @@
+//----- (000000014010F950) ----------------------------------------------------
+__int64 __fastcall DnsOls_RemoveCachedDataFromNode(__int64 a1, __int64 a2)
+{
+  unsigned int v4; // edi
+  CDnsClientSubnetRecordsTrie *v5; // rax
+  char *v6; // rax
+  __int64 v7; // rcx
+  char HasCachedRecordsFromWins; // al
+  char v9; // bl
+  char *v10; // rax
+  unsigned __int16 v11; // dx
+  char *v12; // rax
+  unsigned int v14; // [rsp+68h] [rbp+10h] BYREF
+
+  v4 = 0;
+  v5 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v6 = Dbg_NodeName(a2);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Du, (__int64)&WPP_f04f99671e9538fa5e9498042059b9b7_Traceguids, v6);
+    v5 = WPP_GLOBAL_Control;
+  }
+  if ( !a2 )
+    goto LABEL_21;
+  v7 = *(_QWORD *)(a2 + 56);
+  if ( !v7 || *(_DWORD *)(v7 + 372) != 1 || (*(_BYTE *)(v7 + 1040) & 4) == 0 )
+    goto LABEL_21;
+  v14 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v14);
+  HasCachedRecordsFromWins = nodeHasCachedRecordsFromWins(a2, 1);
+  v14 = -1;
+  v9 = HasCachedRecordsFromWins;
+  releaseRead(DbaseLock, &v14, 1);
+  if ( !v9 )
+  {
+    v5 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      return v4;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0 || *((_BYTE *)WPP_GLOBAL_Control + 65) < 5u )
+      goto LABEL_21;
+    v10 = Dbg_NodeName(a2);
+    v11 = 30;
+    goto LABEL_20;
+  }
+  if ( !Up_CreateAppendUpdate(a1, a2, 0i64, 1, 0i64) )
+    v4 = 14;
+  v5 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+  {
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0 || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+LABEL_21:
+      if ( v5 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v5 + 17) & 0x200000) != 0
+        && *((_BYTE *)v5 + 65) >= 4u )
+      {
+        v12 = Dbg_NodeName(a2);
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x20u,
+          (__int64)&WPP_f04f99671e9538fa5e9498042059b9b7_Traceguids,
+          v4,
+          (__int64)v12);
+      }
+      return v4;
+    }
+    v10 = Dbg_NodeName(a2);
+    v11 = 31;
+LABEL_20:
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), v11, (__int64)&WPP_f04f99671e9538fa5e9498042059b9b7_Traceguids, v10);
+    v5 = WPP_GLOBAL_Control;
+    goto LABEL_21;
+  }
+  return v4;
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

@@ -1,0 +1,56 @@
+//----- (000000014006B118) ----------------------------------------------------
+__int64 __fastcall PQ_QueuePacketWithXidAndSend(__int64 a1, struct in_addr *a2)
+{
+  __int64 v2; // rdi
+  struct _RTL_CRITICAL_SECTION *v4; // rsi
+  USHORT v5; // ax
+  const char *v6; // rax
+  __int64 v7; // rdx
+  __int64 v8; // r8
+  unsigned int v9; // edi
+  USHORT s_w1; // [rsp+20h] [rbp-28h]
+  ULONG v12; // [rsp+28h] [rbp-20h]
+  ULONG S_addr; // [rsp+30h] [rbp-18h]
+
+  v2 = g_UpdateForwardingQueue;
+  v4 = (struct _RTL_CRITICAL_SECTION *)(g_UpdateForwardingQueue + 16);
+  EnterCriticalSection((LPCRITICAL_SECTION)(g_UpdateForwardingQueue + 16));
+  if ( *(_DWORD *)(v2 + 84) )
+    PQ_DiscardExpiredQueuedPackets(v2, 1);
+  if ( *(_DWORD *)(v2 + 88) )
+    PQ_DiscardDuplicatesOfNewPacket(v2, (__int64)a2);
+  v5 = PQ_QueuePacketWithXid(v2, (__int64)a2);
+  a2[1576].S_un.S_un_w.s_w1 = v5;
+  if ( v5 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v6 = DnsAddr_Ntoa(a2 + 16);
+      S_addr = a2[147].S_un.S_addr;
+      v12 = a2[146].S_un.S_addr;
+      s_w1 = a2[1576].S_un.S_un_w.s_w1;
+      WPP_SF_qHdds(*((_QWORD *)WPP_GLOBAL_Control + 7), v7, v8, a2, s_w1, v12, S_addr, v6);
+    }
+    a2[353].S_un.S_un_b.s_b1 = 0;
+    v9 = Send_Msg((__int64)a2, 0);
+    a2[142].S_un.S_addr = dword_1401B9714;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xFu, (__int64)&WPP_ea3280c01ae0350ebb797dd5efafc371_Traceguids, a2);
+    }
+    v9 = 122;
+  }
+  LeaveCriticalSection(v4);
+  return v9;
+}
+// 14006B1DE: variable 'v7' is possibly undefined
+// 14006B1DE: variable 'v8' is possibly undefined
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401BA4B0: using guessed type __int64 g_UpdateForwardingQueue;

@@ -1,0 +1,54 @@
+//----- (00000001400E8A88) ----------------------------------------------------
+char *__fastcall std::_Tree_val<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::_Buynode<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>(
+        __int64 a1,
+        _OWORD *a2)
+{
+  char *v3; // rax
+  char *v4; // r8
+  char *v5; // rdx
+  __int64 *v6; // r9
+  _OWORD *v7; // rcx
+  __int64 v8; // rax
+  __int64 v9; // rax
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  v3 = (char *)operator new(0x130ui64);
+  v4 = v3;
+  if ( !v3 )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *(_QWORD *)v3 = qword_1401B9288;
+  *((_QWORD *)v3 + 1) = qword_1401B9288;
+  *((_QWORD *)v3 + 2) = qword_1401B9288;
+  *((_WORD *)v3 + 148) = 0;
+  v5 = v3 + 24;
+  if ( v3 != (char *)-24i64 )
+  {
+    v6 = (__int64 *)a2 + 33;
+    v7 = v3 + 24;
+    v8 = 2i64;
+    do
+    {
+      *v7 = *a2;
+      v7[1] = a2[1];
+      v7[2] = a2[2];
+      v7[3] = a2[3];
+      v7[4] = a2[4];
+      v7[5] = a2[5];
+      v7[6] = a2[6];
+      v7 += 8;
+      *(v7 - 1) = a2[7];
+      a2 += 8;
+      --v8;
+    }
+    while ( v8 );
+    *(_WORD *)v7 = *(_WORD *)a2;
+    v9 = *v6;
+    *v6 = 0i64;
+    *((_QWORD *)v5 + 33) = v9;
+  }
+  return v4;
+}
+// 1401B9288: using guessed type __int64 qword_1401B9288;

@@ -1,0 +1,30 @@
+//----- (00000001400FE614) ----------------------------------------------------
+struct _DnssrvRpcSigningKeyDescriptor *__fastcall Rpc_AllocateSkd(struct _dnsskd *a1)
+{
+  char *zero; // rbx
+  char *v3; // rcx
+  void *v4; // rax
+
+  zero = (char *)MIDL_user_allocate_zero(0x50ui64);
+  if ( zero )
+  {
+    v3 = (char *)*((_QWORD *)a1 + 3);
+    if ( !v3 || (v4 = Dns_StringCopyAllocate(v3, 0, 1i64, 1), (*((_QWORD *)zero + 3) = v4) != 0i64) )
+    {
+      *(_DWORD *)zero = 1;
+      *(_OWORD *)(zero + 8) = *(_OWORD *)((char *)a1 + 8);
+      *((_DWORD *)zero + 8) = *((_DWORD *)a1 + 8);
+      *((_DWORD *)zero + 9) = *((_DWORD *)a1 + 9);
+      zero[40] = *((_BYTE *)a1 + 40);
+      *((_DWORD *)zero + 11) = *((_DWORD *)a1 + 11);
+      *((_DWORD *)zero + 12) = *((_DWORD *)a1 + 12);
+      *((_DWORD *)zero + 13) = *((_DWORD *)a1 + 13);
+      *((_DWORD *)zero + 14) = *((_DWORD *)a1 + 14);
+      *((_DWORD *)zero + 15) = *((_DWORD *)a1 + 15);
+      *((_DWORD *)zero + 16) = *((_DWORD *)a1 + 16);
+      *((_DWORD *)zero + 17) = *((_DWORD *)a1 + 17);
+      *((_DWORD *)zero + 18) = *((_DWORD *)a1 + 18);
+    }
+  }
+  return (struct _DnssrvRpcSigningKeyDescriptor *)zero;
+}

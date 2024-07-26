@@ -1,0 +1,1196 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 2786
+// Total lines: 1039
+
+//----- (0000000140148958) ----------------------------------------------------
+__int64 __fastcall ParseInputString(int a1, char *a2, _QWORD *a3)
+{
+  unsigned int v6; // edi
+  unsigned __int64 v7; // r8
+  _QWORD *v8; // r15
+  void **v9; // rcx
+  void **v10; // rdx
+  unsigned __int64 v11; // r8
+  __int64 v12; // r9
+  void **v13; // rax
+  unsigned __int64 v14; // rcx
+  bool v15; // zf
+  unsigned int v16; // r13d
+  __int64 *v17; // rbx
+  wchar_t **v18; // r12
+  wchar_t *v19; // rcx
+  wchar_t *v20; // rsi
+  _QWORD *v21; // rcx
+  __int64 *v22; // r12
+  _QWORD *v23; // rdx
+  __int64 v24; // rsi
+  unsigned __int64 v25; // rcx
+  unsigned __int64 v26; // rcx
+  unsigned __int64 v27; // rdx
+  unsigned __int64 v28; // rdx
+  _QWORD *v29; // rdx
+  unsigned __int64 v30; // rcx
+  unsigned __int64 v31; // rcx
+  unsigned __int64 v32; // rdx
+  unsigned __int64 v33; // rdx
+  CDnsClientSubnetRecordsTrie *v34; // rcx
+  unsigned __int16 v35; // dx
+  void *v36; // rax
+  char *v37; // rax
+  __int64 v38; // r13
+  const wchar_t **v39; // rbx
+  int v40; // eax
+  wchar_t *v41; // r12
+  const wchar_t **v42; // rbx
+  unsigned int v43; // r12d
+  void *v44; // rcx
+  __int64 v45; // rax
+  const WCHAR *v46; // r9
+  __int64 v47; // rax
+  LPCWSTR v48; // r12
+  _WORD *v49; // rsi
+  wchar_t *v50; // rax
+  wchar_t *v51; // rax
+  wchar_t *v52; // rcx
+  wint_t v53; // r8
+  __int64 v54; // rax
+  __int64 v55; // rax
+  wchar_t *v56; // rax
+  wchar_t *v57; // rcx
+  wint_t v58; // r8
+  __int64 v59; // rax
+  __int64 v60; // rax
+  unsigned __int16 v61; // ax
+  unsigned __int16 v62; // r8
+  unsigned __int16 v63; // r9
+  unsigned __int16 v64; // cx
+  int v65; // r10d
+  __int16 v66; // dx
+  unsigned __int16 v67; // cx
+  int v68; // eax
+  unsigned __int64 v69; // rsi
+  __int64 v70; // r12
+  __int64 v71; // rcx
+  _WORD *v72; // rsi
+  WCHAR *v73; // rcx
+  __int64 v74; // rdx
+  __int16 v75; // ax
+  unsigned int v76; // r12d
+  void *v77; // rcx
+  __int64 v78; // rax
+  const WCHAR *v79; // r9
+  __int64 v80; // rax
+  char *v81; // rax
+  char *v82; // rsi
+  __int64 v83; // rdx
+  __int64 v84; // r12
+  unsigned int v85; // r8d
+  unsigned __int8 *v86; // rdx
+  _QWORD *v87; // r12
+  __int64 v88; // r8
+  unsigned __int64 v89; // rsi
+  __int64 v90; // r12
+  __int64 v91; // rcx
+  struct in_addr *v92; // rsi
+  wchar_t *v93; // rax
+  const WCHAR *v94; // rcx
+  struct in_addr *v95; // rcx
+  __int64 v96; // r8
+  unsigned __int64 v97; // rsi
+  __int64 v98; // r12
+  __int64 v99; // rcx
+  _WORD *v100; // rsi
+  unsigned __int64 v101; // rsi
+  __int64 v102; // r12
+  __int64 v103; // rcx
+  _WORD *v104; // rsi
+  unsigned __int64 v105; // rsi
+  __int64 v106; // r12
+  __int64 v107; // rcx
+  char *v108; // rsi
+  wchar_t *v109; // rdx
+  unsigned __int64 v110; // r8
+  CDnsClientSubnetRecordsTrie *v111; // rcx
+  unsigned __int16 v112; // dx
+  CDnsClientSubnetRecordsTrie *v113; // rcx
+  unsigned __int16 v114; // dx
+  CDnsClientSubnetRecordsTrie *v115; // rcx
+  unsigned __int16 v116; // dx
+  unsigned int v118; // [rsp+40h] [rbp-C0h]
+  int v119; // [rsp+40h] [rbp-C0h]
+  unsigned int j; // [rsp+40h] [rbp-C0h]
+  unsigned int v121; // [rsp+40h] [rbp-C0h]
+  int v122; // [rsp+40h] [rbp-C0h]
+  unsigned int i; // [rsp+40h] [rbp-C0h]
+  int v124; // [rsp+40h] [rbp-C0h]
+  unsigned int v125; // [rsp+40h] [rbp-C0h]
+  int v126; // [rsp+40h] [rbp-C0h]
+  unsigned int v127; // [rsp+40h] [rbp-C0h]
+  int v128; // [rsp+40h] [rbp-C0h]
+  unsigned int k; // [rsp+40h] [rbp-C0h]
+  wchar_t *v130; // [rsp+48h] [rbp-B8h] BYREF
+  struct in_addr Addr; // [rsp+50h] [rbp-B0h] BYREF
+  LPCWSTR Terminator; // [rsp+58h] [rbp-A8h] BYREF
+  wchar_t **v133; // [rsp+60h] [rbp-A0h]
+  __int64 v134; // [rsp+70h] [rbp-90h] BYREF
+  __int64 v135[7]; // [rsp+78h] [rbp-88h] BYREF
+  wchar_t *v136; // [rsp+B0h] [rbp-50h] BYREF
+  _QWORD *v137; // [rsp+B8h] [rbp-48h]
+  struct in6_addr v138; // [rsp+C0h] [rbp-40h] BYREF
+  void *v139[2]; // [rsp+D0h] [rbp-30h] BYREF
+  __int64 v140; // [rsp+E0h] [rbp-20h]
+  unsigned __int64 v141; // [rsp+E8h] [rbp-18h]
+  __int64 v142[46]; // [rsp+100h] [rbp+0h] BYREF
+  wchar_t *Context[2]; // [rsp+270h] [rbp+170h] BYREF
+  wchar_t *String[2]; // [rsp+280h] [rbp+180h] BYREF
+  CHAR v145[64]; // [rsp+290h] [rbp+190h] BYREF
+  char Src[256]; // [rsp+2D0h] [rbp+1D0h] BYREF
+
+  v137 = a3;
+  v136 = 0i64;
+  v6 = 0;
+  *(_OWORD *)Context = 0i64;
+  *(_OWORD *)String = 0i64;
+  `eh vector constructor iterator'(
+    &v134,
+    0x20ui64,
+    2ui64,
+    (void (__stdcall *)(void *))std::vector<unsigned short *>::vector<unsigned short *>,
+    (void (__stdcall *)(void *))std::vector<unsigned short *>::~vector<unsigned short *>);
+  v7 = -1i64;
+  *a3 = 0i64;
+  v8 = 0i64;
+  v141 = 7i64;
+  v140 = 0i64;
+  LOWORD(v139[0]) = 0;
+  do
+    ++v7;
+  while ( *(_WORD *)&a2[2 * v7] );
+  std::wstring::assign((char *)v139, a2, v7);
+  v9 = v139;
+  v10 = v139;
+  if ( v141 >= 8 )
+  {
+    v9 = (void **)v139[0];
+    v10 = (void **)v139[0];
+  }
+  v11 = 0i64;
+  v12 = 0i64;
+  v13 = (void **)((char *)v9 + 2 * v140);
+  v14 = (unsigned __int64)((char *)v13 - (char *)v10 + 1) >> 1;
+  if ( v10 > v13 )
+    v14 = 0i64;
+  if ( !v14 )
+    goto LABEL_15;
+  do
+  {
+    if ( *(_WORD *)v10 == 59 )
+      ++v11;
+    v10 = (void **)((char *)v10 + 2);
+    ++v12;
+  }
+  while ( v12 != v14 );
+  if ( v11 > 1 )
+  {
+    if ( !a1 )
+      goto LABEL_13;
+    v15 = a1 == 1;
+  }
+  else
+  {
+LABEL_15:
+    v16 = 0;
+    Context[0] = wcstok_s((wchar_t *)a2, L";", &Context[1]);
+    v17 = v135;
+    v18 = Context;
+    v133 = Context;
+    while ( 1 )
+    {
+      v19 = *v18;
+      v136 = 0i64;
+      v130 = wcstok_s(v19, L",", &v136);
+      v20 = v130;
+      if ( v130 )
+      {
+        do
+        {
+          v21 = (_QWORD *)*v17;
+          if ( (unsigned __int64)&v130 >= *v17 || (v22 = v17 - 1, *(v17 - 1) > (unsigned __int64)&v130) )
+          {
+            v29 = (_QWORD *)v17[1];
+            if ( v21 == v29 )
+            {
+              v30 = ((__int64)v21 - *(v17 - 1)) >> 3;
+              if ( v30 > 0x1FFFFFFFFFFFFFFEi64 )
+                std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+              v31 = v30 + 1;
+              v32 = ((__int64)v29 - *(v17 - 1)) >> 3;
+              if ( v31 > v32 )
+              {
+                if ( 0x1FFFFFFFFFFFFFFFi64 - (v32 >> 1) >= v32 )
+                  v33 = (v32 >> 1) + v32;
+                else
+                  v33 = 0i64;
+                if ( v33 < v31 )
+                  v33 = v31;
+                std::vector<unsigned short *>::reserve((__int64)(v17 - 1), v33);
+              }
+            }
+            if ( *v17 )
+              *(_QWORD *)*v17 = v20;
+          }
+          else
+          {
+            v23 = (_QWORD *)v17[1];
+            v24 = ((__int64)&v130 - *v22) >> 3;
+            if ( v21 == v23 )
+            {
+              v25 = ((__int64)v21 - *v22) >> 3;
+              if ( v25 > 0x1FFFFFFFFFFFFFFEi64 )
+                std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+              v26 = v25 + 1;
+              v27 = ((__int64)v23 - *v22) >> 3;
+              if ( v26 > v27 )
+              {
+                if ( 0x1FFFFFFFFFFFFFFFi64 - (v27 >> 1) >= v27 )
+                  v28 = (v27 >> 1) + v27;
+                else
+                  v28 = 0i64;
+                if ( v28 < v26 )
+                  v28 = v26;
+                std::vector<unsigned short *>::reserve((__int64)(v17 - 1), v28);
+              }
+            }
+            if ( *v17 )
+              *(_QWORD *)*v17 = *(_QWORD *)(*v22 + 8 * v24);
+          }
+          *v17 += 8i64;
+          v130 = wcstok_s(0i64, L",", &v136);
+          v20 = v130;
+        }
+        while ( v130 );
+        v18 = v133;
+      }
+      if ( ((*v17 - *(v17 - 1)) & 0xFFFFFFFFFFFFFFF8ui64) == 8 )
+        break;
+      ++v18;
+      ++v16;
+      v133 = v18;
+      v17 += 4;
+      if ( v16 >= 2 )
+      {
+        v8 = operator new(0x10ui64, (const struct std::nothrow_t *)&std::nothrow);
+        if ( !v8 )
+        {
+          v34 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            v35 = 105;
+            goto LABEL_50;
+          }
+          goto LABEL_51;
+        }
+        *v8 = 0i64;
+        v8[1] = 0i64;
+        v36 = operator new[](0x20ui64, (const struct std::nothrow_t *)&std::nothrow);
+        v8[1] = v36;
+        if ( !v36 )
+        {
+          v34 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            v35 = 106;
+            goto LABEL_50;
+          }
+          goto LABEL_51;
+        }
+        memset_0(v36, 0, 0x20ui64);
+        v37 = 0i64;
+        *((_DWORD *)v8 + 1) = a1;
+        v130 = 0i64;
+        LODWORD(v133) = 0;
+        while ( 1 )
+        {
+          v38 = 4i64 * (_QWORD)v37;
+          if ( ((v135[4 * (_QWORD)v37] - v135[4 * (_QWORD)v37 - 1]) & 0xFFFFFFFFFFFFFFF8ui64) == 0 )
+          {
+LABEL_294:
+            *v137 = v8;
+            goto LABEL_310;
+          }
+          v39 = (const wchar_t **)v135[4 * (_QWORD)v37 - 1];
+          if ( _wcsicmp(*v39, L"EQ") && _wcsicmp(*v39, L"NE") )
+          {
+            if ( a1 )
+            {
+              switch ( a1 )
+              {
+                case 1:
+                  v6 = 9991;
+                  break;
+                case 2:
+                  v6 = 9992;
+                  break;
+                case 3:
+                  v6 = 9993;
+                  break;
+                case 4:
+                  v6 = 9994;
+                  break;
+                case 5:
+                  v6 = 9995;
+                  break;
+                case 6:
+                  v6 = 9996;
+                  break;
+              }
+            }
+            else
+            {
+              v6 = 9990;
+            }
+            goto LABEL_310;
+          }
+          v40 = _wcsicmp(*v39, L"EQ");
+          v41 = v130;
+          if ( !v40 )
+          {
+            *(_DWORD *)(v8[1] + 16i64 * (_QWORD)v130) = 1;
+            ++*(_DWORD *)v8;
+          }
+          if ( !_wcsicmp(*v39, L"NE") )
+          {
+            *(_DWORD *)(v8[1] + 16i64 * (_QWORD)v41) = 2;
+            ++*(_DWORD *)v8;
+          }
+          v42 = v39 + 1;
+          if ( !a1 )
+            break;
+          switch ( a1 )
+          {
+            case 1:
+              v101 = 8i64 * ((unsigned int)((v135[v38] - v135[v38 - 1]) >> 3) - 1);
+              v126 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+              v102 = 2i64 * (_QWORD)v41;
+              *(_QWORD *)(v8[1] + 8 * v102 + 8) = operator new[](v101, (const struct std::nothrow_t *)&std::nothrow);
+              v103 = v8[1];
+              if ( !*(_QWORD *)(v103 + 8 * v102 + 8) )
+                goto LABEL_241;
+              *(_DWORD *)(v103 + 8 * v102 + 4) = v126;
+              memset_0(*(void **)(v8[1] + 8 * v102 + 8), 0, v101);
+              v127 = 0;
+              while ( v42 != (const wchar_t **)v135[v38] )
+              {
+                v104 = operator new(2ui64, (const struct std::nothrow_t *)&std::nothrow);
+                if ( !v104 )
+                  goto LABEL_241;
+                *v104 = 0;
+                if ( _wcsicmp(*v42, L"TCP") )
+                {
+                  if ( _wcsicmp(*v42, L"UDP") )
+                  {
+                    operator delete(v104);
+                    v6 = 9991;
+                    goto LABEL_309;
+                  }
+                  *v104 = 1;
+                }
+                else
+                {
+                  *v104 = 0;
+                }
+                ++v42;
+                *(_QWORD *)(*(_QWORD *)(v8[1] + 8 * v102 + 8) + 8i64 * v127++) = v104;
+              }
+              break;
+            case 2:
+              v97 = 8i64 * ((unsigned int)((v135[v38] - v135[v38 - 1]) >> 3) - 1);
+              v124 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+              v98 = 2i64 * (_QWORD)v41;
+              *(_QWORD *)(v8[1] + 8 * v98 + 8) = operator new[](v97, (const struct std::nothrow_t *)&std::nothrow);
+              v99 = v8[1];
+              if ( !*(_QWORD *)(v99 + 8 * v98 + 8) )
+                goto LABEL_241;
+              *(_DWORD *)(v99 + 8 * v98 + 4) = v124;
+              memset_0(*(void **)(v8[1] + 8 * v98 + 8), 0, v97);
+              v125 = 0;
+              while ( v42 != (const wchar_t **)v135[v38] )
+              {
+                v100 = operator new(2ui64, (const struct std::nothrow_t *)&std::nothrow);
+                if ( !v100 )
+                  goto LABEL_241;
+                *v100 = 0;
+                if ( _wcsicmp(*v42, L"IPv4") )
+                {
+                  if ( _wcsicmp(*v42, L"IPv6") )
+                  {
+                    operator delete(v100);
+                    v6 = 9992;
+                    goto LABEL_309;
+                  }
+                  *v100 = 0;
+                }
+                else
+                {
+                  *v100 = 1;
+                }
+                ++v42;
+                *(_QWORD *)(*(_QWORD *)(v8[1] + 8 * v98 + 8) + 8i64 * v125++) = v100;
+              }
+              break;
+            case 3:
+              v89 = 8i64 * ((unsigned int)((v135[v38] - v135[v38 - 1]) >> 3) - 1);
+              v122 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+              v90 = 2i64 * (_QWORD)v41;
+              *(_QWORD *)(v8[1] + 8 * v90 + 8) = operator new[](v89, (const struct std::nothrow_t *)&std::nothrow);
+              v91 = v8[1];
+              if ( *(_QWORD *)(v91 + 8 * v90 + 8) )
+              {
+                *(_DWORD *)(v91 + 8 * v90 + 4) = v122;
+                memset_0(*(void **)(v8[1] + 8 * v90 + 8), 0, v89);
+                for ( i = 0; ; ++i )
+                {
+                  if ( v42 == (const wchar_t **)v135[v38] )
+                    goto LABEL_117;
+                  *(_WORD *)&Addr.S_un.S_un_b.s_b2 = 0;
+                  Addr.S_un.S_un_b.s_b1 = 0;
+                  Addr.S_un.S_un_b.s_b4 = 0;
+                  v138.u.Byte[0] = 0;
+                  *(_QWORD *)&v138.u.Byte[1] = 0i64;
+                  *(_DWORD *)((char *)&v138.u.Word[4] + 1) = 0;
+                  *(USHORT *)((char *)&v138.u.Word[6] + 1) = 0;
+                  v138.u.Byte[15] = 0;
+                  Terminator = 0i64;
+                  v92 = (struct in_addr *)operator new(0x40ui64, (const struct std::nothrow_t *)&std::nothrow);
+                  if ( !v92 )
+                    break;
+                  v93 = wcsstr(*v42, L".");
+                  v94 = *v42;
+                  if ( v93 )
+                  {
+                    v6 = RtlIpv4StringToAddressW(v94, 1u, &Terminator, &Addr);
+                    v95 = v92;
+                    if ( v6 )
+                      goto LABEL_275;
+                    DnsAddr_BuildFromIp4(v92, Addr, 0);
+                  }
+                  else
+                  {
+                    v6 = RtlIpv6StringToAddressW(v94, &Terminator, &v138);
+                    v95 = v92;
+                    if ( v6 )
+                    {
+LABEL_275:
+                      operator delete(v95);
+                      v6 = 9993;
+                      goto LABEL_309;
+                    }
+                    DnsAddr_BuildFromIp6((char *)v92, (__int128 *)&v138, v96, 0);
+                  }
+                  ++v42;
+                  *(_QWORD *)(*(_QWORD *)(v8[1] + 8 * v90 + 8) + 8i64 * i) = v92;
+                }
+                v115 = WPP_GLOBAL_Control;
+                if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                  || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                {
+                  goto LABEL_241;
+                }
+                v116 = 108;
+              }
+              else
+              {
+                v115 = WPP_GLOBAL_Control;
+                if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                  || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                {
+                  goto LABEL_241;
+                }
+                v116 = 107;
+              }
+              goto LABEL_251;
+            case 4:
+              v76 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+              v77 = operator new[](8i64 * v76, (const struct std::nothrow_t *)&std::nothrow);
+              v78 = v8[1];
+              v79 = (const WCHAR *)(16i64 * (_QWORD)v130);
+              Terminator = v79;
+              *(_QWORD *)((char *)v79 + v78 + 8) = v77;
+              v80 = v8[1];
+              if ( !*(_QWORD *)((char *)v79 + v80 + 8) )
+              {
+                v115 = WPP_GLOBAL_Control;
+                if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                  || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                {
+                  goto LABEL_241;
+                }
+                v116 = 111;
+                goto LABEL_251;
+              }
+              *(_DWORD *)((char *)v79 + v80 + 4) = v76;
+              memset_0(*(void **)((char *)v79 + v8[1] + 8), 0, 8i64 * v76);
+              v121 = 0;
+              if ( v42 != (const wchar_t **)v135[v38] )
+              {
+                v6 = 0;
+                while ( 1 )
+                {
+                  memset_0(v142, 0, sizeof(v142));
+                  memset_0(v145, 0, sizeof(v145));
+                  v81 = (char *)Dns_StringCopyAllocate((char *)*v42, 0, 1i64, 2);
+                  v82 = v81;
+                  if ( !v81 )
+                    break;
+                  v83 = -1i64;
+                  do
+                    ++v83;
+                  while ( v81[v83] );
+                  if ( (unsigned int)Dns_ValidateAndCategorizeDnsNameEx(v81, v83) == 123 )
+                  {
+                    Mem_Free(v82, 0i64, 0i64, (__int64)"ds\\dns\\server\\policy\\policy.cpp", 4076);
+                    v6 = 9994;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      WPP_SF_Ds(
+                        *((_QWORD *)WPP_GLOBAL_Control + 7),
+                        0x71u,
+                        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                        9994,
+                        (__int64)v82);
+                    }
+LABEL_309:
+                    FreePolicyCriteriaList((int *)v8);
+                    goto LABEL_310;
+                  }
+                  if ( !(unsigned int)Name_ConvertDottedNameToLookupName(v82, 0, (unsigned __int16 *)v142) )
+                  {
+                    Mem_Free(v82, 0i64, 0i64, (__int64)"ds\\dns\\server\\policy\\policy.cpp", 4128);
+                    goto LABEL_304;
+                  }
+                  memset_0(Src, 0, 0xFFui64);
+                  v84 = LOWORD(v142[0]);
+                  while ( v84 )
+                  {
+                    v85 = *((unsigned __int8 *)&v142[40] + v84 + 7);
+                    v86 = (unsigned __int8 *)v142[v84--];
+                    if ( (unsigned int)Dns_DowncaseNameLabel(
+                                         v145,
+                                         v86,
+                                         v85,
+                                         (const char *)(unsigned int)dword_1401B9854) == -1 )
+                    {
+                      Mem_Free(v82, 0i64, 0i64, (__int64)"ds\\dns\\server\\policy\\policy.cpp", 4101);
+                      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                      {
+                        WPP_SF_s(
+                          *((_QWORD *)WPP_GLOBAL_Control + 7),
+                          0x72u,
+                          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                          v82);
+                      }
+                      v6 = 9994;
+                      goto LABEL_309;
+                    }
+                  }
+                  if ( !(unsigned int)Name_ConvertLookupNameToDottedName(Src, (unsigned __int16 *)v142) )
+                  {
+                    Mem_Free(v82, 0i64, 0i64, (__int64)"ds\\dns\\server\\policy\\policy.cpp", 4123);
+LABEL_304:
+                    v6 = 9994;
+                    goto LABEL_309;
+                  }
+                  v87 = operator new(0x28ui64, (const struct std::nothrow_t *)&std::nothrow);
+                  if ( v87 )
+                  {
+                    v87[3] = 15i64;
+                    v87[2] = 0i64;
+                    v88 = -1i64;
+                    *(_BYTE *)v87 = 0;
+                    do
+                      ++v88;
+                    while ( Src[v88] );
+                    std::string::assign(v87, Src, (char *)v88);
+                  }
+                  else
+                  {
+                    v87 = 0i64;
+                  }
+                  if ( !v87 )
+                  {
+                    Mem_Free(v82, 0i64, 0i64, (__int64)"ds\\dns\\server\\policy\\policy.cpp", 4115);
+                    v115 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      v116 = 115;
+                      goto LABEL_251;
+                    }
+LABEL_241:
+                    v6 = 14;
+                    goto LABEL_309;
+                  }
+                  *(_QWORD *)(*(_QWORD *)((char *)Terminator + v8[1] + 8) + 8i64 * v121) = v87;
+                  Mem_Free(v82, 0i64, 0i64, (__int64)"ds\\dns\\server\\policy\\policy.cpp", 4132);
+                  ++v121;
+                  if ( ++v42 == (const wchar_t **)v135[v38] )
+                    goto LABEL_117;
+                }
+                v34 = WPP_GLOBAL_Control;
+                if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                  && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                {
+                  v35 = 112;
+LABEL_50:
+                  WPP_SF_(*((_QWORD *)v34 + 7), v35, (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids);
+                }
+LABEL_51:
+                v6 = 14;
+                goto LABEL_309;
+              }
+              break;
+            case 5:
+              v69 = 8i64 * ((unsigned int)((v135[v38] - v135[v38 - 1]) >> 3) - 1);
+              v119 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+              v70 = 2i64 * (_QWORD)v41;
+              *(_QWORD *)(v8[1] + 8 * v70 + 8) = operator new[](v69);
+              v71 = v8[1];
+              if ( *(_QWORD *)(v71 + 8 * v70 + 8) )
+              {
+                *(_DWORD *)(v71 + 8 * v70 + 4) = v119;
+                memset_0(*(void **)(v8[1] + 8 * v70 + 8), 0, v69);
+                for ( j = 0; ; ++j )
+                {
+                  if ( v42 == (const wchar_t **)v135[v38] )
+                    goto LABEL_117;
+                  v72 = operator new(2ui64);
+                  if ( !v72 )
+                    break;
+                  *v72 = 0;
+                  if ( _wcsicmp(*v42, L"ANY") )
+                  {
+                    v73 = (WCHAR *)*v42;
+                    v74 = -1i64;
+                    do
+                      ++v74;
+                    while ( v73[v74] );
+                    v75 = Dns_RecordTypeForNameW(v73, v74);
+                    *v72 = v75;
+                    if ( !v75 )
+                    {
+                      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                      {
+                        WPP_SF_DS(
+                          *((_QWORD *)WPP_GLOBAL_Control + 7),
+                          0x7Du,
+                          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                          5,
+                          (__int64)*v42);
+                      }
+                      operator delete(v72);
+                      v6 = 9995;
+                      goto LABEL_309;
+                    }
+                  }
+                  else
+                  {
+                    *v72 = 255;
+                  }
+                  ++v42;
+                  *(_QWORD *)(*(_QWORD *)(v8[1] + 8 * v70 + 8) + 8i64 * j) = v72;
+                }
+                v115 = WPP_GLOBAL_Control;
+                if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                  && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                {
+                  v116 = 124;
+                  goto LABEL_251;
+                }
+              }
+              goto LABEL_241;
+            case 6:
+              v43 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+              v44 = operator new[](8i64 * v43);
+              v45 = v8[1];
+              v46 = (const WCHAR *)(16i64 * (_QWORD)v130);
+              Terminator = v46;
+              *(_QWORD *)((char *)v46 + v45 + 8) = v44;
+              v47 = v8[1];
+              if ( !*(_QWORD *)((char *)v46 + v47 + 8) )
+                goto LABEL_241;
+              *(_DWORD *)((char *)v46 + v47 + 4) = v43;
+              memset_0(*(void **)((char *)v46 + v8[1] + 8), 0, 8i64 * v43);
+              v118 = 0;
+              if ( v42 != (const wchar_t **)v135[v38] )
+              {
+                v48 = Terminator;
+                while ( 1 )
+                {
+                  v49 = operator new(0x20ui64);
+                  memset_0(v49, 0, 0x20ui64);
+                  v50 = wcstok_s((wchar_t *)*v42, L"-", &Context[1]);
+                  Context[0] = v50;
+                  if ( !v50 || !Context[1] || !*v50 || !*Context[1] )
+                  {
+                    operator delete(v49);
+                    v113 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      v114 = 116;
+LABEL_224:
+                      WPP_SF_S(
+                        *((_QWORD *)v113 + 7),
+                        v114,
+                        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                        *v42);
+                    }
+                    goto LABEL_308;
+                  }
+                  v51 = wcstok_s(v50, L":", &String[1]);
+                  String[0] = v51;
+                  v52 = v51;
+                  if ( !v51 || !String[1] || (v53 = *v51) == 0 || !*String[1] )
+                  {
+                    operator delete(v49);
+                    v113 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      v114 = 117;
+                      goto LABEL_224;
+                    }
+LABEL_308:
+                    v6 = 9996;
+                    goto LABEL_309;
+                  }
+                  v54 = -1i64;
+                  do
+                    ++v54;
+                  while ( v52[v54] );
+                  if ( v54 != 2 )
+                    break;
+                  v55 = -1i64;
+                  do
+                    ++v55;
+                  while ( String[1][v55] );
+                  if ( v55 != 2 )
+                    break;
+                  if ( !iswdigit(v53) || !iswdigit(String[0][1]) || !iswdigit(*String[1]) || !iswdigit(String[1][1]) )
+                  {
+                    operator delete(v49);
+                    v111 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                    {
+                      goto LABEL_308;
+                    }
+                    v112 = 119;
+                    goto LABEL_214;
+                  }
+                  v49[4] = _wtoi(String[0]);
+                  v49[5] = _wtoi(String[1]);
+                  String[1] = 0i64;
+                  String[0] = 0i64;
+                  v56 = wcstok_s(Context[1], L":", &String[1]);
+                  String[0] = v56;
+                  v57 = v56;
+                  if ( !v56 || !String[1] || (v58 = *v56) == 0 || !*String[1] )
+                  {
+                    operator delete(v49);
+                    v113 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      v114 = 120;
+                      goto LABEL_224;
+                    }
+                    goto LABEL_308;
+                  }
+                  v59 = -1i64;
+                  do
+                    ++v59;
+                  while ( v57[v59] );
+                  if ( v59 != 2 )
+                    goto LABEL_216;
+                  v60 = -1i64;
+                  do
+                    ++v60;
+                  while ( String[1][v60] );
+                  if ( v60 != 2 )
+                  {
+LABEL_216:
+                    operator delete(v49);
+                    v111 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                    {
+                      goto LABEL_308;
+                    }
+                    v112 = 121;
+                    goto LABEL_214;
+                  }
+                  if ( !iswdigit(v58) || !iswdigit(String[0][1]) || !iswdigit(*String[1]) || !iswdigit(String[1][1]) )
+                  {
+                    operator delete(v49);
+                    v111 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                    {
+                      goto LABEL_308;
+                    }
+                    v112 = 122;
+                    goto LABEL_214;
+                  }
+                  v49[12] = _wtoi(String[0]);
+                  v61 = _wtoi(String[1]);
+                  v62 = v49[12];
+                  v63 = v61;
+                  v49[13] = v61;
+                  if ( v49[4] > v62 || v49[4] == v62 && v49[5] >= v61 )
+                  {
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      WPP_SF_dddd(
+                        *((_QWORD *)WPP_GLOBAL_Control + 7),
+                        0x7Bu,
+                        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                        (unsigned __int16)v49[4]);
+                    }
+                    v6 = 9996;
+                    operator delete(v49);
+                    goto LABEL_309;
+                  }
+                  v64 = 15;
+                  if ( dword_1401B9A3C )
+                    v64 = dword_1401B9A3C;
+                  v65 = v64;
+                  v66 = v64 * ((unsigned __int16)v49[5] / (int)v64);
+                  v67 = v61;
+                  v49[5] = v66;
+                  v68 = v61 / v65;
+                  if ( v63 % v65 )
+                    v67 = v65 * (v68 + 1);
+                  v49[13] = v67;
+                  if ( v67 == 60 )
+                  {
+                    v49[13] = 0;
+                    v49[12] = v62 + 1;
+                  }
+                  ++v42;
+                  *(_QWORD *)(*(_QWORD *)((char *)v48 + v8[1] + 8) + 8i64 * v118++) = v49;
+                  if ( v42 == (const wchar_t **)v135[v38] )
+                    goto LABEL_117;
+                }
+                operator delete(v49);
+                v111 = WPP_GLOBAL_Control;
+                if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+                  || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+                {
+                  goto LABEL_308;
+                }
+                v112 = 118;
+LABEL_214:
+                WPP_SF_SS(
+                  *((_QWORD *)v111 + 7),
+                  v112,
+                  (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                  String[0],
+                  (__int64)String[1]);
+                goto LABEL_308;
+              }
+              break;
+          }
+LABEL_117:
+          v37 = (char *)v130 + 1;
+          LODWORD(v133) = (_DWORD)v133 + 1;
+          v130 = (wchar_t *)((char *)v130 + 1);
+          if ( (unsigned int)v133 >= 2 )
+            goto LABEL_294;
+        }
+        v105 = 8i64 * ((unsigned int)((v135[v38] - v135[v38 - 1]) >> 3) - 1);
+        v128 = ((v135[v38] - v135[v38 - 1]) >> 3) - 1;
+        v106 = 2i64 * (_QWORD)v41;
+        *(_QWORD *)(v8[1] + 8 * v106 + 8) = operator new[](v105, (const struct std::nothrow_t *)&std::nothrow);
+        v107 = v8[1];
+        if ( *(_QWORD *)(v107 + 8 * v106 + 8) )
+        {
+          *(_DWORD *)(v107 + 8 * v106 + 4) = v128;
+          memset_0(*(void **)(v8[1] + 8 * v106 + 8), 0, v105);
+          for ( k = 0; ; ++k )
+          {
+            if ( v42 == (const wchar_t **)v135[v38] )
+              goto LABEL_117;
+            v108 = (char *)operator new(0x28ui64);
+            if ( v108 )
+            {
+              v109 = (wchar_t *)*v42;
+              v110 = -1i64;
+              *((_QWORD *)v108 + 3) = 7i64;
+              *((_QWORD *)v108 + 2) = 0i64;
+              *(_WORD *)v108 = 0;
+              do
+                ++v110;
+              while ( v109[v110] );
+              std::wstring::assign(v108, (char *)v109, v110);
+            }
+            else
+            {
+              v108 = 0i64;
+            }
+            if ( !v108 )
+              break;
+            ++v42;
+            *(_QWORD *)(*(_QWORD *)(v8[1] + 8 * v106 + 8) + 8i64 * k) = v108;
+          }
+          v115 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+          {
+            goto LABEL_241;
+          }
+          v116 = 110;
+        }
+        else
+        {
+          v115 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+          {
+            goto LABEL_241;
+          }
+          v116 = 109;
+        }
+LABEL_251:
+        WPP_SF_(*((_QWORD *)v115 + 7), v116, (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids);
+        goto LABEL_241;
+      }
+    }
+    if ( !a1 )
+    {
+LABEL_13:
+      v6 = 9990;
+      goto LABEL_309;
+    }
+    v15 = a1 == 1;
+  }
+  if ( v15 )
+  {
+    v6 = 9991;
+    goto LABEL_309;
+  }
+  switch ( a1 )
+  {
+    case 2:
+      v6 = 9992;
+      goto LABEL_309;
+    case 3:
+      v6 = 9993;
+      goto LABEL_309;
+    case 4:
+      goto LABEL_304;
+    case 5:
+      v6 = 9995;
+      goto LABEL_309;
+    case 6:
+      goto LABEL_308;
+  }
+LABEL_310:
+  if ( v141 >= 8 )
+    operator delete(v139[0]);
+  v141 = 7i64;
+  v140 = 0i64;
+  LOWORD(v139[0]) = 0;
+  `eh vector destructor iterator'(
+    &v134,
+    0x20ui64,
+    2ui64,
+    (void (__stdcall *)(void *))std::vector<unsigned short *>::~vector<unsigned short *>);
+  return v6;
+}
+// 1401495E4: variable 'v96' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B9854: using guessed type int dword_1401B9854;
+// 1401B9A3C: using guessed type int dword_1401B9A3C;
+// 140148958: using guessed type __int64 var_398[7];
+// 140148958: using guessed type char Src[256];
+##############################
+Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+		"(...)"
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.

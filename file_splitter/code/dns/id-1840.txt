@@ -1,0 +1,62 @@
+//----- (00000001400E63A0) ----------------------------------------------------
+__int64 __fastcall std::streambuf::snextc(__int64 a1)
+{
+  __int64 v2; // rdx
+  int v3; // ecx
+  _QWORD *v4; // rax
+  unsigned __int8 *v5; // rcx
+  unsigned int v6; // edi
+  int v7; // ecx
+  _QWORD *v8; // rcx
+  unsigned __int8 *v9; // rdx
+  int v10; // eax
+  unsigned __int8 *v11; // rdx
+  int v12; // ecx
+
+  v2 = **(_QWORD **)(a1 + 64);
+  if ( v2 )
+    v3 = **(_DWORD **)(a1 + 88);
+  else
+    v3 = 0;
+  if ( v3 <= 1 )
+  {
+    if ( v2 )
+      v7 = **(_DWORD **)(a1 + 88);
+    else
+      v7 = 0;
+    v6 = -1;
+    if ( v7 <= 0 )
+    {
+      v10 = (*(__int64 (__fastcall **)(__int64))(*(_QWORD *)a1 + 56i64))(a1);
+    }
+    else
+    {
+      --**(_DWORD **)(a1 + 88);
+      v8 = *(_QWORD **)(a1 + 64);
+      v9 = (unsigned __int8 *)(*v8)++;
+      v10 = *v9;
+    }
+    if ( v10 != -1 )
+    {
+      v11 = **(unsigned __int8 ***)(a1 + 64);
+      if ( v11 )
+        v12 = **(_DWORD **)(a1 + 88);
+      else
+        v12 = 0;
+      if ( v12 <= 0 )
+        return (*(unsigned int (__fastcall **)(__int64))(*(_QWORD *)a1 + 48i64))(a1);
+      else
+        return *v11;
+    }
+  }
+  else
+  {
+    --**(_DWORD **)(a1 + 88);
+    v4 = *(_QWORD **)(a1 + 64);
+    v5 = (unsigned __int8 *)(*v4 + 1i64);
+    *v4 = v5;
+    return *v5;
+  }
+  return v6;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

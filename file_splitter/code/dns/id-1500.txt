@@ -1,0 +1,126 @@
+//----- (00000001400BC8A8) ----------------------------------------------------
+unsigned __int8 __fastcall createWinsName(PCHAR OemString, _BYTE *a2, unsigned __int8 a3)
+{
+  PCHAR v6; // r8
+  unsigned int v8; // edx
+  __int64 v9; // r9
+  CHAR v10; // cl
+  const char *v11; // rax
+  DWORD v12; // eax
+  unsigned __int64 v13; // rdi
+  const char *v14; // rax
+  __int64 v15; // rdx
+  __int64 v16; // rcx
+  __int64 v17; // rdx
+  __int64 v18; // rcx
+  __int64 v19; // r8
+  __int64 v20; // rdx
+  __int64 v21; // rcx
+  char *v22; // rax
+  __int64 v23; // rdx
+  __int64 v24; // rcx
+  __int64 v25; // r8
+  __int64 v26; // rdx
+  __int64 v27; // rcx
+  ULONG ResultSize; // [rsp+30h] [rbp-58h] BYREF
+  WCHAR sz[16]; // [rsp+38h] [rbp-50h] BYREF
+
+  v6 = OemString;
+  if ( a3 > 0x2Du )
+    return 0;
+  v8 = 0;
+  if ( a3 )
+  {
+    v9 = a2 - OemString;
+    while ( 1 )
+    {
+      v10 = v6[v9];
+      if ( (unsigned __int8)v10 > 0x80u )
+        break;
+      if ( v8 >= 0xF )
+        return 0;
+      if ( (unsigned __int8)(v10 - 97) <= 0x19u )
+        v10 -= 32;
+      *v6 = v10;
+      ++v8;
+      ++v6;
+      if ( v8 >= a3 )
+        goto LABEL_10;
+    }
+    v12 = DnsUtf8ToUnicode(a2, a3, sz, 16i64);
+    v13 = v12;
+    if ( !v12 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v14 = (const char *)FormatLabelA(a3, a2);
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xBu,
+          (__int64)&WPP_ae7d10ab80043f064358eb7738862626_Traceguids,
+          v14);
+      }
+      return 0;
+    }
+    if ( v12 > 0xF || CharUpperBuffW(sz, v12) != v12 )
+      return 0;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0 )
+    {
+      DnsPrint_Utf8StringBytes(v16, v15, (__int64)"WINS lookup string:", a2, a3);
+      DnsPrint_UnicodeStringBytes(v18, v17, v19, (const char *)sz, v13);
+    }
+    if ( RtlUpcaseUnicodeToOemN(OemString, 0xFu, &ResultSize, sz, 2 * v13) )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v22 = FormatLabelW(v13, sz);
+        WPP_SF_S(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xCu,
+          (__int64)&WPP_ae7d10ab80043f064358eb7738862626_Traceguids,
+          (const unsigned __int16 *)v22);
+      }
+      return 0;
+    }
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0 )
+    {
+      DnsPrint_Utf8StringBytes(v21, v20, (__int64)"WINS lookup string:", a2, a3);
+      DnsPrint_UnicodeStringBytes(v24, v23, v25, (const char *)sz, v13);
+      DnsPrint_Utf8StringBytes(v27, v26, (__int64)"WINS OEM lookup string:", OemString, ResultSize);
+    }
+    return ResultSize;
+  }
+  else
+  {
+LABEL_10:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v11 = (const char *)FormatLabelA(a3, OemString);
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xAu,
+        (__int64)&WPP_ae7d10ab80043f064358eb7738862626_Traceguids,
+        v11);
+    }
+    return a3;
+  }
+}
+// 1400BCA34: variable 'v16' is possibly undefined
+// 1400BCA34: variable 'v15' is possibly undefined
+// 1400BCA42: variable 'v18' is possibly undefined
+// 1400BCA42: variable 'v17' is possibly undefined
+// 1400BCA42: variable 'v19' is possibly undefined
+// 1400BCAE7: variable 'v21' is possibly undefined
+// 1400BCAE7: variable 'v20' is possibly undefined
+// 1400BCAF5: variable 'v24' is possibly undefined
+// 1400BCAF5: variable 'v23' is possibly undefined
+// 1400BCAF5: variable 'v25' is possibly undefined
+// 1400BCB0C: variable 'v27' is possibly undefined
+// 1400BCB0C: variable 'v26' is possibly undefined
+// 140183D48: using guessed type __int64 __fastcall DnsUtf8ToUnicode(_QWORD, _QWORD, _QWORD, _QWORD);

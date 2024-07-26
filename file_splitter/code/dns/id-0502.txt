@@ -1,0 +1,73 @@
+//----- (0000000140043A94) ----------------------------------------------------
+_DWORD *__fastcall getDnsAddrArrayFromDsProp(__int64 a1, int a2, int *a3)
+{
+  int v6; // r9d
+  _DWORD *v7; // rbx
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  unsigned int v9; // edx
+  unsigned __int64 v10; // rax
+  void *Src; // [rsp+68h] [rbp+20h] BYREF
+
+  Src = 0i64;
+  setPropertyValueToDsProperty(a3, &Src, 0);
+  v7 = Src;
+  if ( !Src )
+    return v7;
+  if ( (*((_DWORD *)Src + 1) << 6) + 32 != *a3 || !*((_DWORD *)Src + 1) )
+  {
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_9;
+    }
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x15Fu,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      a2,
+      *(_QWORD *)(a1 + 24));
+    v7 = Src;
+  }
+  v8 = WPP_GLOBAL_Control;
+LABEL_9:
+  if ( v7 )
+  {
+    v9 = 0;
+    if ( v7[1] )
+    {
+      do
+      {
+        v10 = (unsigned __int64)v9++ << 6;
+        *(_WORD *)((char *)v7 + v10 + 34) = 13568;
+      }
+      while ( v9 < v7[1] );
+      v7 = Src;
+      v8 = WPP_GLOBAL_Control;
+    }
+  }
+  if ( (*((_DWORD *)v8 + 17) & 0x400) != 0 && *((_BYTE *)v8 + 65) >= 5u )
+  {
+    if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)v8 + 7),
+        0x160u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        a2,
+        *(_QWORD *)(a1 + 24));
+      v7 = Src;
+    }
+    Dbg_DnsAddrArray("DS property address array", (__int64)v7);
+    v7 = Src;
+  }
+  if ( v7 )
+  {
+    v7 = DnsAddrArray_CopyAndExpand(v7, 0i64, 0i64, v6);
+    Mem_Free(Src, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 13730);
+  }
+  return v7;
+}
+// 140043B79: conditional instruction was optimized away because al.1>=5u
+// 140043BC2: variable 'v6' is possibly undefined

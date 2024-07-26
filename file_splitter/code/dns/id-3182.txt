@@ -1,0 +1,8 @@
+//----- (0000000140168440) ----------------------------------------------------
+std::length_error *__fastcall std::length_error::`scalar deleting destructor'(std::length_error *this, char a2)
+{
+  exception::~exception(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}

@@ -1,0 +1,62 @@
+//----- (00000001400A9A00) ----------------------------------------------------
+__int64 __fastcall Rpc_UpdateClientSubnetRecord(
+        __int64 a1,
+        const char *a2,
+        __int64 a3,
+        __int64 a4,
+        __int64 a5,
+        wchar_t **a6)
+{
+  unsigned int v7; // edx
+  unsigned int v9; // ebx
+  unsigned int v10; // eax
+
+  if ( !(unsigned int)IsValidFileName(*a6) )
+    return 9984i64;
+  v9 = Policy_AcquireWriteLock(&g_hServerLevelPolicyLock, v7);
+  if ( v9 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x42u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        v9);
+    }
+    return v9;
+  }
+  v9 = Verify_SubnetName((char *)*a6);
+  if ( v9 )
+    goto LABEL_17;
+  if ( !_strnicmp("AddSubnetsInRecord", a2, 0x13ui64) )
+    goto LABEL_14;
+  if ( !_strnicmp("DeleteSubnetsInRecord", a2, 0x16ui64) )
+  {
+    v10 = Delete_ClientSubnetRecord((char **)a6, 0);
+    goto LABEL_15;
+  }
+  if ( _strnicmp("ResetClientSubnetRecord", a2, 0x18ui64) )
+  {
+LABEL_16:
+    LogClientSubnetRecordEvent(576, 0i64, *a6);
+    goto LABEL_17;
+  }
+  v9 = Delete_ClientSubnetRecord((char **)a6, 1);
+  if ( !v9 )
+  {
+LABEL_14:
+    v10 = Add_ClientSubnetRecord((char **)a6);
+LABEL_15:
+    v9 = v10;
+    if ( !v10 )
+      goto LABEL_16;
+  }
+LABEL_17:
+  Lock_ReleaseWrite(g_hServerLevelPolicyLock);
+  return v9;
+}
+// 1400A9A34: variable 'v7' is possibly undefined
+// 1401B9240: using guessed type __int64 g_hServerLevelPolicyLock;

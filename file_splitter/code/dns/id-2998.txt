@@ -1,0 +1,273 @@
+//----- (0000000140159050) ----------------------------------------------------
+__int64 __fastcall Dns_SignMessageWithGssTsig(__int64 *a1, char *a2, unsigned __int64 a3, _QWORD *a4)
+{
+  unsigned int v7; // ebx
+  char v8; // al
+  __int64 v9; // r13
+  __int64 v11; // rax
+  __int64 v12; // r8
+  __int64 v13; // rcx
+  __int64 v14; // rax
+  __int64 v15; // r8
+  __int64 v16; // r12
+  unsigned int v17; // eax
+  size_t v18; // rbx
+  char *v19; // r15
+  unsigned int v20; // eax
+  char *v21; // r15
+  char *v22; // rax
+  __int64 v23; // r8
+  char *v24; // rsi
+  unsigned __int16 v25; // cx
+  __int64 v26; // rbx
+  char *v27; // rsi
+  size_t v28; // rbx
+  int v29; // r9d
+  char *v30; // rsi
+  unsigned int v31; // esi
+  char *v32; // rsi
+  unsigned int v33; // eax
+  __int64 v34; // rdx
+  __int64 v35; // rcx
+  unsigned __int16 v36; // bx
+  HLOCAL v37; // rax
+  __int64 v38; // r15
+  char *v39; // rsi
+  _WORD *v40; // rsi
+  __int64 v41; // rdx
+  __int64 v42; // rcx
+  int v43; // [rsp+20h] [rbp-69h]
+  __int64 v44; // [rsp+28h] [rbp-61h]
+  char *v45; // [rsp+40h] [rbp-49h]
+  char *v46; // [rsp+48h] [rbp-41h]
+  int v47[2]; // [rsp+50h] [rbp-39h] BYREF
+  unsigned int *v48; // [rsp+58h] [rbp-31h]
+  unsigned int v49[2]; // [rsp+60h] [rbp-29h] BYREF
+  __int64 v50; // [rsp+68h] [rbp-21h]
+  int v51; // [rsp+70h] [rbp-19h]
+  int v52; // [rsp+74h] [rbp-15h]
+  _WORD *v53; // [rsp+78h] [rbp-11h]
+  char v54[32]; // [rsp+80h] [rbp-9h] BYREF
+  __int16 v55; // [rsp+A0h] [rbp+17h]
+  const char *Src; // [rsp+F0h] [rbp+67h]
+  __int16 Srca; // [rsp+F0h] [rbp+67h]
+
+  v7 = 13;
+  v8 = byte_1401BA001;
+  if ( (byte_1401BA001 & 0x20) != 0 )
+  {
+    WPP_SF_q(64i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)a2);
+    v8 = byte_1401BA001;
+  }
+  v9 = *a1;
+  if ( *a1 )
+  {
+    if ( *((_WORD *)a2 + 5) )
+    {
+      v11 = Dns_SkipToRecord(a2, a3, 0xFFFFFFFFi64);
+      if ( !v11 )
+      {
+        if ( (byte_1401BA001 & 4) == 0 )
+          return v7;
+        v13 = 66i64;
+LABEL_11:
+        WPP_SF_(v13, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v12);
+        return v7;
+      }
+      if ( !Dns_ParsePacketRecord(v11, a3, v54) )
+      {
+        if ( (byte_1401BA001 & 4) == 0 )
+          return v7;
+        v13 = 67i64;
+        goto LABEL_11;
+      }
+      if ( v55 == 250 )
+      {
+        if ( (byte_1401BA001 & 0x20) != 0 )
+          WPP_SF_q(68i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)a2);
+        --*((_WORD *)a2 + 5);
+      }
+    }
+    v14 = Dns_SkipToRecord(a2, a3, 0i64);
+    if ( !v14 )
+    {
+      if ( (byte_1401BA001 & 4) == 0 )
+        return v7;
+      v13 = 69i64;
+      goto LABEL_11;
+    }
+    v16 = Dns_WriteDottedNameToPacket(v14, a3, *(_QWORD *)(v9 + 88), 0i64, 0, 0);
+    if ( !v16 )
+      return v7;
+    if ( *(_DWORD *)(v9 + 128) == 3 )
+    {
+      v17 = 19;
+      Src = (const char *)&unk_1401955C8;
+    }
+    else
+    {
+      Src = "\bgss-tsig";
+      v17 = 10;
+    }
+    v18 = v17;
+    if ( v16 + v17 + (unsigned __int64)(unsigned int)g_SignatureMaxLength + 26 > a3 )
+    {
+      if ( (byte_1401BA001 & 4) != 0 )
+        WPP_SF_(70i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v15);
+      return 87;
+    }
+    LOWORD(v43) = 0;
+    v45 = (char *)Dns_WriteRecordStructureToPacketEx(v16, 250i64, 255i64, 0i64, v43);
+    v19 = &v45[v18];
+    memcpy_0(v45, Src, v18);
+    *(_WORD *)v19 = 0;
+    v20 = time(0i64);
+    *(_DWORD *)(v19 + 2) = ((v20 & 0xFF00 | (v20 << 16)) << 8) | ((HIWORD(v20) | v20 & 0xFF0000) >> 8);
+    *((_WORD *)v19 + 3) = -24436;
+    v21 = &v45[v18 + 8];
+    v22 = (char *)Dns_AllocZero(0x11000ui64);
+    v24 = v22;
+    if ( !v22 )
+      return 14;
+    v46 = v22;
+    if ( a2[2] < 0 )
+    {
+      if ( a1[16] )
+      {
+        v25 = *((_WORD *)a1 + 68);
+        if ( *(_DWORD *)(v9 + 128) != 3 )
+        {
+          *(_WORD *)v22 = __ROL2__(v25, 8);
+          v24 = v22 + 2;
+        }
+        v26 = v25;
+        memcpy_0(v24, (const void *)a1[16], v25);
+        v24 += v26;
+      }
+      else if ( !a1[8] )
+      {
+        if ( (byte_1401BA001 & 4) != 0 )
+          WPP_SF_q(71i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)a2);
+        v7 = 9002;
+        goto LABEL_61;
+      }
+      if ( (byte_1401BA001 & 0x20) != 0 )
+        WPP_SF_(72i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v23);
+    }
+    Srca = __ROL2__(*(_WORD *)a2, 8);
+    *(_WORD *)a2 = Srca;
+    *((_WORD *)a2 + 2) = __ROL2__(*((_WORD *)a2 + 2), 8);
+    *((_WORD *)a2 + 3) = __ROL2__(*((_WORD *)a2 + 3), 8);
+    *((_WORD *)a2 + 4) = __ROL2__(*((_WORD *)a2 + 4), 8);
+    *((_WORD *)a2 + 5) = __ROL2__(*((_WORD *)a2 + 5), 8);
+    memcpy_0(v24, a2, (unsigned int)(v16 - (_DWORD)a2));
+    v27 = &v24[(unsigned int)(v16 - (_DWORD)a2)];
+    *(_WORD *)a2 = __ROL2__(*(_WORD *)a2, 8);
+    *((_WORD *)a2 + 2) = __ROL2__(*((_WORD *)a2 + 2), 8);
+    *((_WORD *)a2 + 3) = __ROL2__(*((_WORD *)a2 + 3), 8);
+    *((_WORD *)a2 + 4) = __ROL2__(*((_WORD *)a2 + 4), 8);
+    *((_WORD *)a2 + 5) = __ROL2__(*((_WORD *)a2 + 5), 8);
+    *(_WORD *)v27 = -256;
+    *(_DWORD *)(v27 + 2) = 0;
+    v27 += 6;
+    v28 = (unsigned int)((_DWORD)v21 - (_DWORD)v45);
+    memcpy_0(v27, v45, v28);
+    v30 = &v27[v28];
+    *(_WORD *)v30 = __ROL2__(*((_WORD *)a1 + 69), 8);
+    v30 += 2;
+    *v30++ = 0;
+    *v30 = 0;
+    v31 = (_DWORD)v30 - (_DWORD)v46 + 1;
+    if ( (byte_1401BA001 & 0x20) != 0 )
+      WPP_SF_D(73i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v31, v29);
+    v47[0] = 0;
+    v48 = v49;
+    v51 = g_SignatureMaxLength;
+    v49[0] = v31;
+    v32 = v21 + 2;
+    v47[1] = 2;
+    v50 = (__int64)v46;
+    v49[1] = 1;
+    v53 = v21 + 2;
+    v52 = 2;
+    v33 = (*(__int64 (__fastcall **)(__int64, _QWORD, int *, _QWORD))(g_pSecurityFunctionTable + 112))(
+            v9 + 8,
+            0i64,
+            v47,
+            0i64);
+    v7 = v33;
+    if ( v33 && v33 != -2146893033 && v33 != -2146893046 )
+    {
+      if ( (byte_1401BA001 & 4) != 0 )
+        WPP_SF_Dd(74i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v33, v33);
+      goto LABEL_61;
+    }
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x2000) != 0 )
+    {
+      DnsPrint_Lock();
+      DnsPrint_MessageNoContext(v35, v34, (__int64)"Signed packet", (__int16 *)a2, (_WORD)v21 - (_WORD)a2);
+      if ( (byte_1401BA001 & 4) != 0 )
+      {
+        LODWORD(v44) = v51;
+        WPP_SF_qdqd(75i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v50, v49[0], v53, v44);
+      }
+      DnsPrint_RawBinary(0i64, 0i64, (__int64)"Signing buffer:", 0i64, v50, v49[0], 0);
+      DnsPrint_RawBinary(0i64, 0i64, (__int64)"Signature:", 0i64, (__int64)v53, v51, 0);
+      DnsPrint_Unlock();
+    }
+    v36 = v51;
+    *(_WORD *)v21 = __ROL2__(v51, 8);
+    if ( a2[2] >= 0 )
+    {
+      v37 = Dns_AllocZero(v36);
+      v38 = (__int64)v37;
+      if ( !v37 )
+      {
+        v7 = 14;
+LABEL_61:
+        Dns_Free(v46);
+        return v7;
+      }
+      memcpy_0(v37, v32, v36);
+      a1[16] = v38;
+      *((_WORD *)a1 + 68) = v36;
+    }
+    v39 = &v32[v36];
+    *(_WORD *)v39 = Srca;
+    *((_WORD *)v39 + 1) = __ROL2__(*((_WORD *)a1 + 69), 8);
+    *((_WORD *)v39 + 2) = 0;
+    v40 = v39 + 6;
+    Dns_SetRecordDatalength(v16, (unsigned __int16)((_WORD)v40 - (_WORD)v45));
+    ++*((_WORD *)a2 + 5);
+    if ( (byte_1401BA001 & 0x20) != 0 )
+      WPP_SF_qdqqqd(v42, v41, (__int64)a2, v36);
+    v7 = 0;
+    *a4 = v40;
+    goto LABEL_61;
+  }
+  if ( (v8 & 4) != 0 )
+    WPP_SF_(65i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, a3);
+  return 9017i64;
+}
+// 140159665: conditional instruction was optimized away because %var_98.8!=0
+// 1401590BA: variable 'a3' is possibly undefined
+// 1401590FC: variable 'v12' is possibly undefined
+// 140159205: variable 'v15' is possibly undefined
+// 140159229: variable 'v43' is possibly undefined
+// 14015930D: variable 'v23' is possibly undefined
+// 14015940D: variable 'v29' is possibly undefined
+// 140159509: variable 'v35' is possibly undefined
+// 140159509: variable 'v34' is possibly undefined
+// 14015953B: variable 'v44' is possibly undefined
+// 14015964F: variable 'v42' is possibly undefined
+// 14015964F: variable 'v41' is possibly undefined
+// 140183D80: using guessed type __int64 __fastcall Dns_WriteDottedNameToPacket(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD, _DWORD);
+// 140183DA8: using guessed type __int64 __fastcall Dns_SkipToRecord(_QWORD, _QWORD, _QWORD);
+// 140183DB0: using guessed type __int64 __fastcall Dns_WriteRecordStructureToPacketEx(_QWORD, _QWORD, _QWORD, _QWORD, _DWORD);
+// 140183DB8: using guessed type __int64 __fastcall Dns_ParsePacketRecord(_QWORD, _QWORD, _QWORD);
+// 140183DC0: using guessed type __int64 __fastcall Dns_SetRecordDatalength(_QWORD, _QWORD);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9E58: using guessed type int g_SignatureMaxLength;
+// 1401BA001: using guessed type char byte_1401BA001;
+// 1401BA088: using guessed type __int64 g_pSecurityFunctionTable;
+// 140159050: using guessed type char var_60[32];

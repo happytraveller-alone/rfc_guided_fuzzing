@@ -1,0 +1,14 @@
+//----- (00000001400A5730) ----------------------------------------------------
+__int64 __fastcall cfg_SetLogPacketData(__int64 a1)
+{
+  int v1; // edx
+
+  v1 = *(_DWORD *)(a1 + 8);
+  dword_1401B979C = v1;
+  if ( g_isRegisteredForUTC == 1 )
+    dword_1401B95B8 = v1 == 0;
+  return 0i64;
+}
+// 1401B9190: using guessed type int g_isRegisteredForUTC;
+// 1401B95B8: using guessed type int dword_1401B95B8;
+// 1401B979C: using guessed type int dword_1401B979C;

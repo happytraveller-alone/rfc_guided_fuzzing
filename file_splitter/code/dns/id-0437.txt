@@ -1,0 +1,18 @@
+//----- (0000000140037758) ----------------------------------------------------
+__int64 __fastcall Ds_InitModBuffer(_DWORD *a1, unsigned int a2, int a3, int a4, int a5)
+{
+  __int64 v6; // rbx
+  unsigned int v7; // ebp
+
+  v6 = a2;
+  v7 = 0;
+  memset_0(a1, 0, 0x40ui64);
+  *((_QWORD *)a1 + 10) = a1 + 22;
+  *((_QWORD *)a1 + 11) = 0i64;
+  *((_QWORD *)a1 + 4) = (char *)a1 + v6;
+  a1[5] = a5;
+  *a1 = a3;
+  if ( a4 )
+    return (unsigned int)Ds_InitModBufferCount((__int64)a1, a4);
+  return v7;
+}

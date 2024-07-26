@@ -1,0 +1,14 @@
+//----- (00000001400871A0) ----------------------------------------------------
+__int64 __fastcall AaaaFlatRead(__int64 a1, __int64 a2)
+{
+  _BYTE *v5; // rax
+
+  if ( *(_WORD *)a1 != 16 )
+    return 9702i64;
+  v5 = RR_AllocateEx(0x10u, 0, 0);
+  if ( !v5 )
+    return 14i64;
+  *(_QWORD *)(a2 + 800) = v5;
+  *(_OWORD *)(v5 + 56) = *(_OWORD *)(a1 + 24);
+  return 0i64;
+}

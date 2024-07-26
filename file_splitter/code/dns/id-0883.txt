@@ -1,0 +1,52 @@
+//----- (0000000140079288) ----------------------------------------------------
+HKEY __fastcall OpenDnsRRLKey(int a1, __int64 a2, LSTATUS *a3)
+{
+  HKEY v5; // rdi
+  LSTATUS v6; // ebx
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  unsigned __int16 v8; // dx
+  HKEY phkResult; // [rsp+68h] [rbp+10h] BYREF
+
+  phkResult = 0i64;
+  v5 = Reg_OpenRootDNSServer();
+  if ( !v5 )
+  {
+    v6 = 110;
+    goto LABEL_16;
+  }
+  if ( a1 )
+  {
+    v6 = RegOpenKeyExW(v5, L"RRL", 0, 0x2001Fu, &phkResult);
+    if ( !v6 )
+      goto LABEL_15;
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_15;
+    }
+    v8 = 163;
+  }
+  else
+  {
+    v6 = RegCreateKeyExW(v5, L"RRL", 0, (LPWSTR)L"DnsRegistryClass", 0, 0x2001Fu, 0i64, &phkResult, 0i64);
+    if ( !v6 )
+      goto LABEL_15;
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_15;
+    }
+    v8 = 164;
+  }
+  WPP_SF_SD(*((_QWORD *)v7 + 7), v8, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, L"RRL");
+LABEL_15:
+  RegCloseKey(v5);
+LABEL_16:
+  if ( a3 )
+    *a3 = v6;
+  return phkResult;
+}

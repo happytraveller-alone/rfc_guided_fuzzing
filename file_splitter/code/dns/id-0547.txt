@@ -1,0 +1,190 @@
+//----- (000000014004CBF4) ----------------------------------------------------
+__int64 __fastcall DsLoad_LookupPollNode(__int64 a1, __int64 a2)
+{
+  _WORD *v2; // r13
+  unsigned int v3; // edx
+  __int64 v5; // r12
+  __int64 v6; // r14
+  __int64 v7; // r15
+  __int64 i; // rbx
+  __int64 v9; // rbx
+  __int64 v10; // rsi
+  char **v11; // r14
+  char *v12; // rax
+  char *v13; // r13
+  int v14; // ebx
+  int v15; // ebx
+  int NextNodeInDsZoneSearch; // eax
+  __int64 v17; // rsi
+  int v18; // r9d
+  int v19; // eax
+  int v20; // ebx
+  const char *v21; // r10
+  unsigned int v23; // [rsp+30h] [rbp-D0h]
+  int v24; // [rsp+34h] [rbp-CCh]
+  int v25; // [rsp+38h] [rbp-C8h]
+  __int64 v26; // [rsp+40h] [rbp-C0h]
+  __int64 v27; // [rsp+48h] [rbp-B8h] BYREF
+  _WORD *v28; // [rsp+50h] [rbp-B0h]
+  __int64 v29; // [rsp+58h] [rbp-A8h]
+  char v30[40]; // [rsp+60h] [rbp-A0h] BYREF
+  int v31; // [rsp+88h] [rbp-78h]
+  CHAR v32[56]; // [rsp+A0h] [rbp-60h] BYREF
+  unsigned int v33; // [rsp+D8h] [rbp-28h]
+  int v34; // [rsp+DCh] [rbp-24h]
+  __int64 v35; // [rsp+118h] [rbp+18h]
+  unsigned int v36; // [rsp+120h] [rbp+20h]
+  unsigned __int16 v37[1288]; // [rsp+230h] [rbp+130h] BYREF
+
+  v2 = (_WORD *)a2;
+  v28 = (_WORD *)a2;
+  v3 = 0;
+  v25 = 0;
+  v24 = 0;
+  v23 = 0;
+  if ( *(_DWORD *)(a1 + 372) )
+  {
+    if ( *(_QWORD *)(g_Database + 56) != a1 && (*(_BYTE *)(a1 + 388) & 3) == 3 )
+    {
+      v5 = (unsigned __int16)*v2;
+      v26 = v5;
+      v6 = v5;
+      if ( *v2 )
+      {
+        v7 = (unsigned __int16)*v2;
+        for ( i = (__int64)&v2[4 * v5 + 4]; ; i = v29 )
+        {
+          v9 = i - 8;
+          --v7;
+          LODWORD(v5) = v5 - 1;
+          v29 = v9;
+          if ( *((_BYTE *)v2 + v7 + 328) > 0x3Fu || (int)StringCchCopyW((char *)v37, 1281i64, (char *)L"DC=") < 0 )
+            goto LABEL_43;
+          v10 = v7;
+          if ( v7 < v6 )
+            break;
+LABEL_16:
+          if ( (int)StringCchCatW(v37, 1281i64, (char *)L",") < 0
+            || (int)StringCchCatW(v37, 1281i64, *(char **)(a1 + 840)) < 0 )
+          {
+            goto LABEL_43;
+          }
+          if ( v25 )
+            Ds_CleanupSearchBlob((__int64)v32);
+          memset_0(v32, 0, 0x190ui64);
+          v34 = 1;
+          v25 = 1;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_S(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x15u,
+              (__int64)&WPP_d0795120f1a7376c235aa98ef7001c93_Traceguids,
+              v37);
+          }
+          if ( (unsigned int)Ds_StartDsZoneSearch(v32, a1, 0i64, v37) )
+            goto LABEL_43;
+          v33 = v33 & 0xFFFFFEFD | 2;
+          if ( !v24 )
+          {
+            v15 = Zone_LockForWriteEx(a1, 1, 0x4E20u, (__int64)"ds\\dns\\server\\server\\dsbkload.c", 212);
+            if ( v15 )
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+              {
+                WPP_SF_Ds(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x16u,
+                  (__int64)&WPP_d0795120f1a7376c235aa98ef7001c93_Traceguids,
+                  v15,
+                  *(_QWORD *)(a1 + 16));
+              }
+              goto LABEL_46;
+            }
+            v24 = 1;
+          }
+          NextNodeInDsZoneSearch = Ds_GetNextNodeInDsZoneSearch((__int64)v32, &v27);
+          if ( NextNodeInDsZoneSearch )
+          {
+            if ( NextNodeInDsZoneSearch != 1168897 && NextNodeInDsZoneSearch != 32 )
+            {
+              Ds_LogZoneEnumerationError(a1, NextNodeInDsZoneSearch);
+              goto LABEL_43;
+            }
+          }
+          else
+          {
+            if ( !v27 )
+              goto LABEL_43;
+            _InterlockedExchangeAdd(&dword_1401C7CC4, v36);
+            memset_0(v30, 0, 0x40ui64);
+            v17 = v27;
+            v31 |= 4u;
+            Up_CreateAppendUpdate((__int64)v30, v27, v35, 255, 0i64);
+            v19 = Up_ApplyUpdatesToDatabase((__int64)v30, a1, 655360i64, v18);
+            v31 |= 0x10000000u;
+            v20 = v19;
+            Up_FreeUpdatesInUpdateList((__int64)v30);
+            if ( !v20 )
+            {
+              *(_DWORD *)(v17 + 76) = dword_1401B9714 + Ds_GetPollingInterval();
+              v23 = 1;
+            }
+          }
+          if ( !(_DWORD)v5 )
+            goto LABEL_43;
+        }
+        v11 = (char **)v9;
+        while ( v10 == v7 || (int)StringCchCatW(v37, 1281i64, (char *)L".") >= 0 )
+        {
+          v12 = (char *)Dns_StringCopyAllocate(*v11, *((unsigned __int8 *)v2 + v10 + 328), 2i64, 1);
+          v13 = v12;
+          if ( !v12 )
+            break;
+          v14 = StringCchCatW(v37, 1281i64, v12);
+          Mem_Free(v13, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dsbkload.c", 656);
+          if ( v14 < 0 )
+            break;
+          v2 = v28;
+          ++v10;
+          ++v11;
+          if ( v10 >= v26 )
+          {
+            v6 = v26;
+            goto LABEL_16;
+          }
+        }
+LABEL_43:
+        if ( v24 )
+          Zone_UnlockAfterWriteEx(a1, 1, (__int64)"ds\\dns\\server\\server\\dsbkload.c", 54);
+        if ( v25 )
+LABEL_46:
+          Ds_CleanupSearchBlob((__int64)v32);
+        v3 = v23;
+      }
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v21 = "NO CHANGE";
+    if ( v3 )
+      v21 = "DATA CHANGED";
+    WPP_SF_ssD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x17u,
+      (__int64)&WPP_d0795120f1a7376c235aa98ef7001c93_Traceguids,
+      *(const char **)(a1 + 16),
+      (__int64)v21);
+  }
+  return v23;
+}
+// 14004CF1D: variable 'v18' is possibly undefined
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401C7CC4: using guessed type int dword_1401C7CC4;
+// 1401EC600: using guessed type __int64 g_Database;

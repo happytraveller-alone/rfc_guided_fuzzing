@@ -1,0 +1,22 @@
+//----- (000000014002E7C0) ----------------------------------------------------
+void __fastcall freeStringArray(_QWORD *a1)
+{
+  _QWORD *v1; // rax
+  __int64 v3; // rdi
+
+  if ( a1 )
+  {
+    v1 = (_QWORD *)*a1;
+    if ( *a1 )
+    {
+      v3 = 0i64;
+      do
+      {
+        Mem_Free(v1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 1120);
+        v1 = (_QWORD *)a1[++v3];
+      }
+      while ( v1 );
+    }
+    Mem_Free(a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 1122);
+  }
+}

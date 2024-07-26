@@ -1,0 +1,24 @@
+//----- (00000001400136B0) ----------------------------------------------------
+__int64 __fastcall processDirectoryLine(int a1, __int64 a2, __int64 a3)
+{
+  __int128 v4; // xmm0
+  __int128 v6; // [rsp+20h] [rbp-18h] BYREF
+
+  if ( !a1 )
+  {
+    v4 = DNS_EVENT_MISSING_DIRECTORY_NAME;
+LABEL_5:
+    v6 = v4;
+    File_LogFileParsingError(&v6, a3, 0i64);
+    return 0i64;
+  }
+  if ( (unsigned int)Config_ReadDatabaseDirectory(*(char **)a2, *(_DWORD *)(a2 + 8)) )
+  {
+    v4 = DNS_EVENT_DIRECTORY_DIRECTIVE;
+    goto LABEL_5;
+  }
+  return 0i64;
+}
+// 1401868A8: using guessed type __int128 DNS_EVENT_MISSING_DIRECTORY_NAME;
+// 140186F20: using guessed type __int128 DNS_EVENT_DIRECTORY_DIRECTIVE;
+// 1400136B0: using guessed type __int128 var_18;

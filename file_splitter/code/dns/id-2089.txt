@@ -1,0 +1,227 @@
+//----- (0000000140105E40) ----------------------------------------------------
+__int64 __fastcall DnsOls_AddNewNsec3(
+        struct _zone_info *a1,
+        struct _DnsTreeNode *a2,
+        __int64 a3,
+        struct _Dbase_Record *a4,
+        __int64 a5,
+        _OWORD *a6,
+        __int64 a7,
+        __int64 a8,
+        struct _DnsUpdateList *a9)
+{
+  struct _Dbase_Record *v9; // rdi
+  __int64 v10; // rsi
+  struct _DnsTreeNode *Nsec3Node; // rax
+  __int64 v13; // r14
+  struct _DnsTreeNode *NextNsec3Node; // rbx
+  _QWORD *v15; // rax
+  struct _DnsUpdateList *v16; // r12
+  unsigned int updated; // ebx
+  struct _DnsTreeNode *v18; // rdi
+  struct _Dbase_Record *v19; // rax
+  __int64 v20; // r12
+  struct _DnsUpdateList *v21; // r15
+  struct _DnsTreeNode *v22; // rdx
+  const void *v23; // rdx
+  void *v24; // rbx
+  struct _DnsTreeNode *v25; // rdx
+  char v26; // cl
+  __int64 v27; // r15
+  char *v28; // rax
+  unsigned __int16 v29; // dx
+  char *v30; // rax
+  char *v31; // rax
+  unsigned __int16 v32; // dx
+  char v34[16]; // [rsp+68h] [rbp-49h] BYREF
+  struct _DnsTreeNode *v35[2]; // [rsp+78h] [rbp-39h] BYREF
+  __int64 v36; // [rsp+88h] [rbp-29h]
+  __int64 v37[11]; // [rsp+90h] [rbp-21h] BYREF
+  int v39; // [rsp+108h] [rbp+57h] BYREF
+  struct _Dbase_Record *v40; // [rsp+110h] [rbp+5Fh]
+
+  v40 = a4;
+  v36 = -2i64;
+  v9 = a4;
+  v10 = a3;
+  if ( (*(_DWORD *)(a3 + 84) & 0x88880000) == -2004353024 )
+    *(_DWORD *)(*(_QWORD *)(a3 + 8) + 92i64) ^= 0x1000000u;
+  *(_DWORD *)(a3 + 92) |= 0x40000u;
+  Nsec3Node = DnsOls_FindOrCreateNsec3Node(a1, a2, (struct _DnsTreeNode *)a3, a4, 1);
+  v13 = a5;
+  while ( 1 )
+  {
+    v27 = (__int64)Nsec3Node;
+    if ( !Nsec3Node )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v31 = Dbg_NodeName(v10);
+        v32 = 30;
+LABEL_54:
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          v32,
+          (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+          v31);
+      }
+      goto LABEL_55;
+    }
+    NextNsec3Node = DnsOls_FindNextNsec3Node(a1, Nsec3Node);
+    *(_OWORD *)v35 = *a6;
+    v15 = std::vector<unsigned short>::vector<unsigned short>(v37, v13);
+    v16 = a9;
+    updated = CreateAndUpdateNsec3ForNode(
+                (__int64)a1,
+                (__int64)a2,
+                v10,
+                (struct _DnsTreeNode *)v27,
+                (__int64)v9,
+                (__int64)NextNsec3Node + 102,
+                *((_BYTE *)NextNsec3Node + 101),
+                (__int64)v15,
+                (__int64)v35,
+                a9,
+                a7,
+                a8);
+    v39 = updated;
+    if ( updated )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v28 = Dbg_NodeName(v10);
+        v29 = 31;
+        goto LABEL_49;
+      }
+      goto LABEL_56;
+    }
+    v35[0] = 0i64;
+    NTree_FindBestNSEC3Node((__int64 *)v35, v27, *(_QWORD *)v27, 1);
+    v18 = v35[0];
+    if ( !v35[0] )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v31 = Dbg_NodeName(v10);
+        v32 = 32;
+        goto LABEL_54;
+      }
+LABEL_55:
+      updated = 13;
+      goto LABEL_56;
+    }
+    v19 = DnsOls_CurrentNsec3RecordForNode(v35[0], v16, &v39);
+    v20 = (__int64)v19;
+    if ( !v19 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v30 = Dbg_NodeName((__int64)v18);
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x21u,
+          (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+          v30);
+      }
+      updated = v39;
+      goto LABEL_56;
+    }
+    v39 = *((unsigned __int8 *)v19 + 61);
+    Dns_Base32HexToBinary(
+      v27 + 102,
+      *(unsigned __int8 *)(v27 + 101),
+      (__int64)v19 + *((unsigned __int8 *)v19 + 60) + 62,
+      &v39);
+    v21 = a9;
+    updated = DnsOls_CreateAppendUpdate(a9, v18, 0i64, 46);
+    if ( updated )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v28 = Dbg_NodeName((__int64)v18);
+        v29 = 34;
+        goto LABEL_49;
+      }
+      goto LABEL_56;
+    }
+    updated = DnsOls_SignRecordSet(a7, (__int64)a1, (__int64)v18, v20, 1ui64, a8, v21);
+    if ( updated )
+      break;
+    updated = DnsOls_CreateAppendUpdate(v21, v18, v20, 50);
+    if ( updated )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v28 = Dbg_NodeName((__int64)v18);
+        v29 = 36;
+LABEL_49:
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          v29,
+          (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+          v28);
+        goto LABEL_56;
+      }
+      goto LABEL_56;
+    }
+    v10 = *(_QWORD *)v10;
+    if ( !v10 )
+      goto LABEL_56;
+    if ( (*(_DWORD *)(v10 + 92) & 0x100) != 0 )
+      goto LABEL_56;
+    v9 = v40;
+    if ( DnsOls_FindOrCreateNsec3Node(a1, v22, (struct _DnsTreeNode *)v10, v40, 0) )
+      goto LABEL_56;
+    v23 = *(const void **)(v13 + 8);
+    v24 = *(void **)v13;
+    if ( *(const void **)v13 != v23 )
+    {
+      memmove(*(void **)v13, v23, 0i64);
+      *(_QWORD *)(v13 + 8) = v24;
+      v9 = v40;
+    }
+    v34[0] = 0;
+    LOBYTE(v39) = 0;
+    DnsSign::BuildRRTypeVector(v10, (unsigned __int64 *)v13, v34, &v39);
+    if ( !(_BYTE)v39 || (v26 = 1, v34[0]) )
+      v26 = 0;
+    if ( (__int64)(*(_QWORD *)(v13 + 8) - *(_QWORD *)v13) >> 1 && !v26 )
+    {
+      LOWORD(v39) = 46;
+      std::vector<unsigned short>::push_back((unsigned __int64 *)v13, (unsigned __int16 *)&v39);
+    }
+    Nsec3Node = DnsOls_FindOrCreateNsec3Node(a1, v25, (struct _DnsTreeNode *)v10, v9, 1);
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v28 = Dbg_NodeName(v10);
+    v29 = 35;
+    goto LABEL_49;
+  }
+LABEL_56:
+  if ( *(_QWORD *)v13 )
+    operator delete(*(void **)v13);
+  *(_QWORD *)v13 = 0i64;
+  *(_QWORD *)(v13 + 8) = 0i64;
+  *(_QWORD *)(v13 + 16) = 0i64;
+  return updated;
+}
+// 140106034: variable 'v22' is possibly undefined
+// 1401060D5: variable 'v25' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140105E40: using guessed type __int64 var_58[11];
+// 140105E40: using guessed type char var_80[16];

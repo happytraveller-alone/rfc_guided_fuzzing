@@ -1,0 +1,45 @@
+//----- (0000000140051D54) ----------------------------------------------------
+__int64 FormattedWriteFile(HANDLE hFile, char *Format, ...)
+{
+  int v3; // eax
+  __int64 v4; // rax
+  unsigned int v5; // edi
+  int LastError; // ebx
+  __int64 v7; // rdx
+  DWORD NumberOfBytesWritten; // [rsp+40h] [rbp-448h] BYREF
+  __int128 v10; // [rsp+50h] [rbp-438h] BYREF
+  char Buffer[1024]; // [rsp+60h] [rbp-428h] BYREF
+  va_list va; // [rsp+4A0h] [rbp+18h] BYREF
+
+  va_start(va, Format);
+  v3 = _vsnprintf(Buffer, 0x3FFui64, Format, va);
+  if ( v3 < 0 || (unsigned __int64)v3 > 0x3FF )
+    return 0i64;
+  if ( v3 == 1023i64 )
+    Buffer[1023] = 0;
+  v4 = -1i64;
+  do
+    ++v4;
+  while ( Buffer[v4] );
+  NumberOfBytesWritten = v4;
+  v5 = WriteFile(hFile, Buffer, v4, &NumberOfBytesWritten, 0i64);
+  if ( !v5 )
+  {
+    LastError = GetLastError();
+    v10 = DNS_EVENT_WRITE_FILE_FAILURE;
+    Eventlog_LogEvent((__int64)&v10, v7, 0, 0i64, 0i64, LastError, 0, 0i64);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x20) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xCu,
+        (__int64)&WPP_10f9086a838d3f1b10076b2179e86fb4_Traceguids,
+        LastError);
+    }
+  }
+  return v5;
+}
+// 140051E22: variable 'v7' is possibly undefined
+// 1401875B8: using guessed type __int128 DNS_EVENT_WRITE_FILE_FAILURE;

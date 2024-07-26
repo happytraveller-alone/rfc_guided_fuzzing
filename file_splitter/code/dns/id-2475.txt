@@ -1,0 +1,53 @@
+//----- (000000014012B3E4) ----------------------------------------------------
+unsigned __int64 __fastcall std::vector<DnsSign::CCertificate>::reserve(__int64 a1, unsigned __int64 a2)
+{
+  unsigned __int64 result; // rax
+  PCCERT_CONTEXT *v5; // rdi
+  PCCERT_CONTEXT *v6; // r12
+  PCCERT_CONTEXT *v7; // r14
+  __int64 v8; // r15
+  char pExceptionObject[24]; // [rsp+38h] [rbp-30h] BYREF
+
+  if ( a2 > 0x1FFFFFFFFFFFFFFFi64 )
+    std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+  result = (__int64)(*(_QWORD *)(a1 + 16) - *(_QWORD *)a1) >> 3;
+  if ( result < a2 )
+  {
+    v5 = 0i64;
+    if ( a2 )
+    {
+      v5 = (PCCERT_CONTEXT *)operator new(8 * a2);
+      if ( !v5 )
+      {
+        std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+        CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+      }
+    }
+    std::_Uninit_move<DnsSign::CCertificate *,DnsSign::CCertificate *,std::allocator<DnsSign::CCertificate>,DnsSign::CCertificate>(
+      *(PCCERT_CONTEXT **)a1,
+      *(PCCERT_CONTEXT **)(a1 + 8),
+      v5);
+    v6 = *(PCCERT_CONTEXT **)(a1 + 8);
+    v7 = *(PCCERT_CONTEXT **)a1;
+    v8 = ((__int64)v6 - *(_QWORD *)a1) >> 3;
+    if ( *(_QWORD *)a1 )
+    {
+      while ( v7 != v6 )
+      {
+        if ( *v7 )
+        {
+          CertFreeCertificateContext(*v7);
+          *v7 = 0i64;
+        }
+        ++v7;
+      }
+      operator delete(*(void **)a1);
+    }
+    *(_QWORD *)(a1 + 16) = &v5[a2];
+    result = (unsigned __int64)&v5[v8];
+    *(_QWORD *)(a1 + 8) = result;
+    *(_QWORD *)a1 = v5;
+  }
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

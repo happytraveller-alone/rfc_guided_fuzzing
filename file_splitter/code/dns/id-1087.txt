@@ -1,0 +1,65 @@
+//----- (000000014008D55C) ----------------------------------------------------
+__int64 __fastcall RR_UpdateForceAging(__int64 a1, __int64 a2, unsigned int a3)
+{
+  unsigned int v5; // ebx
+  __int64 *v6; // rcx
+  int v7; // r8d
+  unsigned __int16 v8; // dx
+  unsigned __int64 v9; // rax
+  __int64 v10; // rdx
+  unsigned int v12; // [rsp+50h] [rbp+18h] BYREF
+
+  v12 = a3;
+  v5 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Cu,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      (const char *)(a2 + 102));
+  }
+  if ( a1 )
+    deleteCachedRecordsForUpdate(a2);
+  v12 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v12);
+  v6 = *(__int64 **)(a2 + 64);
+  if ( v6 )
+  {
+    v7 = g_CurrentTimeHours;
+    do
+    {
+      if ( !*((_DWORD *)v6 + 6) )
+      {
+        v8 = *((_WORD *)v6 + 6);
+        if ( v8 == 1
+          || ((v8 - 2) & 0xFFFB) != 0
+          && (v8 & 0xFFFC) != 0xFF00
+          && (v8 > 0x33u || (v9 = v8, v10 = 0xDC80000000000i64, !_bittest64(&v10, v9))) )
+        {
+          *((_DWORD *)v6 + 6) = v7;
+          ++v5;
+        }
+      }
+      v6 = (__int64 *)*v6;
+    }
+    while ( v6 );
+  }
+  v12 = -1;
+  releaseRead(DbaseLock, &v12, 1);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_sd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Du,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      (const char *)(a2 + 102));
+  }
+  return v5;
+}
+// 1401B8C1C: using guessed type int g_CurrentTimeHours;
+// 1401EC5E8: using guessed type __int64 DbaseLock;

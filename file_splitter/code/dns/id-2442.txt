@@ -1,0 +1,107 @@
+//----- (00000001401291A0) ----------------------------------------------------
+struct DnsSign::CDnsKeyPair *__fastcall DnsSign::CCertificate::GetKeyPair(PCCERT_CONTEXT *this)
+{
+  int LastError; // ebx
+  DnsSign::CDnsKeyPair *v3; // rax
+  DnsSign::CDnsKeyPair *v4; // rdi
+  unsigned __int64 NameStringW; // rbx
+  wchar_t *v6; // rsi
+  unsigned __int64 v7; // rbx
+  __int64 v8; // rax
+  unsigned __int8 v9; // al
+  const unsigned __int16 *v10; // r8
+  unsigned int v12; // [rsp+48h] [rbp-C0h] BYREF
+  unsigned int v13; // [rsp+4Ch] [rbp-BCh] BYREF
+  DWORD pdwKeySpec[2]; // [rsp+50h] [rbp-B8h] BYREF
+  HCRYPTPROV_OR_NCRYPT_KEY_HANDLE phCryptProvOrNCryptKey; // [rsp+58h] [rbp-B0h] BYREF
+  DnsSign::CDnsKeyPair *v16; // [rsp+60h] [rbp-A8h]
+  __int64 v17; // [rsp+68h] [rbp-A0h]
+  const void *v18[2]; // [rsp+70h] [rbp-98h] BYREF
+  __int64 v19; // [rsp+80h] [rbp-88h]
+  unsigned __int64 v20; // [rsp+88h] [rbp-80h]
+  __int128 pExceptionObject; // [rsp+A8h] [rbp-60h] BYREF
+  __int64 v22; // [rsp+B8h] [rbp-50h]
+  char v23[56]; // [rsp+E0h] [rbp-28h] BYREF
+  _WORD Src[256]; // [rsp+118h] [rbp+10h] BYREF
+
+  v17 = -2i64;
+  phCryptProvOrNCryptKey = 0i64;
+  pdwKeySpec[1] = 0;
+  pdwKeySpec[0] = 0;
+  if ( !CryptAcquireCertificatePrivateKey(
+          *this,
+          0x40000u,
+          0i64,
+          &phCryptProvOrNCryptKey,
+          &pdwKeySpec[1],
+          (BOOL *)pdwKeySpec) )
+  {
+    LastError = GetLastError();
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x17u,
+        (__int64)&WPP_53898a8021d033fe120236609d33d737_Traceguids,
+        LastError);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v18, LastError);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v18, 0xD6D9Bu);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)&pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v18);
+    CxxThrowException_0(&pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  v3 = (DnsSign::CDnsKeyPair *)operator new(0xB8ui64);
+  v16 = v3;
+  if ( v3 )
+    v4 = DnsSign::CDnsKeyPair::CDnsKeyPair(v3, phCryptProvOrNCryptKey);
+  else
+    v4 = 0i64;
+  v16 = v4;
+  NameStringW = CertGetNameStringW(*this, 4u, 0, 0i64, 0i64, 0);
+  pExceptionObject = 0i64;
+  v22 = 0i64;
+  std::vector<unsigned short>::resize((__int64 *)&pExceptionObject, NameStringW);
+  v6 = (wchar_t *)pExceptionObject;
+  CertGetNameStringW(*this, 4u, 0, 0i64, (LPWSTR)pExceptionObject, NameStringW);
+  v12 = 0;
+  v13 = 0;
+  if ( swscanf_s(v6, L"%ls %u %hs %u", Src, 256i64, &v13, v23, 50, &v12) == 4 )
+  {
+    v7 = -1i64;
+    v8 = -1i64;
+    do
+      ++v8;
+    while ( v23[v8] );
+    v9 = Dns_ValueForString((__int64)&DnssecAlgorithmTable, 1, (__int64)v23, v8);
+    if ( v9 != 0xFF && v12 < 0xFFFF && v13 < 0xFFFF )
+    {
+      DnsSign::CDnsKeyPair::SetAlgorithm(v4, v9);
+      *((_WORD *)v4 + 9) = v12;
+      *((_BYTE *)v4 + 16) = 1;
+      v20 = 7i64;
+      v19 = 0i64;
+      LOWORD(v18[0]) = 0;
+      do
+        ++v7;
+      while ( Src[v7] );
+      std::wstring::assign((char *)v18, (char *)Src, v7);
+      DnsSign::CDnsKeyPair::SetZoneName((const void **)v4, v18, v10);
+      if ( v20 >= 8 )
+        operator delete((void *)v18[0]);
+      v20 = 7i64;
+      v19 = 0i64;
+      LOWORD(v18[0]) = 0;
+    }
+  }
+  v16 = 0i64;
+  if ( v6 )
+    operator delete(v6);
+  return v4;
+}
+// 14012940F: variable 'v10' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401291A0: using guessed type char var_258[56];

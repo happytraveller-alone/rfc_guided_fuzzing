@@ -1,0 +1,125 @@
+//----- (0000000140010F18) ----------------------------------------------------
+__int64 __fastcall Boot_LoadDatabase(__int64 a1)
+{
+  __int64 result; // rax
+  int RootHints; // eax
+  __int64 *v4; // rax
+  int v5; // ecx
+  __int64 v6; // rax
+  __int64 v7; // rdx
+  __int128 v8; // [rsp+70h] [rbp-10h] BYREF
+  __int64 v9; // [rsp+90h] [rbp+10h] BYREF
+
+  v9 = 0i64;
+  if ( !a1 )
+  {
+    g_bRegistryWriteBack = 0;
+    result = Zone_CreateEx(&v9, 0i64, ".", 0, 0, 0i64, 0, 0i64, 0i64, 0, 0i64, 0i64, 0i64);
+    if ( (_DWORD)result )
+      return result;
+    *(_DWORD *)(v9 + 304) = 1;
+  }
+  g_bRegistryWriteBack = 1;
+  if ( dword_1401B9728 == 1 )
+  {
+    File_ReadBootFile();
+LABEL_6:
+    if ( g_fDnsServiceExit != 1 )
+    {
+      if ( !a1 )
+      {
+        RootHints = Load_RootHints();
+        if ( RootHints )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_D(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x26u,
+              (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+              RootHints);
+          }
+          dword_1401B9710 = 1;
+        }
+      }
+      if ( g_fDnsServiceExit != 1 )
+      {
+        result = loadZonesIntoDbase((const unsigned __int16 **)a1);
+        if ( (_DWORD)result )
+          return result;
+        if ( g_fDnsServiceExit != 1 )
+        {
+          Zone_CreateAutomaticReverseZones((const wchar_t **)a1);
+          if ( a1 )
+            v4 = *(__int64 **)(a1 + 24);
+          else
+            v4 = &g_Database;
+          v5 = 0;
+          if ( v4 == &g_Database )
+            v6 = g_Database;
+          else
+            v6 = *v4;
+          LOBYTE(v5) = *(_QWORD *)(v6 + 56) != 0i64;
+          if ( !v5 && !qword_1401B97D0 && !RR_FindNextRecordEx(*(_QWORD *)(g_pCacheZone + 48), 0, 2u, 0i64, 0, 0) )
+          {
+            v8 = DNS_EVENT_NO_ROOT_NAME_SERVER;
+            Eventlog_LogEvent((__int64)&v8, v7, 0, 0i64, 0i64, 0, 0, 0i64);
+          }
+          if ( !a1 )
+            Reg_SetValue(0, 0i64, 0i64, (const CHAR *)L"PreviousLocalHostname", 0xFF000001, (BYTE *)Str, 0);
+        }
+      }
+    }
+    return 0i64;
+  }
+  if ( g_fDnsServiceExit == 1 )
+    return 0i64;
+  if ( dword_1401B9728 )
+  {
+    if ( dword_1401B9728 == 3 )
+      result = Ds_BootFromDs(0x2000, (const unsigned __int16 **)a1);
+    else
+      result = Boot_FromRegistry((const wchar_t **)a1);
+LABEL_30:
+    if ( !(_DWORD)result )
+      goto LABEL_6;
+    return result;
+  }
+  LODWORD(v8) = 4;
+  *((_QWORD *)&v8 + 1) = 0i64;
+  result = File_ReadBootFile();
+  if ( !(_DWORD)result )
+  {
+    DWORD2(v8) = 1;
+LABEL_23:
+    Config_ResetProperty(0, "BootMethod", (__int64)&v8);
+    goto LABEL_6;
+  }
+  if ( (_DWORD)result == 2 )
+  {
+    result = Ds_BootFromDs(0, (const unsigned __int16 **)a1);
+    if ( !(_DWORD)result )
+    {
+      DWORD2(v8) = 3;
+      goto LABEL_23;
+    }
+  }
+  if ( (_DWORD)result == 9717 && !a1 )
+  {
+    result = Boot_FromRegistryNoZones();
+    goto LABEL_30;
+  }
+  return result;
+}
+// 14001115E: variable 'v7' is possibly undefined
+// 140187718: using guessed type __int128 DNS_EVENT_NO_ROOT_NAME_SERVER;
+// 140191090: using guessed type wchar_t aPreviouslocalh[22];
+// 1401B805C: using guessed type int g_bRegistryWriteBack;
+// 1401B9710: using guessed type int dword_1401B9710;
+// 1401B9728: using guessed type int dword_1401B9728;
+// 1401B97D0: using guessed type __int64 qword_1401B97D0;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1401EC600: using guessed type __int64 g_Database;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

@@ -1,0 +1,11 @@
+//----- (0000000140056030) ----------------------------------------------------
+void __fastcall Lock_Destroy(__int64 a1)
+{
+  if ( a1 )
+  {
+    CloseHandle(*(HANDLE *)(a1 + 40));
+    FastMutex_Destroy(*(_QWORD *)(a1 + 24));
+    FastMutex_Destroy(*(_QWORD *)(a1 + 32));
+    Mem_Free((_QWORD *)a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\lock.c", 1297);
+  }
+}

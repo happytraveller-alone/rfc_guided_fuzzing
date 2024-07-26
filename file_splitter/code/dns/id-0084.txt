@@ -1,0 +1,140 @@
+//----- (000000014000A290) ----------------------------------------------------
+__int64 __fastcall allocateRegistryStringValue(HKEY hKey, LPCSTR lpValueName, char **a3, _BYTE *a4)
+{
+  _BYTE *v4; // rdi
+  __int64 v7; // r10
+  int v9; // ebx
+  __int64 v10; // r11
+  char v11; // al
+  unsigned int v12; // ebx
+  CDnsClientSubnetRecordsTrie *v13; // rcx
+  unsigned __int16 v14; // dx
+  char *lpData; // rax
+  __int64 v16; // rcx
+  const char *v17; // rdx
+  int v18; // r8d
+  char v19; // al
+  DWORD Type[10]; // [rsp+30h] [rbp-28h] BYREF
+  DWORD cbData; // [rsp+70h] [rbp+18h] BYREF
+
+  v4 = a4;
+  Type[0] = 0;
+  cbData = 0;
+  *a3 = 0i64;
+  v7 = 2i64;
+  v9 = 0;
+  v10 = " " - a4;
+  do
+  {
+    if ( v7 == -2147483644 )
+      break;
+    v11 = a4[v10];
+    if ( !v11 )
+      break;
+    *a4++ = v11;
+    --v7;
+  }
+  while ( v7 );
+  if ( !v7 )
+  {
+    --a4;
+    v9 = -2147024774;
+  }
+  *a4 = 0;
+  if ( v9 < 0 )
+  {
+    v12 = 87;
+    goto LABEL_38;
+  }
+  v12 = RegQueryValueExA(hKey, lpValueName, 0i64, Type, 0i64, &cbData);
+  if ( v12 )
+  {
+    v13 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v14 = 10;
+LABEL_14:
+      WPP_SF_Ds(
+        *((_QWORD *)v13 + 7),
+        v14,
+        (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+        v12,
+        (__int64)lpValueName);
+      goto LABEL_38;
+    }
+    goto LABEL_38;
+  }
+  if ( Type[0] != 1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xBu,
+        (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+        Type[0],
+        (__int64)lpValueName);
+    }
+    v12 = 13;
+    goto LABEL_38;
+  }
+  lpData = (char *)Mem_AllocZero(cbData + 10, 21i64, "ds\\dns\\server\\server\\autoconfigure.c", 182);
+  *a3 = lpData;
+  if ( !lpData )
+  {
+    v12 = 14;
+    goto LABEL_38;
+  }
+  v12 = RegQueryValueExA(hKey, lpValueName, 0i64, Type, (LPBYTE)lpData, &cbData);
+  if ( v12 )
+  {
+    v13 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v14 = 12;
+      goto LABEL_14;
+    }
+LABEL_38:
+    Mem_Free(*a3, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\autoconfigure.c", 226);
+    *a3 = 0i64;
+    if ( v12 == 2 )
+      return 0;
+    return v12;
+  }
+  if ( *a3 && strchr(*a3, 44) )
+  {
+    v16 = 2i64;
+    v17 = (const char *)("," - v4);
+    v18 = 0;
+    do
+    {
+      if ( v16 == -2147483644 )
+        break;
+      v19 = v4[(_QWORD)v17];
+      if ( !v19 )
+        break;
+      *v4++ = v19;
+      --v16;
+    }
+    while ( v16 );
+    if ( !v16 )
+    {
+      --v4;
+      v18 = -2147024774;
+    }
+    *v4 = 0;
+    if ( v18 < 0 )
+    {
+      v12 = 87;
+      goto LABEL_38;
+    }
+  }
+  return v12;
+}
+// 14000A4B8: conditional instruction was optimized away because ebx.4!=0

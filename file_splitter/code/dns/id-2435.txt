@@ -1,0 +1,57 @@
+//----- (0000000140128150) ----------------------------------------------------
+BOOL __fastcall DnsSign::EncodeCertificateExtension(__int64 a1, const void *a2, __int64 *a3)
+{
+  int LastError; // eax
+  int v6; // ebx
+  BOOL result; // eax
+  int v8; // eax
+  int v9; // ebx
+  DWORD pcbEncoded; // [rsp+48h] [rbp-39h] BYREF
+  __int64 v11; // [rsp+50h] [rbp-31h]
+  char v12[56]; // [rsp+58h] [rbp-29h] BYREF
+  char pExceptionObject[56]; // [rsp+90h] [rbp+Fh] BYREF
+
+  v11 = -2i64;
+  pcbEncoded = 0;
+  if ( !CryptEncodeObjectEx(0x10001u, (LPCSTR)0xE, a2, 0, 0i64, 0i64, &pcbEncoded) )
+  {
+    LastError = GetLastError();
+    v6 = LastError;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xAu,
+        (__int64)&WPP_53898a8021d033fe120236609d33d737_Traceguids,
+        LastError);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v12, v6);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v12, 0xD6DE2u);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v12);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  std::vector<unsigned char>::resize(a3, pcbEncoded);
+  result = CryptEncodeObjectEx(0x10001u, (LPCSTR)0xE, a2, 0, 0i64, (void *)*a3, &pcbEncoded);
+  if ( !result )
+  {
+    v8 = GetLastError();
+    v9 = v8;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xBu, (__int64)&WPP_53898a8021d033fe120236609d33d737_Traceguids, v8);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v12, v9);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v12, 0xD6DE2u);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v12);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  return result;
+}

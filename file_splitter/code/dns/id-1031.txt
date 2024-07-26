@@ -1,0 +1,5 @@
+//----- (0000000140087E00) ----------------------------------------------------
+char *__fastcall PtrFlatWrite(__int64 a1, __int64 a2, __int64 a3, unsigned __int64 a4)
+{
+  return Name_WriteDbaseNameToRpcBuffer(a3, a4, (unsigned __int8 *)(a2 + 56), 0);
+}

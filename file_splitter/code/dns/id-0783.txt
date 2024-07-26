@@ -1,0 +1,152 @@
+//----- (000000014006C288) ----------------------------------------------------
+__int64 __fastcall pluginInsertInNode(
+        __int64 a1,
+        unsigned __int16 a2,
+        unsigned int a3,
+        __int64 a4,
+        char *String,
+        __int64 a6,
+        char a7)
+{
+  _QWORD *v7; // r14
+  unsigned int v8; // r15d
+  unsigned int v10; // esi
+  __int64 v12; // rbx
+  u_long v13; // ecx
+  __int16 v14; // ax
+  __int64 v15; // rbp
+  __int64 *v16; // rbx
+  __int64 v17; // rax
+  __int64 v18; // rax
+  u_long v19; // ecx
+  int v20; // eax
+  unsigned int v21; // eax
+  __int64 *v22; // rax
+  _QWORD *v23; // rax
+  _QWORD *v24; // rbx
+  __int64 v28; // [rsp+70h] [rbp-208h]
+  int v29[4]; // [rsp+78h] [rbp-200h] BYREF
+  _QWORD *v30; // [rsp+88h] [rbp-1F0h]
+  __int16 v31[184]; // [rsp+B0h] [rbp-1C8h] BYREF
+
+  v7 = (_QWORD *)a6;
+  v8 = -1;
+  v10 = a3;
+  if ( a3 + 2 > 1 )
+  {
+    if ( !a3 )
+    {
+      if ( !a6 )
+        return v10;
+      v12 = a6;
+      do
+      {
+        v13 = *(_DWORD *)(v12 + 20);
+        *(_BYTE *)(v12 + 8) = -63;
+        if ( v13 < v8 )
+          v8 = v13;
+        if ( (a7 & 1) != 0 )
+          *(_WORD *)(v12 + 10) |= 0x800u;
+        if ( dword_1401B991C )
+          *(_DWORD *)(v12 + 20) = htonl(v13);
+        v12 = *(_QWORD *)v12;
+      }
+      while ( v12 );
+      v14 = a2;
+      if ( a2 == 255 )
+      {
+        RR_ListDelete(a4);
+        v14 = 255;
+      }
+      v15 = a6;
+      if ( a4 )
+      {
+        while ( v15 )
+        {
+          v16 = (__int64 *)v15;
+          do
+          {
+            v17 = *v16;
+            if ( !*v16 )
+              break;
+            if ( *(_WORD *)(v17 + 12) != *(_WORD *)(v15 + 12) )
+              break;
+            v16 = (__int64 *)*v16;
+          }
+          while ( v17 );
+          v18 = *v16;
+          *v16 = 0i64;
+          v19 = *(_DWORD *)(v15 + 20);
+          v28 = v18;
+          if ( dword_1401B991C )
+            v19 = ntohl(v19);
+          v20 = RR_CacheSetAtNode(0i64, a4, v15, v16, v19, dword_1401B9714, 2, 0i64, 0, 0i64, 0i64, 0);
+          v15 = v28;
+          v7 = 0i64;
+          if ( !v20 )
+            v10 = 9002;
+          *(_DWORD *)(a4 + 92) |= 0x2000000u;
+        }
+        v14 = a2;
+      }
+      if ( v14 == 255 && v8 != -1 )
+        *(_DWORD *)(a4 + 76) = v8 + *(_DWORD *)(a1 + 568);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Dqq(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x14u,
+          (__int64)&WPP_2c132243eb273534b128a6dd6bc8e6e2_Traceguids,
+          v10);
+      }
+    }
+    goto LABEL_43;
+  }
+  memset_0(v29, 0, 0x30ui64);
+  if ( a6 )
+  {
+    if ( *(_WORD *)(a6 + 12) == 6 && *String )
+    {
+      v21 = strnlen(String, 0x100ui64);
+      if ( (unsigned int)Name_ConvertDottedNameToLookupName(String, v21, (unsigned __int16 *)v31) )
+      {
+        v22 = (__int64 *)Lookup_ZoneNode(0i64, 0i64, a1, (unsigned __int16 *)v31, 1073741850, 0i64, 0i64, 0i64);
+        if ( v22 )
+        {
+          v23 = RR_CopyRecordListWithOwnerName(v22, (_QWORD *)a6, (_QWORD *)a6);
+          v30 = v23;
+          if ( v23 )
+          {
+            v29[0] = 1;
+            if ( (a7 & 1) != 0 )
+              *((_WORD *)v23 + 5) |= 0x800u;
+            RR_CacheNonExistence(a1, 0i64, a4, a2, *(_DWORD *)(a1 + 568), v10 == -2, 1, (__int64)v29);
+          }
+        }
+      }
+      else
+      {
+        v10 = 9002;
+      }
+    }
+LABEL_43:
+    if ( v7 )
+    {
+      do
+      {
+        v24 = (_QWORD *)*v7;
+        RR_Free((__int64)v7);
+        v7 = v24;
+      }
+      while ( v24 );
+    }
+  }
+  if ( v10 + 2 <= 1 )
+    return 0;
+  return v10;
+}
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B991C: using guessed type int dword_1401B991C;
+// 14006C288: using guessed type unsigned __int16 var_1C8[184];

@@ -1,0 +1,108 @@
+//----- (000000014008E54C) ----------------------------------------------------
+__int64 __fastcall RR_ReplaceSet(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
+{
+  __int64 v4; // r15
+  __int64 v9; // rsi
+  char *v10; // rax
+  int v11; // r13d
+  unsigned __int16 v12; // r14
+  int v13; // edx
+  char v14; // cl
+  __int64 v15; // rax
+  __int64 *v16; // r12
+  _QWORD *v17; // rsi
+  __int64 i; // rbx
+  _QWORD *v19; // rax
+  __int64 v20; // rcx
+  unsigned int v22; // [rsp+80h] [rbp+8h] BYREF
+  _QWORD *v23; // [rsp+88h] [rbp+10h]
+
+  v4 = 0i64;
+  v23 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v9 = *(_QWORD *)(a1 + 16);
+    else
+      v9 = 0i64;
+    v10 = Dbg_NodeName(a2);
+    WPP_SF_Dssq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x5Eu,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      *(unsigned __int16 *)(a3 + 12),
+      (__int64)v10,
+      v9);
+  }
+  v22 = -1;
+  acquireUpdate(DbaseLock, 0xFFFFFFFF, &v22, 1);
+  v11 = a2 && *(_QWORD *)(a2 + 64);
+  *(_DWORD *)(a2 + 76) = 0;
+  deleteCachedRecordsForUpdate(a2);
+  v12 = *(_WORD *)(a3 + 12);
+  v13 = 0;
+  v14 = 8;
+  if ( a1 )
+  {
+    v13 = *(_DWORD *)(a1 + 528);
+    if ( (*(_DWORD *)(a4 + 40) & 0x800000) == 0 || (v14 = -63, *(_BYTE *)(a3 + 8) != 0xC1) )
+    {
+      v14 = -16;
+      if ( *(_BYTE *)(a2 + 96) != 0xF2 )
+      {
+        v14 = 0x80;
+        if ( v12 == 2 )
+          v14 = -126;
+      }
+    }
+  }
+  v15 = a3;
+  do
+  {
+    *(_WORD *)(v15 + 10) |= 0x40u;
+    v16 = (__int64 *)v15;
+    *(_BYTE *)(v15 + 8) = v14;
+    *(_DWORD *)(v15 + 20) = v13;
+    v15 = *(_QWORD *)v15;
+  }
+  while ( v15 );
+  v17 = (_QWORD *)(a2 + 64);
+  for ( i = *(_QWORD *)(a2 + 64); i; i = *(_QWORD *)i )
+  {
+    if ( *(_WORD *)(i + 12) == v12 )
+    {
+      v23 = (_QWORD *)i;
+      if ( !v4 )
+        v4 = i;
+    }
+    else
+    {
+      if ( *(_WORD *)(i + 12) >= v12 )
+        break;
+      v17 = (_QWORD *)i;
+    }
+  }
+  Dbase_LockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 193);
+  v19 = v23;
+  *v17 = a3;
+  *v16 = i;
+  if ( v19 )
+    *v19 = 0i64;
+  NTree_ChangeAncestorCounters((volatile signed __int32 **)a2, v11);
+  RR_ListResetNodeFlags(v20);
+  Dbase_UnlockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 214);
+  v22 = -1;
+  releaseUpdate(DbaseLock, &v22, 1);
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x5Fu, (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids, v12);
+  }
+  return v4;
+}
+// 14008E6EC: variable 'v20' is possibly undefined
+// 1401EC5E8: using guessed type __int64 DbaseLock;

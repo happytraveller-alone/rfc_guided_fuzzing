@@ -1,0 +1,123 @@
+//----- (00000001400A94D0) ----------------------------------------------------
+__int64 __fastcall Rpc_EnumerateServerScopes(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        int a6,
+        _DWORD *a7,
+        _QWORD *a8)
+{
+  unsigned int *zero; // rbx
+  unsigned int v9; // edi
+  void *v10; // rax
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  unsigned __int16 v12; // dx
+  int v13; // r9d
+  __int64 i; // rdx
+  __int64 v15; // rax
+  char **NextElement_ServerScopeMap; // rax
+  __int64 *v17; // rdi
+  __int64 v18; // rsi
+  void *v19; // rcx
+  int v21[6]; // [rsp+30h] [rbp-18h] BYREF
+
+  v21[0] = 0;
+  zero = (unsigned int *)MIDL_user_allocate_zero(8i64 * (unsigned int)(*(_DWORD *)(gServerScopeMap + 16) + 1) + 16);
+  if ( zero )
+  {
+    v10 = Dns_StringCopyAllocate((char *)L".", 0, 1i64, 1);
+    *((_QWORD *)zero + 1) = v10;
+    if ( v10 )
+    {
+      ++zero[1];
+      for ( i = 0i64; ; i = *v17 )
+      {
+        NextElement_ServerScopeMap = (char **)Get_NextElement_ServerScopeMap(gServerScopeMap, i, v21);
+        v17 = (__int64 *)NextElement_ServerScopeMap;
+        if ( !NextElement_ServerScopeMap )
+          break;
+        *(_QWORD *)&zero[2 * zero[1] + 2] = Dns_StringCopyAllocate(*NextElement_ServerScopeMap, 0, 1i64, 1);
+        v15 = zero[1];
+        if ( !*(_QWORD *)&zero[2 * v15 + 2] )
+        {
+          v9 = 14;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_Dd(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x3Du,
+              (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+              zero[1]);
+          }
+          goto LABEL_21;
+        }
+        zero[1] = v15 + 1;
+      }
+      v9 = v21[0];
+      if ( !v21[0] )
+      {
+        *a8 = zero;
+        *a7 = 56;
+        return 0i64;
+      }
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v12 = 62;
+        v13 = v21[0];
+        goto LABEL_20;
+      }
+    }
+    else
+    {
+      v9 = 14;
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v12 = 60;
+        v13 = 14;
+LABEL_20:
+        WPP_SF_D(*((_QWORD *)v11 + 7), v12, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids, v13);
+      }
+    }
+LABEL_21:
+    v18 = 0i64;
+    if ( zero[1] )
+    {
+      do
+      {
+        v19 = *(void **)&zero[2 * v18 + 2];
+        if ( v19 )
+          MIDL_user_free(v19);
+        v18 = (unsigned int)(v18 + 1);
+      }
+      while ( (_DWORD)v18 != zero[1] );
+    }
+    MIDL_user_free(zero);
+  }
+  else
+  {
+    v9 = 14;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x3Bu,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        14);
+    }
+  }
+  return v9;
+}
+// 1401C91E0: using guessed type __int64 gServerScopeMap;
+// 1400A94D0: using guessed type unsigned int var_18[6];

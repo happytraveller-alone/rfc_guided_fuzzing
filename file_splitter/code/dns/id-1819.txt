@@ -1,0 +1,14 @@
+//----- (00000001400E56E4) ----------------------------------------------------
+__int64 __fastcall std::pair<std::wstring,unsigned long>::~pair<std::wstring,unsigned long>(__int64 a1)
+{
+  __int64 result; // rax
+
+  if ( *(_QWORD *)(a1 + 24) >= 8ui64 )
+    operator delete(*(void **)a1);
+  result = 0i64;
+  *(_QWORD *)(a1 + 24) = 7i64;
+  *(_QWORD *)(a1 + 16) = 0i64;
+  *(_WORD *)a1 = 0;
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

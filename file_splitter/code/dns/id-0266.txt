@@ -1,0 +1,13 @@
+//----- (00000001400236BC) ----------------------------------------------------
+ULONG __fastcall McGenEventUnregister(REGHANDLE *a1)
+{
+  REGHANDLE v2; // rcx
+  ULONG result; // eax
+
+  v2 = *a1;
+  if ( !v2 )
+    return 0;
+  result = EventUnregister(v2);
+  *a1 = 0i64;
+  return result;
+}

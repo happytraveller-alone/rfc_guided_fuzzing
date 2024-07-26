@@ -1,0 +1,10 @@
+//----- (00000001401392C0) ----------------------------------------------------
+CDnsPolicyRemoveException *__fastcall CDnsPolicyRemoveException::CDnsPolicyRemoveException(
+        CDnsPolicyRemoveException *this,
+        const void **a2)
+{
+  CDnsPolicyException::CDnsPolicyException(this, a2);
+  *(_QWORD *)this = &CDnsPolicyRemoveException::`vftable';
+  return this;
+}
+// 140171C00: using guessed type void *CDnsPolicyRemoveException::`vftable';

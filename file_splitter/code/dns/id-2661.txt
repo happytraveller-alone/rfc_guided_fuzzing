@@ -1,0 +1,37 @@
+//----- (000000014013CCC8) ----------------------------------------------------
+CDnsPolicy *__fastcall CDnsPolicy::`scalar deleting destructor'(CDnsPolicy *this)
+{
+  _QWORD **v1; // rax
+  _QWORD *v3; // rcx
+  _QWORD *v4; // rbx
+
+  v1 = (_QWORD **)*((_QWORD *)this + 14);
+  v3 = *v1;
+  *v1 = v1;
+  *(_QWORD *)(*((_QWORD *)this + 14) + 8i64) = *((_QWORD *)this + 14);
+  *((_QWORD *)this + 15) = 0i64;
+  if ( v3 != *((_QWORD **)this + 14) )
+  {
+    do
+    {
+      v4 = (_QWORD *)*v3;
+      operator delete(v3);
+      v3 = v4;
+    }
+    while ( v4 != *((_QWORD **)this + 14) );
+  }
+  operator delete(*((void **)this + 14));
+  if ( *((_QWORD *)this + 8) >= 0x10ui64 )
+    operator delete(*((void **)this + 5));
+  *((_QWORD *)this + 8) = 15i64;
+  *((_QWORD *)this + 7) = 0i64;
+  *((_BYTE *)this + 40) = 0;
+  if ( *((_QWORD *)this + 3) >= 8ui64 )
+    operator delete(*(void **)this);
+  *((_QWORD *)this + 3) = 7i64;
+  *((_QWORD *)this + 2) = 0i64;
+  *(_WORD *)this = 0;
+  operator delete(this);
+  return this;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

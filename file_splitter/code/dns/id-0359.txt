@@ -1,0 +1,166 @@
+//----- (000000014002EAA4) ----------------------------------------------------
+__int64 __fastcall Ds_BindToFsmo(__int64 *a1, int *a2, int a3)
+{
+  __int64 v3; // rax
+  unsigned int v4; // ebx
+  int v5; // r15d
+  int v6; // r12d
+  WCHAR *v7; // rbp
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  PLDAP v12; // rax
+  LDAP *v13; // rax
+  _QWORD *v14; // rax
+  __int64 v15; // rax
+  __int64 v16; // rcx
+  const char *v17; // r9
+  unsigned int v19; // [rsp+60h] [rbp+8h] BYREF
+
+  v3 = g_pFsmo;
+  v4 = 0;
+  *a1 = 0i64;
+  v5 = 0;
+  v6 = 0;
+  v19 = 0;
+  v7 = 0i64;
+  if ( v3 && (v7 = *(WCHAR **)(v3 + 8)) != 0i64 )
+  {
+    if ( a3 && g_pFsmoServerLdap && !g_bDisabledFsmo )
+    {
+      *a1 = g_pFsmoServerLdap;
+      goto LABEL_40;
+    }
+    if ( g_fServiceStarting && g_fFsmoDown )
+    {
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x15u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids);
+        v11 = WPP_GLOBAL_Control;
+      }
+      v4 = 8367;
+    }
+    else
+    {
+      if ( a3 )
+      {
+        EnterCriticalSection(pcsLdap);
+        v12 = (PLDAP)g_pFsmoServerLdap;
+        v6 = 1;
+        if ( g_pFsmoServerLdap )
+        {
+          if ( !g_bDisabledFsmo )
+          {
+LABEL_39:
+            *a1 = (__int64)v12;
+LABEL_40:
+            v11 = WPP_GLOBAL_Control;
+            goto LABEL_41;
+          }
+        }
+      }
+      v13 = Ds_Connect(v7, 2, &v19);
+      v4 = v19;
+      *a1 = (__int64)v13;
+      if ( !v4 )
+      {
+        if ( a3 )
+        {
+          if ( g_pFsmoServerLdap )
+          {
+            v14 = Mem_Alloc(8u, 12i64, "ds\\dns\\server\\server\\dpart.c", 1574);
+            *v14 = g_pFsmoServerLdap;
+            Timeout_FreeWithFunctionEx(
+              (__int64)v14,
+              (__int64)Ds_FreeLDAPHandle,
+              (__int64)"ds\\dns\\server\\server\\dpart.c",
+              1576);
+          }
+          v15 = *a1;
+          g_bDisabledFsmo = 0;
+          g_pFsmoServerLdap = v15;
+        }
+        goto LABEL_40;
+      }
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_SD(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x14u,
+          (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+          v7);
+        v11 = WPP_GLOBAL_Control;
+      }
+      g_fFsmoDown = 1;
+      v4 = 8367;
+    }
+  }
+  else
+  {
+    v4 = 8367;
+    v11 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x13u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids);
+      v11 = WPP_GLOBAL_Control;
+    }
+  }
+  if ( !a2 )
+    goto LABEL_43;
+  if ( *a2 == 1 )
+  {
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v11 + 17) & 0x400) != 0
+      && *((_BYTE *)v11 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v11 + 7), 0x16u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids);
+    }
+    v12 = pServerLdap;
+    v4 = 0;
+    v5 = 1;
+    goto LABEL_39;
+  }
+LABEL_41:
+  if ( a2 )
+  {
+    *a2 = v5;
+    v11 = WPP_GLOBAL_Control;
+  }
+LABEL_43:
+  if ( v6 )
+  {
+    LeaveCriticalSection(pcsLdap);
+    v11 = WPP_GLOBAL_Control;
+  }
+  if ( v4 )
+  {
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v11 + 17) & 0x400) != 0
+      && *((_BYTE *)v11 + 65) >= 2u )
+    {
+      WPP_SF_DS(*((_QWORD *)v11 + 7), 0x18u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids, v4, (__int64)v7);
+    }
+  }
+  else if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_DWORD *)v11 + 17) & 0x400) != 0
+         && *((_BYTE *)v11 + 65) >= 4u )
+  {
+    v16 = *((_QWORD *)v11 + 7);
+    v17 = "FSMO";
+    if ( v5 )
+      v17 = "local";
+    WPP_SF_sqS(v16, 0x17u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids, v17, *a1, (__int64)v7);
+  }
+  return v4;
+}
+// 1401B8C54: using guessed type int g_fServiceStarting;
+// 1401B8CF8: using guessed type int g_bDisabledFsmo;
+// 1401B8CFC: using guessed type int g_fFsmoDown;
+// 1401B8D00: using guessed type __int64 g_pFsmoServerLdap;
+// 1401B8D08: using guessed type __int64 g_pFsmo;

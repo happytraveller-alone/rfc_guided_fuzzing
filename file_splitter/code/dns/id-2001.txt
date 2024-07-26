@@ -1,0 +1,68 @@
+//----- (00000001400F6598) ----------------------------------------------------
+__int64 __fastcall DnsOls_ResetZoneKeymasterFlags(__int64 a1, int a2)
+{
+  __int64 v3; // rdx
+  const unsigned __int16 **NextZone; // rbx
+  PWCHAR *vals; // [rsp+50h] [rbp-28h] BYREF
+  LDAP *v7; // [rsp+58h] [rbp-20h] BYREF
+  int v8; // [rsp+80h] [rbp+8h] BYREF
+  ULONG v9; // [rsp+90h] [rbp+18h] BYREF
+  int v10; // [rsp+98h] [rbp+20h] BYREF
+
+  v7 = 0i64;
+  vals = 0i64;
+  v9 = 0;
+  v8 = 0;
+  if ( dword_1401B9740 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x46u, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids);
+    }
+    NextZone = Zone_ListGetNextZoneEx(0i64, 0i64, 0);
+    if ( NextZone )
+    {
+      do
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x47u,
+            (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+            (const char *)NextZone[2]);
+        }
+        DnsOls_ResetZoneKeymasterFlagForZone(
+          (__int64)NextZone,
+          v3,
+          a2,
+          1,
+          &v7,
+          &v10,
+          (const wchar_t ***)&vals,
+          &v9,
+          &v8);
+        if ( g_fDnsServiceExit == 1 )
+          break;
+        NextZone = Zone_ListGetNextZoneEx(0i64, (__int64 *)NextZone, 0);
+      }
+      while ( NextZone );
+      if ( vals )
+        ldap_value_freeW(vals);
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x48u, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids, 0);
+  }
+  return 0i64;
+}
+// 1400F6691: variable 'v3' is possibly undefined
+// 1401B9740: using guessed type int dword_1401B9740;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

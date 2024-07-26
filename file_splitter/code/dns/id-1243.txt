@@ -1,0 +1,29 @@
+//----- (00000001400A13E8) ----------------------------------------------------
+__int64 __fastcall Sock_GetAssociatedIpAddr(__int64 a1, _OWORD *a2)
+{
+  unsigned int v3; // edi
+  __int64 i; // rax
+
+  v3 = 0;
+  EnterCriticalSection(&g_SocketListCs);
+  for ( i = g_SocketList; ; i = *(_QWORD *)i )
+  {
+    if ( (__int64 *)i == &g_SocketList )
+    {
+      memset_0(a2, 0, 0x40ui64);
+      *((_DWORD *)a2 + 8) = 32;
+      goto LABEL_6;
+    }
+    if ( *(_QWORD *)(i + 16) == a1 )
+      break;
+  }
+  v3 = 1;
+  *a2 = *(_OWORD *)(i + 32);
+  a2[1] = *(_OWORD *)(i + 48);
+  a2[2] = *(_OWORD *)(i + 64);
+  a2[3] = *(_OWORD *)(i + 80);
+LABEL_6:
+  LeaveCriticalSection(&g_SocketListCs);
+  return v3;
+}
+// 1401C87F0: using guessed type __int64 g_SocketList;

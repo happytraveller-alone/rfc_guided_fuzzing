@@ -1,0 +1,23 @@
+//----- (0000000140087B00) ----------------------------------------------------
+__int64 __fastcall UnknownFlatRead(unsigned __int16 *a1, __int64 a2)
+{
+  _BYTE *v4; // rax
+
+  if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+  {
+    WPP_SF_Ddq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x12u,
+      (__int64)&WPP_383afeabe81e3a0b0d234d71fa57327a_Traceguids,
+      a1[1]);
+  }
+  v4 = RR_AllocateEx(*a1, 0, 0);
+  if ( !v4 )
+    return 14i64;
+  *(_QWORD *)(a2 + 800) = v4;
+  memcpy_0(v4 + 56, a1 + 12, *a1);
+  return 0i64;
+}
+// 140087B32: conditional instruction was optimized away because al.1>=5u

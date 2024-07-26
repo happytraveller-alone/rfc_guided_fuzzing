@@ -1,0 +1,326 @@
+//----- (0000000140135830) ----------------------------------------------------
+__int64 __fastcall CDnsPolicyManager::FindPolicy(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        const void ***a4,
+        int a5,
+        __int64 a6)
+{
+  const void ***v6; // r13
+  __int64 v7; // r12
+  unsigned __int16 v8; // r14
+  int v9; // ebx
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  const wchar_t *v11; // rax
+  __int64 PolicyLock; // rax
+  CDnsClientSubnetRecordsTrie **v13; // rdx
+  __int64 v14; // r8
+  __int64 v15; // r15
+  unsigned int v16; // r13d
+  CDnsClientSubnetRecordsTrie *v17; // r10
+  const char *PolicyTypeString; // rax
+  __int64 v19; // r10
+  __int64 v20; // rcx
+  __int64 v21; // r15
+  __int64 v22; // r12
+  const char *CriteriaTypeString; // rax
+  __int64 v24; // r10
+  __int64 v25; // rdx
+  __int64 v26; // r8
+  const void **v27; // rcx
+  int v28; // r13d
+  __int64 v29; // rax
+  const wchar_t *v30; // r14
+  int v31; // eax
+  const char *v32; // rax
+  __int64 v33; // rdx
+  __int64 v34; // r8
+  _QWORD *v35; // rax
+  const void ***v36; // r14
+  const void **v37; // rcx
+  int v38; // edi
+  const wchar_t *v39; // rax
+  __int64 v41; // [rsp+38h] [rbp-69h]
+  __int64 v42; // [rsp+40h] [rbp-61h]
+  unsigned int v43; // [rsp+4Ch] [rbp-55h] BYREF
+  unsigned int v44; // [rsp+50h] [rbp-51h] BYREF
+  int v45; // [rsp+54h] [rbp-4Dh]
+  const void ***v46; // [rsp+58h] [rbp-49h]
+  __int64 v47; // [rsp+60h] [rbp-41h]
+  __int64 v48; // [rsp+68h] [rbp-39h]
+  __int64 v49; // [rsp+70h] [rbp-31h]
+  __int64 v50; // [rsp+78h] [rbp-29h]
+  void *v51[3]; // [rsp+80h] [rbp-21h] BYREF
+  unsigned __int64 v52; // [rsp+98h] [rbp-9h]
+
+  v50 = -2i64;
+  v6 = a4;
+  v46 = a4;
+  v49 = a3;
+  v7 = a2;
+  v48 = a2;
+  v8 = 0;
+  v9 = 0;
+  v45 = 0;
+  v10 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    if ( a6 )
+      v11 = *(const wchar_t **)(a6 + 24);
+    else
+      v11 = L"Not Applicable";
+    WPP_SF_dqS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x5Au,
+      (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+      a5,
+      a2,
+      (__int64)v11);
+  }
+  v44 = 0;
+  PolicyLock = CDnsPolicyManager::GetPolicyLock((__int64)v10, a5, a6);
+  v15 = PolicyLock;
+  v47 = PolicyLock;
+  if ( !PolicyLock )
+  {
+    v16 = 1168;
+    v17 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    {
+      if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        PolicyTypeString = GetPolicyTypeString(a5);
+        WPP_SF_s(
+          *(_QWORD *)(v19 + 56),
+          0x5Bu,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          PolicyTypeString);
+        v17 = WPP_GLOBAL_Control;
+      }
+      goto LABEL_71;
+    }
+    goto LABEL_83;
+  }
+  v43 = -1;
+  if ( (unsigned int)acquireRead(PolicyLock, 0xFFFFFFFF, &v43) == -1 )
+  {
+    v16 = 9980;
+LABEL_15:
+    v17 = WPP_GLOBAL_Control;
+    goto LABEL_71;
+  }
+  v44 = 1;
+  if ( a6 )
+  {
+    CDnsPolicyManager::InitializeZonePolicyCriteriaSearchTrees(v20, a5, a6);
+    v21 = *(_QWORD *)(*(_QWORD *)(a6 + 208) + 16i64 * a5);
+  }
+  else if ( a5 )
+  {
+    switch ( a5 )
+    {
+      case 2:
+        v21 = g_PolicyCriteriaSearchRootsDU;
+        break;
+      case 1:
+        v21 = g_PolicyCriteriaSearchRootsXfr;
+        break;
+      case 3:
+        v21 = g_PolicyCriteriaSearchRootsRecursion;
+        break;
+      case 4:
+        v21 = g_PolicyCriteriaSearchRootsRRLExceptionlist;
+        break;
+      default:
+LABEL_29:
+        v16 = 9972;
+        goto LABEL_15;
+    }
+  }
+  else
+  {
+    v21 = g_PolicyCriteriaSearchRootsQP;
+  }
+  if ( !v21 )
+    goto LABEL_29;
+  LOWORD(v43) = 0;
+  v17 = WPP_GLOBAL_Control;
+  while ( 1 )
+  {
+    v22 = *(_QWORD *)(v21 + 8i64 * v8);
+    if ( !v22 )
+    {
+      v13 = &WPP_GLOBAL_Control;
+      if ( v17 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v17 + 17) & 0x400000) != 0
+        && *((_BYTE *)v17 + 65) >= 5u )
+      {
+        CriteriaTypeString = GetCriteriaTypeString(PolicyCriteriaOrder[v8]);
+        WPP_SF_sdSS(*(_QWORD *)(v24 + 56), v25, v26, CriteriaTypeString, a5, v25, v26);
+        v17 = WPP_GLOBAL_Control;
+      }
+      goto LABEL_54;
+    }
+    v16 = (*(__int64 (__fastcall **)(__int64, __int64, __int64, const void ***, __int64, int))(*(_QWORD *)v22 + 120i64))(
+            v22,
+            v48,
+            v49,
+            v6,
+            v47,
+            a5);
+    if ( v16 )
+      break;
+    v17 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      v6 = v46;
+    }
+    else
+    {
+      v27 = *v46;
+      if ( *v46 )
+        v28 = *((_DWORD *)v27 + 26);
+      else
+        v28 = -1;
+      if ( v27 )
+      {
+        v29 = CDnsPolicy::Name(v27, (__int64)v51);
+        v30 = (const wchar_t *)v29;
+        v9 |= 1u;
+        v45 = v9;
+        if ( *(_QWORD *)(v29 + 24) >= 8ui64 )
+          v30 = *(const wchar_t **)v29;
+      }
+      else
+      {
+        v30 = L"NULL";
+      }
+      v31 = (**(__int64 (__fastcall ***)(__int64))v22)(v22);
+      v32 = GetCriteriaTypeString(v31);
+      LODWORD(v42) = v28;
+      v6 = v46;
+      WPP_SF_qsqSd(*((_QWORD *)WPP_GLOBAL_Control + 7), v33, v34, v22, v32, *v46, v30, v42);
+      v17 = WPP_GLOBAL_Control;
+      v8 = v43;
+    }
+    if ( (v9 & 1) != 0 )
+    {
+      v9 &= ~1u;
+      v45 = v9;
+      if ( v52 >= 8 )
+      {
+        operator delete(v51[0]);
+        v17 = WPP_GLOBAL_Control;
+      }
+    }
+    if ( a5 == 4 && *v6 )
+    {
+      if ( v17 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v17 + 17) & 0x400000) != 0
+        && *((_BYTE *)v17 + 65) >= 4u )
+      {
+        v35 = (_QWORD *)CDnsPolicy::Name(*v6, (__int64)v51);
+        v9 |= 2u;
+        v45 = v9;
+        if ( v35[3] >= 8ui64 )
+          v35 = (_QWORD *)*v35;
+        WPP_SF_qS(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x5Eu,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          *v6,
+          v35);
+        v17 = WPP_GLOBAL_Control;
+      }
+      if ( (v9 & 2) != 0 )
+      {
+        LOBYTE(v9) = v9 & 0xFD;
+        if ( v52 >= 8 )
+        {
+          operator delete(v51[0]);
+          v17 = WPP_GLOBAL_Control;
+        }
+      }
+LABEL_69:
+      v16 = 0;
+      goto LABEL_70;
+    }
+LABEL_54:
+    LOWORD(v43) = ++v8;
+    if ( v8 >= 7u )
+      goto LABEL_69;
+  }
+  v17 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    goto LABEL_82;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    (**(void (__fastcall ***)(__int64))v22)(v22);
+    WPP_SF_Dd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x5Fu,
+      (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+      v16);
+    v17 = WPP_GLOBAL_Control;
+  }
+LABEL_70:
+  v7 = v48;
+LABEL_71:
+  if ( v17 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v17 + 17) & 0x400000) != 0
+    && *((_BYTE *)v17 + 65) >= 4u )
+  {
+    v36 = v46;
+    v37 = *v46;
+    if ( *v46 )
+      v38 = *((_DWORD *)v37 + 26);
+    else
+      v38 = -1;
+    if ( v37 )
+    {
+      v39 = (const wchar_t *)CDnsPolicy::Name(v37, (__int64)v51);
+      LOBYTE(v9) = v9 | 4;
+      v17 = WPP_GLOBAL_Control;
+      if ( *((_QWORD *)v39 + 3) >= 8ui64 )
+        v39 = *(const wchar_t **)v39;
+    }
+    else
+    {
+      v39 = L"NULL";
+    }
+    LODWORD(v41) = v38;
+    WPP_SF_qqSd(*((_QWORD *)v17 + 7), (__int64)v13, v14, v7, *v36, v39, v41);
+  }
+LABEL_82:
+  v15 = v47;
+LABEL_83:
+  if ( (v9 & 4) != 0 && v52 >= 8 )
+    operator delete(v51[0]);
+  if ( v44 )
+  {
+    v44 = -1;
+    releaseRead(v15, &v44, 1);
+  }
+  return v16;
+}
+// 1401358E9: variable 'v10' is possibly undefined
+// 140135945: variable 'v19' is possibly undefined
+// 1401359E1: variable 'v20' is possibly undefined
+// 140135A90: variable 'v24' is possibly undefined
+// 140135A94: variable 'v25' is possibly undefined
+// 140135A94: variable 'v26' is possibly undefined
+// 140135B8D: variable 'v33' is possibly undefined
+// 140135B8D: variable 'v34' is possibly undefined
+// 140135B8D: variable 'v42' is possibly undefined
+// 140135D59: variable 'v13' is possibly undefined
+// 140135D59: variable 'v14' is possibly undefined
+// 140135D59: variable 'v41' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 140194918: using guessed type wchar_t aNotApplicable[15];
+// 1401B91D0: using guessed type _DWORD PolicyCriteriaOrder[7];

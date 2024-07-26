@@ -1,0 +1,5 @@
+//----- (000000014014B2C0) ----------------------------------------------------
+void __noreturn std::vector<unsigned short>::_Xran()
+{
+  std::_Xout_of_range("invalid vector<T> subscript");
+}

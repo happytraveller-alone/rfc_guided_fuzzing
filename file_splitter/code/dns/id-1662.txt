@@ -1,0 +1,63 @@
+//----- (00000001400D3450) ----------------------------------------------------
+__int64 __fastcall Rpc_ResumeZone(__int64 a1, __int64 a2, __int64 a3)
+{
+  const unsigned __int16 *v4; // rdi
+  const wchar_t **v5; // rax
+  const wchar_t *v6; // r8
+  int v7; // eax
+  unsigned int v8; // esi
+  const unsigned __int16 **v10; // rax
+  char v11[396]; // [rsp+30h] [rbp-688h] BYREF
+  int v12; // [rsp+1BCh] [rbp-4FCh]
+
+  v4 = L".";
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v5 = *(const wchar_t ***)(a3 + 200);
+    if ( v5 )
+      v6 = *v5;
+    else
+      v6 = L".";
+    WPP_SF_sS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x49u,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      *(const char **)(a3 + 16),
+      (__int64)v6);
+  }
+  if ( *(_QWORD *)(a3 + 184)
+    && (memset_0(v11, 0, 0x678ui64),
+        v12 &= ~0x1000u,
+        v7 = Dns_SetPropsOnAllZoneScopes((__int64 *)a3, 4u, (__int64)v11, 1, 0i64),
+        (v8 = v7) != 0) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Au,
+        (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+        v7);
+    }
+    return v8;
+  }
+  else
+  {
+    if ( *(_DWORD *)(a3 + 372) == 1 )
+      Aging_ResetZoneAgingTime(a3);
+    *(_DWORD *)(a3 + 396) &= ~0x1000u;
+    if ( (Microsoft_Windows_DNSServerEnableBits & 0x10000000) != 0 )
+    {
+      v10 = *(const unsigned __int16 ***)(a3 + 200);
+      if ( v10 )
+        v4 = *v10;
+      Template_zz(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_RESUME_ZONE, *(const unsigned __int16 **)(a3 + 24), v4);
+    }
+    return 0i64;
+  }
+}
+// 1401B9100: using guessed type int Microsoft_Windows_DNSServerEnableBits;

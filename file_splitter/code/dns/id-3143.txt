@@ -1,0 +1,121 @@
+//----- (0000000140166E0C) ----------------------------------------------------
+__int64 __fastcall FindProtocolToUse(wchar_t *String2)
+{
+  wchar_t *v1; // rbx
+  unsigned __int64 v2; // rax
+  unsigned __int64 v3; // rcx
+  struct addrinfoW *v4; // rsi
+  unsigned int v5; // edi
+  struct sockaddr *ai_addr; // rax
+  DNS_STATUS v8; // eax
+  __int16 *v9; // rdx
+  WCHAR *v10; // rcx
+  LPWSTR v11; // rcx
+  BOOL ComputerNameW; // eax
+  DWORD nSize[2]; // [rsp+38h] [rbp-D0h] BYREF
+  PADDRINFOW ppResult; // [rsp+40h] [rbp-C8h] BYREF
+  ADDRINFOW pHints; // [rsp+48h] [rbp-C0h] BYREF
+  __int16 pNodeName[256]; // [rsp+78h] [rbp-90h] BYREF
+  WCHAR Buffer[256]; // [rsp+278h] [rbp+170h] BYREF
+
+  v1 = String2;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_S(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0xAu,
+      (__int64)&WPP_6ae2fb85a7cb3542b7be520f90749585_Traceguids,
+      String2);
+  }
+  if ( !v1 || !*v1 || *v1 == 46 && !v1[1] )
+    return 4i64;
+  if ( !wcschr(v1, 0x2Eu) && !wcschr(v1, 0x3Au) )
+    goto LABEL_42;
+  nSize[0] = 512;
+  if ( !(unsigned int)Dns_StringCopy(pNodeName, nSize, v1, 0, 1, 1) )
+    goto LABEL_42;
+  ppResult = 0i64;
+  memset_0(&pHints, 0, sizeof(pHints));
+  v2 = -1i64;
+  do
+    ++v2;
+  while ( pNodeName[v2] );
+  if ( v2 )
+  {
+    while ( v2 < 0x100 && pNodeName[0] && *((_WORD *)&pHints.ai_next + v2 + 3) == 46 )
+    {
+      v3 = 2 * v2 - 2;
+      if ( v3 >= 0x200 )
+        _report_rangecheckfailure();
+      *(__int16 *)((char *)pNodeName + v3) = 0;
+    }
+  }
+  pHints.ai_flags = 4;
+  if ( !GetAddrInfoW((PCWSTR)pNodeName, 0i64, &pHints, &ppResult) )
+  {
+    v4 = ppResult;
+    if ( ppResult )
+    {
+      v5 = 0;
+      if ( ppResult->ai_family == 2 )
+      {
+        v5 = wcscmp_0(L"127.0.0.1", (const wchar_t *)pNodeName) != 0 ? 1 : 4;
+      }
+      else if ( ppResult->ai_family == 23 )
+      {
+        ai_addr = ppResult->ai_addr;
+        if ( *(_WORD *)&ai_addr->sa_data[6]
+          || *(_WORD *)&ai_addr->sa_data[8]
+          || *(_WORD *)&ai_addr->sa_data[10]
+          || *(_WORD *)&ai_addr->sa_data[12]
+          || ai_addr[1].sa_family
+          || *(_WORD *)ai_addr[1].sa_data
+          || *(_WORD *)&ai_addr[1].sa_data[2]
+          || (v5 = 4, *(_WORD *)&ai_addr[1].sa_data[4] != 256) )
+        {
+          v5 = 1;
+        }
+      }
+      FreeAddrInfoW(v4);
+      if ( v5 )
+        return v5;
+    }
+  }
+  v8 = DnsValidateName_W((PCWSTR)pNodeName, DnsNameHostnameFull);
+  if ( !v8 || v8 == 9556 )
+  {
+    nSize[0] = 256;
+    if ( !GetComputerNameExW(ComputerNameDnsFullyQualified, Buffer, nSize) )
+      return 1i64;
+    v9 = pNodeName;
+    v10 = Buffer;
+  }
+  else
+  {
+LABEL_42:
+    v11 = pwszLocalMachineName;
+    if ( !*pwszLocalMachineName )
+    {
+      nSize[1] = 16;
+      ComputerNameW = GetComputerNameW(pwszLocalMachineName, &nSize[1]);
+      v11 = pwszLocalMachineName;
+      if ( !ComputerNameW )
+        *pwszLocalMachineName = 0;
+      if ( !*v11 )
+        return 1i64;
+    }
+    if ( *v1 == 92 )
+      v1 += 2;
+    if ( !_wcsicmp(v11, v1) )
+      return 4i64;
+    v9 = (__int16 *)v1;
+    v10 = L"localhost";
+  }
+  if ( _wcsicmp(v10, (const wchar_t *)v9) )
+    return 1i64;
+  return 4i64;
+}
+// 140199A68: using guessed type wchar_t aLocalhost_0[10];
+// 140166E0C: using guessed type wchar_t pNodeName[256];

@@ -1,0 +1,64 @@
+//----- (0000000140118BAC) ----------------------------------------------------
+LPVOID __fastcall allocMemory(SIZE_T dwBytes, const char *a2, int a3)
+{
+  SIZE_T v4; // rsi
+  unsigned int v6; // edi
+  LPVOID i; // rax
+  __int64 v8; // rdx
+  __int64 v9; // r8
+  unsigned int v10; // eax
+  DWORD v11; // ecx
+  LPVOID v12; // rbx
+  __int64 v14; // [rsp+28h] [rbp-30h]
+
+  v4 = (unsigned int)dwBytes;
+  v6 = 0;
+  for ( i = HeapAlloc(hDnsHeap, 0, (unsigned int)dwBytes); ; i = HeapAlloc(hDnsHeap, 0, v4) )
+  {
+    v12 = i;
+    if ( i )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && *((char *)WPP_GLOBAL_Control + 28) < 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+      {
+        LODWORD(v14) = a3;
+        WPP_SF_dqds(*((_QWORD *)WPP_GLOBAL_Control + 2), v8, v9, v4, (__int64)i, v14, a2);
+      }
+      _InterlockedIncrement(&dword_1401B9A8C);
+      return v12;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && *((char *)WPP_GLOBAL_Control + 28) < 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xAu, (__int64)&WPP_772ae84e4aa83dd2ec494ba833f0aab1_Traceguids, v4);
+    }
+    ++g_AllocFailureCount;
+    dword_1401B9714 = Dns_GetCurrentTimeInSeconds();
+    g_dwLastAllocationFailureTime = dword_1401B9714;
+    if ( g_fDnsServiceExit == 1 )
+      break;
+    v10 = v6;
+    v11 = 100;
+    ++v6;
+    if ( v10 >= 0x32 )
+      v11 = 3000;
+    Sleep(v11);
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xBu, (__int64)&WPP_772ae84e4aa83dd2ec494ba833f0aab1_Traceguids);
+  }
+  return v12;
+}
+// 140118CA7: variable 'v8' is possibly undefined
+// 140118CA7: variable 'v9' is possibly undefined
+// 140118CA7: variable 'v14' is possibly undefined
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1401B9A8C: using guessed type int dword_1401B9A8C;
+// 1401B9D58: using guessed type int g_AllocFailureCount;
+// 1401B9D5C: using guessed type int g_dwLastAllocationFailureTime;

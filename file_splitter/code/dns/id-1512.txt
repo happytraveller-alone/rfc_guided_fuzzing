@@ -1,0 +1,18 @@
+//----- (00000001400BE770) ----------------------------------------------------
+void __fastcall Dns_FreeStringArray(_QWORD *a1)
+{
+  _QWORD *v1; // rax
+  _QWORD **v3; // rdi
+
+  if ( a1 )
+  {
+    v1 = (_QWORD *)*a1;
+    v3 = (_QWORD **)a1;
+    while ( v1 )
+    {
+      Mem_Free(v1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\wrappers.c", 549);
+      v1 = *++v3;
+    }
+    Mem_Free(a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\wrappers.c", 552);
+  }
+}

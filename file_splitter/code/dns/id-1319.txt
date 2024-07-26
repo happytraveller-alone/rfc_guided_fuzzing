@@ -1,0 +1,232 @@
+//----- (00000001400A8900) ----------------------------------------------------
+__int64 __fastcall Rpc_GetServerInfo(int a1, __int64 a2, __int64 a3, __int64 a4, _DWORD *a5, void ***a6)
+{
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  __int64 result; // rax
+  _DWORD *zero; // rax
+  __int64 v10; // r8
+  _DWORD *v11; // rbx
+  int v12; // ecx
+  char v13; // al
+  __int64 v14; // r8
+  int v15; // r9d
+  CDnsClientSubnetRecordsTrie *v16; // rcx
+  unsigned __int16 v17; // dx
+  void *v18; // rax
+  __int64 v19; // r8
+  int v20; // r9d
+  __int64 v21; // r8
+  int v22; // r9d
+  __int64 v23; // r8
+  int v24; // r9d
+  void *v25; // rax
+  void *v26; // rax
+  void *v27; // rax
+  void *v28; // rax
+  void *v29; // rax
+  CHAR MultiByteStr[256]; // [rsp+20h] [rbp-128h] BYREF
+
+  v7 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x28u, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids, a1);
+  }
+  if ( !a1 )
+    return W2KRpc_GetServerInfo(0, a2, a5, a6);
+  if ( a1 == 393216 )
+    return DotNetRpc_GetServerInfo((__int64)v7, a2, a5, a6);
+  zero = MIDL_user_allocate_zero(0x118ui64);
+  v11 = zero;
+  if ( !zero )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x29u, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids);
+    }
+    return 14i64;
+  }
+  v12 = g_LastScavengeTime;
+  zero[2] = SrvInfo;
+  zero[41] = dword_1401B9754;
+  zero[38] = dword_1401B9770;
+  zero[39] = dword_1401B9798;
+  zero[53] = dword_1401B9790;
+  zero[54] = dword_1401B9788;
+  zero[55] = g_ulDsForestVersion;
+  zero[56] = g_ulDsDomainVersion;
+  zero[57] = g_ulDsDsaVersion;
+  v13 = g_fDsReadOnlyDcMode;
+  if ( dword_1401B9750 )
+    v13 = 1;
+  *((_BYTE *)v11 + 232) = v13;
+  v11[42] = dword_1401B9854;
+  v11[43] = dword_1401B98B4;
+  v11[44] = dword_1401B97FC;
+  v11[45] = dword_1401B9800;
+  v11[40] = dword_1401B97E0;
+  v11[46] = dword_1401B9808;
+  v11[47] = dword_1401B9858;
+  v11[49] = dword_1401B9904;
+  v11[50] = dword_1401B990C;
+  v11[51] = dword_1401B9910;
+  if ( v12 )
+    v11[52] = Time + v12;
+  *((_BYTE *)v11 + 12) = dword_1401B9728;
+  *((_BYTE *)v11 + 13) = dword_1401B9724;
+  *((_BYTE *)v11 + 14) = dword_1401B9838;
+  *((_BYTE *)v11 + 248) = dword_1401B989C == 0;
+  *((_BYTE *)v11 + 249) = dword_1401B98A0;
+  *((_BYTE *)v11 + 250) = dword_1401B97E4;
+  *((_BYTE *)v11 + 251) = dword_1401B9818;
+  *((_BYTE *)v11 + 252) = dword_1401B97EC;
+  *((_BYTE *)v11 + 253) = dword_1401B9814;
+  *((_BYTE *)v11 + 254) = dword_1401B98A8;
+  *((_BYTE *)v11 + 255) = dword_1401B98AC;
+  *((_BYTE *)v11 + 256) = byte_1401B98B8;
+  *((_BYTE *)v11 + 257) = dword_1401B98BC;
+  *((_BYTE *)v11 + 258) = dword_1401B98C0;
+  *((_BYTE *)v11 + 259) = byte_1401B98C8;
+  *((_BYTE *)v11 + 260) = dword_1401B9908;
+  *((_BYTE *)v11 + 15) = dword_1401B9740;
+  if ( !(unsigned int)RpcUtil_CopyStringToRpcBuffer((void **)v11 + 2, Str, v10) )
+  {
+    v16 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_24;
+    }
+    v17 = 42;
+LABEL_23:
+    WPP_SF_(*((_QWORD *)v16 + 7), v17, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids);
+LABEL_24:
+    freeRpcServerInfo(v11);
+    return 14i64;
+  }
+  if ( g_pwszDnsContainerDN )
+  {
+    v18 = Dns_StringCopyAllocate((char *)g_pwszDnsContainerDN, 0, 1i64, 1);
+    *((_QWORD *)v11 + 3) = v18;
+    if ( !v18 )
+    {
+      v16 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_24;
+      }
+      v17 = 43;
+      goto LABEL_23;
+    }
+  }
+  if ( !(unsigned int)RpcUtil_CopyDnsAddrArrayToRpcBuffer((void **)v11 + 4, g_ServerAddrs, v14, v15) )
+    goto LABEL_24;
+  if ( !(unsigned int)RpcUtil_CopyDnsAddrArrayToRpcBuffer((void **)v11 + 5, (_DWORD *)qword_1401B97A0, v19, v20) )
+    goto LABEL_24;
+  if ( !(unsigned int)RpcUtil_CopyDnsAddrArrayToRpcBuffer((void **)v11 + 6, (_DWORD *)qword_1401B97D0, v21, v22) )
+    goto LABEL_24;
+  if ( !(unsigned int)RpcUtil_CopyDnsAddrArrayToRpcBuffer((void **)v11 + 7, (_DWORD *)qword_1401B9768, v23, v24) )
+    goto LABEL_24;
+  if ( qword_1401B9760 )
+  {
+    v25 = Dns_StringCopyAllocate((char *)qword_1401B9760, 0, 1i64, 1);
+    *((_QWORD *)v11 + 8) = v25;
+    if ( !v25 )
+      goto LABEL_24;
+  }
+  if ( g_pszForestDefaultDpFqdn )
+  {
+    v26 = Dns_StringCopyAllocate((char *)g_pszDomainDefaultDpFqdn, 0, 2i64, 2);
+    *((_QWORD *)v11 + 11) = v26;
+    if ( !v26 )
+      goto LABEL_24;
+    if ( g_pszForestDefaultDpFqdn )
+    {
+      v27 = Dns_StringCopyAllocate((char *)g_pszForestDefaultDpFqdn, 0, 2i64, 2);
+      *((_QWORD *)v11 + 12) = v27;
+      if ( !v27 )
+        goto LABEL_24;
+    }
+  }
+  if ( DistinguishedName )
+  {
+    Ds_ConvertDnToFqdn(DistinguishedName, MultiByteStr);
+    v28 = Dns_StringCopyAllocate(MultiByteStr, 0, 2i64, 2);
+    *((_QWORD *)v11 + 9) = v28;
+    if ( !v28 )
+      goto LABEL_24;
+  }
+  if ( qword_1401B6B88 )
+  {
+    Ds_ConvertDnToFqdn((const wchar_t *)qword_1401B6B88, MultiByteStr);
+    v29 = Dns_StringCopyAllocate(MultiByteStr, 0, 2i64, 2);
+    *((_QWORD *)v11 + 10) = v29;
+    if ( !v29 )
+      goto LABEL_24;
+  }
+  *v11 = 2;
+  result = 0i64;
+  *a6 = (void **)v11;
+  *a5 = 35;
+  return result;
+}
+// 1400A8986: variable 'a2' is possibly undefined
+// 1400A899E: variable 'v7' is possibly undefined
+// 1400A8BD9: variable 'v10' is possibly undefined
+// 1400A8C95: variable 'v14' is possibly undefined
+// 1400A8C95: variable 'v15' is possibly undefined
+// 1400A8CAD: variable 'v19' is possibly undefined
+// 1400A8CAD: variable 'v20' is possibly undefined
+// 1400A8CC5: variable 'v21' is possibly undefined
+// 1400A8CC5: variable 'v22' is possibly undefined
+// 1400A8CDD: variable 'v23' is possibly undefined
+// 1400A8CDD: variable 'v24' is possibly undefined
+// 1401B6B88: using guessed type __int64 qword_1401B6B88;
+// 1401B7F3C: using guessed type int g_ulDsForestVersion;
+// 1401B7F68: using guessed type int g_ulDsDomainVersion;
+// 1401B7F74: using guessed type int g_ulDsDsaVersion;
+// 1401B8C18: using guessed type int g_LastScavengeTime;
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B96F0: using guessed type int SrvInfo;
+// 1401B9724: using guessed type int dword_1401B9724;
+// 1401B9728: using guessed type int dword_1401B9728;
+// 1401B9740: using guessed type int dword_1401B9740;
+// 1401B9750: using guessed type int dword_1401B9750;
+// 1401B9754: using guessed type int dword_1401B9754;
+// 1401B9768: using guessed type __int64 qword_1401B9768;
+// 1401B9770: using guessed type int dword_1401B9770;
+// 1401B9788: using guessed type int dword_1401B9788;
+// 1401B9790: using guessed type int dword_1401B9790;
+// 1401B9798: using guessed type int dword_1401B9798;
+// 1401B97A0: using guessed type __int64 qword_1401B97A0;
+// 1401B97D0: using guessed type __int64 qword_1401B97D0;
+// 1401B97E0: using guessed type int dword_1401B97E0;
+// 1401B97E4: using guessed type int dword_1401B97E4;
+// 1401B97EC: using guessed type int dword_1401B97EC;
+// 1401B97FC: using guessed type int dword_1401B97FC;
+// 1401B9800: using guessed type int dword_1401B9800;
+// 1401B9808: using guessed type int dword_1401B9808;
+// 1401B9814: using guessed type int dword_1401B9814;
+// 1401B9818: using guessed type int dword_1401B9818;
+// 1401B9838: using guessed type int dword_1401B9838;
+// 1401B9854: using guessed type int dword_1401B9854;
+// 1401B9858: using guessed type int dword_1401B9858;
+// 1401B989C: using guessed type int dword_1401B989C;
+// 1401B98A0: using guessed type int dword_1401B98A0;
+// 1401B98A8: using guessed type int dword_1401B98A8;
+// 1401B98AC: using guessed type int dword_1401B98AC;
+// 1401B98B4: using guessed type int dword_1401B98B4;
+// 1401B98B8: using guessed type char byte_1401B98B8;
+// 1401B98BC: using guessed type int dword_1401B98BC;
+// 1401B98C0: using guessed type int dword_1401B98C0;
+// 1401B98C8: using guessed type char byte_1401B98C8;
+// 1401B9904: using guessed type int dword_1401B9904;
+// 1401B9908: using guessed type int dword_1401B9908;
+// 1401B990C: using guessed type int dword_1401B990C;
+// 1401B9910: using guessed type int dword_1401B9910;

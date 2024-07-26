@@ -1,0 +1,6 @@
+//----- (000000014014E5C0) ----------------------------------------------------
+void __fastcall IDnsRRLStateKey::~IDnsRRLStateKey(IDnsRRLStateKey *this)
+{
+  *(_QWORD *)this = &IDnsRRLStateKey::`vftable';
+}
+// 1401720F8: using guessed type void *IDnsRRLStateKey::`vftable';

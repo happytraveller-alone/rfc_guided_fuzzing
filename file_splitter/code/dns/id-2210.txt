@@ -1,0 +1,108 @@
+//----- (00000001401170D8) ----------------------------------------------------
+__int64 __fastcall SD_AddPrincipalToSD(
+        void *a1,
+        unsigned __int16 *a2,
+        PSECURITY_DESCRIPTOR pSecurityDescriptor,
+        _QWORD *a4,
+        unsigned int a5,
+        unsigned int a6,
+        int a7,
+        int a8,
+        int a9,
+        int a10)
+{
+  void *v11; // r15
+  void *v13; // r12
+  int LastError; // ebx
+  CDnsClientSubnetRecordsTrie *v16; // rax
+  unsigned __int16 v17; // dx
+  int v18; // eax
+  _QWORD *SecurityDescriptorCopy; // rax
+  __int128 v21[2]; // [rsp+20h] [rbp-30h] BYREF
+  __int64 v22; // [rsp+40h] [rbp-10h]
+
+  v22 = 0i64;
+  v11 = g_pServerSid;
+  v13 = g_pServerGroupSid;
+  memset(v21, 0, sizeof(v21));
+  LastError = CSecurityDescriptor::Attach((PACL *)v21, pSecurityDescriptor, (char)pSecurityDescriptor, (WINBOOL)a4);
+  if ( LastError < 0 )
+  {
+    v16 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v17 = 54;
+LABEL_24:
+      WPP_SF_(*((_QWORD *)v16 + 7), v17, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+      goto LABEL_32;
+    }
+    goto LABEL_32;
+  }
+  if ( a1 )
+  {
+    if ( a9 )
+      CSecurityDescriptor::Revoke((PACL *)v21, a1);
+    v18 = CSecurityDescriptor::Allow((struct _ACL **)v21, a1, a5, a6);
+  }
+  else
+  {
+    if ( a9 )
+      CSecurityDescriptor::Revoke((CSecurityDescriptor *)v21, a2);
+    v18 = CSecurityDescriptor::Allow((struct _ACL **)v21, a2, a5, a6);
+  }
+  LastError = v18;
+  if ( v18 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x37u,
+        (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids,
+        a2);
+    }
+    goto LABEL_32;
+  }
+  if ( !a10 )
+  {
+LABEL_30:
+    SecurityDescriptorCopy = makeSecurityDescriptorCopy((PSECURITY_DESCRIPTOR *)v21);
+    *a4 = SecurityDescriptorCopy;
+    if ( !SecurityDescriptorCopy )
+      LastError = GetLastError();
+    goto LABEL_32;
+  }
+  LastError = CSecurityDescriptor::SetOwner((CSecurityDescriptor *)v21, v11, 0);
+  if ( LastError >= 0 )
+  {
+    LastError = CSecurityDescriptor::SetGroup((CSecurityDescriptor *)v21, v13, 0);
+    if ( LastError < 0 )
+    {
+      v16 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v17 = 57;
+        goto LABEL_24;
+      }
+      goto LABEL_32;
+    }
+    goto LABEL_30;
+  }
+  v16 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v17 = 56;
+    goto LABEL_24;
+  }
+LABEL_32:
+  CSecurityDescriptor::~CSecurityDescriptor((CSecurityDescriptor *)v21);
+  return (unsigned int)LastError;
+}

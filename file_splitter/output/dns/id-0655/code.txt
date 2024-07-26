@@ -1,0 +1,1025 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 655
+// Total lines: 900
+
+//----- (000000014005BE30) ----------------------------------------------------
+void __fastcall Etw_LogOutgoingPacket(unsigned __int16 a1, __int64 a2, int a3)
+{
+  int v4; // r14d
+  u_short v5; // si
+  unsigned __int16 *v6; // r15
+  int v7; // edi
+  int v8; // ebx
+  struct in_addr *v9; // rcx
+  const char *v10; // rax
+  __int64 v11; // rax
+  _WORD *v12; // rax
+  char *v13; // r14
+  int v14; // ebx
+  int v15; // ebx
+  int v16; // ebx
+  int v17; // ebx
+  int v18; // ebx
+  __int64 v19; // rdx
+  const unsigned __int16 *v20; // r14
+  const unsigned __int16 *v21; // rsi
+  __int64 v22; // rsi
+  const char *v23; // rax
+  __int64 v24; // rdx
+  const unsigned __int16 *v25; // r13
+  const unsigned __int16 *v26; // r15
+  __int64 v27; // r15
+  int v28; // r14d
+  char v29; // bl
+  const unsigned __int16 *v30; // rsi
+  const char *v31; // rax
+  __int64 v32; // rdx
+  int v33; // eax
+  const unsigned __int16 **v34; // rcx
+  __int64 v35; // rcx
+  __int64 v36; // rax
+  const unsigned __int16 *v37; // rax
+  const unsigned __int16 *v38; // r15
+  __int64 v39; // r15
+  const unsigned __int16 **v40; // rax
+  char v41; // si
+  __int16 v42; // bx
+  const char *v43; // rax
+  const unsigned __int16 **v44; // rcx
+  __int64 v45; // rax
+  const wchar_t *v46; // rax
+  const wchar_t *v47; // rcx
+  __int64 v48; // rax
+  const wchar_t *v49; // rax
+  const unsigned __int16 **v50; // rax
+  const unsigned __int16 *v51; // r14
+  char v52; // bl
+  char v53; // r15
+  const char *v54; // rax
+  int v55; // eax
+  UINT v56; // ecx
+  const wchar_t **v57; // rax
+  const wchar_t *v58; // rax
+  unsigned __int64 v59; // rbx
+  __int64 v60; // rax
+  const wchar_t *v61; // rax
+  int v62; // r13d
+  const unsigned __int16 *v63; // r15
+  char v64; // si
+  char v65; // r14
+  const char *v66; // rax
+  wchar_t *v67; // r14
+  int v68; // eax
+  __int64 v69; // rcx
+  __int64 v70; // rdi
+  const wchar_t **v71; // rax
+  char *v72; // rbx
+  int v73; // edi
+  const wchar_t *v74; // rdx
+  __int64 v75; // rdi
+  char **v76; // rax
+  __int64 v77; // rdx
+  const wchar_t *v78; // rax
+  const wchar_t *v79; // rcx
+  __int64 v80; // rax
+  const wchar_t *v81; // rax
+  char v82; // bl
+  const unsigned __int16 *v83; // r13
+  char v84; // di
+  char v85; // r12
+  char v86; // r15
+  bool v87; // r14
+  bool v88; // bl
+  const char *v89; // rax
+  __int64 v90; // rcx
+  __int64 v91; // rdx
+  const unsigned __int16 *v92; // r15
+  const unsigned __int16 *v93; // r14
+  __int64 v94; // r14
+  char v95; // di
+  const char *v96; // rax
+  int v97; // ebx
+  int v98; // ebx
+  int v99; // ebx
+  int v100; // ebx
+  __int64 v101; // rdx
+  const unsigned __int16 *v102; // r15
+  const unsigned __int16 *v103; // r14
+  __int64 v104; // r14
+  char v105; // di
+  const char *v106; // rax
+  __int64 v107; // rdi
+  const unsigned __int16 *v108; // rdi
+  const char *v109; // rax
+  __int64 v110; // rdx
+  __int64 v111; // rdx
+  const unsigned __int16 *v112; // rsi
+  const unsigned __int16 *v113; // rdi
+  __int64 v114; // rdi
+  const char *v115; // rax
+  __int64 v116; // rdx
+  const unsigned __int16 *v117; // r14
+  const unsigned __int16 *v118; // rsi
+  __int64 v119; // rsi
+  char v120; // bl
+  const char *v121; // rax
+  __int64 v122; // rcx
+  __int64 v123; // rdx
+  const unsigned __int16 *v124; // r14
+  const unsigned __int16 *v125; // rsi
+  __int64 v126; // rsi
+  const char *v127; // rax
+  char v128; // [rsp+A0h] [rbp-80h]
+  bool v129; // [rsp+A0h] [rbp-80h]
+  char v130; // [rsp+A2h] [rbp-7Eh]
+  u_short v131; // [rsp+A4h] [rbp-7Ch]
+  char v132; // [rsp+A6h] [rbp-7Ah]
+  const unsigned __int16 *v134; // [rsp+A8h] [rbp-78h]
+  const unsigned __int16 *v135; // [rsp+A8h] [rbp-78h]
+  const unsigned __int16 *v136; // [rsp+A8h] [rbp-78h]
+  unsigned __int16 *v137; // [rsp+A8h] [rbp-78h]
+  const char *v138; // [rsp+B0h] [rbp-70h]
+  const unsigned __int16 *v139; // [rsp+B8h] [rbp-68h]
+  const unsigned __int16 *v140; // [rsp+B8h] [rbp-68h]
+  const unsigned __int16 *v141; // [rsp+B8h] [rbp-68h]
+  struct in_addr *v143; // [rsp+C8h] [rbp-58h]
+  const unsigned __int16 *v144; // [rsp+C8h] [rbp-58h]
+  const unsigned __int16 *v145; // [rsp+C8h] [rbp-58h]
+  __int64 v146; // [rsp+D0h] [rbp-50h]
+  const unsigned __int16 *v147; // [rsp+D0h] [rbp-50h]
+  wchar_t *String1[5]; // [rsp+D8h] [rbp-48h]
+  char Destination[64]; // [rsp+100h] [rbp-20h] BYREF
+  WCHAR Buffer[256]; // [rsp+140h] [rbp+20h] BYREF
+
+  v4 = a1;
+  memset_0(Destination, 0, sizeof(Destination));
+  memset_0(Buffer, 0, sizeof(Buffer));
+  String1[0] = (wchar_t *)&LocaleName;
+  String1[1] = L"RRL_LEAKED";
+  v5 = 0;
+  String1[3] = (wchar_t *)&LocaleName;
+  String1[2] = L"RRL_TRUNCATED";
+  v139 = 0i64;
+  v6 = 0i64;
+  v130 = 0;
+  v7 = 0;
+  v131 = 0;
+  v8 = v4;
+  v143 = 0i64;
+  v138 = 0i64;
+  if ( !(unsigned int)Etw_IsEventEnabled(v4) )
+    return;
+  if ( dword_1401B979C )
+  {
+    if ( *(_BYTE *)(a2 + 1413) )
+      v5 = ntohs(*(_WORD *)(a2 + 6302));
+    else
+      v5 = *(_WORD *)(a2 + 6302);
+    if ( v5 > (unsigned int)dword_1401B98E8 )
+      v5 = dword_1401B98E8;
+    v131 = v5;
+  }
+  if ( (_WORD)v4 == 262 )
+    v9 = (struct in_addr *)(*(_QWORD *)(a2 + 1256) + 128i64);
+  else
+    v9 = (struct in_addr *)(a2 + 128);
+  v10 = DnsAddr_Ntoa(v9);
+  if ( v10 )
+    strcpy_s(Destination, 0x40ui64, v10);
+  v146 = a2 + 6304;
+  v128 = __ROL2__(*(_WORD *)(a2 + 6304), 8);
+  if ( (_WORD)v4 == 262 )
+    v11 = *(_QWORD *)(a2 + 1256);
+  else
+    v11 = a2;
+  v132 = __ROL2__(*(_WORD *)(v11 + 6306), 8);
+  v12 = (_WORD *)Dns_SkipPacketName(a2 + 6316, *(unsigned __int16 *)(a2 + 6302) + a2 + 6304);
+  if ( v12 )
+    v130 = __ROL2__(*v12, 8);
+  if ( (unsigned int)Name_ConvertPacketNameToLookupNameEx(
+                       a2,
+                       (unsigned __int8 *)(a2 + 6316),
+                       *(unsigned __int16 **)(a2 + 1400),
+                       0) )
+  {
+    v13 = Etw_LookupName(*(_WORD **)(a2 + 1400));
+    v138 = v13;
+  }
+  else
+  {
+    v13 = 0i64;
+  }
+  if ( v8 > 267 )
+  {
+    v97 = v8 - 269;
+    if ( !v97 )
+    {
+      if ( (Microsoft_Windows_DNSServerEnableBits & 0x2000) == 0 )
+        return;
+      v123 = *(_QWORD *)(a2 + 3680);
+      if ( v123 )
+      {
+        if ( *(_DWORD *)(v123 + 372) )
+          v124 = *(const unsigned __int16 **)(v123 + 24);
+        else
+          v124 = L"..Cache";
+      }
+      else
+      {
+        v124 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+      }
+      if ( v123 )
+      {
+        v125 = L"Default";
+        if ( *(_QWORD *)(v123 + 192) )
+          v125 = *(const unsigned __int16 **)(v123 + 192);
+      }
+      else
+      {
+        v126 = *(_QWORD *)(a2 + 3696);
+        if ( v126 )
+          v125 = *(const unsigned __int16 **)(v126 + 192);
+        else
+          v125 = L"Default";
+      }
+      v127 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+      Template_csssqzzqb(
+        a2 + 6304,
+        &DNS_EVENT_AXFR_REQ_OUT,
+        *(_BYTE *)(a2 + 1413),
+        v127,
+        Destination,
+        v138,
+        v128,
+        v125,
+        v124,
+        v131,
+        a2 + 6304);
+LABEL_231:
+      if ( v6 )
+        Mem_Free(v6, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 4723);
+      return;
+    }
+    v98 = v97 - 2;
+    if ( v98 )
+    {
+      v99 = v98 - 3;
+      if ( v99 )
+      {
+        v100 = v99 - 2;
+        if ( v100 )
+        {
+          if ( v100 == 1 && (Microsoft_Windows_DNSServerEnableBits & 0x200000) != 0 )
+          {
+            v101 = *(_QWORD *)(a2 + 3680);
+            if ( v101 )
+            {
+              if ( *(_DWORD *)(v101 + 372) )
+                v102 = *(const unsigned __int16 **)(v101 + 24);
+              else
+                v102 = L"..Cache";
+            }
+            else
+            {
+              v102 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+            }
+            if ( v101 )
+            {
+              v103 = L"Default";
+              if ( *(_QWORD *)(v101 + 192) )
+                v103 = *(const unsigned __int16 **)(v101 + 192);
+            }
+            else
+            {
+              v104 = *(_QWORD *)(a2 + 3696);
+              if ( v104 )
+                v103 = *(const unsigned __int16 **)(v104 + 192);
+              else
+                v103 = L"Default";
+            }
+            v105 = *(_BYTE *)(a2 + 6307) & 0xF;
+            v106 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+            Template_csssqzzqqb(
+              a2 + 6304,
+              &DNS_EVENT_UPDATE_FORWARD,
+              *(_BYTE *)(a2 + 1413),
+              Destination,
+              v106,
+              v138,
+              v128,
+              v103,
+              v102,
+              v105,
+              v5,
+              a2 + 6304);
+          }
+        }
+        else if ( (Microsoft_Windows_DNSServerEnableBits & 0x100000) != 0 )
+        {
+          v107 = *(_QWORD *)(a2 + 3680);
+          if ( v107 )
+          {
+            if ( *(_DWORD *)(v107 + 372) )
+              v108 = *(const unsigned __int16 **)(v107 + 24);
+            else
+              v108 = L"..Cache";
+          }
+          else
+          {
+            v108 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+          }
+          v109 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+          Template_sszqb(a2 + 6304, v110, v109, Destination, v108, v5, a2 + 6304);
+        }
+      }
+      else if ( (Microsoft_Windows_DNSServerEnableBits & 0x40000) != 0 )
+      {
+        v111 = *(_QWORD *)(a2 + 3680);
+        if ( v111 )
+        {
+          if ( *(_DWORD *)(v111 + 372) )
+            v112 = *(const unsigned __int16 **)(v111 + 24);
+          else
+            v112 = L"..Cache";
+        }
+        else
+        {
+          v112 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+        }
+        if ( v111 )
+        {
+          v113 = L"Default";
+          if ( *(_QWORD *)(v111 + 192) )
+            v113 = *(const unsigned __int16 **)(v111 + 192);
+        }
+        else
+        {
+          v114 = *(_QWORD *)(a2 + 3696);
+          if ( v114 )
+            v113 = *(const unsigned __int16 **)(v114 + 192);
+          else
+            v113 = L"Default";
+        }
+        v115 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+        Template_ssszzqb(
+          a2 + 6304,
+          &DNS_EVENT_XFR_NOTIFICATION_OUT,
+          v115,
+          Destination,
+          v13,
+          v113,
+          v112,
+          v131,
+          a2 + 6304);
+      }
+    }
+    else if ( (Microsoft_Windows_DNSServerEnableBits & 0x8000) != 0 )
+    {
+      v116 = *(_QWORD *)(a2 + 3680);
+      if ( v116 )
+      {
+        if ( *(_DWORD *)(v116 + 372) )
+          v117 = *(const unsigned __int16 **)(v116 + 24);
+        else
+          v117 = L"..Cache";
+      }
+      else
+      {
+        v117 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+      }
+      if ( v116 )
+      {
+        v118 = L"Default";
+        if ( *(_QWORD *)(v116 + 192) )
+          v118 = *(const unsigned __int16 **)(v116 + 192);
+      }
+      else
+      {
+        v119 = *(_QWORD *)(a2 + 3696);
+        if ( v119 )
+          v118 = *(const unsigned __int16 **)(v119 + 192);
+        else
+          v118 = L"Default";
+      }
+      v120 = *(_BYTE *)(a2 + 6307) & 0xF;
+      v121 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+      Template_csssqzzq(
+        v122,
+        &DNS_EVENT_AXFR_RESP_OUT,
+        *(_BYTE *)(a2 + 1413),
+        Destination,
+        v121,
+        v138,
+        v128,
+        v118,
+        v117,
+        v120);
+    }
+  }
+  else
+  {
+    if ( v8 != 267 )
+    {
+      v14 = v8 - 257;
+      if ( v14 )
+      {
+        v15 = v14 - 1;
+        if ( v15 )
+        {
+          v16 = v15 - 2;
+          if ( v16 )
+          {
+            v17 = v16 - 2;
+            if ( v17 )
+            {
+              v18 = v17 - 2;
+              if ( v18 )
+              {
+                if ( v18 == 1 && (Microsoft_Windows_DNSServerEnableBits & 0x200) != 0 )
+                {
+                  v19 = *(_QWORD *)(a2 + 3680);
+                  if ( v19 )
+                  {
+                    if ( *(_DWORD *)(v19 + 372) )
+                      v20 = *(const unsigned __int16 **)(v19 + 24);
+                    else
+                      v20 = L"..Cache";
+                  }
+                  else
+                  {
+                    v20 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+                  }
+                  if ( v19 )
+                  {
+                    v21 = L"Default";
+                    if ( *(_QWORD *)(v19 + 192) )
+                      v21 = *(const unsigned __int16 **)(v19 + 192);
+                  }
+                  else
+                  {
+                    v22 = *(_QWORD *)(a2 + 3696);
+                    if ( v22 )
+                      v21 = *(const unsigned __int16 **)(v22 + 192);
+                    else
+                      v21 = L"Default";
+                  }
+                  v23 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+                  Template_csssqzzqb(
+                    a2 + 6304,
+                    &DNS_EVENT_IXFR_REQ_OUT,
+                    *(_BYTE *)(a2 + 1413),
+                    Destination,
+                    v23,
+                    v138,
+                    v128,
+                    v21,
+                    v20,
+                    v131,
+                    a2 + 6304);
+                }
+              }
+              else if ( (Microsoft_Windows_DNSServerEnableBits & 0x100) != 0 )
+              {
+                v24 = *(_QWORD *)(a2 + 3680);
+                if ( v24 )
+                {
+                  if ( *(_DWORD *)(v24 + 372) )
+                    v25 = *(const unsigned __int16 **)(v24 + 24);
+                  else
+                    v25 = L"..Cache";
+                }
+                else
+                {
+                  v25 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+                }
+                if ( v24 )
+                {
+                  v26 = L"Default";
+                  if ( *(_QWORD *)(v24 + 192) )
+                    v26 = *(const unsigned __int16 **)(v24 + 192);
+                }
+                else
+                {
+                  v27 = *(_QWORD *)(a2 + 3696);
+                  if ( v27 )
+                    v26 = *(const unsigned __int16 **)(v27 + 192);
+                  else
+                    v26 = L"Default";
+                }
+                v28 = v5;
+                v29 = *(_BYTE *)(a2 + 6307) & 0xF;
+                v30 = (const unsigned __int16 *)((a2 + 3712) & -(__int64)(*(_WORD *)(a2 + 3712) != 0));
+                v31 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+                Template_csssqzzqzqb(
+                  a2 + 6304,
+                  (__int64)v138,
+                  *(_BYTE *)(a2 + 1413),
+                  Destination,
+                  v31,
+                  v138,
+                  v128,
+                  v26,
+                  v25,
+                  v29,
+                  v30,
+                  v28,
+                  a2 + 6304);
+              }
+            }
+            else
+            {
+              if ( *(char *)(a2 + 1428) <= 0 )
+              {
+                v32 = *(_QWORD *)(a2 + 1280);
+                if ( v32 )
+                {
+                  v33 = *(_DWORD *)(v32 + 4);
+                  if ( v33 )
+                    v143 = (struct in_addr *)(v32 + 96i64 * (unsigned int)(v33 - 1) + 72);
+                }
+              }
+              else
+              {
+                v143 = (struct in_addr *)(*(_QWORD *)(a2 + 1256) + 64i64);
+              }
+              if ( (Microsoft_Windows_DNSServerEnableBits & 0x40) != 0 )
+              {
+                v34 = *(const unsigned __int16 ***)(a2 + 3704);
+                v134 = L".";
+                if ( v34 )
+                  v147 = *v34;
+                else
+                  v147 = L".";
+                v35 = *(_QWORD *)(a2 + 1256);
+                v36 = *(_QWORD *)(v35 + 3680);
+                if ( v36 )
+                {
+                  v37 = *(const unsigned __int16 **)(v36 + 192);
+                  v38 = L"Default";
+                  if ( v37 )
+                    v38 = v37;
+                }
+                else
+                {
+                  v39 = *(_QWORD *)(v35 + 3696);
+                  if ( v39 )
+                    v38 = *(const unsigned __int16 **)(v39 + 192);
+                  else
+                    v38 = L"Default";
+                }
+                v40 = *(const unsigned __int16 ***)(v35 + 3688);
+                if ( v40 )
+                  v134 = *v40;
+                v41 = ntohs(*(_WORD *)(v35 + 130));
+                v42 = *(_WORD *)(*(_QWORD *)(a2 + 1256) + 6304i64);
+                v43 = DnsAddr_Ntoa(v143);
+                Template_csssqqqqzzz(
+                  *(_QWORD *)(a2 + 1256),
+                  (__int64)v138,
+                  *(_BYTE *)(*(_QWORD *)(a2 + 1256) + 1413i64),
+                  Destination,
+                  v43,
+                  v138,
+                  v130,
+                  v42,
+                  v41,
+                  v132,
+                  v134,
+                  v38,
+                  v147);
+              }
+            }
+          }
+          else if ( (Microsoft_Windows_DNSServerEnableBits & 0x10) != 0 )
+          {
+            v44 = *(const unsigned __int16 ***)(a2 + 3704);
+            v135 = L".";
+            if ( v44 )
+              v144 = *v44;
+            else
+              v144 = L".";
+            v45 = *(_QWORD *)(a2 + 3680);
+            if ( v45 )
+            {
+              v46 = *(const wchar_t **)(v45 + 192);
+              v47 = L"Default";
+              if ( v46 )
+                v47 = v46;
+              v140 = v47;
+            }
+            else
+            {
+              v48 = *(_QWORD *)(a2 + 3696);
+              if ( v48 )
+                v49 = *(const wchar_t **)(v48 + 192);
+              else
+                v49 = L"Default";
+              v140 = v49;
+            }
+            v50 = *(const unsigned __int16 ***)(a2 + 3688);
+            if ( v50 )
+              v135 = *v50;
+            v51 = (const unsigned __int16 *)((a2 + 4736) & -(__int64)(*(_WORD *)(a2 + 4736) != 0));
+            v52 = ntohs(*(_WORD *)(a2 + 130));
+            v53 = *(_BYTE *)(a2 + 6306) & 1;
+            v54 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+            Template_csscsqqqqzzzqbz(
+              (__int64)v140,
+              (__int64)v138,
+              *(_BYTE *)(a2 + 1413),
+              v54,
+              Destination,
+              v53,
+              v138,
+              v130,
+              v128,
+              v52,
+              v132,
+              v135,
+              v140,
+              v51,
+              v5,
+              v146,
+              v144);
+          }
+        }
+        else
+        {
+          v55 = *(_DWORD *)(a2 + 6288);
+          if ( (v55 & 8) != 0 )
+          {
+            v56 = 12008;
+          }
+          else if ( (v55 & 0x40) != 0 )
+          {
+            v56 = 12011;
+          }
+          else if ( (v55 & 0x400) != 0 )
+          {
+            v56 = 12012;
+          }
+          else if ( (v55 & 0x10) != 0 )
+          {
+            v56 = 12009;
+          }
+          else
+          {
+            v56 = 12010;
+            if ( (v55 & 0x20) == 0 )
+              v56 = 12007;
+          }
+          Dns_GetResourceString(v56, Buffer, 256i64);
+          if ( (Microsoft_Windows_DNSServerEnableBits & 4) != 0 )
+          {
+            v57 = *(const wchar_t ***)(a2 + 3704);
+            if ( v57 )
+              v58 = *v57;
+            else
+              v58 = L".";
+            v59 = a2 + 3712;
+            v136 = v58;
+            if ( !*(_WORD *)(a2 + 3712)
+              || !*(_WORD *)(a2 + 4736)
+              || lstrcmpiW((LPCWSTR)(a2 + 3712), (LPCWSTR)(a2 + 4736)) )
+            {
+              v60 = *(_QWORD *)(a2 + 3680);
+              if ( v60 )
+              {
+                if ( *(_DWORD *)(v60 + 372) )
+                  v61 = *(const wchar_t **)(v60 + 24);
+                else
+                  v61 = L"..Cache";
+              }
+              else
+              {
+                v61 = (const wchar_t *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+              }
+              v139 = v61;
+            }
+            v62 = v5;
+            v63 = (const unsigned __int16 *)(v59 & -(__int64)(*(_WORD *)v59 != 0));
+            v64 = ntohs(*(_WORD *)(a2 + 66));
+            v65 = *(_BYTE *)(a2 + 6307) & 0xF;
+            v66 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+            Template_cszssqqqqqzzqbz(
+              (__int64)v139,
+              (__int64)v138,
+              *(_BYTE *)(a2 + 1413),
+              Destination,
+              Buffer,
+              v66,
+              v138,
+              v130,
+              v128,
+              v65,
+              v64,
+              v132,
+              v139,
+              v63,
+              v62,
+              v146,
+              v136);
+          }
+        }
+        return;
+      }
+      v67 = String1[a3];
+      v68 = _wcsicmp(v67, &LocaleName);
+      v69 = -1i64;
+      if ( v68 )
+      {
+        v70 = -1i64;
+        do
+          ++v70;
+        while ( v67[v70] );
+        v7 = v70 + 13;
+      }
+      v71 = *(const wchar_t ***)(a2 + 3704);
+      v72 = (char *)L".";
+      v73 = v7 + 24;
+      if ( v71 )
+        v74 = *v71;
+      else
+        v74 = L".";
+      do
+        ++v69;
+      while ( v74[v69] );
+      v75 = (unsigned int)(v69 + v73);
+      v137 = (unsigned __int16 *)Mem_AllocZero(
+                                   (unsigned int)(2 * v75 + 2),
+                                   0i64,
+                                   "ds\\dns\\server\\server\\log.c",
+                                   4521);
+      v6 = v137;
+      if ( !v137 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Du, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids);
+        }
+        return;
+      }
+      if ( _wcsicmp(v67, &LocaleName) )
+      {
+        StringCchCatW(v137, (unsigned int)v75, (char *)L"RRL_ACTION");
+        StringCchCatW(v137, (unsigned int)v75, (char *)L":");
+        StringCchCatW(v137, (unsigned int)v75, (char *)v67);
+        StringCchCatW(v137, (unsigned int)v75, (char *)L", ");
+        v72 = (char *)L".";
+      }
+      StringCchCatW(v137, v75, (char *)L"VirtualizationInstance");
+      StringCchCatW(v137, v75, (char *)L":");
+      v76 = *(char ***)(a2 + 3704);
+      if ( v76 )
+        v72 = *v76;
+      StringCchCatW(v137, v75, v72);
+      if ( (Microsoft_Windows_DNSServerEnableBits & 2) != 0 )
+      {
+        v77 = *(_QWORD *)(a2 + 3680);
+        v78 = L"..Cache";
+        if ( v77 )
+        {
+          if ( *(_DWORD *)(v77 + 372) )
+            v78 = *(const wchar_t **)(v77 + 24);
+          v145 = v78;
+        }
+        else
+        {
+          v145 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+        }
+        if ( v77 )
+        {
+          v79 = L"Default";
+          if ( *(_QWORD *)(v77 + 192) )
+            v79 = *(const wchar_t **)(v77 + 192);
+          v141 = v79;
+        }
+        else
+        {
+          v80 = *(_QWORD *)(a2 + 3696);
+          if ( v80 )
+            v81 = *(const wchar_t **)(v80 + 192);
+          else
+            v81 = L"Default";
+          v141 = v81;
+        }
+        v82 = *(_BYTE *)(a2 + 6307);
+        v83 = (const unsigned __int16 *)((a2 + 3712) & -(__int64)(*(_WORD *)(a2 + 3712) != 0));
+        v84 = v128;
+        v85 = v82 & 0xF;
+        v86 = ntohs(*(_WORD *)(a2 + 66));
+        v129 = (v82 & 0x20) != 0;
+        v87 = (*(_DWORD *)(a2 + 6288) & 4) != 0;
+        v88 = (*(_BYTE *)(a2 + 6306) & 4) != 0;
+        v89 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+        v90 = (__int64)v141;
+        LOBYTE(v90) = v129;
+        Template_cssccsqqcqqqzzzqbz(
+          v90,
+          (__int64)v138,
+          *(_BYTE *)(a2 + 1413),
+          Destination,
+          v89,
+          v88,
+          v129,
+          v138,
+          v130,
+          v84,
+          v87,
+          v85,
+          v86,
+          v132,
+          v141,
+          v145,
+          v83,
+          v131,
+          v146,
+          v137);
+        v6 = v137;
+      }
+      goto LABEL_231;
+    }
+    if ( (Microsoft_Windows_DNSServerEnableBits & 0x800) != 0 )
+    {
+      v91 = *(_QWORD *)(a2 + 3680);
+      if ( v91 )
+      {
+        if ( *(_DWORD *)(v91 + 372) )
+          v92 = *(const unsigned __int16 **)(v91 + 24);
+        else
+          v92 = L"..Cache";
+      }
+      else
+      {
+        v92 = (const unsigned __int16 *)((unsigned __int64)L"..Cache" & -(__int64)((*(_DWORD *)(a2 + 6288) & 0x80u) != 0));
+      }
+      if ( v91 )
+      {
+        v93 = L"Default";
+        if ( *(_QWORD *)(v91 + 192) )
+          v93 = *(const unsigned __int16 **)(v91 + 192);
+      }
+      else
+      {
+        v94 = *(_QWORD *)(a2 + 3696);
+        if ( v94 )
+          v93 = *(const unsigned __int16 **)(v94 + 192);
+        else
+          v93 = L"Default";
+      }
+      v95 = *(_BYTE *)(a2 + 6307) & 0xF;
+      v96 = DnsAddr_Ntoa((struct in_addr *)(a2 + 64));
+      Template_csssqzzqqb(
+        a2 + 6304,
+        &DNS_EVENT_IXFR_RESP_OUT,
+        *(_BYTE *)(a2 + 1413),
+        Destination,
+        v96,
+        v138,
+        v128,
+        v93,
+        v92,
+        v95,
+        v5,
+        a2 + 6304);
+    }
+  }
+}
+// 14005CBBD: variable 'v110' is possibly undefined
+// 14005CD5F: variable 'v122' is possibly undefined
+// 140183DD0: using guessed type __int64 __fastcall Dns_SkipPacketName(_QWORD, _QWORD);
+// 1401863E8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_IXFR_RESP_OUT;
+// 1401866A8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_IXFR_REQ_OUT;
+// 140186B08: using guessed type EVENT_DESCRIPTOR DNS_EVENT_XFR_NOTIFICATION_OUT;
+// 140186D00: using guessed type EVENT_DESCRIPTOR DNS_EVENT_AXFR_RESP_OUT;
+// 140186E80: using guessed type EVENT_DESCRIPTOR DNS_EVENT_AXFR_REQ_OUT;
+// 140187210: using guessed type EVENT_DESCRIPTOR DNS_EVENT_UPDATE_FORWARD;
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 14018E020: using guessed type wchar_t aRrlLeaked[11];
+// 14018E038: using guessed type wchar_t aRrlTruncated[14];
+// 1401B9100: using guessed type int Microsoft_Windows_DNSServerEnableBits;
+// 1401B979C: using guessed type int dword_1401B979C;
+// 1401B98E8: using guessed type int dword_1401B98E8;

@@ -1,0 +1,26 @@
+//----- (00000001400D4B78) ----------------------------------------------------
+__int64 __fastcall Dns_SetPropsWithScopeSnapShot(__int64 *a1, unsigned int a2, __int64 a3, unsigned int a4)
+{
+  __int64 v5; // rdx
+  __int64 result; // rax
+  __int64 *v9; // rdi
+  unsigned int v10; // ebx
+  int v11; // [rsp+50h] [rbp+8h] BYREF
+  __int64 *v12; // [rsp+68h] [rbp+20h] BYREF
+
+  v5 = a1[21];
+  v11 = 0;
+  v12 = 0i64;
+  result = Get_SnapShot_ScopeMap(a1[20], v5, 1, a4, &v11, &v12);
+  if ( !(_DWORD)result )
+  {
+    if ( v11 )
+    {
+      v9 = v12;
+      v10 = Dns_SetPropsOnAllZoneScopes(a1, a2, a3, 0, v12);
+      Free_ScopeList(v9);
+      return v10;
+    }
+  }
+  return result;
+}

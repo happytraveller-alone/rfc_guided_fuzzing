@@ -1,0 +1,18 @@
+//----- (00000001400B2D68) ----------------------------------------------------
+__int64 __fastcall NTree_NextSiblingWithLocking(__int64 a1)
+{
+  __int64 Sibling; // rbx
+  unsigned int v4; // [rsp+38h] [rbp+10h] BYREF
+
+  v4 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v4);
+  Sibling = NTree_NextSibling(a1);
+  if ( Sibling && GetCurrentThreadId() != TimeoutThreadId )
+    *(_BYTE *)(Sibling + 98) = CurrentTimeoutBin;
+  v4 = -1;
+  releaseRead(DbaseLock, &v4, 1);
+  return Sibling;
+}
+// 1401BA4B8: using guessed type char CurrentTimeoutBin;
+// 1401BB528: using guessed type int TimeoutThreadId;
+// 1401EC5E8: using guessed type __int64 DbaseLock;

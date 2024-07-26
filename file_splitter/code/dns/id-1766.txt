@@ -1,0 +1,37 @@
+//----- (00000001400DEBF4) ----------------------------------------------------
+struct _RTL_CRITICAL_SECTION *__fastcall TrustPoint::`scalar deleting destructor'(struct _RTL_CRITICAL_SECTION *this)
+{
+  const char *p_OwningThread; // r9
+
+  TrustPoint::DescheduleActiveRefresh(this);
+  DnsDeleteCriticalSection(this);
+  g_bRFC5011_Trust_Points_Dirty = 1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    p_OwningThread = (const char *)&this[3].OwningThread;
+    if ( this[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+      p_OwningThread = *(const char **)p_OwningThread;
+    WPP_SF_sq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x17u,
+      (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids,
+      p_OwningThread);
+  }
+  if ( this[11].LockSemaphore >= (HANDLE)8 )
+    operator delete(this[11].DebugInfo);
+  this[11].LockSemaphore = HANDLE_FLAG_PROTECT_FROM_CLOSE|HANDLE_FLAG_INHERIT|0x4;
+  this[11].OwningThread = 0i64;
+  LOWORD(this[11].DebugInfo) = 0;
+  if ( this[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+    operator delete(this[3].OwningThread);
+  this[4].DebugInfo = (PRTL_CRITICAL_SECTION_DEBUG)15;
+  this[3].SpinCount = 0i64;
+  LOBYTE(this[3].OwningThread) = 0;
+  std::_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>::~_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>(&this[1].DebugInfo);
+  operator delete(this);
+  return this;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B9168: using guessed type bool g_bRFC5011_Trust_Points_Dirty;

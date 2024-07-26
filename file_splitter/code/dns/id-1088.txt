@@ -1,0 +1,252 @@
+//----- (000000014008D6C4) ----------------------------------------------------
+__int64 __fastcall AddToNode(__int64 a1, __int64 a2, __int64 a3, unsigned int a4)
+{
+  __int64 v4; // rsi
+  unsigned int v5; // ebx
+  __int64 v8; // rbp
+  unsigned __int64 v9; // r14
+  unsigned int v10; // ebx
+  __int64 v11; // r8
+  int v12; // eax
+  CDnsClientSubnetRecordsTrie *v13; // rax
+  unsigned int v14; // eax
+  u_long v15; // ecx
+  char *v16; // rax
+  unsigned __int8 v17; // r12
+  _QWORD *v18; // r13
+  __int64 i; // rbx
+  __int64 v20; // rdx
+  __int64 v21; // rdx
+  char *v22; // rax
+  __int64 v23; // rdx
+  __int64 v24; // r8
+  int v26; // [rsp+90h] [rbp+8h]
+
+  v4 = 0i64;
+  v5 = a4;
+  v8 = a1;
+  if ( !a2 || (v26 = 1, !*(_QWORD *)(a2 + 64)) )
+    v26 = 0;
+  if ( a1 )
+    v8 = -(__int64)(*(_DWORD *)(a1 + 372) != 0) & a1;
+  v9 = *(unsigned __int16 *)(a3 + 12);
+  *(_DWORD *)(a2 + 76) = 0;
+  if ( (*(_BYTE *)(a2 + 92) & 1) != 0 )
+    RR_CheckNameErrorTimeout(a2, 1, 0, 0i64);
+  if ( (*(_BYTE *)(a2 + 92) & 0x20) != 0 || (_WORD)v9 == 5 )
+  {
+    v10 = checkCnameConditions(a2, a2, v9, v5);
+    if ( v10 )
+      goto LABEL_86;
+    v5 = a4;
+  }
+  v11 = 0xDC80000000000i64;
+  if ( (_WORD)v9 == 1 || (_WORD)v9 == 28 || !v8 )
+  {
+LABEL_37:
+    if ( (unsigned __int16)v9 <= 0x33u && _bittest64(&v11, (unsigned __int16)v9) )
+      goto LABEL_41;
+    goto LABEL_39;
+  }
+  if ( (_WORD)v9 != 2 )
+  {
+    switch ( (_WORD)v9 )
+    {
+      case 5:
+        *(_DWORD *)(a2 + 92) |= 0x20u;
+        goto LABEL_39;
+      case 0x27:
+        *(_DWORD *)(a2 + 92) |= 0x20000u;
+        goto LABEL_39;
+      case 6:
+        if ( (*(_DWORD *)(a2 + 92) & 0x100) != 0 )
+        {
+LABEL_39:
+          if ( !v8 )
+            goto LABEL_54;
+          if ( (*(_BYTE *)(v8 + 396) & 0x10) == 0 )
+          {
+LABEL_43:
+            if ( v8 )
+            {
+              v15 = *(_DWORD *)(a3 + 20);
+              if ( v15 == *(_DWORD *)(v8 + 528) )
+              {
+                *(_WORD *)(a3 + 10) |= 0x40u;
+              }
+              else if ( ntohl(v15) > *(_DWORD *)(v8 + 536) )
+              {
+                *(_DWORD *)(v8 + 536) = ntohl(*(_DWORD *)(a3 + 20));
+                if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+                  && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                {
+                  v16 = Dbg_NodeName(a2);
+                  WPP_SF_DqDss(
+                    *((_QWORD *)WPP_GLOBAL_Control + 7),
+                    0x4Fu,
+                    *(unsigned __int16 *)(a3 + 12),
+                    *(_DWORD *)(v8 + 536),
+                    a3,
+                    *(_WORD *)(a3 + 12),
+                    (__int64)v16,
+                    *(_QWORD *)(v8 + 16));
+                }
+              }
+              v17 = -16;
+              if ( *(_BYTE *)(a2 + 96) != 0xF2 )
+              {
+                v17 = 0x80;
+                if ( (_WORD)v9 == 2 )
+                  v17 = -126;
+              }
+              goto LABEL_56;
+            }
+LABEL_54:
+            *(_DWORD *)(a3 + 20) = 0;
+            v17 = 8;
+            if ( (_WORD)v9 == 2 )
+              *(_DWORD *)(a2 + 92) |= 0x10u;
+LABEL_56:
+            v18 = (_QWORD *)(a2 + 64);
+            *(_BYTE *)(a3 + 8) = v17;
+            for ( i = *(_QWORD *)(a2 + 64); i; i = *(_QWORD *)i )
+            {
+              if ( (_WORD)v9 == *(_WORD *)(i + 12) )
+              {
+                if ( v17 == *(_BYTE *)(i + 8) )
+                {
+                  if ( (unsigned int)RR_PacketTtlForCachedRecord(i, a4, v11) != -1
+                    && (unsigned int)RR_Compare(a3, i, 0i64) )
+                  {
+                    v10 = 9711;
+                    goto LABEL_86;
+                  }
+                  if ( (_WORD)v9 == 6 )
+                  {
+                    v13 = WPP_GLOBAL_Control;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                    {
+                      WPP_SF_sqqqq(*((_QWORD *)WPP_GLOBAL_Control + 7), v21, v11, (const char *)(a2 + 102));
+LABEL_82:
+                      v13 = WPP_GLOBAL_Control;
+                    }
+                    goto LABEL_83;
+                  }
+                }
+                else if ( v17 >= *(_BYTE *)(i + 8) )
+                {
+                  break;
+                }
+              }
+              else if ( (unsigned __int16)v9 <= *(_WORD *)(i + 12) )
+              {
+                break;
+              }
+              v18 = (_QWORD *)i;
+            }
+            if ( (unsigned __int16)v9 <= 0x33u )
+            {
+              v20 = 0xDC80000000000i64;
+              if ( _bittest64(&v20, v9) )
+              {
+                if ( v8 )
+                {
+                  *(_DWORD *)(v8 + 396) |= 0x10u;
+                  if ( (_WORD)v9 == 51 )
+                  {
+                    if ( (*(_DWORD *)(a2 + 92) & 0x100) == 0 )
+                      goto LABEL_31;
+                    if ( RR_FindNextRecordEx(a2, 0, 0x33u, 0i64, 0, 0) )
+                    {
+                      v13 = WPP_GLOBAL_Control;
+                      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+                        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                      {
+                        WPP_SF_s(
+                          *((_QWORD *)WPP_GLOBAL_Control + 7),
+                          0x51u,
+                          (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+                          *(const char **)(v8 + 16));
+                        goto LABEL_82;
+                      }
+LABEL_83:
+                      v10 = 9711;
+                      goto LABEL_87;
+                    }
+                    *(_DWORD *)(v8 + 396) |= 0x20u;
+                  }
+                }
+              }
+            }
+            *(_QWORD *)a3 = i;
+            v10 = 0;
+            *v18 = a3;
+            NTree_ChangeAncestorCounters((volatile signed __int32 **)a2, v26);
+            goto LABEL_86;
+          }
+LABEL_41:
+          *(_DWORD *)(a2 + 92) |= 0x40000u;
+          if ( (_WORD)v9 == 50 )
+            *(_DWORD *)(a2 + 92) |= 0x200000u;
+          goto LABEL_43;
+        }
+LABEL_31:
+        v10 = 9710;
+LABEL_86:
+        v13 = WPP_GLOBAL_Control;
+        goto LABEL_87;
+    }
+    if ( (v9 & 0xFFFC) == 0xFF00 )
+    {
+      v14 = Wins_RecordCheck(v8, a2, a3);
+      v10 = v14;
+      if ( v14 )
+      {
+        if ( v14 == 9753 )
+          v10 = 0;
+        goto LABEL_86;
+      }
+      v11 = 0xDC80000000000i64;
+    }
+    goto LABEL_37;
+  }
+  v12 = *(_DWORD *)(a2 + 92);
+  if ( (v12 & 0x100) != 0 )
+    goto LABEL_39;
+  if ( (v12 & 0x10) != 0 || *(_BYTE *)(a2 + 96) == 0xF2 )
+  {
+    *(_DWORD *)(a2 + 92) = v12 | 0x10;
+    *(_BYTE *)(a2 + 96) = 67;
+    Lookup_NsHostNode(a3 + 56, 0x4000, v8, 0i64, 0i64, v5, 0i64, v8);
+    goto LABEL_39;
+  }
+  v13 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x4Eu, (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids, a2);
+    v13 = WPP_GLOBAL_Control;
+  }
+  v10 = 9710;
+LABEL_87:
+  if ( v13 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v13 + 17) & 0x40000) != 0
+    && *((_BYTE *)v13 + 65) >= 4u )
+  {
+    if ( v8 )
+      v4 = *(_QWORD *)(v8 + 16);
+    v22 = Dbg_NodeName(a2);
+    WPP_SF_DDss(*((_QWORD *)WPP_GLOBAL_Control + 7), v23, v24, v10, *(_WORD *)(a3 + 12), (__int64)v22, v4);
+  }
+  return v10;
+}
+// 14008D759: variable 'a2' is possibly undefined
+// 14008DAA8: variable 'v11' is possibly undefined
+// 14008DB1B: variable 'v21' is possibly undefined
+// 14008DBA1: variable 'v23' is possibly undefined
+// 14008DBA1: variable 'v24' is possibly undefined

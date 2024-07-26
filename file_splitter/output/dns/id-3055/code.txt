@@ -1,0 +1,1705 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 3055
+// Total lines: 1580
+
+//----- (000000014015DF04) ----------------------------------------------------
+__int64 __fastcall DnsPrint_PacketRecord(
+        void (*a1)(__int64, const char *, ...),
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        __int64 a5,
+        unsigned __int64 a6)
+{
+  __int64 v6; // rsi
+  unsigned __int8 *v7; // r12
+  u_short v9; // cx
+  __int64 v10; // r14
+  __int64 v12; // r15
+  u_short v13; // bx
+  __int64 result; // rax
+  char *v15; // rax
+  const char *v16; // r9
+  const char *v17; // rcx
+  int v18; // edi
+  u_long v19; // ebx
+  u_short v20; // ax
+  __int64 v21; // rdx
+  __int64 v22; // r8
+  __int64 v23; // rcx
+  unsigned __int64 v24; // rdx
+  const char *v25; // rdi
+  unsigned __int8 *v26; // r9
+  u_short v27; // di
+  unsigned __int8 *v28; // r12
+  unsigned int v29; // ebx
+  unsigned __int8 *v30; // r12
+  u_long *v31; // r12
+  u_long v32; // r14d
+  u_long v33; // esi
+  u_long v34; // edi
+  u_long v35; // ebx
+  u_long v36; // eax
+  int v37; // ebx
+  int v38; // eax
+  __int64 v39; // rdx
+  bool v40; // zf
+  __int64 v41; // rax
+  __int64 v42; // rbx
+  unsigned __int8 *v43; // rsi
+  __int64 v44; // rdx
+  signed __int64 v45; // r12
+  char *v46; // rcx
+  char v47; // al
+  int v48; // eax
+  const char *v49; // r8
+  const char *v50; // rax
+  u_short v51; // ax
+  u_short v52; // ax
+  int v53; // r9d
+  unsigned __int8 v54; // r8
+  unsigned __int8 v55; // r9
+  unsigned __int16 v56; // dx
+  const char *v57; // r12
+  int v58; // ebx
+  const char *v59; // rsi
+  int v60; // edi
+  unsigned int v61; // r14d
+  u_short v62; // ax
+  char v63; // bl
+  char v64; // di
+  int v65; // esi
+  u_short v66; // ax
+  __int64 v67; // rdx
+  __int64 v68; // rcx
+  int v69; // edi
+  unsigned int v70; // ebx
+  u_short v71; // ax
+  int v72; // ebx
+  u_short v73; // ax
+  __int64 v74; // r8
+  unsigned __int8 *v75; // r12
+  const char *v76; // rdi
+  int v77; // esi
+  signed int i; // ebx
+  int v79; // eax
+  char *v80; // rax
+  const char *v81; // r9
+  const char *v82; // r14
+  const char *v83; // r9
+  unsigned __int16 v84; // cx
+  u_short v85; // ax
+  unsigned __int8 v86; // r14
+  u_short v87; // si
+  unsigned __int8 v88; // al
+  __int64 v89; // r12
+  __int64 v90; // rax
+  int v91; // r11d
+  __int64 v92; // r10
+  const char *v93; // rax
+  int v94; // r11d
+  __int64 v95; // r10
+  unsigned __int8 v96; // bl
+  __int64 v97; // r8
+  int v98; // r9d
+  __int64 v99; // rax
+  int v100; // r10d
+  unsigned int v101; // edx
+  int v102; // r11d
+  const char *v103; // rax
+  int v104; // r10d
+  int v105; // r11d
+  int v106; // edx
+  unsigned __int8 v107; // al
+  unsigned __int8 *v108; // r12
+  __int64 v109; // rbx
+  unsigned __int8 v110; // di
+  unsigned __int8 v111; // bl
+  u_short v112; // ax
+  int v113; // r9d
+  const char *v114; // r14
+  const char *v115; // r8
+  int v116; // ebx
+  __int64 v117; // rax
+  unsigned int v118; // edx
+  int v119; // r10d
+  __int64 v120; // r11
+  const char *v121; // rax
+  int v122; // r11d
+  int v123; // r10d
+  __int64 v124; // rdx
+  __int64 v125; // rcx
+  unsigned __int8 v126; // al
+  unsigned __int8 *v127; // r12
+  __int64 v128; // rbx
+  unsigned __int8 v129; // r14
+  unsigned int v130; // r14d
+  __int64 v131; // r12
+  const char *v132; // r9
+  u_short v133; // cx
+  unsigned __int8 v134; // al
+  __int64 v135; // r12
+  int v136; // r15d
+  __int64 StringForValue; // rax
+  unsigned __int8 v138; // r11
+  int v139; // r14d
+  __int64 v140; // rsi
+  __int64 v141; // rax
+  unsigned __int16 v142; // r10
+  unsigned int v143; // edi
+  __int64 v144; // rbx
+  __int64 v145; // rdx
+  char *v146; // rax
+  int v147; // r15d
+  __int64 v148; // rax
+  unsigned __int8 v149; // r11
+  int v150; // r14d
+  __int64 v151; // rsi
+  __int64 v152; // rax
+  unsigned __int16 v153; // r10
+  int v154; // edi
+  const char *v155; // rbx
+  __int64 v156; // rdx
+  char *v157; // rax
+  __int64 v158; // rdx
+  __int64 v159; // rcx
+  unsigned __int8 v160; // al
+  __int64 v161; // rcx
+  int v162; // esi
+  unsigned int v163; // eax
+  int v164; // ebx
+  unsigned int v165; // edx
+  char *v166; // rax
+  const char *v167; // r9
+  const char *v168; // r14
+  u_short v169; // ax
+  unsigned __int8 v170; // di
+  unsigned __int16 v171; // bx
+  u_long v172; // ecx
+  u_long v173; // eax
+  u_long v174; // ecx
+  u_long v175; // eax
+  u_long v176; // ecx
+  u_long v177; // eax
+  u_short v178; // cx
+  unsigned __int8 *v179; // r12
+  int v180; // r15d
+  __int64 v181; // r14
+  char *v182; // rax
+  const char *v183; // rsi
+  unsigned __int16 v184; // r10
+  int v185; // edi
+  char *v186; // rbx
+  char *v187; // rax
+  __int64 v188; // rsi
+  char *v189; // rax
+  const char *v190; // rcx
+  char *v191; // rbx
+  char *v192; // rax
+  __int64 v193; // rdx
+  int v194; // eax
+  unsigned __int16 v195; // bx
+  __int64 v196; // r8
+  unsigned __int8 *v197; // r12
+  unsigned int v198; // esi
+  __int16 v199; // bx
+  unsigned int v200; // r14d
+  __int64 v201; // r9
+  __int16 v202; // ax
+  __int64 v203; // r12
+  unsigned __int16 v204; // bx
+  unsigned __int8 *v205; // rsi
+  int v206; // r9d
+  unsigned __int16 v207; // bx
+  unsigned int v208; // ebx
+  u_long v209; // edi
+  u_long v210; // r14d
+  __int64 v211; // rdx
+  __int64 v212; // r8
+  __int64 v213; // rdx
+  u_long v214; // eax
+  u_long v215; // ecx
+  u_long v216; // eax
+  u_long v217; // ecx
+  u_long v218; // eax
+  u_long v219; // ecx
+  unsigned int v220; // ebx
+  __int64 v221; // r12
+  __int64 v222; // rdx
+  __int64 v223; // r8
+  __int64 v224; // rdx
+  __int64 v225; // rcx
+  unsigned __int64 v226; // rax
+  unsigned __int64 v227; // rbx
+  unsigned __int16 v228; // bx
+  __int64 v229; // rdx
+  unsigned __int8 *v230; // r12
+  __int64 v231; // rcx
+  __int64 v232; // rbx
+  unsigned __int16 v233; // r14
+  unsigned __int16 v234; // si
+  __int64 v235; // r12
+  unsigned __int8 *v236; // rbx
+  __int16 v237; // si
+  unsigned __int16 v238; // r14
+  unsigned __int16 v239; // r12
+  __int16 v240; // ax
+  __int64 v241; // rbx
+  unsigned __int16 v242; // si
+  __int64 v243; // [rsp+20h] [rbp-E0h]
+  int v244; // [rsp+20h] [rbp-E0h]
+  __int64 v245; // [rsp+20h] [rbp-E0h]
+  __int64 v246; // [rsp+20h] [rbp-E0h]
+  __int64 v247; // [rsp+20h] [rbp-E0h]
+  __int64 v248; // [rsp+20h] [rbp-E0h]
+  __int64 v249; // [rsp+28h] [rbp-D8h]
+  u_long v250; // [rsp+28h] [rbp-D8h]
+  unsigned __int64 v251; // [rsp+28h] [rbp-D8h]
+  __int64 v252; // [rsp+28h] [rbp-D8h]
+  __int64 v253; // [rsp+28h] [rbp-D8h]
+  __int64 v254; // [rsp+30h] [rbp-D0h]
+  const unsigned __int8 *v255; // [rsp+30h] [rbp-D0h]
+  __int64 v256; // [rsp+30h] [rbp-D0h]
+  __int64 v257; // [rsp+30h] [rbp-D0h]
+  __int64 v258; // [rsp+38h] [rbp-C8h]
+  __int64 v259; // [rsp+38h] [rbp-C8h]
+  u_short v260; // [rsp+60h] [rbp-A0h]
+  unsigned __int8 v261; // [rsp+62h] [rbp-9Eh]
+  unsigned __int8 v262; // [rsp+62h] [rbp-9Eh]
+  unsigned __int8 v263; // [rsp+62h] [rbp-9Eh]
+  unsigned __int8 v264; // [rsp+62h] [rbp-9Eh]
+  unsigned __int8 v265; // [rsp+62h] [rbp-9Eh]
+  unsigned __int8 v266; // [rsp+63h] [rbp-9Dh]
+  unsigned __int8 v267; // [rsp+63h] [rbp-9Dh]
+  unsigned __int8 v268; // [rsp+63h] [rbp-9Dh]
+  unsigned __int8 v269; // [rsp+63h] [rbp-9Dh]
+  unsigned int v270; // [rsp+64h] [rbp-9Ch] BYREF
+  u_short v271; // [rsp+68h] [rbp-98h]
+  unsigned int v272; // [rsp+6Ch] [rbp-94h]
+  __int64 v273; // [rsp+70h] [rbp-90h]
+  unsigned __int64 v274; // [rsp+78h] [rbp-88h]
+  unsigned int v275; // [rsp+80h] [rbp-80h]
+  const char *v276; // [rsp+88h] [rbp-78h]
+  __int64 v277; // [rsp+90h] [rbp-70h]
+  struct in6_addr Addr; // [rsp+98h] [rbp-68h] BYREF
+  char S[112]; // [rsp+B0h] [rbp-50h] BYREF
+  char v280[112]; // [rsp+120h] [rbp+20h] BYREF
+  char v281[272]; // [rsp+190h] [rbp+90h] BYREF
+
+  v6 = a5;
+  v7 = (unsigned __int8 *)(a4 + 10);
+  v9 = *(_WORD *)(a4 + 8);
+  v10 = a4;
+  *(_QWORD *)Addr.u.Byte = a5;
+  v274 = a6;
+  v12 = a2;
+  v273 = a4;
+  v277 = a2;
+  v13 = ntohs(v9);
+  v260 = v13;
+  result = DnsPrint_Lock();
+  if ( (_DWORD)result )
+  {
+    v271 = ntohs(*(_WORD *)v10);
+    v15 = private_StringForRecordType(v271);
+    v17 = "UNKNOWN";
+    if ( v15 )
+      v17 = v15;
+    v276 = v17;
+    if ( a3 )
+    {
+      if ( a1 )
+        a1(v12, "%s\r\n", a3);
+      if ( (byte_1401BA001 & 4) != 0 )
+        WPP_SF_s(54i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, a3, v16);
+    }
+    if ( a1 )
+    {
+      v250 = ntohl(*(_DWORD *)(v10 + 4));
+      v244 = ntohs(*(_WORD *)(v10 + 2));
+      a1(
+        v12,
+        "      TYPE   %s  (%u)\r\n      CLASS  %u\r\n      TTL    %lu\r\n      DLEN   %u\r\n      DATA   ",
+        v276,
+        v271,
+        v244,
+        v250,
+        v13);
+    }
+    if ( (byte_1401BA001 & 4) != 0 )
+    {
+      v18 = v13;
+      v19 = ntohl(*(_DWORD *)(v10 + 4));
+      v20 = ntohs(*(_WORD *)(v10 + 2));
+      LODWORD(v254) = v18;
+      LODWORD(v249) = v19;
+      LODWORD(v243) = v20;
+      WPP_SF_sDDLD(v20, v21, v276, v271, v243, v249, v254);
+    }
+    v22 = v260;
+    if ( !v260 && v271 != 41 )
+    {
+      if ( a1 )
+        a1(v12, "(none)\r\n");
+      if ( (byte_1401BA001 & 4) == 0 )
+        goto LABEL_326;
+      v23 = 56i64;
+      goto LABEL_19;
+    }
+    v24 = v274;
+    v25 = (const char *)&v7[v260];
+    v276 = v25;
+    if ( v274 < (unsigned __int64)v25 )
+    {
+      if ( a1 )
+      {
+        a1(
+          v12,
+          "ERROR:  record at %p extends past end of packet!\r\n"
+          "\tpmsg             = %p\r\n"
+          "\tpmsgEnd          = %p\r\n"
+          "\trecord end       = %p\r\n",
+          v10,
+          a5,
+          v274,
+          &v7[v260]);
+        v24 = v274;
+      }
+      if ( (byte_1401BA001 & 4) != 0 )
+        WPP_SF_qqqq(57i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v10, a5, v24, v25);
+      goto LABEL_326;
+    }
+    if ( v271 > 0xF9u )
+    {
+      if ( v271 == 250 )
+      {
+        v228 = DnsPrint_PacketName(
+                 (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+                 v12,
+                 "\r\n\t\tAlgorithm:     ",
+                 v7,
+                 a5,
+                 v274,
+                 0i64);
+        if ( !v228 )
+        {
+          if ( a1 )
+            a1(v12, "Invalid algorithm name in TSIG RR!\r\n");
+          if ( (byte_1401BA001 & 4) != 0 )
+            WPP_SF_(74i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v22);
+        }
+        v229 = 256i64;
+        v230 = &v7[v228];
+        v231 = 256i64;
+        v232 = v230[5] | ((v230[4] | ((v230[3] | ((v230[2] | ((((unsigned __int64)*v230 << 8) | v230[1]) << 8)) << 8)) << 8)) << 8);
+        v233 = v230[7] + (v230[6] << 8);
+        v234 = v230[9] + (v230[8] << 8);
+        v235 = (__int64)(v230 + 10);
+        if ( a1 )
+        {
+          LODWORD(v247) = v234;
+          a1(
+            v12,
+            "\r\n\t\tSigned time    = %I64u\r\n\t\tFudge time     = %u\r\n\t\tSig Length     = %u\r\n",
+            v232,
+            v233,
+            v247);
+        }
+        if ( (byte_1401BA001 & 4) != 0 )
+        {
+          LODWORD(v247) = v234;
+          WPP_SF_IDD(v231, v229, v232, v233, v247);
+        }
+        v236 = (unsigned __int8 *)(v235 + v234);
+        if ( v236 <= (unsigned __int8 *)v25 )
+        {
+          DnsPrint_RawBinary(a1, v12, (__int64)"\t\tSignature:", "\t\t  ", v235, v234, 0);
+          if ( v236 + 4 > (unsigned __int8 *)v25 )
+            goto LABEL_326;
+          v237 = v236[4] << 8;
+          v238 = v236[1] + (*v236 << 8);
+          v239 = v236[3] + (v236[2] << 8);
+          v240 = v236[5];
+          v241 = (__int64)(v236 + 6);
+          v242 = v240 + v237;
+          if ( a1 )
+          {
+            LODWORD(v248) = v242;
+            a1(
+              v12,
+              "\r\n\t\tOriginal XID   = %x\r\n\t\tExtended RCODE = %u\r\n\t\tOther Length   = %u\r\n",
+              v238,
+              v239,
+              v248);
+          }
+          if ( (byte_1401BA001 & 4) != 0 )
+            WPP_SF_Ddd(77i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v238, v239);
+          if ( v241 + (unsigned __int64)v242 <= (unsigned __int64)v25 )
+          {
+            DnsPrint_RawBinary(a1, v12, (__int64)"\t\tOther Data:", "\t\t  ", v241, v242, 0);
+            goto LABEL_326;
+          }
+          if ( a1 )
+            a1(v12, "Invalid other data length:  exceeds record data!\r\n");
+          if ( (byte_1401BA001 & 4) == 0 )
+            goto LABEL_326;
+          v23 = 78i64;
+        }
+        else
+        {
+          if ( a1 )
+            a1(v12, "Invalid signature length:  exceeds record data!\r\n");
+          if ( (byte_1401BA001 & 4) == 0 )
+            goto LABEL_326;
+          v23 = 76i64;
+        }
+        goto LABEL_19;
+      }
+      if ( v271 == 65281 )
+      {
+        v214 = ntohl(*(_DWORD *)v7);
+        v215 = *((_DWORD *)v7 + 1);
+        v270 = v214;
+        v216 = ntohl(v215);
+        v217 = *((_DWORD *)v7 + 2);
+        v272 = v216;
+        v218 = ntohl(v217);
+        v219 = *((_DWORD *)v7 + 3);
+        LODWORD(v273) = v218;
+        v220 = ntohl(v219);
+        v275 = v220;
+        v221 = (__int64)(v7 + 16);
+        Dns_WriteStringsForFlag(S, v222, v223, v270);
+        if ( a1 )
+        {
+          LODWORD(v249) = v273;
+          LODWORD(v243) = v272;
+          a1(
+            v12,
+            "\r\n\t\tWINS flags     = %s (%08x)\r\n\t\tLookup timeout = %d\r\n\t\tCaching TTL    = %d\r\n",
+            S,
+            v270,
+            v243,
+            v249);
+        }
+        if ( (byte_1401BA001 & 4) != 0 )
+        {
+          LODWORD(v249) = v273;
+          LODWORD(v243) = v272;
+          WPP_SF_sDdd(0x4Fu, v224, S, v270, v243, v249);
+        }
+        v226 = v221 + 4 * v220;
+        *(_QWORD *)Addr.u.Byte = v226;
+        if ( v226 <= (unsigned __int64)v25 )
+        {
+          DnsPrint_Ip4AddressArray(a1, v12, 0i64, "\tWINS", v220, v221);
+        }
+        else
+        {
+          if ( a1 )
+          {
+            v259 = v221 + 4 * v220;
+            LODWORD(v254) = v220;
+            v227 = v274;
+            a1(
+              v12,
+              "ERROR:  WINS server count leads beyond record data length!\r\n"
+              "\tpmsg             = %p\r\n"
+              "\tpmsgEnd          = %p\r\n"
+              "\tpRR              = %p\r\n"
+              "\trecord data end  = %p\r\n"
+              "\twins count       = %d\r\n"
+              "\tend of wins IPs  = %p",
+              a5,
+              v274,
+              v10,
+              v25,
+              v254,
+              v259);
+            v226 = *(_QWORD *)Addr.u.Byte;
+          }
+          else
+          {
+            v227 = v274;
+          }
+          if ( (byte_1401BA001 & 4) != 0 )
+          {
+            LODWORD(v254) = v275;
+            WPP_SF_qqqqdq(v225, v224, a5, v227, v10, v25, v254, v226);
+          }
+        }
+        goto LABEL_326;
+      }
+      if ( v271 != 65282 )
+        goto LABEL_280;
+      v208 = ntohl(*(_DWORD *)v7);
+      v209 = ntohl(*((_DWORD *)v7 + 1));
+      v210 = ntohl(*((_DWORD *)v7 + 2));
+      Dns_WriteStringsForFlag(S, v211, v212, v208);
+      if ( a1 )
+      {
+        LODWORD(v249) = v210;
+        LODWORD(v243) = v209;
+        a1(
+          v12,
+          "\r\n\t\tWINS-R flags   = %s (%08x)\r\n\t\tLookup timeout = %d\r\n\t\tCaching TTL    = %d\r\n",
+          S,
+          v208,
+          v243,
+          v249);
+      }
+      if ( (byte_1401BA001 & 4) != 0 )
+      {
+        LODWORD(v249) = v210;
+        LODWORD(v243) = v209;
+        WPP_SF_sDdd(0x51u, v213, S, v208, v243, v249);
+      }
+      v50 = "\r\n";
+      v26 = v7 + 12;
+      v49 = "\t\tResult domain  = ";
+LABEL_91:
+      v255 = (const unsigned __int8 *)v50;
+      v251 = v274;
+LABEL_92:
+      DnsPrint_PacketName(
+        (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+        v12,
+        (const unsigned __int8 *)v49,
+        v26,
+        a5,
+        v251,
+        v255);
+      goto LABEL_326;
+    }
+    if ( v271 == 249 )
+    {
+      v195 = DnsPrint_PacketName(
+               (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+               v12,
+               "\r\n\t\tAlgorithm:     ",
+               v7,
+               a5,
+               v274,
+               0i64);
+      if ( !v195 )
+      {
+        if ( a1 )
+          a1(v12, "Invalid algorithm name in TKEY RR!\r\n");
+        if ( (byte_1401BA001 & 4) != 0 )
+          WPP_SF_(69i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v196);
+      }
+      v197 = &v7[v195];
+      v198 = v197[3] | ((v197[2] | (((*v197 << 8) | v197[1]) << 8)) << 8);
+      v199 = v197[12] << 8;
+      v200 = v197[7] | ((v197[6] | (((v197[4] << 8) | v197[5]) << 8)) << 8);
+      v22 = (unsigned __int16)(v197[9] + (v197[8] << 8));
+      v201 = (unsigned __int16)(v197[11] + (v197[10] << 8));
+      LODWORD(v273) = (unsigned __int16)(v197[9] + (v197[8] << 8));
+      v202 = v197[13];
+      v203 = (__int64)(v197 + 14);
+      v204 = v202 + v199;
+      v272 = v201;
+      if ( a1 )
+      {
+        LODWORD(v257) = v204;
+        LODWORD(v253) = (unsigned __int16)v201;
+        LODWORD(v246) = (unsigned __int16)v22;
+        a1(
+          v12,
+          "\r\n"
+          "\t\tCreate time    = %d\r\n"
+          "\t\tExpire time    = %d\r\n"
+          "\t\tMode           = %d\r\n"
+          "\t\tExtended RCODE = %d\r\n"
+          "\t\tKey Length     = %d\r\n",
+          v198,
+          v200,
+          v246,
+          v253,
+          v257);
+        v22 = (unsigned int)v273;
+        v201 = v272;
+      }
+      if ( (byte_1401BA001 & 4) != 0 )
+      {
+        LODWORD(v257) = v204;
+        LODWORD(v253) = (unsigned __int16)v201;
+        LODWORD(v246) = (unsigned __int16)v22;
+        WPP_SF_ddddd(0x46u, (unsigned __int16)v201, v198, v200);
+      }
+      v205 = (unsigned __int8 *)(v203 + v204);
+      if ( v205 <= (unsigned __int8 *)v25 )
+      {
+        DnsPrint_RawBinary(a1, v12, (__int64)"\t\tKey:", "\t\t  ", v203, v204, 0);
+        if ( v205 + 2 > (unsigned __int8 *)v25 )
+          goto LABEL_326;
+        v207 = v205[1] + (*v205 << 8);
+        if ( a1 )
+          a1(v12, "\r\n\t\tOther Length   = %d\r\n", v207);
+        if ( (byte_1401BA001 & 4) != 0 )
+          WPP_SF_D(72i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v207, v206);
+        if ( &v205[v207 + 2] <= (unsigned __int8 *)v25 )
+        {
+          DnsPrint_RawBinary(a1, v12, (__int64)"\t\tOther Data:", "\t\t  ", (__int64)(v205 + 2), v207, 0);
+          goto LABEL_326;
+        }
+        if ( a1 )
+          a1(v12, "Invalid other data length:  exceeds record data!\r\n");
+        if ( (byte_1401BA001 & 4) == 0 )
+          goto LABEL_326;
+        v23 = 73i64;
+      }
+      else
+      {
+        if ( a1 )
+          a1(v12, "Invalid key length:  exceeds record data!\r\n", v22, v201, v246, v253, v257);
+        if ( (byte_1401BA001 & 4) == 0 )
+          goto LABEL_326;
+        v23 = 71i64;
+      }
+      goto LABEL_19;
+    }
+    if ( v271 <= 0x15u )
+    {
+      if ( v271 == 21 )
+        goto LABEL_93;
+      if ( v271 <= 0xDu )
+      {
+        if ( v271 != 13 )
+        {
+          if ( v271 == 1 )
+          {
+            if ( a1 )
+            {
+              LODWORD(v249) = v7[3];
+              LODWORD(v243) = v7[2];
+              a1(v12, "%d.%d.%d.%d\r\n", *v7, v7[1], v243, v249);
+            }
+            if ( (byte_1401BA001 & 4) != 0 )
+              WPP_SF_dddd(58i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, *v7, v7[1]);
+            goto LABEL_326;
+          }
+          if ( v271 > 1u )
+          {
+            if ( v271 <= 5u )
+              goto LABEL_38;
+            if ( v271 == 6 )
+            {
+              v30 = &v7[(int)DnsPrint_PacketName(
+                               (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+                               v12,
+                               "\r\n\t\tPrimaryServer: ",
+                               v7,
+                               a5,
+                               v274,
+                               0i64)];
+              v31 = (u_long *)&v30[(int)DnsPrint_PacketName(
+                                          (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+                                          v12,
+                                          "\r\n\t\tAdministrator: ",
+                                          v30,
+                                          a5,
+                                          v274,
+                                          "\n")];
+              if ( a1 )
+              {
+                v32 = ntohl(v31[4]);
+                v33 = ntohl(v31[3]);
+                v34 = ntohl(v31[2]);
+                v35 = ntohl(v31[1]);
+                v36 = ntohl(*v31);
+                LODWORD(v256) = v32;
+                LODWORD(v252) = v33;
+                LODWORD(v245) = v34;
+                a1(
+                  v12,
+                  "\t\tSerialNo     = %d\r\n"
+                  "\t\tRefresh      = %d\r\n"
+                  "\t\tRetry        = %d\r\n"
+                  "\t\tExpire       = %d\r\n"
+                  "\t\tMinimumTTL   = %d\r\n",
+                  v36,
+                  v35,
+                  v245,
+                  v252,
+                  v256);
+              }
+              if ( (byte_1401BA001 & 4) != 0 )
+              {
+                ntohl(v31[4]);
+                ntohl(v31[3]);
+                ntohl(v31[2]);
+                v37 = ntohl(v31[1]);
+                v38 = ntohl(*v31);
+                WPP_SF_ddddd(0x3Du, v39, v38, v37);
+              }
+              goto LABEL_326;
+            }
+            if ( v271 <= 9u )
+              goto LABEL_38;
+            if ( v271 == 10 )
+            {
+              DnsPrint_RawBinary(a1, v12, 0i64, "\t\t", (__int64)v7, v260, 0);
+              goto LABEL_326;
+            }
+            if ( v271 != 11 )
+              goto LABEL_38;
+            if ( a1 )
+            {
+              LODWORD(v254) = v7[4];
+              LODWORD(v249) = v7[3];
+              LODWORD(v243) = v7[2];
+              a1(v12, "WKS: Address %d.%d.%d.%d\r\n\t\tProtocol %d\r\n\t\tBitmask\r\n", *v7, v7[1], v243, v249, v254);
+            }
+            if ( (byte_1401BA001 & 4) != 0 )
+              WPP_SF_ddddd(0x41u, v7[3], *v7, v7[1]);
+            v27 = v260;
+            v28 = v7 + 5;
+            v29 = 0;
+            if ( v260 - 5 <= 0 )
+              goto LABEL_327;
+            do
+            {
+              if ( a1 )
+                a1(v12, "\t\t\tbyte[%d] = %x\r\n", v29, *v28);
+              if ( (byte_1401BA001 & 4) != 0 )
+                WPP_SF_Dd(66i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v29, *v28);
+              ++v29;
+              ++v28;
+            }
+            while ( (int)v29 < v260 - 5 );
+LABEL_326:
+            v27 = v260;
+LABEL_327:
+            DnsPrint_Unlock();
+            return v27 + 10i64;
+          }
+LABEL_280:
+          if ( a1 )
+            a1(v12, "Unknown resource record type %d at %p.\r\n", v271, v10);
+          if ( (byte_1401BA001 & 4) != 0 )
+            WPP_SF_Dq(99i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v271, v10);
+          v27 = v260;
+          DnsPrint_RawBinary(a1, v12, 0i64, "\t\t", (__int64)v7, v260, 0);
+          goto LABEL_327;
+        }
+LABEL_65:
+        v40 = v7 == (unsigned __int8 *)v25;
+        if ( v7 < (unsigned __int8 *)v25 )
+        {
+          while ( 1 )
+          {
+            v41 = *v7++;
+            v42 = (unsigned int)v41;
+            v43 = &v7[v41];
+            if ( &v7[v41] > (unsigned __int8 *)v25 )
+              break;
+            if ( a1 )
+              a1(v12, "\t%.*s\r\n", (unsigned __int8)v41, v7);
+            if ( (byte_1401BA001 & 4) != 0 )
+            {
+              v44 = 261i64;
+              v45 = v7 - (unsigned __int8 *)v281;
+              v46 = v281;
+              do
+              {
+                if ( !(v42 + v44 - 261) )
+                  break;
+                v47 = v46[v45];
+                if ( !v47 )
+                  break;
+                *v46++ = v47;
+                --v44;
+              }
+              while ( v44 );
+              if ( !v44 )
+                --v46;
+              *v46 = 0;
+              WPP_SF_s(62i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, (__int64)v281, v16);
+            }
+            v7 = v43;
+            if ( v43 >= (unsigned __int8 *)v25 )
+              goto LABEL_83;
+          }
+          if ( a1 )
+            a1(v12, "ERROR:  Bad RR.  Text string extends outside RR length.\r\n");
+          if ( (byte_1401BA001 & 4) != 0 )
+            WPP_SF_(63i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v22);
+LABEL_83:
+          v40 = v7 == (unsigned __int8 *)v25;
+        }
+        if ( v40 )
+          goto LABEL_326;
+        if ( a1 )
+          a1(v12, "ERROR:  Bad RR.  Text strings do not add to RR length.\r\n");
+        if ( (byte_1401BA001 & 4) == 0 )
+          goto LABEL_326;
+        v23 = 64i64;
+LABEL_19:
+        WPP_SF_(v23, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v22);
+        goto LABEL_326;
+      }
+      if ( v271 != 14 )
+      {
+        if ( v271 == 15 )
+          goto LABEL_93;
+        if ( v271 == 16 )
+          goto LABEL_65;
+        if ( v271 != 17 )
+        {
+          if ( v271 != 18 )
+          {
+            if ( (unsigned int)v271 - 19 > 1 )
+              goto LABEL_280;
+            goto LABEL_65;
+          }
+LABEL_93:
+          if ( a1 )
+          {
+            v51 = ntohs(*(_WORD *)v7);
+            a1(v12, "%d ", v51);
+          }
+          if ( (byte_1401BA001 & 4) != 0 )
+          {
+            v52 = ntohs(*(_WORD *)v7);
+            WPP_SF_D(60i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v52, v53);
+          }
+          v255 = "\n";
+          v26 = v7 + 2;
+          v251 = v274;
+          goto LABEL_98;
+        }
+      }
+      v48 = DnsPrint_PacketName(
+              (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+              v12,
+              0i64,
+              v7,
+              a5,
+              v274,
+              0i64);
+      v49 = "  ";
+      v26 = &v7[v48];
+      goto LABEL_90;
+    }
+    if ( v271 > 0x2Bu )
+    {
+      if ( v271 != 46 )
+      {
+        if ( v271 != 47 )
+        {
+          if ( v271 == 48 )
+          {
+LABEL_211:
+            if ( v7 + 4 <= (unsigned __int8 *)v25 )
+            {
+              v133 = *(_WORD *)v7;
+              LODWORD(v273) = v260 - 4;
+              LOWORD(v270) = ntohs(v133);
+              v134 = v7[3];
+              v135 = (__int64)(v7 + 4);
+              v268 = v134;
+              if ( a1 )
+              {
+                v136 = v134;
+                StringForValue = Dns_GetStringForValue((__int64)&DnssecAlgorithmTable, v134);
+                v139 = v138;
+                v140 = StringForValue;
+                v141 = Dns_GetStringForValue((__int64)&KeyProtocolTable, v138);
+                v143 = v142;
+                v144 = v141;
+                v146 = Dns_KeyRecordFlagToString(S, v145, v142);
+                LODWORD(v249) = v139;
+                a1(
+                  v277,
+                  "\r\n\t\tFlags      = 0x%04x %s\r\n\t\tProtocol   = %s (%d)\r\n\t\tAlgorithm  = %s (%d)\r\n",
+                  v143,
+                  v146,
+                  v144,
+                  v249,
+                  v140,
+                  v136);
+                v134 = v268;
+              }
+              if ( (byte_1401BA001 & 4) != 0 )
+              {
+                v147 = v134;
+                v148 = Dns_GetStringForValue((__int64)&DnssecAlgorithmTable, v134);
+                v150 = v149;
+                v151 = v148;
+                v152 = Dns_GetStringForValue((__int64)&KeyProtocolTable, v149);
+                v154 = v153;
+                v155 = (const char *)v152;
+                v157 = Dns_KeyRecordFlagToString(S, v156, v153);
+                LODWORD(v258) = v147;
+                LODWORD(v249) = v150;
+                WPP_SF_Dssdsd(v159, v158, v154, v157, v155, v249, v151, v258);
+              }
+              DnsPrint_RawBinary(a1, v277, (__int64)"\t\tPublic key:", "\t\t  ", v135, v273, 0);
+              goto LABEL_326;
+            }
+            if ( a1 )
+            {
+              LODWORD(v254) = v260;
+              a1(
+                v12,
+                "ERROR:  DNSKEY record too short for fixed fields!\r\n"
+                "\tpmsg             = %p\r\n"
+                "\tpmsgEnd          = %p\r\n"
+                "\tpRR              = %p\r\n"
+                "\trecord data end  = %p\r\n"
+                "\tRR data length   = %d\r\n",
+                a5,
+                v274,
+                v10,
+                &v7[v260],
+                v254);
+              v24 = v274;
+              LOWORD(v22) = v260;
+            }
+            if ( (byte_1401BA001 & 4) == 0 )
+              goto LABEL_326;
+            v84 = 82;
+LABEL_149:
+            LODWORD(v254) = (unsigned __int16)v22;
+            WPP_SF_qqqqd(v84, v24, a5, v24, v10, v25, v254);
+            goto LABEL_326;
+          }
+          if ( v271 == 49 )
+          {
+            DnsPrint_RawBinary(a1, v12, (__int64)"\t\tDHCID:", "\t\t  ", (__int64)v7, v260, 0);
+            goto LABEL_326;
+          }
+          if ( v271 != 50 )
+          {
+            if ( v271 != 51 )
+              goto LABEL_280;
+            v96 = *v7;
+            ntohs(*((_WORD *)v7 + 1));
+            if ( a1 )
+            {
+              v99 = Dns_GetStringForValue((__int64)&DnssecNSEC3HashAlgTable, v96);
+              LODWORD(v249) = v100;
+              LODWORD(v243) = v102;
+              a1(
+                v12,
+                "\r\n"
+                "\t\tHashAlgorithm                   = %s (%d)\r\n"
+                "\t\tFlags                           = 0x%02x\r\n"
+                "\t\tIterations                      = %d\r\n"
+                "\t\tSalt                            = ",
+                v99,
+                v101,
+                v243,
+                v249);
+            }
+            if ( (byte_1401BA001 & 4) != 0 )
+            {
+              v103 = (const char *)Dns_GetStringForValue((__int64)&DnssecNSEC3HashAlgTable, v96);
+              LODWORD(v249) = v104;
+              LODWORD(v243) = v105;
+              WPP_SF_sdDd(0x58u, (__int64)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v103, v106, v243, v249);
+            }
+            v107 = v7[4];
+            v108 = v7 + 5;
+            if ( v107 )
+            {
+              v109 = v107;
+              do
+              {
+                v110 = *v108;
+                if ( a1 )
+                  a1(v12, "%02x", v110);
+                if ( (byte_1401BA001 & 4) != 0 )
+                  WPP_SF_D(90i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v110, v98);
+                ++v108;
+                --v109;
+              }
+              while ( v109 );
+            }
+            else
+            {
+              if ( a1 )
+                a1(v12, "-");
+              if ( (byte_1401BA001 & 4) != 0 )
+                WPP_SF_(89i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v97);
+            }
+            goto LABEL_138;
+          }
+          v111 = v7[1];
+          v263 = *v7;
+          v267 = v111;
+          v112 = ntohs(*((_WORD *)v7 + 1));
+          LOWORD(v270) = v112;
+          v114 = (const char *)&Annotation;
+          v115 = "Opt-Out";
+          if ( a1 )
+          {
+            v116 = v112;
+            v117 = Dns_GetStringForValue((__int64)&DnssecNSEC3HashAlgTable, v263);
+            LODWORD(v254) = v116;
+            LODWORD(v243) = v119;
+            a1(
+              v12,
+              "\r\n"
+              "\t\tHashAlgorithm                   = %s (%d)\r\n"
+              "\t\tFlags                           = 0x%02x %s\r\n"
+              "\t\tIterations                      = %d\r\n"
+              "\t\tSalt                            = ",
+              v117,
+              v118,
+              v243,
+              v120,
+              v254);
+            v115 = "Opt-Out";
+            v111 = v267;
+          }
+          if ( (byte_1401BA001 & 4) != 0 )
+          {
+            if ( (v111 & 1) != 0 )
+              v114 = "Opt-Out";
+            v121 = (const char *)Dns_GetStringForValue((__int64)&DnssecNSEC3HashAlgTable, v263);
+            LODWORD(v254) = v122;
+            LODWORD(v243) = v123;
+            WPP_SF_sdDsd(v125, v124, v121, v124, v243, v114, v254);
+          }
+          v126 = v7[4];
+          v127 = v7 + 5;
+          if ( v126 )
+          {
+            v128 = v126;
+            do
+            {
+              v129 = *v127;
+              if ( a1 )
+                a1(v12, "%02x", v129);
+              if ( (byte_1401BA001 & 4) != 0 )
+                WPP_SF_D(93i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v129, v113);
+              ++v127;
+              --v128;
+            }
+            while ( v128 );
+            v6 = *(_QWORD *)Addr.u.Byte;
+          }
+          else
+          {
+            if ( a1 )
+              a1(v12, "-", v115);
+            if ( (byte_1401BA001 & 4) != 0 )
+              WPP_SF_(92i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, (__int64)v115);
+          }
+          v130 = *v127;
+          v131 = (__int64)(v127 + 1);
+          v270 = 100;
+          if ( (unsigned int)Dns_BinaryToBase32Hex(v131, v130, S, (int *)&v270) && v270 < 0x64 )
+          {
+            if ( v270 >= 0x64ui64 )
+              _report_rangecheckfailure();
+            S[v270] = 0;
+            if ( a1 )
+              a1(v12, "\r\n\t\tNext Hashed Owner Name (Base32) = %s\r\n", S);
+            if ( (byte_1401BA001 & 4) != 0 )
+              WPP_SF_s(94i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, (__int64)S, v132);
+          }
+          else
+          {
+            DnsPrint_RawBinary(a1, v12, (__int64)"\r\n\t\tNext Hashed Owner Name (Binary):", "\t\t  ", v131, v130, 0);
+          }
+          v24 = v274;
+          v7 = (unsigned __int8 *)((unsigned __int8)v130 + v131);
+        }
+        if ( v271 == 47 )
+          v7 += (int)DnsPrint_PacketName(
+                       (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+                       v12,
+                       "\r\n\t\tNext domain name = ",
+                       v7,
+                       v6,
+                       v24,
+                       "\n");
+        if ( a1 )
+          a1(v12, "\t\tTypes present  = ");
+        if ( (byte_1401BA001 & 4) != 0 )
+          WPP_SF_(95i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v22);
+        while ( v7 < (unsigned __int8 *)v25 )
+        {
+          if ( v7 + 3 > (unsigned __int8 *)v25 )
+            break;
+          v160 = *v7;
+          v161 = v7[1];
+          v7 += 2;
+          v264 = v160;
+          if ( &v7[v161] > (unsigned __int8 *)v25 )
+            break;
+          LODWORD(v273) = (unsigned __int8)v161;
+          v162 = 0;
+          if ( (_BYTE)v161 )
+          {
+            do
+            {
+              v163 = *v7;
+              v164 = 0;
+              *(_QWORD *)Addr.u.Byte = v7 + 1;
+              v165 = v163;
+              v270 = v163;
+              do
+              {
+                if ( ((128 >> v164) & v165) != 0 )
+                {
+                  v166 = private_StringForRecordType(v164 + 8 * (v162 + 32 * v264));
+                  v168 = "UNKNOWN";
+                  if ( v166 )
+                    v168 = v166;
+                  if ( a1 )
+                    a1(v12, "%s ", v168);
+                  if ( (byte_1401BA001 & 4) != 0 )
+                    WPP_SF_s(
+                      96i64,
+                      (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids,
+                      (__int64)v168,
+                      v167);
+                  v165 = v270;
+                }
+                ++v164;
+              }
+              while ( v164 <= 7 );
+              ++v162;
+              v7 = *(unsigned __int8 **)Addr.u.Byte;
+            }
+            while ( v162 < (int)v273 );
+            v25 = v276;
+          }
+        }
+        goto LABEL_138;
+      }
+    }
+    else
+    {
+      if ( v271 == 43 )
+      {
+        if ( v7 + 4 <= (unsigned __int8 *)v25 )
+        {
+          v85 = ntohs(*(_WORD *)v7);
+          v86 = v7[2];
+          v87 = v85;
+          v88 = v7[3];
+          v89 = (__int64)(v7 + 4);
+          v262 = v88;
+          if ( a1 )
+          {
+            Dns_GetStringForValue((__int64)&DnssecDigestTypeTable, v88);
+            v90 = Dns_GetStringForValue((__int64)&DnssecAlgorithmTable, v86);
+            LODWORD(v254) = v91;
+            LODWORD(v243) = v86;
+            a1(
+              v12,
+              "\r\n"
+              "\t\tDS keytag          = %d\r\n"
+              "\t\tDS algorithm       = %s (%d)\r\n"
+              "\t\tDS digest type     = %s (%d)\r\n",
+              v87,
+              v90,
+              v243,
+              v92,
+              v254);
+            v88 = v262;
+          }
+          if ( (byte_1401BA001 & 4) != 0 )
+          {
+            Dns_GetStringForValue((__int64)&DnssecDigestTypeTable, v88);
+            v93 = (const char *)Dns_GetStringForValue((__int64)&DnssecAlgorithmTable, v86);
+            LODWORD(v254) = v94;
+            LODWORD(v243) = v86;
+            WPP_SF_dsdsd(0x62u, (__int64)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v87, v93, v243, v95, v254);
+          }
+          DnsPrint_RawBinary(a1, v12, (__int64)"\t\tDigest:", "\t\t  ", v89, (_DWORD)v25 - v89, 0);
+          goto LABEL_326;
+        }
+        if ( a1 )
+        {
+          LODWORD(v254) = v260;
+          a1(
+            v12,
+            "ERROR:  DS record too short for fixed fields!\r\n"
+            "\tpmsg             = %p\r\n"
+            "\tpmsgEnd          = %p\r\n"
+            "\tpRR              = %p\r\n"
+            "\trecord data end  = %p\r\n"
+            "\tRR data length   = %d\r\n",
+            a5,
+            v274,
+            v10,
+            &v7[v260],
+            v254);
+          v24 = v274;
+          LOWORD(v22) = v260;
+        }
+        if ( (byte_1401BA001 & 4) == 0 )
+          goto LABEL_326;
+        v84 = 97;
+        goto LABEL_149;
+      }
+      if ( v271 != 24 )
+      {
+        if ( v271 != 25 )
+        {
+          if ( v271 == 28 )
+          {
+            Addr = *(struct in6_addr *)v7;
+            RtlIpv6AddressToStringA(&Addr, S);
+            if ( a1 )
+              a1(v12, "%s\r\n", S);
+            if ( (byte_1401BA001 & 4) != 0 )
+              WPP_SF_s(59i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, (__int64)S, v83);
+            goto LABEL_326;
+          }
+          if ( v271 != 30 )
+          {
+            if ( v271 != 33 )
+            {
+              if ( v271 == 39 )
+              {
+LABEL_38:
+                v26 = v7;
+                v255 = "\n";
+                v251 = v274;
+LABEL_98:
+                v49 = 0i64;
+                goto LABEL_92;
+              }
+              if ( v271 == 41 )
+              {
+                v270 = -1;
+                v54 = *(_BYTE *)(v10 + 4);
+                v55 = *(_BYTE *)(v10 + 5);
+                v56 = *(_WORD *)(v10 + 6);
+                v261 = v54;
+                v266 = v55;
+                v271 = v56;
+                if ( a5 )
+                  v270 = 16 * v54 + (*(_BYTE *)(a5 + 3) & 0xF);
+                v57 = (const char *)&Annotation;
+                if ( a1 )
+                {
+                  v58 = v56;
+                  v59 = (const char *)&Annotation;
+                  v60 = v55;
+                  if ( (v56 & 0x80u) != 0 )
+                    v59 = " DO";
+                  v61 = v54;
+                  v62 = ntohs(*(_WORD *)(v273 + 2));
+                  LODWORD(v254) = v58;
+                  LODWORD(v249) = v60;
+                  LODWORD(v243) = v270;
+                  a1(
+                    v12,
+                    "\r\n"
+                    "\t\tBuffer Size  = %d\r\n"
+                    "\t\tRcode Ext    = %x\r\n"
+                    "\t\tRcode Full   = %d\r\n"
+                    "\t\tVersion      = %d\r\n"
+                    "\t\tFlags        = %x%s\r\n",
+                    v62,
+                    v61,
+                    v243,
+                    v249,
+                    v254,
+                    v59);
+                  LOBYTE(v56) = v271;
+                  v54 = v261;
+                  v55 = v266;
+                  v10 = v273;
+                }
+                if ( (byte_1401BA001 & 4) != 0 )
+                {
+                  v63 = v56;
+                  if ( (v56 & 0x80u) != 0 )
+                    v57 = " DO";
+                  v64 = v55;
+                  v65 = v54;
+                  v66 = ntohs(*(_WORD *)(v10 + 2));
+                  WPP_SF_dDddDs(v68, v67, v66, v65, v270, v64, v63, (__int64)v57);
+                }
+                goto LABEL_326;
+              }
+              goto LABEL_280;
+            }
+            if ( a1 )
+            {
+              v69 = ntohs(*((_WORD *)v7 + 2));
+              v70 = ntohs(*((_WORD *)v7 + 1));
+              v71 = ntohs(*(_WORD *)v7);
+              LODWORD(v243) = v69;
+              a1(v12, "\t\tPriority     = %d\r\n\t\tWeight       = %d\r\n\t\tPort         = %d\r\n", v71, v70, v243);
+            }
+            if ( (byte_1401BA001 & 4) != 0 )
+            {
+              ntohs(*((_WORD *)v7 + 2));
+              v72 = ntohs(*((_WORD *)v7 + 1));
+              v73 = ntohs(*(_WORD *)v7);
+              WPP_SF_Ddd(67i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v73, v72);
+            }
+            v26 = v7 + 6;
+            v49 = "\t\tTarget host ";
+LABEL_90:
+            v50 = "\n";
+            goto LABEL_91;
+          }
+          v75 = &v7[(int)DnsPrint_PacketName(
+                           (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+                           v12,
+                           "\r\n\t\tNXT next name      = ",
+                           v7,
+                           a5,
+                           v274,
+                           "\n")];
+          v76 = (const char *)(unsigned int)((_DWORD)v25 - (_DWORD)v75);
+          v276 = v76;
+          if ( a1 )
+            a1(v12, "\t\tNXT types covered  = ");
+          if ( (byte_1401BA001 & 4) != 0 )
+            WPP_SF_(86i64, (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, v74);
+          v77 = 0;
+          if ( (int)v76 > 0 )
+          {
+            do
+            {
+              for ( i = v77 == 0; i < 8; ++i )
+              {
+                v79 = (char)*v75;
+                if ( _bittest(&v79, i) )
+                {
+                  v80 = private_StringForRecordType(i + 8 * (unsigned __int16)v77);
+                  v82 = "UNKNOWN";
+                  if ( v80 )
+                    v82 = v80;
+                  if ( a1 )
+                    a1(v12, "%s ", v82);
+                  if ( (byte_1401BA001 & 4) != 0 )
+                    WPP_SF_s(
+                      87i64,
+                      (unsigned __int16)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids,
+                      (__int64)v82,
+                      v81);
+                }
+              }
+              ++v77;
+              ++v75;
+            }
+            while ( v77 < (int)v276 );
+          }
+LABEL_138:
+          if ( a1 )
+            a1(v12, "\r\n");
+          goto LABEL_326;
+        }
+        goto LABEL_211;
+      }
+    }
+    if ( v7 + 18 <= (unsigned __int8 *)v25 )
+    {
+      v169 = ntohs(*(_WORD *)v7);
+      v170 = v7[2];
+      v171 = v169;
+      v172 = *((_DWORD *)v7 + 1);
+      LOWORD(v270) = v169;
+      v265 = v7[3];
+      v269 = v170;
+      v173 = ntohl(v172);
+      v174 = *((_DWORD *)v7 + 2);
+      LODWORD(v273) = v173;
+      v175 = ntohl(v174);
+      v176 = *((_DWORD *)v7 + 3);
+      v272 = v175;
+      v177 = ntohl(v176);
+      v178 = *((_WORD *)v7 + 8);
+      v275 = v177;
+      v179 = v7 + 18;
+      v271 = ntohs(v178);
+      if ( a1 )
+      {
+        v180 = v170;
+        v181 = Dns_GetStringForValue((__int64)&DnssecAlgorithmTable, v170);
+        v182 = private_StringForRecordType(v171);
+        v183 = "UNKNOWN";
+        v185 = v184;
+        if ( v182 )
+          v183 = v182;
+        v186 = Dns_SigTimeString(v275, S);
+        v187 = Dns_SigTimeString(v272, v280);
+        LODWORD(v254) = v273;
+        LODWORD(v249) = v265;
+        LODWORD(v243) = v180;
+        v12 = v277;
+        a1(
+          v277,
+          "\r\n"
+          "\t\tType covered  = %s\r\n"
+          "\t\tAlgorithm     = %s (%d)\r\n"
+          "\t\tLabel count   = %d\r\n"
+          "\t\tOriginal TTL  = %d\r\n"
+          "\t\tExpiration    = %s\r\n"
+          "\t\tInception     = %s\r\n"
+          "\t\tKeytag        = %d\r\n",
+          v183,
+          v181,
+          v243,
+          v249,
+          v254,
+          v187,
+          v186,
+          v185);
+        v171 = v270;
+        v170 = v269;
+      }
+      if ( (byte_1401BA001 & 4) != 0 )
+      {
+        v188 = Dns_GetStringForValue((__int64)&DnssecAlgorithmTable, v170);
+        v189 = private_StringForRecordType(v171);
+        v190 = "UNKNOWN";
+        if ( v189 )
+          v190 = v189;
+        v277 = (__int64)v190;
+        v191 = Dns_SigTimeString(v275, S);
+        v192 = Dns_SigTimeString(v272, v280);
+        WPP_SF_ssdddssd(v265, v193, v277, v188, v170, v265, v273, (__int64)v192, (__int64)v191);
+      }
+      v194 = DnsPrint_PacketName(
+               (void (__fastcall *)(__int64, const char *, const unsigned __int8 *, const unsigned __int8 *))a1,
+               v12,
+               "\t\tSigner's name = ",
+               v179,
+               *(__int64 *)Addr.u.Byte,
+               v274,
+               "\n");
+      DnsPrint_RawBinary(
+        a1,
+        v12,
+        (__int64)"\t\tSignature:",
+        "\t\t  ",
+        (__int64)&v179[v194],
+        (_DWORD)v276 - (v194 + (_DWORD)v179),
+        0);
+      goto LABEL_326;
+    }
+    if ( a1 )
+    {
+      LODWORD(v254) = v260;
+      a1(
+        v12,
+        "ERROR:  RRSIG record too short for fixed fields!\r\n"
+        "\tpmsg             = %p\r\n"
+        "\tpmsgEnd          = %p\r\n"
+        "\tpRR              = %p\r\n"
+        "\trecord data end  = %p\r\n"
+        "\tRR data length   = %d\r\n",
+        a5,
+        v274,
+        v10,
+        &v7[v260],
+        v254);
+      v24 = v274;
+      LOWORD(v22) = v260;
+    }
+    if ( (byte_1401BA001 & 4) == 0 )
+      goto LABEL_326;
+    v84 = 84;
+    goto LABEL_149;
+  }
+  return result;
+}
+// 14015E193: conditional instruction was optimized away because ebx.4 is in (7..C)
+// 14015E1AF: conditional instruction was optimized away because ebx.4==C
+// 14015E50F: conditional instruction was optimized away because rbx.8<100u
+// 14015E944: conditional instruction was optimized away because ebx.4<2u
+// 14015DFE2: variable 'v16' is possibly undefined
+// 14015E073: variable 'v21' is possibly undefined
+// 14015E073: variable 'v243' is possibly undefined
+// 14015E073: variable 'v249' is possibly undefined
+// 14015E073: variable 'v254' is possibly undefined
+// 14015E0C3: variable 'v22' is possibly undefined
+// 14015E39B: variable 'v245' is possibly undefined
+// 14015E39B: variable 'v252' is possibly undefined
+// 14015E39B: variable 'v256' is possibly undefined
+// 14015E405: variable 'v39' is possibly undefined
+// 14015E693: variable 'v53' is possibly undefined
+// 14015E80C: variable 'v68' is possibly undefined
+// 14015E80C: variable 'v67' is possibly undefined
+// 14015E926: variable 'v74' is possibly undefined
+// 14015E9A0: variable 'v81' is possibly undefined
+// 14015EA35: variable 'v83' is possibly undefined
+// 14015EB05: variable 'v91' is possibly undefined
+// 14015EB27: variable 'v92' is possibly undefined
+// 14015EB62: variable 'v94' is possibly undefined
+// 14015EB83: variable 'v95' is possibly undefined
+// 14015EC15: variable 'v100' is possibly undefined
+// 14015EC1D: variable 'v102' is possibly undefined
+// 14015EC1A: variable 'v101' is possibly undefined
+// 14015EC58: variable 'v104' is possibly undefined
+// 14015EC64: variable 'v105' is possibly undefined
+// 14015EC71: variable 'v106' is possibly undefined
+// 14015ECB4: variable 'v97' is possibly undefined
+// 14015ED04: variable 'v98' is possibly undefined
+// 14015ED88: variable 'v119' is possibly undefined
+// 14015ED79: variable 'v118' is possibly undefined
+// 14015ED93: variable 'v120' is possibly undefined
+// 14015EDD2: variable 'v122' is possibly undefined
+// 14015EDE2: variable 'v123' is possibly undefined
+// 14015EDE7: variable 'v125' is possibly undefined
+// 14015EDE7: variable 'v124' is possibly undefined
+// 14015EE0B: variable 'v115' is possibly undefined
+// 14015EE6F: variable 'v113' is possibly undefined
+// 14015EEFC: variable 'v132' is possibly undefined
+// 14015F071: variable 'v138' is possibly undefined
+// 14015F087: variable 'v142' is possibly undefined
+// 14015F095: variable 'v145' is possibly undefined
+// 14015F0F3: variable 'v149' is possibly undefined
+// 14015F109: variable 'v153' is possibly undefined
+// 14015F117: variable 'v156' is possibly undefined
+// 14015F136: variable 'v159' is possibly undefined
+// 14015F136: variable 'v158' is possibly undefined
+// 14015F136: variable 'v258' is possibly undefined
+// 14015F226: variable 'v167' is possibly undefined
+// 14015F35B: variable 'v184' is possibly undefined
+// 14015F455: variable 'v193' is possibly undefined
+// 14015F50E: variable 'v196' is possibly undefined
+// 14015F5F0: variable 'v246' is possibly undefined
+// 14015F5F0: variable 'v253' is possibly undefined
+// 14015F5F0: variable 'v257' is possibly undefined
+// 14015F64E: variable 'v201' is possibly undefined
+// 14015F6EF: variable 'v206' is possibly undefined
+// 14015F7FC: variable 'v211' is possibly undefined
+// 14015F7FC: variable 'v212' is possibly undefined
+// 14015F847: variable 'v213' is possibly undefined
+// 14015F8AD: variable 'v222' is possibly undefined
+// 14015F8AD: variable 'v223' is possibly undefined
+// 14015F90A: variable 'v224' is possibly undefined
+// 14015F98A: variable 'v225' is possibly undefined
+// 14015FAB5: variable 'v247' is possibly undefined
+// 14015FAD2: variable 'v231' is possibly undefined
+// 14015FAD2: variable 'v229' is possibly undefined
+// 14015FBAB: variable 'v248' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 14015DF04: using guessed type CHAR S[112];

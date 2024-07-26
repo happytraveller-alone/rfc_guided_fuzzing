@@ -1,0 +1,32 @@
+//----- (000000014009D620) ----------------------------------------------------
+__int64 __fastcall Send_ForwardResponseAsReply(__int64 a1, __int64 a2)
+{
+  const char *v4; // rax
+  __int64 v5; // rax
+  __int128 v6; // xmm1
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v4 = DnsAddr_Ntoa((struct in_addr *)(a2 + 1320));
+    WPP_SF_qqs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Eu,
+      (__int64)&WPP_398a615c07233f5235cf23860937c5e7_Traceguids,
+      a1,
+      a2,
+      v4);
+  }
+  *(_WORD *)(a1 + 6304) = *(_WORD *)(a2 + 1386);
+  *(_QWORD *)(a1 + 56) = *(_QWORD *)(a2 + 1312);
+  v5 = *(unsigned __int16 *)(a1 + 6302);
+  *(_OWORD *)(a1 + 64) = *(_OWORD *)(a2 + 1320);
+  *(_OWORD *)(a1 + 80) = *(_OWORD *)(a2 + 1336);
+  *(_OWORD *)(a1 + 96) = *(_OWORD *)(a2 + 1352);
+  v6 = *(_OWORD *)(a2 + 1368);
+  *(_QWORD *)(a1 + 32) = v5 + a1 + 6304;
+  *(_BYTE *)(a1 + 1412) = 0;
+  *(_OWORD *)(a1 + 112) = v6;
+  return Send_Msg(a1, 0);
+}

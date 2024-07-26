@@ -1,0 +1,15 @@
+//----- (00000001400AEE58) ----------------------------------------------------
+__int64 __fastcall checkNodeFreed(__int64 a1)
+{
+  __int64 v3; // rcx
+
+  if ( (*(_DWORD *)(a1 + 92) & 0x80000) != 0 )
+    return 1i64;
+  v3 = *(_QWORD *)a1;
+  if ( v3 && (unsigned int)checkNodeFreed(v3) )
+  {
+    *(_DWORD *)(a1 + 92) |= 0x80000u;
+    return 1i64;
+  }
+  return 0i64;
+}

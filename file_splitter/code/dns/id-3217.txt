@@ -1,0 +1,12 @@
+//----- (0000000140169A9C) ----------------------------------------------------
+void __fastcall `eh vector constructor iterator'(char *a1, __int64 a2, int a3, void (__fastcall *a4)(char *))
+{
+  int i; // ebx
+
+  for ( i = 0; i < a3; ++i )
+  {
+    a4(a1);
+    a1 += a2;
+  }
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

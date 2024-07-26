@@ -1,0 +1,96 @@
+//----- (000000014007A354) ----------------------------------------------------
+unsigned __int8 __fastcall Remote_QuerySupportedEDNSVersion(struct in_addr *a1, int a2)
+{
+  unsigned __int8 v4; // di
+  _QWORD *v5; // rbx
+  unsigned int v6; // eax
+  int v7; // ecx
+  int v8; // ecx
+  int v9; // ecx
+  const char *v10; // rax
+  const char *v11; // r9
+  const char *v12; // rbx
+  const char *v13; // rax
+  unsigned int v15; // [rsp+60h] [rbp+18h] BYREF
+
+  v15 = -1;
+  v4 = -1;
+  acquireUpdate(hRemoteLock, 0xFFFFFFFF, &v15, 1);
+  v5 = Remote_FindOrCreate((__int64)a1, 1);
+  if ( v5 )
+  {
+    v15 = -1;
+    acquireWrite(hRemoteLock, 0xFFFFFFFF, &v15);
+    if ( !dword_1401B991C )
+    {
+      v6 = *((_DWORD *)v5 + 28);
+      if ( v6 )
+      {
+        if ( dword_1401B9714 > v6 )
+          initializeEDNSState((__int64)v5);
+      }
+    }
+    v7 = *((_DWORD *)v5 + 24);
+    if ( v7 )
+    {
+      v8 = v7 - 1;
+      if ( !v8 )
+      {
+LABEL_19:
+        Lock_ReleaseWrite(hRemoteLock);
+        goto LABEL_20;
+      }
+      v9 = v8 - 1;
+      if ( v9 )
+      {
+        if ( v9 == 1 )
+          v4 = *((_BYTE *)v5 + 108);
+        goto LABEL_19;
+      }
+    }
+    if ( a2 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v10 = DnsAddr_Ntoa(a1);
+        v11 = "not sending";
+        if ( *((_DWORD *)v5 + 26) )
+          v11 = "sending";
+        WPP_SF_ss(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x10u,
+          (__int64)&WPP_eab7c483710f366eae903c691df4ee49_Traceguids,
+          v11,
+          (__int64)v10);
+      }
+      v4 = -(*((_DWORD *)v5 + 26) == 0);
+      *((_DWORD *)v5 + 26) = *((_DWORD *)v5 + 26) == 0;
+    }
+    goto LABEL_19;
+  }
+LABEL_20:
+  v15 = -1;
+  releaseUpdate(hRemoteLock, &v15, 1);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v12 = "FALSE";
+    if ( a2 )
+      v12 = "TRUE";
+    v13 = DnsAddr_Ntoa(a1);
+    WPP_SF_Dss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x11u,
+      (__int64)&WPP_eab7c483710f366eae903c691df4ee49_Traceguids,
+      v4,
+      (__int64)v13,
+      (__int64)v12);
+  }
+  return v4;
+}
+// 1401B9028: using guessed type __int64 hRemoteLock;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B991C: using guessed type int dword_1401B991C;

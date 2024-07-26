@@ -1,0 +1,173 @@
+//----- (0000000140130880) ----------------------------------------------------
+__int64 *__fastcall CDnsPolicy_FQDNCriteriaTree::AddCriteriaNode(_QWORD *a1, unsigned __int16 *a2, __int64 a3)
+{
+  __int64 v6; // rsi
+  __int64 v7; // r15
+  __int64 v8; // rdi
+  _BYTE *v9; // rbp
+  unsigned int v10; // r12d
+  _QWORD *v11; // rax
+  __int64 v13; // rbx
+  const void **v14; // rsi
+  CDnsClientSubnetRecordsTrie *v15; // rcx
+  void *v16; // rax
+  _BYTE *ChildNode; // rax
+  CDnsPolicy_CriteriaNode *v18; // rax
+  CDnsPolicy_CriteriaNode *v19; // rbx
+  CDnsPolicy_CriteriaNode *v20; // rbx
+  __int64 *v21; // rax
+  __int64 v22; // rcx
+  __int64 *v23; // rbx
+  _QWORD *v24; // rax
+  int LastError; // eax
+  __int64 v26; // rdi
+  _QWORD *v27; // rax
+  __int64 v28; // rdx
+  char pExceptionObject[80]; // [rsp+58h] [rbp-50h] BYREF
+  __int64 *v30; // [rsp+B0h] [rbp+8h] BYREF
+  CDnsPolicy_CriteriaNode *v31; // [rsp+B8h] [rbp+10h] BYREF
+
+  v6 = *a2;
+  v7 = 0i64;
+  v8 = a1[1];
+  v9 = 0i64;
+  v10 = 0;
+  if ( !(*(unsigned int (__fastcall **)(_QWORD *))(*a1 + 8i64))(a1) )
+  {
+    LODWORD(v30) = -1;
+    acquireWrite(a3, 0xFFFFFFFF, (unsigned int *)&v30);
+    if ( !(*(unsigned int (__fastcall **)(_QWORD *))(*a1 + 8i64))(a1) )
+    {
+      v11 = NTree_InitializeEx(1);
+      a1[1] = v11;
+      if ( v11 )
+      {
+        *((_DWORD *)v11 + 23) |= 0x4000000u;
+        *(_QWORD *)a1[1] = 0i64;
+      }
+    }
+    Lock_ReleaseWrite(a3);
+    v8 = a1[1];
+    if ( !v8 )
+      return 0i64;
+  }
+  v13 = v6;
+  if ( (_DWORD)v6 )
+  {
+    v14 = (const void **)&a2[4 * v6 + 4];
+    v15 = WPP_GLOBAL_Control;
+    do
+    {
+      --v13;
+      v9 = *--v14;
+      v10 = *((unsigned __int8 *)a2 + v13 + 328);
+      if ( v15 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v15 + 17) & 0x400000) != 0
+        && *((_BYTE *)v15 + 65) >= 5u )
+      {
+        v16 = FormatLabelA(*((unsigned __int8 *)a2 + v13 + 328), *v14);
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x12u,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          v10,
+          (__int64)v16);
+      }
+      v7 = v8;
+      ChildNode = NTree_FindOrCreateChildNodeEx(v8, v9, v10, 1, 0i64, 0x34u, 0i64, 1, a3);
+      v8 = (__int64)ChildNode;
+      if ( ChildNode )
+      {
+        *((_DWORD *)ChildNode + 23) |= 0x4000000u;
+        v15 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 5u )
+        {
+          continue;
+        }
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x13u,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          ChildNode + 102);
+      }
+      v15 = WPP_GLOBAL_Control;
+    }
+    while ( v13 );
+  }
+  if ( *(_QWORD *)(v8 + 64) )
+  {
+    v31 = *(CDnsPolicy_CriteriaNode **)(v8 + 64);
+  }
+  else
+  {
+    v18 = (CDnsPolicy_CriteriaNode *)operator new(0x38ui64);
+    v19 = v18;
+    v30 = (__int64 *)v18;
+    if ( v18 )
+    {
+      memset_0(v18, 0, 0x38ui64);
+      v20 = CDnsPolicy_CriteriaNode::CDnsPolicy_CriteriaNode(v19);
+    }
+    else
+    {
+      v20 = 0i64;
+    }
+    v31 = v20;
+    *((_WORD *)v20 + 24) = 4;
+    CDnsPolicy_CriteriaNode::AddNextCriteriaTrees(v20, 2u);
+    LODWORD(v30) = -1;
+    acquireWrite(a3, 0xFFFFFFFF, (unsigned int *)&v30);
+    if ( v9 && *v9 == 42 && v10 == 1 )
+      *(_DWORD *)(v7 + 92) |= 0x40u;
+    *(_QWORD *)(v8 + 64) = v20;
+    Lock_ReleaseWrite(a3);
+  }
+  v21 = (__int64 *)operator new(0x18ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v23 = v21;
+  v30 = v21;
+  if ( v21 )
+  {
+    v21[1] = 0i64;
+    v24 = operator new(0x18ui64);
+    if ( !v24 )
+    {
+      std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+    }
+    *v23 = (__int64)v24;
+    *v24 = v24;
+    *(_QWORD *)(*v23 + 8) = *v23;
+  }
+  else
+  {
+    v23 = 0i64;
+  }
+  if ( !v23 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      LastError = GetLastError();
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x14u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        LastError);
+    }
+    return 0i64;
+  }
+  v26 = *v23;
+  v27 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(v22, *v23, *(_QWORD *)(*v23 + 8), &v31);
+  v28 = v23[1];
+  if ( v28 == 0x1FFFFFFFFFFFFFFEi64 )
+    std::_Xlength_error("list<T> too long");
+  v23[1] = v28 + 1;
+  *(_QWORD *)(v26 + 8) = v27;
+  *(_QWORD *)v27[1] = v27;
+  return v23;
+}
+// 140130BB0: variable 'v22' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

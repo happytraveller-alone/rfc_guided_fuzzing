@@ -1,0 +1,62 @@
+//----- (000000014006AFC0) ----------------------------------------------------
+__int64 __fastcall PQ_QueuePacketWithXid(__int64 a1, __int64 a2)
+{
+  __int64 v2; // r8
+  unsigned int v5; // eax
+  unsigned __int16 Word; // si
+  __int16 v7; // ax
+  int v8; // ebx
+
+  v2 = (unsigned int)dword_1401B9714;
+  *(_DWORD *)(a2 + 584) = dword_1401B9714;
+  if ( !*(_DWORD *)(a2 + 568) )
+    *(_DWORD *)(a2 + 568) = v2;
+  v5 = *(_DWORD *)(a2 + 588);
+  if ( v5 )
+  {
+    if ( v5 < *(_DWORD *)(a1 + 116) )
+      *(_DWORD *)(a1 + 116) = v5;
+    *(_DWORD *)(a2 + 588) += v2;
+  }
+  else
+  {
+    *(_DWORD *)(a2 + 588) = v2 + *(_DWORD *)(a1 + 112);
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qsqddd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      *(unsigned int *)(a2 + 588),
+      v2,
+      a2,
+      *(_QWORD *)(a1 + 56),
+      a1,
+      *(_DWORD *)(a2 + 588),
+      v2,
+      *(_DWORD *)(a2 + 588) - v2);
+  }
+  EnterCriticalSection((LPCRITICAL_SECTION)(a1 + 16));
+  Word = *(_WORD *)(a2 + 564);
+  if ( !Word )
+  {
+    if ( *(_WORD *)(a2 + 496) == 3 )
+    {
+      if ( !*(_WORD *)(a1 + 120) )
+        *(_WORD *)(a1 + 120) = 1;
+      v7 = *(_WORD *)(a1 + 120);
+      Word = v7 | 0x8000;
+      *(_WORD *)(a1 + 120) = v7 + 1;
+    }
+    else
+    {
+      Word = Rand_GenerateWord(0);
+    }
+    *(_WORD *)(a2 + 564) = Word;
+  }
+  v8 = addPacketToQueue(a1, a2);
+  LeaveCriticalSection((LPCRITICAL_SECTION)(a1 + 16));
+  return Word & (unsigned int)-(v8 != 0);
+}
+// 1401B9714: using guessed type int dword_1401B9714;

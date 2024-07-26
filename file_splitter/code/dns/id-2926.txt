@@ -1,0 +1,194 @@
+//----- (00000001401541E0) ----------------------------------------------------
+struct _DnsRpcEnumVirtualizationInstanceList *AllocateRPCVirtualizationInstanceEnum(void)
+{
+  _DWORD *v0; // rdi
+  __int64 v1; // rbx
+  _DWORD *zero; // rax
+  CDnsClientSubnetRecordsTrie *v3; // rcx
+  unsigned __int16 v4; // dx
+  void **v5; // rax
+  void **v6; // rbx
+  __int64 **v7; // rax
+  __int64 *v8; // rbx
+  bool i; // zf
+  CHAR **v10; // r12
+  void **v11; // rax
+  void **v12; // r15
+  __int64 *v13; // rax
+  __int64 *j; // rax
+  __int64 v15; // rbx
+  void **v16; // rsi
+
+  v0 = 0i64;
+  if ( (unsigned int)Dns_VirtualInstanceTree_AcquireReadLock() )
+  {
+    v1 = *(_QWORD *)(*(_QWORD *)g_pVirtualizationManager + 16i64);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Au,
+        (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids,
+        v1);
+    }
+    zero = MIDL_user_allocate_zero(8 * v1 + 24);
+    v0 = zero;
+    if ( zero )
+    {
+      *zero = 1;
+      v5 = (void **)MIDL_user_allocate_zero(0x18ui64);
+      v6 = v5;
+      if ( v5 )
+      {
+        if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v5, (CHAR *)L".") )
+        {
+LABEL_21:
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            WPP_SF_(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0xAu,
+              (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+          }
+          goto LABEL_55;
+        }
+        if ( (unsigned int)RpcUtil_CopyStringToRpcBufferEx(v6 + 1, (CHAR *)L"Default") )
+        {
+          *(_QWORD *)&v0[2 * v0[1]++ + 2] = v6;
+          v7 = *(__int64 ***)(*(_QWORD *)g_pVirtualizationManager + 8i64);
+          v8 = *v7;
+          for ( i = *v7 == (__int64 *)v7; ; i = v8 == *(__int64 **)(*(_QWORD *)g_pVirtualizationManager + 8i64) )
+          {
+            if ( i )
+            {
+              Dns_VirtualInstanceTree_ReleaseReadLock();
+              return (struct _DnsRpcEnumVirtualizationInstanceList *)v0;
+            }
+            v10 = (CHAR **)v8[4];
+            v11 = (void **)MIDL_user_allocate_zero(0x18ui64);
+            v12 = v11;
+            if ( !v11 )
+              break;
+            if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v11, *v10) )
+              goto LABEL_21;
+            if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v12 + 1, v10[1]) )
+              goto LABEL_26;
+            if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v12 + 2, v10[2]) )
+            {
+              v3 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+              {
+                v4 = 12;
+                goto LABEL_54;
+              }
+              goto LABEL_55;
+            }
+            *(_QWORD *)&v0[2 * v0[1]++ + 2] = v12;
+            if ( !*((_BYTE *)v8 + 41) )
+            {
+              v13 = (__int64 *)v8[2];
+              if ( *((_BYTE *)v13 + 41) )
+              {
+                for ( j = (__int64 *)v8[1]; !*((_BYTE *)j + 41) && v8 == (__int64 *)j[2]; j = (__int64 *)j[1] )
+                  v8 = j;
+                v8 = j;
+              }
+              else
+              {
+                do
+                {
+                  v8 = v13;
+                  v13 = (__int64 *)*v13;
+                }
+                while ( !*((_BYTE *)v13 + 41) );
+              }
+            }
+          }
+          v3 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            v4 = 29;
+            goto LABEL_54;
+          }
+          goto LABEL_55;
+        }
+LABEL_26:
+        v3 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+LABEL_55:
+          Dns_VirtualInstanceTree_ReleaseReadLock();
+          goto LABEL_56;
+        }
+        v4 = 11;
+      }
+      else
+      {
+        v3 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_55;
+        }
+        v4 = 28;
+      }
+    }
+    else
+    {
+      v3 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_55;
+      }
+      v4 = 27;
+    }
+LABEL_54:
+    WPP_SF_(*((_QWORD *)v3 + 7), v4, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+    goto LABEL_55;
+  }
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+    || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+  {
+LABEL_56:
+    v15 = 0i64;
+    if ( v0 )
+    {
+      if ( v0[1] )
+      {
+        do
+        {
+          v16 = *(void ***)&v0[2 * v15 + 2];
+          if ( v16 )
+          {
+            MIDL_user_free(*v16);
+            MIDL_user_free(v16[1]);
+            MIDL_user_free(v16[2]);
+            MIDL_user_free(v16);
+          }
+          v15 = (unsigned int)(v15 + 1);
+        }
+        while ( (_DWORD)v15 != v0[1] );
+      }
+      MIDL_user_free(v0);
+    }
+    return 0i64;
+  }
+  WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x19u, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+  return 0i64;
+}
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

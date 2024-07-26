@@ -1,0 +1,189 @@
+//----- (00000001400C4DE4) ----------------------------------------------------
+__int64 __fastcall Zone_Load(__int64 a1, int a2)
+{
+  int v4; // ebp
+  const unsigned __int16 *v5; // r9
+  unsigned int OnlyZone; // edi
+  CDnsClientSubnetRecordsTrie *v7; // r10
+  const wchar_t *v8; // rcx
+  const unsigned __int16 *v9; // r9
+  int v10; // ecx
+  int v11; // eax
+  bool v12; // al
+  unsigned int ZoneFromDs; // eax
+  const wchar_t *v14; // rdx
+  const unsigned __int16 *v15; // r9
+  const char *v16; // rcx
+  const char *v17; // rax
+
+  v4 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( !a1 || (v5 = *(const unsigned __int16 **)(a1 + 192)) == 0i64 )
+      v5 = L"Default";
+    WPP_SF_Ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x6Bu,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      v5,
+      *(_QWORD *)(a1 + 16));
+  }
+  OnlyZone = Zone_LockForWriteEx(a1, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\zone.c", 25);
+  if ( !OnlyZone )
+  {
+    v4 = 1;
+    if ( !a1 || !*(_QWORD *)(a1 + 192) )
+    {
+      OnlyZone = DnsOls_ConvertReadOnlyZone(a1);
+      if ( OnlyZone )
+      {
+        v7 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+        {
+LABEL_75:
+          Zone_UnlockAfterWriteEx(a1, 1, (__int64)"ds\\dns\\server\\server\\zone.c", 218);
+          return OnlyZone;
+        }
+        if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0 || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+          goto LABEL_60;
+        if ( !a1 || (v9 = *(const unsigned __int16 **)(a1 + 192)) == 0i64 )
+          v9 = L"Default";
+        WPP_SF_Ss(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x6Du,
+          (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+          v9,
+          *(_QWORD *)(a1 + 16));
+        goto LABEL_59;
+      }
+    }
+    v10 = *(_DWORD *)(a1 + 388);
+    if ( (v10 & 4) == 0 )
+    {
+      if ( (unsigned int)(*(_DWORD *)(a1 + 372) - 2) <= 1 && (v10 & 1) == 0 && !*(_QWORD *)(a1 + 136) )
+      {
+        v7 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x6Eu,
+            (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+            *(const char **)(a1 + 16));
+          v7 = WPP_GLOBAL_Control;
+        }
+        OnlyZone = 2;
+        goto LABEL_60;
+      }
+      OnlyZone = Zone_PrepareForLoad(a1);
+      if ( OnlyZone )
+      {
+LABEL_59:
+        v7 = WPP_GLOBAL_Control;
+        goto LABEL_60;
+      }
+    }
+    v11 = *(_DWORD *)(a1 + 388);
+    if ( (v11 & 1) != 0 )
+    {
+      if ( dword_1401B9868 && (v11 & 4) == 0 )
+      {
+        v12 = (a2 & 0x20000000) != 0
+           && g_ServerState == 1
+           && *(_QWORD *)(g_Database + 56) != a1
+           && *(_DWORD *)(a1 + 372) == 1
+           && !*(_DWORD *)(a1 + 376);
+        *(_DWORD *)(a1 + 388) &= ~2u;
+        *(_DWORD *)(a1 + 388) |= 2 * v12;
+        if ( (*(_BYTE *)(a1 + 388) & 2) != 0
+          && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x6Fu,
+            (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+            *(const char **)(a1 + 16));
+        }
+      }
+      ZoneFromDs = Ds_LoadZoneFromDs((struct _zone_info *)a1, a2, 0i64);
+    }
+    else
+    {
+      if ( *(_DWORD *)(a1 + 372) == 4 )
+      {
+        OnlyZone = 0;
+        goto LABEL_54;
+      }
+      ZoneFromDs = File_LoadDatabaseFile(a1, 0i64, 0i64, 0i64);
+    }
+    OnlyZone = ZoneFromDs;
+    if ( ZoneFromDs )
+    {
+      if ( ZoneFromDs == 9607 || ZoneFromDs == 9622 )
+        v4 = 0;
+      Zone_CleanupFailedLoad(a1);
+      goto LABEL_59;
+    }
+LABEL_54:
+    if ( (*(_BYTE *)(a1 + 388) & 1) == 0 && *(_DWORD *)(a1 + 372) )
+      Zone_ActivateLoadedZone(a1);
+    if ( !*(_QWORD *)(a1 + 192) )
+      Zone_NotifyIfSignatureExpires(a1);
+    goto LABEL_59;
+  }
+  v7 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    return OnlyZone;
+  if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    if ( !a1 || (v8 = *(const wchar_t **)(a1 + 192)) == 0i64 )
+      v8 = L"Default";
+    WPP_SF_DSs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x6Cu,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      OnlyZone,
+      (__int64)v8,
+      *(_QWORD *)(a1 + 16));
+    goto LABEL_59;
+  }
+LABEL_60:
+  if ( v7 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v7 + 68) & 0x10) != 0
+    && *((_BYTE *)v7 + 65) >= 4u )
+  {
+    if ( !a1 || (v14 = *(const wchar_t **)(a1 + 192)) == 0i64 )
+      v14 = L"Default";
+    if ( !a1 || (v15 = *(const unsigned __int16 **)(a1 + 192)) == 0i64 )
+      v15 = L"Default";
+    v16 = "not paused";
+    if ( (*(_DWORD *)(a1 + 396) & 0x1000) != 0 )
+      v16 = "paused";
+    v17 = "not shutdown";
+    if ( (*(_DWORD *)(a1 + 396) & 0x2000) != 0 )
+      v17 = "shutdown";
+    WPP_SF_SsDSss(
+      *((_QWORD *)v7 + 7),
+      (__int64)v14,
+      (__int64)"shutdown",
+      v15,
+      *(_QWORD *)(a1 + 16),
+      OnlyZone,
+      (__int64)v14,
+      (__int64)v17,
+      (__int64)v16);
+  }
+  if ( v4 )
+    goto LABEL_75;
+  return OnlyZone;
+}
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 1401B7EB0: using guessed type int g_ServerState;
+// 1401B9868: using guessed type int dword_1401B9868;
+// 1401EC600: using guessed type __int64 g_Database;

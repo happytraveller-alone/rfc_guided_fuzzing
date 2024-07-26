@@ -1,0 +1,236 @@
+//----- (00000001400DFF20) ----------------------------------------------------
+bool __fastcall TrustPoint::AddTrustAnchor(TrustPoint *this, const struct TrustAnchor *a2, char a3, char a4)
+{
+  __int16 v8; // si
+  unsigned __int16 v9; // bp
+  __int64 **v10; // rbx
+  int v11; // eax
+  unsigned __int8 v12; // di
+  const char *v13; // r14
+  const char *v14; // rsi
+  int v15; // r8d
+  const char *v16; // rbx
+  char v17; // r9
+  char v18; // di
+  unsigned __int16 v19; // dx
+  __int64 v20; // rax
+  __int64 v21; // rdx
+  __int64 v22; // r8
+  CDnsClientSubnetRecordsTrie *v23; // rcx
+  const char *v24; // r12
+  const char *v25; // rdi
+  __int16 v26; // si
+  unsigned __int16 v27; // dx
+  __int64 v28; // rax
+  __int64 v29; // rdx
+  __int64 v30; // r8
+  __int64 *v31; // rax
+  const unsigned __int16 *v32; // r8
+  const EVENT_DESCRIPTOR *v33; // rdx
+  __int64 v34; // rcx
+  const char *v35; // rdi
+  __int64 v36; // rax
+  __int64 v37; // r8
+  __int64 *v38; // rax
+  __int64 v39; // rdi
+  __int64 v40; // rcx
+  _QWORD *v41; // rdx
+  __int64 v42; // rax
+  __int64 v43; // rcx
+  volatile signed __int32 *v44; // rbx
+  const unsigned __int16 *v45; // r8
+  __int16 v46; // cx
+  const char *v47; // rdi
+  __int64 v48; // rax
+  __int64 v49; // r8
+  char v51[16]; // [rsp+58h] [rbp-80h] BYREF
+  __int16 v52; // [rsp+68h] [rbp-70h] BYREF
+  char v53[8]; // [rsp+70h] [rbp-68h] BYREF
+  volatile signed __int32 *v54; // [rsp+78h] [rbp-60h]
+  int v55; // [rsp+E0h] [rbp+8h] BYREF
+  __int64 **v56; // [rsp+E8h] [rbp+10h] BYREF
+
+  EnterCriticalSection((LPCRITICAL_SECTION)this);
+  v8 = *((_WORD *)a2 + 10);
+  v9 = 0;
+  TrustPoint::FindTrustAnchor((__int64)this, &v56, a2, 0);
+  v10 = v56;
+  if ( v56 == *((__int64 ***)this + 6) )
+  {
+    if ( a4 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 3u )
+      {
+        if ( *(_QWORD *)a2 )
+          v34 = *(unsigned __int16 *)(*(_QWORD *)a2 + 12i64);
+        else
+          v34 = 0i64;
+        v35 = (char *)this + 136;
+        if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+          v35 = *(const char **)v35;
+        v36 = DnsRecordStringForWritableType(v34);
+        WPP_SF_sqsD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Au, v37, v35, (char)this, v36);
+      }
+    }
+    else
+    {
+      v52 = v8;
+      TrustAnchor::TrustAnchor((TrustAnchor *)v53, a2);
+      v38 = (__int64 *)*((_QWORD *)this + 6);
+      v39 = *v38;
+      v41 = std::_List_val<std::pair<unsigned short const,TrustAnchor>>::_Buynode<std::pair<unsigned short,TrustAnchor>>(
+              v40,
+              *v38,
+              *(_QWORD *)(*v38 + 8),
+              &v52);
+      v42 = *((_QWORD *)this + 7);
+      if ( v42 == 0x555555555555554i64 )
+        std::_Xlength_error("list<T> too long");
+      *((_QWORD *)this + 7) = v42 + 1;
+      *(_QWORD *)(v39 + 8) = v41;
+      *(_QWORD *)v41[1] = v41;
+      std::_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>::_Insert(
+        (__int64)this + 40,
+        (__int64)v51,
+        (_WORD *)(**((_QWORD **)this + 6) + 16i64),
+        **((__int64 ***)this + 6));
+      v44 = v54;
+      if ( v54 )
+      {
+        if ( _InterlockedExchangeAdd(v54 + 2, 0xFFFFFFFF) == 1 )
+        {
+          (**(void (__fastcall ***)(volatile signed __int32 *))v44)(v44);
+          if ( _InterlockedExchangeAdd(v44 + 3, 0xFFFFFFFF) == 1 )
+            (*(void (__fastcall **)(volatile signed __int32 *))(*(_QWORD *)v44 + 8i64))(v44);
+        }
+      }
+      if ( *((_DWORD *)a2 + 4) == 4 && (dword_1401B9144 & 0x10) != 0 )
+      {
+        v45 = (const unsigned __int16 *)((char *)this + 440);
+        if ( *((_QWORD *)this + 58) >= 8ui64 )
+          v45 = *(const unsigned __int16 **)v45;
+        Template_zqqb(v43, &DNS_EVENT_DNSSEC_TRUST_ANCHOR_VALID, v45, *((unsigned __int16 *)a2 + 10));
+      }
+      if ( *(_QWORD *)a2 )
+        v46 = *(_WORD *)(*(_QWORD *)a2 + 12i64);
+      else
+        v46 = 0;
+      if ( v46 == 43 )
+        ++*((_DWORD *)this + 32);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        if ( *(_QWORD *)a2 )
+          v9 = *(_WORD *)(*(_QWORD *)a2 + 12i64);
+        v47 = (char *)this + 136;
+        if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+          v47 = *(const char **)v47;
+        v48 = DnsRecordStringForWritableType(v9);
+        WPP_SF_sqsD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Bu, v49, v47, (char)this, v48);
+      }
+      TrustPoint::UpdateTrustPointState((struct _RTL_CRITICAL_SECTION *)this);
+      LOBYTE(v9) = 1;
+    }
+  }
+  else
+  {
+    v11 = *((_DWORD *)a2 + 4);
+    v12 = *((_DWORD *)v56 + 10) != v11;
+    LODWORD(v56) = v12;
+    v55 = v11;
+    if ( TrustAnchor::SetState((TrustAnchor *)(v10 + 3), (const enum TRUSTANCHOR_STATE *)&v55, a3) )
+    {
+      v23 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v24 = (char *)this + 136;
+        if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+          v24 = *(const char **)v24;
+        v25 = DNSSEC_TrustAnchorStateToString(*((_DWORD *)a2 + 4));
+        v26 = *((_WORD *)a2 + 10);
+        v28 = DnsRecordStringForWritableType(v27);
+        WPP_SF_sqsDs(*((_QWORD *)WPP_GLOBAL_Control + 7), v29, v30, v24, (char)this, v28, v26, (__int64)v25);
+        v12 = (unsigned __int8)v56;
+      }
+      v31 = (__int64 *)*((_QWORD *)a2 + 4);
+      if ( (__int64)v31 < (__int64)v10[7] )
+      {
+        v10[7] = v31;
+        if ( *((_DWORD *)v10 + 10) == 3 )
+          v10[6] = (__int64 *)TrustAnchor::GetNextStateTime(a2);
+      }
+      if ( v12 )
+      {
+        if ( *((_DWORD *)a2 + 4) == 4 )
+        {
+          if ( (dword_1401B9144 & 0x10) == 0 )
+            goto LABEL_65;
+          v32 = (const unsigned __int16 *)((char *)this + 440);
+          if ( *((_QWORD *)this + 58) >= 8ui64 )
+            v32 = *(const unsigned __int16 **)v32;
+          v33 = &DNS_EVENT_DNSSEC_TRUST_ANCHOR_VALID;
+        }
+        else
+        {
+          if ( *((_DWORD *)a2 + 4) != 5 || (Microsoft_Windows_DNS_Server_ServiceEnableBits & 0x10000) == 0 )
+            goto LABEL_65;
+          v32 = (const unsigned __int16 *)((char *)this + 440);
+          if ( *((_QWORD *)this + 58) >= 8ui64 )
+            v32 = *(const unsigned __int16 **)v32;
+          v33 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_DNSSEC_TRUST_ANCHOR_MISSING;
+        }
+        Template_zqqb((__int64)v23, v33, v32, *((unsigned __int16 *)a2 + 10));
+      }
+    }
+    else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+           && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v13 = (char *)this + 136;
+      if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+        v13 = *(const char **)v13;
+      v14 = DNSSEC_TrustAnchorStateToString(*((_DWORD *)v10 + 10));
+      v16 = DNSSEC_TrustAnchorStateToString(v15);
+      v18 = v17;
+      v20 = DnsRecordStringForWritableType(v19);
+      WPP_SF_sqsDss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        v21,
+        v22,
+        v13,
+        (char)this,
+        v20,
+        v18,
+        (__int64)v16,
+        (__int64)v14);
+    }
+  }
+LABEL_65:
+  LeaveCriticalSection((LPCRITICAL_SECTION)this);
+  return v9;
+}
+// 1400E0024: variable 'v15' is possibly undefined
+// 1400E002C: variable 'v17' is possibly undefined
+// 1400E0030: variable 'v19' is possibly undefined
+// 1400E005F: variable 'v21' is possibly undefined
+// 1400E005F: variable 'v22' is possibly undefined
+// 1400E00BF: variable 'v27' is possibly undefined
+// 1400E00E9: variable 'v29' is possibly undefined
+// 1400E00E9: variable 'v30' is possibly undefined
+// 1400E0184: variable 'v23' is possibly undefined
+// 1400E0212: variable 'v37' is possibly undefined
+// 1400E0242: variable 'v40' is possibly undefined
+// 1400E030D: variable 'v43' is possibly undefined
+// 1400E039D: variable 'v49' is possibly undefined
+// 140183D30: using guessed type __int64 __fastcall DnsRecordStringForWritableType(_QWORD);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401863C8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_DNSSEC_TRUST_ANCHOR_VALID;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;
+// 1401B9144: using guessed type int dword_1401B9144;
+// 1400DFF20: using guessed type char var_68[8];
+// 1400DFF20: using guessed type char var_80[16];

@@ -1,0 +1,65 @@
+//----- (0000000140033FD8) ----------------------------------------------------
+void Dp_TimeoutThreadTasks()
+{
+  int v0; // ebx
+  unsigned int v1; // eax
+  int *v2; // rax
+  __int64 v3; // r8
+  int v4; // [rsp+40h] [rbp+8h] BYREF
+
+  v0 = 0;
+  v4 = 0;
+  if ( dword_1401B9954 && g_liDpInitialized > 0 && dword_1401B9968 )
+  {
+    if ( g_dwNextDpAutoEnlistTime )
+    {
+      if ( dword_1401B9714 < (unsigned int)g_dwNextDpAutoEnlistTime )
+        return;
+      v1 = 2 * g_dwDpAutoEnlistInterval;
+    }
+    else
+    {
+      v1 = 60;
+    }
+    if ( v1 > dword_1401B9968 )
+      v1 = dword_1401B9968;
+    g_dwDpAutoEnlistInterval = v1;
+    g_dwNextDpAutoEnlistTime = v1 + dword_1401B9714;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_Ddd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x94u,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        dword_1401B9714);
+    }
+    Ds_LoadRootDseAttributes(pServerLdap);
+    if ( dword_1401B8CA8 <= 4 )
+      LOBYTE(v0) = _InterlockedIncrement(&dword_1401B8CA8) == 4;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_ld(*((_QWORD *)WPP_GLOBAL_Control + 7));
+    }
+    manageBuiltinDpEnlistment(g_pDomainDp, 1, (char *)g_pszDomainDefaultDpFqdn, v0, &v4);
+    v2 = &v4;
+    if ( v4 )
+      v2 = 0i64;
+    manageBuiltinDpEnlistment(g_pForestDp, 2, (char *)g_pszForestDefaultDpFqdn, v0, v2);
+    if ( v4 )
+      Dp_PollForPartitions(0i64, 1, v3);
+  }
+}
+// 140034146: variable 'v3' is possibly undefined
+// 1401B8C98: using guessed type __int64 g_pDomainDp;
+// 1401B8CA0: using guessed type __int64 g_pForestDp;
+// 1401B8CA8: using guessed type int dword_1401B8CA8;
+// 1401B8CDC: using guessed type int g_dwDpAutoEnlistInterval;
+// 1401B8CE0: using guessed type int g_dwNextDpAutoEnlistTime;
+// 1401B8D30: using guessed type int g_liDpInitialized;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9954: using guessed type int dword_1401B9954;
+// 1401B9968: using guessed type int dword_1401B9968;

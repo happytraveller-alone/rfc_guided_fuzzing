@@ -1,0 +1,11 @@
+//----- (00000001400B01E0) ----------------------------------------------------
+void __fastcall Timeout_FreeAndReplaceZoneDataEx(__int64 a1, __int64 *a2, __int64 a3, __int64 a4, __int64 a5, int a6)
+{
+  __int64 v9; // rdi
+
+  EnterCriticalSection(&csZoneList);
+  v9 = *a2;
+  *a2 = a3;
+  LeaveCriticalSection(&csZoneList);
+  Timeout_FreeWithFunctionEx(v9, a4, a5, a6);
+}

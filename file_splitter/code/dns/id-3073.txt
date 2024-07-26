@@ -1,0 +1,21 @@
+//----- (0000000140161014) ----------------------------------------------------
+__int64 Dns_SprintfCountA(char *a1, signed __int64 a2, const char *pszFormat, ...)
+{
+  HRESULT v4; // eax
+  __int64 v5; // rcx
+  DWORD v6; // [rsp+20h] [rbp-38h]
+  __int64 pcchRemaining[3]; // [rsp+40h] [rbp-18h] BYREF
+  va_list va; // [rsp+78h] [rbp+20h] BYREF
+
+  va_start(va, pszFormat);
+  pcchRemaining[0] = 0i64;
+  if ( a2 < 0 )
+    return 0i64;
+  v4 = StringCchVPrintfExA(a1, a2, 0i64, (size_t *)pcchRemaining, v6, pszFormat, va);
+  v5 = pcchRemaining[0];
+  if ( v4 < 0 )
+    return 0i64;
+  return v5;
+}
+// 14016104A: variable 'v6' is possibly undefined
+// 140161014: using guessed type size_t pcchRemaining[3];

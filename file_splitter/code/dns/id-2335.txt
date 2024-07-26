@@ -1,0 +1,107 @@
+//----- (000000014011FBB8) ----------------------------------------------------
+__int64 __fastcall WksBuildRecord(__int64 a1, __int64 a2, unsigned int a3, __int64 a4, __int64 a5)
+{
+  __int64 v6; // r13
+  _QWORD *v7; // r12
+  u_short v9; // si
+  struct protoent *v10; // r14
+  unsigned int v11; // edi
+  char *v12; // r12
+  u_short v13; // ax
+  struct servent *v14; // rax
+  unsigned __int16 v15; // si
+  _BYTE *v16; // rax
+  _BYTE *v17; // rdi
+  int v19; // eax
+  char *v20; // r9
+  __int64 v21; // r10
+  unsigned __int16 v22; // ax
+  unsigned int v23; // [rsp+20h] [rbp-568h] BYREF
+  __int64 v24; // [rsp+28h] [rbp-560h]
+  _QWORD *v25; // [rsp+30h] [rbp-558h]
+  char name[258]; // [rsp+40h] [rbp-548h] BYREF
+  char v27[1022]; // [rsp+142h] [rbp-446h] BYREF
+
+  v6 = a2;
+  v24 = a2;
+  v7 = (_QWORD *)a1;
+  v25 = (_QWORD *)a1;
+  v9 = 0;
+  if ( !(unsigned int)File_MakeTokenString(name, a4, a5) )
+    return 3222394116i64;
+  v10 = getprotobyname(name);
+  if ( !v10 || v10->p_proto >= 255 )
+  {
+    *(_DWORD *)(a5 + 1600) = 1619;
+    *(_QWORD *)(a5 + 1608) = a4;
+    return 3222394116i64;
+  }
+  v11 = 1;
+  if ( a3 > 1 )
+  {
+    v12 = v27;
+    while ( 1 )
+    {
+      if ( (unsigned int)File_ParseDwordToken(&v23, a4 + 16i64 * v11, 0i64) )
+      {
+        v13 = v23;
+        if ( v23 > 0xFFFF )
+          return 3222394116i64;
+      }
+      else
+      {
+        if ( !(unsigned int)File_MakeTokenString(name, a4 + 16i64 * v11, a5) )
+          return 3222394116i64;
+        v14 = getservbyname(name, v10->p_name);
+        if ( !v14 )
+        {
+          *(_DWORD *)(a5 + 1600) = 1620;
+          *(_QWORD *)(a5 + 1608) = a4 + 16i64 * v11;
+          return 3222394116i64;
+        }
+        v13 = ntohs(v14->s_port);
+      }
+      if ( v11 >= 0x200 )
+        return 13i64;
+      *(_WORD *)v12 = v13;
+      if ( v13 > v9 )
+        v9 = v13;
+      ++v11;
+      v12 += 2;
+      if ( v11 >= a3 )
+      {
+        v6 = v24;
+        v7 = v25;
+        break;
+      }
+    }
+  }
+  v15 = (v9 >> 3) + 1;
+  v16 = RR_AllocateEx(v15 + 5, 0, 0);
+  v17 = v16;
+  if ( !v16 )
+    return 14i64;
+  *(_QWORD *)(a5 + 800) = v16;
+  if ( *(_WORD *)v6 == 2 )
+    v19 = *(_DWORD *)(v6 + 4);
+  else
+    v19 = -1;
+  *((_DWORD *)v17 + 14) = v19;
+  v17[60] = v10->p_proto;
+  memset_0(v17 + 61, 0, v15);
+  if ( a3 > 1 )
+  {
+    v20 = v27;
+    v21 = a3 - 1;
+    do
+    {
+      v22 = *(_WORD *)v20;
+      v20 += 2;
+      v17[(v22 >> 3) + 61] |= 1 << (7 - (v22 & 7));
+      --v21;
+    }
+    while ( v21 );
+  }
+  *v7 = v17;
+  return 0i64;
+}

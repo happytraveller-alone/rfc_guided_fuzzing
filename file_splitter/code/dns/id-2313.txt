@@ -1,0 +1,110 @@
+//----- (000000014011DFE0) ----------------------------------------------------
+STRSAFE_LPSTR __fastcall SigFileWrite(__int64 a1, char *a2, unsigned __int64 a3, __int64 a4)
+{
+  u_short v5; // cx
+  u_short v9; // ax
+  char *v10; // r15
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  u_short v12; // ax
+  STRSAFE_LPSTR v13; // r9
+  int v14; // esi
+  unsigned int v15; // eax
+  char *v16; // rdi
+  unsigned int v17; // eax
+  char *v18; // rbx
+  char *v19; // rax
+  char *v20; // rax
+  char *v21; // rax
+  u_long v23; // [rsp+30h] [rbp-B8h]
+  char v24; // [rsp+50h] [rbp-98h] BYREF
+  __int64 v25; // [rsp+51h] [rbp-97h]
+  __int16 v26; // [rsp+59h] [rbp-8Fh]
+  char v27[32]; // [rsp+60h] [rbp-88h] BYREF
+  char v28[32]; // [rsp+80h] [rbp-68h] BYREF
+
+  v24 = 0;
+  v25 = 0i64;
+  v5 = *(_WORD *)(a1 + 56);
+  v26 = 0;
+  v9 = ntohs(v5);
+  v10 = Dns_RecordStringForAllTypes(v9, &v24);
+  if ( *v10 )
+  {
+    v14 = ntohs(*(_WORD *)(a1 + 72));
+    v15 = ntohl(*(_DWORD *)(a1 + 68));
+    v16 = Dns_SigTimeString(v15, v27);
+    v17 = ntohl(*(_DWORD *)(a1 + 64));
+    v18 = Dns_SigTimeString(v17, v28);
+    v23 = ntohl(*(_DWORD *)(a1 + 60));
+    v19 = sprintfSafeA(
+            a2,
+            a3 - (_QWORD)a2,
+            "%s %d %d %d %s %s %d ",
+            v10,
+            *(unsigned __int8 *)(a1 + 58),
+            *(unsigned __int8 *)(a1 + 59),
+            v23,
+            v18,
+            v16,
+            v14);
+    v13 = v19;
+    if ( v19 )
+    {
+      v20 = File_WriteRawNameToFileBuffer(v19, a3, (char *)(a1 + 76));
+      v13 = v20;
+      if ( v20 )
+      {
+        v13 = sprintfSafeA(v20, a3 - (_QWORD)v20, " ", v20);
+        if ( v13 )
+        {
+          v21 = Dns_SecurityKeyToBase64String(
+                  (unsigned __int8 *)(*(unsigned __int8 *)(a1 + 74) + a1 + 76),
+                  *(unsigned __int16 *)(a1 + 14) - (unsigned int)*(unsigned __int8 *)(a1 + 74) - 20,
+                  v13);
+          v13 = v21;
+          if ( v21 )
+            return sprintfSafeA(v21, a3 - (_QWORD)v21, "\r\n", v21);
+        }
+      }
+    }
+  }
+  else
+  {
+    v11 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      v12 = ntohs(*(_WORD *)(a1 + 56));
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xCu,
+        (__int64)&WPP_ab615269c76f3f4d2c78c36a7027be85_Traceguids,
+        v12);
+      v11 = WPP_GLOBAL_Control;
+    }
+    if ( a4 )
+    {
+      if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v11 + 28) & 8) != 0
+        && *((_BYTE *)v11 + 25) >= 4u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)v11 + 2),
+          0xDu,
+          (__int64)&WPP_ab615269c76f3f4d2c78c36a7027be85_Traceguids,
+          *(const char **)(a4 + 16));
+      }
+    }
+    else if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && (*((_BYTE *)v11 + 28) & 8) != 0
+           && *((_BYTE *)v11 + 25) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v11 + 2), 0xEu, (__int64)&WPP_ab615269c76f3f4d2c78c36a7027be85_Traceguids);
+    }
+    return 0i64;
+  }
+  return v13;
+}
+// 14011DFE0: using guessed type char var_88[32];
+// 14011DFE0: using guessed type char var_68[32];

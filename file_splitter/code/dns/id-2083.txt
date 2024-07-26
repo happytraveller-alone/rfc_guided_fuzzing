@@ -1,0 +1,628 @@
+//----- (0000000140104C38) ----------------------------------------------------
+__int64 __fastcall DnsOls_SignRecordSet(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        unsigned __int64 a5,
+        __int16 a6,
+        struct _DnsUpdateList *a7)
+{
+  __int64 v7; // rdi
+  int v8; // eax
+  __int64 v9; // r13
+  __int64 v10; // rsi
+  unsigned int AppendUpdate; // r15d
+  __int64 *v12; // r14
+  CDnsClientSubnetRecordsTrie *v13; // r10
+  char *v14; // rax
+  const char *v15; // rbx
+  char *v16; // rax
+  __int64 v17; // r8
+  __int16 v18; // r12
+  char v19; // al
+  int v20; // eax
+  unsigned int v21; // ebx
+  const void **v22; // r14
+  __int64 v23; // rbx
+  unsigned __int64 v24; // r15
+  __int64 *v25; // rdi
+  unsigned __int64 v26; // rdx
+  unsigned __int64 v27; // rdi
+  unsigned __int8 *v28; // rax
+  __int64 v29; // rdx
+  __int64 v30; // rbx
+  const void **v31; // rbx
+  void **v32; // rdi
+  unsigned __int16 v33; // dx
+  const void **v34; // rbx
+  void **v35; // rdi
+  unsigned __int64 v36; // rdx
+  unsigned int v37; // eax
+  u_short v38; // ax
+  __int64 v39; // rsi
+  __int64 v40; // rcx
+  char *v41; // rbx
+  __int64 v42; // rsi
+  unsigned __int64 i; // r13
+  u_short *v44; // rbx
+  _QWORD *v45; // rax
+  _BYTE *Signature; // rbx
+  DnsSign::CDnsKeyPair **v47; // rdi
+  CDnsClientSubnetRecordsTrie *v48; // rdx
+  __int64 v49; // rax
+  __int64 v50; // r14
+  DnsSign::CDnsKeyPair *v51; // rsi
+  int v52; // ecx
+  unsigned __int16 KeyTag; // ax
+  unsigned __int16 v54; // dx
+  int v55; // ebx
+  int v56; // eax
+  u_long v57; // eax
+  u_long v58; // ebx
+  u_long v59; // eax
+  unsigned int v60; // r8d
+  char v61; // al
+  u_short v62; // ax
+  u_long v63; // ecx
+  u_long v64; // eax
+  u_long v65; // ecx
+  u_short v66; // ax
+  char *v67; // rax
+  const char *v68; // rsi
+  struct _DnsUpdateList *v69; // rsi
+  __int64 v71; // rdi
+  const void **j; // rbx
+  void **v73; // rdi
+  const void **k; // rbx
+  void **v75; // rdi
+  __int64 v77; // [rsp+20h] [rbp-E0h]
+  __int64 v78; // [rsp+28h] [rbp-D8h]
+  __int64 v79; // [rsp+30h] [rbp-D0h]
+  char v80; // [rsp+50h] [rbp-B0h]
+  u_long hostlong; // [rsp+54h] [rbp-ACh] BYREF
+  __int64 v82; // [rsp+58h] [rbp-A8h]
+  __int64 v83; // [rsp+60h] [rbp-A0h]
+  __int64 v84; // [rsp+68h] [rbp-98h]
+  int v85; // [rsp+70h] [rbp-90h]
+  __int64 v86; // [rsp+78h] [rbp-88h]
+  unsigned int v87; // [rsp+80h] [rbp-80h]
+  struct _DnsUpdateList *v88; // [rsp+88h] [rbp-78h]
+  u_long v89[2]; // [rsp+90h] [rbp-70h]
+  __int128 v90; // [rsp+98h] [rbp-68h] BYREF
+  __int64 v91; // [rsp+A8h] [rbp-58h]
+  char v92; // [rsp+B8h] [rbp-48h]
+  u_long *v93; // [rsp+C0h] [rbp-40h]
+  u_long *v94; // [rsp+C8h] [rbp-38h]
+  DnsSign::CDnsKeyPair *v95; // [rsp+D0h] [rbp-30h]
+  __int128 v96; // [rsp+D8h] [rbp-28h] BYREF
+  __int64 v97; // [rsp+E8h] [rbp-18h]
+  char v98[2]; // [rsp+100h] [rbp+0h] BYREF
+  char Src[270]; // [rsp+102h] [rbp+2h] BYREF
+
+  v88 = a7;
+  v7 = a4;
+  v8 = *(_DWORD *)(a3 + 84);
+  v9 = a3;
+  v82 = a1;
+  v10 = a2;
+  v83 = a4;
+  *(_QWORD *)v89 = a3;
+  v84 = a2;
+  AppendUpdate = 0;
+  v85 = 0;
+  if ( (v8 & 0x88880000) == -2004353024 )
+    v12 = *(__int64 **)(a3 + 8);
+  else
+    v12 = (__int64 *)a3;
+  v13 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v14 = private_StringForRecordType(*(_WORD *)(a4 + 12));
+    v15 = "UNKNOWN";
+    if ( v14 )
+      v15 = v14;
+    v16 = Dbg_NodeName((__int64)v12);
+    WPP_SF_sDDDss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      *(unsigned __int16 *)(v7 + 12),
+      v17,
+      v15,
+      *(_WORD *)(v7 + 12),
+      a5,
+      a6,
+      (__int64)v16,
+      *(_QWORD *)(v10 + 16));
+    v13 = WPP_GLOBAL_Control;
+  }
+  v18 = *(_WORD *)(v7 + 12);
+  if ( v18 == 46
+    || v18 == 2 && (*(_DWORD *)(v9 + 92) & 0x100) == 0
+    || *(_BYTE *)(v9 + 96) == 67 && (v18 == 1 || v18 == 28) )
+  {
+    goto LABEL_172;
+  }
+  if ( v18 == 48 && (a6 & 0x10) == 0 )
+  {
+    if ( v13 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      return AppendUpdate;
+    if ( (*((_DWORD *)v13 + 17) & 0x200000) != 0 && *((_BYTE *)v13 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v13 + 7), 0x12u, (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids);
+LABEL_171:
+      v13 = WPP_GLOBAL_Control;
+      goto LABEL_172;
+    }
+    goto LABEL_172;
+  }
+  v19 = *(_BYTE *)(v9 + 100);
+  v80 = v19;
+  if ( v19 && *(_BYTE *)(v9 + 101) == 1 && *(_BYTE *)(v9 + 102) == 42 )
+    v80 = v19 - 1;
+  if ( v18 == 6 && (a6 & 0x200) != 0 )
+  {
+    v20 = ntohl(*(_DWORD *)(v7 + 56));
+    v21 = Zone_ComputeSerialNumberIncrement(0i64, v20, 0i64);
+    if ( !v88 )
+    {
+      v85 = 1;
+      Dbase_LockEx(v9, 2, (__int64)"ds\\dns\\server\\server\\olssigner.cpp", 173);
+    }
+    *(_DWORD *)(v10 + 512) = v21;
+    *(_DWORD *)(v7 + 56) = ((v21 & 0xFF00 | (v21 << 16)) << 8) | ((HIWORD(v21) | v21 & 0xFF0000) >> 8);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x13u,
+        (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+        *(_DWORD *)(v10 + 512),
+        *(_QWORD *)(v10 + 16));
+    }
+  }
+  Name_NodeToCountName((unsigned __int8 *)v98, v12, 1);
+  v92 = 1;
+  v90 = 0i64;
+  v91 = 0i64;
+  std::vector<CDnsPolicy_CriteriaNode *>::resize((__int64)&v90, a5);
+  v22 = (const void **)v90;
+  v23 = v7;
+  v24 = 0i64;
+  if ( a5 )
+  {
+    while ( 1 )
+    {
+      if ( !v23 || *(_WORD *)(v23 + 12) != *(_WORD *)(v7 + 12) )
+        goto LABEL_65;
+      LOWORD(hostlong) = 0;
+      if ( !(unsigned int)RR_GetCanonicalizedRdataSize(v23, &hostlong) )
+        break;
+      v25 = (__int64 *)operator new(0x20ui64);
+      if ( v25 )
+      {
+        v26 = (unsigned __int16)hostlong;
+        *v25 = 0i64;
+        v25[1] = 0i64;
+        v25[2] = 0i64;
+        std::vector<unsigned char>::resize(v25, v26);
+      }
+      else
+      {
+        v25 = 0i64;
+      }
+      v22[v24] = v25;
+      if ( !RR_WriteCanonicalizedRdata(*v25, *v25 + (unsigned __int16)hostlong, v23) )
+      {
+        v13 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v33 = 16;
+LABEL_64:
+          LODWORD(v77) = *(unsigned __int16 *)(v23 + 12);
+          WPP_SF_qd(*((_QWORD *)v13 + 7), v33, (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids, v23, v77);
+LABEL_65:
+          v13 = WPP_GLOBAL_Control;
+          goto LABEL_66;
+        }
+        goto LABEL_66;
+      }
+      v23 = *(_QWORD *)v23;
+      ++v24;
+      v7 = v83;
+      if ( v24 >= a5 )
+        goto LABEL_43;
+    }
+    v13 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v33 = 15;
+      goto LABEL_64;
+    }
+LABEL_66:
+    AppendUpdate = 87;
+    if ( !v92 )
+      goto LABEL_74;
+    v34 = v22;
+    if ( v22 == *((const void ***)&v90 + 1) )
+      goto LABEL_74;
+    do
+    {
+      v35 = (void **)*v34;
+      if ( *v34 )
+      {
+        if ( *v35 )
+          operator delete(*v35);
+        *v35 = 0i64;
+        v35[1] = 0i64;
+        v35[2] = 0i64;
+        operator delete(v35);
+      }
+      ++v34;
+    }
+    while ( v34 != *((const void ***)&v90 + 1) );
+    goto LABEL_73;
+  }
+LABEL_43:
+  v27 = (__int64)(*((_QWORD *)&v90 + 1) - (_QWORD)v22) >> 3;
+  ____Sort_PEAPEAV__vector_EV__allocator_E_std___std___JVCCompareCanonicalizedData__1__DnsOls_GetSortedCanonicalizedRdata__YAJPEAU_Dbase_Record___KAEAV__vector_PEAV__vector_EV__allocator_E_std___std__V__allocator_PEAV__vector_EV__allocator_E_std___std___2__2__Z__std__YAXPEAPEAV__vector_EV__allocator_E_std___0_0_JVCCompareCanonicalizedData__1__DnsOls_GetSortedCanonicalizedRdata__YAJPEAU_Dbase_Record___KAEAV__vector_PEAV__vector_EV__allocator_E_std___std__V__allocator_PEAV__vector_EV__allocator_E_std___std___2__0__Z__Z(
+    v22,
+    *((const void ****)&v90 + 1),
+    v27,
+    v80);
+  v28 = *(unsigned __int8 **)(v10 + 32);
+  hostlong = 0;
+  AppendUpdate = 0;
+  v29 = *v28;
+  v87 = v29 + 20;
+  v30 = v27 * ((unsigned __int8)v98[0] + 10) + v29 + 18;
+  if ( v30 <= 0xFFFFFFFFi64 )
+  {
+    v36 = 0i64;
+    if ( v27 )
+    {
+      while ( 1 )
+      {
+        v37 = *((_DWORD *)v22[v36] + 2) - *(_DWORD *)v22[v36] + v30;
+        if ( v37 < (unsigned int)v30 )
+          break;
+        ++v36;
+        LODWORD(v30) = v37;
+        if ( v36 >= v27 )
+          goto LABEL_85;
+      }
+      LODWORD(v30) = -1;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x15u, (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids);
+      }
+      AppendUpdate = 13;
+      hostlong = 13;
+    }
+LABEL_85:
+    v97 = 0i64;
+    v96 = 0i64;
+    std::vector<unsigned char>::resize((__int64 *)&v96, (unsigned int)v30);
+    v38 = htons(v18);
+    v39 = v96;
+    v40 = v83;
+    *(_WORD *)v96 = v38;
+    *(_BYTE *)(v39 + 3) = v80;
+    *(_DWORD *)(v39 + 4) = *(_DWORD *)(v40 + 20);
+    v93 = (u_long *)(v39 + 8);
+    v94 = (u_long *)(v39 + 12);
+    memcpy_0((void *)(v39 + 18), (const void *)(*(_QWORD *)(v84 + 32) + 2i64), **(unsigned __int8 **)(v84 + 32));
+    v41 = (char *)(**(unsigned __int8 **)(v84 + 32) + v39 + 18);
+    if ( v27 )
+    {
+      v42 = v83;
+      for ( i = 0i64; i < v27; ++i )
+      {
+        memcpy_0(v41, Src, (unsigned __int8)v98[0]);
+        v44 = (u_short *)&v41[(unsigned __int8)v98[0]];
+        *v44 = htons(v18);
+        v44[1] = 256;
+        *((_DWORD *)v44 + 1) = *(_DWORD *)(v42 + 20);
+        v44[4] = htons(*((_WORD *)v22[i] + 4) - *(_WORD *)v22[i]);
+        v44 += 5;
+        memcpy_0(v44, *(const void **)v22[i], *((_QWORD *)v22[i] + 1) - *(_QWORD *)v22[i]);
+        v45 = v22[i];
+        v41 = (char *)v44 + v45[1] - *v45;
+      }
+      AppendUpdate = hostlong;
+      v9 = *(_QWORD *)v89;
+      v39 = v96;
+    }
+    Signature = 0i64;
+    v86 = 0i64;
+    v47 = *(DnsSign::CDnsKeyPair ***)v82;
+    if ( *(_QWORD *)v82 != *(_QWORD *)(v82 + 8) )
+    {
+      v48 = WPP_GLOBAL_Control;
+      v49 = v82;
+      v50 = v84;
+      while ( 1 )
+      {
+        v51 = *v47;
+        v95 = v51;
+        v52 = *(_DWORD *)v51;
+        if ( *(_DWORD *)v51 == 3 )
+        {
+          if ( v48 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)v48 + 17) & 0x200000) == 0
+            || *((_BYTE *)v48 + 65) < 4u )
+          {
+            goto LABEL_129;
+          }
+          KeyTag = DnsSign::CDnsKeyPair::GetKeyTag(v51);
+          v54 = 22;
+        }
+        else
+        {
+          if ( v18 == 48 || ((v52 - 1) & 0xFFFFFFFB) != 0 && (v52 || (*((_BYTE *)v51 + 18) & 1) == 0) )
+          {
+            v55 = time(0i64);
+            if ( v18 == 48 )
+            {
+              v56 = *((_DWORD *)v51 + 43);
+            }
+            else if ( v18 == 43 )
+            {
+              v56 = *((_DWORD *)v51 + 44);
+            }
+            else
+            {
+              v56 = *((_DWORD *)v51 + 45);
+            }
+            v57 = v55 + v56;
+            v58 = v55 - *((_DWORD *)v51 + 42);
+            *(_QWORD *)v89 = v58;
+            hostlong = v57;
+            *v93 = htonl(v57);
+            v59 = htonl(v58);
+            v60 = v87;
+            *v94 = v59;
+            Signature = DnsSign::CDnsKeyPair::GenerateSignature(v51, (__int64)&v96, v60);
+            Mem_Free(0i64, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\zone.cpp", 239);
+            v61 = -16;
+            if ( *(_BYTE *)(v9 + 96) == 67 )
+              v61 = 0x80;
+            Signature[8] = v61;
+            *((_WORD *)Signature + 6) = 46;
+            *((_DWORD *)Signature + 5) = *(_DWORD *)(v83 + 20);
+            v62 = htons(v18);
+            v63 = hostlong;
+            *((_WORD *)Signature + 28) = v62;
+            Signature[58] = *((_BYTE *)v51 + 9);
+            Signature[59] = v80;
+            *((_DWORD *)Signature + 15) = *(_DWORD *)(v83 + 20);
+            v64 = htonl(v63);
+            v65 = v89[0];
+            *((_DWORD *)Signature + 16) = v64;
+            *((_DWORD *)Signature + 17) = htonl(v65);
+            v66 = DnsSign::CDnsKeyPair::GetKeyTag(v51);
+            *((_WORD *)Signature + 36) = htons(v66);
+            Name_CopyCountName(Signature + 74, *(unsigned __int8 **)(v50 + 32));
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v67 = private_StringForRecordType(*(_WORD *)(v83 + 12));
+              v68 = "UNKNOWN";
+              if ( v67 )
+                v68 = v67;
+              LODWORD(v79) = (unsigned __int16)DnsSign::CDnsKeyPair::GetKeyTag(v95);
+              LODWORD(v78) = *(unsigned __int16 *)(v83 + 12);
+              WPP_SF_qsDD(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x18u,
+                (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+                Signature,
+                v68,
+                v78,
+                v79);
+            }
+            v69 = v88;
+            if ( !v86++ )
+            {
+              if ( v88 )
+                DnsOls_RemoveRrsigForType(v88, (struct _DnsTreeNode *)v9, v18);
+              else
+                RR_ListDeleteTypeNotInList(v9, 0x2Eu, v18, 0i64, 0);
+            }
+            *(_DWORD *)(v9 + 92) |= 0x40000u;
+            if ( v69 )
+            {
+              AppendUpdate = DnsOls_CreateAppendUpdate(v69, (struct _DnsTreeNode *)v9, (__int64)Signature, 0);
+              if ( AppendUpdate )
+                goto LABEL_130;
+            }
+            else
+            {
+              *(_QWORD *)(v9 + 64) = RR_ListInsertInOrder(v9, *(__int64 **)(v9 + 64), (__int64)Signature, 1);
+            }
+            Signature = 0i64;
+            goto LABEL_127;
+          }
+          if ( v48 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)v48 + 17) & 0x200000) == 0
+            || *((_BYTE *)v48 + 65) < 4u )
+          {
+            goto LABEL_128;
+          }
+          KeyTag = DnsSign::CDnsKeyPair::GetKeyTag(v51);
+          v54 = 23;
+        }
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          v54,
+          (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+          KeyTag);
+LABEL_127:
+        v48 = WPP_GLOBAL_Control;
+LABEL_128:
+        v49 = v82;
+LABEL_129:
+        if ( ++v47 == *(DnsSign::CDnsKeyPair ***)(v49 + 8) )
+        {
+LABEL_130:
+          v39 = v96;
+          v22 = (const void **)v90;
+          break;
+        }
+      }
+    }
+    if ( v18 == 48 && (*(_DWORD *)(v9 + 92) & 0x100) != 0 )
+    {
+      v71 = v84;
+      if ( (*(_BYTE *)(v84 + 388) & 1) != 0
+        && (*(_BYTE *)(v84 + 1040) & 2) != 0
+        && (a6 & 0x80) == 0
+        && !*(_QWORD *)(v84 + 192) )
+      {
+        AppendUpdate = DnsOls_WriteDNSKEYsToDirectory(v84);
+        if ( AppendUpdate )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            WPP_SF_Ds(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x19u,
+              (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+              AppendUpdate,
+              *(_QWORD *)(v71 + 16));
+          }
+          Mem_Free(Signature, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\zone.cpp", 239);
+          if ( v39 )
+            operator delete((void *)v39);
+          if ( v92 )
+          {
+            for ( j = v22; j != *((const void ***)&v90 + 1); ++j )
+            {
+              v73 = (void **)*j;
+              if ( *j )
+              {
+                if ( *v73 )
+                  operator delete(*v73);
+                *v73 = 0i64;
+                v73[1] = 0i64;
+                v73[2] = 0i64;
+                operator delete(v73);
+              }
+            }
+          }
+LABEL_165:
+          if ( v22 )
+            operator delete(v22);
+          v10 = v84;
+          goto LABEL_168;
+        }
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x1Au,
+            (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+            *(const char **)(v71 + 16));
+        }
+      }
+    }
+    Mem_Free(Signature, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\zone.cpp", 239);
+    if ( v39 )
+      operator delete((void *)v39);
+    if ( v92 )
+    {
+      for ( k = v22; k != *((const void ***)&v90 + 1); ++k )
+      {
+        v75 = (void **)*k;
+        if ( *k )
+        {
+          if ( *v75 )
+            operator delete(*v75);
+          *v75 = 0i64;
+          v75[1] = 0i64;
+          v75[2] = 0i64;
+          operator delete(v75);
+        }
+      }
+    }
+    goto LABEL_165;
+  }
+  v13 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x14u, (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids);
+    v13 = WPP_GLOBAL_Control;
+  }
+  AppendUpdate = 13;
+  if ( !v92 )
+    goto LABEL_74;
+  v31 = v22;
+  if ( v22 == *((const void ***)&v90 + 1) )
+    goto LABEL_74;
+  do
+  {
+    v32 = (void **)*v31;
+    if ( *v31 )
+    {
+      if ( *v32 )
+        operator delete(*v32);
+      *v32 = 0i64;
+      v32[1] = 0i64;
+      v32[2] = 0i64;
+      operator delete(v32);
+    }
+    ++v31;
+  }
+  while ( v31 != *((const void ***)&v90 + 1) );
+LABEL_73:
+  v13 = WPP_GLOBAL_Control;
+LABEL_74:
+  if ( !v22 )
+    goto LABEL_169;
+  operator delete(v22);
+LABEL_168:
+  v13 = WPP_GLOBAL_Control;
+LABEL_169:
+  if ( v85 )
+  {
+    Dbase_UnlockEx(v9, 2, (__int64)"ds\\dns\\server\\server\\olssigner.cpp", 9);
+    goto LABEL_171;
+  }
+LABEL_172:
+  if ( v13 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v13 + 17) & 0x200000) != 0
+    && *((_BYTE *)v13 + 65) >= 4u )
+  {
+    WPP_SF_Dds(
+      *((_QWORD *)v13 + 7),
+      0x1Bu,
+      (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+      AppendUpdate,
+      v18,
+      *(_QWORD *)(v10 + 16));
+  }
+  return AppendUpdate;
+}
+// 140104D36: variable 'v17' is possibly undefined
+// 140105122: variable 'v77' is possibly undefined
+// 140105594: variable 'v78' is possibly undefined
+// 140105594: variable 'v79' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140104C38: using guessed type unsigned __int8 var_150[2];
+// 140104C38: using guessed type char Src[270];

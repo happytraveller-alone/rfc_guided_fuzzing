@@ -1,0 +1,148 @@
+//----- (000000014003D370) ----------------------------------------------------
+__int64 __fastcall getCurrentUsn(LPSTR lpMultiByteStr)
+{
+  ULONG v2; // edi
+  DWORD TickCount; // ebx
+  PWCHAR v4; // rax
+  LDAPMessage *entry; // rax
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  PWCHAR *valuesW; // rax
+  __int64 v8; // rdx
+  __int64 v9; // r8
+  __int64 v10; // r9
+  LPCWCH *v11; // rbx
+  int LastError; // eax
+  __int64 v13; // rax
+  void *attrs[2]; // [rsp+60h] [rbp-38h] BYREF
+  PLDAPMessage res; // [rsp+A0h] [rbp+8h] BYREF
+
+  *lpMultiByteStr = 0;
+  res = 0i64;
+  attrs[0] = g_szHighestCommittedUsnAttribute;
+  attrs[1] = 0i64;
+  if ( !pServerLdap )
+  {
+    v2 = Ds_OpenServer(4096);
+    if ( v2 )
+      goto LABEL_38;
+  }
+  TickCount = GetTickCount();
+  v2 = ldap_search_ext_sW(
+         pServerLdap,
+         0i64,
+         0,
+         g_szWildCardFilter,
+         (PZPWSTR)attrs,
+         0,
+         0i64,
+         0i64,
+         &g_LdapTimeout,
+         0,
+         &res);
+  _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - TickCount);
+  if ( v2 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v4 = ldap_err2stringW(v2);
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xA8u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v2,
+        (__int64)v4);
+    }
+    v2 = Ds_ErrorHandler(v2, 0i64, pServerLdap, 0);
+    goto LABEL_38;
+  }
+  entry = ldap_first_entry(pServerLdap, res);
+  if ( !entry )
+  {
+    v6 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xA9u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+      v6 = WPP_GLOBAL_Control;
+    }
+    v2 = 14;
+    goto LABEL_39;
+  }
+  valuesW = ldap_get_valuesW(pServerLdap, entry, g_szHighestCommittedUsnAttribute);
+  v11 = (LPCWCH *)valuesW;
+  if ( valuesW && (v10 = (__int64)*valuesW) != 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_qS(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xABu, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+    }
+    *lpMultiByteStr = 0;
+    WideCharToMultiByte(0xFDE9u, 0, *v11, -1, lpMultiByteStr, 24, 0i64, 0i64);
+    if ( *lpMultiByteStr )
+    {
+      v6 = WPP_GLOBAL_Control;
+    }
+    else
+    {
+      v6 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        LastError = GetLastError();
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xACu,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          LastError);
+        v6 = WPP_GLOBAL_Control;
+      }
+      v2 = 13;
+    }
+  }
+  else
+  {
+    v6 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( valuesW )
+        v13 = (__int64)*valuesW;
+      else
+        v13 = 0i64;
+      WPP_SF_SSqS(*((_QWORD *)WPP_GLOBAL_Control + 7), v8, v9, v10, (__int64)DistinguishedName, (char)v11, v13);
+      v6 = WPP_GLOBAL_Control;
+    }
+    v2 = 14;
+  }
+  if ( v11 )
+  {
+    ldap_value_freeW((PWCHAR *)v11);
+LABEL_38:
+    v6 = WPP_GLOBAL_Control;
+  }
+LABEL_39:
+  if ( res )
+  {
+    ldap_msgfree(res);
+    v6 = WPP_GLOBAL_Control;
+  }
+  if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v6 + 17) & 0x400) != 0
+    && *((_BYTE *)v6 + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)v6 + 7), 0xADu, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, v2);
+  }
+  return v2;
+}
+// 14003D611: variable 'v8' is possibly undefined
+// 14003D611: variable 'v9' is possibly undefined
+// 14003D611: variable 'v10' is possibly undefined
+// 1401C7D48: using guessed type int dword_1401C7D48;
+// 14003D370: using guessed type PWSTR var_38[2];

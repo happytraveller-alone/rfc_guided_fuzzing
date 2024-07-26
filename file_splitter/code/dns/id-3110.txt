@@ -1,0 +1,177 @@
+//----- (0000000140163860) ----------------------------------------------------
+void __fastcall printExtendedRpcErrorInfo(unsigned int a1)
+{
+  unsigned int v1; // esi
+  int ExtendedError; // eax
+  unsigned int v3; // ebx
+  RPC_STATUS started; // eax
+  unsigned int v5; // edi
+  unsigned int NextRecord; // eax
+  HANDLE ProcessHeap; // rax
+  int v8; // edi
+  union tagRPC_EE_INFO_PARAM::$A3FD93C0502A9420CA2CBD32041223FD *p_u; // rbx
+  HANDLE v10; // rax
+  __int64 v11; // [rsp+20h] [rbp-E0h]
+  __int64 v12; // [rsp+28h] [rbp-D8h]
+  __int64 v13; // [rsp+30h] [rbp-D0h]
+  __int64 v14; // [rsp+38h] [rbp-C8h]
+  RPC_ERROR_ENUM_HANDLE EnumHandle; // [rsp+50h] [rbp-B0h] BYREF
+  RPC_EXTENDED_ERROR_INFO ErrorInfo; // [rsp+70h] [rbp-90h] BYREF
+  struct _SYSTEMTIME SystemTime; // [rsp+110h] [rbp+10h] BYREF
+
+  if ( !a1 )
+    return;
+  v1 = 0;
+  if ( g_LogFnPtr )
+    g_LogFnPtr(L"DnsRpcError: received error %1!d!", a1);
+  ExtendedError = I_RpcGetExtendedError();
+  v3 = ExtendedError;
+  if ( ExtendedError )
+  {
+    if ( ExtendedError < 0 )
+      v1 = dns_MapRpcExtendedHResultToWin32(ExtendedError);
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: extended error code HResult %1!d! Win32 %2!d!", v3, v1);
+  }
+  started = RpcErrorStartEnumeration(&EnumHandle);
+  v5 = started;
+  if ( started )
+  {
+    if ( started != 1761 && g_LogFnPtr )
+    {
+      g_LogFnPtr(L"DnsRpcError: extended error code HResult %1!d! Win32 %2!d!", v3, v1);
+      if ( g_LogFnPtr )
+        g_LogFnPtr(L"DnsRpcError: error %1!d! retrieving RPC error information", v5);
+    }
+    return;
+  }
+  while ( 1 )
+  {
+LABEL_14:
+    ErrorInfo.Version = 1;
+    ErrorInfo.NumberOfParameters = 4;
+    ErrorInfo.Flags = 4;
+    NextRecord = RpcErrorGetNextRecord(&EnumHandle, 1, &ErrorInfo);
+    if ( NextRecord == 1761 )
+      goto LABEL_61;
+    if ( NextRecord )
+      break;
+    if ( ErrorInfo.ComputerName )
+    {
+      if ( g_LogFnPtr )
+        g_LogFnPtr(L"DnsRpcError: ComputerName %1!s!");
+      ProcessHeap = GetProcessHeap();
+      HeapFree(ProcessHeap, 0, ErrorInfo.ComputerName);
+    }
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: ProcessID is %1!d!", ErrorInfo.ProcessID);
+    FileTimeToSystemTime((const FILETIME *)&ErrorInfo.u, &SystemTime);
+    if ( g_LogFnPtr )
+    {
+      LODWORD(v14) = SystemTime.wMilliseconds;
+      LODWORD(v13) = SystemTime.wSecond;
+      LODWORD(v12) = SystemTime.wMinute;
+      LODWORD(v11) = SystemTime.wHour;
+      g_LogFnPtr(
+        L"DnsRpcError: system time is: %1!d!/%2!d!/%3!d! %4!d!:%5!d!:%6!d!:%7!d!",
+        SystemTime.wMonth,
+        SystemTime.wDay,
+        SystemTime.wYear,
+        v11,
+        v12,
+        v13,
+        v14);
+    }
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: Generating component is %1!d!", ErrorInfo.GeneratingComponent);
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: Status is %1!d!", ErrorInfo.Status);
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: Detection location is %1!d!", ErrorInfo.DetectionLocation);
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: Flags is %1!d!", ErrorInfo.Flags);
+    if ( g_LogFnPtr )
+      g_LogFnPtr(L"DnsRpcError: NumberOfParameters is %1!d!", (unsigned int)ErrorInfo.NumberOfParameters);
+    v8 = 0;
+    if ( ErrorInfo.NumberOfParameters > 0 )
+    {
+      p_u = &ErrorInfo.Parameters[0].u;
+      while ( 1 )
+      {
+        if ( *(_DWORD *)&p_u[-1].BVal.Size == 1 )
+        {
+          if ( g_LogFnPtr )
+            g_LogFnPtr(L"DnsRpcError: Ansi string: %1!S!", p_u->PVal);
+        }
+        else
+        {
+          if ( *(_DWORD *)&p_u[-1].BVal.Size != 2 )
+          {
+            switch ( *(_DWORD *)&p_u[-1].BVal.Size )
+            {
+              case 3:
+                if ( g_LogFnPtr )
+                  g_LogFnPtr(L"DnsRpcError: Long val: %1!d!");
+                break;
+              case 4:
+                if ( g_LogFnPtr )
+                  g_LogFnPtr(L"DnsRpcError: Short val: %1!d!");
+                break;
+              case 5:
+                if ( g_LogFnPtr )
+                  g_LogFnPtr(L"DnsRpcError: Pointer val: %1!d!", p_u->PVal);
+                break;
+              case 6:
+                if ( g_LogFnPtr )
+                  g_LogFnPtr(L"DnsRpcError: Truncated");
+                break;
+              default:
+                if ( g_LogFnPtr )
+                  g_LogFnPtr(L"DnsRpcError: Invalid type: %1!d!");
+                break;
+            }
+            goto LABEL_57;
+          }
+          if ( g_LogFnPtr )
+            g_LogFnPtr(L"DnsRpcError: Unicode string: %1!s!", p_u->PVal);
+        }
+        v10 = GetProcessHeap();
+        HeapFree(v10, 0, p_u->BVal.Buffer);
+LABEL_57:
+        ++v8;
+        p_u = (union tagRPC_EE_INFO_PARAM::$A3FD93C0502A9420CA2CBD32041223FD *)((char *)p_u + 24);
+        if ( v8 >= ErrorInfo.NumberOfParameters )
+          goto LABEL_14;
+      }
+    }
+  }
+  if ( g_LogFnPtr )
+    g_LogFnPtr(L"DnsRpcError: error %1!d! during error info enumeration", NextRecord);
+LABEL_61:
+  RpcErrorEndEnumeration(&EnumHandle);
+}
+// 140163A27: variable 'v11' is possibly undefined
+// 140163A27: variable 'v12' is possibly undefined
+// 140163A27: variable 'v13' is possibly undefined
+// 140163A27: variable 'v14' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 140197730: using guessed type wchar_t aDnsrpcerrorRec[34];
+// 140197780: using guessed type wchar_t aDnsrpcerrorExt[59];
+// 140197800: using guessed type wchar_t aDnsrpcerrorErr_0[58];
+// 140197880: using guessed type wchar_t aDnsrpcerrorErr[55];
+// 1401978F0: using guessed type wchar_t aDnsrpcerrorCom[32];
+// 140197930: using guessed type wchar_t aDnsrpcerrorPro[32];
+// 140197970: using guessed type wchar_t aDnsrpcerrorSys[71];
+// 140197A00: using guessed type wchar_t aDnsrpcerrorGen[43];
+// 140197A58: using guessed type wchar_t aDnsrpcerrorSta[29];
+// 140197AA0: using guessed type wchar_t aDnsrpcerrorDet[41];
+// 140197AF8: using guessed type wchar_t aDnsrpcerrorFla[28];
+// 140197B30: using guessed type wchar_t aDnsrpcerrorNum[41];
+// 140197B90: using guessed type wchar_t aDnsrpcerrorAns[32];
+// 140197BD0: using guessed type wchar_t aDnsrpcerrorUni[35];
+// 140197C18: using guessed type wchar_t aDnsrpcerrorLon[29];
+// 140197C58: using guessed type wchar_t aDnsrpcerrorSho[30];
+// 140197CA0: using guessed type wchar_t aDnsrpcerrorPoi[32];
+// 140197CE0: using guessed type wchar_t aDnsrpcerrorTru[23];
+// 140197D10: using guessed type wchar_t aDnsrpcerrorInv[33];
+// 1401B9EF8: using guessed type __int64 (*g_LogFnPtr)(_QWORD, ...);

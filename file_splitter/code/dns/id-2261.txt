@@ -1,0 +1,52 @@
+//----- (000000014011A998) ----------------------------------------------------
+__int64 __fastcall Name_ConvertLookupNameToDottedName(_BYTE *a1, unsigned __int16 *a2)
+{
+  int v3; // r14d
+  _BYTE *v4; // rdi
+  int v6; // r13d
+  unsigned __int16 *v7; // r15
+  const void **v8; // r12
+  size_t v9; // rbx
+  _BYTE *v10; // rdi
+
+  v3 = (int)a1;
+  v4 = a1;
+  if ( a2[1] > 0xFFu )
+  {
+    *a1 = 0;
+LABEL_3:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x24u, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids);
+    }
+    return 0i64;
+  }
+  *a1 = 46;
+  v6 = 0;
+  if ( *a2 )
+  {
+    v7 = a2 + 164;
+    v8 = (const void **)(a2 + 4);
+    while ( *(unsigned __int8 *)v7 <= 0x3Fu )
+    {
+      v9 = *(unsigned __int8 *)v7;
+      memcpy_0(v4, *v8, v9);
+      v10 = &v4[v9];
+      ++v6;
+      v7 = (unsigned __int16 *)((char *)v7 + 1);
+      ++v8;
+      *v10 = 46;
+      v4 = v10 + 1;
+      if ( v6 >= *a2 )
+        goto LABEL_12;
+    }
+    goto LABEL_3;
+  }
+LABEL_12:
+  if ( !*a2 && a2[1] == 1 )
+    ++v4;
+  *v4 = 0;
+  return (unsigned int)((_DWORD)v4 - v3);
+}

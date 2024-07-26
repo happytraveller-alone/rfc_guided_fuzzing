@@ -1,0 +1,30 @@
+//----- (00000001400532D4) ----------------------------------------------------
+__int64 __fastcall Gnz_LocalGlobalNamesZoneLoaded(__int64 a1)
+{
+  const char *v2; // r9
+
+  EnterCriticalSection(&g_csGlobalNames);
+  g_pzoneLocalGlobalNames = a1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x20000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v2 = *(const char **)(a1 + 16);
+    else
+      v2 = 0i64;
+    WPP_SF_sq(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_034409074b35327309cc7655b9f6aa4d_Traceguids, v2);
+    a1 = g_pzoneLocalGlobalNames;
+  }
+  if ( a1 && g_pzoneRemoteGlobalNames )
+  {
+    Zone_Delete((struct _zone_info *)g_pzoneRemoteGlobalNames, 0, 0, 0, 0);
+    g_pzoneRemoteGlobalNames = 0i64;
+    g_pnodeGnzService = 0i64;
+  }
+  LeaveCriticalSection(&g_csGlobalNames);
+  return 0i64;
+}
+// 1401B8EF0: using guessed type __int64 g_pzoneRemoteGlobalNames;
+// 1401B8EF8: using guessed type __int64 g_pzoneLocalGlobalNames;
+// 1401B8F08: using guessed type __int64 g_pnodeGnzService;

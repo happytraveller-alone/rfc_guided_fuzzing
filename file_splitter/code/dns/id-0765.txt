@@ -1,0 +1,47 @@
+//----- (000000014006AAE0) ----------------------------------------------------
+void __fastcall PQ_DiscardDuplicatesOfNewPacket(__int64 a1, __int64 a2)
+{
+  int v2; // edi
+  __int64 v5; // rsi
+  bool i; // zf
+  const char *v7; // rax
+  __int64 v8; // rcx
+  _QWORD *v9; // rax
+
+  v2 = *(_DWORD *)(a1 + 96);
+  if ( v2 )
+  {
+    v5 = *(_QWORD *)a1;
+    for ( i = *(_QWORD *)a1 == a1; !i; i = v5 == a1 )
+    {
+      if ( (unsigned int)DnsAddr_IsEqual((_WORD *)(v5 + 64), (_WORD *)(a2 + 64), 0xFFFF)
+        && !memcmp_0((const void *)(v5 + 6304), (const void *)(a2 + 6304), *(unsigned __int16 *)(v5 + 6302)) )
+      {
+        ++*(_DWORD *)(a1 + 104);
+        *(_DWORD *)(a1 + 96) = v2 - 1;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v7 = DnsAddr_Ntoa((struct in_addr *)(v5 + 64));
+          WPP_SF_ssdd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xAu,
+            (__int64)&WPP_ea3280c01ae0350ebb797dd5efafc371_Traceguids,
+            *(const char **)(a1 + 56),
+            (__int64)v7);
+        }
+        v8 = *(_QWORD *)v5;
+        v9 = *(_QWORD **)(v5 + 8);
+        if ( *(_QWORD *)(*(_QWORD *)v5 + 8i64) != v5 || *v9 != v5 )
+          __fastfail(3u);
+        *v9 = v8;
+        *(_QWORD *)(v8 + 8) = v9;
+        *(_DWORD *)(v5 + 16) = 0;
+        Packet_Free(v5);
+        return;
+      }
+      v5 = *(_QWORD *)v5;
+    }
+  }
+}

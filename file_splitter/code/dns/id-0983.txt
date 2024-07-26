@@ -1,0 +1,13 @@
+//----- (0000000140085A80) ----------------------------------------------------
+__int64 __fastcall MinfoValidate(__int64 a1, unsigned __int16 a2)
+{
+  unsigned __int8 *v3; // rbx
+
+  if ( a2 < 4u )
+    return 13i64;
+  v3 = (unsigned __int8 *)(a1 + 56);
+  if ( (unsigned int)Name_ValidateCountName((unsigned __int8 *)(a1 + 56)) )
+    return (unsigned int)Name_ValidateCountName(&v3[*v3 + 2]) == 0 ? 0x7B : 0;
+  else
+    return 123i64;
+}

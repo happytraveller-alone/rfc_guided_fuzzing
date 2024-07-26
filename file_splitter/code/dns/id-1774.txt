@@ -1,0 +1,29 @@
+//----- (00000001400DF7FC) ----------------------------------------------------
+struct _DnssrvRpcTrustAnchor *__fastcall TrustAnchor::GetRPCObject(TrustAnchor *this)
+{
+  __int64 v2; // rbx
+  _WORD *v3; // rax
+  __int16 v4; // bp
+  _WORD *v5; // rdi
+
+  v2 = *(unsigned __int16 *)(*(_QWORD *)this + 14i64);
+  v3 = MIDL_user_allocate(v2 + 56);
+  v4 = 0;
+  v5 = v3;
+  if ( v3 )
+  {
+    memset_0(v3, 0, v2 + 56);
+    *(_DWORD *)v5 = 1;
+    if ( *(_QWORD *)this )
+      v4 = *(_WORD *)(*(_QWORD *)this + 12i64);
+    v5[4] = v4;
+    v5[5] = *((_WORD *)this + 10);
+    *((_QWORD *)v5 + 3) = *((_QWORD *)this + 4);
+    *((_QWORD *)v5 + 4) = TrustAnchor::GetNextStateTime(this);
+    v5[6] = *(_WORD *)(*(_QWORD *)this + 14i64);
+    *((_DWORD *)v5 + 4) = *((_DWORD *)this + 4);
+    memcpy_0(v5 + 22, (const void *)(*(_QWORD *)this + 56i64), *(unsigned __int16 *)(*(_QWORD *)this + 14i64));
+    v5[22] = ntohs(v5[22]);
+  }
+  return (struct _DnssrvRpcTrustAnchor *)v5;
+}

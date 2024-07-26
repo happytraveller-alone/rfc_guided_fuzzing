@@ -1,0 +1,133 @@
+//----- (00000001400F1A8C) ----------------------------------------------------
+void __fastcall deleteNonCertKey(struct _zone_info *a1, struct _dnsskd *a2, unsigned __int16 *a3)
+{
+  const WCHAR *v5; // rdx
+  int v7; // r14d
+  int v8; // r9d
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  int v10; // ebp
+  char *v11; // rax
+  __int64 v12; // r8
+  int v13; // ebp
+  char *v14; // rax
+  __int64 v15; // r8
+  char *v16; // rax
+  __int64 v17; // r8
+  NCRYPT_KEY_HANDLE phKey; // [rsp+78h] [rbp+10h] BYREF
+  NCRYPT_PROV_HANDLE hProvider; // [rsp+88h] [rbp+20h] BYREF
+
+  v5 = (const WCHAR *)*((_QWORD *)a2 + 3);
+  v7 = 0;
+  hProvider = 0i64;
+  phKey = 0i64;
+  v8 = NCryptOpenStorageProvider(&hProvider, v5, 0);
+  if ( v8 )
+  {
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xA1u,
+        (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+        v8,
+        *((_QWORD *)a2 + 3));
+      v9 = WPP_GLOBAL_Control;
+    }
+    v7 = 9112;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_SS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xA2u,
+        (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+        a3,
+        *((_QWORD *)a2 + 3));
+    }
+    v10 = NCryptOpenKey(hProvider, &phKey, a3, 0, 0x60u);
+    if ( !v10 )
+    {
+      v13 = NCryptDeleteKey(phKey, 0x40u);
+      if ( v13 >= 0 )
+      {
+        phKey = 0i64;
+      }
+      else
+      {
+        v9 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_24;
+        }
+        v14 = Dbg_GuidString((const IID *)((char *)a2 + 8));
+        WPP_SF_DSSSs(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xA4u,
+          v15,
+          v13,
+          (__int64)a3,
+          *((_QWORD *)a2 + 3),
+          (__int64)v14,
+          *((_QWORD *)a1 + 2));
+      }
+      v9 = WPP_GLOBAL_Control;
+      goto LABEL_24;
+    }
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v11 = Dbg_GuidString((const IID *)((char *)a2 + 8));
+      WPP_SF_DSSSs(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xA3u,
+        v12,
+        v10,
+        (__int64)a3,
+        *((_QWORD *)a2 + 3),
+        (__int64)v11,
+        *((_QWORD *)a1 + 2));
+      v9 = WPP_GLOBAL_Control;
+    }
+    v7 = 9107;
+  }
+LABEL_24:
+  if ( phKey )
+  {
+    NCryptFreeObject(phKey);
+    v9 = WPP_GLOBAL_Control;
+  }
+  if ( hProvider )
+  {
+    NCryptFreeObject(hProvider);
+    v9 = WPP_GLOBAL_Control;
+  }
+  if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v9 + 17) & 0x200000) != 0
+    && *((_BYTE *)v9 + 65) >= 4u )
+  {
+    v16 = Dbg_GuidString((const IID *)((char *)a2 + 8));
+    WPP_SF_DSSSs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xA5u,
+      v17,
+      v7,
+      (__int64)a3,
+      *((_QWORD *)a2 + 3),
+      (__int64)v16,
+      *((_QWORD *)a1 + 2));
+  }
+}
+// 1400F1BDC: variable 'v12' is possibly undefined
+// 1400F1C55: variable 'v15' is possibly undefined
+// 1400F1CE7: variable 'v17' is possibly undefined

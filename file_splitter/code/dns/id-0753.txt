@@ -1,0 +1,189 @@
+//----- (0000000140069A80) ----------------------------------------------------
+__int64 DnsOls_KeyRolloverThread()
+{
+  int v0; // r14d
+  const unsigned __int16 **NextZone; // rbx
+  int v2; // eax
+  unsigned int v3; // edx
+  __int64 v4; // rdi
+  int v5; // r15d
+  __int64 v6; // rdx
+  __int64 v7; // r8
+  unsigned int v8; // eax
+  __int64 v9; // rax
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  unsigned __int16 v11; // dx
+  FILETIME v13; // [rsp+30h] [rbp-20h] BYREF
+  HANDLE Handles[3]; // [rsp+38h] [rbp-18h] BYREF
+  FILETIME FileTime1; // [rsp+A0h] [rbp+50h] BYREF
+  FILETIME FileTime2; // [rsp+A8h] [rbp+58h] BYREF
+
+  if ( !WaitForSingleObject(hDnsShutdownEvent, 0xBB8u) )
+    goto LABEL_64;
+  FileTime1.dwLowDateTime = -1;
+  v0 = -1;
+  for ( FileTime1.dwHighDateTime = -1; ; FileTime1.dwHighDateTime = -1 )
+  {
+    v5 = 0;
+    v4 = 0i64;
+    if ( g_fDnsServiceExit == 1 || !(unsigned int)Thread_ServiceCheck(1) )
+      break;
+    ResetEvent(g_hOlsKeyRolloverEvent);
+    NextZone = Zone_ListGetNextZoneEx(0i64, 0i64, 0);
+    if ( NextZone )
+    {
+      do
+      {
+        if ( *((_DWORD *)NextZone + 93) == 1 && ((_BYTE)NextZone[130] & 6) == 6 )
+        {
+          if ( g_fEnableOnlineSigning || (*((_BYTE *)NextZone + 388) & 1) == 0 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_s(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x57u,
+                (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+                (const char *)NextZone[2]);
+            }
+            if ( !(unsigned int)Zone_LockForRPCSeqEx((__int64)NextZone, 0x2710u) )
+            {
+              if ( !(unsigned int)Zone_LockForWriteEx(
+                                    (__int64)NextZone,
+                                    1,
+                                    0x2710u,
+                                    (__int64)"ds\\dns\\server\\server\\olskeyrollover.c",
+                                    143) )
+              {
+                v2 = *((_DWORD *)NextZone + 260);
+                if ( (v2 & 2) != 0 )
+                {
+                  if ( (v2 & 0x20000) != 0
+                    || (FileTime2.dwLowDateTime = 0,
+                        FileTime2.dwHighDateTime = 0,
+                        !CompareFileTime((const FILETIME *)((char *)NextZone + 1116), &FileTime2)) )
+                  {
+                    if ( !(unsigned int)ZoneScopes_LockAll((__int64)NextZone, 1, 10000, 0i64, 0i64) )
+                    {
+                      calculateZoneNextRollActivityTime((__int64)NextZone);
+                      ZoneScopes_UnLockAll((__int64)NextZone, v3, 0i64);
+                    }
+                  }
+                  v13.dwLowDateTime = 0;
+                  v13.dwHighDateTime = 0;
+                  if ( CompareFileTime((const FILETIME *)((char *)NextZone + 1116), &v13)
+                    && CompareFileTime((const FILETIME *)((char *)NextZone + 1116), &FileTime1) < 0 )
+                  {
+                    v4 = (__int64)NextZone;
+                    FileTime1 = *(FILETIME *)((char *)NextZone + 1116);
+                  }
+                }
+                Zone_UnlockAfterWriteEx((__int64)NextZone, 1, (__int64)"ds\\dns\\server\\server\\olskeyrollover.c", 176);
+              }
+              Lock_ReleaseWrite((__int64)NextZone[39]);
+            }
+          }
+          else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                 && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+                 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_s(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x56u,
+              (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+              (const char *)NextZone[2]);
+          }
+        }
+        NextZone = Zone_ListGetNextZoneEx(0i64, (__int64 *)NextZone, 0);
+      }
+      while ( NextZone );
+      v5 = 0;
+    }
+    if ( g_fDnsServiceExit == 1 || !(unsigned int)Thread_ServiceCheck(1) )
+    {
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v11 = 88;
+        goto LABEL_63;
+      }
+      goto LABEL_64;
+    }
+    if ( v4 )
+    {
+      v8 = OffsetFromCurrentTime(&FileTime1);
+      if ( v8 > 0x418937 )
+      {
+        v8 = 4294967;
+        v5 = 1;
+      }
+      v0 = 1000 * v8;
+      if ( !(1000 * v8) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x59u,
+            (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+            *(const char **)(v4 + 16));
+        }
+LABEL_55:
+        if ( !(unsigned int)Zone_LockForRPCSeqEx(v4, 0x2710u) )
+        {
+          processRollStateMachine((struct _zone_info *)v4);
+          Lock_ReleaseWrite(*(_QWORD *)(v4 + 312));
+        }
+        goto LABEL_57;
+      }
+    }
+    Handles[0] = g_hOlsKeyRolloverEvent;
+    Handles[1] = hDnsShutdownEvent;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( v4 )
+        v9 = *(_QWORD *)(v4 + 16);
+      else
+        v9 = 0i64;
+      WPP_SF_ls(*((_QWORD *)WPP_GLOBAL_Control + 7), v6, v7, v0, v9);
+    }
+    if ( WaitForMultipleObjects(2u, Handles, 0, v0) == 258
+      && !v5
+      && v4
+      && *(int *)(v4 + 432) <= 0
+      && *(_DWORD *)(v4 + 372) == 1
+      && (*(_BYTE *)(v4 + 1040) & 6) == 6
+      && (*(_DWORD *)(v4 + 1040) & 0x20000) == 0 )
+    {
+      goto LABEL_55;
+    }
+LABEL_57:
+    FileTime1.dwLowDateTime = -1;
+    v0 = -1;
+  }
+  v10 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v11 = 85;
+LABEL_63:
+    WPP_SF_(*((_QWORD *)v10 + 7), v11, (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids);
+  }
+LABEL_64:
+  Thread_Close(0);
+  return 0i64;
+}
+// 140069C40: variable 'v3' is possibly undefined
+// 140069DA0: variable 'v6' is possibly undefined
+// 140069DA0: variable 'v7' is possibly undefined
+// 1401B917C: using guessed type int g_fEnableOnlineSigning;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

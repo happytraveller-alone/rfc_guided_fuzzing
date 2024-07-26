@@ -1,0 +1,42 @@
+//----- (0000000140160AE8) ----------------------------------------------------
+__int64 __fastcall Dns_ValidateUtf8Byte(unsigned __int8 a1, int *a2, __int64 a3)
+{
+  int v3; // ebx
+  int v7; // ebx
+
+  v3 = *a2;
+  if ( (byte_1401BA001 & 4) != 0 )
+    WPP_SF_(10i64, (unsigned __int16)&WPP_a032c1cecdd83bda5fde83da36dfaa9e_Traceguids, a3);
+  if ( a1 < 0x80u )
+    return v3 != 0 ? 0xD : 0;
+  if ( (a1 & 0x40) != 0 )
+  {
+    if ( !v3 )
+    {
+      if ( (a1 & 0x20) == 0 )
+      {
+        v7 = 1;
+        goto LABEL_15;
+      }
+      if ( (a1 & 0x10) == 0 )
+      {
+        v7 = 2;
+        goto LABEL_15;
+      }
+      if ( (a1 & 8) == 0 )
+      {
+        v7 = 3;
+        goto LABEL_15;
+      }
+    }
+  }
+  else if ( v3 )
+  {
+    v7 = v3 - 1;
+LABEL_15:
+    *a2 = v7;
+    return 0i64;
+  }
+  return 13i64;
+}
+// 1401BA001: using guessed type char byte_1401BA001;

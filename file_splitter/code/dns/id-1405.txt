@@ -1,0 +1,45 @@
+//----- (00000001400B1390) ----------------------------------------------------
+char *__fastcall NTree_CopyNode(unsigned __int8 *Src)
+{
+  unsigned int v2; // esi
+  char *v3; // rbx
+
+  v2 = 2 * Src[101] + 106;
+  v3 = (char *)Mem_Alloc(v2, 51i64, "ds\\dns\\server\\server\\tree.c", 321);
+  if ( v3 )
+  {
+    _InterlockedIncrement(&dword_1401C8490);
+    _InterlockedIncrement(&dword_1401C848C);
+    _InterlockedExchangeAdd(&dword_1401C8488, v2);
+    _InterlockedExchangeAdd((volatile signed __int32 *)pcDatabaseNodeMemory, v2);
+    memcpy_0(v3, Src, v2);
+    *((_DWORD *)v3 + 23) = *((_DWORD *)Src + 23) & 0x260133;
+    *((_QWORD *)v3 + 6) = v3 + 40;
+    *((_QWORD *)v3 + 5) = v3 + 40;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xEu, (__int64)&WPP_800d841ceeab39a775299d72a602aebb_Traceguids, v3);
+    }
+    return v3;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xDu,
+        (__int64)&WPP_800d841ceeab39a775299d72a602aebb_Traceguids,
+        Src);
+    }
+    return 0i64;
+  }
+}
+// 1401C8488: using guessed type int dword_1401C8488;
+// 1401C848C: using guessed type int dword_1401C848C;
+// 1401C8490: using guessed type int dword_1401C8490;
+// 1401C8630: using guessed type __int64 pcDatabaseNodeMemory;

@@ -1,0 +1,28 @@
+//----- (0000000140124D40) ----------------------------------------------------
+void __fastcall DnsSign::FinalizeNCryptKey(DnsSign *this)
+{
+  int v1; // ebx
+  char v2[56]; // [rsp+28h] [rbp-80h] BYREF
+  char pExceptionObject[56]; // [rsp+60h] [rbp-48h] BYREF
+
+  v1 = NCryptFinalizeKey((NCRYPT_KEY_HANDLE)this, 0x40u);
+  if ( v1 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x14u,
+        (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+        v1);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v2, v1);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v2, 0xD6D8Fu);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v2);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+}

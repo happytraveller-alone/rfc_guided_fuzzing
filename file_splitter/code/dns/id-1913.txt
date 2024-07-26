@@ -1,0 +1,32 @@
+//----- (00000001400E9950) ----------------------------------------------------
+DnsSign::CDnsKeyPair *__fastcall DnsSign::CDnsKeyPair::CDnsKeyPair(DnsSign::CDnsKeyPair *this, __int64 a2)
+{
+  char *v3; // rcx
+  DnsSign::CDnsKeyPair *result; // rax
+  char *v6; // [rsp+40h] [rbp+8h]
+
+  *(_DWORD *)this = 0;
+  v6 = (char *)this + 8;
+  v3 = (char *)this + 24;
+  *(_WORD *)v6 = 0;
+  *((_DWORD *)v6 + 1) = 0;
+  v6[8] = 0;
+  *((_WORD *)v6 + 5) = 0;
+  v6[12] = 0;
+  *((_QWORD *)v3 + 3) = 7i64;
+  *((_QWORD *)v3 + 2) = 0i64;
+  *(_WORD *)v3 = 0;
+  std::wstring::assign(v3, (char *)L"Microsoft Software Key Storage Provider", 0x27ui64);
+  *((_QWORD *)v6 + 10) = 7i64;
+  result = this;
+  *((_QWORD *)v6 + 9) = 0i64;
+  *((_WORD *)v6 + 28) = 0;
+  *((_QWORD *)this + 13) = a2;
+  *((_BYTE *)this + 112) = 0;
+  *((_WORD *)this + 57) = 0;
+  *((_BYTE *)this + 116) = 0;
+  *((_QWORD *)this + 18) = 7i64;
+  *((_QWORD *)this + 17) = 0i64;
+  *((_WORD *)this + 60) = 0;
+  return result;
+}

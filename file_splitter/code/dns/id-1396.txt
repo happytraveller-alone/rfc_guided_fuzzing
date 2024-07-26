@@ -1,0 +1,75 @@
+//----- (00000001400B0AEC) ----------------------------------------------------
+__int64 Tombstone_Trigger()
+{
+  CDnsClientSubnetRecordsTrie *v0; // rcx
+  unsigned __int16 v1; // dx
+  struct _SYSTEMTIME SystemTime; // [rsp+30h] [rbp-28h] BYREF
+
+  if ( dword_1401B9740 )
+  {
+    if ( pServerLdap )
+    {
+      GetLocalTime(&SystemTime);
+      if ( word_1401B8088 == SystemTime.wHour || SystemTime.wHour != 2 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+        {
+          WPP_SF_Ddd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x21u,
+            (__int64)&WPP_17581ef235eb3dfa38ea8181ec00f36d_Traceguids,
+            SystemTime.wHour);
+        }
+      }
+      else if ( Thread_Create("TombstoneThread", (__int64 (__fastcall *)(__int64))Tombstone_Thread, 0i64, 0) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Fu, (__int64)&WPP_17581ef235eb3dfa38ea8181ec00f36d_Traceguids);
+        }
+        word_1401B8088 = SystemTime.wHour;
+      }
+      else
+      {
+        v0 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v1 = 32;
+          goto LABEL_23;
+        }
+      }
+    }
+    else
+    {
+      v0 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v1 = 27;
+        goto LABEL_23;
+      }
+    }
+  }
+  else
+  {
+    v0 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      v1 = 26;
+LABEL_23:
+      WPP_SF_(*((_QWORD *)v0 + 7), v1, (__int64)&WPP_17581ef235eb3dfa38ea8181ec00f36d_Traceguids);
+    }
+  }
+  return 0i64;
+}
+// 1401B8088: using guessed type __int16 word_1401B8088;
+// 1401B9740: using guessed type int dword_1401B9740;

@@ -1,0 +1,171 @@
+//----- (000000014007EAF8) ----------------------------------------------------
+__int64 __fastcall RpcUtil_CheckAdminPrivilege(__int64 a1, __int64 a2, int a3)
+{
+  void *v5; // rbx
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  const char *v7; // r9
+  HANDLE CurrentThread; // rax
+  WINBOOL LastError; // eax
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  unsigned __int16 v12; // dx
+  DWORD v13; // r9d
+  unsigned int v14; // ecx
+  WINBOOL AccessStatus; // [rsp+40h] [rbp-19h] BYREF
+  DWORD AccessMask; // [rsp+44h] [rbp-15h] BYREF
+  void *TokenHandle; // [rsp+48h] [rbp-11h] BYREF
+  DWORD GrantedAccess; // [rsp+50h] [rbp-9h] BYREF
+  DWORD PrivilegeSetLength; // [rsp+54h] [rbp-5h] BYREF
+  struct _GENERIC_MAPPING GenericMapping; // [rsp+58h] [rbp-1h] BYREF
+  struct _PRIVILEGE_SET PrivilegeSet; // [rsp+68h] [rbp+Fh] BYREF
+
+  TokenHandle = 0i64;
+  AccessStatus = 0;
+  GrantedAccess = 0;
+  if ( (!a1 || (v5 = *(void **)(a1 + 360)) == 0i64) && (!a2 || (v5 = *(void **)(a2 + 120)) == 0i64) )
+  {
+    Ds_ReadServerObjectSD(a1, a2, 1);
+    v5 = (void *)g_pServerObjectSD;
+  }
+  v6 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v7 = *(const char **)(a1 + 16);
+    else
+      v7 = "NONE";
+    WPP_SF_sDq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x2Au,
+      (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids,
+      v7);
+    v6 = WPP_GLOBAL_Control;
+  }
+  if ( !v5 )
+  {
+    if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v6 + 68) & 4) != 0
+      && *((_BYTE *)v6 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v6 + 7), 0x2Bu, (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids);
+    }
+    return 9717i64;
+  }
+  CurrentThread = GetCurrentThread();
+  if ( !OpenThreadToken(CurrentThread, 0x20008u, 1, &TokenHandle) || !TokenHandle )
+  {
+    LastError = GetLastError();
+    AccessStatus = LastError;
+    v11 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_57;
+    }
+    v12 = 44;
+    goto LABEL_56;
+  }
+  if ( !IsValidSecurityDescriptor(v5) )
+  {
+    LastError = GetLastError();
+    AccessStatus = LastError;
+    v11 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_57;
+    }
+    v12 = 47;
+LABEL_56:
+    WPP_SF_D(*((_QWORD *)v11 + 7), v12, (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids, LastError);
+    LastError = AccessStatus;
+LABEL_57:
+    if ( !LastError )
+      LastError = 5;
+    v14 = LastError;
+    AccessStatus = LastError;
+LABEL_60:
+    if ( TokenHandle )
+    {
+      CloseHandle(TokenHandle);
+      return (unsigned int)AccessStatus;
+    }
+    return v14;
+  }
+  GenericMapping.GenericRead = 131092;
+  GenericMapping.GenericWrite = 131112;
+  v13 = -1073741824;
+  GenericMapping.GenericExecute = 131076;
+  if ( a3 == 20 )
+    v13 = 0x80000000;
+  GenericMapping.GenericAll = 983423;
+  AccessMask = v13;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x30u, (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids, v13);
+  }
+  MapGenericMask(&AccessMask, &GenericMapping);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x31u,
+      (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids,
+      AccessMask);
+  }
+  PrivilegeSetLength = 20;
+  if ( !AccessCheck(
+          v5,
+          TokenHandle,
+          AccessMask,
+          &GenericMapping,
+          &PrivilegeSet,
+          &PrivilegeSetLength,
+          &GrantedAccess,
+          &AccessStatus) )
+  {
+    LastError = GetLastError();
+    AccessStatus = LastError;
+    v11 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_57;
+    }
+    v12 = 50;
+    goto LABEL_56;
+  }
+  if ( !AccessStatus )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x33u,
+        (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids,
+        AccessMask);
+    }
+    v14 = 5;
+    AccessStatus = 5;
+    goto LABEL_60;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x34u, (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids);
+  }
+  CloseHandle(TokenHandle);
+  return 0i64;
+}
+// 1401C94B0: using guessed type __int64 g_pServerObjectSD;

@@ -1,0 +1,15 @@
+//----- (00000001400378BC) ----------------------------------------------------
+void __fastcall Ds_CleanupModBuffer(__int64 a1)
+{
+  _QWORD *v2; // rcx
+
+  if ( a1 )
+  {
+    v2 = *(_QWORD **)(a1 + 40);
+    if ( v2 )
+    {
+      Mem_Free(v2, 0x40000i64, 10i64, (__int64)"ds\\dns\\server\\server\\ds.c", 1278);
+      *(_QWORD *)(a1 + 40) = 0i64;
+    }
+  }
+}

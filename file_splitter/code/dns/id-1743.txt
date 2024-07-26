@@ -1,0 +1,18 @@
+//----- (00000001400DD9E4) ----------------------------------------------------
+__int64 *__fastcall std::ios_base::getloc(__int64 a1, __int64 *a2)
+{
+  __int64 *v2; // rax
+  __int64 v4; // rbx
+  __int64 v5; // rax
+  char v7; // [rsp+30h] [rbp+8h] BYREF
+
+  v2 = *(__int64 **)(a1 + 64);
+  v4 = *v2;
+  *a2 = *v2;
+  std::_Lockit::_Lockit((std::_Lockit *)&v7, 0);
+  v5 = *(_QWORD *)(v4 + 8);
+  if ( v5 != -1 )
+    *(_QWORD *)(v4 + 8) = v5 + 1;
+  std::_Lockit::~_Lockit((std::_Lockit *)&v7);
+  return a2;
+}

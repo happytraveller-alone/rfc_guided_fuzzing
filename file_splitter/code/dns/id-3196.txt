@@ -1,0 +1,25 @@
+//----- (0000000140169088) ----------------------------------------------------
+_onexit_t __cdecl onexit_0(_onexit_t Func)
+{
+  int (__cdecl *v3)(); // rbx
+  __int64 v4; // [rsp+38h] [rbp+10h] BYREF
+  __int64 v5; // [rsp+40h] [rbp+18h] BYREF
+
+  v4 = _onexitbegin;
+  if ( _onexitbegin == -1 )
+    return (_onexit_t)((__int64 (*)(void))_onexit)();
+  lock_0(8i64);
+  v4 = _onexitbegin;
+  v5 = _onexitend;
+  v3 = (int (__cdecl *)())_dllonexit_0(Func, &v4, &v5);
+  _onexitbegin = v4;
+  _onexitend = v5;
+  unlock_0(8i64);
+  return v3;
+}
+// 140169542: using guessed type __int64 __fastcall lock_0(_QWORD);
+// 14016954E: using guessed type __int64 __fastcall unlock_0(_QWORD);
+// 14016955A: using guessed type __int64 __fastcall _dllonexit_0(_QWORD, _QWORD, _QWORD);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9FD8: using guessed type __int64 _onexitend;
+// 1401B9FE0: using guessed type __int64 _onexitbegin;

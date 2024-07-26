@@ -1,0 +1,23 @@
+//----- (00000001400CB24C) ----------------------------------------------------
+__int64 __fastcall Zone_ListShutdown(const unsigned __int16 **a1)
+{
+  struct _RTL_CRITICAL_SECTION *v2; // rbx
+  __int64 *i; // rdx
+  const unsigned __int16 **NextZone; // rax
+  __int64 *v5; // rdi
+
+  v2 = &csZoneList;
+  if ( a1 )
+    v2 = (struct _RTL_CRITICAL_SECTION *)(a1 + 8);
+  EnterCriticalSection(v2);
+  for ( i = 0i64; ; i = v5 )
+  {
+    NextZone = Zone_ListGetNextZoneEx(a1, i, 0);
+    v5 = (__int64 *)NextZone;
+    if ( !NextZone )
+      break;
+    Zone_FreeSkdList((__int64)NextZone);
+  }
+  LeaveCriticalSection(v2);
+  return DnsDeleteCriticalSection(v2);
+}

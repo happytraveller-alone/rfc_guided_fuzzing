@@ -1,0 +1,8 @@
+//----- (00000001400A55B0) ----------------------------------------------------
+__int64 __fastcall cfg_SetResponseToVersionQueries(__int64 a1)
+{
+  dword_1401B99C4 = *(_DWORD *)(a1 + 8);
+  Version_Initialize();
+  return 0i64;
+}
+// 1401B99C4: using guessed type int dword_1401B99C4;

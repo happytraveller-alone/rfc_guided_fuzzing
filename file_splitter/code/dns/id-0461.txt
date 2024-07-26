@@ -1,0 +1,170 @@
+//----- (000000014003AD38) ----------------------------------------------------
+__int64 __fastcall Ds_DoLocalLdapBind(LDAP *ld, int a2)
+{
+  int v4; // eax
+  unsigned int v5; // ebx
+  __int64 v6; // rdx
+  int LocalPrimaryDomainInfo; // eax
+  char *v8; // rsi
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned __int16 v10; // dx
+  int v11; // eax
+  int nSize[4]; // [rsp+40h] [rbp-C0h] BYREF
+  __int128 ProtocolSubmitBuffer; // [rsp+50h] [rbp-B0h] BYREF
+  WCHAR Buffer[256]; // [rsp+60h] [rbp-A0h] BYREF
+
+  *(_QWORD *)&ProtocolSubmitBuffer = 0i64;
+  nSize[0] = 256;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x62u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, a2);
+  }
+  v4 = ldap_bind_sW(ld, 0i64, 0i64, 0x486u);
+  v5 = v4;
+  if ( v4 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x63u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v4);
+    }
+    return v5;
+  }
+  if ( (unsigned int)Ds_VerifyLDAP_SSP(ld) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x64u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+    }
+    return v5;
+  }
+  if ( !a2 )
+  {
+    ProtocolSubmitBuffer = DNS_EVENT_KERB_AUTH_FAILED;
+    Eventlog_LogEvent((__int64)&ProtocolSubmitBuffer, v6, 0, 0i64, 0i64, 0, 0, 0i64);
+    return v5;
+  }
+  if ( !g_bKdcKerbAvailableOnStartup )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x65u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+    }
+    return 9717;
+  }
+  LocalPrimaryDomainInfo = Ds_GetLocalPrimaryDomainInfo(&ProtocolSubmitBuffer);
+  v8 = (char *)ProtocolSubmitBuffer;
+  v5 = LocalPrimaryDomainInfo;
+  if ( LocalPrimaryDomainInfo )
+  {
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v10 = 102;
+LABEL_58:
+      WPP_SF_D(
+        *((_QWORD *)v9 + 7),
+        v10,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        LocalPrimaryDomainInfo);
+    }
+  }
+  else if ( GetComputerNameExW(ComputerNameDnsFullyQualified, Buffer, (LPDWORD)nSize) )
+  {
+    LocalPrimaryDomainInfo = Ds_PinAuthToDC(v8, (char *)Buffer);
+    v5 = LocalPrimaryDomainInfo;
+    if ( !LocalPrimaryDomainInfo )
+    {
+      v11 = ldap_bind_sW(ld, 0i64, 0i64, 0x486u);
+      v5 = v11;
+      if ( v11 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x69u,
+            (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+            v11);
+        }
+      }
+      else if ( (unsigned int)Ds_VerifyLDAP_SSP(ld) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x6Au, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+        }
+      }
+      else
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x6Bu, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+        }
+        v5 = 9717;
+      }
+      *(_QWORD *)&ProtocolSubmitBuffer = 1025i64;
+      LocalPrimaryDomainInfo = Ds_CallAuthenticationPackages(&ProtocolSubmitBuffer, 8u);
+      if ( !LocalPrimaryDomainInfo )
+        goto LABEL_59;
+      v5 = LocalPrimaryDomainInfo;
+      v9 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_59;
+      }
+      v10 = 108;
+      goto LABEL_58;
+    }
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v10 = 104;
+      goto LABEL_58;
+    }
+  }
+  else
+  {
+    LocalPrimaryDomainInfo = GetLastError();
+    v5 = LocalPrimaryDomainInfo;
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v10 = 103;
+      goto LABEL_58;
+    }
+  }
+LABEL_59:
+  if ( v8 )
+    Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 4999);
+  return v5;
+}
+// 14003AE89: variable 'v6' is possibly undefined
+// 140186D20: using guessed type __int128 DNS_EVENT_KERB_AUTH_FAILED;
+// 1401EC334: using guessed type int g_bKdcKerbAvailableOnStartup;
+// 14003AD38: using guessed type DWORD nSize[4];

@@ -1,0 +1,53 @@
+//----- (0000000140168070) ----------------------------------------------------
+void **std::locale::_Init(void)
+{
+  void **v0; // rbx
+  void **v1; // rax
+  char *v2; // rax
+  void **v4; // [rsp+40h] [rbp+8h] BYREF
+  char v5; // [rsp+48h] [rbp+10h] BYREF
+
+  v0 = (void **)qword_1401B85A0;
+  if ( !qword_1401B85A0 )
+  {
+    std::_Lockit::_Lockit((std::_Lockit *)&v5, 0);
+    v0 = (void **)qword_1401B85A0;
+    if ( !qword_1401B85A0 )
+    {
+      v1 = (void **)operator new(0x38ui64);
+      v0 = v1;
+      v4 = v1;
+      if ( v1 )
+      {
+        v1[1] = (void *)1;
+        *v1 = &std::locale::_Locimp::`vftable';
+        v1[2] = 0i64;
+        v1[3] = 0i64;
+        *((_DWORD *)v1 + 8) = 0;
+        *((_BYTE *)v1 + 36) = 0;
+        v1[5] = 0i64;
+        *((_BYTE *)v1 + 48) = 0;
+        std::_Yarn<char>::operator=(v1 + 5, "*");
+      }
+      else
+      {
+        v0 = 0i64;
+      }
+      std::locale::_Setgloballocale(v0);
+      *((_DWORD *)v0 + 8) = 63;
+      std::_Yarn<char>::operator=(v0 + 5, "C");
+      std::locale::_Locimp::_Clocptr = (struct std::locale::_Locimp *)v0;
+      std::_Lockit::_Lockit((std::_Lockit *)&v4, 0);
+      v2 = (char *)v0[1];
+      if ( v2 != (char *)-1i64 )
+        v0[1] = v2 + 1;
+      std::_Lockit::~_Lockit((std::_Lockit *)&v4);
+      qword_1401B85D8 = (__int64)std::locale::_Locimp::_Clocptr;
+    }
+    std::_Lockit::~_Lockit((std::_Lockit *)&v5);
+  }
+  return v0;
+}
+// 1401710C0: using guessed type void *std::locale::_Locimp::`vftable';
+// 1401B8590: using guessed type struct std::locale::_Locimp *std::locale::_Locimp::_Clocptr;
+// 1401B85D8: using guessed type __int64 qword_1401B85D8;

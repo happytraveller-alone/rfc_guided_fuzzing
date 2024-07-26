@@ -1,0 +1,32 @@
+//----- (0000000140045BC0) ----------------------------------------------------
+void __fastcall writeDnsAddrArrayDsPropertyStruct(_QWORD *a1, int a2, _DWORD *a3, int a4)
+{
+  unsigned int v4; // ebx
+  unsigned int *v7; // rdi
+  unsigned int *Ip4Array; // rax
+
+  v4 = 0;
+  if ( a4 )
+  {
+    if ( a3 )
+      v4 = (a3[1] << 6) + 32;
+    writeDsPropertyStruct(a1, a2, a3, v4);
+  }
+  else
+  {
+    v7 = 0i64;
+    if ( (unsigned int)g_ulDsForestVersion < 3 )
+    {
+      if ( a3 )
+      {
+        Ip4Array = DnsAddrArray_CreateIp4Array((__int64)a3);
+        v7 = Ip4Array;
+        if ( Ip4Array )
+          v4 = 4 * *Ip4Array + 4;
+      }
+      writeDsPropertyStruct(a1, a2, v7, v4);
+      Mem_Free(v7, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 15448);
+    }
+  }
+}
+// 1401B7F3C: using guessed type int g_ulDsForestVersion;

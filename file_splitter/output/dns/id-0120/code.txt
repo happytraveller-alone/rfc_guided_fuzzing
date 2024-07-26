@@ -1,0 +1,470 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 120
+// Total lines: 345
+
+//----- (000000014000F718) ----------------------------------------------------
+__int64 __fastcall setupZoneFromRegistry(HKEY a1, unsigned __int16 *a2, __int64 a3, const wchar_t **a4)
+{
+  __int64 v5; // rsi
+  unsigned __int16 *v6; // rdi
+  const wchar_t *v8; // rax
+  int v9; // eax
+  __int64 v10; // rdx
+  int v11; // r15d
+  __int64 v12; // rdx
+  int v13; // eax
+  __int64 v14; // rdx
+  unsigned int v15; // r12d
+  int v16; // ebx
+  unsigned int RegistryZoneExtensions; // ebx
+  WCHAR *v18; // r14
+  WCHAR *v19; // r15
+  const WCHAR *v20; // rcx
+  char *v21; // rax
+  __int64 v22; // rdx
+  __int64 v23; // rdx
+  const wchar_t *v24; // rax
+  __int128 v25; // xmm0
+  int v26; // esi
+  _DWORD *v27; // roff
+  __int64 v28; // rcx
+  __int64 v29; // rdx
+  unsigned int *AddrArray; // rax
+  const wchar_t *v31; // rax
+  __int64 v32; // rdx
+  __int64 v33; // rdx
+  _DWORD *v34; // r14
+  const wchar_t *v35; // rax
+  int v37; // [rsp+4Ch] [rbp-35h] BYREF
+  unsigned int v38; // [rsp+50h] [rbp-31h] BYREF
+  char *v39; // [rsp+58h] [rbp-29h]
+  __int128 v40; // [rsp+68h] [rbp-19h] BYREF
+  WCHAR *v41; // [rsp+78h] [rbp-9h]
+  int v42; // [rsp+80h] [rbp-1h] BYREF
+  unsigned int *v43; // [rsp+88h] [rbp+7h]
+  __int128 v44[4]; // [rsp+98h] [rbp+17h] BYREF
+  unsigned __int16 *v46; // [rsp+F0h] [rbp+6Fh] BYREF
+  _DWORD *v47; // [rsp+F8h] [rbp+77h]
+
+  v47 = (_DWORD *)a3;
+  v46 = a2;
+  v5 = 0i64;
+  *(_QWORD *)&v44[0] = 0i64;
+  v37 = 0;
+  v6 = a2;
+  v38 = 0;
+  v42 = 0;
+  v41 = 0i64;
+  v43 = 0i64;
+  *(_QWORD *)&v40 = 0i64;
+  v39 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a4 )
+      v8 = *a4;
+    else
+      v8 = L".";
+    WPP_SF_SSq(*((_QWORD *)WPP_GLOBAL_Control + 7), (__int64)a2, a3, a2, (__int64)v8);
+  }
+  v9 = Reg_ReadDwordValue(a1, v6, (const unsigned __int16 *)"Type", 0, &v37);
+  v11 = v9;
+  if ( v9 )
+  {
+    v40 = DNS_EVENT_INVALID_ZONE_TYPE;
+    Eventlog_LogEvent((__int64)&v40, v10, 1u, &v46, 0i64, v9, 0, 0i64);
+LABEL_57:
+    if ( !v11 )
+      v11 = 13;
+    RegistryZoneExtensions = v11;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( a4 )
+        v31 = *a4;
+      else
+        v31 = L".";
+      WPP_SF_SSD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x15u,
+        (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+        v46,
+        (__int64)v31);
+    }
+    v40 = DNS_EVENT_INVALID_REGISTRY_ZONE;
+    Eventlog_LogEvent((__int64)&v40, v12, 1u, &v46, 0i64, v11, 0, 0i64);
+    v6 = v46;
+    v19 = v41;
+LABEL_85:
+    if ( v5 && *(char *)(v5 + 428) < 0 && *(_DWORD *)(v5 + 404) == GetCurrentThreadId() )
+      Zone_UnlockAfterWriteEx(v5, 1, (__int64)"ds\\dns\\server\\server\\boot.c", 162);
+    LODWORD(v5) = 0;
+LABEL_90:
+    v18 = (WCHAR *)v39;
+    goto LABEL_91;
+  }
+  v13 = Reg_ReadDwordValue(a1, v6, (const unsigned __int16 *)"DsIntegrated", 1, &v38);
+  v15 = v38;
+  v11 = v13;
+  v16 = v37;
+  if ( !v38 )
+  {
+    v41 = (WCHAR *)Reg_GetValueAllocate(a1, 0i64, (const char *)L"DatabaseFile", -268435455, 0i64);
+    if ( !v41 && v16 == 1 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        if ( a4 )
+          v24 = *a4;
+        else
+          v24 = L".";
+        WPP_SF_SS(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xFu,
+          (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+          v6,
+          (__int64)v24);
+      }
+      v25 = DNS_EVENT_NO_ZONE_FILE;
+      goto LABEL_56;
+    }
+LABEL_36:
+    if ( !v16 )
+    {
+      v38 = 0;
+      v26 = 1;
+      if ( !(unsigned int)Reg_ReadDwordValue(a1, v6, (const unsigned __int16 *)"PluginEnabled", 0, &v42) )
+      {
+        v26 = 0;
+        v27 = (_DWORD *)(g_pCacheZone + 396);
+        *(_DWORD *)(g_pCacheZone + 396) &= ~0x20000u;
+        *v27 |= (v42 != 0) << 17;
+      }
+      RegistryZoneExtensions = Reg_ReadDwordValue(a1, v6, (const unsigned __int16 *)"EnablePolicies", 0, &v38);
+      if ( !RegistryZoneExtensions )
+      {
+        v28 = g_pCacheZone;
+        v26 = 0;
+        *(_DWORD *)(g_pCacheZone + 304) = v38 != 0;
+      }
+      if ( v26 )
+      {
+        v19 = v41;
+        Zone_DatabaseSetup_W(v28, v15, v41);
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x10u, (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids);
+        }
+        Reg_DeleteZone(0i64, v29, v6);
+        RegistryZoneExtensions = 1168673;
+        LODWORD(v5) = 1;
+      }
+      else
+      {
+        LODWORD(v5) = 0;
+        v19 = v41;
+      }
+      goto LABEL_90;
+    }
+    if ( (unsigned int)(v16 - 2) > 2 )
+    {
+      AddrArray = 0i64;
+LABEL_68:
+      v19 = v41;
+      RegistryZoneExtensions = Zone_CreateEx_W((__int64 *)v44, v16, v6, AddrArray, v15, v41, a4);
+      if ( RegistryZoneExtensions )
+      {
+        v40 = DNS_EVENT_REG_ZONE_CREATION_FAILED;
+        Eventlog_LogEvent((__int64)&v40, v32, 1u, &v46, 0i64, RegistryZoneExtensions, 0, 0i64);
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x12u, (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids);
+        }
+        v6 = v46;
+        v5 = *(_QWORD *)&v44[0];
+      }
+      else
+      {
+        v5 = *(_QWORD *)&v44[0];
+        if ( v15 && (RegistryZoneExtensions = Ds_SetZoneDp(*(__int64 *)&v44[0], v40, 0)) != 0 )
+        {
+          v40 = DNS_EVENT_REG_ZONE_CREATION_FAILED;
+          Eventlog_LogEvent((__int64)&v40, v33, 1u, &v46, 0i64, RegistryZoneExtensions, 0, 0i64);
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x13u,
+              (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids);
+          }
+          v6 = v46;
+        }
+        else
+        {
+          RegistryZoneExtensions = loadRegistryZoneExtensions(a1, v5);
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x14u,
+              (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids);
+          }
+        }
+      }
+      goto LABEL_85;
+    }
+    AddrArray = Reg_GetAddrArrayEx(a1, 0i64, "MasterServers", 0, 0i64);
+    v43 = AddrArray;
+    if ( AddrArray )
+    {
+      if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0 )
+      {
+        Dbg_DnsAddrArray("Masters from registry", (__int64)AddrArray);
+        AddrArray = v43;
+      }
+      goto LABEL_68;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x11u,
+        (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+        v16,
+        (__int64)v6);
+    }
+    v25 = DNS_EVENT_SECONDARY_REQUIRES_MASTERS;
+LABEL_56:
+    v40 = v25;
+    Eventlog_LogEvent((__int64)&v40, v23, 1u, &v46, 0i64, 0, 0, 0i64);
+    goto LABEL_57;
+  }
+  if ( dword_1401B9740 )
+  {
+    v21 = (char *)Reg_GetValueAllocate(a1, 0i64, (const char *)L"DirectoryPartition", -16777215, 0i64);
+    v39 = v21;
+    if ( v21 )
+    {
+      *(_QWORD *)&v40 = Dp_FindByFqdn(v21);
+      if ( !(_QWORD)v40 )
+      {
+        RegistryZoneExtensions = 13;
+        v18 = (WCHAR *)v39;
+        LOWORD(v37) = 769;
+        v44[0] = DNS_EVENT_DS_REGISTRY_DP_INVALID;
+        *(_QWORD *)&v40 = v6;
+        *((_QWORD *)&v40 + 1) = v39;
+        Eventlog_LogEvent((__int64)v44, v22, 2u, (unsigned __int16 **)&v40, (unsigned __int8 *)&v37, 13, 0, 0i64);
+        goto LABEL_14;
+      }
+    }
+    goto LABEL_36;
+  }
+  RegistryZoneExtensions = 1168899;
+  if ( dword_1401B9744 )
+  {
+    v40 = DNS_EVENT_DS_ZONE_OPEN_FAILED;
+    Eventlog_LogEvent((__int64)&v40, v14, 1u, &v46, 0i64, 1168899, 0, 0i64);
+    v6 = v46;
+    v18 = 0i64;
+LABEL_14:
+    v19 = 0i64;
+    goto LABEL_91;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_S(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xEu, (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids, v6);
+  }
+  if ( a4 )
+    v20 = *a4;
+  else
+    v20 = 0i64;
+  Reg_DeleteZone(v20, v14, v6);
+  v19 = v41;
+  LODWORD(v5) = 1;
+  v18 = v41;
+LABEL_91:
+  Mem_Free(v19, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\boot.c", 679);
+  Mem_Free(v43, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\boot.c", 680);
+  Mem_Free(v18, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\boot.c", 681);
+  RegCloseKey(a1);
+  v34 = v47;
+  if ( v47 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      if ( a4 )
+        v35 = *a4;
+      else
+        v35 = L".";
+      WPP_SF_SS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x16u,
+        (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+        v6,
+        (__int64)v35);
+    }
+    *v34 = v5;
+  }
+  return RegistryZoneExtensions;
+}
+// 14000F813: variable 'v10' is possibly undefined
+// 14000F892: variable 'v14' is possibly undefined
+// 14000F98D: variable 'v22' is possibly undefined
+// 14000FACE: variable 'v28' is possibly undefined
+// 14000FB0C: variable 'v29' is possibly undefined
+// 14000FBD6: variable 'v23' is possibly undefined
+// 14000FC69: variable 'v12' is possibly undefined
+// 14000FCDA: variable 'v32' is possibly undefined
+// 14000FD69: variable 'v33' is possibly undefined
+// 140185F58: using guessed type __int128 DNS_EVENT_REG_ZONE_CREATION_FAILED;
+// 140186708: using guessed type __int128 DNS_EVENT_SECONDARY_REQUIRES_MASTERS;
+// 140186828: using guessed type __int128 DNS_EVENT_NO_ZONE_FILE;
+// 140186BD8: using guessed type __int128 DNS_EVENT_DS_ZONE_OPEN_FAILED;
+// 140187A38: using guessed type __int128 DNS_EVENT_DS_REGISTRY_DP_INVALID;
+// 140187A68: using guessed type __int128 DNS_EVENT_INVALID_ZONE_TYPE;
+// 140187B08: using guessed type __int128 DNS_EVENT_INVALID_REGISTRY_ZONE;
+// 140188028: using guessed type wchar_t aDirectoryparti_1[19];
+// 140188050: using guessed type wchar_t aDatabasefile_0[13];
+// 1401B9740: using guessed type int dword_1401B9740;
+// 1401B9744: using guessed type int dword_1401B9744;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

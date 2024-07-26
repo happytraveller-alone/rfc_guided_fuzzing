@@ -1,0 +1,32 @@
+//----- (000000014014A1C8) ----------------------------------------------------
+__int64 __fastcall Decrement_ClientSubnetRecordReference(const void **a1)
+{
+  __int64 v1; // rax
+  _DWORD *v3; // r9
+  _DWORD *v4; // r9
+  __int64 v5; // [rsp+48h] [rbp+10h] BYREF
+
+  v1 = *std::_Tree<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::find(
+          (__int64)a1,
+          &v5,
+          a1);
+  if ( v1 == qword_1401B93E8 )
+    return 9976i64;
+  v3 = *(_DWORD **)(v1 + 64);
+  --*v3;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v4 = v3 + 2;
+    if ( *((_QWORD *)v4 + 3) >= 8ui64 )
+      v4 = *(_DWORD **)v4;
+    WPP_SF_SD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x23u,
+      (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+      (const unsigned __int16 *)v4);
+  }
+  return 0i64;
+}
+// 1401B93E8: using guessed type __int64 qword_1401B93E8;

@@ -1,0 +1,57 @@
+//----- (00000001401189F8) ----------------------------------------------------
+ULONG WPP_SF_qqdsd(TRACEHANDLE a1, __int64 a2, __int64 a3, ...)
+{
+  __int64 v3; // rdx
+  __int64 v4; // rdx
+  const char *v5; // rax
+  __int64 v7; // [rsp+A8h] [rbp+20h] BYREF
+  va_list va; // [rsp+A8h] [rbp+20h]
+  __int64 v9; // [rsp+B0h] [rbp+28h] BYREF
+  va_list va1; // [rsp+B0h] [rbp+28h]
+  __int64 v11; // [rsp+B8h] [rbp+30h] BYREF
+  va_list va2; // [rsp+B8h] [rbp+30h]
+  const char *v13; // [rsp+C0h] [rbp+38h]
+  va_list va3; // [rsp+C8h] [rbp+40h] BYREF
+
+  va_start(va3, a3);
+  va_start(va2, a3);
+  va_start(va1, a3);
+  va_start(va, a3);
+  v7 = va_arg(va1, _QWORD);
+  va_copy(va2, va1);
+  v9 = va_arg(va2, _QWORD);
+  va_copy(va3, va2);
+  v11 = va_arg(va3, _QWORD);
+  v13 = va_arg(va3, const char *);
+  if ( v13 )
+  {
+    v3 = -1i64;
+    do
+      ++v3;
+    while ( v13[v3] );
+    v4 = v3 + 1;
+  }
+  else
+  {
+    v4 = 5i64;
+  }
+  v5 = "NULL";
+  if ( v13 )
+    v5 = v13;
+  return TraceMessage(
+           a1,
+           0x2Bu,
+           &WPP_772ae84e4aa83dd2ec494ba833f0aab1_Traceguids,
+           0x12u,
+           va,
+           8i64,
+           va1,
+           8i64,
+           va2,
+           4i64,
+           v5,
+           v4,
+           va3,
+           4i64,
+           0i64);
+}

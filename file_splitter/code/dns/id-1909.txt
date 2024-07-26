@@ -1,0 +1,5 @@
+//----- (00000001400E9870) ----------------------------------------------------
+void __fastcall DnsSign::CException::SetDnsSignErrorCode(DnsSign::CException *this, int a2)
+{
+  *((_DWORD *)this + 3) = a2;
+}

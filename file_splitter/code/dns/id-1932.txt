@@ -1,0 +1,44 @@
+//----- (00000001400EAD10) ----------------------------------------------------
+void **__fastcall DnsOls_PublishAllZoneKSKsAsTrustAnchors(__int64 a1)
+{
+  void **result; // rax
+  __int64 v3; // rdi
+  __int64 v4; // rcx
+  unsigned __int16 *i; // r9
+  __int64 NextRecord; // rax
+  unsigned __int16 *v7; // rbx
+  void *retaddr; // [rsp+38h] [rbp+0h] BYREF
+  unsigned int v9; // [rsp+40h] [rbp+8h] BYREF
+  _QWORD *v10; // [rsp+48h] [rbp+10h] BYREF
+
+  result = &retaddr;
+  v10 = 0i64;
+  v3 = *(_QWORD *)(a1 + 40);
+  if ( v3 )
+  {
+    if ( *(_QWORD *)(v3 + 64) )
+    {
+      v9 = -1;
+      acquireRead(DbaseLock, 0xFFFFFFFF, &v9);
+      v10 = (_QWORD *)RR_ListCopy(v4, *(unsigned __int16 **)(v3 + 64), 0);
+      v9 = -1;
+      result = (void **)releaseRead(DbaseLock, &v9, 1);
+      if ( v10 )
+      {
+        for ( i = (unsigned __int16 *)&v10; ; i = v7 )
+        {
+          NextRecord = RR_FindNextRecordEx(v3, 0, 0x30u, (__int64)i, 0, 0);
+          v7 = (unsigned __int16 *)NextRecord;
+          if ( !NextRecord )
+            break;
+          if ( (ntohs(*(_WORD *)(NextRecord + 56)) & 1) != 0 )
+            DnsOls_PublishOrRemoveKeyAsTrustAnchor(a1, 0i64, v7, 1);
+        }
+        return (void **)RR_ListFree(v10);
+      }
+    }
+  }
+  return result;
+}
+// 1400EAD5F: variable 'v4' is possibly undefined
+// 1401EC5E8: using guessed type __int64 DbaseLock;

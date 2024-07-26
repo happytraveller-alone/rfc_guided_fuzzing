@@ -1,0 +1,7 @@
+//----- (000000014012B3B8) ----------------------------------------------------
+__int64 __fastcall std::numpunct<unsigned short>::falsename(__int64 a1, __int64 a2)
+{
+  (*(void (__fastcall **)(__int64))(*(_QWORD *)a1 + 32i64))(a1);
+  return a2;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

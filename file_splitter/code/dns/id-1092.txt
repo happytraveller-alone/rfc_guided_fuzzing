@@ -1,0 +1,60 @@
+//----- (000000014008E794) ----------------------------------------------------
+__int64 __fastcall cleanRecordListForNewCname(__int64 a1)
+{
+  unsigned int v1; // ebx
+  int v3; // ebp
+  __int64 *v4; // r14
+  __int64 v5; // rdi
+  unsigned __int16 v6; // r8
+  int IndexForType; // eax
+  __int64 v9; // [rsp+20h] [rbp-18h]
+
+  v1 = 0;
+  if ( !a1 || (v3 = 1, !*(_QWORD *)(a1 + 64)) )
+    v3 = 0;
+  v4 = (__int64 *)(a1 + 64);
+  while ( 1 )
+  {
+    v5 = *v4;
+    if ( !*v4 )
+      break;
+    v6 = *(_WORD *)(v5 + 12);
+    if ( v6 > 0x34u )
+      IndexForType = (unsigned __int16)QueryIndexForType(v6);
+    else
+      IndexForType = v6;
+    if ( *((_BYTE *)&unk_1401B8261 + 6 * IndexForType) || (*(_BYTE *)(v5 + 8) & 1) != 0 && v6 == 6 )
+    {
+      v4 = (__int64 *)v5;
+    }
+    else
+    {
+      if ( (*(_BYTE *)(v5 + 8) & 1) == 0 )
+      {
+        NTree_ChangeAncestorCounters((volatile signed __int32 **)a1, v3);
+        v1 = 9709;
+        break;
+      }
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        LODWORD(v9) = v6;
+        WPP_SF_qdq(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x61u,
+          (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+          v5,
+          v9,
+          a1);
+      }
+      *v4 = *(_QWORD *)v5;
+      RR_Free(v5);
+      *(_DWORD *)(a1 + 76) = 0;
+    }
+  }
+  insertNodeIntoTimeoutSystem(a1);
+  return v1;
+}
+// 14008E80E: variable 'v6' is possibly undefined
+// 14008E856: variable 'v9' is possibly undefined

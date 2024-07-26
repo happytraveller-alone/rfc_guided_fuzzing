@@ -1,0 +1,152 @@
+//----- (0000000140050ED4) ----------------------------------------------------
+__int64 __fastcall ExportRecords(HANDLE hFile, __int64 *a2, unsigned __int16 a3, unsigned int a4, int a5)
+{
+  __int64 v5; // rsi
+  unsigned int v7; // ebx
+  __int64 v8; // rbx
+  __int64 NextRecord; // rax
+  __int64 (__fastcall *v10)(__int64, char *, char *, __int64); // rax
+  char *v11; // rax
+  __int64 v12; // rax
+  _QWORD *v13; // rcx
+  int v16; // [rsp+34h] [rbp-CCh]
+  __int64 v17; // [rsp+38h] [rbp-C8h]
+  __int64 *v19; // [rsp+48h] [rbp-B8h]
+  unsigned __int8 v21[272]; // [rsp+60h] [rbp-A0h] BYREF
+  char v22; // [rsp+170h] [rbp+70h] BYREF
+  __int64 v23; // [rsp+171h] [rbp+71h]
+  __int16 v24; // [rsp+179h] [rbp+79h]
+  char v25[256]; // [rsp+180h] [rbp+80h] BYREF
+  char v26[257]; // [rsp+280h] [rbp+180h] BYREF
+  char v27[15]; // [rsp+381h] [rbp+281h] BYREF
+  char v28[1023]; // [rsp+390h] [rbp+290h] BYREF
+  char v29; // [rsp+78Fh] [rbp+68Fh] BYREF
+
+  v5 = a4;
+  memset_0(v26, 0, sizeof(v26));
+  memset_0(v21, 0, 0x102ui64);
+  v16 = 0;
+  v7 = 0;
+  if ( hFile )
+  {
+    if ( a2 )
+    {
+      if ( !a5 )
+      {
+        Name_NodeToCountName(v21, a2, 0);
+        if ( !Name_WriteCountNameToBufferAsDottedName(v26, (unsigned __int64)v27, v21, 1) )
+        {
+          v7 = 234;
+          SetLastError(0xEAu);
+          return v7;
+        }
+        FormattedWriteFile(hFile, "\r\n");
+        if ( (int)v5 > 0 )
+        {
+          v8 = v5;
+          do
+          {
+            FormattedWriteFile(hFile, "\t");
+            --v8;
+          }
+          while ( v8 );
+          v7 = 0;
+        }
+        FormattedWriteFile(hFile, "%s\r\n", v26);
+      }
+      memset_0(v28, 0, 0x400ui64);
+      v22 = 0;
+      v23 = 0i64;
+      v24 = 0;
+      NextRecord = RR_FindNextRecordEx((__int64)a2, 0, a3, 0i64, 0, 0);
+      v17 = NextRecord;
+      if ( NextRecord )
+      {
+        do
+        {
+          ++v16;
+          v10 = (__int64 (__fastcall *)(__int64, char *, char *, __int64))RR_DispatchFunctionForType(
+                                                                            (__int64)&RRFileWriteTable,
+                                                                            *(_WORD *)(NextRecord + 12));
+          if ( !v10 )
+            return GetLastError();
+          if ( !v10(v17, v28, &v29, a2[7]) )
+            return 234;
+          FormattedWriteFile(hFile, "\t");
+          if ( (int)v5 > 0 )
+          {
+            v5 = (unsigned int)v5;
+            do
+            {
+              FormattedWriteFile(hFile, "\t");
+              --v5;
+            }
+            while ( v5 );
+            v5 = a4;
+          }
+          v11 = Dns_RecordStringForAllTypes(*(unsigned __int16 *)(v17 + 12), &v22);
+          FormattedWriteFile(hFile, "%s\t%s", v11, v28);
+          if ( a3 == 2 )
+          {
+            memset_0(v25, 0, sizeof(v25));
+            if ( Name_WriteCountNameToBufferAsDottedName(v25, (unsigned __int64)v26, (unsigned __int8 *)(v17 + 56), 1) )
+            {
+              v12 = Lookup_ZoneTreeNodeFromDottedNameEx(v25, 0, 0, 0i64);
+              if ( v12 && (v13 = *(_QWORD **)(v12 + 56)) != 0i64 )
+              {
+                v19 = (__int64 *)Lookup_ZoneNodeFromDotted(v13, v25, 0, 16, 0i64, 0i64);
+                if ( v19 )
+                {
+                  FormattedWriteFile(hFile, "\r\n\t\t\tA records corresponding to glue records\r\n");
+                  v7 = ExportRecords(hFile, v19, 1u, 3u, 1);
+                  if ( v7 )
+                    return v7;
+                  FormattedWriteFile(hFile, "\r\n\t\t\tAAAA records corresponding to glue records\r\n");
+                  v7 = ExportRecords(hFile, v19, 0x1Cu, 3u, 1);
+                  if ( v7 )
+                    return v7;
+                }
+                else
+                {
+                  FormattedWriteFile(hFile, "\t\t\tGlue record is missing in the zone!\r\n");
+                }
+              }
+              else
+              {
+                FormattedWriteFile(hFile, "\t\t\tThis record is outside of the zones hosted on this server\r\n");
+              }
+            }
+          }
+          memset_0(v28, 0, 0x400ui64);
+          v22 = 0;
+          v23 = 0i64;
+          v24 = 0;
+          NextRecord = RR_FindNextRecordEx((__int64)a2, 0, a3, v17, 0, 0);
+          v17 = NextRecord;
+        }
+        while ( NextRecord );
+        if ( v16 )
+          return v7;
+      }
+      FormattedWriteFile(hFile, "\r\n");
+      if ( (int)v5 > 0 )
+      {
+        do
+        {
+          FormattedWriteFile(hFile, "\t");
+          --v5;
+        }
+        while ( v5 );
+      }
+      FormattedWriteFile(hFile, "\tNo records present");
+    }
+  }
+  else
+  {
+    return 87;
+  }
+  return v7;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B5F60: using guessed type __int64 (__fastcall *RRFileWriteTable)();
+// 140050ED4: using guessed type char var_42F[15];

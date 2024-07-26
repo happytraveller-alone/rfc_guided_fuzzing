@@ -1,0 +1,5 @@
+//----- (00000001400DD6A0) ----------------------------------------------------
+char __fastcall std::codecvt_base::do_always_noconv(std::codecvt_base *this)
+{
+  return 1;
+}

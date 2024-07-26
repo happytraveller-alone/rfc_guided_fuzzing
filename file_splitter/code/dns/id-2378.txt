@@ -1,0 +1,15 @@
+//----- (0000000140123928) ----------------------------------------------------
+__int64 (__fastcall *__fastcall RR_GetCanonicalizedRdataSize(__int64 a1, _WORD *a2))(__int64, _WORD *)
+{
+  __int64 (__fastcall *result)(__int64, _WORD *); // rax
+
+  result = (__int64 (__fastcall *)(__int64, _WORD *))RR_DispatchFunctionForType(
+                                                       (__int64)RRCanonicalDataSizeTable,
+                                                       *(_WORD *)(a1 + 12));
+  if ( result )
+    return (__int64 (__fastcall *)(__int64, _WORD *))result(a1, a2);
+  *a2 = 0;
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B6660: using guessed type __int64 (__fastcall *RRCanonicalDataSizeTable[22])();

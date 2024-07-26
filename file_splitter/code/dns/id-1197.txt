@@ -1,0 +1,91 @@
+//----- (0000000140099870) ----------------------------------------------------
+__int64 __fastcall createWellKnownSid(WELL_KNOWN_SID_TYPE WellKnownSidType, PSID *a2)
+{
+  DWORD LastError; // ebx
+  void *v5; // rax
+  PSID *v6; // rdx
+  LSA_HANDLE v7; // rcx
+  NTSTATUS InformationPolicy; // eax
+  CDnsClientSubnetRecordsTrie *v9; // r10
+  unsigned __int16 v10; // dx
+  __int64 v11; // rcx
+  int v12; // r9d
+  struct _LSA_OBJECT_ATTRIBUTES ObjectAttributes; // [rsp+30h] [rbp-38h] BYREF
+  DWORD cbSid; // [rsp+78h] [rbp+10h] BYREF
+
+  LastError = 0;
+  cbSid = 68;
+  v5 = Mem_Alloc(0x44u, 0i64, "ds\\dns\\server\\server\\security.c", 402);
+  *a2 = v5;
+  if ( v5 )
+  {
+    v6 = (PSID *)g_pDnsPolicyInfo;
+    if ( !g_pDnsPolicyInfo )
+    {
+      v7 = g_LsaHandle;
+      if ( !g_LsaHandle )
+      {
+        ObjectAttributes.Length = 0;
+        memset_0(&ObjectAttributes.RootDirectory, 0, (unsigned int)((_DWORD)g_pDnsPolicyInfo + 40));
+        InformationPolicy = LsaOpenPolicy(0i64, &ObjectAttributes, 0xF0FFFu, &g_LsaHandle);
+        if ( InformationPolicy || (v7 = g_LsaHandle) == 0i64 )
+        {
+          LastError = InformationPolicy;
+          v9 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            v10 = 12;
+LABEL_11:
+            v11 = *((_QWORD *)v9 + 7);
+            v12 = InformationPolicy;
+LABEL_23:
+            WPP_SF_D(v11, v10, (__int64)&WPP_dbf3f831936d348c620109e06a2c93ef_Traceguids, v12);
+            goto LABEL_24;
+          }
+          goto LABEL_24;
+        }
+      }
+      InformationPolicy = LsaQueryInformationPolicy(v7, PolicyDnsDomainInformation, &g_pDnsPolicyInfo);
+      if ( InformationPolicy )
+      {
+        LastError = InformationPolicy;
+        v9 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v10 = 13;
+          goto LABEL_11;
+        }
+LABEL_24:
+        if ( !LastError )
+          return LastError;
+        goto LABEL_25;
+      }
+      v6 = (PSID *)g_pDnsPolicyInfo;
+    }
+    if ( CreateWellKnownSid(WellKnownSidType, v6[8], *a2, &cbSid) )
+      return LastError;
+    LastError = GetLastError();
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_24;
+    }
+    v11 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+    v10 = 14;
+    v12 = LastError;
+    goto LABEL_23;
+  }
+  LastError = 14;
+LABEL_25:
+  if ( *a2 )
+  {
+    Mem_Free(*a2, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\security.c", 471);
+    *a2 = 0i64;
+  }
+  return LastError;
+}

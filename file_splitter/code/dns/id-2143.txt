@@ -1,0 +1,46 @@
+//----- (000000014010FC04) ----------------------------------------------------
+__int64 __fastcall parseXSDDateTime(const unsigned __int16 *a1, struct _FILETIME *a2)
+{
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  unsigned __int16 v5; // dx
+  SYSTEMTIME SystemTime; // [rsp+40h] [rbp-28h] BYREF
+
+  *(_QWORD *)&SystemTime.wYear = 0i64;
+  *(_QWORD *)&SystemTime.wHour = 0i64;
+  if ( swscanf_s(
+         a1,
+         L"%4hu-%2hu-%2huT%2hu:%2hu:%2hu",
+         &SystemTime,
+         &SystemTime.wMonth,
+         &SystemTime.wDay,
+         &SystemTime.wHour,
+         &SystemTime.wMinute,
+         &SystemTime.wSecond) != 6 )
+  {
+    v4 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return 9126i64;
+    }
+    v5 = 10;
+LABEL_6:
+    WPP_SF_SD(*((_QWORD *)v4 + 7), v5, (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids, a1);
+    return 9126i64;
+  }
+  if ( !SystemTimeToFileTime(&SystemTime, a2) )
+  {
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return 9126i64;
+    }
+    GetLastError();
+    v4 = WPP_GLOBAL_Control;
+    v5 = 11;
+    goto LABEL_6;
+  }
+  return 0i64;
+}

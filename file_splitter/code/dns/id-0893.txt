@@ -1,0 +1,42 @@
+//----- (0000000140079FD4) ----------------------------------------------------
+__int64 __fastcall Remote_SetSupportedEDNSVersion(struct in_addr *a1, char a2)
+{
+  const char *v4; // rax
+  _QWORD *v5; // rbx
+  int v6; // eax
+  __int64 v7; // rcx
+  unsigned int v9; // [rsp+60h] [rbp+18h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v4 = DnsAddr_Ntoa(a1);
+    WPP_SF_sd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xDu, (__int64)&WPP_eab7c483710f366eae903c691df4ee49_Traceguids, v4);
+  }
+  v9 = -1;
+  acquireUpdate(hRemoteLock, 0xFFFFFFFF, &v9, 1);
+  v5 = Remote_FindOrCreate((__int64)a1, 1);
+  if ( v5 )
+  {
+    v9 = -1;
+    acquireWrite(hRemoteLock, 0xFFFFFFFF, &v9);
+    v6 = 3;
+    if ( a2 == -1 )
+      v6 = 1;
+    if ( *((_DWORD *)v5 + 24) != v6 )
+    {
+      *((_DWORD *)v5 + 25) = 0;
+      *((_DWORD *)v5 + 24) = v6;
+      *((_DWORD *)v5 + 28) = dword_1401B98F4 + dword_1401B9714;
+    }
+    v7 = hRemoteLock;
+    *((_BYTE *)v5 + 108) = a2;
+    Lock_ReleaseWrite(v7);
+  }
+  v9 = -1;
+  return releaseUpdate(hRemoteLock, &v9, 1);
+}
+// 1401B9028: using guessed type __int64 hRemoteLock;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B98F4: using guessed type int dword_1401B98F4;

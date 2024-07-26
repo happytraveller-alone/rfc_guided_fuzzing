@@ -1,0 +1,42 @@
+//----- (00000001400F3C50) ----------------------------------------------------
+unsigned __int8 *__fastcall DnsOls_WriteStringToMod(
+        struct _DsModBuffer *a1,
+        unsigned __int8 *a2,
+        const unsigned __int16 *a3)
+{
+  unsigned __int64 v5; // rdx
+  __int64 v6; // rcx
+  size_t v7; // r8
+  unsigned __int8 *v8; // rbx
+
+  if ( a1 )
+  {
+    v5 = *((_QWORD *)a1 + 4);
+    if ( v5 )
+    {
+      if ( a2 )
+      {
+        if ( a3 )
+        {
+          v6 = -1i64;
+          do
+            ++v6;
+          while ( a3[v6] );
+          v7 = 2 * v6 + 2;
+          v8 = &a2[v7];
+          if ( (unsigned __int64)&a2[v7] <= v5 )
+          {
+            memcpy_0(a2, a3, v7);
+            return v8;
+          }
+        }
+        else if ( (unsigned __int64)(a2 + 2) <= v5 )
+        {
+          *(_WORD *)a2 = 0;
+          return a2 + 2;
+        }
+      }
+    }
+  }
+  return 0i64;
+}

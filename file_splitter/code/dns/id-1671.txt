@@ -1,0 +1,55 @@
+//----- (00000001400D4A40) ----------------------------------------------------
+__int64 __fastcall Dns_SetPropsOnAllZoneScopes(__int64 *a1, unsigned int a2, __int64 a3, int a4, __int64 *a5)
+{
+  __int64 *v5; // rdi
+  __int64 v10; // rcx
+  const unsigned __int16 **v11; // rax
+  const unsigned __int16 *v12; // r9
+  __int64 i; // rdx
+  __int64 NextElement_ScopeMap; // rax
+  __int64 v16; // rdi
+  unsigned int v17; // [rsp+48h] [rbp+10h] BYREF
+
+  v5 = a5;
+  if ( a5 )
+  {
+    do
+    {
+      Dns_SetPropsOnZoneScope(*v5, a2, a3);
+      v5 = (__int64 *)v5[1];
+    }
+    while ( v5 );
+    return 0i64;
+  }
+  if ( !a1[23] )
+    return 0i64;
+  if ( !a4 || (v10 = a1[21], v17 = -1, (unsigned int)acquireRead(v10, 0x2710u, &v17) != -1) )
+  {
+    for ( i = 0i64; ; i = *(_QWORD *)(v16 + 192) )
+    {
+      NextElement_ScopeMap = Get_NextElement_ScopeMap(a1[20], i, 0i64);
+      v16 = NextElement_ScopeMap;
+      if ( !NextElement_ScopeMap )
+        break;
+      Dns_SetPropsOnZoneScope(NextElement_ScopeMap, a2, a3);
+    }
+    if ( a4 )
+    {
+      v17 = -1;
+      releaseRead(a1[21], &v17, 1);
+    }
+    return 0i64;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v11 = (const unsigned __int16 **)a1[25];
+    if ( v11 )
+      v12 = *v11;
+    else
+      v12 = L".";
+    WPP_SF_S(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x5Eu, (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids, v12);
+  }
+  return 9607i64;
+}

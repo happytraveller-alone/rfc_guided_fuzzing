@@ -1,0 +1,13 @@
+//----- (000000014014F2A8) ----------------------------------------------------
+__int64 __fastcall CDnsRRLManager::GetFreeListSize(CDnsRRLManager *this)
+{
+  struct _RTL_CRITICAL_SECTION *v1; // rdi
+  CDnsRRLManager *v2; // rbx
+
+  v1 = (struct _RTL_CRITICAL_SECTION *)((char *)this + 88);
+  v2 = this;
+  EnterCriticalSection((LPCRITICAL_SECTION)((char *)this + 88));
+  LODWORD(v2) = *((_DWORD *)v2 + 2);
+  LeaveCriticalSection(v1);
+  return (unsigned int)v2;
+}

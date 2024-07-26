@@ -1,0 +1,70 @@
+//----- (000000014011A784) ----------------------------------------------------
+__int64 __fastcall Name_AppendLookupName(unsigned __int16 *a1)
+{
+  unsigned __int16 v1; // dx
+  int v3; // edx
+  int v5; // r8d
+  _BYTE *v6; // r9
+  __int64 *v7; // r10
+  __int64 v8; // rax
+  __int64 v9; // rcx
+  char *v10; // rax
+
+  v1 = a1[1] + word_1401B8D82 - 1;
+  a1[1] = v1;
+  if ( v1 > 0xFFu )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_Dd(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x21u,
+        (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids,
+        (unsigned __int16)word_1401B8D82);
+    }
+    a1[1] += 1 - word_1401B8D82;
+    return 0i64;
+  }
+  v3 = *a1;
+  if ( (unsigned __int16)g_looknameBaseGnz + v3 > 40 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x22u, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids);
+    }
+    return 0i64;
+  }
+  v5 = 0;
+  if ( g_looknameBaseGnz )
+  {
+    v6 = &unk_1401B8EC8;
+    v7 = (__int64 *)&unk_1401B8D88;
+    do
+    {
+      v8 = *v7;
+      ++v5;
+      v9 = (unsigned __int16)v3;
+      ++v7;
+      LOWORD(v3) = v3 + 1;
+      *(_QWORD *)&a1[4 * v9 + 4] = v8;
+      LOBYTE(v8) = *v6++;
+      *((_BYTE *)a1 + v9 + 328) = v8;
+    }
+    while ( v5 < (unsigned __int16)g_looknameBaseGnz );
+  }
+  *a1 = v3;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    v10 = Dbg_LookupName(a1);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x23u, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids, v10);
+  }
+  return 1i64;
+}
+// 1401B8D80: using guessed type __int16 g_looknameBaseGnz;
+// 1401B8D82: using guessed type __int16 word_1401B8D82;

@@ -1,0 +1,21 @@
+//----- (0000000140166510) ----------------------------------------------------
+_WORD *__fastcall Nsec3ParamDnsRecordConvert(__int64 a1)
+{
+  int v1; // esi
+  _WORD *result; // rax
+  _WORD *v4; // rbx
+
+  v1 = *(unsigned __int8 *)(a1 + 36);
+  result = Rpc_AllocateRecord(v1 + 5);
+  v4 = result;
+  if ( result )
+  {
+    *((_BYTE *)result + 24) = *(_BYTE *)(a1 + 32);
+    *((_BYTE *)result + 25) = *(_BYTE *)(a1 + 33);
+    result[13] = *(_WORD *)(a1 + 34);
+    *((_BYTE *)result + 28) = *(_BYTE *)(a1 + 36);
+    memcpy_0((char *)result + 29, (const void *)(a1 + 40), (unsigned __int8)v1);
+    return v4;
+  }
+  return result;
+}

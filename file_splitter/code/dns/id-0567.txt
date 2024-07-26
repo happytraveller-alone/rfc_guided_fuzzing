@@ -1,0 +1,14 @@
+//----- (0000000140051CF0) ----------------------------------------------------
+__int64 __fastcall RemoveFileExW(const unsigned __int16 *a1)
+{
+  DWORD LastError; // ebx
+
+  LastError = GetLastError();
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_SD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xBu, (__int64)&WPP_10f9086a838d3f1b10076b2179e86fb4_Traceguids, a1);
+  }
+  return LastError;
+}

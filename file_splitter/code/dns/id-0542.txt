@@ -1,0 +1,24 @@
+//----- (000000014004C31C) ----------------------------------------------------
+__int64 Ds_GetPollingInterval()
+{
+  unsigned int v0; // ebx
+
+  v0 = dword_1401B9858;
+  if ( dword_1401B9A00 )
+  {
+    v0 = dword_1401B9858 / 3u;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x24Fu,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v0);
+    }
+  }
+  return v0;
+}
+// 1401B9858: using guessed type int dword_1401B9858;
+// 1401B9A00: using guessed type int dword_1401B9A00;

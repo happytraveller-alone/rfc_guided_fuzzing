@@ -1,0 +1,131 @@
+//----- (0000000140012BB4) ----------------------------------------------------
+ULONG __fastcall Template_zzzsz(
+        __int64 a1,
+        __int64 a2,
+        const unsigned __int16 *a3,
+        const unsigned __int16 *a4,
+        const unsigned __int16 *a5,
+        const char *a6,
+        const unsigned __int16 *a7)
+{
+  __int64 v7; // rdx
+  int v8; // r10d
+  __int64 v9; // rax
+  ULONG v10; // ecx
+  const wchar_t *v11; // r11
+  const wchar_t *v12; // rax
+  __int64 v13; // rax
+  int v14; // ecx
+  const wchar_t *v15; // rax
+  __int64 v16; // rax
+  int v17; // r8d
+  const wchar_t *v18; // rax
+  __int64 v19; // rcx
+  int v20; // ecx
+  const char *v21; // rax
+  bool v22; // zf
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-60h] BYREF
+  const wchar_t *v25; // [rsp+30h] [rbp-50h]
+  int v26; // [rsp+38h] [rbp-48h]
+  int v27; // [rsp+3Ch] [rbp-44h]
+  const wchar_t *v28; // [rsp+40h] [rbp-40h]
+  int v29; // [rsp+48h] [rbp-38h]
+  int v30; // [rsp+4Ch] [rbp-34h]
+  const char *v31; // [rsp+50h] [rbp-30h]
+  int v32; // [rsp+58h] [rbp-28h]
+  int v33; // [rsp+5Ch] [rbp-24h]
+  const wchar_t *v34; // [rsp+60h] [rbp-20h]
+  int v35; // [rsp+68h] [rbp-18h]
+  int v36; // [rsp+6Ch] [rbp-14h]
+
+  v7 = -1i64;
+  v8 = 10;
+  if ( a3 )
+  {
+    v9 = -1i64;
+    do
+      ++v9;
+    while ( a3[v9] );
+    v10 = 2 * v9 + 2;
+  }
+  else
+  {
+    v10 = 10;
+  }
+  UserData.Size = v10;
+  v11 = L"NULL";
+  UserData.Reserved = 0;
+  v12 = L"NULL";
+  if ( a3 )
+    v12 = a3;
+  UserData.Ptr = (ULONGLONG)v12;
+  if ( a4 )
+  {
+    v13 = -1i64;
+    do
+      ++v13;
+    while ( a4[v13] );
+    v14 = 2 * v13 + 2;
+  }
+  else
+  {
+    v14 = 10;
+  }
+  v26 = v14;
+  v15 = L"NULL";
+  if ( a4 )
+    v15 = a4;
+  v27 = 0;
+  v25 = v15;
+  if ( a5 )
+  {
+    v16 = -1i64;
+    do
+      ++v16;
+    while ( a5[v16] );
+    v17 = 2 * v16 + 2;
+  }
+  else
+  {
+    v17 = 10;
+  }
+  v29 = v17;
+  v18 = L"NULL";
+  if ( a5 )
+    v18 = a5;
+  v30 = 0;
+  v28 = v18;
+  if ( a6 )
+  {
+    v19 = -1i64;
+    do
+      ++v19;
+    while ( a6[v19] );
+    v20 = v19 + 1;
+  }
+  else
+  {
+    v20 = 5;
+  }
+  v32 = v20;
+  v21 = "NULL";
+  v33 = 0;
+  if ( a6 )
+    v21 = a6;
+  v31 = v21;
+  v22 = a7 == 0i64;
+  if ( a7 )
+  {
+    do
+      ++v7;
+    while ( a7[v7] );
+    v8 = 2 * v7 + 2;
+    v22 = a7 == 0i64;
+  }
+  if ( !v22 )
+    v11 = a7;
+  v35 = v8;
+  v34 = v11;
+  v36 = 0;
+  return EventWrite(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_ZONESCOPE_LOAD_OK, 5u, &UserData);
+}

@@ -1,0 +1,28 @@
+//----- (000000014012D94C) ----------------------------------------------------
+void __fastcall std::basic_ostream<unsigned short>::_Osfx(__int64 a1)
+{
+  __int64 v2; // rcx
+  int v3; // edi
+  __int64 v4; // rcx
+  int v5; // edx
+
+  v2 = *(int *)(*(_QWORD *)a1 + 4i64);
+  if ( (*(_BYTE *)(v2 + a1 + 24) & 2) != 0 )
+  {
+    v3 = 0;
+    if ( (*(_BYTE *)(v2 + a1 + 16) & 6) == 0
+      && (*(unsigned int (__fastcall **)(_QWORD))(**(_QWORD **)(v2 + a1 + 72) + 104i64))(*(_QWORD *)(v2 + a1 + 72)) == -1 )
+    {
+      v3 = 4;
+    }
+    v4 = a1 + *(int *)(*(_QWORD *)a1 + 4i64);
+    if ( v3 )
+    {
+      v5 = v3 | *(_DWORD *)(v4 + 16);
+      if ( !*(_QWORD *)(v4 + 72) )
+        LOBYTE(v5) = v5 | 4;
+      std::ios_base::clear((std::ios_base *)v4, v5, 0);
+    }
+  }
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

@@ -1,0 +1,32 @@
+//----- (0000000140056594) ----------------------------------------------------
+__int64 __fastcall Lock_AssumeWrite(__int64 a1)
+{
+  unsigned int v1; // edi
+  __int64 v3; // rsi
+  __int64 v4; // rsi
+  unsigned int v6; // [rsp+40h] [rbp+8h] BYREF
+
+  v6 = -1;
+  v1 = 0;
+  if ( a1 )
+  {
+    if ( _InterlockedCompareExchange((volatile signed __int32 *)(a1 + 16), 0, 0x80000000) == 0x80000000 )
+    {
+      v3 = *(_QWORD *)(a1 + 32);
+      if ( *(_DWORD *)(v3 + 4) == 17620653 )
+      {
+        *(_DWORD *)(v3 + 4) = GetCurrentThreadId();
+        v4 = *(_QWORD *)(a1 + 24);
+        if ( *(_DWORD *)(v4 + 4) == 17620653 )
+        {
+          *(_DWORD *)(v4 + 4) = GetCurrentThreadId();
+          setTlsCounter(a1, 0, 1u, &v6, 0);
+          setTlsCounter(a1, 1, 1u, &v6, 0);
+          setTlsCounter(a1, 2, 1u, &v6, 1);
+          return 1;
+        }
+      }
+    }
+  }
+  return v1;
+}

@@ -1,0 +1,253 @@
+//----- (000000014000C71C) ----------------------------------------------------
+__int64 __fastcall performSelfpoint(__int64 a1, unsigned __int16 *a2, char a3)
+{
+  unsigned int v6; // ebx
+  char *v7; // rdi
+  const char *v8; // r14
+  const CHAR *v9; // rdx
+  __int64 v10; // r12
+  char *v11; // rcx
+  __int64 v12; // rbp
+  __int64 v13; // rbp
+  unsigned __int64 v14; // rax
+  int v15; // ecx
+  __int64 v16; // r8
+  char *v17; // rdx
+  signed __int64 v18; // r14
+  char v19; // al
+  const char *v20; // r8
+  __int64 v22; // r8
+  char *v23; // rdx
+  __int64 v24; // r10
+  char v25; // al
+  __int64 v26; // rbx
+  char *v27; // rax
+  char *v28; // rdx
+  int v29; // ecx
+  signed __int64 v30; // r14
+  char v31; // al
+  char *v32; // rax
+  int v33; // eax
+  DWORD dwDisposition; // [rsp+98h] [rbp+10h] BYREF
+  HKEY phkResult; // [rsp+A8h] [rbp+20h] BYREF
+
+  v6 = 0;
+  v7 = 0i64;
+  if ( !*((_DWORD *)a2 + 1) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x43u,
+        (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+        *a2,
+        *(_QWORD *)(a1 + 16));
+    }
+    goto LABEL_43;
+  }
+  v8 = "127.0.0.1";
+  if ( *a2 == 23 )
+  {
+    v8 = "::1";
+    if ( (unsigned int)DnsAddrArray_GetFamilyCount((__int64)g_ServerAddrs, 23) )
+    {
+      v9 = (const CHAR *)*((_QWORD *)a2 + 1);
+      if ( v9 )
+      {
+        if ( *(_QWORD *)(a1 + 40) )
+        {
+          if ( *((_QWORD *)a2 + 2) )
+            goto LABEL_17;
+          phkResult = 0i64;
+          dwDisposition = 0;
+          RegCreateKeyExA(HKEY_LOCAL_MACHINE, v9, 0, 0i64, 0, 0x2001Fu, 0i64, &phkResult, &dwDisposition);
+          *((_QWORD *)a2 + 2) = phkResult;
+        }
+      }
+    }
+  }
+  if ( !*((_QWORD *)a2 + 2) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_sd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x44u,
+        (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+        *(const char **)(a1 + 16));
+    }
+    goto LABEL_43;
+  }
+LABEL_17:
+  v10 = -1i64;
+  if ( (a3 & 0x10) == 0 && (v11 = (char *)*((_QWORD *)a2 + 7)) != 0i64 && *v11 )
+  {
+    if ( findLoopbackAddress(v11, *a2) )
+      goto LABEL_43;
+    v12 = -1i64;
+    do
+      ++v12;
+    while ( *(_BYTE *)(*((_QWORD *)a2 + 7) + v12) );
+    v13 = (unsigned int)(v12 + 20);
+    v7 = (char *)Mem_Alloc(v13, 0i64, "ds\\dns\\server\\server\\autoconfigure.c", 2562);
+    if ( !v7 )
+      goto LABEL_42;
+    v14 = v13 - 1;
+    v15 = 0;
+    if ( (a3 & 0x20) != 0 )
+    {
+      if ( v14 > 0x7FFFFFFE )
+        v15 = -2147024809;
+      if ( v15 < 0 )
+      {
+        if ( (_DWORD)v13 )
+          *v7 = 0;
+      }
+      else
+      {
+        v16 = (unsigned int)v13;
+        v17 = v7;
+        v15 = 0;
+        if ( !(_DWORD)v13 )
+          goto LABEL_34;
+        v18 = v8 - v7;
+        do
+        {
+          if ( !(2147483646i64 - (unsigned int)v13 + v16) )
+            break;
+          v19 = v17[v18];
+          if ( !v19 )
+            break;
+          *v17++ = v19;
+          --v16;
+        }
+        while ( v16 );
+        if ( !v16 )
+        {
+LABEL_34:
+          --v17;
+          v15 = -2147024774;
+        }
+        *v17 = 0;
+      }
+      if ( v15 < 0 || (int)StringCchCatA(v7, (unsigned int)v13, (const char *)a2 + 32) < 0 )
+        goto LABEL_42;
+      v20 = (const char *)*((_QWORD *)a2 + 7);
+    }
+    else
+    {
+      if ( v14 > 0x7FFFFFFE )
+        v15 = -2147024809;
+      if ( v15 < 0 )
+      {
+        if ( (_DWORD)v13 )
+          *v7 = 0;
+      }
+      else
+      {
+        v22 = (unsigned int)v13;
+        v23 = v7;
+        v15 = 0;
+        if ( !(_DWORD)v13 )
+          goto LABEL_53;
+        v24 = *((_QWORD *)a2 + 7) - (_QWORD)v7;
+        do
+        {
+          if ( !(2147483646i64 - (unsigned int)v13 + v22) )
+            break;
+          v25 = v23[v24];
+          if ( !v25 )
+            break;
+          *v23++ = v25;
+          --v22;
+        }
+        while ( v22 );
+        if ( !v22 )
+        {
+LABEL_53:
+          --v23;
+          v15 = -2147024774;
+        }
+        *v23 = 0;
+      }
+      if ( v15 < 0 || (int)StringCchCatA(v7, (unsigned int)v13, (const char *)a2 + 32) < 0 )
+        goto LABEL_42;
+      v20 = v8;
+    }
+    if ( (int)StringCchCatA(v7, (unsigned int)v13, v20) < 0 )
+    {
+LABEL_42:
+      v6 = 14;
+      goto LABEL_43;
+    }
+  }
+  else
+  {
+    v26 = 20i64;
+    v27 = (char *)Mem_Alloc(0x14u, 0i64, "ds\\dns\\server\\server\\autoconfigure.c", 2540);
+    v7 = v27;
+    if ( !v27 )
+      goto LABEL_42;
+    v28 = v27;
+    v29 = 0;
+    v30 = v8 - v27;
+    do
+    {
+      if ( v26 == -2147483626 )
+        break;
+      v31 = v28[v30];
+      if ( !v31 )
+        break;
+      *v28++ = v31;
+      --v26;
+    }
+    while ( v26 );
+    if ( !v26 )
+    {
+      --v28;
+      v29 = -2147024774;
+    }
+    *v28 = 0;
+    if ( v29 < 0 )
+      goto LABEL_42;
+  }
+  while ( 1 )
+  {
+    v32 = strchr(v7, 32);
+    if ( !v32 )
+      break;
+    *v32 = 44;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Dss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x45u,
+      (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+      *a2,
+      *(_QWORD *)(a1 + 16),
+      (__int64)v7);
+  }
+  do
+    ++v10;
+  while ( v7[v10] );
+  v33 = RegSetValueExA(*((HKEY *)a2 + 2), "NameServer", 0, 1u, (const BYTE *)v7, v10 + 1);
+  v6 = v33;
+  if ( v33
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x46u, (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids, v33);
+  }
+LABEL_43:
+  Mem_Free(v7, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\autoconfigure.c", 2665);
+  return v6;
+}

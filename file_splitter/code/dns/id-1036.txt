@@ -1,0 +1,30 @@
+//----- (00000001400880B0) ----------------------------------------------------
+char *__fastcall NxtFlatWrite(__int64 a1, __int64 a2, _WORD *a3, unsigned __int64 a4)
+{
+  _BYTE *v4; // r10
+  int v6; // r8d
+  int i; // ecx
+
+  v4 = a3 + 1;
+  *a3 = 0;
+  v6 = 0;
+  while ( 2 )
+  {
+    for ( i = v6 == 0; i < 8; ++i )
+    {
+      if ( ((unsigned __int8)(1 << i) & *(_BYTE *)(v6 + a2 + 56)) != 0 )
+      {
+        if ( a4 - (unsigned __int64)v4 < 2 )
+          return 0i64;
+        *(_WORD *)v4 = i + 8 * v6;
+        v4 += 2;
+        ++*a3;
+      }
+    }
+    if ( ++v6 < 16 )
+      continue;
+    break;
+  }
+  return Name_WriteDbaseNameToRpcBuffer(v4, a4, (unsigned __int8 *)(a2 + 72), 0);
+}
+// 1400880E8: conditional instruction was optimized away because ecx.4<2u

@@ -1,0 +1,129 @@
+//----- (000000014005DAA4) ----------------------------------------------------
+__int16 __fastcall Etw_LogRRLAction(__int64 a1, struct in_addr *a2, _DWORD *a3)
+{
+  unsigned __int16 v6; // di
+  unsigned int v7; // esi
+  char *v8; // rax
+  const char *v9; // rax
+  __int64 v10; // r14
+  int v11; // r15d
+  char v12; // al
+  char v13; // bl
+  char v14; // bp
+  char v15; // di
+  char v16; // si
+  const char *v17; // rax
+  __int64 v18; // rcx
+  const EVENT_DESCRIPTOR *v19; // rdx
+  char v20; // al
+  char v21; // al
+  __int16 v23; // [rsp+60h] [rbp-98h]
+  USHORT s_w1; // [rsp+62h] [rbp-96h]
+  const char *v25; // [rsp+68h] [rbp-90h]
+  char Destination[64]; // [rsp+70h] [rbp-88h] BYREF
+
+  v6 = 0;
+  memset_0(Destination, 0, sizeof(Destination));
+  LOWORD(v7) = 0;
+  LOBYTE(v23) = 0;
+  v25 = 0i64;
+  if ( *a3 == 1 )
+    v6 = 283;
+  if ( *a3 == 2 )
+    v6 = 282;
+  if ( *a3 == 3 )
+    v6 = 281;
+  LODWORD(v8) = Etw_IsEventEnabled(v6);
+  if ( (_DWORD)v8 )
+  {
+    s_w1 = a2[1576].S_un.S_un_w.s_w1;
+    if ( dword_1401B979C )
+    {
+      v7 = *(unsigned __int16 *)(a1 + 6302);
+      if ( v7 > dword_1401B98E8 )
+        LOWORD(v7) = dword_1401B98E8;
+      *(_WORD *)(a1 + 6304) = __ROL2__(*(_WORD *)(a1 + 6304), 8);
+      *(_WORD *)(a1 + 6308) = __ROL2__(*(_WORD *)(a1 + 6308), 8);
+      *(_WORD *)(a1 + 6310) = __ROL2__(*(_WORD *)(a1 + 6310), 8);
+      *(_WORD *)(a1 + 6312) = __ROL2__(*(_WORD *)(a1 + 6312), 8);
+      *(_WORD *)(a1 + 6314) = __ROL2__(*(_WORD *)(a1 + 6314), 8);
+    }
+    v9 = DnsAddr_Ntoa((struct in_addr *)(a1 + 128));
+    if ( v9 )
+      strcpy_s(Destination, 0x40ui64, v9);
+    if ( Dns_SkipPacketName(a1 + 6316, *(unsigned __int16 *)(a1 + 6302) + a1 + 6304) )
+      v23 = *(_WORD *)(a1 + 480);
+    LODWORD(v8) = Name_ConvertPacketNameToLookupNameEx(
+                    a1,
+                    (unsigned __int8 *)(a1 + 6316),
+                    *(unsigned __int16 **)(a1 + 1400),
+                    0);
+    if ( (_DWORD)v8 )
+    {
+      v8 = Etw_LookupName(*(_WORD **)(a1 + 1400));
+      v25 = v8;
+    }
+    if ( v6 == 281 )
+    {
+      if ( (Microsoft_Windows_DNSServerEnableBits & 0x2000000) == 0 )
+        goto LABEL_28;
+      v10 = a1 + 6304;
+      v11 = (unsigned __int16)v7;
+      v21 = ntohs(a2[16].S_un.S_un_w.s_w2);
+      v13 = s_w1;
+      v14 = *(_BYTE *)(a1 + 6307) & 0xF;
+      v15 = v23;
+      v16 = v21;
+      v17 = DnsAddr_Ntoa(a2 + 16);
+      v19 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_RRL_TO_BE_DROPPED_RESPONSE;
+    }
+    else if ( v6 == 282 )
+    {
+      if ( (Microsoft_Windows_DNSServerEnableBits & 0x4000000) == 0 )
+        goto LABEL_28;
+      v10 = a1 + 6304;
+      v11 = (unsigned __int16)v7;
+      v20 = ntohs(a2[16].S_un.S_un_w.s_w2);
+      v13 = s_w1;
+      v14 = *(_BYTE *)(a1 + 6307) & 0xF;
+      v15 = v23;
+      v16 = v20;
+      v17 = DnsAddr_Ntoa(a2 + 16);
+      v19 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_RRL_TO_BE_TRUNCATED_RESPONSE;
+    }
+    else
+    {
+      if ( v6 != 283 || (Microsoft_Windows_DNSServerEnableBits & 0x8000000) == 0 )
+      {
+LABEL_28:
+        if ( dword_1401B979C )
+        {
+          *(_WORD *)(a1 + 6304) = __ROL2__(*(_WORD *)(a1 + 6304), 8);
+          *(_WORD *)(a1 + 6308) = __ROL2__(*(_WORD *)(a1 + 6308), 8);
+          *(_WORD *)(a1 + 6310) = __ROL2__(*(_WORD *)(a1 + 6310), 8);
+          *(_WORD *)(a1 + 6312) = __ROL2__(*(_WORD *)(a1 + 6312), 8);
+          LOWORD(v8) = __ROL2__(*(_WORD *)(a1 + 6314), 8);
+          *(_WORD *)(a1 + 6314) = (_WORD)v8;
+        }
+        return (__int16)v8;
+      }
+      v10 = a1 + 6304;
+      v11 = (unsigned __int16)v7;
+      v12 = ntohs(a2[16].S_un.S_un_w.s_w2);
+      v13 = s_w1;
+      v14 = *(_BYTE *)(a1 + 6307) & 0xF;
+      v15 = v23;
+      v16 = v12;
+      v17 = DnsAddr_Ntoa(a2 + 16);
+      v19 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_RRL_TO_BE_LEAKED_RESPONSE;
+    }
+    LOWORD(v8) = Template_sssqqqqqb(v18, v19, Destination, v17, v25, v15, v13, v14, v16, v11, v10);
+    goto LABEL_28;
+  }
+  return (__int16)v8;
+}
+// 14005DD74: variable 'v18' is possibly undefined
+// 140183DD0: using guessed type __int64 __fastcall Dns_SkipPacketName(_QWORD, _QWORD);
+// 1401B9100: using guessed type int Microsoft_Windows_DNSServerEnableBits;
+// 1401B979C: using guessed type int dword_1401B979C;
+// 1401B98E8: using guessed type int dword_1401B98E8;

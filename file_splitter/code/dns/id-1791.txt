@@ -1,0 +1,121 @@
+//----- (00000001400E2A88) ----------------------------------------------------
+void __fastcall TrustPoint::UpdateTrustPointState(struct _RTL_CRITICAL_SECTION *this)
+{
+  __int64 v2; // rcx
+  __int64 ***v3; // rdx
+  char v4; // r9
+  int RecursionCount; // edi
+  char v6; // r8
+  __int64 **v7; // rax
+  const unsigned __int16 *v8; // r8
+  const EVENT_DESCRIPTOR *v9; // rdx
+  const unsigned __int16 *v10; // r8
+  const unsigned __int16 *v11; // r8
+  int v12; // ecx
+  const char *v13; // rax
+  __int64 v14; // r8
+  __int64 v15; // rdx
+  const char *v16; // r9
+
+  EnterCriticalSection(this);
+  v3 = *(__int64 ****)&this[1].LockCount;
+  v4 = 0;
+  RecursionCount = this[3].RecursionCount;
+  v6 = 0;
+  v7 = *v3;
+  if ( this[1].OwningThread )
+  {
+    if ( v7 == (__int64 **)v3 )
+    {
+LABEL_29:
+      this[3].RecursionCount = 4;
+      if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 0x10000) != 0 )
+      {
+        v11 = (const unsigned __int16 *)&this[11];
+        if ( this[11].LockSemaphore >= (HANDLE)8 )
+          v11 = *(const unsigned __int16 **)v11;
+        Template_zqb(v2, &DNS_EVENT_DNSSEC_TRUST_POINT_DELETED, v11, 0, 0i64);
+      }
+    }
+    else
+    {
+      do
+      {
+        v2 = *((unsigned int *)v7 + 10);
+        if ( (int)v2 > 0 )
+        {
+          if ( (int)v2 <= 2 )
+          {
+            v4 = 1;
+          }
+          else if ( (int)v2 > 3 )
+          {
+            if ( (int)v2 <= 5 )
+            {
+              if ( RecursionCount != 2 && (dword_1401B9144 & 0x10) != 0 )
+              {
+                v10 = (const unsigned __int16 *)&this[11];
+                if ( this[11].LockSemaphore >= (HANDLE)8 )
+                  v10 = *(const unsigned __int16 **)v10;
+                Template_zqb(v2, &DNS_EVENT_DNSSEC_TRUST_POINT_ACTIVE_NOREFRESH, v10, 0, 0i64);
+              }
+              this[3].RecursionCount = 2;
+              goto LABEL_33;
+            }
+            if ( (_DWORD)v2 == 6 )
+              v6 = 1;
+          }
+        }
+        v7 = (__int64 **)*v7;
+      }
+      while ( v7 != (__int64 **)v3 );
+      if ( v4 )
+      {
+        this[3].RecursionCount = 1;
+        if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 0x10000) == 0 )
+          goto LABEL_33;
+        v8 = (const unsigned __int16 *)&this[11];
+        if ( this[11].LockSemaphore >= (HANDLE)8 )
+          v8 = *(const unsigned __int16 **)v8;
+        v9 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_DNSSEC_TRUST_POINT_PENDING_DS;
+        goto LABEL_28;
+      }
+      if ( !v6 )
+        goto LABEL_29;
+      this[3].RecursionCount = 3;
+      if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 0x10000) != 0 )
+      {
+        v8 = (const unsigned __int16 *)&this[11];
+        if ( this[11].LockSemaphore >= (HANDLE)8 )
+          v8 = *(const unsigned __int16 **)v8;
+        v9 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_DNSSEC_TRUST_POINT_PENDING_DELETE;
+LABEL_28:
+        Template_zxqb(v2, v9, v8, this[12].OwningThread);
+      }
+    }
+  }
+  else
+  {
+    this[3].RecursionCount = 0;
+  }
+LABEL_33:
+  v12 = this[3].RecursionCount;
+  if ( v12 != RecursionCount
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    DNSSEC_TrustPointStateToString(v12);
+    v13 = DNSSEC_TrustPointStateToString(RecursionCount);
+    WPP_SF_sqss(*(_QWORD *)(v14 + 56), v15, v14, v16, (char)this, (__int64)v13, v15);
+  }
+  LeaveCriticalSection(this);
+}
+// 1400E2BE6: variable 'v2' is possibly undefined
+// 1400E2C39: variable 'v14' is possibly undefined
+// 1400E2C4C: variable 'v15' is possibly undefined
+// 1400E2C4C: variable 'v16' is possibly undefined
+// 140186158: using guessed type EVENT_DESCRIPTOR DNS_EVENT_DNSSEC_TRUST_POINT_DELETED;
+// 1401878D8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_DNSSEC_TRUST_POINT_ACTIVE_NOREFRESH;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;
+// 1401B9144: using guessed type int dword_1401B9144;

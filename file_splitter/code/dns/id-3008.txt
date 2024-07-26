@@ -1,0 +1,35 @@
+//----- (000000014015AE90) ----------------------------------------------------
+__int64 __fastcall Dns_CreateStringCopy(_BYTE *Src, __int64 a2, __int64 a3)
+{
+  DWORD v4; // ecx
+  __int64 result; // rax
+  __int64 v6; // rbx
+  HLOCAL v7; // rax
+  __int64 v8; // rsi
+
+  if ( (byte_1401BA003 & 0x10) != 0 )
+    WPP_SF_(10i64, (unsigned __int16)&WPP_55e0bf752fa338bf02c5c4b0361aeb86_Traceguids, a3);
+  if ( !Src )
+  {
+    v4 = 87;
+LABEL_5:
+    SetLastError(v4);
+    return 0i64;
+  }
+  v6 = -1i64;
+  do
+    ++v6;
+  while ( Src[v6] );
+  v7 = Dns_AllocZero((unsigned int)(v6 + 1));
+  v8 = (__int64)v7;
+  if ( !v7 )
+  {
+    v4 = 14;
+    goto LABEL_5;
+  }
+  memcpy_0(v7, Src, (unsigned int)v6);
+  result = v8;
+  *(_BYTE *)((unsigned int)v6 + v8) = 0;
+  return result;
+}
+// 1401BA003: using guessed type char byte_1401BA003;

@@ -1,0 +1,99 @@
+//----- (000000014009FBA4) ----------------------------------------------------
+int __fastcall Sock_AcquirePortReservation(SOCKET s, _QWORD *a2)
+{
+  __int64 v4; // r8
+  __int16 v5; // dx
+  u_short v6; // dx
+  unsigned int i; // r9d
+  u_short v8; // ax
+  __int64 v9; // rcx
+  int result; // eax
+  __int64 v11; // rdx
+  int Error; // ebx
+  DWORD cbBytesReturned; // [rsp+50h] [rbp-38h] BYREF
+  DWORD lpcbBytesReturned; // [rsp+54h] [rbp-34h] BYREF
+  __int16 vOutBuffer[4]; // [rsp+58h] [rbp-30h] BYREF
+  __int64 vInBuffer; // [rsp+60h] [rbp-28h] BYREF
+
+  while ( 1 )
+  {
+    v4 = g_DnsPortExclusionState;
+    v5 = *(_WORD *)(g_DnsPortExclusionState + 2);
+    if ( !v5 )
+      return 1008;
+LABEL_2:
+    if ( v5 == -1 )
+    {
+      if ( *(_BYTE *)v4 )
+      {
+        v6 = 0;
+        goto LABEL_21;
+      }
+      v6 = 1024;
+      *(_BYTE *)v4 = 1;
+      *(_WORD *)(v4 + 4) = 0;
+    }
+    else
+    {
+      v6 = v5 + 1;
+      if ( *(_WORD *)(v4 + 4) && v6 < *(_WORD *)(v4 + 4) )
+        goto LABEL_21;
+    }
+    for ( i = 0; i < *(unsigned __int16 *)(v4 + 6); ++i )
+    {
+      if ( v6 <= *(_WORD *)(v4 + 8i64 * i + 10) )
+      {
+        v8 = *(_WORD *)(v4 + 8i64 * i + 8);
+        if ( v6 < v8 )
+        {
+          *(_WORD *)(v4 + 4) = v8;
+        }
+        else
+        {
+          if ( *(_WORD *)(v4 + 8i64 * i + 10) == 0xFFFF )
+          {
+            v5 = -1;
+            goto LABEL_2;
+          }
+          v9 = i + 1;
+          v6 = *(_WORD *)(v4 + 8i64 * i + 10) + 1;
+          if ( (unsigned int)v9 >= *(unsigned __int16 *)(v4 + 6) )
+            *(_WORD *)(v4 + 4) = -1;
+          else
+            *(_WORD *)(v4 + 4) = *(_WORD *)(v4 + 8 * v9 + 8);
+        }
+        break;
+      }
+    }
+    if ( i == *(unsigned __int16 *)(v4 + 6) )
+      *(_WORD *)(v4 + 4) = -1;
+LABEL_21:
+    *(_WORD *)(v4 + 2) = v6;
+    if ( !v6 )
+      return 1008;
+    vOutBuffer[0] = htons(v6);
+    vOutBuffer[1] = 1;
+    if ( WSAIoctl(s, 0x98000064, vOutBuffer, 4u, vOutBuffer, 0x10u, &cbBytesReturned, 0i64, 0i64) != -1 )
+      break;
+    result = WSAGetLastError();
+    if ( (unsigned int)(result - 10013) <= 0x2A )
+    {
+      v11 = 0x40800000001i64;
+      if ( _bittest64(&v11, result - 10013) )
+        continue;
+    }
+    return result;
+  }
+  if ( WSAIoctl(s, 0x98000066, &vInBuffer, 8u, 0i64, 0, &cbBytesReturned, 0i64, 0i64) == -1 )
+  {
+    Error = WSAGetLastError();
+    WSAIoctl(s, 0x98000065, &vInBuffer, 8u, 0i64, 0, &lpcbBytesReturned, 0i64, 0i64);
+    return Error;
+  }
+  else
+  {
+    *a2 = vInBuffer;
+    return 0;
+  }
+}
+// 1401B9050: using guessed type __int64 g_DnsPortExclusionState;

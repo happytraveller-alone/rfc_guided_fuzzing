@@ -1,0 +1,5 @@
+//----- (00000001401457E0) ----------------------------------------------------
+_BOOL8 __fastcall CDNSPolicyCriteriaFqdn::IsCriteria(__int64 a1, int a2)
+{
+  return a2 == 4;
+}

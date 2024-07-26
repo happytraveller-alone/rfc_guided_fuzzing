@@ -1,0 +1,127 @@
+//----- (00000001401545BC) ----------------------------------------------------
+__int64 Boot_LoadVirtualInstances()
+{
+  DWORD v0; // edi
+  int v1; // eax
+  int v2; // ebx
+  const EVENT_DESCRIPTOR *v3; // rdx
+  unsigned int Database; // edi
+  _QWORD *v5; // rax
+  _QWORD *v6; // rbx
+  __int64 v7; // rcx
+  __int64 *v8; // rax
+  __int64 i; // rax
+  HKEY hKey; // [rsp+28h] [rbp-59h] BYREF
+  HKEY v12; // [rsp+30h] [rbp-51h] BYREF
+  __int16 v13[72]; // [rsp+38h] [rbp-49h] BYREF
+
+  v0 = 0;
+  v12 = 0i64;
+  hKey = 0i64;
+  memset_0(v13, 0, 0x82ui64);
+  while ( 1 )
+  {
+    while ( 1 )
+    {
+      v1 = Reg_EnumVirtualizationInstances(&v12, v0++, &hKey, (WCHAR *)v13);
+      v2 = v1;
+      if ( v1 )
+        break;
+      if ( (unsigned int)SetupVirtualizationInstanceFromRegistry(hKey, (unsigned __int16 *)v13) )
+      {
+        if ( (dword_1401B9144 & 0x10000) == 0 )
+          goto LABEL_17;
+        v3 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_VIRT_INST_LOAD_FAILURE;
+      }
+      else
+      {
+        if ( (dword_1401B9144 & 0x10000) == 0 )
+          goto LABEL_17;
+        v3 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_VIRT_INST_LOAD_OK;
+      }
+      Template_z(Microsoft_Windows_DNS_Server_ServiceHandle, v3, (const unsigned __int16 *)v13);
+LABEL_17:
+      RegCloseKey(hKey);
+      hKey = 0i64;
+    }
+    if ( v1 == 259 || v1 == 2 )
+      break;
+    if ( (dword_1401B9144 & 0x10000) != 0 )
+      TemplateEventDescriptor(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_VIRT_INST_READ_FAILURE);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x41u,
+        (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+        v2);
+    }
+  }
+  if ( v12 )
+    RegCloseKey(v12);
+  Database = 0;
+  if ( (unsigned int)Dns_VirtualInstanceTree_AcquireReadLock() )
+  {
+    v5 = *(_QWORD **)(*(_QWORD *)g_pVirtualizationManager + 8i64);
+    v6 = (_QWORD *)*v5;
+    if ( (_QWORD *)*v5 != v5 )
+    {
+      do
+      {
+        v7 = v6[4];
+        bFirstZoneInserted = 0;
+        Database = Boot_LoadDatabase(v7);
+        if ( Database
+          && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x21u,
+            (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids,
+            *(const unsigned __int16 **)v6[4]);
+        }
+        if ( !*((_BYTE *)v6 + 41) )
+        {
+          v8 = (__int64 *)v6[2];
+          if ( *((_BYTE *)v8 + 41) )
+          {
+            for ( i = v6[1]; !*(_BYTE *)(i + 41) && v6 == *(_QWORD **)(i + 16); i = *(_QWORD *)(i + 8) )
+              v6 = (_QWORD *)i;
+            v6 = (_QWORD *)i;
+          }
+          else
+          {
+            do
+            {
+              v6 = v8;
+              v8 = (__int64 *)*v8;
+            }
+            while ( !*((_BYTE *)v8 + 41) );
+          }
+        }
+      }
+      while ( v6 != *(_QWORD **)(*(_QWORD *)g_pVirtualizationManager + 8i64) );
+    }
+    Dns_VirtualInstanceTree_ReleaseReadLock();
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x20u, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+    }
+    return 9923;
+  }
+  return Database;
+}
+// 140186E40: using guessed type EVENT_DESCRIPTOR DNS_EVENT_VIRT_INST_READ_FAILURE;
+// 1401B90C4: using guessed type int bFirstZoneInserted;
+// 1401B9144: using guessed type int dword_1401B9144;
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;
+// 1401545BC: using guessed type WCHAR var_A0[72];

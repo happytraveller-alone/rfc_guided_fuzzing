@@ -1,0 +1,116 @@
+//----- (0000000140146A68) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy::AddPolicy(CDnsPolicy *this, struct _DnssrvRpcPolicy *a2)
+{
+  char *v4; // rdx
+  __int64 v5; // r8
+  _DWORD *v6; // rdx
+  unsigned int updated; // ebx
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  unsigned __int16 v9; // dx
+  _DWORD *v10; // rax
+  _DWORD *v11; // rax
+  _DWORD *v12; // rbx
+  char *v13; // r14
+  _QWORD *v14; // rax
+  __int64 v15; // rax
+  __int64 v16; // rcx
+  char pExceptionObject[48]; // [rsp+28h] [rbp-30h] BYREF
+
+  *((_DWORD *)this + 20) = *((_DWORD *)a2 + 5);
+  *((_DWORD *)this + 21) = *((_DWORD *)a2 + 2);
+  *((_DWORD *)this + 22) = *((_DWORD *)a2 + 3);
+  *((_DWORD *)this + 23) = *((_DWORD *)a2 + 4);
+  *((_DWORD *)this + 24) = *((_DWORD *)a2 + 6);
+  *((_DWORD *)this + 26) = *((_DWORD *)a2 + 7);
+  *((_DWORD *)this + 25) = 0;
+  v4 = (char *)*((_QWORD *)a2 + 4);
+  if ( v4 )
+  {
+    v5 = -1i64;
+    do
+      ++v5;
+    while ( v4[v5] );
+    std::string::assign((_QWORD *)this + 5, v4, (char *)v5);
+  }
+  v6 = (_DWORD *)*((_QWORD *)a2 + 5);
+  if ( v6 && (updated = VerifyIfScopeExists(*((_QWORD *)this + 18), v6)) != 0 )
+  {
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v9 = 77;
+LABEL_11:
+      WPP_SF_D(*((_QWORD *)v8 + 7), v9, (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids, updated);
+    }
+  }
+  else
+  {
+    updated = CDnsPolicy::UpdateCriteria(this, a2);
+    if ( updated )
+    {
+      v8 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v9 = 78;
+        goto LABEL_11;
+      }
+    }
+    else
+    {
+      v10 = (_DWORD *)*((_QWORD *)a2 + 5);
+      if ( v10 && *v10 )
+      {
+        v11 = operator new(0x28ui64, (const struct std::nothrow_t *)&std::nothrow);
+        v12 = v11;
+        if ( v11 )
+        {
+          *v11 = 0;
+          v11[1] = 0;
+          v11[2] = 0;
+          v13 = (char *)(v11 + 4);
+          *((_QWORD *)v11 + 3) = 0i64;
+          v14 = operator new(0x40ui64);
+          if ( !v14 )
+          {
+            std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+            CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+          }
+          *(_QWORD *)v13 = v14;
+          *v14 = v14;
+          *(_QWORD *)(*(_QWORD *)v13 + 8i64) = *(_QWORD *)v13;
+        }
+        else
+        {
+          v12 = 0i64;
+        }
+        *((_QWORD *)this + 17) = v12;
+        if ( v12 )
+        {
+          if ( *((_DWORD *)a2 + 3) == 3 )
+          {
+            v15 = *((_QWORD *)a2 + 5);
+            if ( *(_DWORD *)v15 )
+            {
+              v16 = *(_QWORD *)(v15 + 8);
+              if ( v16 )
+                *(_DWORD *)(v16 + 8) = 1;
+            }
+          }
+          return (unsigned int)CDnsPolicyContent::AddPolicyContent(
+                                 *((CDnsPolicyContent **)this + 17),
+                                 *((struct _DnssrvRpcPolicyAction **)a2 + 5),
+                                 *((struct _zone_info **)this + 18));
+        }
+        else
+        {
+          return 14;
+        }
+      }
+    }
+  }
+  return updated;
+}

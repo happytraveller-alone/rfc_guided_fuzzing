@@ -1,0 +1,13 @@
+//----- (0000000140098770) ----------------------------------------------------
+_BYTE *__fastcall AWireRead(__int64 a1, __int64 a2, _DWORD *a3, __int16 a4)
+{
+  _BYTE *result; // rax
+
+  if ( a4 != 4 )
+    return 0i64;
+  result = RR_AllocateEx(4u, 0, 0);
+  if ( !result )
+    return 0i64;
+  *((_DWORD *)result + 14) = *a3;
+  return result;
+}

@@ -1,0 +1,33 @@
+//----- (00000001400A97C0) ----------------------------------------------------
+__int64 __fastcall Rpc_RemoveClientSubnetRecord(__int64 a1, __int64 a2, __int64 a3, __int64 a4, int a5, wchar_t *Str)
+{
+  unsigned int v6; // edx
+  unsigned int v8; // ebx
+
+  if ( !(unsigned int)IsValidFileName(Str) )
+    return 9984i64;
+  v8 = Policy_AcquireWriteLock(&g_hServerLevelPolicyLock, v6);
+  if ( v8 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x40u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        v8);
+    }
+  }
+  else
+  {
+    v8 = Remove_ClientSubnetRecord((char *)Str);
+    if ( !v8 )
+      LogClientSubnetRecordEvent(575, 0i64, Str);
+    Lock_ReleaseWrite(g_hServerLevelPolicyLock);
+  }
+  return v8;
+}
+// 1400A97E2: variable 'v6' is possibly undefined
+// 1401B9240: using guessed type __int64 g_hServerLevelPolicyLock;

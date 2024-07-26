@@ -1,0 +1,127 @@
+//----- (0000000140158124) ----------------------------------------------------
+__int64 __fastcall Dns_DequeueSecurityContextByKey(_WORD *Buf1, int a2)
+{
+  unsigned int CurrentTimeInSeconds; // r12d
+  const char *v5; // rax
+  __int64 v6; // rdx
+  WCHAR *v7; // rdx
+  __int64 v8; // rcx
+  __int64 v9; // rbx
+  __int64 *v10; // r14
+  __int64 v11; // rax
+  char *v12; // rbp
+  char *v13; // rsi
+  signed __int64 v14; // rbp
+  int v15; // eax
+  int v16; // eax
+  bool v17; // zf
+  const char *v18; // rax
+  __int64 v19; // rax
+  __int64 v21; // [rsp+20h] [rbp-38h]
+
+  CurrentTimeInSeconds = Dns_GetCurrentTimeInSeconds();
+  if ( (byte_1401BA001 & 0x20) != 0 )
+  {
+    v5 = DnsAddr_Ntoa((struct in_addr *)Buf1);
+    WPP_SF_sssS(
+      *((_QWORD *)Buf1 + 9),
+      v6,
+      v5,
+      *((const char **)Buf1 + 8),
+      *((const char **)Buf1 + 9),
+      *((const wchar_t **)Buf1 + 10));
+  }
+  EnterCriticalSection(&SecurityContextListCS);
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x2000) != 0 )
+    DnsPrint_SecurityContextList(v8, (__int64)v7, (__int64)"Before Get", (const char *)SecurityContextListHead);
+  v9 = SecurityContextListHead;
+  v10 = &SecurityContextListHead;
+  while ( v9 )
+  {
+    if ( *(_DWORD *)(v9 + 160) >= CurrentTimeInSeconds )
+    {
+      if ( (unsigned int)DnsAddr_IsEqual(Buf1, (_WORD *)(v9 + 24), 3) )
+      {
+        if ( (v8 = *((_QWORD *)Buf1 + 8)) != 0
+          && ((v7 = *(WCHAR **)(v9 + 88), (WCHAR *)v8 == v7) || (unsigned int)Dns_NameCompare_UTF8((WCHAR *)v8, v7))
+          || (v8 = *((_QWORD *)Buf1 + 9)) != 0
+          && ((v7 = *(WCHAR **)(v9 + 96), (WCHAR *)v8 == v7) || (unsigned int)Dns_NameCompare_UTF8((WCHAR *)v8, v7)) )
+        {
+          v12 = *(char **)(v9 + 104);
+          v13 = (char *)*((_QWORD *)Buf1 + 10);
+          if ( (byte_1401BA001 & 0x20) != 0 )
+            WPP_SF_SS(
+              182i64,
+              (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids,
+              *((_QWORD *)Buf1 + 10),
+              *(const unsigned __int16 **)(v9 + 104),
+              v21);
+          if ( v13 && v12 )
+          {
+            v14 = v12 - v13;
+            do
+            {
+              v15 = *(unsigned __int16 *)&v13[v14];
+              v8 = (unsigned int)*(unsigned __int16 *)v13 - v15;
+              if ( (_DWORD)v8 )
+                break;
+              v13 += 2;
+            }
+            while ( v15 );
+            v16 = 0;
+            v17 = (_DWORD)v8 == 0;
+          }
+          else
+          {
+            v16 = 0;
+            v17 = v12 == v13;
+          }
+          LOBYTE(v16) = v17;
+          if ( v16 )
+          {
+            if ( !a2 || *(_DWORD *)(v9 + 148) )
+            {
+              v19 = *(_QWORD *)v9;
+              ++SecContextDequeue;
+              *v10 = v19;
+              break;
+            }
+            if ( (byte_1401BA003 & 0x10) != 0 )
+            {
+              v18 = DnsAddr_Ntoa((struct in_addr *)Buf1);
+              LODWORD(v21) = 0;
+              WPP_SF_ssdd(
+                13i64,
+                (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids,
+                *((_QWORD *)Buf1 + 8),
+                v18,
+                v21);
+            }
+          }
+        }
+      }
+      v10 = (__int64 *)v9;
+    }
+    else
+    {
+      v11 = *(_QWORD *)v9;
+      ++SecContextTimeout;
+      *v10 = v11;
+      Dns_FreeSecurityContext(v9);
+    }
+    v9 = *v10;
+  }
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x2000) != 0 )
+    DnsPrint_SecurityContextList(v8, (__int64)v7, (__int64)"After Dequeue", (const char *)SecurityContextListHead);
+  LeaveCriticalSection(&SecurityContextListCS);
+  return v9;
+}
+// 140158172: variable 'v6' is possibly undefined
+// 1401581A2: variable 'v8' is possibly undefined
+// 1401581A2: variable 'v7' is possibly undefined
+// 14015825B: variable 'v21' is possibly undefined
+// 1401B9E24: using guessed type int SecContextTimeout;
+// 1401B9E28: using guessed type int SecContextDequeue;
+// 1401B9E50: using guessed type __int64 SecurityContextListHead;
+// 1401BA001: using guessed type char byte_1401BA001;
+// 1401BA003: using guessed type char byte_1401BA003;

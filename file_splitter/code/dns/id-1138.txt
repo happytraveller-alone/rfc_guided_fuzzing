@@ -1,0 +1,17 @@
+//----- (00000001400913D0) ----------------------------------------------------
+char *__fastcall Nsec3ParamWireWrite(__int64 a1, unsigned __int64 a2, unsigned __int64 a3, __int64 a4)
+{
+  char *v8; // rbx
+
+  if ( !(unsigned int)Wire_TestForBytesRemaining(a2, a3, 5i64) )
+    return 0i64;
+  *(_BYTE *)a2 = *(_BYTE *)(a4 + 56);
+  *(_BYTE *)(a2 + 1) = *(_BYTE *)(a4 + 57);
+  *(_WORD *)(a2 + 2) = *(_WORD *)(a4 + 58);
+  *(_BYTE *)(a2 + 4) = *(_BYTE *)(a4 + 60);
+  v8 = (char *)(a2 + 5);
+  if ( !(unsigned int)Wire_TestForBytesRemaining((unsigned __int64)v8, a3, *(unsigned __int8 *)(a4 + 60)) )
+    return 0i64;
+  memcpy_0(v8, (const void *)(a4 + 61), *(unsigned __int8 *)(a4 + 60));
+  return &v8[*(unsigned __int8 *)(a4 + 60)];
+}

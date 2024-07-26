@@ -1,0 +1,15 @@
+//----- (000000014007E66C) ----------------------------------------------------
+void *__fastcall MIDL_user_allocate_zero(size_t Size)
+{
+  void *result; // rax
+  void *v3; // rbx
+
+  result = MIDL_user_allocate(Size);
+  v3 = result;
+  if ( result )
+  {
+    memset_0(result, 0, Size);
+    return v3;
+  }
+  return result;
+}

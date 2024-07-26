@@ -1,0 +1,38 @@
+//----- (000000014007C804) ----------------------------------------------------
+__int64 DnsRq_Initialize()
+{
+  unsigned int v0; // ebx
+  _QWORD *v1; // rax
+  __int64 v2; // rcx
+
+  v0 = 0;
+  memset_0(g_RemoteNameHashArray, 0, sizeof(g_RemoteNameHashArray));
+  v1 = &g_RemoteXidHashArray;
+  g_RemoteNameHashCount = 0;
+  v2 = 256i64;
+  do
+  {
+    v1[1] = v1;
+    *v1 = v1;
+    v1 += 2;
+    --v2;
+  }
+  while ( v2 );
+  g_RemoteXidHashCount = 0;
+  g_pRemoteQueryQueue = (__int64)PQ_CreatePacketQueue("RemoteQuery", 1, 0, dword_1401B97FC, dword_1401B9830);
+  if ( !g_pRemoteQueryQueue )
+    v0 = 14;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xCu, (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids, v0);
+  }
+  return v0;
+}
+// 1401B97FC: using guessed type int dword_1401B97FC;
+// 1401B9830: using guessed type int dword_1401B9830;
+// 1401C9538: using guessed type __int64 g_pRemoteQueryQueue;
+// 1401CA540: using guessed type int g_RemoteXidHashCount;
+// 1401CA560: using guessed type __int64 g_RemoteNameHashArray[256];
+// 1401CAD60: using guessed type int g_RemoteNameHashCount;

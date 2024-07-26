@@ -1,0 +1,62 @@
+//----- (00000001400A9EE0) ----------------------------------------------------
+__int64 __fastcall Rpc_EnumerateClientSubnetRecord(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        int a6,
+        _DWORD *a7,
+        __int64 *a8)
+{
+  int Lock; // eax
+  unsigned int v9; // ebx
+  int v10; // eax
+  __int64 v11; // rcx
+  __int64 v13[3]; // [rsp+20h] [rbp-18h] BYREF
+
+  v13[0] = 0i64;
+  Lock = Policy_AcquireReadLock(&g_hServerLevelPolicyLock, 0x2710u);
+  v9 = Lock;
+  if ( Lock )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x47u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        Lock);
+    }
+  }
+  else
+  {
+    v10 = Enumerate_ClientSubnetRecord(v13);
+    v9 = v10;
+    if ( v10 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x48u,
+          (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+          v10);
+      }
+    }
+    else
+    {
+      v11 = v13[0];
+      *a7 = 44;
+      *a8 = v11;
+    }
+    LODWORD(v13[0]) = -1;
+    releaseRead(g_hServerLevelPolicyLock, (unsigned int *)v13, 1);
+  }
+  return v9;
+}
+// 1401B9240: using guessed type __int64 g_hServerLevelPolicyLock;

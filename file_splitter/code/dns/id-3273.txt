@@ -1,0 +1,18 @@
+//----- (000000014017049C) ----------------------------------------------------
+__int64 __fastcall WPP_SF_dddS(__int64 a1, __int64 a2, int a3, int a4, char a5, __int64 a6)
+{
+  __int64 v6; // rcx
+  int v8; // [rsp+80h] [rbp+18h] BYREF
+  int v9; // [rsp+88h] [rbp+20h]
+
+  v9 = a4;
+  v8 = a3;
+  if ( a6 )
+  {
+    v6 = -1i64;
+    do
+      ++v6;
+    while ( *(_WORD *)(a6 + 2 * v6) );
+  }
+  return FastWppTraceMessage((__int64)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, 0x14u, &v8);
+}

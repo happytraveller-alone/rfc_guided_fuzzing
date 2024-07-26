@@ -1,0 +1,117 @@
+//----- (00000001400C1EEC) ----------------------------------------------------
+__int64 __fastcall Zone_SetMasters(__int64 a1, _DWORD *a2, int a3, int a4)
+{
+  unsigned int v8; // ebp
+  __int64 v9; // rsi
+  int v10; // eax
+  __int64 result; // rax
+  __int64 v12; // rax
+  int v13; // r9d
+  _DWORD *v14; // rax
+  unsigned int v15; // ecx
+  unsigned __int64 v16; // rax
+  __int64 *v17; // rbx
+  bool v18; // zf
+  const char *v19; // rbx
+  const CHAR *v20; // r9
+  unsigned int v21; // r9d
+  unsigned int v22; // edx
+  char v23[1168]; // [rsp+30h] [rbp-698h] BYREF
+  __int64 v24; // [rsp+4C0h] [rbp-208h]
+  __int64 v25; // [rsp+4C8h] [rbp-200h]
+
+  v8 = 0;
+  v9 = 0i64;
+  memset_0(v23, 0, 0x678ui64);
+  v10 = *(_DWORD *)(a1 + 372);
+  if ( v10 != 1 )
+  {
+    if ( (unsigned int)(v10 - 2) > 2 )
+      return 9611i64;
+    if ( (!a2 || !a2[1] || a2 == (_DWORD *)-32i64)
+      && (!a3 || (v12 = *(_QWORD *)(a1 + 1168)) == 0 || !*(_DWORD *)(v12 + 4))
+      && (*(_BYTE *)(a1 + 1160) & 0x40) == 0 )
+    {
+      return 9620i64;
+    }
+    if ( a2 )
+    {
+      result = Zone_ValidateMasterIpList(a2);
+      v8 = result;
+      if ( (_DWORD)result )
+        return result;
+      if ( a2[1] )
+      {
+        v14 = DnsAddrArray_CopyAndExpand(a2, 0i64, 0i64, v13);
+        v9 = (__int64)v14;
+        if ( !v14 )
+          return 14i64;
+        v15 = 0;
+        if ( v14[1] )
+        {
+          do
+          {
+            v16 = (unsigned __int64)v15++ << 6;
+            *(_WORD *)(v16 + v9 + 34) = 13568;
+          }
+          while ( v15 < *(_DWORD *)(v9 + 4) );
+        }
+      }
+    }
+  }
+  EnterCriticalSection(&csZoneList);
+  v17 = (__int64 *)(a1 + 1168);
+  if ( a3 )
+    v17 = (__int64 *)(a1 + 1176);
+  Timeout_FreeWithFunctionEx(*v17, (__int64)DnsAddrArray_Free, (__int64)"ds\\dns\\server\\server\\zone.c", 3169);
+  v18 = g_bRegistryWriteBack == 0;
+  *v17 = v9;
+  v19 = "MasterServers";
+  if ( !v18 )
+  {
+    if ( (*(_BYTE *)(a1 + 388) & 1) == 0 || a3 )
+    {
+      v20 = "MasterServers";
+      if ( a3 )
+        v20 = "LocalMasterServers";
+      Reg_SetAddrArrayEx(a4, 0i64, a1, v20, v9, 0);
+    }
+    else if ( (a4 & 0x10) == 0 )
+    {
+      v8 = Ds_WriteZoneProperties(0i64, a1);
+    }
+  }
+  LeaveCriticalSection(&csZoneList);
+  if ( a3 )
+  {
+    v18 = *(_QWORD *)(a1 + 184) == 0i64;
+    v25 = v9;
+    if ( !v18 )
+    {
+      v22 = 512;
+LABEL_34:
+      Dns_SetPropsWithScopeSnapShot((__int64 *)a1, v22, (__int64)v23, v21);
+    }
+  }
+  else
+  {
+    v18 = *(_QWORD *)(a1 + 184) == 0i64;
+    v24 = v9;
+    if ( !v18 )
+    {
+      v22 = 1024;
+      goto LABEL_34;
+    }
+  }
+  if ( !v8 )
+  {
+    if ( a3 )
+      v19 = "LocalMasterServers";
+    LogAddrArrayProperty(0x202u, a1, v19, v9);
+  }
+  return v8;
+}
+// 1400C1FAF: variable 'v13' is possibly undefined
+// 1400C20C7: variable 'v21' is possibly undefined
+// 1401560E0: using guessed type __int64 __fastcall DnsAddrArray_Free();
+// 1401B805C: using guessed type int g_bRegistryWriteBack;

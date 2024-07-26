@@ -1,0 +1,28 @@
+//----- (00000001400AEB40) ----------------------------------------------------
+__int64 __fastcall WPP_SF_dqqqqDds(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        int a4,
+        char a5,
+        char a6,
+        char a7,
+        char a8,
+        char a9,
+        char a10,
+        __int64 a11)
+{
+  __int64 v11; // rdx
+  int v13; // [rsp+D8h] [rbp+20h] BYREF
+
+  v13 = a4;
+  if ( a11 )
+  {
+    v11 = -1i64;
+    do
+      ++v11;
+    while ( *(_BYTE *)(a11 + v11) );
+  }
+  return EtwTraceMessage(a1, 43i64, &WPP_fcef9ab22f0836151509c33d06164dff_Traceguids, 36i64, &v13);
+}
+// 140184FE0: using guessed type __int64 __fastcall EtwTraceMessage(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);

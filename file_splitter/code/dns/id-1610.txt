@@ -1,0 +1,64 @@
+//----- (00000001400CB88C) ----------------------------------------------------
+__int64 __fastcall Zone_GetFilterForMultiZoneName(char *Str2)
+{
+  __int64 v2; // rax
+  char *v3; // rax
+  unsigned int v4; // ebx
+  char *v5; // r8
+  int v6; // edx
+  int v7; // ecx
+
+  v2 = -1i64;
+  do
+    ++v2;
+  while ( Str2[v2] );
+  if ( (unsigned int)v2 < 5 || strncmp("..All", Str2, 5ui64) )
+    return 0i64;
+  v3 = MultiZoneTable;
+  v4 = 0;
+  if ( !MultiZoneTable )
+  {
+LABEL_11:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xEu,
+        (__int64)&WPP_e9bd1dc2a46f305bdfd2287edb3f40c9_Traceguids,
+        Str2);
+    }
+    return 0i64;
+  }
+  while ( 1 )
+  {
+    v5 = (char *)(Str2 - v3);
+    do
+    {
+      v6 = (unsigned __int8)v5[(_QWORD)v3];
+      v7 = (unsigned __int8)*v3 - v6;
+      if ( v7 )
+        break;
+      ++v3;
+    }
+    while ( v6 );
+    if ( !v7 )
+      break;
+    v3 = (&MultiZoneTable)[2 * ++v4];
+    if ( !v3 )
+      goto LABEL_11;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_sd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xDu,
+      (__int64)&WPP_e9bd1dc2a46f305bdfd2287edb3f40c9_Traceguids,
+      Str2);
+  }
+  return LODWORD((&MultiZoneTable)[2 * v4 + 1]);
+}
+// 1401B6EF0: using guessed type char *MultiZoneTable;

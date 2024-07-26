@@ -1,0 +1,20 @@
+//----- (00000001400874D0) ----------------------------------------------------
+__int64 __fastcall AtmaFlatRead(unsigned __int16 *a1, __int64 a2)
+{
+  unsigned __int16 *v4; // rdi
+  _BYTE *v5; // rax
+
+  if ( (unsigned __int16)(*a1 - 1) > 0x14u )
+    return 9702i64;
+  v4 = a1 + 12;
+  if ( (unsigned __int8)(*((_BYTE *)a1 + 24) - 1) > 1u || *(_BYTE *)v4 == 1 && (unsigned int)*a1 - 1 > 0x14 )
+    return 9702i64;
+  if ( *(_BYTE *)v4 == 2 && *a1 != 21 )
+    return 9702i64;
+  v5 = RR_AllocateEx(*a1, 0, 0);
+  if ( !v5 )
+    return 14i64;
+  *(_QWORD *)(a2 + 800) = v5;
+  memcpy_0(v5 + 56, a1 + 12, *a1);
+  return 0i64;
+}

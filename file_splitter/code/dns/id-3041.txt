@@ -1,0 +1,52 @@
+//----- (000000014015CD40) ----------------------------------------------------
+int __fastcall Dns_MakeCanonicalNameInPlaceW(WCHAR *lpDestStr, unsigned int cchDest)
+{
+  __int64 v4; // rbx
+  WCHAR *v5; // rdx
+  __int64 v6; // r8
+  WCHAR v7; // ax
+  WCHAR v9[512]; // [rsp+20h] [rbp-418h] BYREF
+
+  memset_0(v9, 0, sizeof(v9));
+  if ( (g_rgFastWppEnabledFlagsPerLevel & 0x20) != 0 )
+    WPP_SF_SD(
+      25i64,
+      (unsigned __int16)&WPP_4a022543b8ef3aed3b38f7eb0a9b5a9a_Traceguids,
+      (__int64)lpDestStr,
+      (const unsigned __int16 *)cchDest);
+  if ( !cchDest )
+  {
+    v4 = -1i64;
+    do
+      ++v4;
+    while ( lpDestStr[v4] );
+    cchDest = v4 + 1;
+  }
+  if ( cchDest > 0x200 )
+    return 0;
+  if ( cchDest <= 0x7FFFFFFEui64 )
+  {
+    v5 = v9;
+    v6 = 256i64;
+    do
+    {
+      if ( !(cchDest + v6 - 256) )
+        break;
+      v7 = *(WCHAR *)((char *)v5 + (char *)lpDestStr - (char *)v9);
+      if ( !v7 )
+        break;
+      *v5++ = v7;
+      --v6;
+    }
+    while ( v6 );
+    if ( !v6 )
+      --v5;
+    *v5 = 0;
+  }
+  else
+  {
+    v9[0] = 0;
+  }
+  return Dns_MakeCanonicalNameW(lpDestStr, cchDest, v9, cchDest);
+}
+// 1401BA000: using guessed type char g_rgFastWppEnabledFlagsPerLevel;

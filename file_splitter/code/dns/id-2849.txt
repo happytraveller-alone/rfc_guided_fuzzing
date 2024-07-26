@@ -1,0 +1,5 @@
+//----- (000000014014E500) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateInfo::GetTotalResponseSentInWindow(CDnsRRLStateInfo *this)
+{
+  return *((unsigned int *)this + 15);
+}

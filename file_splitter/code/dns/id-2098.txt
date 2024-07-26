@@ -1,0 +1,56 @@
+//----- (0000000140108FE0) ----------------------------------------------------
+char *__fastcall std::vector<unsigned char>::resize(__int64 *a1, unsigned __int64 a2)
+{
+  char *result; // rax
+  __int64 v5; // r8
+  char *v6; // rcx
+  char *v7; // rbx
+  unsigned __int64 v8; // rdx
+  char *v9; // rcx
+  unsigned __int64 v10; // rdx
+  size_t v11; // rdx
+  void *v12; // rcx
+  size_t v13; // r8
+
+  result = (char *)a1[1];
+  v5 = *a1;
+  v6 = &result[-*a1];
+  if ( (unsigned __int64)v6 <= a2 )
+  {
+    if ( (unsigned __int64)v6 < a2 )
+    {
+      v8 = a2 + v5 - (_QWORD)result;
+      result = (char *)(-1i64 - v8);
+      if ( -1i64 - v8 < (unsigned __int64)v6 )
+        std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+      v9 = &v6[v8];
+      v10 = a1[2] - v5;
+      if ( (unsigned __int64)v9 > v10 )
+      {
+        if ( -1i64 - (v10 >> 1) >= v10 )
+          v11 = (v10 >> 1) + v10;
+        else
+          v11 = 0i64;
+        if ( v11 < (unsigned __int64)v9 )
+          v11 = (size_t)v9;
+        result = std::vector<unsigned char>::reserve((__int64)a1, v11);
+      }
+      v12 = (void *)a1[1];
+      v13 = a2 + *a1 - (_QWORD)v12;
+      if ( v13 )
+        result = (char *)memset_0(v12, 0, v13);
+      a1[1] = a2 + *a1;
+    }
+  }
+  else
+  {
+    v7 = (char *)(v5 + a2);
+    if ( (char *)(v5 + a2) != result )
+    {
+      memmove(v7, result, 0i64);
+      result = v7;
+      a1[1] = (__int64)v7;
+    }
+  }
+  return result;
+}

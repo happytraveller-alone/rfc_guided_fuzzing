@@ -1,0 +1,5 @@
+//----- (0000000140124400) ----------------------------------------------------
+_WORD **__fastcall DnsSign::CException::AppendErrorMessage(__int64 a1, _QWORD *a2)
+{
+  return std::wstring::append((_WORD **)(a1 + 16), a2, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+}

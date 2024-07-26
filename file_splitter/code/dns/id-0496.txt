@@ -1,0 +1,19 @@
+//----- (0000000140042B64) ----------------------------------------------------
+__int64 __fastcall Ds_WriteNodeSecurityToDs(__int64 *a1, __int64 a2, __int64 a3)
+{
+  __int64 result; // rax
+  wchar_t Buffer[1288]; // [rsp+20h] [rbp-A38h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x13Cu, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+  }
+  if ( !pServerLdap || !a3 )
+    return 87i64;
+  result = buildDsNodeNameFromNode(Buffer, a1, a2);
+  if ( !(_DWORD)result )
+    return Ds_WriteDnSecurity(pServerLdap, Buffer, a3, 1);
+  return result;
+}

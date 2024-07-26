@@ -1,0 +1,75 @@
+//----- (0000000140153BA0) ----------------------------------------------------
+__int64 __fastcall Rpc_DeleteVirtualizationInstance(__int64 a1, __int64 a2, __int64 a3, __int64 a4, int a5, __int64 a6)
+{
+  unsigned int v6; // ebx
+  const wchar_t *v7; // rcx
+  int v8; // ebx
+  CDnsVirtualizationManager *v9; // rcx
+  unsigned __int16 v10; // dx
+  __int64 v11; // rcx
+
+  if ( !a6 )
+  {
+    v6 = 87;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x10u,
+        (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids,
+        87);
+    }
+    return v6;
+  }
+  v7 = *(const wchar_t **)(a6 + 16);
+  v8 = *(_DWORD *)(a6 + 8) & 1;
+  if ( !v7 || !*v7 || !_wcsicmp(v7, L".") )
+    return 9925;
+  if ( !g_pVirtualizationManager )
+  {
+    v6 = 14;
+    goto LABEL_12;
+  }
+  v6 = CDnsVirtualizationManager::RemoveVirtualInstance(v9, *(unsigned __int16 **)(a6 + 16), v8);
+  if ( v6 )
+  {
+LABEL_12:
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return v6;
+    }
+    v10 = 17;
+    v11 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+    goto LABEL_16;
+  }
+  v6 = PersistVirtualizationInstanceRemoval(*(LPCWSTR *)(a6 + 16));
+  if ( v6 )
+  {
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      return v6;
+    }
+    v11 = *((_QWORD *)WPP_GLOBAL_Control + 7);
+    v10 = 18;
+LABEL_16:
+    WPP_SF_SD(
+      v11,
+      v10,
+      (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids,
+      *(const unsigned __int16 **)(a6 + 16));
+    return v6;
+  }
+  if ( (dword_1401B9104 & 0x4000) != 0 )
+    Template_z(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_VIRT_INST_DELETE, *(const unsigned __int16 **)(a6 + 16));
+  return v6;
+}
+// 140153C4E: variable 'v9' is possibly undefined
+// 140186768: using guessed type EVENT_DESCRIPTOR DNS_EVENT_VIRT_INST_DELETE;
+// 1401B9104: using guessed type int dword_1401B9104;
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

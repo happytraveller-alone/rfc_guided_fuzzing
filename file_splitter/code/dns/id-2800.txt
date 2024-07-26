@@ -1,0 +1,29 @@
+//----- (000000014014B04C) ----------------------------------------------------
+void __fastcall std::list<std::pair<std::wstring,unsigned long>>::~list<std::pair<std::wstring,unsigned long>>(
+        void ***a1)
+{
+  void **v2; // rbx
+  void **v3; // rsi
+
+  v2 = (void **)**a1;
+  **a1 = *a1;
+  (*a1)[1] = *a1;
+  a1[1] = 0i64;
+  if ( v2 != *a1 )
+  {
+    do
+    {
+      v3 = (void **)*v2;
+      if ( (unsigned __int64)v2[5] >= 8 )
+        operator delete(v2[2]);
+      v2[5] = (void *)7;
+      v2[4] = 0i64;
+      *((_WORD *)v2 + 8) = 0;
+      operator delete(v2);
+      v2 = v3;
+    }
+    while ( v3 != *a1 );
+  }
+  operator delete(*a1);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

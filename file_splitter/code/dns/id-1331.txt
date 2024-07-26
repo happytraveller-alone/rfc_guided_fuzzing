@@ -1,0 +1,31 @@
+//----- (00000001400A9C40) ----------------------------------------------------
+__int64 __fastcall Rpc_RemovePolicy(__int64 a1, __int64 a2, __int64 a3, __int64 a4, int a5, wchar_t *Str)
+{
+  unsigned int v6; // edx
+  unsigned int v8; // ebx
+
+  if ( !(unsigned int)IsValidFileName(Str) )
+    return 9982i64;
+  v8 = Policy_AcquireWriteLock(&g_hServerLevelPolicyLock, v6);
+  if ( v8 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x44u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        v8);
+    }
+  }
+  else
+  {
+    v8 = Remove_CDNSPolicy(0i64, (char *)Str, 1);
+    Lock_ReleaseWrite(g_hServerLevelPolicyLock);
+  }
+  return v8;
+}
+// 1400A9C62: variable 'v6' is possibly undefined
+// 1401B9240: using guessed type __int64 g_hServerLevelPolicyLock;

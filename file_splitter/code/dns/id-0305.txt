@@ -1,0 +1,101 @@
+//----- (0000000140026A14) ----------------------------------------------------
+_QWORD *__fastcall findTrustAnchorNode(unsigned __int16 *a1, __int64 a2, int a3)
+{
+  CDnsClientSubnetRecordsTrie *v3; // rax
+  __int64 v4; // rsi
+  _QWORD *v5; // rbx
+  char *v9; // rax
+  unsigned __int16 v10; // dx
+  __int64 v11; // rcx
+  unsigned __int8 *v12; // rdx
+  _BYTE *v13; // rax
+  char *v14; // rax
+  _QWORD *v16; // [rsp+40h] [rbp-158h] BYREF
+  char v17[2]; // [rsp+50h] [rbp-148h] BYREF
+  char v18; // [rsp+52h] [rbp-146h] BYREF
+
+  v3 = WPP_GLOBAL_Control;
+  v4 = g_pTrustAnchorsZone;
+  v5 = 0i64;
+  v16 = 0i64;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0 )
+  {
+    if ( !a2 )
+    {
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 5u )
+      {
+        goto LABEL_12;
+      }
+      v9 = Dbg_LookupName(a1);
+      v10 = 29;
+      goto LABEL_9;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      v9 = Dbg_NodeName(a2);
+      v10 = 28;
+LABEL_9:
+      WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), v10, (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids, v9);
+      v3 = WPP_GLOBAL_Control;
+    }
+  }
+  if ( a2 )
+  {
+    *(_BYTE *)(a2 + 98) = CurrentTimeoutBin;
+    v3 = WPP_GLOBAL_Control;
+  }
+LABEL_12:
+  if ( dword_1401B98F8 )
+  {
+    if ( v4 )
+    {
+      if ( !a2 || (v11 = *(_QWORD *)(a2 + 56)) == 0 || *(_DWORD *)(v11 + 372) == 5 )
+      {
+        v12 = 0i64;
+        if ( a2 )
+        {
+          Name_NodeToCountName((unsigned __int8 *)v17, (__int64 *)a2, 0);
+          v12 = (unsigned __int8 *)&v18;
+        }
+        v13 = Lookup_ZoneNode(v4, v12, 0i64, a1, 33, (__int64 *)&v16, 0i64, 0i64);
+        v5 = v13;
+        if ( !a3 || v13 )
+        {
+          if ( v13 )
+            goto LABEL_24;
+          if ( v16 )
+          {
+            v5 = v16;
+LABEL_24:
+            while ( !RR_FindNextRecordEx((__int64)v5, 0, 0x30u, 0i64, 0, 0) )
+            {
+              if ( a3 )
+              {
+                v5 = 0i64;
+                break;
+              }
+              v5 = (_QWORD *)*v5;
+              if ( !v5 )
+                break;
+            }
+          }
+        }
+        v3 = WPP_GLOBAL_Control;
+      }
+    }
+  }
+  if ( v3 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v3 + 17) & 0x100000) != 0
+    && *((_BYTE *)v3 + 65) >= 4u )
+  {
+    v14 = Dbg_NodeName((__int64)v5);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Eu, (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids, v14);
+  }
+  return v5;
+}
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B98F8: using guessed type int dword_1401B98F8;
+// 1401BA4B8: using guessed type char CurrentTimeoutBin;
+// 140026A14: using guessed type unsigned __int8 var_148[2];

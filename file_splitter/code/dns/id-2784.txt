@@ -1,0 +1,218 @@
+//----- (0000000140148434) ----------------------------------------------------
+__int64 __fastcall CDnsPolicyOrder::RemovePolicy(CDnsPolicyOrder *this, struct CDnsPolicy *a2)
+{
+  int v4; // esi
+  __int64 v5; // rcx
+  unsigned int v6; // ebx
+  _QWORD *ZoneName; // rdi
+  __int64 PolicyName; // rax
+  bool v9; // cf
+  __int64 v10; // rax
+  __int64 v11; // rbx
+  __int64 i; // rax
+  const void ***j; // rdi
+  _QWORD *v14; // r15
+  __int64 v15; // rax
+  _WORD *v16; // rcx
+  unsigned __int64 v17; // r9
+  unsigned __int64 v18; // r8
+  unsigned __int64 v19; // rdx
+  int v20; // eax
+  __int64 v21; // rcx
+  int v22; // eax
+  bool v23; // r15
+  __int64 v24; // rcx
+  __int64 v25; // rcx
+  __int64 v26; // rax
+  const WCHAR *v27; // r15
+  __int64 v28; // rax
+  int updated; // r15d
+  __int64 v30; // rax
+  void *v32[3]; // [rsp+48h] [rbp-39h] BYREF
+  unsigned __int64 v33; // [rsp+60h] [rbp-21h]
+  void *v34[2]; // [rsp+70h] [rbp-11h] BYREF
+  __int64 v35; // [rsp+80h] [rbp-1h]
+  unsigned __int64 v36; // [rsp+88h] [rbp+7h]
+
+  v4 = 0;
+  v5 = *((_QWORD *)a2 + 18);
+  if ( v5 )
+  {
+    v6 = Policy_AcquireWriteLock((__int64 *)(v5 + 296), (unsigned int)a2);
+    if ( v6 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        ZoneName = (_QWORD *)CDnsPolicy::GetZoneName((__int64)a2, (__int64)v32);
+        PolicyName = CDnsPolicy::GetPolicyName((const void **)a2, (__int64)v34);
+        LOBYTE(v4) = 3;
+        if ( ZoneName[3] >= 0x10ui64 )
+          ZoneName = (_QWORD *)*ZoneName;
+        if ( *(_QWORD *)(PolicyName + 24) >= 8ui64 )
+          PolicyName = *(_QWORD *)PolicyName;
+        WPP_SF_Ssd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x66u,
+          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+          (const unsigned __int16 *)PolicyName,
+          (__int64)ZoneName);
+      }
+      if ( (v4 & 2) != 0 )
+      {
+        LOBYTE(v4) = v4 & 0xFD;
+        if ( v36 >= 8 )
+          operator delete(v34[0]);
+        v36 = 7i64;
+        v35 = 0i64;
+        LOWORD(v34[0]) = 0;
+      }
+      if ( (v4 & 1) != 0 )
+      {
+        v9 = v33 < 0x10;
+        goto LABEL_17;
+      }
+      return v6;
+    }
+LABEL_28:
+    v11 = *(_QWORD *)this + 8 * (*((unsigned int *)a2 + 26) - 1i64);
+    memmove((void *)v11, (const void *)(v11 + 8), (*((_QWORD *)this + 1) - (v11 + 8)) & 0xFFFFFFFFFFFFFFF8ui64);
+    *((_QWORD *)this + 1) -= 8i64;
+    for ( i = v11; i != *((_QWORD *)this + 1); i += 8i64 )
+      --*(_DWORD *)(*(_QWORD *)i + 104i64);
+    for ( j = (const void ***)*((_QWORD *)this + 4); j != *((const void ****)this + 5); ++j )
+    {
+      v14 = (_QWORD *)CDnsPolicy::GetPolicyName((const void **)a2, (__int64)v32);
+      v15 = CDnsPolicy::GetPolicyName(*j, (__int64)v34);
+      v16 = (_WORD *)v15;
+      v17 = v14[2];
+      if ( v14[3] >= 8ui64 )
+        v14 = (_QWORD *)*v14;
+      v18 = *(_QWORD *)(v15 + 16);
+      if ( *(_QWORD *)(v15 + 24) >= 8ui64 )
+        v16 = *(_WORD **)v15;
+      v19 = v17;
+      if ( v18 < v17 )
+        v19 = *(_QWORD *)(v15 + 16);
+      if ( v19 )
+      {
+        while ( *v16 == *(_WORD *)v14 )
+        {
+          ++v16;
+          v14 = (_QWORD *)((char *)v14 + 2);
+          if ( !--v19 )
+            goto LABEL_42;
+        }
+        v20 = *v16 < *(_WORD *)v14 ? -1 : 1;
+      }
+      else
+      {
+LABEL_42:
+        v20 = 0;
+      }
+      v21 = v20;
+      v22 = v18 != v17;
+      if ( v18 < v17 )
+        v22 = -1;
+      if ( v21 )
+        v22 = v21;
+      v23 = v22 == 0;
+      if ( v36 >= 8 )
+        operator delete(v34[0]);
+      v36 = 7i64;
+      v35 = 0i64;
+      LOWORD(v34[0]) = 0;
+      if ( v33 >= 8 )
+        operator delete(v32[0]);
+      if ( v23 )
+      {
+        memmove(j, j + 1, (*((_QWORD *)this + 5) - (_QWORD)(j + 1)) & 0xFFFFFFFFFFFFFFF8ui64);
+        *((_QWORD *)this + 5) -= 8i64;
+        break;
+      }
+    }
+    v24 = *((_QWORD *)a2 + 18);
+    if ( v24 )
+      v25 = *(_QWORD *)(v24 + 296);
+    else
+      v25 = g_hServerLevelNegativePolicyLock;
+    Lock_ReleaseWrite(v25);
+    for ( ; v11 != *((_QWORD *)this + 1); v11 += 8i64 )
+    {
+      v26 = *(_QWORD *)(*(_QWORD *)v11 + 144i64);
+      if ( v26 )
+      {
+        if ( *(_DWORD *)(v26 + 372) )
+          v27 = *(const WCHAR **)(v26 + 24);
+        else
+          v27 = L"..Cache";
+      }
+      else
+      {
+        v27 = 0i64;
+      }
+      v28 = CDnsPolicy::GetPolicyName(*(const void ***)v11, (__int64)v32);
+      if ( *(_QWORD *)(v28 + 24) >= 8ui64 )
+        v28 = *(_QWORD *)v28;
+      updated = UpdateProcessingOrderInRegistry(
+                  v27,
+                  (const unsigned __int16 *)v28,
+                  *(_DWORD *)(*(_QWORD *)v11 + 84i64),
+                  *(_DWORD *)(*(_QWORD *)v11 + 104i64));
+      if ( v33 >= 8 )
+        operator delete(v32[0]);
+      if ( updated )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v30 = CDnsPolicy::GetPolicyName(*(const void ***)v11, (__int64)v32);
+          v4 |= 8u;
+          if ( *(_QWORD *)(v30 + 24) >= 8ui64 )
+            v30 = *(_QWORD *)v30;
+          WPP_SF_SD(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x68u,
+            (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+            (const unsigned __int16 *)v30);
+        }
+        if ( (v4 & 8) != 0 )
+        {
+          v4 &= ~8u;
+          if ( v33 >= 8 )
+            operator delete(v32[0]);
+        }
+      }
+    }
+    return 0;
+  }
+  v6 = Policy_AcquireWriteLock(&g_hServerLevelNegativePolicyLock, (unsigned int)a2);
+  if ( !v6 )
+    goto LABEL_28;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v10 = CDnsPolicy::GetPolicyName((const void **)a2, (__int64)v32);
+    LOBYTE(v4) = 4;
+    if ( *(_QWORD *)(v10 + 24) >= 8ui64 )
+      v10 = *(_QWORD *)v10;
+    WPP_SF_SD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x67u,
+      (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+      (const unsigned __int16 *)v10);
+  }
+  if ( (v4 & 4) != 0 )
+  {
+    v9 = v33 < 8;
+LABEL_17:
+    if ( !v9 )
+      operator delete(v32[0]);
+  }
+  return v6;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B91C8: using guessed type __int64 g_hServerLevelNegativePolicyLock;

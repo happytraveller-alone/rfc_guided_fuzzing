@@ -1,0 +1,5 @@
+//----- (00000001400DD750) ----------------------------------------------------
+int __fastcall std::ctype<char>::do_toupper(__int64 a1, unsigned __int8 a2)
+{
+  return Toupper(a2, (const _Ctypevec *)(a1 + 16));
+}

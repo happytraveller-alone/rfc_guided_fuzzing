@@ -1,0 +1,33 @@
+//----- (000000014003483C) ----------------------------------------------------
+void __fastcall freeDpRpcInfo(_QWORD *a1)
+{
+  void *v2; // rcx
+  void *v3; // rcx
+  void *v4; // rcx
+  __int64 i; // rdi
+  void **v6; // rsi
+
+  if ( a1 )
+  {
+    v2 = (void *)a1[1];
+    if ( v2 )
+      MIDL_user_free(v2);
+    v3 = (void *)a1[2];
+    if ( v3 )
+      MIDL_user_free(v3);
+    v4 = (void *)a1[3];
+    if ( v4 )
+      MIDL_user_free(v4);
+    for ( i = 0i64; (unsigned int)i < *((_DWORD *)a1 + 20); i = (unsigned int)(i + 1) )
+    {
+      v6 = (void **)a1[i + 11];
+      if ( v6 )
+      {
+        if ( *v6 )
+          MIDL_user_free(*v6);
+        MIDL_user_free(v6);
+      }
+    }
+    MIDL_user_free(a1);
+  }
+}

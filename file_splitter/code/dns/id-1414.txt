@@ -1,0 +1,52 @@
+//----- (00000001400B1D04) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie *__fastcall btreeRebalance(_QWORD *a1, unsigned int a2)
+{
+  CDnsClientSubnetRecordsTrie *result; // rax
+  __int64 v5; // rdi
+  _QWORD *v6; // rbx
+  _QWORD *v7; // rax
+  _QWORD *v8; // rsi
+  void *retaddr; // [rsp+FF8h] [rbp+0h] BYREF
+
+  if ( a2 <= 0x1F4
+    || (result = (CDnsClientSubnetRecordsTrie *)Mem_Alloc(8 * a2 + 8, 0i64, "ds\\dns\\server\\server\\tree.c", 1531)) != 0i64 )
+  {
+    v5 = a1[1];
+    if ( v5 )
+    {
+      if ( *(_BYTE *)v5 == 0xFF )
+      {
+        v6 = 0i64;
+      }
+      else
+      {
+        v6 = (_QWORD *)(v5 + 16);
+        if ( *(_QWORD **)(v5 + 16) != a1 )
+          v6 = (_QWORD *)(v5 + 24);
+      }
+    }
+    else
+    {
+      v6 = (_QWORD *)(*a1 + 32i64);
+    }
+    btreeReadToArray((__int64)a1, (__int64)&retaddr);
+    v7 = btreeRebalanceLeftJustifyPrivate(&retaddr, a2);
+    v8 = v7;
+    if ( v6 )
+    {
+      *v6 = v7;
+      v7[1] = v5;
+    }
+    else
+    {
+      *(_QWORD *)(v5 + 8i64 * (int)NTree_HashTableIndexEx((__int64)v7, 0i64, *(_BYTE *)(v5 + 2)) + 16) = v7;
+      v8[1] = v5;
+    }
+    if ( a2 > 0x1F4 )
+      Mem_Free(&retaddr, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\tree.c", 1596);
+    result = WPP_GLOBAL_Control;
+    if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 6u )
+      return Dbg_SiblingList("B-tree after rebalance:\n", v8);
+  }
+  return result;
+}

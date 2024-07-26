@@ -1,0 +1,30 @@
+//----- (00000001400E6D38) ----------------------------------------------------
+_DWORD *__fastcall std::filebuf::_Initcvt(_QWORD *a1, __int64 a2)
+{
+  _DWORD *result; // rax
+
+  result = (_DWORD *)(*(__int64 (__fastcall **)(__int64))(*(_QWORD *)a2 + 8i64))(a2);
+  if ( (_BYTE)result )
+  {
+    a1[16] = 0i64;
+  }
+  else
+  {
+    a1[16] = a2;
+    a1[4] = a1 + 2;
+    a1[5] = a1 + 3;
+    a1[8] = a1 + 6;
+    a1[9] = a1 + 7;
+    a1[11] = a1 + 10;
+    a1[12] = (char *)a1 + 84;
+    a1[3] = 0i64;
+    *(_QWORD *)a1[9] = 0i64;
+    *(_DWORD *)a1[12] = 0;
+    *(_QWORD *)a1[4] = 0i64;
+    *(_QWORD *)a1[8] = 0i64;
+    result = (_DWORD *)a1[11];
+    *result = 0;
+  }
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

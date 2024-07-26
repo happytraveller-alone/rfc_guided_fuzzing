@@ -1,0 +1,88 @@
+//----- (0000000140121F00) ----------------------------------------------------
+__int64 __fastcall TlsaFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  unsigned int v4; // esi
+  _BYTE *v5; // rbp
+  unsigned int v9; // ebx
+  char v10; // r12
+  char v11; // r13
+  char v12; // r15
+  unsigned int v13; // edi
+  _DWORD *v14; // rax
+  __int64 v15; // rcx
+  _BYTE *v16; // rax
+  size_t v17; // r8
+  __int64 Size[2]; // [rsp+30h] [rbp-38h] BYREF
+  unsigned int v20; // [rsp+78h] [rbp+10h] BYREF
+
+  v4 = 0;
+  v5 = 0i64;
+  LODWORD(Size[0]) = 0;
+  if ( a2 < 4 )
+    goto LABEL_2;
+  if ( (unsigned int)File_ParseDwordToken(&v20, a3, a4)
+    && (v10 = v20, v20 <= 0xFF)
+    && (unsigned int)File_ParseDwordToken(&v20, a3 + 16, a4)
+    && (v11 = v20, v20 <= 0xFF)
+    && (unsigned int)File_ParseDwordToken(&v20, a3 + 32, a4)
+    && (v12 = v20, v20 <= 0xFF) )
+  {
+    v13 = a2 - 3;
+    if ( v13 )
+    {
+      v14 = (_DWORD *)(a3 + 56);
+      v15 = v13;
+      do
+      {
+        v4 += *v14;
+        v14 += 4;
+        --v15;
+      }
+      while ( v15 );
+      LODWORD(Size[0]) = v4;
+    }
+    v5 = Mem_Alloc(v4, 0i64, "ds\\dns\\server\\dnscore\\rrfile.c", 4239);
+    if ( !v5 )
+      goto LABEL_14;
+    if ( !v13 )
+    {
+LABEL_2:
+      v9 = -1072573181;
+      goto LABEL_22;
+    }
+    v9 = buildByteBufferFromHexStringTokens(v5, Size, v13, a3 + 48, (unsigned __int64)&v5[v4]);
+    if ( !v9 )
+    {
+      if ( LOWORD(Size[0]) >= 0xFFFDu )
+      {
+        v9 = 13;
+      }
+      else
+      {
+        v16 = RR_AllocateEx(LOWORD(Size[0]) + 3, 0, 0);
+        if ( !v16 )
+        {
+LABEL_14:
+          v9 = 14;
+          goto LABEL_22;
+        }
+        v17 = LODWORD(Size[0]);
+        *(_QWORD *)(a4 + 800) = v16;
+        v16[56] = v10;
+        v16[57] = v11;
+        v16[58] = v12;
+        memcpy_0(v16 + 59, v5, v17);
+      }
+    }
+  }
+  else
+  {
+    v9 = -1072573183;
+  }
+LABEL_22:
+  Mem_Free(v5, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\rrfile.c", 4303);
+  if ( v9 == -1072573183 )
+    *(_DWORD *)(a4 + 1596) = -1072573180;
+  return v9;
+}
+// 140121F00: using guessed type size_t Size[2];

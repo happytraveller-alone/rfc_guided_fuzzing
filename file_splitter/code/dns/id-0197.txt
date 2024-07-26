@@ -1,0 +1,28 @@
+//----- (0000000140017B40) ----------------------------------------------------
+__int64 __fastcall Lookup_ZoneForPacketName(unsigned __int8 *a1, __int64 a2)
+{
+  __int64 v4; // rax
+  __int16 v6[184]; // [rsp+30h] [rbp-188h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x2Cu,
+      (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids,
+      a2,
+      a1);
+  }
+  if ( (unsigned int)Name_ConvertPacketNameToLookupNameEx(a2, a1, (unsigned __int16 *)v6, 1)
+    && (v4 = Lookup_ZoneTreeNodeEx((unsigned __int16 *)v6, 0x2000000, 0i64)) != 0 )
+  {
+    return *(_QWORD *)(v4 + 56);
+  }
+  else
+  {
+    return 0i64;
+  }
+}
+// 140017B40: using guessed type unsigned __int16 var_188[184];

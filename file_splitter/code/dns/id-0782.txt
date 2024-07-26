@@ -1,0 +1,48 @@
+//----- (000000014006C198) ----------------------------------------------------
+__int64 Plugin_Cleanup()
+{
+  HMODULE v0; // rcx
+  void (*v1)(void); // rax
+
+  v0 = g_hServerLevelPluginModule;
+  if ( g_hServerLevelPluginModule )
+  {
+    v1 = (void (*)(void))g_pfnPluginCleanup;
+    if ( g_pfnPluginCleanup )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x12u, (__int64)&WPP_2c132243eb273534b128a6dd6bc8e6e2_Traceguids);
+        v1 = (void (*)(void))g_pfnPluginCleanup;
+      }
+      v1();
+      v0 = g_hServerLevelPluginModule;
+    }
+    FreeLibrary(v0);
+    g_hServerLevelPluginModule = 0i64;
+    g_pfnPluginInit = 0i64;
+    g_pfnPluginCleanup = 0i64;
+    g_pfnPluginDnsQuery = 0i64;
+    g_pfnPluginDnsQuery2 = 0i64;
+    g_pfnPluginDnsQuery3 = 0i64;
+    g_pfnPluginDnsQuery4 = 0i64;
+    g_pfnPluginDnsQuery5 = 0i64;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x13u, (__int64)&WPP_2c132243eb273534b128a6dd6bc8e6e2_Traceguids, 0);
+  }
+  return 0i64;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B8FC8: using guessed type __int64 g_pfnPluginDnsQuery4;
+// 1401B8FD0: using guessed type __int64 g_pfnPluginDnsQuery;
+// 1401B8FD8: using guessed type __int64 g_pfnPluginDnsQuery2;
+// 1401B8FF0: using guessed type __int64 g_pfnPluginDnsQuery5;
+// 1401B8FF8: using guessed type __int64 g_pfnPluginDnsQuery3;
+// 1401B9000: using guessed type __int64 g_pfnPluginCleanup;
+// 1401B9008: using guessed type __int64 (__fastcall *g_pfnPluginInit)(_QWORD, _QWORD);

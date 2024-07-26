@@ -1,0 +1,88 @@
+//----- (000000014013E21C) ----------------------------------------------------
+__int64 __fastcall Enumerate_ClientSubnetRecord(_QWORD *a1)
+{
+  int v1; // r14d
+  unsigned int v3; // edi
+  int v4; // ebp
+  _DWORD *zero; // rsi
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  unsigned __int16 v7; // dx
+  __int64 *v8; // rbx
+  _QWORD *v9; // rcx
+  _WORD *v10; // rax
+  __int64 *v11; // rax
+  __int64 *i; // rax
+
+  v1 = qword_1401B93F0;
+  v3 = 0;
+  v4 = 0;
+  zero = MIDL_user_allocate_zero(8i64 * (unsigned int)qword_1401B93F0 + 16);
+  if ( zero )
+  {
+    v8 = *(__int64 **)qword_1401B93E8;
+    if ( *(_QWORD *)qword_1401B93E8 == qword_1401B93E8 )
+    {
+LABEL_21:
+      *zero = v1;
+      *a1 = zero;
+      return v3;
+    }
+    while ( 1 )
+    {
+      v9 = v8 + 3;
+      if ( (unsigned __int64)v8[6] >= 8 )
+        v9 = (_QWORD *)*v9;
+      v10 = MIDL_user_copy_stringW((__int64)v9);
+      *(_QWORD *)&zero[2 * v4 + 2] = v10;
+      if ( !v10 )
+        break;
+      if ( !*((_BYTE *)v8 + 73) )
+      {
+        v11 = (__int64 *)v8[2];
+        if ( *((_BYTE *)v11 + 73) )
+        {
+          for ( i = (__int64 *)v8[1]; !*((_BYTE *)i + 73) && v8 == (__int64 *)i[2]; i = (__int64 *)i[1] )
+            v8 = i;
+          v8 = i;
+        }
+        else
+        {
+          do
+          {
+            v8 = v11;
+            v11 = (__int64 *)*v11;
+          }
+          while ( !*((_BYTE *)v11 + 73) );
+        }
+      }
+      ++v4;
+      if ( v8 == (__int64 *)qword_1401B93E8 )
+        goto LABEL_21;
+    }
+    v3 = 14;
+    v6 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v7 = 56;
+      goto LABEL_6;
+    }
+  }
+  else
+  {
+    v3 = 14;
+    v6 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v7 = 55;
+LABEL_6:
+      WPP_SF_(*((_QWORD *)v6 + 7), v7, (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids);
+    }
+  }
+  return v3;
+}
+// 1401B93E8: using guessed type __int64 qword_1401B93E8;
+// 1401B93F0: using guessed type __int64 qword_1401B93F0;

@@ -1,0 +1,15 @@
+//----- (0000000140128120) ----------------------------------------------------
+DnsSign::CBadCommandLineException *__fastcall DnsSign::CBadCommandLineException::CBadCommandLineException(
+        DnsSign::CBadCommandLineException *this,
+        __int64 a2,
+        int a3)
+{
+  *((_DWORD *)this + 3) = a3;
+  *((_DWORD *)this + 2) = 0;
+  *((_QWORD *)this + 4) = 0i64;
+  *((_QWORD *)this + 5) = 7i64;
+  *((_WORD *)this + 8) = 0;
+  *(_QWORD *)this = &DnsSign::CBadCommandLineException::`vftable';
+  return this;
+}
+// 140171730: using guessed type void *DnsSign::CBadCommandLineException::`vftable';

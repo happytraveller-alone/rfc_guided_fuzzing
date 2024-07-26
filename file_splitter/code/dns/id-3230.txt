@@ -1,0 +1,22 @@
+//----- (000000014016D940) ----------------------------------------------------
+__int64 sub_14016D940()
+{
+  void *v0; // rcx
+  void (*v1)(void); // rax
+  __int64 result; // rax
+
+  while ( 1 )
+  {
+    result = qword_1401B7E78;
+    if ( (unsigned __int64)qword_1401B7E78 >= 0xA )
+      break;
+    v0 = (void *)qword_1401B8600[qword_1401B7E78++];
+    v1 = (void (*)(void))DecodePointer(v0);
+    if ( v1 )
+      v1();
+  }
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B7E78: using guessed type __int64 qword_1401B7E78;
+// 1401B8600: using guessed type _QWORD qword_1401B8600[10];

@@ -1,0 +1,44 @@
+//----- (00000001400E53A0) ----------------------------------------------------
+__int64 **__fastcall std::_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>::lower_bound(
+        _QWORD *a1,
+        __int64 **a2,
+        _WORD *a3)
+{
+  unsigned __int64 v6; // rcx
+  unsigned __int64 v7; // rdx
+  __int64 v8; // r8
+  __int64 v9; // r9
+  unsigned __int64 v10; // rax
+  __int64 *v11; // rdx
+  __int64 i; // rcx
+  __int64 v13; // rax
+  ldiv_t v15; // [rsp+30h] [rbp+8h]
+
+  v15 = ldiv(((unsigned __int16)*a3 ^ 0xDEADBEEF) & 0x7FFFFFFF, 127773);
+  v6 = a1[8];
+  v7 = v6 & (16807 * v15.rem - 2836 * v15.quot + (16807 * v15.rem - 2836 * v15.quot < 0 ? 0x7FFFFFFF : 0));
+  if ( a1[9] <= v7 )
+    v7 += -1i64 - (v6 >> 1);
+  v8 = a1[4];
+  v9 = 2 * v7;
+  v10 = v7;
+  v11 = (__int64 *)a1[1];
+  for ( i = *(_QWORD *)(v8 + 16 * v10); ; i = *(_QWORD *)i )
+  {
+    if ( *(__int64 **)(v8 + 8 * v9) == v11 )
+      v13 = a1[1];
+    else
+      v13 = **(_QWORD **)(v8 + 8 * v9 + 8);
+    if ( i == v13 )
+    {
+      *a2 = v11;
+      return a2;
+    }
+    if ( *(_WORD *)(i + 16) >= *a3 )
+      break;
+  }
+  if ( *a3 < *(_WORD *)(i + 16) )
+    i = a1[1];
+  *a2 = (__int64 *)i;
+  return a2;
+}

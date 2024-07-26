@@ -1,0 +1,23 @@
+//----- (00000001400B614C) ----------------------------------------------------
+LPVOID __fastcall Up_CreateAppendUpdateMultiRRAdd(__int64 a1, __int64 a2, _QWORD *a3, __int16 a4)
+{
+  LPVOID AppendUpdate; // rdi
+  _QWORD *v7; // rbx
+  _QWORD *v8; // r8
+
+  AppendUpdate = 0i64;
+  if ( a3 )
+  {
+    v7 = (_QWORD *)*a3;
+    *a3 = 0i64;
+    AppendUpdate = Up_CreateAppendUpdate(a1, a2, (__int64)a3, a4, 0i64);
+    while ( v7 )
+    {
+      v8 = v7;
+      v7 = (_QWORD *)*v7;
+      *v8 = 0i64;
+      Up_CreateAppendUpdate(a1, a2, (__int64)v8, 0, 0i64);
+    }
+  }
+  return AppendUpdate;
+}

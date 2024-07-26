@@ -1,0 +1,17 @@
+//----- (00000001400CB9B0) ----------------------------------------------------
+__int64 *__fastcall Zone_ListGetNextZoneMatchingFilterEx(const unsigned __int16 **a1, __int64 *a2, __int64 a3)
+{
+  __int64 *NextZone; // rax
+  __int64 v7; // r8
+
+  EnterCriticalSection(&csZoneList);
+  do
+  {
+    NextZone = (__int64 *)Zone_ListGetNextZoneEx(a1, a2, 0);
+    a2 = NextZone;
+  }
+  while ( NextZone && !(unsigned int)Zone_CheckZoneFilter((__int64)NextZone, a3, v7) );
+  LeaveCriticalSection(&csZoneList);
+  return a2;
+}
+// 1400CB9DD: variable 'v7' is possibly undefined

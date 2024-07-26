@@ -1,0 +1,37 @@
+//----- (00000001401396C8) ----------------------------------------------------
+__int64 __fastcall CDnsPolicyManager::GetPolicySearchCriteriaRoots(__int64 a1, __int64 a2, __int64 a3)
+{
+  __int64 v3; // rcx
+  int v6; // eax
+
+  v3 = 0i64;
+  if ( a3 )
+  {
+    CDnsPolicyManager::InitializeZonePolicyCriteriaSearchTrees(0i64, *(_DWORD *)(a2 + 88), a3);
+    return *(_QWORD *)(*(_QWORD *)(a3 + 208) + 16i64 * *(int *)(a2 + 88));
+  }
+  else
+  {
+    v6 = *(_DWORD *)(a2 + 88);
+    if ( v6 )
+    {
+      switch ( v6 )
+      {
+        case 2:
+          return g_PolicyCriteriaSearchRootsDU;
+        case 1:
+          return g_PolicyCriteriaSearchRootsXfr;
+        case 3:
+          return g_PolicyCriteriaSearchRootsRecursion;
+        case 4:
+          return g_PolicyCriteriaSearchRootsRRLExceptionlist;
+        default:
+          return v3;
+      }
+    }
+    else
+    {
+      return g_PolicyCriteriaSearchRootsQP;
+    }
+  }
+}

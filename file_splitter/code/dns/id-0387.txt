@@ -1,0 +1,79 @@
+//----- (00000001400348CC) ----------------------------------------------------
+_QWORD *__fastcall allocateRpcDpInfo(__int64 a1)
+{
+  __int64 v2; // rbx
+  _QWORD *v3; // rcx
+  int v4; // eax
+  _QWORD *zero; // rdi
+  void *v6; // rax
+  bool v7; // zf
+  unsigned int v8; // ebp
+  _QWORD *v9; // r14
+  void *v10; // rax
+
+  LODWORD(v2) = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xAu,
+      (__int64)&WPP_39ff0bf6ca68380ebeab46e886ed7e1c_Traceguids,
+      *(const char **)(a1 + 24));
+  }
+  v3 = *(_QWORD **)(a1 + 80);
+  if ( v3 && *v3 )
+  {
+    do
+      v2 = (unsigned int)(v2 + 1);
+    while ( v3[v2] );
+  }
+  v4 = 8 * v2 + 96;
+  if ( (unsigned int)v2 < 0x7FFFFFFF && v4 > (int)v2 && (unsigned __int64)v4 > 0x60 && (unsigned int)v2 < 0x1FFFFFFF )
+  {
+    zero = MIDL_user_allocate_zero(v4);
+    if ( zero )
+    {
+      zero[1] = Dns_StringCopyAllocate(*(char **)(a1 + 24), 0, 2i64, 2);
+      zero[2] = Dns_StringCopyAllocate(*(char **)(a1 + 40), 0, 1i64, 1);
+      v6 = Dns_StringCopyAllocate(*(char **)(a1 + 48), 0, 1i64, 1);
+      v7 = zero[1] == 0i64;
+      zero[3] = v6;
+      if ( !v7 && zero[2] && v6 )
+      {
+        *((_DWORD *)zero + 20) = v2;
+        if ( !(_DWORD)v2 )
+        {
+LABEL_21:
+          *((_DWORD *)zero + 8) = *(_DWORD *)(a1 + 100);
+          *((_DWORD *)zero + 9) = *(_DWORD *)(a1 + 108);
+          *((_DWORD *)zero + 10) = *(_DWORD *)(a1 + 16);
+          return zero;
+        }
+        v8 = 0;
+        v9 = zero + 11;
+        while ( 1 )
+        {
+          v10 = MIDL_user_allocate_zero(8ui64);
+          *v9 = v10;
+          if ( !v10 )
+            break;
+          *(_QWORD *)*v9 = Dns_StringCopyAllocate(
+                             *(char **)((char *)v9 + *(_QWORD *)(a1 + 80) - (_QWORD)zero - 88),
+                             0,
+                             1i64,
+                             1);
+          if ( !*(_QWORD *)*v9 )
+            break;
+          ++v8;
+          ++v9;
+          if ( v8 >= (unsigned int)v2 )
+            goto LABEL_21;
+        }
+      }
+      freeDpRpcInfo(zero);
+    }
+  }
+  return 0i64;
+}

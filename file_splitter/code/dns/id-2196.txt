@@ -1,0 +1,101 @@
+//----- (0000000140115BF8) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::Attach(
+        PACL *this,
+        PSECURITY_DESCRIPTOR pSecurityDescriptor,
+        char a3,
+        WINBOOL a4)
+{
+  __int64 result; // rax
+  unsigned int v7; // esi
+  BYTE AclRevision; // di
+  struct _ACL *v9; // rax
+  struct _ACL *v10; // rcx
+  DWORD v11; // edi
+  PACL v12; // rcx
+  signed int LastError; // eax
+  signed int v14; // ecx
+  WINBOOL bSaclPresent; // [rsp+30h] [rbp-30h] BYREF
+  PACL pDacl; // [rsp+38h] [rbp-28h] BYREF
+  LPVOID pAce; // [rsp+40h] [rbp-20h] BYREF
+  PACL pSacl; // [rsp+48h] [rbp-18h] BYREF
+  PSID pOwner; // [rsp+50h] [rbp-10h] BYREF
+  PSID pGroup; // [rsp+58h] [rbp-8h] BYREF
+  WINBOOL bDaclDefaulted; // [rsp+A0h] [rbp+40h] BYREF
+  WINBOOL bDaclPresent; // [rsp+A8h] [rbp+48h] BYREF
+
+  bDaclPresent = a4;
+  LOBYTE(bDaclDefaulted) = a3;
+  pDacl = 0i64;
+  pSacl = 0i64;
+  SetLastError(0);
+  result = CSecurityDescriptor::Initialize((CSecurityDescriptor *)this);
+  v7 = result;
+  if ( (int)result < 0 )
+    return result;
+  if ( !pSecurityDescriptor )
+    return 0i64;
+  if ( GetSecurityDescriptorDacl(pSecurityDescriptor, &bDaclPresent, &pDacl, &bDaclDefaulted) && pDacl )
+  {
+    if ( !bDaclPresent )
+      goto LABEL_34;
+    AclRevision = pDacl->AclRevision;
+    v9 = (struct _ACL *)Dns_MemNew<unsigned char>(pDacl->AclSize);
+    this[3] = v9;
+    if ( v9 )
+    {
+      if ( InitializeAcl(v9, pDacl->AclSize, AclRevision) )
+      {
+        v10 = pDacl;
+        v11 = 0;
+        if ( pDacl->AceCount )
+        {
+          while ( GetAce(v10, v11, &pAce)
+               && ((*((_BYTE *)pAce + 1) & 0x10) != 0
+                || AddAce(this[3], 2u, 0xFFFFFFFF, pAce, *((unsigned __int16 *)pAce + 1))) )
+          {
+            v10 = pDacl;
+            if ( (int)++v11 >= pDacl->AceCount )
+              goto LABEL_14;
+          }
+          goto LABEL_24;
+        }
+LABEL_14:
+        if ( IsValidAcl(this[3]) && SetSecurityDescriptorDacl(*this, this[3] != 0i64, this[3], bDaclDefaulted) )
+        {
+LABEL_34:
+          if ( GetSecurityDescriptorSacl(pSecurityDescriptor, &bSaclPresent, &pSacl, &bDaclDefaulted)
+            && !bSaclPresent
+            && GetSecurityDescriptorOwner(*this, &pOwner, &bDaclDefaulted)
+            && (int)CSecurityDescriptor::SetOwner((CSecurityDescriptor *)this, pOwner, bDaclDefaulted) >= 0
+            && GetSecurityDescriptorGroup(*this, &pGroup, &bDaclDefaulted)
+            && (int)CSecurityDescriptor::SetGroup((CSecurityDescriptor *)this, pGroup, bDaclDefaulted) >= 0
+            && IsValidSecurityDescriptor(*this) )
+          {
+            return v7;
+          }
+        }
+      }
+    }
+  }
+LABEL_24:
+  v12 = this[3];
+  if ( v12 )
+  {
+    operator delete(v12);
+    this[3] = 0i64;
+  }
+  if ( *this )
+  {
+    operator delete(*this);
+    *this = 0i64;
+  }
+  LastError = GetLastError();
+  v14 = (unsigned __int16)LastError | 0x80070000;
+  if ( LastError <= 0 )
+    v14 = LastError;
+  result = 2147549183i64;
+  if ( v14 < 0 )
+    return (unsigned int)v14;
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

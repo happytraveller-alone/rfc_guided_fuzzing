@@ -1,0 +1,27 @@
+//----- (000000014014F9B0) ----------------------------------------------------
+void __fastcall CDnsRRLParameters::ComputeIPv6Mask(CDnsRRLParameters *this, unsigned int a2)
+{
+  u_long *v3; // rdi
+  __int64 v4; // rsi
+
+  v3 = (u_long *)((char *)this + 36);
+  v4 = 4i64;
+  do
+  {
+    if ( a2 )
+    {
+      if ( a2 >= 0x20 )
+        *v3 = -1;
+      else
+        *v3 = htonl(-1 << (32 - a2));
+    }
+    else
+    {
+      *v3 = 0;
+    }
+    a2 -= 32;
+    ++v3;
+    --v4;
+  }
+  while ( v4 );
+}

@@ -1,0 +1,40 @@
+//----- (0000000140135740) ----------------------------------------------------
+__int64 __fastcall CDnsPolicyManager::TakePolicyTreeReadLock(__int64 a1, int a2, __int64 a3, __int64 *a4)
+{
+  unsigned int v4; // ebx
+  __int64 PolicyLock; // rax
+  __int64 v8; // rdi
+  const char *PolicyTypeString; // rax
+  __int64 v10; // r10
+  unsigned int v12; // [rsp+48h] [rbp+20h] BYREF
+
+  v4 = 0;
+  *a4 = 0i64;
+  PolicyLock = CDnsPolicyManager::GetPolicyLock(a1, a2, a3);
+  v8 = PolicyLock;
+  if ( PolicyLock )
+  {
+    v12 = -1;
+    if ( (unsigned int)acquireRead(PolicyLock, 0xFFFFFFFF, &v12) == -1 )
+      return 9980;
+    else
+      *a4 = v8;
+  }
+  else
+  {
+    v4 = 1168;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      PolicyTypeString = GetPolicyTypeString(a2);
+      WPP_SF_s(
+        *(_QWORD *)(v10 + 56),
+        0x59u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        PolicyTypeString);
+    }
+  }
+  return v4;
+}
+// 14013579B: variable 'v10' is possibly undefined

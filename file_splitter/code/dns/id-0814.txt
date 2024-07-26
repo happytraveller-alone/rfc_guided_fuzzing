@@ -1,0 +1,128 @@
+//----- (0000000140070E2C) ----------------------------------------------------
+void __fastcall Recurse_HandleCacheResult(struct _DNS_MSGINFO *a1, struct in_addr *a2, unsigned int a3)
+{
+  __int64 v6; // rbp
+  unsigned int v7; // eax
+  int v8; // ecx
+  __int64 v9; // [rsp+20h] [rbp-18h]
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    HIDWORD(v9) = HIDWORD(a1);
+    WPP_SF_Dqq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x26u,
+      (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+      a3);
+  }
+  if ( a1 && a2 )
+  {
+    v6 = *((_QWORD *)a1 + 157);
+    if ( (a2[148].S_un.S_un_b.s_b1 & 1) != 0
+      && ((a2[1576].S_un.S_un_b.s_b4 & 0xF) == 0 || (a2[1576].S_un.S_un_b.s_b4 & 0xF) == 3) )
+    {
+      Remote_SetSupportedEDNSVersion(a2 + 16, a2[149].S_un.S_un_b.s_b2);
+    }
+    *((_DWORD *)a1 + 148) |= 2u;
+    *(_DWORD *)(v6 + 592) |= 2u;
+    if ( *((_QWORD *)a1 + 33) )
+    {
+      Plugin_DnsQueryCleanup((__int64)a1);
+      Lookup_NodeForPacketEx(a1, (unsigned __int8 *)a1 + *((unsigned __int16 *)a1 + 221) + 6304, 0, 0i64, 0i64);
+    }
+    if ( a3 > 0x251E )
+    {
+      if ( a3 == 9504 )
+      {
+        *((_BYTE *)a1 + 1420) = 0;
+        _InterlockedIncrement(&dword_1401C7EA8);
+        Recurse_Question(a1, 0i64, *((_WORD *)a1 + 248), *((_WORD *)a1 + 249));
+        return;
+      }
+      if ( a3 != 9505 && a3 != 9706 && a3 != 9708 )
+      {
+        if ( a3 != 9722 )
+        {
+LABEL_39:
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            WPP_SF_D(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x28u,
+              (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+              a3);
+          }
+          freeSuspendedQueries((__int64)a1, 0);
+          Packet_Free((__int64)a1);
+          return;
+        }
+        goto LABEL_44;
+      }
+    }
+    else
+    {
+      if ( a3 == 9502 )
+      {
+LABEL_44:
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          LODWORD(v9) = a3;
+          WPP_SF_qd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x27u,
+            (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+            a1,
+            v9);
+        }
+        Reject_Request((__int64)a1, 2u, 0);
+        return;
+      }
+      if ( a3 )
+      {
+        if ( a3 != 123 && a3 != 9002 )
+        {
+          if ( a3 == 9003 || a3 == 9008 || a3 == 9501 )
+          {
+            if ( *((_WORD *)a1 + 3155) || *((_BYTE *)a1 + 1415) != 1 )
+            {
+              _InterlockedIncrement(&dword_1401C7EB0);
+              Answer_ContinueNextLookupForQuery(a1);
+              return;
+            }
+LABEL_32:
+            if ( (unsigned int)Send_RecursiveResponseToClient((__int64)a1, (__int64)a2) )
+              return;
+            goto LABEL_33;
+          }
+          goto LABEL_39;
+        }
+        goto LABEL_44;
+      }
+      if ( !*((_WORD *)a1 + 3155) && *((_BYTE *)a1 + 1415) == 1 && a2[1577].S_un.S_un_w.s_w2 && *((_BYTE *)a1 + 1420) )
+      {
+        if ( *((char *)a1 + 1428) > 0 )
+          goto LABEL_32;
+        v7 = *((unsigned __int16 *)a1 + 220);
+        if ( (unsigned __int16)v7 <= 0x1Cu )
+        {
+          v8 = 268439554;
+          if ( _bittest(&v8, v7) )
+            goto LABEL_32;
+        }
+        if ( a2[1578].S_un.S_un_w.s_w2 > a2[1578].S_un.S_un_w.s_w1 )
+          goto LABEL_32;
+      }
+    }
+LABEL_33:
+    Answer_ContinueCurrentLookupForQuery(a1);
+  }
+}
+// 14007109E: variable 'v9' is possibly undefined
+// 1401C7EA8: using guessed type int dword_1401C7EA8;
+// 1401C7EB0: using guessed type int dword_1401C7EB0;

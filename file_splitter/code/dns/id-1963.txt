@@ -1,0 +1,148 @@
+//----- (00000001400F1D0C) ----------------------------------------------------
+void __fastcall DnsOls_DeleteCertAndKey(struct _zone_info *a1, struct _dnsskd *a2, unsigned __int16 *Src)
+{
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  char *v7; // rax
+  __int64 v8; // r8
+  const wchar_t *v9; // rcx
+  void **v10; // rax
+  const unsigned __int16 *v11; // r9
+  void **v12; // rcx
+  void **v13; // rax
+  const unsigned __int16 *v14; // r9
+  PCCERT_CONTEXT pCertContext; // [rsp+48h] [rbp-E8h] BYREF
+  HCERTSTORE hCertStore; // [rsp+50h] [rbp-E0h] BYREF
+  const wchar_t *v17; // [rsp+58h] [rbp-D8h] BYREF
+  char v18; // [rsp+60h] [rbp-D0h]
+  __int64 v19[3]; // [rsp+68h] [rbp-C8h] BYREF
+  __int128 v20; // [rsp+80h] [rbp-B0h] BYREF
+  __int64 v21; // [rsp+90h] [rbp-A0h]
+  __int64 v22; // [rsp+A0h] [rbp-90h]
+  void *v23[2]; // [rsp+B0h] [rbp-80h] BYREF
+  __int64 v24; // [rsp+C0h] [rbp-70h]
+  unsigned __int64 v25; // [rsp+C8h] [rbp-68h]
+  void *v26[3]; // [rsp+D8h] [rbp-58h] BYREF
+  unsigned __int64 v27; // [rsp+F0h] [rbp-40h]
+
+  v22 = -2i64;
+  v6 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v7 = Dbg_GuidString((const IID *)((char *)a2 + 8));
+    WPP_SF_SSs(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xA6u, v8, Src, (__int64)v7, *((_QWORD *)a1 + 2));
+    v6 = WPP_GLOBAL_Control;
+  }
+  if ( Src )
+  {
+    if ( *((_DWORD *)a2 + 8) )
+    {
+      if ( *((_QWORD *)a2 + 3) )
+      {
+        if ( !_wcsicmp(*((const wchar_t **)a2 + 3), L"Microsoft Software Key Storage Provider") )
+          return;
+        v6 = WPP_GLOBAL_Control;
+      }
+      if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v6 + 17) & 0x200000) != 0
+        && *((_BYTE *)v6 + 65) >= 5u )
+      {
+        WPP_SF_SS(
+          *((_QWORD *)v6 + 7),
+          0xA7u,
+          (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+          *((const unsigned __int16 **)a2 + 3),
+          (__int64)Src);
+      }
+      deleteNonCertKey(a1, a2, Src);
+    }
+    else
+    {
+      v27 = 7i64;
+      v26[2] = 0i64;
+      LOWORD(v26[0]) = 0;
+      v25 = 7i64;
+      v24 = 0i64;
+      LOWORD(v23[0]) = 0;
+      if ( (unsigned int)crackKeyPointerString((char *)Src, (char *)v26, v23)
+        || (v9 = (const wchar_t *)*((_QWORD *)a2 + 3)) != 0i64
+        && !_wcsicmp(v9, L"Microsoft Software Key Storage Provider") )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+        {
+          v10 = v23;
+          if ( v25 >= 8 )
+            v10 = (void **)v23[0];
+          v11 = (const unsigned __int16 *)v26;
+          if ( v27 >= 8 )
+            v11 = (const unsigned __int16 *)v26[0];
+          WPP_SF_SS(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xA8u,
+            (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+            v11,
+            (__int64)v10);
+        }
+        v17 = L"MS-DNSSEC";
+        v18 = 1;
+        hCertStore = 0i64;
+        DnsSign::CCertificateStore::OpenStore(&hCertStore, (const struct DnsSign::CertificateStoreSpec *)&v17, 0x4000);
+        memset(v19, 0, sizeof(v19));
+        v20 = 0i64;
+        v21 = 0i64;
+        pCertContext = 0i64;
+        v12 = v23;
+        if ( v25 >= 8 )
+          v12 = (void **)v23[0];
+        DnsSign::ParseHexIntegerString(v12, (__int64 *)&v20);
+        DnsSign::CCertificateStore::SelectSingleCertificate(
+          &hCertStore,
+          (const struct DnsSign::CertificateStoreSpec *)&v17,
+          (const struct DnsSign::CertificateSelectionSpec *)v19,
+          &pCertContext);
+        DnsSign::CCertificate::DeleteCertificateAndPrivateKey(&pCertContext);
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+        {
+          v13 = v23;
+          if ( v25 >= 8 )
+            v13 = (void **)v23[0];
+          v14 = (const unsigned __int16 *)v26;
+          if ( v27 >= 8 )
+            v14 = (const unsigned __int16 *)v26[0];
+          WPP_SF_SS(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xA9u,
+            (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+            v14,
+            (__int64)v13);
+        }
+        if ( pCertContext )
+          CertFreeCertificateContext(pCertContext);
+        if ( (_QWORD)v20 )
+          operator delete((void *)v20);
+        if ( hCertStore )
+          CertCloseStore(hCertStore, 0);
+      }
+      else
+      {
+        deleteNonCertKey(a1, a2, Src);
+      }
+      if ( v25 >= 8 )
+        operator delete(v23[0]);
+      v25 = 7i64;
+      v24 = 0i64;
+      LOWORD(v23[0]) = 0;
+      if ( v27 >= 8 )
+        operator delete(v26[0]);
+    }
+  }
+}
+// 1400F1D0C: could not find valid save-restore pair for rbp
+// 1400F1D8E: variable 'v8' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140192B98: using guessed type wchar_t aMsDnssec[10];

@@ -1,0 +1,52 @@
+//----- (00000001401539AC) ----------------------------------------------------
+__int64 __fastcall Create_VirtualizationInstance(const unsigned __int16 **a1, int a2)
+{
+  unsigned int v4; // ebx
+  CDnsVirtualizationManager *v5; // rcx
+
+  if ( !g_pVirtualizationManager )
+  {
+    v4 = 14;
+LABEL_4:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xDu,
+        (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids,
+        a1[2]);
+    }
+    return v4;
+  }
+  v4 = CDnsVirtualizationManager::AddVirtualInstance(
+         (CDnsVirtualizationManager *)a1,
+         (struct _DnssrvRpcVirtualizationInstance *)a1,
+         a2);
+  if ( v4 )
+    goto LABEL_4;
+  if ( !a2 )
+  {
+    v4 = Reg_AddVirtualizationInstance((__int64)a1, 0);
+    if ( v4 )
+    {
+      v5 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_SD(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xEu,
+          (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids,
+          a1[2]);
+      }
+      if ( g_pVirtualizationManager )
+        CDnsVirtualizationManager::RemoveVirtualInstance(v5, (unsigned __int16 *)a1[2], 0);
+    }
+  }
+  return v4;
+}
+// 140153A8D: variable 'v5' is possibly undefined
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

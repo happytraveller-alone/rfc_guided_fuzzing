@@ -1,0 +1,5 @@
+//----- (000000014007CA30) ----------------------------------------------------
+void __fastcall nameHashArrayFreeFunc(struct _RTL_AVL_TABLE *Table, _QWORD *Buffer)
+{
+  Mem_Free(Buffer, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\remotequerysystem.c", 539);
+}

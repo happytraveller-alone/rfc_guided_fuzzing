@@ -1,0 +1,25 @@
+//----- (0000000140124790) ----------------------------------------------------
+void __fastcall __noreturn DnsSign::CHashObject::End(DnsSign::CHashObject *this, unsigned __int8 *a2)
+{
+  int v2; // ebx
+  char v3[56]; // [rsp+28h] [rbp-80h] BYREF
+  char pExceptionObject[56]; // [rsp+60h] [rbp-48h] BYREF
+
+  v2 = (int)this;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0xDu,
+      (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+      (int)this);
+  }
+  DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v3, v2);
+  DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v3, 0xD6DC1u);
+  DnsSign::CRunTimeException::CRunTimeException(
+    (DnsSign::CRunTimeException *)pExceptionObject,
+    (const struct DnsSign::CRunTimeException *)v3);
+  CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+}

@@ -1,0 +1,43 @@
+//----- (0000000140127BEC) ----------------------------------------------------
+void __fastcall DnsSign::BuildNsecOption(DnsSign *this, struct _zone_info *a2, struct NsecOption *a3)
+{
+  char *v5; // r14
+  char *v6; // rcx
+  DnsSign *v7; // rax
+  unsigned __int8 *v8; // r8
+  DnsSign *v9; // rsi
+  char v10[56]; // [rsp+38h] [rbp-90h] BYREF
+  char pExceptionObject[56]; // [rsp+70h] [rbp-58h] BYREF
+
+  *((_BYTE *)a2 + 2) = *((_BYTE *)this + 1044);
+  *((_WORD *)a2 + 2) = *((_WORD *)this + 523);
+  *((_BYTE *)a2 + 6) = *((_BYTE *)this + 1045);
+  *((_BYTE *)a2 + 3) = (*((_DWORD *)this + 260) & 0x20) != 0;
+  *((_QWORD *)a2 + 1) = *((_QWORD *)this + 136);
+  v5 = (char *)a2 + 7;
+  *((_BYTE *)a2 + 7) = *((_BYTE *)this + 1096);
+  if ( !*((_QWORD *)a2 + 1) )
+    DnsSign::GenerateNsec3Salt(a2, a2);
+  if ( !*((_QWORD *)a2 + 1) )
+  {
+    v6 = (char *)*((_QWORD *)this + 131);
+    if ( v6 )
+    {
+      v7 = (DnsSign *)Dns_StringCopyAllocate(v6, 0, 1i64, 3);
+      v9 = v7;
+      if ( !v7 )
+      {
+        DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v10, 14);
+        DnsSign::CRunTimeException::CRunTimeException(
+          (DnsSign::CRunTimeException *)pExceptionObject,
+          (const struct DnsSign::CRunTimeException *)v10);
+        CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+      }
+      *((_QWORD *)a2 + 1) = DnsSign::ConvertSaltStringToBinary(v7, v5, v8);
+      Mem_Free(v9, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\utils.cpp", 1752);
+    }
+  }
+  *((_QWORD *)this + 136) = *((_QWORD *)a2 + 1);
+  *((_DWORD *)this + 274) = (unsigned __int8)*v5;
+}
+// 140127CD0: variable 'v8' is possibly undefined

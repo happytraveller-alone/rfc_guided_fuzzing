@@ -1,0 +1,114 @@
+//----- (0000000140143EA0) ----------------------------------------------------
+__int64 __fastcall CDNSPolicyCriteriaInterfaceIP::DeleteCriteria(CDNSPolicyCriteriaInterfaceIP *this)
+{
+  _QWORD *v1; // rax
+  _QWORD *v3; // rbx
+  __int64 v4; // rax
+  int v5; // r9d
+  _QWORD **v6; // rax
+  _QWORD *v7; // rcx
+  _QWORD *v8; // rbx
+  _QWORD *v9; // rax
+  _QWORD *v10; // rbx
+  __int64 v11; // rax
+  int v12; // r9d
+  _QWORD **v13; // rax
+  _QWORD *v14; // rcx
+  _QWORD *v15; // rbx
+  _QWORD *v16; // rax
+  bool v17; // cf
+  __int64 result; // rax
+
+  v1 = (_QWORD *)*((_QWORD *)this + 8);
+  v3 = (_QWORD *)*v1;
+  if ( (_QWORD *)*v1 != v1 )
+  {
+    do
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v4 = v3[2];
+        if ( *(_WORD *)v4 == 2 )
+          v5 = *(_DWORD *)(v4 + 4);
+        else
+          v5 = -1;
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x37u,
+          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+          v5);
+      }
+      operator delete((void *)v3[2]);
+      v3 = (_QWORD *)*v3;
+    }
+    while ( v3 != *((_QWORD **)this + 8) );
+  }
+  v6 = (_QWORD **)*((_QWORD *)this + 8);
+  v7 = *v6;
+  *v6 = v6;
+  *(_QWORD *)(*((_QWORD *)this + 8) + 8i64) = *((_QWORD *)this + 8);
+  *((_QWORD *)this + 9) = 0i64;
+  if ( v7 != *((_QWORD **)this + 8) )
+  {
+    do
+    {
+      v8 = (_QWORD *)*v7;
+      operator delete(v7);
+      v7 = v8;
+    }
+    while ( v8 != *((_QWORD **)this + 8) );
+  }
+  v9 = (_QWORD *)*((_QWORD *)this + 11);
+  v10 = (_QWORD *)*v9;
+  if ( (_QWORD *)*v9 != v9 )
+  {
+    do
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v11 = v10[2];
+        if ( *(_WORD *)v11 == 2 )
+          v12 = *(_DWORD *)(v11 + 4);
+        else
+          v12 = -1;
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x38u,
+          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+          v12);
+      }
+      operator delete((void *)v10[2]);
+      v10 = (_QWORD *)*v10;
+    }
+    while ( v10 != *((_QWORD **)this + 11) );
+  }
+  v13 = (_QWORD **)*((_QWORD *)this + 11);
+  v14 = *v13;
+  *v13 = v13;
+  *(_QWORD *)(*((_QWORD *)this + 11) + 8i64) = *((_QWORD *)this + 11);
+  *((_QWORD *)this + 12) = 0i64;
+  if ( v14 != *((_QWORD **)this + 11) )
+  {
+    do
+    {
+      v15 = (_QWORD *)*v14;
+      operator delete(v14);
+      v14 = v15;
+    }
+    while ( v15 != *((_QWORD **)this + 11) );
+  }
+  v16 = (_QWORD *)((char *)this + 24);
+  v17 = *((_QWORD *)this + 6) < 8ui64;
+  *((_QWORD *)this + 5) = 0i64;
+  if ( !v17 )
+    v16 = (_QWORD *)*v16;
+  *(_WORD *)v16 = 0;
+  result = 0i64;
+  *((_QWORD *)this + 2) = 0i64;
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

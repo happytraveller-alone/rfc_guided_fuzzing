@@ -1,0 +1,5 @@
+//----- (000000014012EAA0) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy_ProtocolCriteriaTree::GetCriteriaType(__int64 a1)
+{
+  return *(unsigned int *)(a1 + 16);
+}

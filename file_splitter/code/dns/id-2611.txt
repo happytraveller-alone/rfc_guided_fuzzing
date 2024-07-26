@@ -1,0 +1,5 @@
+//----- (0000000140134940) ----------------------------------------------------
+_BOOL8 __fastcall CDnsPolicy_TimeofDayCriteriaTree::Empty(CDnsPolicy_TimeofDayCriteriaTree *this)
+{
+  return **((_QWORD **)this + 1) == *(_QWORD *)(*((_QWORD *)this + 1) + 8i64);
+}

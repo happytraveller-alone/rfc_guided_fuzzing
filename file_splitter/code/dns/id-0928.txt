@@ -1,0 +1,21 @@
+//----- (000000014007E768) ----------------------------------------------------
+__int64 __fastcall RpcUtil_CopyDnsAddrArrayToRpcBuffer(void **a1, _DWORD *a2, __int64 a3, int a4)
+{
+  void *v6; // rcx
+  __int64 result; // rax
+
+  v6 = *a1;
+  if ( v6 )
+  {
+    MIDL_user_free(v6);
+    *a1 = 0i64;
+  }
+  if ( !a2 )
+    return 1i64;
+  result = (__int64)DnsAddrArray_CopyAndExpand(a2, 0i64, 0i64, a4);
+  *a1 = (void *)result;
+  if ( result )
+    return 1i64;
+  return result;
+}
+// 14007E796: variable 'a4' is possibly undefined

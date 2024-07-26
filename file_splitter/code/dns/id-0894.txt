@@ -1,0 +1,30 @@
+//----- (000000014007A0F4) ----------------------------------------------------
+__int64 __fastcall Remote_AddEDNSFailure(struct in_addr *a1, int a2)
+{
+  const char *v4; // rax
+  struct in_addr *v5; // rbx
+  unsigned int v7; // [rsp+48h] [rbp+10h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v4 = DnsAddr_Ntoa(a1);
+    WPP_SF_sd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xEu, (__int64)&WPP_eab7c483710f366eae903c691df4ee49_Traceguids, v4);
+  }
+  if ( a2 == 4 || a2 == 1 )
+    return Remote_SetSupportedEDNSVersion(a1, 255);
+  v7 = -1;
+  acquireUpdate(hRemoteLock, 0xFFFFFFFF, &v7, 1);
+  v5 = (struct in_addr *)Remote_FindOrCreate((__int64)a1, 1);
+  if ( v5 )
+  {
+    v7 = -1;
+    acquireWrite(hRemoteLock, 0xFFFFFFFF, &v7);
+    Remote_UpdateEDNSState(v5, 0);
+    Lock_ReleaseWrite(hRemoteLock);
+  }
+  v7 = -1;
+  return releaseUpdate(hRemoteLock, &v7, 1);
+}
+// 1401B9028: using guessed type __int64 hRemoteLock;

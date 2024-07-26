@@ -1,0 +1,99 @@
+//----- (0000000140070958) ----------------------------------------------------
+__int64 __fastcall sendRecursiveQuery(__int64 a1, __int64 a2, __int64 a3, __int16 a4, __int16 a5)
+{
+  unsigned int v5; // esi
+  void *v7; // r14
+  int v8; // r12d
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  const char *v12; // rax
+  const char *v13; // r8
+  __int64 v14; // rcx
+  const char *v15; // rax
+  _OWORD *v16; // rdi
+  __int64 v17; // rdx
+  _DWORD *v18; // rax
+  unsigned int v19; // eax
+
+  v5 = 0;
+  v7 = 0i64;
+  v8 = a3;
+  v11 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+    {
+      v12 = DnsAddr_Ntoa((struct in_addr *)a2);
+      v11 = WPP_GLOBAL_Control;
+      v13 = v12;
+    }
+    else
+    {
+      v13 = "NULL";
+    }
+    v14 = *((_QWORD *)v11 + 7);
+    v15 = "FALSE";
+    if ( (*(_BYTE *)(a1 + 592) & 2) != 0 )
+      v15 = "TRUE";
+    WPP_SF_qss(v14, 0x21u, (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids, a1, v13, v15);
+  }
+  v16 = *(_OWORD **)(a1 + 1256);
+  *(_WORD *)(a1 + 498) = a5;
+  *(_WORD *)(a1 + 496) = a4;
+  if ( a2 )
+  {
+    v16[4] = *(_OWORD *)a2;
+    v16[5] = *(_OWORD *)(a2 + 16);
+    v16[6] = *(_OWORD *)(a2 + 32);
+    v16[7] = *(_OWORD *)(a2 + 48);
+  }
+  else
+  {
+    memset_0(v16 + 4, 0, 0x40ui64);
+    *((_DWORD *)v16 + 24) = 32;
+  }
+  if ( *(_BYTE *)(a1 + 1421) )
+    _InterlockedIncrement(&dword_1401C7E5C);
+  *(_BYTE *)(a1 + 1421) = 1;
+  if ( *(char *)(a1 + 1428) > 0 )
+  {
+    _InterlockedIncrement(&dword_1401C7E68);
+    if ( a4 != 5 )
+      *((_BYTE *)v16 + 6306) |= 1u;
+    *(_DWORD *)(a1 + 588) = v8;
+    v17 = 0i64;
+    goto LABEL_26;
+  }
+  if ( a2 )
+    goto LABEL_25;
+  v18 = DnsAddrArray_Create(3u, a2, a3, a4);
+  v7 = v18;
+  if ( !v18 )
+  {
+    v5 = 14;
+    goto LABEL_27;
+  }
+  v19 = Remote_ChooseSendIp(a1, (__int64)v18);
+  v5 = v19;
+  if ( !v19 )
+  {
+LABEL_25:
+    *((_BYTE *)v16 + 6306) &= ~1u;
+    v17 = (__int64)v7;
+    *(_DWORD *)(a1 + 588) = 0;
+LABEL_26:
+    queueAndSendRecursiveQuery(a1, v17);
+    goto LABEL_27;
+  }
+  if ( v19 == -1072573693 )
+    v5 = 0;
+LABEL_27:
+  Dns_Free(v7);
+  return v5;
+}
+// 140070AA4: variable 'a2' is possibly undefined
+// 140070AA4: variable 'a3' is possibly undefined
+// 140070AA4: variable 'a4' is possibly undefined
+// 1401C7E5C: using guessed type int dword_1401C7E5C;
+// 1401C7E68: using guessed type int dword_1401C7E68;

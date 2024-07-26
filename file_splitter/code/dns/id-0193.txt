@@ -1,0 +1,57 @@
+//----- (0000000140017530) ----------------------------------------------------
+__int64 __fastcall Dbase_IsNodeInSubtreeByLabelCompare(__int64 *a1, __int64 *a2)
+{
+  unsigned int v2; // edi
+  __int64 *v3; // rsi
+  __int64 *v4; // rbx
+  unsigned __int8 v5; // cl
+  unsigned __int8 v7; // al
+
+  v2 = 0;
+  v3 = a2;
+  v4 = a1;
+  if ( !a1 )
+    return 0i64;
+  if ( !a2 )
+    return 0i64;
+  v5 = *((_BYTE *)a2 + 100);
+  if ( v5 > *((_BYTE *)v4 + 100) )
+    return 0i64;
+  if ( v4[7] == a2[7] )
+  {
+    while ( v4 != a2 )
+    {
+      v4 = (__int64 *)*v4;
+      if ( !v4 )
+        return v2;
+    }
+    return 1;
+  }
+  do
+  {
+    if ( *((_BYTE *)v4 + 100) <= v5 )
+      break;
+    v4 = (__int64 *)*v4;
+  }
+  while ( v4 );
+  if ( !v4 )
+    return 0i64;
+  do
+  {
+    if ( !v3 )
+      break;
+    v7 = *((_BYTE *)v3 + 101);
+    if ( v7 != *((_BYTE *)v4 + 101)
+      || memcmp_0(
+           (char *)v4 + *((unsigned __int8 *)v4 + 101) + 103,
+           (char *)v3 + v7 + 103,
+           *((unsigned __int8 *)v4 + 101)) )
+    {
+      return 0i64;
+    }
+    v4 = (__int64 *)*v4;
+    v3 = (__int64 *)*v3;
+  }
+  while ( v4 );
+  return 1i64;
+}

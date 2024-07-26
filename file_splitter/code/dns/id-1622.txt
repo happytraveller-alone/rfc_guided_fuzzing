@@ -1,0 +1,77 @@
+//----- (00000001400CD7D4) ----------------------------------------------------
+__int64 __fastcall writeZoneNodeToMessageForBind(__int64 a1, __int64 *a2, unsigned __int16 a3, __int16 a4)
+{
+  char *v8; // rax
+  __int64 i; // rax
+  __int64 v10; // rbx
+  char v11; // al
+  __int16 v12; // ax
+  unsigned int v14[4]; // [rsp+30h] [rbp-38h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v8 = Dbg_NodeName((__int64)a2);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x37u, (__int64)&WPP_4e7c1fc42723374814672f05b7ca7028_Traceguids, v8);
+  }
+  v14[0] = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, v14);
+  for ( i = RR_FindNextRecordEx((__int64)a2, 0, a3, 0i64, 0, 0); ; i = RR_FindNextRecordEx(
+                                                                         (__int64)a2,
+                                                                         0,
+                                                                         a3,
+                                                                         v10,
+                                                                         0,
+                                                                         0) )
+  {
+    v10 = i;
+    if ( !i )
+      break;
+    v11 = *(_BYTE *)(i + 8);
+    if ( (v11 & 1) == 0 && v11 != 8 )
+    {
+      if ( !a4 || (v12 = *(_WORD *)(v10 + 12), v12 != a4) && (v12 & 0xFFFC) != 0xFF00 )
+      {
+        if ( !(unsigned int)Wire_AddResourceRecordToMessage(a1, a2, 0, v10, 0, 0i64) )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x38u,
+              (__int64)&WPP_4e7c1fc42723374814672f05b7ca7028_Traceguids);
+          }
+          v14[0] = -1;
+          releaseRead(DbaseLock, v14, 1);
+          return 0i64;
+        }
+        v14[0] = -1;
+        releaseRead(DbaseLock, v14, 1);
+        ++*(_WORD *)(a1 + 6310);
+        if ( (unsigned int)Send_ResponseAndReset(a1) )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_q(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x39u,
+              (__int64)&WPP_4e7c1fc42723374814672f05b7ca7028_Traceguids,
+              a1);
+          }
+          return 0i64;
+        }
+        v14[0] = -1;
+        acquireRead(DbaseLock, 0xFFFFFFFF, v14);
+      }
+    }
+  }
+  v14[0] = -1;
+  releaseRead(DbaseLock, v14, 1);
+  return 1i64;
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

@@ -1,0 +1,32 @@
+//----- (0000000140124A98) ----------------------------------------------------
+NCRYPT_PROV_HANDLE __fastcall DnsSign::OpenKeyStorageProvider(LPCWSTR pszProviderName, const unsigned __int16 *a2)
+{
+  int v3; // ebx
+  NCRYPT_PROV_HANDLE phProvider[2]; // [rsp+20h] [rbp-98h] BYREF
+  char v6[56]; // [rsp+30h] [rbp-88h] BYREF
+  char pExceptionObject[56]; // [rsp+68h] [rbp-50h] BYREF
+
+  phProvider[1] = -2i64;
+  phProvider[0] = 0i64;
+  v3 = NCryptOpenStorageProvider(phProvider, pszProviderName, 0);
+  if ( v3 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x11u,
+        (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+        v3);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v6, v3);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v6, 0xD6D8Au, pszProviderName);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v6);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  return phProvider[0];
+}

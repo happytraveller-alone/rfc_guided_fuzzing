@@ -1,0 +1,15 @@
+//----- (0000000140168B60) ----------------------------------------------------
+__int64 sub_140168B60()
+{
+  __int64 result; // rax
+
+  dword_1401B867C = newmode;
+  result = __getmainargs(&argc, &argv, &envp, (unsigned int)dowildcard, &dword_1401B867C);
+  dword_1401B8664 = result;
+  return result;
+}
+// 140184B10: using guessed type __int64 __fastcall __getmainargs(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
+// 1401B8664: using guessed type int dword_1401B8664;
+// 1401B867C: using guessed type int dword_1401B867C;
+// 1401B8BF4: using guessed type int dowildcard;
+// 1401B8BF8: using guessed type int newmode;

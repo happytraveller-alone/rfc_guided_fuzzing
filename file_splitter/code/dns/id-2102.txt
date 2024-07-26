@@ -1,0 +1,19 @@
+//----- (0000000140109420) ----------------------------------------------------
+void __fastcall std::_Tree<std::_Tmap_traits<NodeTypePair,bool,CNodeTypePairComparator,std::allocator<std::pair<NodeTypePair const,bool>>,0>>::_Erase(
+        __int64 a1,
+        void **a2)
+{
+  void **v2; // rdi
+  void **i; // rbx
+
+  v2 = a2;
+  for ( i = a2; !*((_BYTE *)i + 49); v2 = i )
+  {
+    std::_Tree<std::_Tmap_traits<NodeTypePair,bool,CNodeTypePairComparator,std::allocator<std::pair<NodeTypePair const,bool>>,0>>::_Erase(
+      a1,
+      i[2]);
+    i = (void **)*i;
+    operator delete(v2);
+  }
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

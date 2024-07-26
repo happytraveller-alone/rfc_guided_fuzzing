@@ -1,0 +1,44 @@
+//----- (000000014008FAEC) ----------------------------------------------------
+__int64 __fastcall RR_RemoveRecordFromRRList(__int64 *a1, __int64 a2)
+{
+  unsigned __int16 v2; // bp
+  __int64 v3; // rsi
+  __int64 v4; // rbx
+  _QWORD *v5; // rdi
+  __int64 v8; // rax
+
+  v2 = *(_WORD *)(a2 + 12);
+  v3 = 0i64;
+  v4 = *a1;
+  v5 = 0i64;
+  while ( v4 )
+  {
+    if ( *(_WORD *)(v4 + 12) == v2 )
+    {
+      if ( (unsigned int)RR_Compare(a2, v4, 0i64) )
+      {
+        v8 = *(_QWORD *)v4;
+        v3 = v4;
+        if ( v5 )
+          *v5 = v8;
+        else
+          *a1 = v8;
+        *(_QWORD *)v4 = 0i64;
+        break;
+      }
+    }
+    else if ( *(_WORD *)(v4 + 12) >= v2 )
+    {
+      break;
+    }
+    v5 = (_QWORD *)v4;
+    v4 = *(_QWORD *)v4;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x7Cu, (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids, v3);
+  }
+  return v3;
+}

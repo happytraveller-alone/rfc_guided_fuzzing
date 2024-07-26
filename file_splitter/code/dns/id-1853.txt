@@ -1,0 +1,13 @@
+//----- (00000001400E6750) ----------------------------------------------------
+void __fastcall std::vector<unsigned short *>::~vector<unsigned short *>(void **a1)
+{
+  void *v2; // rcx
+
+  v2 = *a1;
+  if ( v2 )
+    operator delete(v2);
+  *a1 = 0i64;
+  a1[1] = 0i64;
+  a1[2] = 0i64;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

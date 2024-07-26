@@ -1,0 +1,10 @@
+//----- (000000014011DA10) ----------------------------------------------------
+char *__fastcall AaaaFileWrite(__int64 a1, CHAR *a2, __int64 a3)
+{
+  char *result; // rax
+
+  result = RtlIpv6AddressToStringA((const struct in6_addr *)(a1 + 56), a2);
+  if ( result )
+    return sprintfSafeA(result, a3 - (_QWORD)result, "\r\n");
+  return result;
+}

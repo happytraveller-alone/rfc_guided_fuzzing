@@ -1,0 +1,32 @@
+//----- (0000000140039290) ----------------------------------------------------
+char *__fastcall Ds_GenerateBaseDnsDn(int a1)
+{
+  __int64 v1; // rbx
+  __int64 v3; // rbx
+  char *result; // rax
+  char *v5; // rdi
+  wchar_t *v6; // r8
+
+  v1 = -1i64;
+  do
+    ++v1;
+  while ( DistinguishedName[v1] );
+  v3 = v1 + 31;
+  result = (char *)Mem_Alloc(2 * (int)v3, 9i64, "ds\\dns\\server\\server\\ds.c", 3102);
+  v5 = result;
+  if ( result )
+  {
+    v6 = L"cn=System,";
+    if ( a1 )
+      v6 = (wchar_t *)L"cn=MicrosoftDNS,cn=System,";
+    if ( (int)StringCchCopyW(result, v3, (char *)v6) < 0
+      || (int)StringCchCatW((unsigned __int16 *)v5, v3, (char *)DistinguishedName) < 0 )
+    {
+      Mem_Free(v5, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 3122);
+      return 0i64;
+    }
+    return v5;
+  }
+  return result;
+}
+// 14018BA00: using guessed type wchar_t aCnSystem[11];

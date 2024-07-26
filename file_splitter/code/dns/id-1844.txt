@@ -1,0 +1,9 @@
+//----- (00000001400E65A0) ----------------------------------------------------
+void *__fastcall std::filebuf::`vector deleting destructor'(void *a1, char a2)
+{
+  std::filebuf::~filebuf<char,std::char_traits<char>>((__int64)a1);
+  if ( (a2 & 1) != 0 )
+    operator delete(a1);
+  return a1;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

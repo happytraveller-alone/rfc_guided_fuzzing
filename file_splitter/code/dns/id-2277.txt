@@ -1,0 +1,77 @@
+//----- (000000014011B968) ----------------------------------------------------
+__int64 __fastcall File_ParseDwordToken(_DWORD *a1, __int64 a2, __int64 a3)
+{
+  int v3; // esi
+  int v7; // edi
+  int v8; // r14d
+  const char *v9; // rax
+  __int64 v10; // rax
+  char *v11; // rbx
+  unsigned __int64 v12; // r12
+  char v13; // al
+  unsigned __int8 v14; // dl
+  char v15; // dl
+  __int64 result; // rax
+
+  v3 = 0;
+  v7 = 1;
+  v8 = 10;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    v9 = (const char *)FormatLabelA(*(unsigned int *)(a2 + 8), *(const void **)a2);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xFu, (__int64)&WPP_e002fba1c5a3348727e1b5bc526e7b6c_Traceguids, v9);
+  }
+  v10 = *(unsigned int *)(a2 + 8);
+  v11 = *(char **)a2;
+  v12 = *(_QWORD *)a2 + v10;
+  if ( (unsigned int)v10 > 2 && *v11 == 48 && v11[1] == 120 )
+  {
+    v8 = 16;
+    v11 += 2;
+  }
+  if ( (unsigned __int64)v11 >= v12 )
+    goto LABEL_22;
+  while ( v8 == 10i64 )
+  {
+    v13 = *v11++;
+    v14 = v13 - 48;
+    if ( v13 != 45 || v3 )
+    {
+      if ( v14 > 9u )
+        goto LABEL_23;
+      v3 = v14 + 10 * v3;
+    }
+    else
+    {
+      v7 = -v7;
+    }
+LABEL_21:
+    if ( (unsigned __int64)v11 >= v12 )
+      goto LABEL_22;
+  }
+  v15 = tolower(*v11++);
+  if ( (unsigned __int8)(v15 - 97) > 5u )
+    v14 = v15 - 48;
+  else
+    v14 = v15 - 87;
+  if ( v14 <= 0xFu )
+  {
+    v3 = v14 + 16 * v3;
+    goto LABEL_21;
+  }
+LABEL_23:
+  if ( !a3 )
+    return 0i64;
+  if ( *(unsigned __int8 *)(a3 + 1672) == v14 + 48 )
+  {
+LABEL_22:
+    result = 1i64;
+    *a1 = v3 * v7;
+    return result;
+  }
+  *(_DWORD *)(a3 + 1600) = 1614;
+  *(_QWORD *)(a3 + 1608) = a2;
+  return 0i64;
+}

@@ -1,0 +1,127 @@
+//----- (00000001400DFC24) ----------------------------------------------------
+TrustPoint *__fastcall TrustPoint::TrustPoint(LPCRITICAL_SECTION lpCriticalSection, const char *Buffer)
+{
+  void **p_OwningThread; // rbx
+  unsigned __int64 v5; // r14
+  unsigned __int8 *v6; // r15
+  unsigned __int64 v7; // rdi
+  __int64 v8; // rax
+  unsigned __int8 *CountNameFromDottedName; // rax
+  __int64 v10; // r8
+  struct _RTL_CRITICAL_SECTION_DEBUG *v11; // rcx
+  __int64 v13[3]; // [rsp+58h] [rbp-B0h] BYREF
+  void *Src; // [rsp+70h] [rbp-98h] BYREF
+  ULONG_PTR v15; // [rsp+80h] [rbp-88h]
+  unsigned __int64 v16; // [rsp+88h] [rbp-80h]
+  char v17[256]; // [rsp+98h] [rbp-70h] BYREF
+  _WORD v18[256]; // [rsp+198h] [rbp+90h] BYREF
+
+  v13[1] = -2i64;
+  v13[2] = (__int64)lpCriticalSection;
+  stdext::hash_multimap<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>>::hash_multimap<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>>((__int64)&lpCriticalSection[1]);
+  p_OwningThread = &lpCriticalSection[3].OwningThread;
+  v5 = 15i64;
+  lpCriticalSection[4].DebugInfo = (PRTL_CRITICAL_SECTION_DEBUG)15;
+  lpCriticalSection[3].SpinCount = 0i64;
+  LOBYTE(lpCriticalSection[3].OwningThread) = 0;
+  lpCriticalSection[11].LockSemaphore = HANDLE_FLAG_PROTECT_FROM_CLOSE|HANDLE_FLAG_INHERIT|0x4;
+  lpCriticalSection[11].OwningThread = 0i64;
+  LOWORD(lpCriticalSection[11].DebugInfo) = 0;
+  LODWORD(v13[0]) = 512;
+  v6 = 0i64;
+  lpCriticalSection[3].RecursionCount = 0;
+  lpCriticalSection[12].DebugInfo = 0i64;
+  *(_QWORD *)&lpCriticalSection[12].LockCount = 0i64;
+  lpCriticalSection[12].LockSemaphore = 0i64;
+  lpCriticalSection[12].OwningThread = 0i64;
+  LODWORD(lpCriticalSection[12].SpinCount) = 0;
+  lpCriticalSection[13].DebugInfo = 0i64;
+  LOBYTE(lpCriticalSection[13].OwningThread) = 0;
+  lpCriticalSection[3].LockCount = 0;
+  DnsInitializeCriticalSection(lpCriticalSection);
+  *(_QWORD *)&lpCriticalSection[13].LockCount = 0i64;
+  if ( Buffer )
+  {
+    v7 = -1i64;
+    v8 = -1i64;
+    do
+      ++v8;
+    while ( Buffer[v8] );
+    if ( v8 )
+    {
+      if ( sscanf_s(
+             Buffer,
+             "TrustPoint, %u, %I64u, %I64u, %u, %u, %u, %[^,]",
+             &lpCriticalSection[3].RecursionCount,
+             &lpCriticalSection[12],
+             &lpCriticalSection[12].LockCount,
+             &lpCriticalSection[12].LockSemaphore,
+             (char *)&lpCriticalSection[12].LockSemaphore + 4,
+             &lpCriticalSection[12].SpinCount,
+             v17) != 7 )
+      {
+LABEL_26:
+        Mem_Free(v6, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dnssec_rfc5011.cpp", 1845);
+        return (TrustPoint *)lpCriticalSection;
+      }
+      CountNameFromDottedName = Name_CreateCountNameFromDottedName(v17, 0);
+      v6 = CountNameFromDottedName;
+      if ( CountNameFromDottedName
+        && !(unsigned int)Name_CopyCountName(&lpCriticalSection[4].OwningThread, CountNameFromDottedName) )
+      {
+        v16 = 15i64;
+        v15 = 0i64;
+        LOBYTE(Src) = 0;
+        v10 = -1i64;
+        do
+          ++v10;
+        while ( v17[v10] );
+        std::string::assign(&Src, v17, (char *)v10);
+        if ( p_OwningThread == &Src )
+        {
+          v5 = v16;
+        }
+        else
+        {
+          if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+            operator delete(*p_OwningThread);
+          lpCriticalSection[4].DebugInfo = (PRTL_CRITICAL_SECTION_DEBUG)15;
+          lpCriticalSection[3].SpinCount = 0i64;
+          *(_BYTE *)p_OwningThread = 0;
+          v11 = (struct _RTL_CRITICAL_SECTION_DEBUG *)v16;
+          if ( v16 >= 0x10 )
+          {
+            *p_OwningThread = Src;
+            Src = 0i64;
+          }
+          else
+          {
+            memmove(&lpCriticalSection[3].OwningThread, &Src, v15 + 1);
+            v11 = (struct _RTL_CRITICAL_SECTION_DEBUG *)v16;
+          }
+          lpCriticalSection[3].SpinCount = v15;
+          lpCriticalSection[4].DebugInfo = v11;
+          v16 = 15i64;
+          v15 = 0i64;
+          LOBYTE(Src) = 0;
+        }
+        if ( v5 >= 0x10 )
+          operator delete(Src);
+        if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+          p_OwningThread = (void **)*p_OwningThread;
+        if ( (unsigned int)Dns_StringCopy(v18, (unsigned int *)v13, (WCHAR *)p_OwningThread, 0, 2, 1) )
+        {
+          do
+            ++v7;
+          while ( v18[v7] );
+          std::wstring::assign((char *)&lpCriticalSection[11], (char *)v18, v7);
+        }
+        goto LABEL_26;
+      }
+      lpCriticalSection[3].RecursionCount = 0;
+    }
+  }
+  return (TrustPoint *)lpCriticalSection;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1400DFC24: using guessed type char var_340[256];

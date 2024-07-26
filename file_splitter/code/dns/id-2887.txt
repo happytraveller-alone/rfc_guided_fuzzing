@@ -1,0 +1,16 @@
+//----- (0000000140150060) ----------------------------------------------------
+struct IDnsRRLStateInfo *__fastcall CDnsRRLStateHashMap::GetNode(CDnsRRLStateHashMap *this, struct IDnsRRLStateKey *a2)
+{
+  __int64 *v4; // [rsp+30h] [rbp+8h] BYREF
+  struct IDnsRRLStateKey *v5; // [rsp+38h] [rbp+10h] BYREF
+
+  v5 = a2;
+  std::_Hash<std::tr1::_Umap_traits<IDnsRRLStateKey *,IDnsRRLStateInfo *,std::_Hash_compare<IDnsRRLStateKey *,CDnsRRLStateKeyHasher,CDnsRRLStateKeyEqual>,std::allocator<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>,0>>::find(
+    *((_QWORD *)this + 1),
+    &v4,
+    &v5);
+  if ( v4 == *(__int64 **)(*((_QWORD *)this + 1) + 8i64) )
+    return 0i64;
+  else
+    return (struct IDnsRRLStateInfo *)v4[3];
+}

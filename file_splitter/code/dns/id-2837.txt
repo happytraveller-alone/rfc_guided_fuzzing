@@ -1,0 +1,11 @@
+//----- (000000014014E250) ----------------------------------------------------
+void __fastcall CDnsRRLStateKey::SetImputedDomainName(__int64 a1, __int64 a2)
+{
+  std::string::assign((const void **)(a1 + 24), (const void **)a2, 0i64, (char *)0xFFFFFFFFFFFFFFFFi64);
+  if ( *(_QWORD *)(a2 + 24) >= 0x10ui64 )
+    operator delete(*(void **)a2);
+  *(_QWORD *)(a2 + 24) = 15i64;
+  *(_QWORD *)(a2 + 16) = 0i64;
+  *(_BYTE *)a2 = 0;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

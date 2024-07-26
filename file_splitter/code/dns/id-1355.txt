@@ -1,0 +1,38 @@
+//----- (00000001400AC4B0) ----------------------------------------------------
+__int64 __fastcall Tcp_ConnectionCreate(__int64 a1, __int64 a2, int a3, __int64 a4)
+{
+  __int64 result; // rax
+  _QWORD *v9; // rbx
+  __int64 v10; // rax
+
+  result = (__int64)Mem_AllocZero(0xE8ui64, 18i64, "ds\\dns\\server\\server\\tcpcon.c", 562);
+  v9 = (_QWORD *)result;
+  if ( result )
+  {
+    *(_QWORD *)(result + 136) = a2;
+    *(_QWORD *)(result + 16) = a1;
+    *(_QWORD *)(result + 216) = a4;
+    *(_OWORD *)(result + 148) = *(_OWORD *)(a4 + 64);
+    *(_OWORD *)(result + 164) = *(_OWORD *)(a4 + 80);
+    *(_OWORD *)(result + 180) = *(_OWORD *)(a4 + 96);
+    *(_OWORD *)(result + 196) = *(_OWORD *)(a4 + 112);
+    *(_DWORD *)(result + 144) = a3 + dword_1401B9714;
+    *(_QWORD *)(a4 + 1288) = result;
+    *(_BYTE *)(a4 + 1414) = 0;
+    EnterCriticalSection(&mg_TcpConnectionListCS);
+    v10 = mg_TcpConnectionList;
+    if ( *(__int64 **)(mg_TcpConnectionList + 8) != &mg_TcpConnectionList )
+      __fastfail(3u);
+    *v9 = mg_TcpConnectionList;
+    v9[1] = &mg_TcpConnectionList;
+    *(_QWORD *)(v10 + 8) = v9;
+    mg_TcpConnectionList = (__int64)v9;
+    if ( a2 )
+      Tcp_ConnectionListReread();
+    LeaveCriticalSection(&mg_TcpConnectionListCS);
+    return 1i64;
+  }
+  return result;
+}
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401C79F0: using guessed type __int64 mg_TcpConnectionList;

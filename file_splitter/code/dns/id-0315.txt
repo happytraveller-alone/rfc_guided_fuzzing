@@ -1,0 +1,24 @@
+//----- (0000000140028B60) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie *__fastcall Dnssec_ClearCacheResult(__int64 a1)
+{
+  CDnsClientSubnetRecordsTrie *result; // rax
+
+  result = 0i64;
+  if ( a1 )
+  {
+    *(_QWORD *)(a1 + 1536) = 0i64;
+    *(_DWORD *)(a1 + 1544) = 0;
+    result = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      return (CDnsClientSubnetRecordsTrie *)WPP_SF_q(
+                                              *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                              0x52u,
+                                              (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids,
+                                              a1);
+    }
+  }
+  return result;
+}

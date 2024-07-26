@@ -1,0 +1,61 @@
+//----- (0000000140145270) ----------------------------------------------------
+unsigned __int16 *__fastcall CDNSPolicyCriteriaQueryType::GetPolicyCriteriaString(CDNSPolicyCriteriaQueryType *this)
+{
+  int v2; // esi
+  int v3; // r14d
+  unsigned __int16 *i; // rbx
+  int v5; // esi
+  unsigned __int16 *j; // rbx
+  void **v7; // rcx
+  _WORD *v8; // rbx
+  void *Src[3]; // [rsp+28h] [rbp-48h] BYREF
+  unsigned __int64 v11; // [rsp+40h] [rbp-30h]
+  __int16 v12; // [rsp+50h] [rbp-20h] BYREF
+  __int64 v13; // [rsp+52h] [rbp-1Eh]
+  __int64 v14; // [rsp+5Ah] [rbp-16h]
+  int v15; // [rsp+62h] [rbp-Eh]
+
+  v11 = 7i64;
+  Src[2] = 0i64;
+  LOWORD(Src[0]) = 0;
+  v2 = 0;
+  v3 = 0;
+  v12 = 0;
+  v13 = 0i64;
+  v14 = 0i64;
+  v15 = 0;
+  for ( i = (unsigned __int16 *)*((_QWORD *)this + 9); i != *((unsigned __int16 **)this + 10); ++i )
+  {
+    if ( !v2 )
+    {
+      std::wstring::append((char *)Src, (char *)L"EQ");
+      v2 = 1;
+      v3 = 1;
+    }
+    std::wstring::operator+=((__int64)Src, 44);
+    Dns_WriteStringForType_W((__int64)&v12, *i);
+    std::wstring::append((char *)Src, (char *)&v12);
+  }
+  v5 = 0;
+  for ( j = (unsigned __int16 *)*((_QWORD *)this + 13); j != *((unsigned __int16 **)this + 14); ++j )
+  {
+    if ( !v5 )
+    {
+      if ( v3 )
+        std::wstring::operator+=((__int64)Src, 59);
+      std::wstring::append((char *)Src, (char *)L"NE");
+      v5 = 1;
+    }
+    std::wstring::operator+=((__int64)Src, 44);
+    Dns_WriteStringForType_W((__int64)&v12, *j);
+    std::wstring::append((char *)Src, (char *)&v12);
+  }
+  v7 = Src;
+  if ( v11 >= 8 )
+    v7 = (void **)Src[0];
+  v8 = MIDL_user_copy_stringW((__int64)v7);
+  if ( v11 >= 8 )
+    operator delete(Src[0]);
+  return v8;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

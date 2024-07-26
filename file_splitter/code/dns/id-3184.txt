@@ -1,0 +1,8 @@
+//----- (00000001401684A4) ----------------------------------------------------
+void __fastcall __noreturn std::_Xout_of_range(char *a1)
+{
+  char pExceptionObject[40]; // [rsp+20h] [rbp-28h] BYREF
+
+  std::out_of_range::out_of_range((std::out_of_range *)pExceptionObject, a1);
+  CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI3_AVout_of_range_std__);
+}

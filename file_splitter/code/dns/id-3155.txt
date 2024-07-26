@@ -1,0 +1,6 @@
+//----- (0000000140167D38) ----------------------------------------------------
+void __fastcall std::_Mutex::~_Mutex(LPCRITICAL_SECTION *this)
+{
+  Mtxdst(*this);
+  operator delete(*this);
+}

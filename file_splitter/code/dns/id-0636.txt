@@ -1,0 +1,215 @@
+//----- (0000000140058644) ----------------------------------------------------
+void __fastcall LogResourceRecordEvent(__int64 a1, unsigned __int16 *a2, const char *a3, __int64 a4)
+{
+  const unsigned __int16 *v7; // r11
+  int v8; // r10d
+  __int64 v9; // rax
+  __int64 v10; // rax
+  const unsigned __int16 *v11; // r9
+  const unsigned __int16 *v12; // rdx
+  unsigned __int8 v13; // cl
+  UINT v14; // ecx
+  char v15; // al
+  UINT v16; // ecx
+  unsigned __int8 v17; // cl
+  UINT v18; // ecx
+  __int64 v19; // rcx
+  __int64 v20; // rax
+  __int64 v21; // rax
+  const unsigned __int16 *v22; // r9
+  const unsigned __int16 *v23; // rdx
+  const unsigned __int16 *v24; // rdx
+  UINT v25; // ecx
+  WCHAR Buffer[64]; // [rsp+50h] [rbp-B0h] BYREF
+  WCHAR v27[64]; // [rsp+D0h] [rbp-30h] BYREF
+
+  if ( a4 && *(_DWORD *)(a4 + 372) )
+    v7 = *(const unsigned __int16 **)(a4 + 24);
+  else
+    v7 = L"..Cache";
+  if ( !(_DWORD)a1 )
+  {
+    if ( a4 && *(_DWORD *)(a4 + 372) )
+    {
+      if ( (Microsoft_Windows_DNSServerEnableBits & 0x20000000) != 0 )
+      {
+        v19 = *(_QWORD *)(a4 + 328);
+        v20 = a4;
+        if ( v19 )
+          v20 = *(_QWORD *)(a4 + 328);
+        if ( *(_QWORD *)(v20 + 200) )
+        {
+          v21 = a4;
+          if ( v19 )
+            v21 = *(_QWORD *)(a4 + 328);
+          v22 = **(const unsigned __int16 ***)(v21 + 200);
+        }
+        else
+        {
+          v22 = L".";
+        }
+        v23 = L"Default";
+        if ( *(_QWORD *)(a4 + 192) )
+          v23 = *(const unsigned __int16 **)(a4 + 192);
+        Template_qsqqbzzz(*a2, &DNS_EVENT_RECORD_DELETE, a2[1], a3, 0, *a2, (__int64)(a2 + 12), v7, v23, v22);
+      }
+    }
+    else if ( (dword_1401B9104 & 0x20) != 0 )
+    {
+      if ( !a4 || (v24 = *(const unsigned __int16 **)(a4 + 192)) == 0i64 )
+        v24 = L"Default";
+      Template_qsz(a1, (__int64)v24, a2[1], a3, v24);
+    }
+    if ( a4 != g_pTrustAnchorsZone )
+      return;
+    memset_0(Buffer, 0, sizeof(Buffer));
+    if ( a2[1] == 48 )
+    {
+      v25 = 12042;
+    }
+    else
+    {
+      if ( a2[1] != 43 )
+        goto LABEL_98;
+      v25 = 12041;
+    }
+    Dns_GetResourceString(v25, Buffer, 64i64);
+LABEL_98:
+    if ( (dword_1401B9104 & 0x400) != 0 )
+      Template_sz(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_REMOVE_TRUST_POINT, a3, Buffer);
+    return;
+  }
+  if ( a4 && (*((_DWORD *)a2 + 1) & 0x8000000) != 0 )
+    v8 = *(_DWORD *)(a4 + 532);
+  else
+    v8 = *((_DWORD *)a2 + 3);
+  if ( (Microsoft_Windows_DNSServerEnableBits & 0x20000000) != 0 )
+  {
+    if ( (!a4 || !*(_QWORD *)(a4 + 328)) && !a4 )
+      goto LABEL_20;
+    v9 = *(_QWORD *)(a4 + 328);
+    if ( !v9 )
+      v9 = a4;
+    if ( *(_QWORD *)(v9 + 200) )
+    {
+      v10 = *(_QWORD *)(a4 + 328);
+      if ( !v10 )
+        v10 = a4;
+      v11 = **(const unsigned __int16 ***)(v10 + 200);
+    }
+    else
+    {
+LABEL_20:
+      v11 = L".";
+    }
+    if ( !a4 || (v12 = *(const unsigned __int16 **)(a4 + 192)) == 0i64 )
+      v12 = L"Default";
+    Template_qsqqbzzz(*a2, &DNS_EVENT_RECORD_CREATE, a2[1], a3, v8, *a2, (__int64)(a2 + 12), v7, v12, v11);
+  }
+  if ( a4 == g_pTrustAnchorsZone )
+  {
+    memset_0(v27, 0, sizeof(v27));
+    if ( a2[1] == 48 )
+    {
+      memset_0(Buffer, 0, sizeof(Buffer));
+      if ( *((_BYTE *)a2 + 26) == 3 )
+        Dns_GetResourceString(0x2F08u, Buffer, 64i64);
+      v13 = *((_BYTE *)a2 + 27);
+      switch ( v13 )
+      {
+        case 5u:
+          v14 = 12034;
+          break;
+        case 8u:
+          v14 = 12035;
+          break;
+        case 0xAu:
+          v14 = 12036;
+          break;
+        case 5u:
+          v14 = 12037;
+          break;
+        case 0xDu:
+          v14 = 12038;
+          break;
+        case 0xEu:
+          v14 = 12039;
+          break;
+        default:
+          goto LABEL_42;
+      }
+      Dns_GetResourceString(v14, v27, 64i64);
+LABEL_42:
+      if ( (dword_1401B9104 & 0x400) != 0 )
+        Template_szqbz((unsigned int)*a2 - 4, (__int64)v27, a3, Buffer, *a2 - 4, (__int64)(a2 + 14), v27);
+      return;
+    }
+    if ( a2[1] != 43 )
+      return;
+    memset_0(Buffer, 0, sizeof(Buffer));
+    v15 = *((_BYTE *)a2 + 27);
+    switch ( v15 )
+    {
+      case 1:
+        v16 = 12017;
+        break;
+      case 2:
+        v16 = 12018;
+        break;
+      case 4:
+        v16 = 12019;
+        break;
+      case 3:
+        v16 = 12043;
+        break;
+      case 5:
+        v16 = 12044;
+        break;
+      case 6:
+        v16 = 12045;
+        break;
+      default:
+        v16 = 12046;
+        if ( v15 != 7 )
+          v16 = 12016;
+        break;
+    }
+    Dns_GetResourceString(v16, Buffer, 64i64);
+    v17 = *((_BYTE *)a2 + 26);
+    switch ( v17 )
+    {
+      case 5u:
+        v18 = 12034;
+        break;
+      case 8u:
+        v18 = 12035;
+        break;
+      case 0xAu:
+        v18 = 12036;
+        break;
+      case 5u:
+        v18 = 12037;
+        break;
+      case 0xDu:
+        v18 = 12038;
+        break;
+      case 0xEu:
+        v18 = 12039;
+        break;
+      default:
+        goto LABEL_72;
+    }
+    Dns_GetResourceString(v18, v27, 64i64);
+LABEL_72:
+    if ( (dword_1401B9104 & 0x400) != 0 )
+      Template_sqzqbz((unsigned int)*a2 - 4, (__int64)v27, a3, a2[12], Buffer, *a2 - 4, (__int64)(a2 + 14), v27);
+  }
+}
+// 1400586DA: conditional instruction was optimized away because r9.8!=0
+// 1400586F8: conditional instruction was optimized away because r9.8!=0
+// 1401871E0: using guessed type EVENT_DESCRIPTOR DNS_EVENT_RECORD_CREATE;
+// 140187280: using guessed type EVENT_DESCRIPTOR DNS_EVENT_RECORD_DELETE;
+// 140188260: using guessed type wchar_t aDefault_1[8];
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B9100: using guessed type int Microsoft_Windows_DNSServerEnableBits;
+// 1401B9104: using guessed type int dword_1401B9104;

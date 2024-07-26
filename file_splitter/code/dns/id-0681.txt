@@ -1,0 +1,236 @@
+//----- (000000014006073C) ----------------------------------------------------
+ULONG __fastcall Template_zsqzzzzzzz(
+        __int64 a1,
+        __int64 a2,
+        const unsigned __int16 *a3,
+        const char *a4,
+        char a5,
+        const unsigned __int16 *a6,
+        const unsigned __int16 *a7,
+        const unsigned __int16 *a8,
+        const unsigned __int16 *a9,
+        const unsigned __int16 *a10,
+        const unsigned __int16 *a11,
+        const unsigned __int16 *a12)
+{
+  __int64 v12; // rcx
+  __int64 v13; // rax
+  ULONG v14; // edx
+  const wchar_t *v15; // r10
+  const wchar_t *v16; // rax
+  __int64 v17; // rdx
+  int v18; // edx
+  const char *v19; // rax
+  __int64 v20; // rax
+  int v21; // r8d
+  const wchar_t *v22; // rax
+  __int64 v23; // rax
+  int v24; // r8d
+  const wchar_t *v25; // rax
+  __int64 v26; // rax
+  int v27; // r8d
+  const wchar_t *v28; // rax
+  __int64 v29; // rax
+  int v30; // r8d
+  const wchar_t *v31; // rax
+  __int64 v32; // rax
+  int v33; // r8d
+  const wchar_t *v34; // rax
+  __int64 v35; // rax
+  int v36; // r8d
+  const wchar_t *v37; // rax
+  int v38; // edx
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-99h] BYREF
+  const char *v41; // [rsp+30h] [rbp-89h]
+  int v42; // [rsp+38h] [rbp-81h]
+  int v43; // [rsp+3Ch] [rbp-7Dh]
+  char *v44; // [rsp+40h] [rbp-79h]
+  __int64 v45; // [rsp+48h] [rbp-71h]
+  const wchar_t *v46; // [rsp+50h] [rbp-69h]
+  int v47; // [rsp+58h] [rbp-61h]
+  int v48; // [rsp+5Ch] [rbp-5Dh]
+  const wchar_t *v49; // [rsp+60h] [rbp-59h]
+  int v50; // [rsp+68h] [rbp-51h]
+  int v51; // [rsp+6Ch] [rbp-4Dh]
+  const wchar_t *v52; // [rsp+70h] [rbp-49h]
+  int v53; // [rsp+78h] [rbp-41h]
+  int v54; // [rsp+7Ch] [rbp-3Dh]
+  const wchar_t *v55; // [rsp+80h] [rbp-39h]
+  int v56; // [rsp+88h] [rbp-31h]
+  int v57; // [rsp+8Ch] [rbp-2Dh]
+  const wchar_t *v58; // [rsp+90h] [rbp-29h]
+  int v59; // [rsp+98h] [rbp-21h]
+  int v60; // [rsp+9Ch] [rbp-1Dh]
+  const wchar_t *v61; // [rsp+A0h] [rbp-19h]
+  int v62; // [rsp+A8h] [rbp-11h]
+  int v63; // [rsp+ACh] [rbp-Dh]
+  const wchar_t *v64; // [rsp+B0h] [rbp-9h]
+  int v65; // [rsp+B8h] [rbp-1h]
+  int v66; // [rsp+BCh] [rbp+3h]
+
+  v12 = -1i64;
+  if ( a3 )
+  {
+    v13 = -1i64;
+    do
+      ++v13;
+    while ( a3[v13] );
+    v14 = 2 * v13 + 2;
+  }
+  else
+  {
+    v14 = 10;
+  }
+  UserData.Size = v14;
+  v15 = L"NULL";
+  UserData.Reserved = 0;
+  v16 = L"NULL";
+  if ( a3 )
+    v16 = a3;
+  UserData.Ptr = (ULONGLONG)v16;
+  if ( a4 )
+  {
+    v17 = -1i64;
+    do
+      ++v17;
+    while ( a4[v17] );
+    v18 = v17 + 1;
+  }
+  else
+  {
+    v18 = 5;
+  }
+  v42 = v18;
+  v19 = "NULL";
+  if ( a4 )
+    v19 = a4;
+  v43 = 0;
+  v41 = v19;
+  v44 = &a5;
+  v45 = 4i64;
+  if ( a6 )
+  {
+    v20 = -1i64;
+    do
+      ++v20;
+    while ( a6[v20] );
+    v21 = 2 * v20 + 2;
+  }
+  else
+  {
+    v21 = 10;
+  }
+  v47 = v21;
+  v22 = L"NULL";
+  v48 = 0;
+  if ( a6 )
+    v22 = a6;
+  v46 = v22;
+  if ( a7 )
+  {
+    v23 = -1i64;
+    do
+      ++v23;
+    while ( a7[v23] );
+    v24 = 2 * v23 + 2;
+  }
+  else
+  {
+    v24 = 10;
+  }
+  v50 = v24;
+  v25 = L"NULL";
+  v51 = 0;
+  if ( a7 )
+    v25 = a7;
+  v49 = v25;
+  if ( a8 )
+  {
+    v26 = -1i64;
+    do
+      ++v26;
+    while ( a8[v26] );
+    v27 = 2 * v26 + 2;
+  }
+  else
+  {
+    v27 = 10;
+  }
+  v53 = v27;
+  v28 = L"NULL";
+  v54 = 0;
+  if ( a8 )
+    v28 = a8;
+  v52 = v28;
+  if ( a9 )
+  {
+    v29 = -1i64;
+    do
+      ++v29;
+    while ( a9[v29] );
+    v30 = 2 * v29 + 2;
+  }
+  else
+  {
+    v30 = 10;
+  }
+  v56 = v30;
+  v31 = L"NULL";
+  v57 = 0;
+  if ( a9 )
+    v31 = a9;
+  v55 = v31;
+  if ( a10 )
+  {
+    v32 = -1i64;
+    do
+      ++v32;
+    while ( a10[v32] );
+    v33 = 2 * v32 + 2;
+  }
+  else
+  {
+    v33 = 10;
+  }
+  v59 = v33;
+  v34 = L"NULL";
+  v60 = 0;
+  if ( a10 )
+    v34 = a10;
+  v58 = v34;
+  if ( a11 )
+  {
+    v35 = -1i64;
+    do
+      ++v35;
+    while ( a11[v35] );
+    v36 = 2 * v35 + 2;
+  }
+  else
+  {
+    v36 = 10;
+  }
+  v62 = v36;
+  v37 = L"NULL";
+  v63 = 0;
+  if ( a11 )
+    v37 = a11;
+  v61 = v37;
+  if ( a12 )
+  {
+    do
+      ++v12;
+    while ( a12[v12] );
+    v38 = 2 * v12 + 2;
+  }
+  else
+  {
+    v38 = 10;
+  }
+  v65 = v38;
+  v66 = 0;
+  if ( a12 )
+    v15 = a12;
+  v64 = v15;
+  return EventWrite(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_CREATE_ZONE_LEVEL_POLICY, 0xAu, &UserData);
+}

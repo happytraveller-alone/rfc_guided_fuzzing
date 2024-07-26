@@ -1,0 +1,37 @@
+//----- (00000001400CFD7C) ----------------------------------------------------
+__int64 __fastcall scrubDsFields(__int64 a1)
+{
+  __int64 v2; // rcx
+  __int64 v3; // rcx
+
+  if ( a1 && (*(_BYTE *)(a1 + 388) & 1) == 0 )
+  {
+    Timeout_FreeAndReplaceZoneDataEx(
+      a1,
+      (__int64 *)(a1 + 840),
+      0i64,
+      0i64,
+      (__int64)"ds\\dns\\server\\server\\zonerpc.c",
+      600);
+    Timeout_FreeAndReplaceZoneDataEx(
+      v2,
+      (__int64 *)(a1 + 856),
+      0i64,
+      0i64,
+      (__int64)"ds\\dns\\server\\server\\zonerpc.c",
+      601);
+    *(_DWORD *)(a1 + 368) = 0;
+    Timeout_FreeAndReplaceZoneDataEx(
+      v3,
+      (__int64 *)(a1 + 360),
+      0i64,
+      0i64,
+      (__int64)"ds\\dns\\server\\server\\zonerpc.c",
+      603);
+    *(_BYTE *)(a1 + 868) = 0;
+    *(_QWORD *)(a1 + 848) = 0i64;
+  }
+  return 0i64;
+}
+// 1400CFDDB: variable 'v2' is possibly undefined
+// 1400CFE01: variable 'v3' is possibly undefined

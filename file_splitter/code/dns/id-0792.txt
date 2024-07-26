@@ -1,0 +1,35 @@
+//----- (000000014006EF94) ----------------------------------------------------
+_BYTE *__fastcall RR_CreatePtr(unsigned __int8 *a1, _BYTE *a2, unsigned __int16 a3, int a4, unsigned int a5)
+{
+  _BYTE *v10; // rax
+  _BYTE *v11; // rbx
+  unsigned __int8 v12[272]; // [rsp+30h] [rbp-148h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xEu,
+      (__int64)&WPP_103a918d359034d16f977c36c11204c8_Traceguids,
+      a3,
+      (__int64)a2);
+  }
+  if ( !a1 )
+  {
+    if ( (unsigned int)Name_ConvertFileNameToCountNameEx(v12, a2, 0i64, 1) == 123 )
+      return 0i64;
+    a1 = v12;
+  }
+  v10 = RR_AllocateEx(*a1 + 2, 0, a5);
+  v11 = v10;
+  if ( !v10 )
+    return 0i64;
+  *((_DWORD *)v10 + 6) = 0;
+  *((_WORD *)v10 + 5) |= 0x40u;
+  *((_WORD *)v10 + 6) = a3;
+  *((_DWORD *)v10 + 5) = a4;
+  Name_CopyCountName(v10 + 56, a1);
+  return v11;
+}

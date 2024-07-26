@@ -1,0 +1,8 @@
+//----- (0000000140168478) ----------------------------------------------------
+void __fastcall __noreturn std::_Xlength_error(char *a1)
+{
+  char pExceptionObject[40]; // [rsp+20h] [rbp-28h] BYREF
+
+  std::length_error::length_error((std::length_error *)pExceptionObject, a1);
+  CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI3_AVlength_error_std__);
+}

@@ -1,0 +1,62 @@
+//----- (000000014009BAEC) ----------------------------------------------------
+void __fastcall Send_Multiple(__int64 a1, __int64 a2, _DWORD *a3)
+{
+  int v5; // edi
+  _DWORD *v6; // rsi
+  bool v7; // r13
+  int FamilyCount; // eax
+  __int16 v9; // r11
+  char v10; // r15
+  bool v11; // r12
+  unsigned int v12; // ebp
+  unsigned __int64 v13; // rax
+  __int64 v14; // rax
+
+  v5 = 0;
+  v6 = a3;
+  v7 = (unsigned int)DnsAddrArray_GetFamilyCount((__int64)g_ServerAddrs, 2) != 0;
+  FamilyCount = DnsAddrArray_GetFamilyCount((__int64)g_ServerAddrs, 23);
+  v10 = *(_BYTE *)(a1 + 1412);
+  *(_BYTE *)(a1 + 1412) = 0;
+  v11 = FamilyCount != 0;
+  if ( a2 )
+  {
+    v12 = 0;
+    if ( *(_DWORD *)(a2 + 4) )
+    {
+      while ( 1 )
+      {
+        v13 = (unsigned __int64)v12 << 6;
+        *(_OWORD *)(a1 + 64) = *(_OWORD *)(v13 + a2 + 32);
+        *(_OWORD *)(a1 + 80) = *(_OWORD *)(v13 + a2 + 48);
+        *(_OWORD *)(a1 + 96) = *(_OWORD *)(v13 + a2 + 64);
+        *(_OWORD *)(a1 + 112) = *(_OWORD *)(v13 + a2 + 80);
+        if ( *(_WORD *)(a1 + 64) == 2 && v7 )
+        {
+          v14 = *(_QWORD *)(a1 + 544);
+        }
+        else
+        {
+          if ( *(_WORD *)(a1 + 64) != v9 || !v11 )
+            goto LABEL_10;
+          v14 = *(_QWORD *)(a1 + 552);
+        }
+        ++v5;
+        *(_QWORD *)(a1 + 56) = v14;
+        Send_Msg(a1, 0);
+        v9 = 23;
+LABEL_10:
+        if ( ++v12 >= *(_DWORD *)(a2 + 4) )
+        {
+          v6 = a3;
+          break;
+        }
+      }
+    }
+    if ( v6 )
+      *v6 += v5;
+  }
+  if ( v10 )
+    Packet_Free(a1);
+}
+// 14009BBAE: variable 'v9' is possibly undefined

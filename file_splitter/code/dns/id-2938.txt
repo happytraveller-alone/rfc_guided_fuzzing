@@ -1,0 +1,46 @@
+//----- (00000001401559E4) ----------------------------------------------------
+__int64 Dns_InitializeVirtualizationManager()
+{
+  CDnsVirtualizationManager *v0; // rax
+  CDnsVirtualizationManager *v1; // rbx
+  _QWORD *v3; // rax
+  unsigned int LastError; // ebx
+
+  v0 = (CDnsVirtualizationManager *)operator new(0x10ui64, (const struct std::nothrow_t *)&std::nothrow);
+  if ( v0 )
+    v1 = CDnsVirtualizationManager::CDnsVirtualizationManager(v0);
+  else
+    v1 = 0i64;
+  g_pVirtualizationManager = v1;
+  if ( !v1 )
+    return 14i64;
+  v3 = Lock_Create();
+  *((_QWORD *)v1 + 1) = v3;
+  if ( v3 )
+  {
+    LastError = 0;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_4801f8127c993977e52bcb676d808450_Traceguids);
+    }
+    LastError = GetLastError();
+  }
+  if ( LastError
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x1Fu,
+      (__int64)&WPP_4801f8127c993977e52bcb676d808450_Traceguids,
+      LastError);
+  }
+  return LastError;
+}
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

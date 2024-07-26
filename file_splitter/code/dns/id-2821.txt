@@ -1,0 +1,16 @@
+//----- (000000014014CD20) ----------------------------------------------------
+__int64 __fastcall DnsRRL_ResetParamsAndRegistry(struct _DnsRRLParams_ *a1)
+{
+  unsigned int v2; // ebx
+
+  CDnsRRLParameters::ReSetRRLParameters(a1, a1);
+  v2 = Reg_CreateOrResetRRLParams((LSTATUS *)a1, *((unsigned int *)a1 + 9));
+  if ( v2
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Cu, (__int64)&WPP_fb17dad7faab38b20f3316f2d4e4b278_Traceguids, v2);
+  }
+  return v2;
+}

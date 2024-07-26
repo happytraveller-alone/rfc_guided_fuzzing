@@ -1,0 +1,14 @@
+//----- (0000000140167DF0) ----------------------------------------------------
+_BOOL8 __fastcall std::error_category::equivalent(
+        std::error_category *this,
+        unsigned int a2,
+        const struct std::error_condition *a3)
+{
+  __int64 v4; // rax
+  char v6[24]; // [rsp+20h] [rbp-18h] BYREF
+
+  v4 = (*(__int64 (__fastcall **)(std::error_category *, char *, _QWORD))(*(_QWORD *)this + 24i64))(this, v6, a2);
+  return *(_QWORD *)(v4 + 8) == *((_QWORD *)a3 + 1) && *(_DWORD *)v4 == *(_DWORD *)a3;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 140167DF0: using guessed type char var_18[24];

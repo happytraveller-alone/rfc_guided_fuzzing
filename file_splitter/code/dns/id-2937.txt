@@ -1,0 +1,276 @@
+//----- (0000000140155380) ----------------------------------------------------
+__int64 __fastcall CDnsVirtualizationManager::RemoveVirtualInstance(
+        CDnsVirtualizationManager *this,
+        unsigned __int16 *a2,
+        int a3)
+{
+  __int64 *v3; // r15
+  unsigned int v4; // esi
+  __int64 *v5; // rax
+  __int64 v6; // rdi
+  const unsigned __int16 **i; // rax
+  __int64 v8; // rbx
+  __int64 v9; // rcx
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  const wchar_t *v11; // rax
+  unsigned __int16 v12; // dx
+  __int64 *j; // rdx
+  unsigned int v14; // edx
+  const unsigned __int16 **NextZone; // r12
+  __int64 v16; // rcx
+  const unsigned __int16 **k; // rax
+  unsigned int v18; // edx
+  __int64 *v19; // rsi
+  __int64 *m; // r15
+  unsigned int v21; // edx
+  __int64 v22; // rbx
+  char v24; // [rsp+40h] [rbp-C0h]
+  char v25; // [rsp+41h] [rbp-BFh]
+  LPCRITICAL_SECTION lpCriticalSection; // [rsp+48h] [rbp-B8h] BYREF
+  __int64 *v27; // [rsp+50h] [rbp-B0h] BYREF
+  int v28; // [rsp+58h] [rbp-A8h]
+  WCHAR FileName[1040]; // [rsp+60h] [rbp-A0h] BYREF
+  WCHAR v30[1040]; // [rsp+880h] [rbp+780h] BYREF
+
+  v3 = (__int64 *)g_pVirtualizationManager;
+  LODWORD(lpCriticalSection) = -1;
+  v4 = 0;
+  v28 = a3;
+  v27 = (__int64 *)a2;
+  if ( (unsigned int)acquireUpdate(
+                       *((_QWORD *)g_pVirtualizationManager + 1),
+                       0x2710u,
+                       (unsigned int *)&lpCriticalSection,
+                       1) == -1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x18u, (__int64)&WPP_4801f8127c993977e52bcb676d808450_Traceguids);
+    }
+    return 9923;
+  }
+  else
+  {
+    v5 = *std::_Tree<std::_Tmap_traits<unsigned short *,_DnsServerScopeInfo_ *,bool (*)(unsigned short *,unsigned short *),std::allocator<std::pair<unsigned short * const,_DnsServerScopeInfo_ *>>,0>>::find(
+            *v3,
+            (__int64 **)&lpCriticalSection,
+            &v27);
+    if ( v5 == *(__int64 **)(*v3 + 8) )
+    {
+      v4 = 9922;
+LABEL_49:
+      LODWORD(lpCriticalSection) = -1;
+      releaseUpdate(v3[1], (unsigned int *)&lpCriticalSection, 1);
+    }
+    else
+    {
+      v6 = v5[4];
+      lpCriticalSection = (LPCRITICAL_SECTION)(v6 + 64);
+      EnterCriticalSection((LPCRITICAL_SECTION)(v6 + 64));
+      for ( i = Zone_ListGetNextZoneEx((const unsigned __int16 **)v6, 0i64, 1);
+            ;
+            i = Zone_ListGetNextZoneEx((const unsigned __int16 **)v6, (__int64 *)v8, 1) )
+      {
+        v8 = (__int64)i;
+        if ( !i )
+          goto LABEL_15;
+        v25 = 0;
+        v24 = 0;
+        v4 = Zone_LockForRPCSeqEx((__int64)i, 0x2710u);
+        if ( v4 )
+        {
+          v10 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            if ( v6 )
+              v11 = *(const wchar_t **)v6;
+            else
+              v11 = L".";
+            v12 = 25;
+            goto LABEL_37;
+          }
+          goto LABEL_38;
+        }
+        v25 = 1;
+        v4 = Zone_LockForWriteEx(
+               v8,
+               2,
+               0x2710u,
+               (__int64)"ds\\dns\\server\\virtualization\\virtualizationmanager.cpp",
+               193);
+        if ( v4 )
+          break;
+        v24 = 1;
+        v4 = ZoneScopes_LockAll(v8, 1, 10000, 0i64, 0i64);
+        if ( v4 )
+        {
+          v10 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            if ( v6 )
+              v11 = *(const wchar_t **)v6;
+            else
+              v11 = L".";
+            v12 = 27;
+LABEL_37:
+            WPP_SF_sSD(
+              *((_QWORD *)v10 + 7),
+              v12,
+              (__int64)&WPP_4801f8127c993977e52bcb676d808450_Traceguids,
+              *(const char **)(v8 + 16),
+              (__int64)v11);
+            goto LABEL_38;
+          }
+          goto LABEL_38;
+        }
+      }
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        if ( v6 )
+          v11 = *(const wchar_t **)v6;
+        else
+          v11 = L".";
+        v12 = 26;
+        goto LABEL_37;
+      }
+LABEL_38:
+      if ( !v8 )
+      {
+LABEL_15:
+        v9 = v3[1];
+        LODWORD(lpCriticalSection) = -1;
+        acquireWrite(v9, 0x2710u, (unsigned int *)&lpCriticalSection);
+        std::_Tree<std::_Tmap_traits<unsigned short *,_DnsServerScopeInfo_ *,bool (*)(unsigned short *,unsigned short *),std::allocator<std::pair<unsigned short * const,_DnsServerScopeInfo_ *>>,0>>::erase(
+          *v3,
+          &v27);
+        Lock_ReleaseWrite(v3[1]);
+        goto LABEL_43;
+      }
+      for ( j = 0i64; ; j = (__int64 *)NextZone )
+      {
+        NextZone = Zone_ListGetNextZoneEx((const unsigned __int16 **)v6, j, 1);
+        if ( !NextZone )
+          break;
+        if ( NextZone == (const unsigned __int16 **)v8 )
+        {
+          if ( v24 )
+            Zone_UnlockAfterWriteEx(v8, 2, (__int64)"ds\\dns\\server\\virtualization\\virtualizationmanager.cpp", 241);
+          if ( v25 )
+            Lock_ReleaseWrite(*(_QWORD *)(v8 + 312));
+          LeaveCriticalSection(lpCriticalSection);
+          goto LABEL_49;
+        }
+        ZoneScopes_UnLockAll(v8, v14, 0i64);
+        Zone_UnlockAfterWriteEx(v8, 2, (__int64)"ds\\dns\\server\\virtualization\\virtualizationmanager.cpp", 250);
+        Lock_ReleaseWrite(*(_QWORD *)(v8 + 312));
+      }
+LABEL_43:
+      LeaveCriticalSection((LPCRITICAL_SECTION)(v6 + 64));
+      v16 = v3[1];
+      LODWORD(lpCriticalSection) = -1;
+      releaseUpdate(v16, (unsigned int *)&lpCriticalSection, 1);
+      EnterCriticalSection((LPCRITICAL_SECTION)(v6 + 64));
+      for ( k = Zone_ListGetNextZoneEx((const unsigned __int16 **)v6, (__int64 *)v8, 1);
+            ;
+            k = Zone_ListGetNextZoneEx((const unsigned __int16 **)v6, (__int64 *)v22, 1) )
+      {
+        v22 = (__int64)k;
+        if ( !k )
+          break;
+        if ( !v28 )
+        {
+          FileName[0] = 0;
+          v30[0] = 0;
+          if ( (unsigned int)File_CreateDatabaseFilePathEx(
+                               *(char **)v6,
+                               0i64,
+                               (char *)FileName,
+                               1040i64,
+                               v30,
+                               1040i64,
+                               (unsigned __int16 *)k[18]) )
+          {
+            if ( !DeleteFileW(FileName) )
+              RemoveFileExW(FileName);
+            if ( !DeleteFileW(v30) )
+              RemoveFileExW(v30);
+          }
+          else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                 && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+                 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            WPP_SF_sSD(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x1Cu,
+              (__int64)&WPP_4801f8127c993977e52bcb676d808450_Traceguids,
+              *(const char **)(v22 + 16),
+              *(_QWORD *)v6);
+          }
+          if ( *(_QWORD *)(v22 + 184) )
+          {
+            v27 = 0i64;
+            ZoneScopes_LockAll(v22, 1, 10000, 0i64, &v27);
+            v19 = v27;
+            for ( m = v27; m; m = (__int64 *)m[1] )
+            {
+              FileName[0] = 0;
+              v30[0] = 0;
+              if ( (unsigned int)File_CreateDatabaseFilePathEx(
+                                   *(char **)v6,
+                                   *(char **)(*m + 24),
+                                   (char *)FileName,
+                                   1040i64,
+                                   v30,
+                                   1040i64,
+                                   *(unsigned __int16 **)(*v19 + 144)) )
+              {
+                if ( !DeleteFileW(FileName) )
+                  RemoveFileExW(FileName);
+                if ( !DeleteFileW(v30) )
+                  RemoveFileExW(v30);
+              }
+              else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                     && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+                     && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+              {
+                WPP_SF_sSSD(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  *v19,
+                  0i64,
+                  *(const char **)(v22 + 16),
+                  *(_QWORD *)(*v19 + 192),
+                  *(_QWORD *)v6);
+              }
+            }
+            Free_ScopeList(v19);
+            ZoneScopes_UnLockAll(v22, v21, 0i64);
+          }
+        }
+        ZoneScopes_UnLockAll(v22, v18, 0i64);
+        Zone_UnlockAfterWriteEx(v22, 2, (__int64)"ds\\dns\\server\\virtualization\\virtualizationmanager.cpp", 114);
+        Lock_ReleaseWrite(*(_QWORD *)(v22 + 312));
+        v4 = Zone_Delete((struct _zone_info *)v22, 0x10000000, 1, 2, 0);
+      }
+      LeaveCriticalSection((LPCRITICAL_SECTION)(v6 + 64));
+      Timeout_FreeWithFunctionEx(
+        v6,
+        (__int64)Virtualitzation_Info_Free,
+        (__int64)"ds\\dns\\server\\virtualization\\virtualizationmanager.cpp",
+        637);
+    }
+  }
+  return v4;
+}
+// 140155637: variable 'v14' is possibly undefined
+// 140155915: variable 'v21' is possibly undefined
+// 140155923: variable 'v18' is possibly undefined
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

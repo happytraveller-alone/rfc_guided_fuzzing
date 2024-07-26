@@ -1,0 +1,53 @@
+//----- (000000014015B970) ----------------------------------------------------
+__int64 __fastcall buildByteBufferFromHexString(__int64 a1, _DWORD *a2, char *a3, _BYTE *a4)
+{
+  unsigned int v4; // r10d
+  int v6; // ebp
+  int v7; // r11d
+  unsigned __int64 v8; // rsi
+  __int64 v9; // rdx
+  unsigned int v10; // ebx
+  unsigned __int8 v11; // cl
+
+  v4 = 0;
+  v6 = a1;
+  v7 = 1;
+  if ( !a2 || !a3 )
+    return 13i64;
+  v8 = a1 + (unsigned int)*a2;
+  v9 = -1i64;
+  do
+    ++v9;
+  while ( a3[v9] );
+  v10 = 0;
+  if ( (_DWORD)v9 )
+  {
+    do
+    {
+      if ( (unsigned __int64)a4 >= v8 )
+        return 13;
+      v11 = HexCharToHexDigitTable[*a3];
+      if ( v11 > 0xFu )
+        return 13;
+      if ( v7 )
+      {
+        v7 = 0;
+        *a4 = 16 * v11;
+      }
+      else
+      {
+        *a4 |= v11;
+        v7 = 1;
+        ++a4;
+      }
+      ++a3;
+      ++v10;
+    }
+    while ( v10 < (unsigned int)v9 );
+    if ( !v7 )
+      LODWORD(a4) = (_DWORD)a4 + 1;
+  }
+  *a2 = (_DWORD)a4 - v6;
+  return v4;
+}
+// 140194FF0: using guessed type _BYTE HexCharToHexDigitTable[256];

@@ -1,0 +1,125 @@
+//----- (0000000140093AAC) ----------------------------------------------------
+int __fastcall prioritizeIpAddressArray(int *a1, unsigned int a2, struct in_addr a3)
+{
+  unsigned int v3; // ebx
+  int v7; // r9d
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  char *v9; // rax
+  unsigned int v10; // ebx
+  unsigned int v11; // r11d
+  unsigned int v12; // r8d
+  unsigned int v13; // r9d
+  __int64 v14; // rax
+  unsigned int v15; // edx
+  int v16; // r14d
+  ULONG v17; // r15d
+  int *v18; // rcx
+  int v19; // esi
+  int *v20; // r10
+  int v21; // edx
+
+  v3 = dword_1401B98B0;
+  if ( dword_1401B98B0 == -1 )
+  {
+    if ( (a3.S_un.S_un_b.s_b1 & 0x80u) != 0 )
+      v7 = (a3.S_un.S_un_b.s_b1 & 0x40) != 0 ? 0xFFFFFF : 0xFFFF;
+    else
+      v7 = 255;
+    v3 = (((~v7 << 16) | ~(_WORD)v7 & 0xFF00) << 8) | ((((unsigned int)~v7 >> 16) | ~v7 & 0xFF0000) >> 8);
+  }
+  v8 = WPP_GLOBAL_Control;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v9 = inet_ntoa(a3);
+      WPP_SF_sd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x2Bu,
+        (__int64)&WPP_a868f83000033e876174d5733703ce9b_Traceguids,
+        v9);
+      v8 = WPP_GLOBAL_Control;
+    }
+    if ( (*((_DWORD *)v8 + 17) & 0x800) != 0 && *((_BYTE *)v8 + 65) >= 5u )
+    {
+      DnsPrint_Ip4AddressArray(0i64, 0i64, "Host IPs before local net prioritization: ", 0i64, a2, (__int64)a1);
+      v8 = WPP_GLOBAL_Control;
+    }
+  }
+  v10 = ~v3;
+  v11 = 0;
+  v12 = 0;
+  v13 = 1;
+  LODWORD(v14) = ((v10 << 16) | v10 & 0xFF00) << 8;
+  v15 = 1;
+  v16 = v14 | ((HIWORD(v10) | v10 & 0xFF0000) >> 8);
+  v17 = a3.S_un.S_addr & v16;
+  if ( a2 )
+  {
+    v18 = a1;
+    do
+    {
+      v19 = *v18;
+      LODWORD(v14) = v16 & *v18;
+      if ( (_DWORD)v14 == v17 )
+      {
+        v15 = v12 + 1;
+LABEL_25:
+        v11 = v12;
+      }
+      else
+      {
+        if ( v15 >= a2 )
+          break;
+        LODWORD(v14) = v15;
+        v20 = &a1[v15];
+        while ( v12 < 0x3E8 && v15 < 0x3E8 )
+        {
+          LODWORD(v14) = v16 & *v20;
+          if ( (_DWORD)v14 == v17 )
+          {
+            v14 = v15++;
+            *v18 = *v20;
+            a1[v14] = v19;
+            goto LABEL_25;
+          }
+          ++v15;
+          ++v20;
+          if ( v15 >= a2 )
+            break;
+        }
+      }
+      ++v12;
+      ++v18;
+    }
+    while ( v12 < a2 );
+    if ( v11 )
+    {
+      LODWORD(v14) = ++dword_1401B9588 + dword_1401B9714 - dword_1401B9714 / 3u;
+      if ( (((_BYTE)dword_1401B9588 + (_BYTE)dword_1401B9714 - (unsigned __int8)(dword_1401B9714 / 3u)) & 1) == 0 )
+      {
+        if ( v11 != 1 )
+          v13 = (dword_1401B9714 + ++dword_1401B958C - 7 * (dword_1401B9714 / 7u)) % v11 + 1;
+        v21 = *a1;
+        LODWORD(v14) = a1[v13];
+        *a1 = v14;
+        a1[v13] = v21;
+      }
+    }
+    v8 = WPP_GLOBAL_Control;
+  }
+  if ( (*((_DWORD *)v8 + 17) & 0x800) != 0 && *((_BYTE *)v8 + 65) >= 5u )
+    LODWORD(v14) = DnsPrint_Ip4AddressArray(
+                     0i64,
+                     0i64,
+                     "Host IPs after local net prioritization: ",
+                     0i64,
+                     a2,
+                     (__int64)a1);
+  return v14;
+}
+// 1401B9588: using guessed type int dword_1401B9588;
+// 1401B958C: using guessed type int dword_1401B958C;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B98B0: using guessed type int dword_1401B98B0;

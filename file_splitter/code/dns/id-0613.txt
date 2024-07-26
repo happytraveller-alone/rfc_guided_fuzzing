@@ -1,0 +1,9 @@
+//----- (0000000140056AD8) ----------------------------------------------------
+void Log_LeaveLock()
+{
+  if ( dword_1401B9770 < 0 || (qword_1401B9780 & 1) != 0 )
+    writeAndResetLogBuffer();
+  LeaveCriticalSection(&csLogLock);
+}
+// 1401B9770: using guessed type int dword_1401B9770;
+// 1401B9780: using guessed type __int64 qword_1401B9780;

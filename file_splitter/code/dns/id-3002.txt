@@ -1,0 +1,308 @@
+//----- (0000000140159E58) ----------------------------------------------------
+__int64 __fastcall Dns_VerifySignatureOnPacket(__int64 a1, __int64 a2, __int64 a3)
+{
+  _WORD *v3; // rsi
+  unsigned int v5; // r15d
+  unsigned __int16 v6; // r12
+  char v7; // al
+  __int64 v8; // rdi
+  __int64 v9; // rbx
+  _WORD *v10; // rcx
+  int v11; // eax
+  __int64 v12; // r8
+  unsigned int v13; // eax
+  __int64 v14; // rdx
+  __int64 v15; // r8
+  int v16; // r9d
+  __int64 v17; // rcx
+  char *v18; // rax
+  char *v19; // rdi
+  unsigned __int16 v20; // cx
+  __int64 v21; // rbx
+  __int64 v22; // rcx
+  __int16 v23; // ax
+  size_t v24; // rbx
+  char *v25; // rdi
+  char *v26; // rdi
+  size_t v27; // rbx
+  char *v28; // rdi
+  void *v29; // rdi
+  int v30; // ebx
+  __int64 v31; // rbx
+  __int64 v32; // rdx
+  __int64 v33; // rcx
+  __int64 v34; // rdx
+  __int64 v35; // rcx
+  __int64 v36; // rdx
+  __int64 v37; // rcx
+  __int64 v38; // rdx
+  __int64 v39; // rcx
+  __int64 v40; // rdx
+  __int64 v42; // [rsp+20h] [rbp-49h]
+  __int64 v43; // [rsp+28h] [rbp-41h]
+  __int64 v44; // [rsp+28h] [rbp-41h]
+  __int64 v45; // [rsp+40h] [rbp-29h]
+  int v46[2]; // [rsp+48h] [rbp-21h] BYREF
+  unsigned int *v47; // [rsp+50h] [rbp-19h]
+  unsigned int v48[2]; // [rsp+58h] [rbp-11h] BYREF
+  __int64 v49; // [rsp+60h] [rbp-9h]
+  unsigned int v50; // [rsp+68h] [rbp-1h]
+  int v51; // [rsp+6Ch] [rbp+3h]
+  __int64 v52; // [rsp+70h] [rbp+7h]
+  __int16 v53; // [rsp+D0h] [rbp+67h]
+  int v54; // [rsp+D8h] [rbp+6Fh]
+  __int64 v55; // [rsp+E0h] [rbp+77h]
+  char *v56; // [rsp+E8h] [rbp+7Fh]
+
+  v3 = *(_WORD **)(a1 + 40);
+  v56 = 0i64;
+  v5 = 0;
+  v6 = 0;
+  v7 = byte_1401BA001;
+  if ( (byte_1401BA001 & 0x20) != 0 )
+  {
+    WPP_SF_q(96i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)v3);
+    v7 = byte_1401BA001;
+  }
+  v8 = *(_QWORD *)a1;
+  v55 = *(_QWORD *)a1;
+  if ( !*(_QWORD *)a1 )
+  {
+    if ( (v7 & 4) != 0 )
+      WPP_SF_(97i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, a3);
+    v5 = 9017;
+    goto LABEL_62;
+  }
+  v9 = *(_QWORD *)(a1 + 56);
+  v45 = v9;
+  if ( !v9 )
+  {
+    v6 = 16;
+    goto LABEL_62;
+  }
+  v10 = *(_WORD **)(v9 + 40);
+  if ( *(_QWORD *)v10 == *(_QWORD *)"\bgss-tsig" && v10[4] == *(_WORD *)"g" )
+  {
+    v11 = 7;
+  }
+  else
+  {
+    if ( memcmp_0(v10, &unk_1401955C8, 0x13ui64) )
+    {
+      if ( (byte_1401BA003 & 0x10) != 0 )
+        WPP_SF_(98i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v12);
+      goto LABEL_61;
+    }
+    v11 = 3;
+  }
+  if ( !*(_DWORD *)(v8 + 128) )
+    *(_DWORD *)(v8 + 128) = v11;
+  v13 = time(0i64);
+  v14 = *(unsigned __int16 *)(v9 + 72);
+  v15 = *(_QWORD *)(v9 + 64);
+  v16 = v13;
+  v17 = v15 + v14;
+  if ( v13 > v15 + v14 || (v17 = v15 - v14, v13 < v15 - v14) )
+  {
+    if ( (byte_1401BA003 & 0x10) != 0 )
+      WPP_SF_idd(v17, v14, v15, *(unsigned __int16 *)(v9 + 72), v13);
+  }
+  if ( !*(_WORD *)(v9 + 76) )
+  {
+    v18 = (char *)Dns_AllocZero(0x11000ui64);
+    v19 = v18;
+    if ( !v18 )
+    {
+      v5 = 14;
+      goto LABEL_62;
+    }
+    v56 = v18;
+    if ( *((char *)v3 + 2) >= 0 )
+    {
+LABEL_31:
+      v53 = *v3;
+      *v3 = __ROL2__(*v3, 8);
+      v3[2] = __ROL2__(v3[2], 8);
+      v3[3] = __ROL2__(v3[3], 8);
+      v3[4] = __ROL2__(v3[4], 8);
+      v3[5] = __ROL2__(v3[5] - 1, 8);
+      if ( *(_DWORD *)(v55 + 136) || *(_DWORD *)(v55 + 128) < 7u )
+      {
+        v54 = 0;
+        v22 = *(_QWORD *)(a1 + 88);
+      }
+      else
+      {
+        v22 = *(_QWORD *)(a1 + 80);
+        v54 = 1;
+      }
+      v23 = *(_WORD *)(v9 + 74);
+      v24 = (unsigned int)(v22 - (_DWORD)v3);
+      *v3 = v23;
+      memcpy_0(v19, v3, v24);
+      v25 = &v19[v24];
+      v3[2] = __ROL2__(v3[2], 8);
+      v3[3] = __ROL2__(v3[3], 8);
+      v3[4] = __ROL2__(v3[4], 8);
+      v3[5] = __ROL2__(v3[5], 8) + 1;
+      *v3 = v53;
+      if ( !v54 || (v25 = Dns_CopyAndCanonicalizeWireName(*(unsigned __int8 **)(a1 + 80), v25)) != 0i64 )
+      {
+        *(_WORD *)v25 = __ROL2__(*(_WORD *)(a1 + 114), 8);
+        *(_DWORD *)(v25 + 2) = ((*(_DWORD *)(a1 + 116) & 0xFF00 | (*(_DWORD *)(a1 + 116) << 16)) << 8) | ((HIWORD(*(_DWORD *)(a1 + 116)) | *(_DWORD *)(a1 + 116) & 0xFF0000u) >> 8);
+        v26 = v25 + 6;
+        v27 = (unsigned int)(*(_DWORD *)(v45 + 48) - *(_DWORD *)(a1 + 96) - 2);
+        memcpy_0(v26, *(const void **)(a1 + 96), v27);
+        v28 = &v26[v27];
+        *(_WORD *)v28 = __ROL2__(*(_WORD *)(v45 + 76), 8);
+        *((_WORD *)v28 + 1) = __ROL2__(*(_WORD *)(v45 + 80), 8);
+        v29 = v28 + 4;
+        if ( *(_WORD *)(v45 + 80) )
+        {
+          v30 = *(unsigned __int16 *)(v45 + 80);
+          memcpy_0(v29, *(const void **)(v45 + 56), *(unsigned __int16 *)(v45 + 80));
+          LODWORD(v29) = v30 + (_DWORD)v29;
+        }
+        v46[1] = 2;
+        v46[0] = 0;
+        v47 = v48;
+        v49 = (__int64)v56;
+        v48[0] = (_DWORD)v29 - (_DWORD)v56;
+        v48[1] = 1;
+        v52 = *(_QWORD *)(v45 + 48);
+        v50 = *(unsigned __int16 *)(v45 + 78);
+        v51 = 2;
+        if ( (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x2000) != 0 )
+        {
+          DnsPrint_Lock();
+          v31 = v55;
+          if ( (byte_1401BA001 & 4) != 0 )
+          {
+            WPP_SF_qqq(104i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)v3, a1, v55);
+            if ( (byte_1401BA001 & 4) != 0 )
+              WPP_SF_qdqd(
+                105i64,
+                (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids,
+                v49,
+                v48[0],
+                v52,
+                v50);
+          }
+          DnsPrint_RawBinary(0i64, 0i64, (__int64)"Signing buffer:", 0i64, v49, v48[0], 0);
+          DnsPrint_RawBinary(0i64, 0i64, (__int64)"Signature:", 0i64, v52, v50, 0);
+          DnsPrint_SecurityContext(v33, v32, "Verify context", v55);
+          DnsPrint_Unlock();
+        }
+        else
+        {
+          v31 = v55;
+        }
+        v5 = (*(__int64 (__fastcall **)(__int64, int *, _QWORD, _QWORD))(g_pSecurityFunctionTable + 120))(
+               v31 + 8,
+               v46,
+               0i64,
+               0i64);
+        if ( !v5 )
+        {
+          ++SecTsigVerifySuccess;
+          goto LABEL_62;
+        }
+        if ( (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x2000) != 0 )
+        {
+          DnsPrint_Lock();
+          if ( (byte_1401BA001 & 4) != 0 )
+          {
+            HIDWORD(v44) = HIDWORD(a1);
+            WPP_SF_qdDqqq(v35, v34, (__int64)v3, v5);
+            if ( (byte_1401BA001 & 4) != 0 )
+            {
+              LODWORD(v44) = v50;
+              WPP_SF_qdqd(
+                107i64,
+                (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids,
+                v49,
+                v48[0],
+                v52,
+                v44,
+                v31,
+                v31 + 8);
+            }
+          }
+          DnsPrint_RawBinary(0i64, 0i64, (__int64)"Signing buffer:", 0i64, v49, v48[0], 0);
+          DnsPrint_RawBinary(0i64, 0i64, (__int64)"Signature:", 0i64, v52, v50, 0);
+          DnsPrint_SecurityContext(v37, v36, "Verify failed context", v31);
+          DnsPrint_MessageNoContext(v39, v38, (__int64)"Message TSIG verify failed on:", v3, 0);
+          DnsPrint_Unlock();
+        }
+        ++SecTsigVerifyFailed;
+      }
+      else if ( (byte_1401BA001 & 0x20) != 0 )
+      {
+        WPP_SF_q(103i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, *(_QWORD *)(a1 + 80));
+      }
+      goto LABEL_61;
+    }
+    if ( *(_QWORD *)(a1 + 128) )
+    {
+      v20 = *(_WORD *)(a1 + 136);
+      if ( *(_DWORD *)(v55 + 128) != 3 )
+      {
+        *(_WORD *)v18 = __ROL2__(v20, 8);
+        v19 = v18 + 2;
+      }
+      v21 = v20;
+      memcpy_0(v19, *(const void **)(a1 + 128), v20);
+      v19 += v21;
+      v9 = v45;
+      goto LABEL_31;
+    }
+    if ( *(_QWORD *)(a1 + 64) )
+      goto LABEL_31;
+    if ( (byte_1401BA001 & 4) != 0 )
+      WPP_SF_q(101i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)v3);
+LABEL_61:
+    v6 = 16;
+    goto LABEL_62;
+  }
+  if ( (byte_1401BA001 & 0x20) != 0 )
+    WPP_SF_D(
+      100i64,
+      (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids,
+      *(unsigned __int16 *)(v9 + 76),
+      v16);
+  v6 = *(_WORD *)(v9 + 76);
+LABEL_62:
+  Dns_Free(v56);
+  if ( v6 )
+  {
+    v5 = v6 + 9000;
+    *(_WORD *)(a1 + 138) = v6;
+  }
+  if ( (byte_1401BA001 & 0x20) != 0 )
+  {
+    LODWORD(v43) = *(unsigned __int16 *)(a1 + 138);
+    LODWORD(v42) = v5;
+    WPP_SF_qdDd(0x6Cu, v40, (__int64)v3, v5, v42, v43);
+  }
+  return v5;
+}
+// 140159EC3: variable 'a3' is possibly undefined
+// 140159F9E: variable 'v16' is possibly undefined
+// 14015A2EB: variable 'v33' is possibly undefined
+// 14015A2EB: variable 'v32' is possibly undefined
+// 14015A368: variable 'v35' is possibly undefined
+// 14015A368: variable 'v34' is possibly undefined
+// 14015A3FD: variable 'v37' is possibly undefined
+// 14015A3FD: variable 'v36' is possibly undefined
+// 14015A412: variable 'v39' is possibly undefined
+// 14015A412: variable 'v38' is possibly undefined
+// 14015A450: variable 'v12' is possibly undefined
+// 14015A4A0: variable 'v40' is possibly undefined
+// 14015A4A0: variable 'v42' is possibly undefined
+// 14015A4A0: variable 'v43' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9E00: using guessed type int SecTsigVerifyFailed;
+// 1401B9E04: using guessed type int SecTsigVerifySuccess;
+// 1401BA001: using guessed type char byte_1401BA001;
+// 1401BA003: using guessed type char byte_1401BA003;
+// 1401BA088: using guessed type __int64 g_pSecurityFunctionTable;

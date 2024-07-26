@@ -1,0 +1,138 @@
+//----- (00000001400F4F64) ----------------------------------------------------
+__int64 __fastcall DnsOls_FindKeymasterSettingsObject(LDAP *a1, __int64 a2, LDAPMessage **a3)
+{
+  WCHAR *v3; // rdi
+  __int64 v5; // r13
+  int v7; // eax
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  ULONG v9; // ebx
+  int v10; // eax
+  int v11; // ebp
+  LDAPMessage *entry; // rdi
+  const unsigned __int16 *dnW; // rax
+  WCHAR *v14; // r14
+  WCHAR filter[2568]; // [rsp+70h] [rbp-1458h] BYREF
+
+  v3 = qword_1401B6B70;
+  *a3 = 0i64;
+  v5 = a2;
+  v7 = StringCchPrintfW(
+         filter,
+         2562i64,
+         L"(&(msDNS-KeymasterZones=%s)(objectCategory=msDNS-ServerSettings))",
+         *(_QWORD *)(a2 + 840));
+  v8 = WPP_GLOBAL_Control;
+  if ( v7 < 0 )
+  {
+    v9 = 13;
+LABEL_32:
+    if ( *a3 )
+    {
+      ldap_msgfree(*a3);
+      *a3 = 0i64;
+      v8 = WPP_GLOBAL_Control;
+    }
+    goto LABEL_34;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_S(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x19u,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      filter);
+  }
+  v10 = ldap_search_ext_sW(a1, v3, 2u, filter, 0i64, 0, 0i64, 0i64, &g_LdapTimeout, 0, a3);
+  v9 = v10;
+  if ( v10 == 32 )
+  {
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Au,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        *(const char **)(v5 + 16));
+      v8 = WPP_GLOBAL_Control;
+    }
+    v9 = 2;
+    goto LABEL_32;
+  }
+  if ( v10 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Bu,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        v10,
+        *(_QWORD *)(v5 + 16));
+    }
+    v9 = Ds_ErrorHandler(v9, (__int64)v3, a1, 0);
+  }
+  v8 = WPP_GLOBAL_Control;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0 )
+  {
+    v11 = 0;
+    entry = ldap_first_entry(a1, *a3);
+    if ( entry )
+    {
+      do
+      {
+        ++v11;
+        dnW = ldap_get_dnW(a1, entry);
+        v14 = (WCHAR *)dnW;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x1Cu,
+            (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+            dnW);
+        }
+        ldap_memfreeW(v14);
+        entry = ldap_next_entry(a1, entry);
+      }
+      while ( entry );
+      v5 = a2;
+    }
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Du,
+        (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+        v11,
+        *(_QWORD *)(v5 + 16));
+      v8 = WPP_GLOBAL_Control;
+    }
+  }
+  if ( v9 )
+    goto LABEL_32;
+LABEL_34:
+  if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v8 + 17) & 0x200000) != 0
+    && *((_BYTE *)v8 + 65) >= 4u )
+  {
+    WPP_SF_Ds(
+      *((_QWORD *)v8 + 7),
+      0x1Eu,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      v9,
+      *(_QWORD *)(v5 + 16));
+  }
+  return v9;
+}

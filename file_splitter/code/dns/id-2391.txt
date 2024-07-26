@@ -1,0 +1,83 @@
+//----- (00000001401241BC) ----------------------------------------------------
+__int64 DnsSign::AppendFormattedMessageByID(char *Src, UINT uID, ...)
+{
+  unsigned int LastError; // ebx
+  HMODULE ModuleHandleW; // rax
+  int v6; // eax
+  LPWSTR v7; // rdi
+  LPWSTR lpBuffer[8]; // [rsp+48h] [rbp-40h] BYREF
+  va_list Arguments; // [rsp+A0h] [rbp+18h] BYREF
+  va_list va; // [rsp+A0h] [rbp+18h]
+  char *Buffer; // [rsp+A8h] [rbp+20h] BYREF
+  va_list Buffera; // [rsp+A8h] [rbp+20h]
+  va_list va2; // [rsp+B0h] [rbp+28h] BYREF
+
+  va_start(va2, uID);
+  va_start(Buffera, uID);
+  va_start(va, uID);
+  Arguments = va_arg(Buffera, va_list);
+  va_copy(va2, Buffera);
+  va_arg(va2, _QWORD);
+  LastError = 0;
+  Buffer = 0i64;
+  memset(lpBuffer, 0, 24);
+  std::vector<unsigned short>::resize((__int64 *)lpBuffer, 0x800ui64);
+  ModuleHandleW = GetModuleHandleW(0i64);
+  if ( ModuleHandleW )
+  {
+    v7 = lpBuffer[0];
+    if ( LoadStringW(ModuleHandleW, uID, lpBuffer[0], 2048) )
+    {
+      if ( FormatMessageW(0x500u, v7, 0, 0, (LPWSTR)Buffera, 0, (va_list *)va) )
+      {
+        std::wstring::append(Src, Buffer);
+      }
+      else
+      {
+        LastError = GetLastError();
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 2),
+            0xCu,
+            (__int64)&WPP_abf4d0f7314539485c600a5c90651d33_Traceguids,
+            LastError);
+        }
+      }
+    }
+    else
+    {
+      LastError = GetLastError();
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        WPP_SF_Dd(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          0xBu,
+          (__int64)&WPP_abf4d0f7314539485c600a5c90651d33_Traceguids,
+          uID);
+      }
+    }
+  }
+  else
+  {
+    v6 = GetLastError();
+    LastError = v6;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xAu, (__int64)&WPP_abf4d0f7314539485c600a5c90651d33_Traceguids, v6);
+    }
+    v7 = lpBuffer[0];
+  }
+  if ( Buffer )
+    LocalFree(Buffer);
+  if ( v7 )
+    operator delete(v7);
+  return LastError;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

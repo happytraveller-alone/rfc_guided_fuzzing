@@ -1,0 +1,68 @@
+//----- (00000001400E07FC) ----------------------------------------------------
+void __fastcall TrustPoint::DeleteTrustAnchor(struct _RTL_CRITICAL_SECTION *this, const struct TrustAnchor *a2)
+{
+  __int64 **v4; // r8
+  __int64 *v5; // rax
+  unsigned __int16 v6; // si
+  __int16 v7; // ax
+  const char *p_OwningThread; // r14
+  __int64 v9; // rax
+  __int64 v10; // r8
+  unsigned __int16 v11; // dx
+  unsigned __int16 v12; // si
+  __int64 **v13; // [rsp+50h] [rbp+8h] BYREF
+
+  EnterCriticalSection(this);
+  TrustPoint::FindTrustAnchor((__int64)this, &v13, a2, 0);
+  v4 = v13;
+  if ( v13 == *(__int64 ***)&this[1].LockCount )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v12 = 0;
+      if ( *(_QWORD *)a2 )
+        v12 = *(_WORD *)(*(_QWORD *)a2 + 12i64);
+      p_OwningThread = (const char *)&this[3].OwningThread;
+      if ( this[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+        p_OwningThread = *(const char **)p_OwningThread;
+      v9 = DnsRecordStringForWritableType(v12);
+      v11 = 32;
+      goto LABEL_23;
+    }
+  }
+  else
+  {
+    v5 = v13[3];
+    v6 = 0;
+    if ( v5 )
+      v7 = *((_WORD *)v5 + 6);
+    else
+      v7 = 0;
+    if ( v7 == 43 )
+      --this[3].LockCount;
+    std::_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>::erase(
+      &this[1].DebugInfo,
+      &v13,
+      (__int64)v4);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( *(_QWORD *)a2 )
+        v6 = *(_WORD *)(*(_QWORD *)a2 + 12i64);
+      p_OwningThread = (const char *)&this[3].OwningThread;
+      if ( this[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+        p_OwningThread = *(const char **)p_OwningThread;
+      v9 = DnsRecordStringForWritableType(v6);
+      v11 = 31;
+LABEL_23:
+      WPP_SF_sqsD(*((_QWORD *)WPP_GLOBAL_Control + 7), v11, v10, p_OwningThread, (char)this, v9);
+    }
+  }
+  TrustPoint::UpdateTrustPointState(this);
+  LeaveCriticalSection(this);
+}
+// 1400E093A: variable 'v10' is possibly undefined
+// 140183D30: using guessed type __int64 __fastcall DnsRecordStringForWritableType(_QWORD);

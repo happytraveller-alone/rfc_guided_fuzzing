@@ -1,0 +1,221 @@
+//----- (00000001400F2724) ----------------------------------------------------
+void __fastcall DnsOls_DetectResignChanges(
+        __int64 a1,
+        unsigned int a2,
+        const void *a3,
+        __int64 a4,
+        _DWORD *a5,
+        _DWORD *a6)
+{
+  _DWORD *v6; // r13
+  size_t v8; // r15
+  bool v10; // bp
+  unsigned int v11; // r8d
+  int v12; // ecx
+  int v13; // eax
+  CDnsClientSubnetRecordsTrie *v14; // rdi
+  const char *v15; // rax
+  bool v16; // zf
+  int v17; // ecx
+  CDnsClientSubnetRecordsTrie *v18; // rcx
+  unsigned __int16 v19; // dx
+  int DNSKEYsFromDirectory; // r9d
+  int v21; // eax
+  const char *v22; // rax
+  int v23; // edi
+  __int64 v24; // rdx
+  unsigned int v25; // ecx
+  unsigned __int16 *v26[2]; // [rsp+40h] [rbp-48h] BYREF
+  __int128 v27; // [rsp+50h] [rbp-38h] BYREF
+
+  v6 = a6;
+  v8 = a2;
+  *a6 = 0;
+  if ( *(_QWORD *)(a1 + 40) )
+  {
+    v10 = 0;
+    if ( (*(_BYTE *)(a1 + 388) & 1) == 0 )
+      v10 = *a5 == 1;
+    v11 = *(_DWORD *)(a1 + 1040);
+    v12 = (v11 >> 3) & 1;
+    v13 = (v11 >> 2) & 1;
+    if ( v13 != v12 )
+    {
+      v14 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v15 = "unsigned";
+        if ( v12 )
+          v15 = "signed";
+        WPP_SF_ss(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xB8u,
+          (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+          *(const char **)(a1 + 16),
+          (__int64)v15);
+        v14 = WPP_GLOBAL_Control;
+      }
+      v16 = (*(_BYTE *)(a1 + 1040) & 8) == 0;
+      *a5 = 1;
+      if ( v16 )
+        v10 = 1;
+      goto LABEL_45;
+    }
+    if ( *(_DWORD *)(a1 + 372) != 1 || !v13 )
+      goto LABEL_44;
+    if ( *a5 )
+    {
+      v14 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_38;
+      }
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xB9u,
+        (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+        *(const char **)(a1 + 16));
+LABEL_37:
+      v14 = WPP_GLOBAL_Control;
+LABEL_38:
+      if ( (*(_BYTE *)(a1 + 388) & 1) == 0 )
+        goto LABEL_45;
+      DNSKEYsFromDirectory = DnsOls_ReadDNSKEYsFromDirectory(a1, *(_QWORD *)(a1 + 40));
+      if ( DNSKEYsFromDirectory )
+      {
+        v14 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_45;
+        }
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xBCu,
+          (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+          DNSKEYsFromDirectory,
+          *(_QWORD *)(a1 + 16));
+      }
+LABEL_44:
+      v14 = WPP_GLOBAL_Control;
+LABEL_45:
+      if ( (*(_BYTE *)(a1 + 1040) & 0x10) != 0
+        && (*(_DWORD *)(a1 + 1096) != (_DWORD)v8 || (_DWORD)v8 && memcmp_0(*(const void **)(a1 + 1088), a3, v8)) )
+      {
+        if ( v14 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v14 + 17) & 0x400) != 0
+          && *((_BYTE *)v14 + 65) >= 4u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)v14 + 7),
+            0xBDu,
+            (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+            *(const char **)(a1 + 16));
+        }
+        Mem_Free(*(_QWORD **)(a1 + 1088), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 6803);
+        *(_QWORD *)(a1 + 1088) = a3;
+        *(_DWORD *)(a1 + 1096) = v8;
+        *v6 = 1;
+        if ( *(_DWORD *)(a1 + 372) == 1 )
+        {
+          v21 = *(_DWORD *)(a1 + 1040);
+          if ( (v21 & 4) != 0 )
+          {
+            *a5 = 1;
+            *(_DWORD *)(a1 + 1040) = v21 | 0x8000;
+          }
+        }
+        v14 = WPP_GLOBAL_Control;
+      }
+      if ( v14 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v14 + 17) & 0x400) != 0
+        && *((_BYTE *)v14 + 65) >= 4u )
+      {
+        v22 = "does not";
+        if ( *a5 )
+          v22 = "does";
+        WPP_SF_ss(
+          *((_QWORD *)v14 + 7),
+          0xBEu,
+          (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+          *(const char **)(a1 + 16),
+          (__int64)v22);
+      }
+      if ( *a5 )
+      {
+        v23 = *(_DWORD *)(a1 + 1100);
+        if ( (*(_BYTE *)(a1 + 1040) & 2) != 0 )
+          v10 = 1;
+        DnsOls_MarkZoneForResign(a1, v10);
+        if ( (*(_BYTE *)(a1 + 1040) & 2) == 0 )
+        {
+          v25 = *(_DWORD *)(a1 + 1100);
+          if ( v23 != v25 && v25 >= dword_1401B9714 )
+          {
+            LOWORD(a6) = 1025;
+            v26[0] = *(unsigned __int16 **)(a1 + 24);
+            v26[1] = (unsigned __int16 *)(v25 - dword_1401B9714);
+            v27 = DNS_EVENT_DNSSEC_REPL_RESIGNING;
+            Eventlog_LogEvent((__int64)&v27, v24, 2u, v26, (unsigned __int8 *)&a6, 0, 0, 0i64);
+          }
+        }
+      }
+      return;
+    }
+    v17 = (v11 >> 4) & 1;
+    if ( ((*(_DWORD *)a4 >> 4) & 1) == v17 )
+    {
+      if ( !v17
+        || (((unsigned __int8)v11 ^ (unsigned __int8)*(_DWORD *)a4) & 0x20) == 0
+        && *(_BYTE *)(a4 + 4) == *(_BYTE *)(a1 + 1044)
+        && *(_WORD *)(a4 + 6) == *(_WORD *)(a1 + 1046)
+        && (v11 & 0x4000) == 0 )
+      {
+        goto LABEL_37;
+      }
+      v18 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_36;
+      }
+      v19 = 187;
+    }
+    else
+    {
+      v18 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_36;
+      }
+      v19 = 186;
+    }
+    WPP_SF_s(
+      *((_QWORD *)v18 + 7),
+      v19,
+      (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+      *(const char **)(a1 + 16));
+LABEL_36:
+    *(_DWORD *)(a1 + 1040) |= 0x8000u;
+    *a5 = 1;
+    goto LABEL_37;
+  }
+  if ( (*(_BYTE *)(a1 + 388) & 1) != 0 && a3 )
+  {
+    Mem_Free(*(_QWORD **)(a1 + 1088), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 6891);
+    *(_QWORD *)(a1 + 1088) = a3;
+    *(_DWORD *)(a1 + 1096) = v8;
+    *v6 = 1;
+  }
+}
+// 1400F2B36: variable 'v24' is possibly undefined
+// 140187150: using guessed type __int128 DNS_EVENT_DNSSEC_REPL_RESIGNING;
+// 1401B9714: using guessed type int dword_1401B9714;

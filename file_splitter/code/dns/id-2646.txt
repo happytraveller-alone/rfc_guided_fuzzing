@@ -1,0 +1,88 @@
+//----- (000000014013BA90) ----------------------------------------------------
+__int64 __fastcall std::_Tree<std::_Tmap_traits<unsigned long,CDnsPolicy_CriteriaNode *,bool (*)(unsigned long const &,unsigned long const &),std::allocator<std::pair<unsigned long const,CDnsPolicy_CriteriaNode *>>,0>>::insert<std::pair<unsigned long,CDnsPolicy_CriteriaNode *>>(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3)
+{
+  _QWORD *v5; // rax
+  _QWORD *v6; // rdi
+  _QWORD *v7; // rbp
+  char v8; // r15
+  __int64 *v9; // rbx
+  _QWORD *v10; // rbx
+  char v11; // r8
+  _QWORD *v12; // rax
+  __int64 v13; // rax
+  __int64 i; // rax
+  __int64 v16; // [rsp+60h] [rbp+8h] BYREF
+
+  v5 = std::_Tree_val<std::_Tmap_traits<unsigned long,CDnsPolicy_CriteriaNode *,bool (*)(unsigned long const &,unsigned long const &),std::allocator<std::pair<unsigned long const,CDnsPolicy_CriteriaNode *>>,0>>::_Buynode<std::pair<unsigned long,CDnsPolicy_CriteriaNode *>>(
+         a1,
+         a3);
+  v6 = *(_QWORD **)(a1 + 8);
+  v7 = v5;
+  v8 = 1;
+  v9 = (__int64 *)v6[1];
+  while ( !*((_BYTE *)v9 + 41) )
+  {
+    v6 = v9;
+    v8 = (*(__int64 (__fastcall **)(_QWORD *, __int64 *))a1)(v7 + 3, v9 + 3);
+    if ( v8 )
+      v9 = (__int64 *)*v9;
+    else
+      v9 = (__int64 *)v9[2];
+  }
+  v10 = v6;
+  if ( v8 )
+  {
+    if ( v6 == **(_QWORD ***)(a1 + 8) )
+    {
+      v11 = 1;
+      goto LABEL_9;
+    }
+    if ( *((_BYTE *)v6 + 41) )
+    {
+      v10 = (_QWORD *)v6[2];
+    }
+    else
+    {
+      v13 = *v6;
+      if ( *(_BYTE *)(*v6 + 41i64) )
+      {
+        for ( i = v6[1]; !*(_BYTE *)(i + 41) && v10 == *(_QWORD **)i; i = *(_QWORD *)(i + 8) )
+          v10 = (_QWORD *)i;
+        if ( !*((_BYTE *)v10 + 41) )
+          v10 = (_QWORD *)i;
+      }
+      else
+      {
+        do
+        {
+          v10 = (_QWORD *)v13;
+          v13 = *(_QWORD *)(v13 + 16);
+        }
+        while ( !*(_BYTE *)(v13 + 41) );
+      }
+    }
+  }
+  if ( !(*(unsigned __int8 (__fastcall **)(_QWORD *, _QWORD *))a1)(v10 + 3, v7 + 3) )
+  {
+    operator delete(v7);
+    *(_QWORD *)a2 = v10;
+    *(_BYTE *)(a2 + 8) = 0;
+    return a2;
+  }
+  v11 = v8;
+LABEL_9:
+  v12 = std::_Tree<std::_Tmap_traits<_lookup_name *,_DnsTreeNode *,DnsSign::CLookupNameCompare,std::allocator<std::pair<_lookup_name * const,_DnsTreeNode *>>,0>>::_Insert(
+          a1,
+          &v16,
+          v11,
+          v6,
+          v7);
+  *(_BYTE *)(a2 + 8) = 1;
+  *(_QWORD *)a2 = *v12;
+  return a2;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

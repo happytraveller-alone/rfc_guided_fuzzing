@@ -1,0 +1,12 @@
+//----- (00000001401699C8) ----------------------------------------------------
+void __fastcall `eh vector destructor iterator'(char *a1, __int64 a2, int a3, void (__stdcall *a4)(void *))
+{
+  int v4; // ebx
+  char *i; // rdi
+
+  v4 = a3;
+  for ( i = &a1[a2 * a3]; --v4 >= 0; _guard_dispatch_icall_fptr(i, _guard_dispatch_icall_fptr) )
+    i -= a2;
+}
+// 140169CA0: using guessed type __int64 __fastcall guard_dispatch_icall_nop();
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

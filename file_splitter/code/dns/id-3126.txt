@@ -1,0 +1,17 @@
+//----- (0000000140165EC0) ----------------------------------------------------
+_WORD *__fastcall FlatDnsRecordConvert(__int64 a1)
+{
+  size_t v1; // rsi
+  _WORD *result; // rax
+  _WORD *v4; // rbx
+
+  v1 = *(unsigned __int16 *)(a1 + 18);
+  result = Rpc_AllocateRecord(*(unsigned __int16 *)(a1 + 18));
+  v4 = result;
+  if ( result )
+  {
+    memcpy_0(result + 12, (const void *)(a1 + 32), v1);
+    return v4;
+  }
+  return result;
+}

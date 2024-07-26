@@ -1,0 +1,6 @@
+//----- (000000014014CD10) ----------------------------------------------------
+__int64 DnsRRL_IsInitialized()
+{
+  return (unsigned int)gDnsRRLInitStatus;
+}
+// 1401B9254: using guessed type int gDnsRRLInitStatus;

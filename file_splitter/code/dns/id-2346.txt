@@ -1,0 +1,39 @@
+//----- (0000000140120A20) ----------------------------------------------------
+__int64 __fastcall DhcidFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  unsigned int v5; // ebx
+  _BYTE *v6; // rax
+  size_t v7; // r8
+  void *v8; // rdx
+  size_t Size; // [rsp+30h] [rbp-18h] BYREF
+  void *Src; // [rsp+38h] [rbp-10h] BYREF
+
+  Src = 0i64;
+  v5 = buildKeyOrSignatureFromTokens(&Src, &Size, a2, a3);
+  if ( !v5 )
+  {
+    if ( (unsigned int)Size <= 0xFFFF )
+    {
+      v6 = RR_AllocateEx(Size, 0, 0);
+      if ( v6 )
+      {
+        v7 = (unsigned int)Size;
+        v8 = Src;
+        *(_QWORD *)(a4 + 800) = v6;
+        memcpy_0(v6 + 56, v8, v7);
+      }
+      else
+      {
+        v5 = 14;
+      }
+    }
+    else
+    {
+      v5 = 13;
+    }
+  }
+  Mem_Free(Src, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\rrfile.c", 2205);
+  if ( v5 == -1072573183 )
+    *(_DWORD *)(a4 + 1596) = -1072573180;
+  return v5;
+}

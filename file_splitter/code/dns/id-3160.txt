@@ -1,0 +1,5 @@
+//----- (0000000140167DD0) ----------------------------------------------------
+_BOOL8 __fastcall std::error_category::equivalent(std::error_category *this, std::error_category **a2, int a3)
+{
+  return this == a2[1] && *(_DWORD *)a2 == a3;
+}

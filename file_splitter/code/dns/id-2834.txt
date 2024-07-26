@@ -1,0 +1,5 @@
+//----- (000000014014E220) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateKey::GetRRLResponseType(__int64 a1)
+{
+  return *(unsigned int *)(a1 + 64);
+}

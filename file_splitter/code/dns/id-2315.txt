@@ -1,0 +1,23 @@
+//----- (000000014011E31C) ----------------------------------------------------
+char *__fastcall splitStringMultiline(char *Src, char *a2, char *a3, __int64 a4)
+{
+  char *i; // rsi
+  unsigned int v8; // ecx
+  __int64 v9; // rbx
+
+  for ( i = Src; i < a2; a3 = sprintfSafeA(&a3[v9], a4 - (_QWORD)&a3[v9], "\r\n") )
+  {
+    a3 = sprintfSafeA(a3, a4 - (_QWORD)a3, "%s\t\t", "                        ");
+    if ( !a3 )
+      break;
+    v8 = (_DWORD)a2 - (_DWORD)i;
+    if ( (unsigned int)((_DWORD)a2 - (_DWORD)i) > 0x24 )
+      v8 = 36;
+    if ( v8 > (int)a4 - (int)a3 )
+      return 0i64;
+    v9 = v8;
+    memcpy_0(a3, i, v8);
+    i += v9;
+  }
+  return a3;
+}

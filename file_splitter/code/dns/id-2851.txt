@@ -1,0 +1,5 @@
+//----- (000000014014E520) ----------------------------------------------------
+void __fastcall CDnsRRLStateInfo::IncrementReferenceCount(CDnsRRLStateInfo *this)
+{
+  ++*((_DWORD *)this + 20);
+}

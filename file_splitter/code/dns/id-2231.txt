@@ -1,0 +1,23 @@
+//----- (0000000140118D0C) ----------------------------------------------------
+__int64 __fastcall Mem_ResetTag(__int64 a1, unsigned int a2)
+{
+  __int64 result; // rax
+  unsigned __int16 v4; // r9
+  __int64 v5; // rcx
+
+  result = 65532i64;
+  v4 = *(_WORD *)(a1 - 10) & 0xFFFC;
+  if ( *(_BYTE *)(a1 - 11) < 0x36u )
+  {
+    v5 = 3i64 * *(unsigned __int8 *)(a1 - 11);
+    _InterlockedDecrement((volatile signed __int32 *)&MemoryStats + v5 + 20);
+    result = (unsigned int)_InterlockedExchangeAdd((volatile signed __int32 *)&MemoryStats + v5 + 22, -v4);
+  }
+  if ( a2 <= 0x35 )
+  {
+    _InterlockedIncrement((volatile signed __int32 *)&MemoryStats + 3 * a2 + 20);
+    result = (unsigned int)_InterlockedExchangeAdd((volatile signed __int32 *)&MemoryStats + 3 * a2 + 22, v4);
+  }
+  *(_BYTE *)(a1 - 11) = a2;
+  return result;
+}

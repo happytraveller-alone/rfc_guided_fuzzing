@@ -1,0 +1,20 @@
+//----- (0000000140118760) ----------------------------------------------------
+char *__fastcall Dns_RecordStringForAllTypes(__int64 a1, char *a2)
+{
+  unsigned __int64 v3; // rbx
+  const char *v4; // rax
+  __int64 v5; // rcx
+
+  v3 = (unsigned __int16)a1;
+  v4 = (const char *)DnsRecordStringForWritableType(a1);
+  if ( v4 )
+  {
+    strcpy_s(a2, 0xBui64, v4);
+  }
+  else if ( (unsigned __int16)v3 > 0x29u || (v5 = 0x20000000401i64, !_bittest64(&v5, v3)) )
+  {
+    sprintfSafeA(a2, 0xBui64, "TYPE%d", (unsigned __int16)v3);
+  }
+  return a2;
+}
+// 140183D30: using guessed type __int64 __fastcall DnsRecordStringForWritableType(_QWORD);

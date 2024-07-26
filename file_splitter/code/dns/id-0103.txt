@@ -1,0 +1,61 @@
+//----- (000000014000D28C) ----------------------------------------------------
+__int64 __fastcall autoCreateZone(int a1, char *a2, int a3)
+{
+  int v5; // esi
+  int v6; // eax
+  unsigned int v7; // ebx
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  __int64 v9; // rdi
+  int v11; // [rsp+40h] [rbp-28h] BYREF
+  __int64 v12; // [rsp+48h] [rbp-20h]
+  __int64 v13; // [rsp+88h] [rbp+20h] BYREF
+
+  v13 = 0i64;
+  v5 = (a3 != 0) + 1;
+  v6 = Zone_CreateNewPrimaryEx(&v13, a2, 0i64, 0i64, 1u, 0i64, 0, 0i64);
+  v7 = v6;
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x57u,
+      (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+      v6,
+      (__int64)a2);
+    v8 = WPP_GLOBAL_Control;
+  }
+  if ( v7 == 9609 )
+  {
+    v7 = 0;
+    v9 = 0i64;
+  }
+  else
+  {
+    v9 = v13;
+  }
+  if ( v9 )
+  {
+    Zone_SetAllowUpdate(v9, 2u);
+    *(_DWORD *)(v9 + 376) = v5;
+    Ds_WriteZoneProperties(0i64, v9);
+    v8 = WPP_GLOBAL_Control;
+  }
+  if ( !v7 && v9 && !dword_1401B9724 )
+  {
+    v11 = 4;
+    v12 = 1i64;
+    Config_ResetProperty(a1, "AdminConfigured", (__int64)&v11);
+    v8 = WPP_GLOBAL_Control;
+  }
+  if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v8 + 68) & 2) != 0
+    && *((_BYTE *)v8 + 65) >= 4u )
+  {
+    WPP_SF_Ds(*((_QWORD *)v8 + 7), 0x58u, (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids, v7, (__int64)a2);
+  }
+  return v7;
+}
+// 1401B9724: using guessed type int dword_1401B9724;

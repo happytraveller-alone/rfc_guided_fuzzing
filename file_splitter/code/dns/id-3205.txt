@@ -1,0 +1,15 @@
+//----- (00000001401693C0) ----------------------------------------------------
+char __fastcall IsNonwritableInCurrentImage(__int64 a1)
+{
+  __int64 PESection; // rax
+
+  LOBYTE(PESection) = ValidateImageBase(0x140000000i64);
+  if ( (_DWORD)PESection )
+  {
+    PESection = FindPESection(0x140000000i64, a1 - 0x140000000i64);
+    if ( PESection )
+      LOBYTE(PESection) = *(int *)(PESection + 36) >= 0;
+  }
+  return PESection;
+}
+// 1401693DE: variable 'PESection' is possibly undefined

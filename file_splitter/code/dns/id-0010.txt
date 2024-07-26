@@ -1,0 +1,11 @@
+//----- (00000001400013A0) ----------------------------------------------------
+int sub_1400013A0()
+{
+  `eh vector constructor iterator'(
+    &g_ServiceStartTempPolicyMap,
+    0x20ui64,
+    5ui64,
+    (void (__stdcall *)(void *))std::map<unsigned __int64,_DnssrvRpcPolicy *>::map<unsigned __int64,_DnssrvRpcPolicy *>,
+    std::map<_lookup_name *,_DnsTreeNode *,DnsSign::CLookupNameCompare,std::allocator<std::pair<_lookup_name * const,_DnsTreeNode *>>>::~map<_lookup_name *,_DnsTreeNode *,DnsSign::CLookupNameCompare,std::allocator<std::pair<_lookup_name * const,_DnsTreeNode *>>>);
+  return atexit(sub_14016D7F0);
+}

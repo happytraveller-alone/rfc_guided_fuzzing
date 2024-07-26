@@ -1,0 +1,70 @@
+//----- (000000014008EAB8) ----------------------------------------------------
+__int64 __fastcall checkDnameConditions(__int64 a1, __int64 a2, unsigned __int16 a3, unsigned int a4)
+{
+  unsigned int v6; // ebx
+  CDnsClientSubnetRecordsTrie *v7; // r10
+  int v9; // eax
+  int IndexForType; // eax
+  __int64 v11; // rax
+
+  v6 = 0;
+  if ( RR_FindCoveringDname((_QWORD **)a1, a4) )
+    goto LABEL_2;
+  v9 = *(_DWORD *)(a1 + 92);
+  if ( (v9 & 0x20000) != 0 )
+  {
+    if ( !*(_QWORD *)(a1 + 64) )
+    {
+      *(_DWORD *)(a1 + 92) = v9 & 0xFFFDFFFF;
+      goto LABEL_3;
+    }
+    if ( a3 > 0x34u )
+      IndexForType = (unsigned __int16)QueryIndexForType(a3);
+    else
+      IndexForType = a3;
+    if ( *((_BYTE *)&unk_1401B8262 + 6 * IndexForType) )
+      goto LABEL_3;
+LABEL_2:
+    v6 = 9720;
+LABEL_3:
+    v7 = WPP_GLOBAL_Control;
+    goto LABEL_4;
+  }
+  if ( a3 != 39 )
+    goto LABEL_3;
+  if ( (v9 & 0x20) != 0 )
+  {
+    v6 = 9708;
+    goto LABEL_3;
+  }
+  if ( *(_BYTE *)(a1 + 96) != 0xF2 )
+    goto LABEL_3;
+  if ( !*(_QWORD *)(a1 + 32) )
+    goto LABEL_3;
+  v11 = Lookup_ForEachChildNodeCallFunction(a1, (__int64 (__fastcall *)(__int64, __int64))RR_NodeHasRecords, 0i64);
+  if ( !v11 )
+    goto LABEL_3;
+  v7 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qqs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x63u,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      a1,
+      v11,
+      v11 + 102);
+    v7 = WPP_GLOBAL_Control;
+  }
+  v6 = 13;
+LABEL_4:
+  if ( v7 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v7 + 17) & 0x80000) != 0
+    && *((_BYTE *)v7 + 65) >= 4u )
+  {
+    WPP_SF_Ddq(*((_QWORD *)v7 + 7), 0x64u, (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids, v6);
+  }
+  return v6;
+}

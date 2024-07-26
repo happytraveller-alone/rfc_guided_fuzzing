@@ -1,0 +1,46 @@
+//----- (0000000140153AB0) ----------------------------------------------------
+__int64 __fastcall Rpc_CreateVirtualizationInstance(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        const unsigned __int16 **a6)
+{
+  unsigned int VirtualizationInstance; // ebx
+  const unsigned __int16 *v7; // rcx
+
+  if ( a6 )
+  {
+    v7 = a6[2];
+    if ( v7 && *v7 && _wcsicmp(v7, L".") )
+    {
+      if ( (unsigned int)IsValidFileName((wchar_t *)a6[2]) )
+      {
+        VirtualizationInstance = Create_VirtualizationInstance(a6, 0);
+        if ( !VirtualizationInstance && (dword_1401B9104 & 0x4000) != 0 )
+          Template_zz(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_VIRT_INST_CREATE, a6[2], a6[3]);
+      }
+      else
+      {
+        return 9924;
+      }
+    }
+    else
+    {
+      return 9925;
+    }
+  }
+  else
+  {
+    VirtualizationInstance = 87;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xFu, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids, 87);
+    }
+  }
+  return VirtualizationInstance;
+}
+// 1401B9104: using guessed type int dword_1401B9104;

@@ -1,0 +1,5 @@
+//----- (000000014014E230) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateKey::IsIPv6(CDnsRRLStateKey *this)
+{
+  return *((unsigned int *)this + 17);
+}

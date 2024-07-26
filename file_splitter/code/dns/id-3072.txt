@@ -1,0 +1,61 @@
+//----- (0000000140160EF8) ----------------------------------------------------
+__int64 __fastcall Dns_CreateTypeArrayFromMultiTypeString(char *String, int *a2, _QWORD *a3)
+{
+  unsigned __int64 v4; // rax
+  char *v6; // rsi
+  HLOCAL v7; // rax
+  __int64 v9; // rbx
+  char *v10; // rdi
+  char *v11; // rax
+  char **v12; // rdi
+  char *v13; // rsi
+  __int16 v14; // ax
+  __int64 v15; // rdx
+  char *Context; // [rsp+20h] [rbp-1D8h] BYREF
+  char v17[400]; // [rsp+30h] [rbp-1C8h] BYREF
+
+  *a2 = 0;
+  v4 = -1i64;
+  v6 = String;
+  do
+    ++v4;
+  while ( String[v4] );
+  v7 = Dns_AllocZero(2 * (unsigned int)(v4 >> 1) + 4);
+  *a3 = v7;
+  if ( !v7 )
+    return 14i64;
+  v9 = 0i64;
+  v10 = v17;
+  Context = 0i64;
+  do
+  {
+    v11 = strtok_s(v6, " \t\r\n", &Context);
+    if ( !v11 )
+      break;
+    *(_QWORD *)v10 = v11;
+    v9 = (unsigned int)(v9 + 1);
+    v10 += 8;
+    v6 = 0i64;
+  }
+  while ( (unsigned int)v9 < 0x32 );
+  if ( (_DWORD)v9 )
+  {
+    v12 = (char **)v17;
+    do
+    {
+      v13 = *v12;
+      if ( isdigit(**v12) )
+        v14 = strtol(v13, 0i64, 0);
+      else
+        v14 = Dns_RecordTypeForNameA(v13, 0);
+      *(_WORD *)(*a3 + 2i64 * *a2) = v14;
+      v15 = *a2;
+      if ( *(_WORD *)(*a3 + 2 * v15) )
+        *a2 = v15 + 1;
+      ++v12;
+      --v9;
+    }
+    while ( v9 );
+  }
+  return 0i64;
+}

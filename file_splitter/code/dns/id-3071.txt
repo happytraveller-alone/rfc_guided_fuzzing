@@ -1,0 +1,21 @@
+//----- (0000000140160EA8) ----------------------------------------------------
+char *__fastcall Ip6_TempNtoa(__int64 a1)
+{
+  char *result; // rax
+
+  result = 0i64;
+  if ( a1 )
+  {
+    if ( *(_DWORD *)(a1 + 8) != -65536 || *(_DWORD *)(a1 + 4) || *(_DWORD *)a1 )
+    {
+      g_Ip6StringBuffer = 0;
+      RtlIpv6AddressToStringA((const struct in6_addr *)a1, &g_Ip6StringBuffer);
+      return &g_Ip6StringBuffer;
+    }
+    else
+    {
+      return inet_ntoa(*(struct in_addr *)(a1 + 12));
+    }
+  }
+  return result;
+}

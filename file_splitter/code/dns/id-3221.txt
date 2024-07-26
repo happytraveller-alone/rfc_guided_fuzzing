@@ -1,0 +1,28 @@
+//----- (000000014016D790) ----------------------------------------------------
+void sub_14016D790()
+{
+  _QWORD *v0; // rdx
+  void *v1; // rcx
+  _QWORD *v2; // rbx
+
+  v0 = *(_QWORD **)g_FailedPolicyList;
+  *(_QWORD *)g_FailedPolicyList = g_FailedPolicyList;
+  *(_QWORD *)(g_FailedPolicyList + 8) = g_FailedPolicyList;
+  qword_1401B9598 = 0i64;
+  v1 = (void *)g_FailedPolicyList;
+  if ( v0 != (_QWORD *)g_FailedPolicyList )
+  {
+    do
+    {
+      v2 = (_QWORD *)*v0;
+      operator delete(v0);
+      v1 = (void *)g_FailedPolicyList;
+      v0 = v2;
+    }
+    while ( v2 != (_QWORD *)g_FailedPolicyList );
+  }
+  operator delete(v1);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B9590: using guessed type __int64 g_FailedPolicyList;
+// 1401B9598: using guessed type __int64 qword_1401B9598;

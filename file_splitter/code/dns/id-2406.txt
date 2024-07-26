@@ -1,0 +1,114 @@
+//----- (0000000140125168) ----------------------------------------------------
+void __fastcall DnsSign::WriteECDSADnskeyRdata(
+        NCRYPT_KEY_HANDLE hKey,
+        u_short a2,
+        __int64 a3,
+        char a4,
+        unsigned int a5,
+        __int64 a6,
+        unsigned __int8 *a7)
+{
+  int v10; // eax
+  int v11; // ebx
+  int *v12; // rbx
+  int v13; // eax
+  __int64 v14; // rdx
+  DnsSign::CCNGAlgorithmManager *v15; // rcx
+  int v16; // edi
+  const struct _BCRYPT_ECCKEY_BLOB *ECCPublicKeyParams; // rax
+  __int64 v18; // rdx
+  unsigned __int16 v19; // ax
+  DWORD pcbResult; // [rsp+40h] [rbp-B1h] BYREF
+  __int64 v21; // [rsp+48h] [rbp-A9h]
+  char v22[56]; // [rsp+50h] [rbp-A1h] BYREF
+  __int128 pExceptionObject; // [rsp+88h] [rbp-69h] BYREF
+  __int64 v24; // [rsp+98h] [rbp-59h]
+  char v25[56]; // [rsp+C0h] [rbp-31h] BYREF
+
+  v21 = -2i64;
+  pcbResult = 0;
+  v10 = NCryptExportKey(hKey, 0i64, L"ECCPUBLICBLOB", 0i64, 0i64, 0, &pcbResult, 0);
+  v11 = v10;
+  if ( v10 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x18u,
+        (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+        v10);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v22, v11);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v22, 0xD6D87u);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)&pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v22);
+    CxxThrowException_0(&pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  pExceptionObject = 0i64;
+  v24 = 0i64;
+  std::vector<unsigned char>::resize((__int64 *)&pExceptionObject, pcbResult);
+  v12 = (int *)pExceptionObject;
+  v13 = NCryptExportKey(hKey, 0i64, L"ECCPUBLICBLOB", 0i64, (PBYTE)pExceptionObject, pcbResult, &pcbResult, 0);
+  v16 = v13;
+  if ( v13 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x19u,
+        (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+        v13);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v22, v16);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v22, 0xD6D87u);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)v25,
+      (const struct DnsSign::CRunTimeException *)v22);
+    CxxThrowException_0(v25, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  LOBYTE(v14) = a4;
+  ECCPublicKeyParams = DnsSign::CCNGAlgorithmManager::GetECCPublicKeyParams(v15, v14);
+  if ( *v12 != ECCPublicKeyParams->dwMagic || v12[1] != ECCPublicKeyParams->cbKey )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_Dd(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x1Au,
+        (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+        *v12);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v22, v18, 9);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v22, 0xD6D88u);
+    DnsSign::CException::AppendErrorMessage((DnsSign::CException *)v22, L"  ");
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v22, 0xD6DC7u);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)v25,
+      (const struct DnsSign::CRunTimeException *)v22);
+    CxxThrowException_0(v25, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  v19 = 2 * (*((_WORD *)v12 + 2) + 2);
+  *(_WORD *)a7 = v19;
+  if ( a5 >= v19 )
+  {
+    *(_WORD *)a6 = htons(a2);
+    *(_BYTE *)(a6 + 2) = 3;
+    *(_BYTE *)(a6 + 3) = a4;
+    memcpy_0((void *)(a6 + 4), v12 + 2, (unsigned int)(2 * v12[1]));
+  }
+  operator delete(v12);
+}
+// 140125326: variable 'v15' is possibly undefined
+// 140125326: variable 'v14' is possibly undefined
+// 1401253DA: variable 'v18' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140125168: using guessed type _QWORD arg_28;

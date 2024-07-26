@@ -1,0 +1,308 @@
+//----- (00000001400E3CB4) ----------------------------------------------------
+void __fastcall DNSSEC_AddOrUpdateTrustAnchorsInRFC5011State(struct _DnsTreeNode *a1, __int64 a2)
+{
+  char v4; // r14
+  char v5; // r12
+  char v6; // r13
+  char *v7; // r15
+  __int64 v8; // rcx
+  __int64 v9; // rbx
+  __int64 v10; // r8
+  TrustPoint *v11; // rbx
+  const struct TrustAnchor *v12; // rax
+  struct TrustPoint *v13; // rax
+  volatile signed __int32 *v14; // rbx
+  bool v15; // zf
+  TrustPoint *v16; // rbx
+  const struct TrustAnchor *v17; // rax
+  struct TrustPoint *v18; // rax
+  CDnsClientSubnetRecordsTrie *v19; // rcx
+  unsigned __int16 v20; // dx
+  __int64 v21; // rcx
+  __int64 *v22; // rax
+  int v23; // r15d
+  int v24; // r12d
+  TrustPoint *v25; // rdi
+  const struct TrustAnchor *v26; // rax
+  bool v27; // al
+  volatile signed __int32 *v28; // rdi
+  bool v29; // r14
+  const struct TrustAnchor *v30; // rax
+  bool v31; // al
+  volatile signed __int32 *v32; // rdi
+  bool v33; // r14
+  const char *v34; // r9
+  CDnsClientSubnetRecordsTrie *v35; // rcx
+  unsigned __int16 v36; // dx
+  char v37; // [rsp+40h] [rbp-C0h]
+  __int64 v38; // [rsp+50h] [rbp-B0h] BYREF
+  struct TrustPoint *v39; // [rsp+58h] [rbp-A8h] BYREF
+  char *DottedNameForCountName; // [rsp+60h] [rbp-A0h]
+  __int64 v41; // [rsp+68h] [rbp-98h] BYREF
+  char v42[8]; // [rsp+70h] [rbp-90h] BYREF
+  volatile signed __int32 *v43; // [rsp+78h] [rbp-88h]
+  char v44[8]; // [rsp+98h] [rbp-68h] BYREF
+  volatile signed __int32 *v45; // [rsp+A0h] [rbp-60h]
+  char v46[8]; // [rsp+C0h] [rbp-40h] BYREF
+  volatile signed __int32 *v47; // [rsp+C8h] [rbp-38h]
+  char v48[8]; // [rsp+E8h] [rbp-18h] BYREF
+  volatile signed __int32 *v49; // [rsp+F0h] [rbp-10h]
+  const void *v50[2]; // [rsp+110h] [rbp+10h] BYREF
+  __int64 v51; // [rsp+120h] [rbp+20h]
+  unsigned __int64 v52; // [rsp+128h] [rbp+28h]
+  unsigned __int8 v53[272]; // [rsp+140h] [rbp+40h] BYREF
+
+  v4 = 0;
+  memset_0(v53, 0, 0x102ui64);
+  v5 = 0;
+  v6 = 0;
+  v37 = 0;
+  if ( !a2 )
+    goto LABEL_84;
+  do
+  {
+    if ( *(_WORD *)(a2 + 12) == 48 )
+      break;
+    if ( *(_WORD *)(a2 + 12) == 43 )
+      break;
+    a2 = *(_QWORD *)a2;
+  }
+  while ( a2 );
+  if ( a2 )
+  {
+    if ( (unsigned int)Dnssec_NodeToCountName(v53, (__int64 *)a1) )
+    {
+      DottedNameForCountName = Name_GetDottedNameForCountName(v53);
+      v7 = DottedNameForCountName;
+      if ( DottedNameForCountName )
+      {
+        EnterCriticalSection(&g_csRFC5011_Trust_Points);
+        std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::find(
+          v8,
+          &v38,
+          v53);
+        v9 = v38;
+        if ( v38 != qword_1401B9288 )
+        {
+          *((_DWORD *)a1 + 23) |= 0x808000u;
+          goto LABEL_46;
+        }
+        v52 = 15i64;
+        v51 = 0i64;
+        v10 = -1i64;
+        LOBYTE(v50[0]) = 0;
+        do
+          ++v10;
+        while ( v7[v10] );
+        std::string::assign(v50, v7, (char *)v10);
+        if ( *(_WORD *)(a2 + 12) == 43 )
+        {
+          v11 = (TrustPoint *)operator new(0x220ui64);
+          if ( v11 )
+          {
+            v4 = 1;
+            v12 = (const struct TrustAnchor *)TrustAnchor::TrustAnchor((__int64)v42, a2, 1);
+            v13 = TrustPoint::TrustPoint(v11, v50, v53, v12);
+          }
+          else
+          {
+            v13 = 0i64;
+          }
+          v39 = v13;
+          if ( (v4 & 1) != 0 )
+          {
+            v14 = v43;
+            if ( v43 )
+            {
+              v15 = _InterlockedExchangeAdd(v43 + 2, 0xFFFFFFFF) == 1;
+LABEL_24:
+              if ( v15 )
+              {
+                (**(void (__fastcall ***)(volatile signed __int32 *))v14)(v14);
+                if ( _InterlockedExchangeAdd(v14 + 3, 0xFFFFFFFF) == 1 )
+                  (*(void (__fastcall **)(volatile signed __int32 *))(*(_QWORD *)v14 + 8i64))(v14);
+              }
+            }
+          }
+        }
+        else
+        {
+          v16 = (TrustPoint *)operator new(0x220ui64);
+          if ( v16 )
+          {
+            v4 = 2;
+            v17 = (const struct TrustAnchor *)TrustAnchor::TrustAnchor((__int64)v44, a2, 4);
+            v18 = TrustPoint::TrustPoint(v16, v50, v53, v17);
+          }
+          else
+          {
+            v18 = 0i64;
+          }
+          v39 = v18;
+          if ( (v4 & 2) != 0 )
+          {
+            v14 = v45;
+            if ( v45 )
+            {
+              v15 = _InterlockedExchangeAdd(v45 + 2, 0xFFFFFFFF) == 1;
+              goto LABEL_24;
+            }
+          }
+        }
+        if ( !v39 )
+        {
+          v19 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+          {
+            goto LABEL_33;
+          }
+          v20 = 78;
+LABEL_32:
+          WPP_SF_s(*((_QWORD *)v19 + 7), v20, (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids, v7);
+LABEL_33:
+          if ( v52 >= 0x10 )
+            operator delete((void *)v50[0]);
+LABEL_79:
+          Mem_Free(v7, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dnssec_rfc5011.cpp", 5014);
+          LeaveCriticalSection(&g_csRFC5011_Trust_Points);
+          return;
+        }
+        if ( (*((_DWORD *)a1 + 21) & 0x88880000) == -2004353024 )
+          a1 = (struct _DnsTreeNode *)*((_QWORD *)a1 + 1);
+        addTrustPointToGlobalList((struct _RTL_CRITICAL_SECTION **)&v39, a1);
+        v22 = std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::find(
+                v21,
+                &v41,
+                v53);
+        a2 = *(_QWORD *)a2;
+        v5 = 1;
+        v37 = 1;
+        v9 = *v22;
+        v38 = *v22;
+        if ( v38 == qword_1401B9288 )
+        {
+          v19 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 3u )
+          {
+            goto LABEL_33;
+          }
+          v20 = 79;
+          goto LABEL_32;
+        }
+        if ( v52 >= 0x10 )
+          operator delete((void *)v50[0]);
+        v51 = 0i64;
+        v52 = 15i64;
+        LOBYTE(v50[0]) = 0;
+LABEL_46:
+        if ( a2 )
+        {
+          v23 = 0;
+          v24 = 0;
+          do
+          {
+            if ( *(_WORD *)(a2 + 12) == 48 || *(_WORD *)(a2 + 12) == 43 )
+            {
+              v25 = *(TrustPoint **)(v9 + 288);
+              if ( *(_WORD *)(a2 + 12) == 43 )
+              {
+                v26 = (const struct TrustAnchor *)TrustAnchor::TrustAnchor((__int64)v46, a2, 1);
+                v27 = TrustPoint::AddTrustAnchor(v25, v26, 1, 0);
+                v28 = v47;
+                v29 = v27;
+                if ( v47 )
+                {
+                  if ( _InterlockedExchangeAdd(v47 + 2, 0xFFFFFFFF) == 1 )
+                  {
+                    (**(void (__fastcall ***)(volatile signed __int32 *))v28)(v28);
+                    if ( _InterlockedExchangeAdd(v28 + 3, 0xFFFFFFFF) == 1 )
+                      (*(void (__fastcall **)(volatile signed __int32 *))(*(_QWORD *)v28 + 8i64))(v28);
+                  }
+                  v9 = v38;
+                }
+                if ( v29 )
+                  v6 = 1;
+                ++v24;
+              }
+              else
+              {
+                v30 = (const struct TrustAnchor *)TrustAnchor::TrustAnchor((__int64)v48, a2, 4);
+                v31 = TrustPoint::AddTrustAnchor(v25, v30, 1, 0);
+                v32 = v49;
+                v33 = v31;
+                if ( v49 )
+                {
+                  if ( _InterlockedExchangeAdd(v49 + 2, 0xFFFFFFFF) == 1 )
+                  {
+                    (**(void (__fastcall ***)(volatile signed __int32 *))v32)(v32);
+                    if ( _InterlockedExchangeAdd(v32 + 3, 0xFFFFFFFF) == 1 )
+                      (*(void (__fastcall **)(volatile signed __int32 *))(*(_QWORD *)v32 + 8i64))(v32);
+                  }
+                  v9 = v38;
+                }
+                if ( v33 )
+                  v6 = 1;
+                ++v23;
+              }
+              a2 = *(_QWORD *)a2;
+            }
+          }
+          while ( a2 );
+          v5 = v37;
+          v7 = DottedNameForCountName;
+        }
+        if ( v5 || v6 )
+          TrustPoint::ScheduleActiveRefresh(*(unsigned int **)(v9 + 288), 0, 1);
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v34 = "existing";
+          if ( v5 )
+            v34 = "new";
+          WPP_SF_ssdd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x50u,
+            (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids,
+            v34,
+            (__int64)v7);
+        }
+        goto LABEL_79;
+      }
+    }
+    v35 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v36 = 77;
+LABEL_88:
+      WPP_SF_s(*((_QWORD *)v35 + 7), v36, (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids, 0i64);
+    }
+  }
+  else
+  {
+LABEL_84:
+    v35 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v36 = 76;
+      goto LABEL_88;
+    }
+  }
+}
+// 1400E3D84: variable 'v8' is possibly undefined
+// 1400E3F48: variable 'v21' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9288: using guessed type __int64 qword_1401B9288;
+// 1400E3CB4: using guessed type char var_220[8];
+// 1400E3CB4: using guessed type char var_1F8[8];
+// 1400E3CB4: using guessed type char var_1D0[8];
+// 1400E3CB4: using guessed type char var_1A8[8];

@@ -1,0 +1,29 @@
+//----- (0000000140021398) ----------------------------------------------------
+void announceServiceStatus()
+{
+  __int64 v0; // rcx
+
+  if ( DnsServiceStatusHandle )
+  {
+    SetServiceStatus(DnsServiceStatusHandle, &DnsServiceStatus);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      GetCurrentTimeInSeconds(v0, &WPP_GLOBAL_Control);
+      WPP_SF_dddd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xBu,
+        (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids,
+        DnsServiceStatus.dwCurrentState);
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids);
+  }
+}
+// 140021418: variable 'v0' is possibly undefined
+// 140183D98: using guessed type __int64 __fastcall GetCurrentTimeInSeconds(_QWORD, _QWORD);

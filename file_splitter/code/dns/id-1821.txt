@@ -1,0 +1,8 @@
+//----- (00000001400E5760) ----------------------------------------------------
+_DWORD *__fastcall std::filebuf::imbue(_QWORD *a1, __int64 *a2)
+{
+  struct std::locale::facet *v3; // rax
+
+  v3 = std::use_facet<std::codecvt<char,char,int>>(a2);
+  return std::filebuf::_Initcvt(a1, (__int64)v3);
+}

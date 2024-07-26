@@ -1,0 +1,127 @@
+//----- (00000001400FB3CC) ----------------------------------------------------
+__int64 __fastcall DnsOls_AddDNSSECRecordsToNode(__int64 a1, __int64 a2, __int64 *a3, unsigned int a4, int a5)
+{
+  unsigned int v5; // ebx
+  BOOL v9; // r13d
+  __int64 v10; // r12
+  int refreshed; // eax
+  __int64 v12; // rbx
+  int v13; // r9d
+  char v15[40]; // [rsp+30h] [rbp-68h] BYREF
+  int v16; // [rsp+58h] [rbp-40h]
+  int v17; // [rsp+A0h] [rbp+8h] BYREF
+  __int64 v18; // [rsp+A8h] [rbp+10h]
+
+  v18 = a2;
+  v5 = 0;
+  v9 = *a3 == 0;
+  if ( (*(_DWORD *)(a1 + 396) & 0x2000) != 0 )
+  {
+    if ( *a3 )
+    {
+      while ( 1 )
+      {
+        v10 = *(_QWORD *)*a3;
+        *(_QWORD *)*a3 = 0i64;
+        v5 = RR_AddToNode(a1, a2, *a3);
+        if ( v5 )
+          break;
+        a2 = v18;
+        *a3 = v10;
+        if ( !v10 )
+          goto LABEL_5;
+      }
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x4Du,
+          (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+          v5,
+          *(_QWORD *)(a1 + 16));
+      }
+      *(_QWORD *)*a3 = v10;
+      RR_ListFree((_QWORD *)*a3);
+    }
+  }
+  else
+  {
+    memset_0(v15, 0, 0x40ui64);
+    if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+      v16 |= 4u;
+    else
+      v16 |= 2u;
+    v12 = v18;
+    if ( !Up_CreateAppendUpdate((__int64)v15, v18, 0i64, 48, 0i64)
+      || !v9 && !Up_CreateAppendUpdateMultiRRAdd((__int64)v15, v12, (_QWORD *)*a3, 0) )
+    {
+      return 14i64;
+    }
+    if ( !a5 )
+      a4 |= 0x20000u;
+    v5 = Up_ApplyUpdatesToDatabase((__int64)v15, a1, a4, v13);
+    if ( v5 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x4Eu,
+          (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+          v5,
+          *(_QWORD *)(a1 + 16));
+      }
+      return v5;
+    }
+  }
+LABEL_5:
+  *a3 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Fu,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      *(const char **)(a1 + 16));
+  }
+  if ( v9 )
+    return v5;
+  v17 = 0;
+  refreshed = DnsOls_RefreshSignaturesAtNode(0i64, v18, &v17, 0i64);
+  if ( refreshed )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x51u,
+        (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+        refreshed,
+        *(_QWORD *)(a1 + 16));
+    }
+  }
+  else if ( v17 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x50u,
+        (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+        *(const char **)(a1 + 16));
+    }
+    DnsOls_SetZoneSigRefreshTime(a1, 3);
+  }
+  return 0i64;
+}
+// 1400FB5DC: variable 'v13' is possibly undefined

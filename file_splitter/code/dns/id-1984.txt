@@ -1,0 +1,25 @@
+//----- (00000001400F3720) ----------------------------------------------------
+_QWORD *__fastcall std::_Tree_val<std::_Tmap_traits<unsigned short *,_virtualization_info_ *,bool (*)(unsigned short *,unsigned short *),std::allocator<std::pair<unsigned short * const,_virtualization_info_ *>>,0>>::_Buynode<std::pair<unsigned short *,_virtualization_info_ *>>(
+        __int64 a1,
+        _QWORD *a2)
+{
+  _QWORD *result; // rax
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  result = operator new(0x30ui64);
+  if ( !result )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *result = *(_QWORD *)(a1 + 8);
+  result[1] = *(_QWORD *)(a1 + 8);
+  result[2] = *(_QWORD *)(a1 + 8);
+  *((_WORD *)result + 20) = 0;
+  if ( result != (_QWORD *)-24i64 )
+  {
+    result[3] = *a2;
+    result[4] = a2[1];
+  }
+  return result;
+}

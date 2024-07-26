@@ -1,0 +1,30 @@
+//----- (0000000140161610) ----------------------------------------------------
+void *__fastcall PtrRecordPrint(__int64 (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3)
+{
+  void *result; // rax
+  const unsigned __int16 *v7; // r9
+  const wchar_t *v8; // rcx
+  WCHAR *v9; // rdx
+  __int16 v10[256]; // [rsp+20h] [rbp-228h] BYREF
+
+  result = memset_0(v10, 0, sizeof(v10));
+  if ( a1 )
+  {
+    v8 = *(const wchar_t **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v8 = recordStringWide(a3, *(WCHAR **)(a3 + 32), v10);
+    result = (void *)a1(a2, "\tHostName       = %ls\r\n", v8);
+  }
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    v9 = *(WCHAR **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v9 = (WCHAR *)recordStringWide(a3, v9, v10);
+    return (void *)WPP_SF_S(13i64, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, (__int64)v9, v7);
+  }
+  return result;
+}
+// 1401616B8: variable 'v7' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 140161610: using guessed type _WORD var_228[256];

@@ -1,0 +1,94 @@
+//----- (00000001400E9678) ----------------------------------------------------
+ULONG __fastcall Template_qzzqz(
+        __int64 a1,
+        __int64 a2,
+        int a3,
+        const unsigned __int16 *a4,
+        const unsigned __int16 *a5,
+        char a6,
+        const unsigned __int16 *a7)
+{
+  __int64 v7; // rcx
+  int v8; // edx
+  __int64 v9; // rax
+  int v10; // r8d
+  const wchar_t *v11; // r10
+  const wchar_t *v12; // rax
+  __int64 v13; // rax
+  int v14; // r9d
+  const wchar_t *v15; // rax
+  bool v16; // zf
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-60h] BYREF
+  const wchar_t *v19; // [rsp+30h] [rbp-50h]
+  int v20; // [rsp+38h] [rbp-48h]
+  int v21; // [rsp+3Ch] [rbp-44h]
+  const wchar_t *v22; // [rsp+40h] [rbp-40h]
+  int v23; // [rsp+48h] [rbp-38h]
+  int v24; // [rsp+4Ch] [rbp-34h]
+  char *v25; // [rsp+50h] [rbp-30h]
+  __int64 v26; // [rsp+58h] [rbp-28h]
+  const wchar_t *v27; // [rsp+60h] [rbp-20h]
+  int v28; // [rsp+68h] [rbp-18h]
+  int v29; // [rsp+6Ch] [rbp-14h]
+  int v30; // [rsp+A0h] [rbp+20h] BYREF
+
+  v30 = a3;
+  *(_QWORD *)&UserData.Size = 4i64;
+  v7 = -1i64;
+  UserData.Ptr = (ULONGLONG)&v30;
+  v8 = 10;
+  if ( a4 )
+  {
+    v9 = -1i64;
+    do
+      ++v9;
+    while ( a4[v9] );
+    v10 = 2 * v9 + 2;
+  }
+  else
+  {
+    v10 = 10;
+  }
+  v20 = v10;
+  v11 = L"NULL";
+  v12 = L"NULL";
+  v21 = 0;
+  if ( a4 )
+    v12 = a4;
+  v19 = v12;
+  if ( a5 )
+  {
+    v13 = -1i64;
+    do
+      ++v13;
+    while ( a5[v13] );
+    v14 = 2 * v13 + 2;
+  }
+  else
+  {
+    v14 = 10;
+  }
+  v23 = v14;
+  v15 = L"NULL";
+  v24 = 0;
+  if ( a5 )
+    v15 = a5;
+  v26 = 4i64;
+  v22 = v15;
+  v25 = &a6;
+  v16 = a7 == 0i64;
+  if ( a7 )
+  {
+    do
+      ++v7;
+    while ( a7[v7] );
+    v8 = 2 * v7 + 2;
+    v16 = a7 == 0i64;
+  }
+  if ( !v16 )
+    v11 = a7;
+  v28 = v8;
+  v27 = v11;
+  v29 = 0;
+  return EventWrite(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_SET_KEYLENGTH_FAILED, 5u, &UserData);
+}

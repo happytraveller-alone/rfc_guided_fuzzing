@@ -1,0 +1,182 @@
+//----- (00000001400479C8) ----------------------------------------------------
+__int64 __fastcall Ds_InitializeSecurity(LDAP *ld, int *a2)
+{
+  int v2; // eax
+  int v3; // edi
+  int v6; // r15d
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  const char *v8; // r9
+  HANDLE CurrentProcess; // rax
+  _QWORD *v10; // rcx
+  int DnsAdminGroup; // eax
+  __int64 v12; // rdx
+  int ProcessSids; // eax
+  __int64 v14; // rdx
+  __int64 v15; // rcx
+  unsigned int StandardSids; // ebx
+  CDnsClientSubnetRecordsTrie *v17; // rcx
+  unsigned __int16 v18; // dx
+  int v19; // eax
+  __int64 v20; // rdx
+  void *TokenHandle; // [rsp+48h] [rbp-28h] BYREF
+  struct _TOKEN_PRIVILEGES NewState; // [rsp+50h] [rbp-20h] BYREF
+
+  v2 = g_fDsReadOnlyDcMode;
+  v3 = g_fDsReadOnlyDcMode;
+  v6 = 0;
+  if ( dword_1401B9750 )
+    v3 = 1;
+  v7 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+  {
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( dword_1401B9750 )
+        v2 = 1;
+      v8 = "writeable";
+      if ( v2 )
+        v8 = "read-only";
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1C1u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v8);
+      v7 = WPP_GLOBAL_Control;
+    }
+    if ( v7 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v7 + 17) & 0x400) != 0
+      && *((_BYTE *)v7 + 65) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)v7 + 7), 0x1C0u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, 1);
+    }
+  }
+  CurrentProcess = GetCurrentProcess();
+  if ( OpenProcessToken(CurrentProcess, 0x28u, &TokenHandle) )
+  {
+    NewState.Privileges[0].Luid = (LUID)8i64;
+    NewState.PrivilegeCount = 1;
+    NewState.Privileges[0].Attributes = 2;
+    AdjustTokenPrivileges(TokenHandle, 0, &NewState, 0x10u, 0i64, 0i64);
+    if ( TokenHandle )
+      CloseHandle(TokenHandle);
+  }
+  if ( g_pServerObjectSD )
+  {
+    Mem_Free((_QWORD *)g_pServerObjectSD, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 17226);
+    v10 = 0i64;
+    g_pDefaultServerSD = 0i64;
+  }
+  else
+  {
+    v10 = (_QWORD *)g_pDefaultServerSD;
+  }
+  if ( v10 )
+  {
+    Mem_Free(v10, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 17231);
+    g_pDefaultServerSD = 0i64;
+  }
+  if ( g_pServerSid )
+  {
+    operator delete(g_pServerSid);
+    g_pServerSid = 0i64;
+  }
+  if ( g_pServerGroupSid )
+  {
+    operator delete(g_pServerGroupSid);
+    g_pServerGroupSid = 0i64;
+  }
+  DnsAdminGroup = SD_LoadDnsAdminGroup(v3 == 0);
+  if ( DnsAdminGroup == 9714 )
+  {
+    v6 = 1;
+  }
+  else if ( DnsAdminGroup && !v3 )
+  {
+    NewState = (struct _TOKEN_PRIVILEGES)DNS_EVENT_DS_DNSADMINS_ERROR;
+    Eventlog_LogEvent((__int64)&NewState, v12, 0, 0i64, 0i64, DnsAdminGroup, 0, 0i64);
+  }
+  ProcessSids = CSecurityDescriptor::GetProcessSids(&g_pServerSid, &g_pServerGroupSid);
+  StandardSids = ProcessSids;
+  if ( ProcessSids )
+  {
+    v17 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v18 = 450;
+LABEL_37:
+      WPP_SF_D(*((_QWORD *)v17 + 7), v18, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, ProcessSids);
+LABEL_51:
+      v17 = WPP_GLOBAL_Control;
+      goto LABEL_52;
+    }
+    goto LABEL_52;
+  }
+  ProcessSids = SD_CreateServerSD(v15);
+  StandardSids = ProcessSids;
+  if ( ProcessSids )
+  {
+    v17 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v18 = 451;
+      goto LABEL_37;
+    }
+LABEL_52:
+    if ( !StandardSids )
+      goto LABEL_60;
+    goto LABEL_55;
+  }
+  StandardSids = Security_CreateStandardSids();
+  if ( !StandardSids )
+  {
+    if ( v3 )
+      goto LABEL_60;
+    v19 = Ds_RegisterSpnDnsServer(ld);
+    StandardSids = v19;
+    if ( !v19 )
+      goto LABEL_60;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1C4u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v19);
+    }
+    NewState = (struct _TOKEN_PRIVILEGES)DNS_EVENT_DS_SECURITY_INIT_FAILURE;
+    Eventlog_LogEvent((__int64)&NewState, v20, 0, 0i64, 0i64, StandardSids, 0, 0i64);
+    StandardSids = 0;
+    goto LABEL_51;
+  }
+  v17 = WPP_GLOBAL_Control;
+LABEL_55:
+  if ( v17 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v17 + 17) & 0x400) != 0
+    && *((_BYTE *)v17 + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)v17 + 7), 0x1C5u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, StandardSids);
+  }
+  NewState = (struct _TOKEN_PRIVILEGES)DNS_EVENT_DS_SECURITY_INIT_FAILURE;
+  Eventlog_LogEvent((__int64)&NewState, v14, 0, 0i64, 0i64, StandardSids, 0, 0i64);
+LABEL_60:
+  if ( a2 )
+    *a2 = v6;
+  return StandardSids;
+}
+// 140047BE2: variable 'v12' is possibly undefined
+// 140047C4B: variable 'v15' is possibly undefined
+// 140047D17: variable 'v20' is possibly undefined
+// 140047D8F: variable 'v14' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140187310: using guessed type __int128 DNS_EVENT_DS_SECURITY_INIT_FAILURE;
+// 140187878: using guessed type __int128 DNS_EVENT_DS_DNSADMINS_ERROR;
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9750: using guessed type int dword_1401B9750;
+// 1401C94B0: using guessed type __int64 g_pServerObjectSD;
+// 1401C94C8: using guessed type __int64 g_pDefaultServerSD;

@@ -1,0 +1,6 @@
+//----- (000000014002DE00) ----------------------------------------------------
+void __fastcall Ds_FreeLDAPHandle(LDAP **a1)
+{
+  ldap_unbind(*a1);
+  Mem_Free(a1, 8i64, 12i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 366);
+}

@@ -1,0 +1,13 @@
+//----- (0000000140168020) ----------------------------------------------------
+void __fastcall std::locale::facet::_Facet_Register(struct std::locale::facet *a1)
+{
+  std::_Fac_node *v2; // rax
+
+  v2 = (std::_Fac_node *)operator new(0x10ui64);
+  if ( v2 )
+  {
+    *(_QWORD *)v2 = qword_1401B8598;
+    *((_QWORD *)v2 + 1) = a1;
+  }
+  qword_1401B8598 = v2;
+}

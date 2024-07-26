@@ -1,0 +1,5 @@
+//----- (000000014012DBC0) ----------------------------------------------------
+__int64 std::basic_streambuf<unsigned short>::overflow()
+{
+  return 0xFFFFi64;
+}

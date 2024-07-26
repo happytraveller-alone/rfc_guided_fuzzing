@@ -1,0 +1,39 @@
+//----- (00000001400BF428) ----------------------------------------------------
+__int64 __fastcall Zone_ComputeSerialNumberIncrement(__int64 a1, int a2, unsigned __int16 *a3)
+{
+  int v3; // ebx
+  unsigned int v6; // ebx
+  const char *v7; // rax
+
+  v3 = a2;
+  if ( a1 )
+  {
+    if ( !a2 )
+      v3 = *(_DWORD *)(a1 + 512);
+  }
+  else if ( !a2 )
+  {
+    return 0i64;
+  }
+  v6 = v3 + 1;
+  if ( !v6 )
+    v6 = 1;
+  if ( a1 )
+    Zone_ResetVersion((struct _zone_info *)a1, v6, a3);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v7 = *(const char **)(a1 + 16);
+    else
+      v7 = "UNKNOWN";
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xCu,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      v6,
+      (__int64)v7);
+  }
+  return v6;
+}

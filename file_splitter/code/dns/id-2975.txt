@@ -1,0 +1,27 @@
+//----- (00000001401572C4) ----------------------------------------------------
+char *__fastcall Dns_SigTimeString(unsigned int a1, char *a2)
+{
+  int wMonth; // [rsp+20h] [rbp-58h]
+  int wDay; // [rsp+28h] [rbp-50h]
+  int wHour; // [rsp+30h] [rbp-48h]
+  int wMinute; // [rsp+38h] [rbp-40h]
+  int wSecond; // [rsp+40h] [rbp-38h]
+  FILETIME FileTime; // [rsp+50h] [rbp-28h] BYREF
+  struct _SYSTEMTIME SystemTime; // [rsp+58h] [rbp-20h] BYREF
+
+  FileTime = (FILETIME)(10000000 * (a1 + 0x2B6109100i64));
+  if ( FileTimeToSystemTime(&FileTime, &SystemTime) )
+  {
+    wSecond = SystemTime.wSecond;
+    wMinute = SystemTime.wMinute;
+    wHour = SystemTime.wHour;
+    wDay = SystemTime.wDay;
+    wMonth = SystemTime.wMonth;
+    StringCbPrintfA(a2, 0xFui64, "%04d%02d%02d%02d%02d%02d", SystemTime.wYear, wMonth, wDay, wHour, wMinute, wSecond);
+  }
+  else
+  {
+    *a2 = 0;
+  }
+  return a2;
+}

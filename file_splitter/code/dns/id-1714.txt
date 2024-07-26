@@ -1,0 +1,135 @@
+//----- (00000001400DC090) ----------------------------------------------------
+__int64 __fastcall startTcpXfr(__int64 a1, __int64 a2, int a3, __int64 a4)
+{
+  unsigned int v5; // r15d
+  unsigned int v8; // esi
+  CDnsClientSubnetRecordsTrie *v9; // rbx
+  unsigned int v10; // r14d
+  unsigned int v11; // ecx
+  const char *v12; // rbx
+  const char *v13; // rax
+  __int64 v14; // rdx
+  __int64 v15; // r8
+  __int64 v16; // rdx
+  HANDLE v17; // r9
+  const char *v18; // rax
+  int v20; // [rsp+50h] [rbp-78h] BYREF
+  __int128 v21; // [rsp+60h] [rbp-68h] BYREF
+  unsigned __int16 *v22[3]; // [rsp+70h] [rbp-58h] BYREF
+
+  v20 = a3;
+  v5 = a3;
+  v8 = 87;
+  v9 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x69u,
+      (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+      *(const char **)(a1 + 16));
+    v9 = WPP_GLOBAL_Control;
+  }
+  if ( !a2 )
+    goto LABEL_37;
+  v10 = *(_DWORD *)(a1 + 1540);
+  if ( v10 )
+  {
+    if ( (unsigned int)DnsAddr_IsEqual((_WORD *)(a1 + 1312), (_WORD *)a2, 3) )
+    {
+      v11 = 10 * (v10 + 6);
+      if ( v11 > 0xA )
+        v11 = 10;
+    }
+    else
+    {
+      v11 = 0;
+      if ( v10 > 5 )
+        v11 = 60;
+    }
+    if ( *(_DWORD *)(a1 + 1536) + v11 > dword_1401B9714 )
+    {
+      if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v9 + 68) & 0x40) != 0
+        && *((_BYTE *)v9 + 65) >= 4u )
+      {
+        v12 = DnsAddr_Ntoa((struct in_addr *)(a1 + 1312));
+        v13 = DnsAddr_Ntoa((struct in_addr *)a2);
+        WPP_SF_sssdddd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          v14,
+          v15,
+          *(const char **)(a1 + 16),
+          (__int64)v13,
+          (__int64)v12);
+      }
+LABEL_37:
+      Zone_UnlockAfterWriteEx(a1, 256, (__int64)"ds\\dns\\server\\server\\zonesec.c", 7);
+      return v8;
+    }
+    v5 = v20;
+  }
+  *(_OWORD *)(a1 + 1312) = *(_OWORD *)a2;
+  *(_OWORD *)(a1 + 1328) = *(_OWORD *)(a2 + 16);
+  *(_OWORD *)(a1 + 1344) = *(_OWORD *)(a2 + 32);
+  *(_OWORD *)(a1 + 1360) = *(_OWORD *)(a2 + 48);
+  memset_0((void *)(a1 + 1376), 0, 0x40ui64);
+  *(_DWORD *)(a1 + 1408) = 32;
+  if ( a4
+    && !(unsigned int)Sock_GetAssociatedIpAddr(a4, (_OWORD *)(a1 + 1376))
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x6Bu, (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids, a4);
+  }
+  if ( !*(_DWORD *)(a1 + 1540) )
+  {
+    v22[0] = (unsigned __int16 *)v5;
+    v22[1] = *(unsigned __int16 **)(a1 + 24);
+    v22[2] = (unsigned __int16 *)a2;
+    LOWORD(v20) = 260;
+    BYTE2(v20) = 5;
+    v21 = DNS_EVENT_ZONE_TRANSFER_IN_PROGRESS;
+    Eventlog_LogEvent((__int64)&v21, v16, 3u, v22, (unsigned __int8 *)&v20, 0, 0, 0i64);
+  }
+  Zone_TransferWriteLockEx(a1);
+  v17 = Thread_Create("Zone Transfer Receive", Xfr_ReceiveThread, a1, 0);
+  if ( !v17 )
+  {
+    v8 = 565;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v18 = DnsAddr_Ntoa((struct in_addr *)a2);
+      WPP_SF_ss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x6Du,
+        (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+        *(const char **)(a1 + 16),
+        (__int64)v18);
+    }
+    Zone_AssumeWriteLockEx(a1);
+    goto LABEL_37;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x6Cu,
+      (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+      v17,
+      *(_QWORD *)(a1 + 16));
+  }
+  return 0;
+}
+// 1400DC1E0: variable 'v14' is possibly undefined
+// 1400DC1E0: variable 'v15' is possibly undefined
+// 1400DC2E8: variable 'v16' is possibly undefined
+// 140186458: using guessed type __int128 DNS_EVENT_ZONE_TRANSFER_IN_PROGRESS;
+// 1401B9714: using guessed type int dword_1401B9714;

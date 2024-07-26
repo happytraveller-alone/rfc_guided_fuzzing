@@ -1,0 +1,104 @@
+//----- (0000000140087BBC) ----------------------------------------------------
+__int64 __fastcall Dnssrv_Flat_RecordRead(_DWORD *a1, __int64 a2, __int64 a3, __int64 *a4)
+{
+  unsigned __int16 v8; // bp
+  const char *v9; // rax
+  __int64 (__fastcall **v10)(); // rcx
+  bool v11; // zf
+  __int64 (__fastcall *v12)(__int64, char *); // rax
+  unsigned int v13; // esi
+  int v14; // eax
+  __int64 v15; // rbx
+  __int64 v16; // rcx
+  int v17; // eax
+  char v18[800]; // [rsp+30h] [rbp-26D8h] BYREF
+  __int64 v19; // [rsp+350h] [rbp-23B8h]
+  unsigned __int16 v20; // [rsp+358h] [rbp-23B0h]
+
+  if ( !a3 )
+    return 13i64;
+  v8 = *(_WORD *)(a3 + 2);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = (const char *)DnsRecordStringForType(v8);
+    WPP_SF_sdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x13u,
+      (__int64)&WPP_383afeabe81e3a0b0d234d71fa57327a_Traceguids,
+      v9);
+  }
+  v19 = 0i64;
+  v10 = RRUnknownFlatReadTable;
+  v11 = (*(_DWORD *)(a3 + 4) & 0x100000) == 0;
+  v20 = v8;
+  if ( v11 )
+    v10 = (__int64 (__fastcall **)())&RRFlatReadTable;
+  v12 = (__int64 (__fastcall *)(__int64, char *))RR_DispatchFunctionForType((__int64)v10, v8);
+  if ( !v12 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x14u,
+        (__int64)&WPP_383afeabe81e3a0b0d234d71fa57327a_Traceguids,
+        v8);
+    }
+    v13 = 9704;
+LABEL_22:
+    v15 = 0i64;
+    goto LABEL_29;
+  }
+  v14 = v12(a3, v18);
+  v13 = v14;
+  if ( !v14 )
+  {
+    v15 = v19;
+    if ( v19 )
+    {
+      v16 = v19;
+      *(_WORD *)(v19 + 12) = v20;
+      Mem_ResetTag(v16, 0x20u);
+      *(_DWORD *)(v15 + 20) = htonl(*(_DWORD *)(a3 + 12));
+      *(_DWORD *)(v15 + 24) = *(_DWORD *)(a3 + 16);
+      if ( a1 )
+      {
+        if ( a1[93] && ((*(_DWORD *)(a3 + 4) & 0x8000000) != 0 || a1[133] == *(_DWORD *)(a3 + 12)) )
+        {
+          v17 = a1[132];
+          *(_WORD *)(v15 + 10) |= 0x40u;
+          *(_DWORD *)(v15 + 20) = v17;
+        }
+      }
+    }
+    goto LABEL_29;
+  }
+  if ( v14 != 9753 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Dd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x15u,
+        (__int64)&WPP_383afeabe81e3a0b0d234d71fa57327a_Traceguids,
+        v14);
+    }
+    goto LABEL_22;
+  }
+  v15 = v19;
+  v13 = 0;
+LABEL_29:
+  if ( a4 )
+    *a4 = v15;
+  return v13;
+}
+// 140183D38: using guessed type __int64 __fastcall DnsRecordStringForType(_QWORD);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B32B0: using guessed type __int64 (__fastcall *RRUnknownFlatReadTable[10])();
+// 140087BBC: using guessed type char var_26D8[800];

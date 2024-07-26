@@ -1,0 +1,96 @@
+//----- (00000001400BA244) ----------------------------------------------------
+void __fastcall Up_ForwardUpdateResponseToClient(__int64 a1)
+{
+  __int64 v2; // rsi
+  __int16 v3; // r14
+  struct _RTL_CRITICAL_SECTION *v4; // rbp
+  __int64 i; // rdi
+  __int64 v6; // rcx
+  _QWORD *v7; // rax
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x88u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, a1);
+  }
+  v2 = g_UpdateForwardingQueue;
+  v3 = *(_WORD *)(a1 + 6304);
+  v4 = (struct _RTL_CRITICAL_SECTION *)(g_UpdateForwardingQueue + 16);
+  EnterCriticalSection((LPCRITICAL_SECTION)(g_UpdateForwardingQueue + 16));
+  for ( i = *(_QWORD *)(v2 + 8); ; i = *(_QWORD *)(i + 8) )
+  {
+    if ( i == v2 )
+    {
+      LeaveCriticalSection(v4);
+      i = 0i64;
+      goto LABEL_10;
+    }
+    if ( *(_WORD *)(i + 564) == v3 )
+      break;
+  }
+  --*(_DWORD *)(v2 + 96);
+  ++*(_DWORD *)(v2 + 104);
+  v6 = *(_QWORD *)i;
+  v7 = *(_QWORD **)(i + 8);
+  if ( *(_QWORD *)(*(_QWORD *)i + 8i64) != i || *v7 != i )
+    __fastfail(3u);
+  *v7 = v6;
+  *(_QWORD *)(v6 + 8) = v7;
+  LeaveCriticalSection(v4);
+  *(_DWORD *)(i + 16) = 0;
+LABEL_10:
+  if ( i )
+  {
+    if ( *(_BYTE *)(a1 + 1413) )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x8Au,
+          (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+          *(_DWORD *)(a1 + 56));
+      }
+      Tcp_ConnectionDeleteForSocket(*(_QWORD *)(a1 + 56), 0i64);
+    }
+    _InterlockedAdd(&dword_1401C81C8, 1u);
+    *(_QWORD *)(a1 + 3680) = *(_QWORD *)(i + 3680);
+    *(_QWORD *)(a1 + 3688) = *(_QWORD *)(i + 3688);
+    *(_QWORD *)(a1 + 3696) = *(_QWORD *)(i + 3696);
+    if ( *(char *)(i + 6288) < 0 )
+      *(_DWORD *)(a1 + 6288) |= 0x80u;
+    if ( (*(_DWORD *)(i + 6288) & 0x100) != 0 )
+      *(_DWORD *)(a1 + 6288) |= 0x100u;
+    if ( (*(_DWORD *)(i + 6288) & 0x200) != 0 )
+      *(_DWORD *)(a1 + 6288) |= 0x200u;
+    Etw_LogIncomingPacket(0x116u, a1, 0i64, 1);
+    Send_ForwardResponseAsReply(a1, i);
+    Packet_Free(i);
+  }
+  else
+  {
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0 )
+    {
+      EnterCriticalSection((LPCRITICAL_SECTION)(g_UpdateForwardingQueue + 16));
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_qd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x89u,
+          (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+          a1,
+          *(unsigned __int16 *)(a1 + 6304));
+      }
+      LeaveCriticalSection((LPCRITICAL_SECTION)(g_UpdateForwardingQueue + 16));
+    }
+    Etw_LogIncomingPacket(0x116u, a1, 0i64, 1);
+    Etw_LogIncomingPacket(0x103u, a1, 0i64, 1);
+  }
+}
+// 1401BA4B0: using guessed type __int64 g_UpdateForwardingQueue;
+// 1401C81C8: using guessed type int dword_1401C81C8;

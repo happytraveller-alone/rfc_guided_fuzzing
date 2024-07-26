@@ -1,0 +1,30 @@
+//----- (00000001400A1614) ----------------------------------------------------
+void __fastcall Sock_CloseSocketPoolSocketsForRetry(__int64 *a1, unsigned int a2)
+{
+  unsigned int i; // edi
+  _QWORD *v5; // rax
+  __int64 v6; // rdx
+  _QWORD *v7; // rcx
+
+  EnterCriticalSection(&g_SocketListCs);
+  for ( i = 0; i < a2; ++a1 )
+  {
+    v5 = (_QWORD *)*a1;
+    if ( *a1 )
+    {
+      v6 = *v5;
+      v7 = (_QWORD *)v5[1];
+      if ( *(_QWORD **)(*v5 + 8i64) != v5 || (_QWORD *)*v7 != v5 )
+        __fastfail(3u);
+      *v7 = v6;
+      *(_QWORD *)(v6 + 8) = v7;
+      closesocket(*(_QWORD *)(*a1 + 16));
+      Sock_Free(*a1);
+      *a1 = 0i64;
+    }
+    if ( i == 100 * (i / 0x64) )
+      Service_LoadCheckpoint();
+    ++i;
+  }
+  LeaveCriticalSection(&g_SocketListCs);
+}

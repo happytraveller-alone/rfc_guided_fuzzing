@@ -1,0 +1,21 @@
+//----- (000000014009755C) ----------------------------------------------------
+__int64 __fastcall RpcUtil_DeleteNodeOrSubtreeForAdmin(__int64 a1, __int64 a2, __int64 a3, _DWORD *a4, unsigned int a5)
+{
+  __int64 v8; // rax
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v8 = 0i64;
+    if ( a2 )
+      v8 = *(_QWORD *)(a2 + 16);
+    WPP_SF_ssD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x38u,
+      (__int64)&WPP_94ace1326352386894146b7c4d888c88_Traceguids,
+      (const char *)(a1 + 102),
+      v8);
+  }
+  return deleteNodeOrSubtreeForAdminPrivate(a1, a5, a3, a4);
+}

@@ -1,0 +1,24 @@
+//----- (0000000140070108) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall resetRemoteSendPortAndXid(__int64 a1)
+{
+  CDnsClientSubnetRecordsTrie **result; // rax
+
+  if ( a1 )
+  {
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      result = (CDnsClientSubnetRecordsTrie **)WPP_SF_q(
+                                                 *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                                 0x14u,
+                                                 (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+                                                 a1);
+    }
+    *(_QWORD *)(a1 + 544) = 0i64;
+    *(_QWORD *)(a1 + 552) = 0i64;
+    *(_WORD *)(a1 + 564) = 0;
+  }
+  return result;
+}

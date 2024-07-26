@@ -1,0 +1,5 @@
+//----- (00000001401432D0) ----------------------------------------------------
+_BOOL8 __fastcall CDNSPolicyCriteriaTransProtocol::IsCriteria(__int64 a1, int a2)
+{
+  return a2 == 1;
+}

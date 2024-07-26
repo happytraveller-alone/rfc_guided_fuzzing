@@ -1,0 +1,23 @@
+//----- (0000000140165F60) ----------------------------------------------------
+_WORD *__fastcall SrvDnsRecordConvert(__int64 a1)
+{
+  __int64 v2; // rsi
+  _WORD *result; // rax
+  _WORD *v4; // rbx
+  unsigned int BufferLengthForStringCopy; // [rsp+40h] [rbp+8h] BYREF
+
+  v2 = 2 - (unsigned int)((*(_DWORD *)(a1 + 20) & 0x18) == 8);
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy(*(WCHAR **)(a1 + 32), 0, v2, 2);
+  result = Rpc_AllocateRecord(BufferLengthForStringCopy + 8);
+  v4 = result;
+  if ( result )
+  {
+    result[12] = *(_WORD *)(a1 + 40);
+    result[13] = *(_WORD *)(a1 + 42);
+    result[14] = *(_WORD *)(a1 + 44);
+    *((_BYTE *)result + 30) = BufferLengthForStringCopy;
+    Dns_StringCopy((_WORD *)((char *)result + 31), &BufferLengthForStringCopy, *(WCHAR **)(a1 + 32), 0, v2, 2);
+    return v4;
+  }
+  return result;
+}

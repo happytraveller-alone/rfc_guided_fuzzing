@@ -1,0 +1,46 @@
+//----- (00000001401162F8) ----------------------------------------------------
+_QWORD *__fastcall makeSecurityDescriptorCopy(PSECURITY_DESCRIPTOR *a1)
+{
+  _QWORD *v2; // rax
+  _QWORD *v3; // rbx
+  DWORD v4; // ecx
+  NTSTATUS v6; // edi
+  ULONG BufferLength; // [rsp+40h] [rbp+8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids, a1);
+  }
+  BufferLength = GetSecurityDescriptorLength(*a1);
+  v2 = Mem_Alloc(BufferLength, 12i64, "ds\\dns\\server\\server\\sdutl.cxx", 122);
+  v3 = v2;
+  if ( !v2 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xBu, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+    }
+    v4 = 14;
+LABEL_11:
+    SetLastError(v4);
+    return 0i64;
+  }
+  v6 = RtlAbsoluteToSelfRelativeSD(*a1, v2, &BufferLength);
+  if ( v6 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xCu, (__int64)&WPP_86bf6911ab34325a83f1fc4202357274_Traceguids);
+    }
+    Mem_Free(v3, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\sdutl.cxx", 143);
+    v4 = v6;
+    goto LABEL_11;
+  }
+  return v3;
+}

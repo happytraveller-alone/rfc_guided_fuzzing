@@ -1,0 +1,326 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 2976
+// Total lines: 201
+
+//----- (0000000140157380) ----------------------------------------------------
+__int64 __fastcall Dns_AtmaStringToAddress(_BYTE *a1, unsigned int *a2, const char *a3, unsigned int a4)
+{
+  __int64 v4; // rbp
+  char v6; // r8
+  unsigned int v7; // edi
+  __int64 v8; // r12
+  char *v9; // rcx
+  __int64 v10; // rdx
+  char v11; // al
+  __int64 v12; // r14
+  const char *v13; // r15
+  unsigned int v14; // esi
+  const char *v15; // r13
+  char *v16; // rcx
+  char v17; // al
+  const char *v18; // rdx
+  const char *i; // rcx
+  char v20; // al
+  unsigned __int8 v21; // al
+  unsigned int *v22; // r9
+  char *v24; // rax
+  const char *j; // rbx
+  char v26; // cl
+  _BYTE *v27; // rcx
+  int v28; // r8d
+  unsigned __int8 v29; // al
+  unsigned __int8 v30; // dl
+  unsigned int *v32; // [rsp+28h] [rbp-F0h]
+  char v33[80]; // [rsp+30h] [rbp-E8h] BYREF
+  char v34[80]; // [rsp+80h] [rbp-98h] BYREF
+
+  LODWORD(v4) = a4;
+  v32 = a2;
+  v6 = byte_1401BA002;
+  v7 = 0;
+  v8 = 66i64;
+  if ( (byte_1401BA002 & 0x10) != 0 )
+  {
+    if ( a4 <= 0x7FFFFFFEui64 )
+    {
+      v9 = v33;
+      v10 = 66i64;
+      do
+      {
+        if ( !(v10 + a4 - 66i64) )
+          break;
+        v11 = v9[a3 - v33];
+        if ( !v11 )
+          break;
+        *v9++ = v11;
+        --v10;
+      }
+      while ( v10 );
+      if ( !v10 )
+        --v9;
+      *v9 = 0;
+    }
+    else
+    {
+      v33[0] = 0;
+    }
+    WPP_SF_sq(15i64, (unsigned __int16)&WPP_b6c352f988363708e81560bf4a2e6515_Traceguids, (__int64)v33, a3);
+    v6 = byte_1401BA002;
+  }
+  v12 = -1i64;
+  if ( !(_DWORD)v4 )
+  {
+    v4 = -1i64;
+    do
+      ++v4;
+    while ( a3[v4] );
+  }
+  v13 = a3;
+  v14 = 1;
+  v15 = &a3[(unsigned int)v4];
+  if ( (v6 & 0x10) != 0 )
+  {
+    if ( (unsigned int)v4 <= 0x7FFFFFFEui64 )
+    {
+      v16 = v34;
+      do
+      {
+        if ( !((unsigned int)v4 + v8 - 66) )
+          break;
+        v17 = v16[a3 - v34];
+        if ( !v17 )
+          break;
+        *v16++ = v17;
+        --v8;
+      }
+      while ( v8 );
+      if ( !v8 )
+        --v16;
+      *v16 = 0;
+    }
+    else
+    {
+      v34[0] = 0;
+    }
+    WPP_SF_sq(12i64, (unsigned __int16)&WPP_b6c352f988363708e81560bf4a2e6515_Traceguids, (__int64)v34, a3);
+    v6 = byte_1401BA002;
+  }
+  if ( !(_DWORD)v4 )
+  {
+    do
+      ++v12;
+    while ( a3[v12] );
+    LODWORD(v4) = v12;
+  }
+  v18 = &a3[(unsigned int)v4];
+  if ( *a3 == 43 )
+  {
+    for ( i = a3 + 1; i < v18; ++i )
+    {
+      v20 = *i;
+      if ( v20 != 46 )
+        ++v14;
+    }
+  }
+  else
+  {
+    if ( a3 < v18 )
+    {
+      do
+      {
+        v21 = *v13++;
+        if ( v21 != 46 )
+        {
+          if ( HexCharToHexDigitTable[v21] > 0xFu )
+          {
+            if ( (v6 & 0x10) != 0 )
+              WPP_SF_c(0xDu, (__int64)&WPP_b6c352f988363708e81560bf4a2e6515_Traceguids, *(v13 - 1));
+            return 13i64;
+          }
+          ++v14;
+        }
+      }
+      while ( v13 < v18 );
+      if ( v14 != 40 )
+        goto LABEL_47;
+      v14 = 21;
+      goto LABEL_42;
+    }
+LABEL_47:
+    if ( (v6 & 0x10) != 0 )
+      WPP_SF_D(14i64, (unsigned __int16)&WPP_b6c352f988363708e81560bf4a2e6515_Traceguids, v14, a4);
+    v14 = 0;
+  }
+  if ( !v14 )
+    return 13i64;
+LABEL_42:
+  v22 = v32;
+  if ( v14 <= *v32 )
+  {
+    if ( *a3 == 43 )
+    {
+      *a1 = 1;
+      v24 = a1 + 1;
+      for ( j = a3 + 1; j < v15; ++j )
+      {
+        v26 = *j;
+        if ( v26 != 46 )
+          *v24++ = v26;
+      }
+    }
+    else
+    {
+      *a1 = 2;
+      v27 = a1 + 1;
+LABEL_59:
+      v28 = 0;
+      while ( a3 < v15 )
+      {
+        v29 = *a3++;
+        if ( v29 != 46 )
+        {
+          v30 = HexCharToHexDigitTable[v29];
+          if ( v30 > 0xFu )
+            return 13i64;
+          if ( v28 )
+          {
+            *v27++ += v30;
+            goto LABEL_59;
+          }
+          v28 = 1;
+          *v27 = 16 * v30;
+        }
+      }
+    }
+  }
+  else
+  {
+    v7 = 234;
+  }
+  *v22 = v14;
+  return v7;
+}
+// 1401575AB: variable 'a4' is possibly undefined
+// 140194FF0: using guessed type _BYTE HexCharToHexDigitTable[256];
+// 1401BA002: using guessed type char byte_1401BA002;

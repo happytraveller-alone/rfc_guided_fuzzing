@@ -1,0 +1,33 @@
+//----- (000000014010922C) ----------------------------------------------------
+char *__fastcall std::vector<unsigned char>::reserve(__int64 a1, size_t a2)
+{
+  char *result; // rax
+  char *v5; // rdi
+  __int64 v6; // r14
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  result = (char *)(*(_QWORD *)(a1 + 16) - *(_QWORD *)a1);
+  if ( (unsigned __int64)result < a2 )
+  {
+    v5 = 0i64;
+    if ( a2 )
+    {
+      v5 = (char *)operator new(a2);
+      if ( !v5 )
+      {
+        std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+        CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+      }
+    }
+    memmove(v5, *(const void **)a1, *(_QWORD *)(a1 + 8) - *(_QWORD *)a1);
+    v6 = *(_QWORD *)(a1 + 8) - *(_QWORD *)a1;
+    if ( *(_QWORD *)a1 )
+      operator delete(*(void **)a1);
+    *(_QWORD *)(a1 + 16) = &v5[a2];
+    result = &v5[v6];
+    *(_QWORD *)(a1 + 8) = &v5[v6];
+    *(_QWORD *)a1 = v5;
+  }
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

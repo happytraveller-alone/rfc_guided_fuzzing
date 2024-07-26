@@ -1,0 +1,59 @@
+//----- (00000001400E6B44) ----------------------------------------------------
+const void **__fastcall std::string::assign(const void **a1, const void **a2, unsigned __int64 a3, char *a4)
+{
+  char *v4; // rdi
+  const void **v6; // rsi
+  char *v8; // rdi
+  const void **v9; // rax
+  const void **v10; // rcx
+  bool v11; // cf
+  const void **v12; // rax
+
+  v4 = (char *)a2[2];
+  v6 = a2;
+  if ( (unsigned __int64)v4 < a3 )
+    std::wstring::_Xran();
+  v8 = &v4[-a3];
+  if ( a4 < v8 )
+    v8 = a4;
+  if ( a1 == a2 )
+  {
+    std::string::erase(a1, (unsigned __int64)&v8[a3], 0xFFFFFFFFFFFFFFFFui64);
+    std::string::erase(a1, 0i64, a3);
+    return a1;
+  }
+  if ( v8 == (char *)-1i64 )
+    std::wstring::_Xlen();
+  if ( a1[3] < v8 )
+  {
+    std::string::_Copy(a1, (unsigned __int64)v8, (size_t)a1[2]);
+    goto LABEL_14;
+  }
+  if ( !v8 )
+  {
+    a1[2] = 0i64;
+    if ( (unsigned __int64)a1[3] < 0x10 )
+      v9 = a1;
+    else
+      v9 = (const void **)*a1;
+    *(_BYTE *)v9 = 0;
+LABEL_14:
+    if ( !v8 )
+      return a1;
+  }
+  if ( (unsigned __int64)v6[3] >= 0x10 )
+    v6 = (const void **)*v6;
+  if ( (unsigned __int64)a1[3] < 0x10 )
+    v10 = a1;
+  else
+    v10 = (const void **)*a1;
+  memcpy_0(v10, (char *)v6 + a3, (size_t)v8);
+  v11 = (unsigned __int64)a1[3] < 0x10;
+  a1[2] = v8;
+  if ( v11 )
+    v12 = a1;
+  else
+    v12 = (const void **)*a1;
+  v8[(_QWORD)v12] = 0;
+  return a1;
+}

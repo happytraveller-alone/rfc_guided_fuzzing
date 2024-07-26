@@ -1,0 +1,116 @@
+//----- (0000000140132750) ----------------------------------------------------
+__int64 *__fastcall CDnsPolicy_QTypeCriteriaTree::AddCriteriaNode(__int64 a1, unsigned __int16 a2, __int64 a3)
+{
+  __int64 *v5; // rax
+  CDnsPolicy_CriteriaNode *v6; // rbx
+  CDnsPolicy_CriteriaNode *v7; // rbx
+  __int64 *v8; // rax
+  __int64 v9; // rcx
+  __int64 *v10; // rbx
+  _QWORD *v11; // rax
+  int LastError; // eax
+  __int64 v14; // rdi
+  _QWORD *v15; // rax
+  __int64 v16; // rdx
+  unsigned __int16 v17; // [rsp+38h] [rbp-28h] BYREF
+  CDnsPolicy_CriteriaNode *v18; // [rsp+40h] [rbp-20h]
+  char pExceptionObject[24]; // [rsp+48h] [rbp-18h] BYREF
+  __int64 *v20; // [rsp+90h] [rbp+30h] BYREF
+  unsigned __int16 v21; // [rsp+98h] [rbp+38h] BYREF
+  CDnsPolicy_CriteriaNode *v22; // [rsp+A8h] [rbp+48h] BYREF
+
+  v21 = a2;
+  std::_Tree<std::_Tmap_traits<unsigned long,CDnsPolicy_CriteriaNode *,bool (*)(unsigned long const &,unsigned long const &),std::allocator<std::pair<unsigned long const,CDnsPolicy_CriteriaNode *>>,0>>::find(
+    *(_QWORD *)(a1 + 8),
+    &v20,
+    (__int64)&v21);
+  if ( v20 == *(__int64 **)(*(_QWORD *)(a1 + 8) + 8i64) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_Dq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x30u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        v21);
+    }
+    v5 = (__int64 *)operator new(0x38ui64);
+    v6 = (CDnsPolicy_CriteriaNode *)v5;
+    v20 = v5;
+    if ( v5 )
+    {
+      memset_0(v5, 0, 0x38ui64);
+      v7 = CDnsPolicy_CriteriaNode::CDnsPolicy_CriteriaNode(v6);
+    }
+    else
+    {
+      v7 = 0i64;
+    }
+    v22 = v7;
+    *((_WORD *)v7 + 24) = 5;
+    CDnsPolicy_CriteriaNode::AddNextCriteriaTrees(v7, 1u);
+    LODWORD(v20) = -1;
+    acquireWrite(a3, 0xFFFFFFFF, (unsigned int *)&v20);
+    v17 = v21;
+    v18 = v7;
+    std::_Tree<std::_Tmap_traits<unsigned short,CDnsPolicy_CriteriaNode *,bool (*)(unsigned short const &,unsigned short const &),std::allocator<std::pair<unsigned short const,CDnsPolicy_CriteriaNode *>>,0>>::insert<std::pair<unsigned short,CDnsPolicy_CriteriaNode *>>(
+      *(_QWORD *)(a1 + 8),
+      (__int64)pExceptionObject,
+      (__int64)&v17);
+    Lock_ReleaseWrite(a3);
+  }
+  else
+  {
+    v22 = (CDnsPolicy_CriteriaNode *)v20[4];
+  }
+  v8 = (__int64 *)operator new(0x18ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v10 = v8;
+  v20 = v8;
+  if ( v8 )
+  {
+    v8[1] = 0i64;
+    v11 = operator new(0x18ui64);
+    if ( !v11 )
+    {
+      std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+    }
+    *v10 = (__int64)v11;
+    *v11 = v11;
+    *(_QWORD *)(*v10 + 8) = *v10;
+  }
+  else
+  {
+    v10 = 0i64;
+  }
+  if ( v10 )
+  {
+    v14 = *v10;
+    v15 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(v9, *v10, *(_QWORD *)(*v10 + 8), &v22);
+    v16 = v10[1];
+    if ( v16 == 0x1FFFFFFFFFFFFFFEi64 )
+      std::_Xlength_error("list<T> too long");
+    v10[1] = v16 + 1;
+    *(_QWORD *)(v14 + 8) = v15;
+    *(_QWORD *)v15[1] = v15;
+    return v10;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      LastError = GetLastError();
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x31u,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        LastError);
+    }
+    return 0i64;
+  }
+}
+// 14013291C: variable 'v9' is possibly undefined

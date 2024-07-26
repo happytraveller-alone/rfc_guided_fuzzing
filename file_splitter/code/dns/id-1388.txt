@@ -1,0 +1,84 @@
+//----- (00000001400AFBDC) ----------------------------------------------------
+void __fastcall Timeout_SetTimeoutOnNodeEx(__int64 a1, __int64 a2, __int64 a3)
+{
+  char v3; // bl
+  unsigned int v4; // esi
+  int v6; // eax
+  unsigned int v7; // esi
+  char v8; // bl
+  unsigned __int8 v9; // bl
+
+  v3 = a3;
+  v4 = a2;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qLds(*((_QWORD *)WPP_GLOBAL_Control + 7), a2, a3, a1, a3, a2, a1 + 102);
+  }
+  if ( a1 && (*(_DWORD *)(a1 + 92) & 0x100000) == 0 )
+  {
+    if ( (*(_DWORD *)(a1 + 92) & 0x1000) != 0 )
+    {
+      _InterlockedIncrement(&dword_1401C8438);
+    }
+    else
+    {
+      EnterCriticalSection(&csTimeoutLock);
+      v6 = *(_DWORD *)(a1 + 92);
+      if ( (v6 & 0x1000) != 0 )
+      {
+        _InterlockedIncrement(&dword_1401C8438);
+      }
+      else
+      {
+        *(_DWORD *)(a1 + 92) = v6 | 0x1000;
+        *(_BYTE *)(a1 + 98) = CurrentTimeoutBin;
+        if ( (v3 & 1) != 0 )
+        {
+          _InterlockedIncrement(&dword_1401C8430);
+        }
+        else if ( (v3 & 2) != 0 )
+        {
+          _InterlockedIncrement(&dword_1401C8434);
+        }
+        else
+        {
+          _InterlockedIncrement(&dword_1401C842C);
+        }
+        _InterlockedIncrement(&dword_1401C8428);
+        if ( v4 )
+        {
+          v7 = v4 / 0x3C;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+          {
+            WPP_SF_Dq(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x20u,
+              (__int64)&WPP_fcef9ab22f0836151509c33d06164dff_Traceguids,
+              (unsigned __int8)v7);
+          }
+          v8 = v7;
+          if ( (unsigned __int8)v7 > 0xFDu )
+            v8 = 0;
+          v9 = CurrentTimeoutBin + v8;
+        }
+        else
+        {
+          v9 = CurrentTimeoutBin;
+        }
+        insertPtrInTimeout(a1, v9);
+        *(_BYTE *)(a1 + 99) = v9;
+      }
+      LeaveCriticalSection(&csTimeoutLock);
+    }
+  }
+}
+// 1401BA4B8: using guessed type char CurrentTimeoutBin;
+// 1401C8428: using guessed type int dword_1401C8428;
+// 1401C842C: using guessed type int dword_1401C842C;
+// 1401C8430: using guessed type int dword_1401C8430;
+// 1401C8434: using guessed type int dword_1401C8434;
+// 1401C8438: using guessed type int dword_1401C8438;

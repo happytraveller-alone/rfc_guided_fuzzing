@@ -1,0 +1,92 @@
+//----- (00000001400A8FF0) ----------------------------------------------------
+__int64 __fastcall Rpc_CreateServerScope(__int64 a1, __int64 a2, __int64 a3, __int64 a4, int a5, WCHAR *lpString1)
+{
+  unsigned int valid; // edi
+  HKEY v7; // rax
+  __int64 v8; // rdx
+  const wchar_t *v9; // rax
+  const wchar_t *v10; // rcx
+  unsigned __int16 *v12; // [rsp+40h] [rbp-28h] BYREF
+  const wchar_t *v13; // [rsp+48h] [rbp-20h]
+  __int128 v14; // [rsp+50h] [rbp-18h] BYREF
+
+  valid = IsValidScopeName(lpString1, 0i64, 1);
+  if ( valid )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x32u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        valid,
+        (__int64)lpString1);
+    }
+  }
+  else
+  {
+    valid = ServerScope_Create(lpString1);
+    if ( valid )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_SD(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x33u,
+          (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+          lpString1);
+      }
+    }
+    else
+    {
+      v7 = Reg_OpenScope(0i64, 0i64, 0i64, lpString1, 1);
+      if ( v7 )
+      {
+        RegCloseKey(v7);
+        v12 = lpString1;
+        if ( g_pwsServerName )
+        {
+          v13 = (const wchar_t *)g_pwsServerName;
+        }
+        else
+        {
+          v9 = (const wchar_t *)Dns_StringCopyAllocate((char *)Str, 0, 2i64, 1);
+          g_pwsServerName = (__int64)v9;
+          v10 = &LocaleName;
+          if ( v9 )
+            v10 = v9;
+          v13 = v10;
+        }
+        v14 = DNS_EVENT_SERVERSCOPE_CREATE;
+        Eventlog_LogEvent((__int64)&v14, v8, 2u, &v12, (unsigned __int8 *)1, 0, 0, 0i64);
+        if ( (dword_1401B9104 & 0x200) != 0 )
+          Template_z(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_SERVER_SCOPE_CREATE, lpString1);
+      }
+      else
+      {
+        valid = 1011;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x34u,
+            (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+            lpString1);
+        }
+      }
+    }
+  }
+  return valid;
+}
+// 1400A91AD: variable 'v8' is possibly undefined
+// 1401863D8: using guessed type __int128 DNS_EVENT_SERVERSCOPE_CREATE;
+// 1401876E8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_SERVER_SCOPE_CREATE;
+// 1401B9104: using guessed type int dword_1401B9104;
+// 1401EC328: using guessed type __int64 g_pwsServerName;
+// 1400A8FF0: using guessed type __int128 var_18;

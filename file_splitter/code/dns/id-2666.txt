@@ -1,0 +1,134 @@
+//----- (000000014013DB98) ----------------------------------------------------
+__int64 __fastcall Create_ClientSubnetRecord(char **a1, int a2)
+{
+  CDNSClientSubnetRecord *v4; // rax
+  CDNSClientSubnetRecord *v5; // rdi
+  __int64 v6; // rdx
+  unsigned int v7; // esi
+  _QWORD **v8; // rax
+  _QWORD *v9; // rcx
+  _QWORD *v10; // rbx
+  _QWORD **v11; // rax
+  _QWORD *v12; // rcx
+  _QWORD *v13; // rbx
+  CDNSClientSubnetRecord *v14; // rcx
+  void **ClientSubnetRecordName; // rax
+  __int64 v16; // rcx
+  const void **v17; // rax
+  __int64 v18; // rcx
+  char v20[16]; // [rsp+38h] [rbp-29h] BYREF
+  void *v21[2]; // [rsp+48h] [rbp-19h] BYREF
+  __int64 v22; // [rsp+58h] [rbp-9h]
+  unsigned __int64 v23; // [rsp+60h] [rbp-1h]
+  CDNSClientSubnetRecord *v24; // [rsp+70h] [rbp+Fh]
+  __int64 v25[5]; // [rsp+78h] [rbp+17h] BYREF
+
+  v4 = (CDNSClientSubnetRecord *)operator new(0x60ui64);
+  if ( v4 )
+    v5 = CDNSClientSubnetRecord::CDNSClientSubnetRecord(v4, *a1);
+  else
+    v5 = 0i64;
+  v7 = CDNSClientSubnetRecord::AddClientSubnetRecord(v5, (struct _ClientSubnetRecord *)a1);
+  if ( v7 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x2Fu,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        (const unsigned __int16 *)*a1);
+    }
+    return v7;
+  }
+  if ( a2 || (v7 = AddClientSubnetRecordToRegistry((__int64)a1, v6, 0)) == 0 )
+  {
+    ClientSubnetRecordName = (void **)CDNSClientSubnetRecord::GetClientSubnetRecordName((__int64)v5, (__int64)v25);
+    v22 = 0i64;
+    v23 = 7i64;
+    LOWORD(v21[0]) = 0;
+    std::wstring::assign(v21, ClientSubnetRecordName);
+    v24 = v5;
+    v17 = (const void **)std::_Tree_val<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::_Buynode<std::pair<std::wstring,CDNSClientSubnetRecord *>>(
+                           v16,
+                           (__int64)v21);
+    std::_Tree<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::_Linsert(
+      v18,
+      (__int64)v20,
+      v17);
+    if ( v23 >= 8 )
+      operator delete(v21[0]);
+    v23 = 7i64;
+    v22 = 0i64;
+    LOWORD(v21[0]) = 0;
+    if ( v25[3] >= 8ui64 )
+    {
+      v14 = (CDNSClientSubnetRecord *)v25[0];
+LABEL_27:
+      operator delete(v14);
+    }
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x30u,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        (const unsigned __int16 *)*a1);
+    }
+    if ( v5 )
+    {
+      v8 = (_QWORD **)*((_QWORD *)v5 + 9);
+      v9 = *v8;
+      *v8 = v8;
+      *(_QWORD *)(*((_QWORD *)v5 + 9) + 8i64) = *((_QWORD *)v5 + 9);
+      *((_QWORD *)v5 + 10) = 0i64;
+      if ( v9 != *((_QWORD **)v5 + 9) )
+      {
+        do
+        {
+          v10 = (_QWORD *)*v9;
+          operator delete(v9);
+          v9 = v10;
+        }
+        while ( v10 != *((_QWORD **)v5 + 9) );
+      }
+      operator delete(*((void **)v5 + 9));
+      v11 = (_QWORD **)*((_QWORD *)v5 + 6);
+      v12 = *v11;
+      *v11 = v11;
+      *(_QWORD *)(*((_QWORD *)v5 + 6) + 8i64) = *((_QWORD *)v5 + 6);
+      *((_QWORD *)v5 + 7) = 0i64;
+      if ( v12 != *((_QWORD **)v5 + 6) )
+      {
+        do
+        {
+          v13 = (_QWORD *)*v12;
+          operator delete(v12);
+          v12 = v13;
+        }
+        while ( v13 != *((_QWORD **)v5 + 6) );
+      }
+      operator delete(*((void **)v5 + 6));
+      if ( *((_QWORD *)v5 + 4) >= 8ui64 )
+        operator delete(*((void **)v5 + 1));
+      *((_QWORD *)v5 + 3) = 0i64;
+      *((_QWORD *)v5 + 4) = 7i64;
+      v14 = v5;
+      *((_WORD *)v5 + 4) = 0;
+      goto LABEL_27;
+    }
+  }
+  return v7;
+}
+// 14013DC5C: variable 'v6' is possibly undefined
+// 14013DD78: variable 'v16' is possibly undefined
+// 14013DD84: variable 'v18' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 14013DB98: using guessed type char var_80[16];

@@ -1,0 +1,10 @@
+//----- (000000014011D2B0) ----------------------------------------------------
+STRSAFE_LPSTR __fastcall PtrFileWrite(__int64 a1, char *a2, unsigned __int64 a3)
+{
+  STRSAFE_LPSTR result; // rax
+
+  result = File_WriteRawNameToFileBuffer(a2, a3, (char *)(a1 + 58));
+  if ( result )
+    return sprintfSafeA(result, a3 - (_QWORD)result, "\r\n");
+  return result;
+}

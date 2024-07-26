@@ -1,0 +1,31 @@
+//----- (00000001401107F0) ----------------------------------------------------
+__int64 __fastcall getNextNode(struct IXmlReader *a1, enum XmlNodeType *a2)
+{
+  struct IXmlReaderVtbl *lpVtbl; // rax
+  struct IXmlReader *i; // rdi
+  __int64 result; // rax
+
+  lpVtbl = a1->lpVtbl;
+  for ( i = a1; ; a1 = i )
+  {
+    result = ((__int64 (__fastcall *)(struct IXmlReader *))lpVtbl->Read)(a1);
+    if ( (_DWORD)result )
+      break;
+    if ( *a2 == XmlNodeType_Comment )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x23u, (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids);
+      }
+    }
+    else if ( *a2 != XmlNodeType_Whitespace )
+    {
+      return result;
+    }
+    lpVtbl = i->lpVtbl;
+  }
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

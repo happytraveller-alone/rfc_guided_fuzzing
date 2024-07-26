@@ -1,0 +1,101 @@
+//----- (000000014015A4C4) ----------------------------------------------------
+__int64 __fastcall Dns_FindSecurityContextFromAndVerifySignature(__int64 **a1, __int128 *a2, __int64 a3, __int64 a4)
+{
+  __int64 v8; // rsi
+  __int64 *v9; // rax
+  __int64 *v10; // rdi
+  unsigned int GssTsigFromMessage; // ebx
+  __int128 v12; // xmm1
+  __int128 v13; // xmm0
+  __int128 v14; // xmm3
+  __int128 v15; // xmm2
+  __int64 v16; // rax
+  __int64 v17; // rdx
+  __int64 v18; // r8
+  const char *v19; // rax
+  unsigned int v21; // eax
+  __int128 v22[4]; // [rsp+28h] [rbp-79h] BYREF
+  __int128 v23; // [rsp+68h] [rbp-39h]
+  __int64 v24; // [rsp+78h] [rbp-29h]
+  __int128 Buf1[5]; // [rsp+88h] [rbp-19h] BYREF
+  __int64 v26; // [rsp+D8h] [rbp+37h]
+
+  v8 = 0i64;
+  if ( (byte_1401BA001 & 0x20) != 0 )
+    WPP_SF_(138i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, a3);
+  if ( g_fSecurityPackageInitialized || !(unsigned int)Dns_StartServerSecurity() )
+  {
+    v9 = (__int64 *)Dns_AllocZero(0x90ui64);
+    v10 = v9;
+    if ( v9 )
+    {
+      ++SecPackAlloc;
+      GssTsigFromMessage = Dns_ExtractGssTsigFromMessage((__int64)v9, a3, a4);
+      if ( !GssTsigFromMessage )
+      {
+        memset_0(v22, 0, 0x58ui64);
+        v12 = a2[2];
+        *(_QWORD *)&v23 = v10[9];
+        v13 = a2[3];
+        v14 = *a2;
+        v15 = a2[1];
+        v22[2] = v12;
+        v22[3] = v13;
+        Buf1[2] = v12;
+        Buf1[3] = v13;
+        Buf1[4] = v23;
+        v26 = v24;
+        v22[0] = v14;
+        v22[1] = v15;
+        Buf1[0] = v14;
+        Buf1[1] = v15;
+        v16 = Dns_DequeueSecurityContextByKey(Buf1, 1);
+        v8 = v16;
+        if ( v16 )
+        {
+          *v10 = v16;
+          v21 = Dns_VerifySignatureOnPacket((__int64)v10, v17, v18);
+          GssTsigFromMessage = v21;
+          if ( !v21 )
+          {
+            *a1 = v10;
+            return GssTsigFromMessage;
+          }
+          if ( (byte_1401BA001 & 0x20) != 0 )
+            WPP_SF_Dd(140i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v21, v21);
+          GssTsigFromMessage = 9016;
+        }
+        else
+        {
+          if ( (byte_1401BA001 & 0x20) != 0 )
+          {
+            v19 = DnsAddr_Ntoa((struct in_addr *)v22);
+            WPP_SF_ss(
+              139i64,
+              (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids,
+              v23,
+              v19,
+              *(__int64 *)&v22[0]);
+          }
+          ++SecTsigBadKey;
+          GssTsigFromMessage = 9017;
+        }
+      }
+      Dns_CleanupSecurityPacketInfoEx(v10, 1);
+      if ( v8 )
+      {
+        if ( (byte_1401BA001 & 0x20) != 0 )
+          WPP_SF_q(141i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v8);
+        Dns_EnlistSecurityContext(v8);
+      }
+      return GssTsigFromMessage;
+    }
+  }
+  return 2i64;
+}
+// 14015A642: variable 'v17' is possibly undefined
+// 14015A642: variable 'v18' is possibly undefined
+// 1401B9E08: using guessed type int SecTsigBadKey;
+// 1401B9E20: using guessed type int SecPackAlloc;
+// 1401B9E3C: using guessed type int g_fSecurityPackageInitialized;
+// 1401BA001: using guessed type char byte_1401BA001;

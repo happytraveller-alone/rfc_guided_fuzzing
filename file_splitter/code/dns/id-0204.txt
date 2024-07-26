@@ -1,0 +1,102 @@
+//----- (0000000140019C38) ----------------------------------------------------
+__int64 __fastcall Lookup_FindNodeForIpAddress(__int64 a1, struct in_addr *a2, int a3, __int64 *a4)
+{
+  const char *v8; // rax
+  PSTR v9; // r14
+  UCHAR *p_s_b4; // r15
+  unsigned int v11; // r9d
+  char *v12; // rdx
+  char *v13; // rax
+  __int64 v14; // rax
+  __int64 v16; // [rsp+20h] [rbp-E0h]
+  unsigned __int8 v17[2]; // [rsp+50h] [rbp-B0h] BYREF
+  char v18[270]; // [rsp+52h] [rbp-AEh] BYREF
+  char v19; // [rsp+160h] [rbp+60h] BYREF
+  __int64 v20; // [rsp+161h] [rbp+61h]
+  __int64 v21; // [rsp+169h] [rbp+69h]
+  __int16 v22; // [rsp+171h] [rbp+71h]
+  char v23; // [rsp+173h] [rbp+73h]
+  char String[112]; // [rsp+180h] [rbp+80h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v8 = DnsAddr_Ntoa(a2);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x61u, (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids, v8);
+  }
+  String[0] = 0;
+  if ( !a2 )
+    goto LABEL_33;
+  if ( a2->S_un.S_un_w.s_w1 == 2 )
+  {
+    if ( a2 == (struct in_addr *)-4i64 )
+      goto LABEL_33;
+    a2[1].S_un.S_addr = ntohl(a2[1].S_un.S_addr);
+    v9 = DnsAddr_WriteIpString_A(String, (char *)a2);
+  }
+  else
+  {
+    if ( a2->S_un.S_un_w.s_w1 != 23 || a2 == (struct in_addr *)-8i64 )
+      goto LABEL_33;
+    p_s_b4 = &a2[5].S_un.S_un_b.s_b4;
+    v9 = String;
+    do
+    {
+      if ( p_s_b4 - (UCHAR *)&a2[2] < 0 )
+        break;
+      v11 = *p_s_b4;
+      v19 = 0;
+      v20 = 0i64;
+      v21 = 0i64;
+      v22 = 0;
+      v23 = 0;
+      LODWORD(v16) = v11 >> 4;
+      if ( !sprintfSafeA(&v19, 0x14ui64, "%x.%x.", v11 & 0xF, v16) || (int)StringCchCatA(String, 104i64, &v19) < 0 )
+        v9 = 0i64;
+      --p_s_b4;
+    }
+    while ( v9 );
+  }
+  if ( v9 )
+  {
+    _strlwr(String);
+    if ( (unsigned int)Name_ConvertFileNameToCountNameEx(v17, String, 0i64, 1) != 123 )
+    {
+      v12 = "ip6.arpa";
+      if ( a2->S_un.S_un_w.s_w1 == 2 )
+        v12 = "in-addr.arpa.";
+      if ( !v12 || !(unsigned int)Name_AppendDottedNameToCountName(v17, v12) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v13 = Dbg_CountName(v17);
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x62u,
+            (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids,
+            v13);
+        }
+        if ( a1 )
+        {
+          if ( *(_QWORD *)(a1 + 328) )
+            a1 = *(_QWORD *)(a1 + 328);
+          v14 = *(_QWORD *)(a1 + 200);
+        }
+        else
+        {
+          v14 = 0i64;
+        }
+        return Lookup_NodeEx((unsigned __int8 *)v18, a3, 0i64, a4, 0i64, 0i64, 0i64, 0i64, v14);
+      }
+    }
+  }
+LABEL_33:
+  if ( (unsigned __int64)a4 - 1 <= 0xFFFFFFFFFFFFFFFDui64 )
+    *a4 = 0i64;
+  return 0i64;
+}
+// 140019D66: variable 'v16' is possibly undefined
+// 140019C38: using guessed type unsigned __int8 var_1EE[270];

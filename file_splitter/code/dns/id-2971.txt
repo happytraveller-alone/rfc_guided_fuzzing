@@ -1,0 +1,103 @@
+//----- (0000000140156E4C) ----------------------------------------------------
+__int64 __fastcall Dns_SecurityBase64StringToKey_W(_BYTE *a1, _DWORD *a2, __int64 a3, int a4, int a5)
+{
+  int v5; // r10d
+  int v6; // r11d
+  _WORD *v7; // r8
+  unsigned __int16 v8; // ax
+  unsigned __int8 v9; // al
+  bool v10; // zf
+
+  v5 = 0;
+  v6 = 0;
+  if ( !a4 )
+  {
+LABEL_32:
+    *a2 = (_DWORD)a1 - a5;
+    return 0i64;
+  }
+  v7 = (_WORD *)(a3 - 4);
+  do
+  {
+    v8 = v7[2];
+    --a4;
+    if ( v8 >= 0x61u )
+    {
+      if ( v8 <= 0x7Au )
+      {
+        v9 = v8 - 71;
+        goto LABEL_18;
+      }
+LABEL_17:
+      v9 = -1;
+      goto LABEL_18;
+    }
+    if ( v8 >= 0x41u )
+    {
+      if ( v8 <= 0x5Au )
+      {
+        v9 = v8 - 65;
+        goto LABEL_18;
+      }
+      goto LABEL_17;
+    }
+    if ( v8 >= 0x30u )
+    {
+      if ( v8 <= 0x39u )
+      {
+        v9 = v8 + 4;
+        goto LABEL_18;
+      }
+      if ( v8 == 61 )
+      {
+        v9 = 0;
+        goto LABEL_18;
+      }
+      goto LABEL_17;
+    }
+    if ( v8 == 43 )
+    {
+      v9 = 62;
+      goto LABEL_18;
+    }
+    v10 = v8 == 47;
+    v9 = 63;
+    if ( !v10 )
+      goto LABEL_17;
+LABEL_18:
+    ++v7;
+    if ( v9 >= 0x40u )
+      goto LABEL_31;
+    ++v6;
+    v5 = v9 | (v5 << 6);
+    if ( v6 == 4 )
+    {
+      v6 = 0;
+      *a1++ = BYTE2(v5);
+      if ( a4 || v7[1] != 61 )
+      {
+        *a1 = BYTE1(v5);
+        a1[1] = v5;
+        a1 += 2;
+      }
+      else if ( *v7 == 61 )
+      {
+        if ( (_WORD)v5 )
+          goto LABEL_31;
+      }
+      else
+      {
+        if ( (_BYTE)v5 )
+          goto LABEL_31;
+        *a1++ = BYTE1(v5);
+      }
+      v5 = 0;
+    }
+  }
+  while ( a4 );
+  if ( !v6 )
+    goto LABEL_32;
+LABEL_31:
+  *a1 = 0;
+  return 87i64;
+}

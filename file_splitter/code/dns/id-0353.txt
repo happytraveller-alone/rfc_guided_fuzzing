@@ -1,0 +1,97 @@
+//----- (000000014002E330) ----------------------------------------------------
+unsigned __int16 *__fastcall Ds_ConvertFqdnToDn(char *Str)
+{
+  int v1; // r12d
+  char *v3; // r15
+  char *v4; // rax
+  int i; // ebx
+  __int64 v6; // rsi
+  unsigned int v7; // esi
+  unsigned __int16 *v8; // rax
+  unsigned __int16 *v9; // rbp
+  unsigned __int16 *v10; // rbx
+  __int64 v11; // rax
+  int v12; // ecx
+  __int64 v13; // r14
+  _WORD *v14; // rbx
+  unsigned int v15; // eax
+  unsigned int v17; // [rsp+60h] [rbp+8h] BYREF
+
+  v1 = 0;
+  v3 = Str;
+  v4 = Str;
+  for ( i = 5; v4; v4 = strchr(v4 + 1, 46) )
+    ++i;
+  v6 = -1i64;
+  do
+    ++v6;
+  while ( Str[v6] );
+  v7 = 2 * (4 * i + v6);
+  v8 = (unsigned __int16 *)Mem_AllocZero(v7, 9i64, "ds\\dns\\server\\server\\dpart.c", 784);
+  v9 = v8;
+  if ( v8 )
+  {
+    v10 = v8;
+    while ( 1 )
+    {
+      v11 = (__int64)strchr(v3, 46);
+      v12 = v1++;
+      v13 = v11;
+      if ( v12 )
+        *v10++ = 44;
+      *(_DWORD *)v10 = *(_DWORD *)L"DC=";
+      v10[2] = aDc_1[2];
+      v14 = v10 + 3;
+      if ( v11 )
+      {
+        LODWORD(v11) = v11 - (_DWORD)v3;
+      }
+      else
+      {
+        v11 = -1i64;
+        do
+          ++v11;
+        while ( v3[v11] );
+      }
+      if ( !(_DWORD)v11 )
+        break;
+      v17 = v7;
+      v15 = Dns_StringCopy(v14, &v17, (WCHAR *)v3, v11, 2, 1);
+      if ( !v15 )
+        break;
+      v7 -= v15;
+      v10 = &v14[(v15 >> 1) - 1];
+      if ( !v13 )
+        goto LABEL_22;
+      v3 = (char *)(v13 + 1);
+    }
+    Mem_Free(v9, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 876);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xEu,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        Str);
+    }
+    return 0i64;
+  }
+  else
+  {
+LABEL_22:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xDu,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        v9,
+        (__int64)Str);
+    }
+    return v9;
+  }
+}

@@ -1,0 +1,30 @@
+//----- (0000000140165B80) ----------------------------------------------------
+_WORD *__fastcall MinfoDnsRecordConvert(__int64 a1)
+{
+  __int64 v2; // rsi
+  unsigned int BufferLengthForStringCopy; // eax
+  WCHAR *v4; // rcx
+  _WORD *result; // rax
+  _WORD *v6; // rdi
+  __int64 v7; // rbx
+  unsigned int v8; // [rsp+50h] [rbp+8h] BYREF
+  unsigned int v9; // [rsp+58h] [rbp+10h] BYREF
+
+  v2 = 2 - (unsigned int)((*(_DWORD *)(a1 + 20) & 0x18) == 8);
+  BufferLengthForStringCopy = Dns_GetBufferLengthForStringCopy(*(WCHAR **)(a1 + 32), 0, v2, 2);
+  v4 = *(WCHAR **)(a1 + 40);
+  v8 = BufferLengthForStringCopy;
+  v9 = Dns_GetBufferLengthForStringCopy(v4, 0, (unsigned int)v2, 2);
+  result = Rpc_AllocateRecord(v9 + v8 + 4);
+  v6 = result;
+  if ( result )
+  {
+    *((_BYTE *)result + 24) = v8;
+    v7 = (unsigned __int8)v8;
+    *((_BYTE *)result + (unsigned __int8)v8 + 25) = v9;
+    Dns_StringCopy((_WORD *)((char *)result + 25), &v8, *(WCHAR **)(a1 + 32), 0, v2, 2);
+    Dns_StringCopy((_WORD *)((char *)v6 + v7 + 26), &v9, *(WCHAR **)(a1 + 40), 0, v2, 2);
+    return v6;
+  }
+  return result;
+}

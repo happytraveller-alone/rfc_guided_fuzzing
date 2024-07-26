@@ -1,0 +1,61 @@
+//----- (0000000140086A20) ----------------------------------------------------
+__int64 __fastcall NxtFlatRead(unsigned __int16 *a1, __int64 a2)
+{
+  int v4; // ebp
+  unsigned __int8 *v5; // rdx
+  char *v6; // r8
+  int v7; // eax
+  __int64 v8; // rsi
+  _BYTE *v9; // rax
+  __int64 v10; // rbx
+  unsigned __int16 *i; // rdi
+  unsigned __int64 v13; // rcx
+  __int16 v14; // ax
+  unsigned __int8 v15[272]; // [rsp+20h] [rbp-148h] BYREF
+
+  if ( *a1 >= 2u )
+  {
+    v4 = a1[12];
+    v5 = (unsigned __int8 *)&a1[v4 + 13];
+    v6 = (char *)a1 + *a1 + 24;
+    if ( v6 >= (char *)v5 + 2 && v6 >= (char *)&v5[*v5 + 1] )
+    {
+      v7 = Name_ConvertRpcNameToCountName(v15, v5);
+      v8 = 0i64;
+      if ( v7 )
+      {
+        v9 = RR_AllocateEx((unsigned __int16)v7 + 16, 0, 0);
+        v10 = (__int64)v9;
+        if ( !v9 )
+          return 14i64;
+        *(_QWORD *)(a2 + 800) = v9;
+        Name_CopyCountName(v9 + 72, v15);
+        *(_QWORD *)(v10 + 56) = 0i64;
+        *(_QWORD *)(v10 + 64) = 0i64;
+        if ( !(_WORD)v4 )
+          return 0i64;
+        for ( i = a1 + 13; *i < 0x80u; ++i )
+        {
+          v13 = (unsigned __int64)*i >> 3;
+          v14 = *i & 7;
+          ++v8;
+          *(_BYTE *)(v13 + v10 + 56) |= 1 << v14;
+          if ( v8 >= (unsigned __int16)v4 )
+            return 0i64;
+        }
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xCu,
+            (__int64)&WPP_383afeabe81e3a0b0d234d71fa57327a_Traceguids,
+            *i);
+        }
+        RR_Free(v10);
+      }
+    }
+  }
+  return 9702i64;
+}

@@ -1,0 +1,63 @@
+//----- (00000001400B30AC) ----------------------------------------------------
+__int64 __fastcall NTree_FindBestNSECNode(__int64 **a1, __int64 a2, __int64 a3, int a4)
+{
+  __int64 *Child; // rsi
+  __int64 *v9; // rax
+  unsigned int v11; // [rsp+40h] [rbp+8h] BYREF
+
+  v11 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v11);
+  if ( a1 && a3 )
+  {
+    while ( 1 )
+    {
+      if ( *a1 )
+        goto LABEL_23;
+      if ( a2 )
+        *a1 = (__int64 *)NTree_PreviousSibling(a2);
+      if ( *a1 )
+      {
+LABEL_23:
+        do
+        {
+          Child = *a1;
+          v11 = -1;
+          acquireRead(DbaseLock, 0xFFFFFFFF, &v11);
+          if ( Child && *(_BYTE *)Child != 0xFF && Child[4] )
+          {
+            do
+            {
+              if ( !*((_DWORD *)Child + 21) )
+                break;
+              Child = (__int64 *)NTree_LastChild((__int64)Child);
+            }
+            while ( Child[4] );
+          }
+          v11 = -1;
+          releaseRead(DbaseLock, &v11, 1);
+          *a1 = Child;
+          if ( NTree_NodeHasNsecRecords((__int64)Child, 0x2Fu, a4) )
+            break;
+          a3 = **a1;
+          v9 = (__int64 *)NTree_PreviousSibling((__int64)*a1);
+          *a1 = v9;
+        }
+        while ( v9 );
+        if ( *a1 )
+          break;
+      }
+      if ( !a3 )
+        break;
+      if ( (*(_DWORD *)(a3 + 92) & 0x100) != 0 || NTree_NodeHasNsecRecords(a3, 0x2Fu, a4) )
+      {
+        *a1 = (__int64 *)a3;
+        break;
+      }
+      a2 = a3;
+      a3 = *(_QWORD *)a3;
+    }
+  }
+  v11 = -1;
+  return releaseRead(DbaseLock, &v11, 1);
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

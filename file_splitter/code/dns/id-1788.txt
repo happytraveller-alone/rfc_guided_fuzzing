@@ -1,0 +1,98 @@
+//----- (00000001400E17F4) ----------------------------------------------------
+void __fastcall TrustPoint::DescheduleActiveRefresh(LPCRITICAL_SECTION lpCriticalSection)
+{
+  PRTL_CRITICAL_SECTION_DEBUG DebugInfo; // r8
+  const char *p_OwningThread; // r9
+  struct _TP_TIMER *v4; // rbx
+  DWORD v5; // eax
+  DWORD v6; // eax
+  DWORD v7; // eax
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  const char *v9; // r9
+  unsigned __int16 v10; // dx
+  const char *v11; // r9
+
+  DebugInfo = lpCriticalSection[13].DebugInfo;
+  LOBYTE(lpCriticalSection[13].OwningThread) = 1;
+  if ( DebugInfo && !NtCurrentPeb()->Ldr->ShutdownInProgress )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      p_OwningThread = (const char *)&lpCriticalSection[3].OwningThread;
+      if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+        p_OwningThread = *(const char **)p_OwningThread;
+      WPP_SF_sqq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x30u,
+        (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids,
+        p_OwningThread);
+    }
+    EnterCriticalSection(lpCriticalSection);
+    v4 = (struct _TP_TIMER *)lpCriticalSection[13].DebugInfo;
+    lpCriticalSection[13].DebugInfo = 0i64;
+    LeaveCriticalSection(lpCriticalSection);
+    WaitForThreadpoolTimerCallbacks(v4, 1);
+    CloseThreadpoolTimer(v4);
+    EnterCriticalSection(lpCriticalSection);
+    if ( !*(_QWORD *)&lpCriticalSection[13].LockCount )
+    {
+      LeaveCriticalSection(lpCriticalSection);
+      goto LABEL_30;
+    }
+    LeaveCriticalSection(lpCriticalSection);
+    if ( g_fDnsServiceExit == 1 )
+      goto LABEL_28;
+    v5 = WaitForSingleObjectEx(*(HANDLE *)&lpCriticalSection[13].LockCount, 0x1D4C0u, 0);
+    if ( v5 && (v6 = v5 - 128) != 0 && (v7 = v6 - 64) != 0 )
+    {
+      if ( v7 != 66 )
+        goto LABEL_28;
+      v8 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 3u )
+      {
+        goto LABEL_28;
+      }
+      v9 = (const char *)&lpCriticalSection[3].OwningThread;
+      if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+        v9 = *(const char **)v9;
+      v10 = 50;
+    }
+    else
+    {
+      v8 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 5u )
+      {
+        goto LABEL_28;
+      }
+      v9 = (const char *)&lpCriticalSection[3].OwningThread;
+      if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+        v9 = *(const char **)v9;
+      v10 = 49;
+    }
+    WPP_SF_sq(*((_QWORD *)v8 + 7), v10, (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids, v9);
+LABEL_28:
+    CloseHandle(*(HANDLE *)&lpCriticalSection[13].LockCount);
+    *(_QWORD *)&lpCriticalSection[13].LockCount = 0i64;
+  }
+LABEL_30:
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v11 = (const char *)&lpCriticalSection[3].OwningThread;
+    if ( lpCriticalSection[4].DebugInfo >= (PRTL_CRITICAL_SECTION_DEBUG)0x10 )
+      v11 = *(const char **)v11;
+    WPP_SF_sq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x33u,
+      (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids,
+      v11);
+  }
+}
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

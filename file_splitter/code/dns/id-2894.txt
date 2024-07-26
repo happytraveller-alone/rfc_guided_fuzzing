@@ -1,0 +1,142 @@
+//----- (00000001401505BC) ----------------------------------------------------
+__int64 __fastcall initHashProvider(char a1)
+{
+  char v2; // al
+  __int64 v3; // rdi
+  int v4; // ecx
+  __int64 v5; // rdx
+  const WCHAR *v6; // rbx
+  int i; // eax
+  int Property; // eax
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned __int16 v10; // dx
+  BCRYPT_ALG_HANDLE v11; // rax
+  int v13[8]; // [rsp+0h] [rbp-70h] BYREF
+  UCHAR pbOutput[4]; // [rsp+50h] [rbp-20h] BYREF
+  UCHAR v15[4]; // [rsp+54h] [rbp-1Ch] BYREF
+  DWORD v16; // [rsp+58h] [rbp-18h] BYREF
+  BCRYPT_ALG_HANDLE phAlgorithm; // [rsp+60h] [rbp-10h] BYREF
+  HKEY hKey; // [rsp+68h] [rbp-8h] BYREF
+  int Data; // [rsp+98h] [rbp+28h] BYREF
+  DWORD cbData; // [rsp+A0h] [rbp+30h] BYREF
+  ULONG pcbResult; // [rsp+A8h] [rbp+38h] BYREF
+
+  phAlgorithm = 0i64;
+  Data = 0;
+  if ( !RegCreateKeyExA(
+          HKEY_LOCAL_MACHINE,
+          "SYSTEM\\CurrentControlSet\\Services\\DNS\\Parameters",
+          0,
+          0i64,
+          0,
+          1u,
+          0i64,
+          &hKey,
+          &v16) )
+  {
+    cbData = 4;
+    RegQueryValueExA(hKey, "TestMode_UseCustomNSEC3CNGProvider", 0i64, 0i64, (LPBYTE)&Data, &cbData);
+    RegCloseKey(hKey);
+  }
+  v2 = g_NSEC3ToCNGHashAlgIdMap[0];
+  v3 = (unsigned __int64)L"DnsNsec3CollisionCNGProvider" & -(__int64)(Data != 0);
+  v4 = 0;
+  if ( g_NSEC3ToCNGHashAlgIdMap[0] )
+  {
+    v5 = 0i64;
+    while ( v2 != a1 )
+    {
+      ++v5;
+      ++v4;
+      v2 = g_NSEC3ToCNGHashAlgIdMap[16 * v5];
+      if ( !v2 )
+        goto LABEL_7;
+    }
+    v6 = *(const WCHAR **)&g_NSEC3ToCNGHashAlgIdMap[16 * v4 + 8];
+  }
+  else
+  {
+LABEL_7:
+    v6 = 0i64;
+  }
+  if ( v6 )
+  {
+    for ( i = BCryptOpenAlgorithmProvider(
+                &phAlgorithm,
+                v6,
+                (LPCWSTR)((unsigned __int64)L"DnsNsec3CollisionCNGProvider" & -(__int64)(Data != 0)),
+                0); i < 0; i = BCryptOpenAlgorithmProvider(&phAlgorithm, v6, 0i64, 0) )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 2u )
+      {
+        WPP_SF_DSS(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          0xBu,
+          (__int64)&WPP_947e11a9df68314c5ba2a482e5517539_Traceguids,
+          i,
+          (__int64)v6,
+          v3);
+      }
+      if ( !v3 )
+        goto LABEL_32;
+      v3 = 0i64;
+    }
+    Property = BCryptGetProperty(phAlgorithm, L"ObjectLength", pbOutput, 4u, &pcbResult, 0);
+    if ( Property >= 0 )
+    {
+      Property = BCryptGetProperty(phAlgorithm, L"HashDigestLength", v15, 4u, &pcbResult, 0);
+      if ( Property >= 0 )
+      {
+        EnterCriticalSection(&DnsVal_Lock);
+        if ( !g_fNSECCryptoInited )
+        {
+          v11 = phAlgorithm;
+          phAlgorithm = 0i64;
+          g_hAlg = v11;
+          g_dwHashObjSize = *(_DWORD *)pbOutput;
+          g_dwHashSize = *(_DWORD *)v15;
+          _InterlockedOr(v13, 0);
+          g_fNSECCryptoInited = 1;
+        }
+        LeaveCriticalSection(&DnsVal_Lock);
+      }
+      else
+      {
+        v9 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 2u )
+        {
+          v10 = 13;
+          goto LABEL_23;
+        }
+      }
+    }
+    else
+    {
+      v9 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 2u )
+      {
+        v10 = 12;
+LABEL_23:
+        WPP_SF_DS(
+          *((_QWORD *)v9 + 2),
+          v10,
+          (__int64)&WPP_947e11a9df68314c5ba2a482e5517539_Traceguids,
+          Property,
+          (__int64)v6);
+      }
+    }
+  }
+LABEL_32:
+  if ( phAlgorithm )
+    BCryptCloseAlgorithmProvider(phAlgorithm, 0);
+  return (unsigned int)g_fNSECCryptoInited;
+}
+// 140194DE0: using guessed type wchar_t aDnsnsec3collis[29];
+// 1401B9DF0: using guessed type int g_fNSECCryptoInited;
+// 1401505BC: using guessed type signed __int32 var_70[8];

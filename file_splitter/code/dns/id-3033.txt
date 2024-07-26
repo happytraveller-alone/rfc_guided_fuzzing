@@ -1,0 +1,34 @@
+//----- (000000014015C6E0) ----------------------------------------------------
+_WORD *__fastcall Nxt_RecordBuildW(unsigned int a1, _QWORD *a2)
+{
+  _WORD *Record; // rdi
+  __int64 v6; // rax
+  WCHAR **v7; // rsi
+  unsigned int v8; // ebx
+  _WORD *v9; // r14
+
+  if ( a1 < 2 )
+  {
+    SetLastError(0xDu);
+    return 0i64;
+  }
+  Record = Dns_AllocateRecordEx((unsigned __int16)(2 * (a1 + 3)));
+  if ( !Record )
+    return 0i64;
+  v6 = *a2;
+  v7 = (WCHAR **)(a2 + 1);
+  *((_QWORD *)Record + 4) = v6;
+  v8 = a1 - 1;
+  if ( v8 )
+  {
+    v9 = Record + 21;
+    do
+    {
+      ++Record[20];
+      *v9++ = Dns_RecordTypeForNameW(*v7++, 0);
+      --v8;
+    }
+    while ( v8 );
+  }
+  return Record;
+}

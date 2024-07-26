@@ -1,0 +1,55 @@
+//----- (000000014014C590) ----------------------------------------------------
+void __fastcall DnsRRLFreeMemory(struct _DnsRRLFreeMemory_ *a1)
+{
+  _QWORD ***v1; // rdi
+  int v2; // esi
+  struct _RTL_CRITICAL_SECTION *v3; // rbx
+  void (__fastcall ***v4)(_QWORD, __int64); // rax
+  _QWORD *v5; // rcx
+  _QWORD *v6; // rbx
+
+  v1 = *(_QWORD ****)a1;
+  v2 = 0;
+  v3 = (struct _RTL_CRITICAL_SECTION *)(*(_QWORD *)a1 + 48i64);
+  while ( 1 )
+  {
+    EnterCriticalSection(v3);
+    v4 = (void (__fastcall ***)(_QWORD, __int64))((__int64 (__fastcall *)(_QWORD **, __int64))(*v1[4])[5])(v1[4], 1i64);
+    if ( !v4 )
+      break;
+    (**v4)(v4, 1i64);
+    LeaveCriticalSection(v3);
+    if ( ++v2 == -1 )
+      goto LABEL_10;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Du, (__int64)&WPP_9d24e83261bb323d145bf67b982c6afc_Traceguids, v2);
+  }
+  LeaveCriticalSection(v3);
+LABEL_10:
+  CDnsRRLManager::RemoveNodeFromFreeList((void ***)v1, 0xFFFFFFFF);
+  CDnsRRLManager::RemoveNodeFromFreeList((void ***)v1, 0xFFFFFFFF);
+  DeleteCriticalSection((LPCRITICAL_SECTION)(v1 + 11));
+  DeleteCriticalSection(v3);
+  v5 = **v1;
+  **v1 = *v1;
+  (*v1)[1] = *v1;
+  v1[1] = 0i64;
+  if ( v5 != *v1 )
+  {
+    do
+    {
+      v6 = (_QWORD *)*v5;
+      operator delete(v5);
+      v5 = v6;
+    }
+    while ( v6 != *v1 );
+  }
+  operator delete(*v1);
+  operator delete(v1);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

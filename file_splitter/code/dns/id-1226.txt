@@ -1,0 +1,43 @@
+//----- (000000014009E1D8) ----------------------------------------------------
+__int64 __fastcall Sock_AllocAdaptersAddresses(IP_ADAPTER_ADDRESSES_LH **a1)
+{
+  unsigned int v2; // esi
+  unsigned int v3; // ecx
+  IP_ADAPTER_ADDRESSES_LH *v4; // rdi
+  unsigned int AdaptersAddresses; // ebx
+  ULONG SizePointer; // [rsp+40h] [rbp+8h] BYREF
+
+  v2 = 0;
+  v3 = 0x4000;
+  for ( SizePointer = 0x4000; ; v3 = SizePointer )
+  {
+    v4 = (IP_ADAPTER_ADDRESSES_LH *)Mem_Alloc(v3, 0i64, "ds\\dns\\server\\server\\socket.c", 486);
+    if ( !v4 )
+      break;
+    ++v2;
+    AdaptersAddresses = GetAdaptersAddresses(dword_1401B9988 == 0 ? 2 : 0, 0, 0i64, v4, &SizePointer);
+    if ( !AdaptersAddresses )
+      goto LABEL_12;
+    Mem_Free(v4, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\socket.c", 522);
+    v4 = 0i64;
+    if ( AdaptersAddresses != 111
+      && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ddd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xBu,
+        (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+        AdaptersAddresses);
+    }
+    if ( v2 >= 5 )
+      goto LABEL_12;
+  }
+  AdaptersAddresses = 14;
+LABEL_12:
+  if ( a1 )
+    *a1 = v4;
+  return AdaptersAddresses;
+}
+// 1401B9988: using guessed type int dword_1401B9988;

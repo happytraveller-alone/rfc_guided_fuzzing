@@ -1,0 +1,19 @@
+//----- (00000001400E8B8C) ----------------------------------------------------
+__int64 __fastcall std::_Uninit_fill_n<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>> *,unsigned __int64,std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>,std::allocator<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>,std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>(
+        __int64 *a1,
+        __int64 a2,
+        __int64 *a3)
+{
+  __int64 result; // rax
+
+  for ( ; a2; --a2 )
+  {
+    if ( a1 )
+    {
+      result = *a3;
+      *a1 = *a3;
+    }
+    ++a1;
+  }
+  return result;
+}

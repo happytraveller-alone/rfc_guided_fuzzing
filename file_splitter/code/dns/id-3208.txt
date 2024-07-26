@@ -1,0 +1,67 @@
+//----- (000000014016959C) ----------------------------------------------------
+int __cdecl Mbrtowc(wchar_t *a1, const char *a2, size_t a3, mbstate_t *a4, const _Cvtvec *a5)
+{
+  unsigned int Page; // ebx
+  unsigned int Mbcurmax; // ebp
+  int v12; // eax
+
+  if ( !a2 || !a3 )
+    return 0;
+  if ( !*a2 )
+  {
+    if ( a1 )
+      *a1 = 0;
+    return 0;
+  }
+  if ( a5 )
+  {
+    Page = a5->_Page;
+    Mbcurmax = a5->_Mbcurmax;
+  }
+  else
+  {
+    Page = *(_DWORD *)(___lc_handle_func(a1) + 8);
+    Mbcurmax = ___lc_codepage_func();
+  }
+  if ( !Page )
+  {
+    if ( a1 )
+      *a1 = *(unsigned __int8 *)a2;
+    return 1;
+  }
+  if ( a4->_Wchar )
+  {
+    BYTE1(a4->_Wchar) = *a2;
+    if ( ___mb_cur_max_func() > 1 && MultiByteToWideChar(Mbcurmax, 9u, (LPCCH)a4, 2, a1, a1 != 0i64) )
+    {
+      a4->_Wchar = 0;
+      return ___mb_cur_max_func();
+    }
+    goto LABEL_19;
+  }
+  if ( (__pctype_func()[*(unsigned __int8 *)a2] & 0x8000u) == 0 )
+  {
+    if ( MultiByteToWideChar(Mbcurmax, 9u, a2, 1, a1, a1 != 0i64) )
+      return 1;
+    goto LABEL_20;
+  }
+  if ( a3 >= ___mb_cur_max_func() )
+  {
+    if ( ___mb_cur_max_func() > 1 )
+    {
+      v12 = ___mb_cur_max_func();
+      if ( MultiByteToWideChar(Mbcurmax, 9u, a2, v12, a1, a1 != 0i64) )
+        return ___mb_cur_max_func();
+    }
+    if ( a2[1] )
+      return ___mb_cur_max_func();
+LABEL_19:
+    a4->_Wchar = 0;
+LABEL_20:
+    *_errno() = 42;
+    return -1;
+  }
+  LOBYTE(a4->_Wchar) = *a2;
+  return -2;
+}
+// 140184C10: using guessed type __int64 __fastcall ___lc_handle_func(_QWORD);

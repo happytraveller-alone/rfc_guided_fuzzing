@@ -1,0 +1,9 @@
+//----- (00000001400135B0) ----------------------------------------------------
+__int64 __fastcall processDoNotRecurseLine(int a1)
+{
+  if ( a1 )
+    return 3222394114i64;
+  LODWORD(qword_1401EC678) = 1;
+  return 0i64;
+}
+// 1401EC678: using guessed type __int64 qword_1401EC678;

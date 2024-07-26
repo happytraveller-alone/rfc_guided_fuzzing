@@ -1,0 +1,68 @@
+//----- (000000014008BEB4) ----------------------------------------------------
+__int64 __fastcall RR_DeleteMatchingRecordFromNode(__int64 a1, __int64 a2)
+{
+  int v4; // ebp
+  _QWORD *v5; // r14
+  _QWORD *i; // rdi
+  __int64 v8; // rcx
+  unsigned int v9; // [rsp+60h] [rbp+8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x37u,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      a1,
+      a2);
+  }
+  v9 = -1;
+  acquireUpdate(DbaseLock, 0xFFFFFFFF, &v9, 1);
+  v4 = a1 && *(_QWORD *)(a1 + 64);
+  if ( (*(_BYTE *)(a1 + 92) & 1) == 0 )
+  {
+    v5 = (_QWORD *)(a1 + 64);
+    for ( i = *(_QWORD **)(a1 + 64); i; i = (_QWORD *)*i )
+    {
+      if ( i == (_QWORD *)a2 )
+      {
+        Dbase_LockEx(a1, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 63);
+        *v5 = *i;
+        RR_ListResetNodeFlags(a1);
+        NTree_ChangeAncestorCounters((volatile signed __int32 **)a1, v4);
+        Dbase_UnlockEx(v8, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 85);
+        if ( *(_BYTE *)(a2 + 8) == 8 )
+        {
+          if ( g_pCacheZone )
+          {
+            *(_DWORD *)(g_pCacheZone + 396) |= 0x200u;
+          }
+          else if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+                 && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                 && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+                 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x38u,
+              (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids);
+          }
+        }
+        v9 = -1;
+        releaseUpdate(DbaseLock, &v9, 1);
+        insertNodeIntoTimeoutSystem(a1);
+        RR_Free(a2);
+        return 0i64;
+      }
+      v5 = i;
+    }
+  }
+  v9 = -1;
+  releaseUpdate(DbaseLock, &v9, 1);
+  return 9701i64;
+}
+// 14008BFE0: variable 'v8' is possibly undefined
+// 1401EC5E8: using guessed type __int64 DbaseLock;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

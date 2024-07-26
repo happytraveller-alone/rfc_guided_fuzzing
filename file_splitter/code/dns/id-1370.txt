@@ -1,0 +1,64 @@
+//----- (00000001400AE410) ----------------------------------------------------
+void __fastcall Thread_Close(int a1)
+{
+  int CurrentThreadId; // edi
+  DWORD v3; // edx
+  __int64 v4; // rbx
+  int *v5; // rcx
+  HANDLE v6; // rcx
+  DWORD v7; // edx
+
+  CurrentThreadId = GetCurrentThreadId();
+  EnterCriticalSection(&csThreadList);
+  v3 = g_ThreadCount;
+  v4 = 0i64;
+  if ( g_ThreadCount )
+  {
+    v5 = g_ThreadIdArray;
+    while ( CurrentThreadId != *v5 )
+    {
+      v4 = (unsigned int)(v4 + 1);
+      ++v5;
+      if ( (unsigned int)v4 >= g_ThreadCount )
+        goto LABEL_5;
+    }
+    if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0 )
+    {
+      Dbg_Thread("Closing thread", v4);
+      v3 = g_ThreadCount;
+    }
+    v6 = g_ThreadHandleArray[v4];
+    if ( v6 )
+    {
+      CloseHandle(v6);
+      v3 = g_ThreadCount;
+    }
+    v7 = v3 - 1;
+    g_ThreadCount = v7;
+    g_ThreadTitleArray[v4] = g_ThreadTitleArray[v7];
+    g_ThreadHandleArray[v4] = g_ThreadHandleArray[v7];
+    g_ThreadIdArray[v4] = g_ThreadIdArray[v7];
+  }
+  else
+  {
+LABEL_5:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xFu,
+        (__int64)&WPP_6ca4fd025e513a987df6fb94f4a49df0_Traceguids,
+        CurrentThreadId);
+    }
+    Dbg_ThreadHandleArray();
+  }
+  if ( a1 )
+    --g_XfrThreadCount;
+  LeaveCriticalSection(&csThreadList);
+}
+// 1401BB580: using guessed type HANDLE g_ThreadHandleArray[2148];
+// 1401BF8A0: using guessed type int g_ThreadIdArray[2152];
+// 1401C1A40: using guessed type __int64 g_ThreadTitleArray[2148];
+// 1401C5D60: using guessed type int g_XfrThreadCount;

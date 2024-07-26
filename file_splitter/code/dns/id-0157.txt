@@ -1,0 +1,52 @@
+//----- (0000000140014090) ----------------------------------------------------
+__int64 __fastcall Version_AnswerQuery(__int64 a1)
+{
+  __int64 v1; // rsi
+  unsigned int v3; // edi
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  unsigned __int16 v5; // dx
+
+  v1 = g_prrVersionTxt;
+  v3 = 0;
+  v4 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_e1bd4275acac3b9f60361bdb92a54126_Traceguids, a1);
+    v4 = WPP_GLOBAL_Control;
+  }
+  if ( !v1 )
+  {
+    v3 = 9002;
+    if ( v4 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)v4 + 17) & 0x40000) == 0
+      || *((_BYTE *)v4 + 65) < 2u )
+    {
+      goto LABEL_16;
+    }
+    v5 = 11;
+    goto LABEL_15;
+  }
+  if ( (unsigned int)Wire_AddResourceRecordToMessage(a1, 0i64, 0xCu, v1, 0, 0i64) )
+  {
+    ++*(_WORD *)(a1 + 6310);
+    *(_BYTE *)(a1 + 6306) |= 4u;
+    Send_Msg(a1, 0);
+    return v3;
+  }
+  v3 = 9002;
+  v4 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v5 = 12;
+LABEL_15:
+    WPP_SF_(*((_QWORD *)v4 + 7), v5, (__int64)&WPP_e1bd4275acac3b9f60361bdb92a54126_Traceguids);
+  }
+LABEL_16:
+  Reject_RequestIntact(a1, 2u, 1);
+  return v3;
+}
+// 1401B8C38: using guessed type __int64 g_prrVersionTxt;

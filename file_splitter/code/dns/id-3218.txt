@@ -1,0 +1,27 @@
+//----- (000000014016D690) ----------------------------------------------------
+NTSTATUS sub_14016D690()
+{
+  NTSTATUS result; // eax
+
+  if ( DnsSign::g_CNGAlgMgr )
+  {
+    result = BCryptCloseAlgorithmProvider(DnsSign::g_CNGAlgMgr, 0);
+    DnsSign::g_CNGAlgMgr = 0i64;
+  }
+  if ( hAlgorithm )
+  {
+    result = BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+    hAlgorithm = 0i64;
+  }
+  if ( qword_1401B84A0 )
+  {
+    result = BCryptCloseAlgorithmProvider(qword_1401B84A0, 0);
+    qword_1401B84A0 = 0i64;
+  }
+  if ( qword_1401B8498 )
+  {
+    result = BCryptCloseAlgorithmProvider(qword_1401B8498, 0);
+    qword_1401B8498 = 0i64;
+  }
+  return result;
+}

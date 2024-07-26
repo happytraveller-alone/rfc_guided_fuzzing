@@ -1,0 +1,21 @@
+//----- (0000000140123DB0) ----------------------------------------------------
+char *__fastcall NbstatWriteCanonicalizedRdata(__int64 a1, unsigned __int64 a2, __int64 a3)
+{
+  if ( a2 >= (unsigned __int64)*(unsigned __int16 *)(a3 + 14) + a1 - 2 )
+  {
+    *(_DWORD *)a1 = htonl(*(_DWORD *)(a3 + 56));
+    *(_DWORD *)(a1 + 4) = htonl(*(_DWORD *)(a3 + 60));
+    *(_DWORD *)(a1 + 8) = htonl(*(_DWORD *)(a3 + 64));
+    return Name_WriteCanonicalizedCountName((char *)(a1 + 12), a2, (unsigned __int8 *)(a3 + 68));
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_qqqd(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x10u, a3, a3, a2, a1, *(unsigned __int16 *)(a3 + 14));
+    }
+    return 0i64;
+  }
+}

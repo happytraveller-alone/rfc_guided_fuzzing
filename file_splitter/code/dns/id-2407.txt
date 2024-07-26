@@ -1,0 +1,52 @@
+//----- (0000000140125454) ----------------------------------------------------
+void __fastcall DnsSign::CDnsKeyPair::WriteDnskeyRdata(
+        DnsSign::CDnsKeyPair *this,
+        __int64 a2,
+        unsigned __int8 *a3,
+        unsigned __int8 *a4)
+{
+  char v5; // r9
+  unsigned __int8 Algorithm; // al
+  __int64 v7; // r10
+  char v8[56]; // [rsp+48h] [rbp-80h] BYREF
+  char pExceptionObject[56]; // [rsp+80h] [rbp-48h] BYREF
+
+  v5 = *((_BYTE *)this + 9);
+  if ( v5 != 5 )
+  {
+    if ( (unsigned __int8)v5 <= 6u )
+      goto LABEL_7;
+    if ( (unsigned __int8)v5 > 8u && v5 != 10 )
+    {
+      if ( (unsigned __int8)(v5 - 13) <= 1u )
+      {
+        DnsSign::WriteECDSADnskeyRdata(
+          *((_QWORD *)this + 13),
+          *((_WORD *)this + 9),
+          (__int64)a3,
+          v5,
+          a2,
+          (__int64)a3,
+          a4);
+        return;
+      }
+LABEL_7:
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        Algorithm = DnsSign::CDnsKeySpec::GetAlgorithm((DnsSign::CDnsKeyPair *)((char *)this + 8));
+        WPP_SF_D(*(_QWORD *)(v7 + 16), 0x1Bu, (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids, Algorithm);
+      }
+      DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v8, a2, 2);
+      DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v8, 0xD6D89u);
+      DnsSign::CRunTimeException::CRunTimeException(
+        (DnsSign::CRunTimeException *)pExceptionObject,
+        (const struct DnsSign::CRunTimeException *)v8);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+    }
+  }
+  DnsSign::WriteRsaDnskeyRdata(*((_QWORD *)this + 13), *((_WORD *)this + 9), (__int64)a3, v5, a2, (__int64)a3, a4);
+}
+// 140125501: variable 'v7' is possibly undefined
+// 140125515: variable 'a2' is possibly undefined

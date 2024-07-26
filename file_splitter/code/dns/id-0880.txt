@@ -1,0 +1,41 @@
+//----- (0000000140078EC0) ----------------------------------------------------
+__int64 __fastcall RemoveClientSubnetRecordFromPersistence(LPCWSTR lpSubKey)
+{
+  HKEY v2; // rax
+  HKEY v3; // rdi
+  unsigned int v4; // ebx
+  unsigned int v6; // [rsp+48h] [rbp+10h] BYREF
+
+  v6 = 0;
+  v2 = OpenClientSubnets(1, (int *)&v6);
+  v3 = v2;
+  if ( v2 )
+  {
+    v4 = RegDeleteTreeW(v2, lpSubKey);
+    if ( (v4 & 0xFFFFFFFD) != 0
+      && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x9Bu,
+        (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+        v4,
+        (__int64)lpSubKey);
+    }
+    RegCloseKey(v3);
+  }
+  else if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+         || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+  {
+    return v6;
+  }
+  else
+  {
+    v4 = v6;
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x9Au, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, v6);
+  }
+  return v4;
+}

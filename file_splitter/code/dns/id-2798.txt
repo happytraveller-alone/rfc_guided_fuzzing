@@ -1,0 +1,7 @@
+//----- (000000014014AFB0) ----------------------------------------------------
+void __fastcall std::vector<unsigned short *>::vector<unsigned short *>(_QWORD *a1)
+{
+  *a1 = 0i64;
+  a1[1] = 0i64;
+  a1[2] = 0i64;
+}

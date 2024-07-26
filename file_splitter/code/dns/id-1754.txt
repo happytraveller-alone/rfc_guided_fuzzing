@@ -1,0 +1,48 @@
+//----- (00000001400DDEC8) ----------------------------------------------------
+ULONG __fastcall Template_sqxqb(__int64 a1, __int64 a2, const char *a3, int a4, char a5)
+{
+  __int64 v5; // rcx
+  ULONG v6; // ecx
+  const char *v7; // rax
+  int v9; // [rsp+20h] [rbp-31h] BYREF
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+30h] [rbp-21h] BYREF
+  int *v11; // [rsp+40h] [rbp-11h]
+  __int64 v12; // [rsp+48h] [rbp-9h]
+  char *v13; // [rsp+50h] [rbp-1h]
+  __int64 v14; // [rsp+58h] [rbp+7h]
+  int *v15; // [rsp+60h] [rbp+Fh]
+  __int64 v16; // [rsp+68h] [rbp+17h]
+  __int64 v17; // [rsp+70h] [rbp+1Fh]
+  __int64 v18; // [rsp+78h] [rbp+27h]
+  int v19; // [rsp+B8h] [rbp+67h] BYREF
+
+  v19 = a4;
+  v9 = 0;
+  if ( a3 )
+  {
+    v5 = -1i64;
+    do
+      ++v5;
+    while ( a3[v5] );
+    v6 = v5 + 1;
+  }
+  else
+  {
+    v6 = 5;
+  }
+  UserData.Size = v6;
+  v7 = "NULL";
+  if ( a3 )
+    v7 = a3;
+  UserData.Reserved = 0;
+  UserData.Ptr = (ULONGLONG)v7;
+  v17 = 0i64;
+  v11 = &v19;
+  v18 = 0i64;
+  v13 = &a5;
+  v12 = 4i64;
+  v15 = &v9;
+  v14 = 8i64;
+  v16 = 4i64;
+  return EventWrite(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_DNSSEC_ACTIVE_REFRESH_FAILED, 5u, &UserData);
+}

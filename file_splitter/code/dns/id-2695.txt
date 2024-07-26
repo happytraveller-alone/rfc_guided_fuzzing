@@ -1,0 +1,7 @@
+//----- (0000000140140800) ----------------------------------------------------
+void std::_Tree_val<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::~_Tree_val<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>()
+{
+  operator delete((void *)qword_1401B93E8);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B93E8: using guessed type __int64 qword_1401B93E8;

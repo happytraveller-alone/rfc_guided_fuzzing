@@ -1,0 +1,31 @@
+//----- (0000000140087910) ----------------------------------------------------
+__int64 __fastcall Nsec3FlatRead(__int64 a1, __int64 a2)
+{
+  int v2; // r14d
+  int v4; // ebp
+  unsigned __int16 v6; // r8
+  unsigned __int16 v7; // cx
+  unsigned __int16 v8; // si
+  _BYTE *v9; // rax
+  _BYTE *v10; // rdi
+
+  v2 = *(unsigned __int8 *)(a1 + 29);
+  v4 = *(unsigned __int8 *)(a1 + 28);
+  v6 = v4 + v2 + 6;
+  if ( *(_WORD *)a1 < v6 )
+    return 9702i64;
+  v7 = *(_WORD *)a1;
+  v8 = v7 - v6;
+  v9 = RR_AllocateEx(v7, 0, 0);
+  v10 = v9;
+  if ( !v9 )
+    return 14i64;
+  *(_QWORD *)(a2 + 800) = v9;
+  v9[56] = *(_BYTE *)(a1 + 24);
+  v9[57] = *(_BYTE *)(a1 + 25);
+  *((_WORD *)v9 + 29) = htons(*(_WORD *)(a1 + 26));
+  v10[60] = v4;
+  v10[61] = v2;
+  memcpy_0(v10 + 62, (const void *)(a1 + 30), v4 + v2 + v8);
+  return 0i64;
+}

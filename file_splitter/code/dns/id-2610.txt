@@ -1,0 +1,112 @@
+//----- (00000001401346B0) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy_TimeofDayCriteriaTree::FindMatchingPolicyForQuery(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        const void ***a4,
+        __int64 a5,
+        int a6)
+{
+  char v7; // si
+  unsigned int MatchingPolicyForQuery; // r12d
+  unsigned __int16 v11; // cx
+  __int64 v12; // rbp
+  __int64 v13; // rbp
+  CDnsClientSubnetRecordsTrie *v14; // rcx
+  const void **v15; // rax
+  int v16; // ebx
+  const wchar_t *v17; // rax
+  __int64 v19; // [rsp+20h] [rbp-D8h]
+  __int64 v20; // [rsp+28h] [rbp-D0h]
+  struct _SYSTEMTIME SystemTime; // [rsp+68h] [rbp-90h] BYREF
+  void *v23[5]; // [rsp+78h] [rbp-80h] BYREF
+
+  v7 = 0;
+  MatchingPolicyForQuery = 0;
+  GetLocalTime(&SystemTime);
+  v11 = 15;
+  if ( dword_1401B9A3C )
+    v11 = dword_1401B9A3C;
+  v12 = (unsigned __int16)((SystemTime.wMinute + 60 * SystemTime.wHour + (unsigned __int16)word_1401B9A38) / v11);
+  if ( *(_QWORD *)(**(_QWORD **)(a1 + 8) + 8 * v12) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_ddqq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Bu,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        SystemTime.wHour);
+    }
+    v13 = *(_QWORD *)(**(_QWORD **)(a1 + 8) + 8 * v12);
+    MatchingPolicyForQuery = CDnsPolicy_CriteriaNode::FindMatchingPolicyForQuery((__int64 ***)v13, a2, a3, a4, a5, a6);
+    if ( MatchingPolicyForQuery )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        LODWORD(v20) = SystemTime.wMinute;
+        LODWORD(v19) = SystemTime.wHour;
+        WPP_SF_qddq(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x4Cu,
+          (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+          v13,
+          v19,
+          v20,
+          a1);
+      }
+    }
+    else
+    {
+      v14 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        v15 = *a4;
+        if ( *a4 )
+          v16 = *((_DWORD *)v15 + 26);
+        else
+          v16 = -1;
+        if ( v15 )
+        {
+          v17 = (const wchar_t *)CDnsPolicy::Name(*a4, (__int64)v23);
+          v14 = WPP_GLOBAL_Control;
+          v7 = 1;
+          if ( *((_QWORD *)v17 + 3) >= 8ui64 )
+            v17 = *(const wchar_t **)v17;
+        }
+        else
+        {
+          v17 = L"NULL";
+        }
+        LODWORD(v19) = *(unsigned __int16 *)(v13 + 48);
+        WPP_SF_qdqqSd(*((_QWORD *)v14 + 7), 0x4Du, *(unsigned __int16 *)(v13 + 48), v13, v19, a2, *a4, v17, v16);
+      }
+      if ( (v7 & 1) != 0 && v23[3] >= (void *)8 )
+        operator delete(v23[0]);
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_qdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Eu,
+      (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+      a1,
+      SystemTime.wHour,
+      SystemTime.wMinute);
+  }
+  return MatchingPolicyForQuery;
+}
+// 14013481A: variable 'v19' is possibly undefined
+// 14013481A: variable 'v20' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B9A38: using guessed type __int16 word_1401B9A38;
+// 1401B9A3C: using guessed type int dword_1401B9A3C;

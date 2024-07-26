@@ -1,0 +1,53 @@
+//----- (000000014007C650) ----------------------------------------------------
+__int64 __fastcall generateNameHashIndex(__int64 a1, int *a2)
+{
+  unsigned int v2; // ebx
+  int v3; // edi
+  _WORD *v6; // rsi
+  unsigned int i; // r14d
+  unsigned __int8 *v8; // r13
+  signed int v9; // ebp
+  signed int v10; // eax
+  __int64 j; // rcx
+  unsigned __int8 v12; // al
+  CHAR v14[64]; // [rsp+30h] [rbp-88h] BYREF
+
+  v2 = 0;
+  v3 = -1;
+  if ( a2 && a1 && (v6 = *(_WORD **)(a1 + 1400)) != 0i64 )
+  {
+    for ( i = 0; i < (unsigned __int16)*v6; ++i )
+    {
+      v8 = *(unsigned __int8 **)&v6[4 * i + 4];
+      v9 = *((unsigned __int8 *)v6 + i + 328);
+      v10 = Dns_DowncaseNameLabel(v14, v8, v9, (const char *)3);
+      if ( v10 != -1 )
+      {
+        v8 = (unsigned __int8 *)v14;
+        if ( v10 )
+          v9 = v10;
+      }
+      for ( j = 0i64; j < v9; LOBYTE(v3) = v12 + v3 )
+        v12 = v8[j++];
+    }
+    v3 = (unsigned __int8)v3;
+  }
+  else
+  {
+    v2 = 87;
+  }
+  *a2 = v3;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xAu,
+      (__int64)&WPP_48eb941880a8399baad621a189a68abc_Traceguids,
+      a1,
+      v3,
+      v2);
+  }
+  return v2;
+}

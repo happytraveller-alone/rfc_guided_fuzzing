@@ -1,0 +1,38 @@
+//----- (0000000140102A10) ----------------------------------------------------
+__int64 __fastcall Rpc_SignZone(__int64 a1, __int64 a2, __int64 a3)
+{
+  __int64 v4; // rax
+  unsigned int v5; // edi
+
+  if ( !a3 || (v4 = *(_QWORD *)(a3 + 328)) == 0 )
+    v4 = a3;
+  if ( *(_QWORD *)(v4 + 200) )
+  {
+    return 9553;
+  }
+  else
+  {
+    v5 = Zone_LockForRPCSeqEx(a3, 0x2710u);
+    if ( v5 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x71u,
+          (__int64)&WPP_fcf90f505e41335ad1a88e0d5ede2d0c_Traceguids,
+          *(const char **)(a3 + 16));
+      }
+    }
+    else
+    {
+      v5 = performZoneSigning(a3, 0, 0x10000000);
+      Lock_ReleaseWrite(*(_QWORD *)(a3 + 312));
+      if ( !v5 )
+        LogDnssecSignZone(0, a3);
+    }
+  }
+  return v5;
+}

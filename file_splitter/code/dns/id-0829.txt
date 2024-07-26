@@ -1,0 +1,251 @@
+//----- (0000000140073F70) ----------------------------------------------------
+__int64 __fastcall Recurse_CheckForDelegation(__int64 a1, __int64 a2, _DWORD *a3)
+{
+  __int64 v4; // r15
+  __int64 v5; // rdi
+  __int16 v7; // si
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  char *v9; // rax
+  const char *v10; // rcx
+  __int64 v11; // rbx
+  __int64 v12; // r14
+  __int16 *v13; // rax
+  __int16 v14; // ax
+  unsigned __int16 v15; // ax
+  __int64 v16; // rdx
+  unsigned __int64 v17; // rax
+  __int64 v18; // r8
+  char *v19; // rax
+  const char *v20; // r9
+  int v21; // eax
+  int v22; // edx
+  __int64 v23; // rbx
+  unsigned __int16 v24; // dx
+  unsigned __int16 v25; // dx
+  __int64 NextRecord; // rax
+  __int64 v27; // rax
+  char *v28; // rax
+  char v29; // di
+  __int64 v30; // rbx
+  char *v31; // rax
+  __int64 v32; // rdx
+  __int64 v33; // r8
+  const char *v34; // rbx
+  char *v35; // rax
+
+  v4 = 0i64;
+  v5 = a2;
+  v7 = -1;
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v9 = Dbg_NodeName(a2);
+    v10 = "non-ZONEROOT";
+    if ( (*(_BYTE *)(v5 + 92) & 0x10) != 0 )
+      v10 = "ZONEROOT";
+    WPP_SF_qss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x79u,
+      (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+      a1,
+      v10,
+      v9);
+    v8 = WPP_GLOBAL_Control;
+  }
+  v11 = *(_QWORD *)(a1 + 208);
+  v12 = *(_QWORD *)(a1 + 224);
+  *a3 = 1;
+  if ( !v11 && v12 )
+    v11 = *(_QWORD *)(v12 + 56);
+  if ( *(_WORD *)(a1 + 480) == 43 )
+  {
+    v13 = *(__int16 **)(a1 + 1400);
+    if ( v13 )
+    {
+      v14 = *v13;
+      if ( v14 )
+      {
+        v15 = v14 - 1;
+        v7 = v15;
+        if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v8 + 17) & 0x4000) != 0
+          && *((_BYTE *)v8 + 65) >= 5u )
+        {
+          WPP_SF_D(*((_QWORD *)v8 + 7), 0x7Au, (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids, v15);
+          v8 = WPP_GLOBAL_Control;
+        }
+      }
+    }
+  }
+  v16 = *(_QWORD *)(a1 + 1264);
+  if ( v16 )
+  {
+    v17 = *(unsigned __int16 *)(a1 + 480);
+    if ( (unsigned __int16)v17 > 0x33u || (v18 = 0xDC80000000000i64, !_bittest64(&v18, v17)) )
+      v4 = *(_QWORD *)(v16 + 1272);
+  }
+  while ( (*(_BYTE *)(v5 + 92) & 0x10) == 0 || *(unsigned __int8 *)(v5 + 100) > (unsigned __int16)v7 || v5 == v4 )
+  {
+    if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v8 + 17) & 0x4000) != 0
+      && *((_BYTE *)v8 + 65) >= 5u )
+    {
+      v19 = Dbg_NodeName(v5);
+      v20 = "non-ZONEROOT";
+      if ( (*(_BYTE *)(v5 + 92) & 0x10) != 0 )
+        v20 = "ZONEROOT";
+      WPP_SF_ss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x7Bu,
+        (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+        v20,
+        (__int64)v19);
+      v8 = WPP_GLOBAL_Control;
+    }
+    if ( !*(_QWORD *)v5 )
+    {
+      v21 = *(_DWORD *)(v5 + 92);
+      if ( (v21 & 0x10) == 0 )
+      {
+        *(_DWORD *)(v5 + 92) = v21 | 0x10;
+        v8 = WPP_GLOBAL_Control;
+      }
+      break;
+    }
+    v5 = *(_QWORD *)v5;
+  }
+  if ( !v11 || (v22 = *(_DWORD *)(v11 + 372), (unsigned int)(v22 - 3) > 1) || (*(_DWORD *)(v11 + 396) & 0x2000) != 0 )
+  {
+    if ( !v12 )
+    {
+      NextRecord = RR_FindNextRecordEx(v5, 0, 2u, 0i64, *(_DWORD *)(a1 + 568), 0);
+      v8 = WPP_GLOBAL_Control;
+      if ( !NextRecord )
+        *a3 = 0;
+      goto LABEL_89;
+    }
+    if ( v5 != v12 && v5 != *(_QWORD *)(a1 + 216) )
+    {
+      while ( *(_BYTE *)(v12 + 96) == 35 )
+        v12 = *(_QWORD *)v12;
+      if ( *(_BYTE *)(v12 + 100) >= *(_BYTE *)(v5 + 100)
+        || (v27 = *(_QWORD *)(v12 + 56)) != 0 && *(_DWORD *)(v27 + 372) == 4 )
+      {
+        if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v8 + 17) & 0x4000) != 0
+          && *((_BYTE *)v8 + 65) >= 4u )
+        {
+          v28 = Dbg_NodeName(v5);
+          v29 = *(_BYTE *)(v12 + 100);
+          v30 = (__int64)v28;
+          v31 = Dbg_NodeName(v12);
+          WPP_SF_sdsd(*((_QWORD *)WPP_GLOBAL_Control + 7), v32, v33, v31, v29, v30);
+          v8 = WPP_GLOBAL_Control;
+        }
+        v5 = v12;
+      }
+      goto LABEL_89;
+    }
+    if ( v8 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      return v5;
+    if ( (*((_DWORD *)v8 + 17) & 0x4000) == 0 || *((_BYTE *)v8 + 65) < 4u )
+      goto LABEL_89;
+    v24 = 129;
+    goto LABEL_61;
+  }
+  v23 = *(_QWORD *)(v11 + 40);
+  if ( v22 != 3 )
+  {
+    if ( v22 != 4 )
+      goto LABEL_89;
+    if ( *(_WORD *)(a1 + 480) == 2 && *(_BYTE *)(v5 + 100) > *(_BYTE *)(v23 + 100) )
+    {
+      if ( RR_FindNextRecordEx(v5, 0, 2u, 0i64, *(_DWORD *)(a1 + 568), 1) )
+      {
+        v8 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+          return v5;
+        if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) == 0 || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          goto LABEL_89;
+        v24 = 127;
+        goto LABEL_61;
+      }
+      v8 = WPP_GLOBAL_Control;
+    }
+    if ( v8 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)v8 + 17) & 0x4000) == 0
+      || *((_BYTE *)v8 + 65) < 4u )
+    {
+      goto LABEL_68;
+    }
+    v25 = 128;
+    goto LABEL_67;
+  }
+  if ( *(_BYTE *)(v5 + 100) <= *(_BYTE *)(v23 + 100) || !RR_FindNextRecordEx(v5, 0, 2u, 0i64, *(_DWORD *)(a1 + 568), 1) )
+  {
+    if ( RR_FindNextRecordEx(v23, 0, 2u, 0i64, 0, 0) )
+    {
+      v8 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_q(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x7Du,
+          (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+          v23);
+        v8 = WPP_GLOBAL_Control;
+      }
+      goto LABEL_69;
+    }
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+LABEL_68:
+      *a3 = 0;
+LABEL_69:
+      v5 = v23;
+      goto LABEL_89;
+    }
+    v25 = 126;
+LABEL_67:
+    WPP_SF_q(*((_QWORD *)v8 + 7), v25, (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids, v23);
+    v8 = WPP_GLOBAL_Control;
+    goto LABEL_68;
+  }
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    return v5;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v24 = 124;
+LABEL_61:
+    WPP_SF_q(*((_QWORD *)v8 + 7), v24, (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids, v5);
+    v8 = WPP_GLOBAL_Control;
+  }
+LABEL_89:
+  if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v8 + 17) & 0x4000) != 0
+    && *((_BYTE *)v8 + 65) >= 4u )
+  {
+    v34 = "FALSE";
+    if ( *a3 )
+      v34 = "TRUE";
+    v35 = Dbg_NodeName(v5);
+    WPP_SF_sqs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x83u,
+      (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+      v35,
+      v5,
+      (__int64)v34);
+  }
+  return v5;
+}
+// 140074490: variable 'v32' is possibly undefined
+// 140074490: variable 'v33' is possibly undefined

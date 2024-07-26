@@ -1,0 +1,58 @@
+//----- (0000000140063F5C) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall Name_SaveCompressionWithNode(__int64 a1, unsigned __int64 a2, __int64 a3)
+{
+  unsigned int v3; // r9d
+  char v4; // r10
+  unsigned __int16 v5; // dx
+  CDnsClientSubnetRecordsTrie **result; // rax
+  int v7; // [rsp+20h] [rbp-28h]
+
+  if ( a2 < a1 + 6316 || a2 >= *(_QWORD *)(a1 + 24) )
+  {
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      return (CDnsClientSubnetRecordsTrie **)WPP_SF_qIqq(
+                                               *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                               a2,
+                                               a3,
+                                               a2,
+                                               (unsigned __int16)(a2 - a1 - 6304),
+                                               a3,
+                                               a1);
+    }
+  }
+  else
+  {
+    v3 = *(_DWORD *)(a1 + 3096);
+    if ( v3 >= 0x32 )
+      --v3;
+    v4 = 0;
+    if ( a3 )
+      *(_BYTE *)(a3 + 98) = CurrentTimeoutBin;
+    v5 = a2 - a1 - 6304;
+    *(_QWORD *)(a1 + 8i64 * v3 + 3112) = a3;
+    *(_WORD *)(a1 + 2i64 * v3 + 3512) = v5;
+    if ( a3 )
+      v4 = *(_BYTE *)(a3 + 100);
+    *(_BYTE *)(v3 + a1 + 3612) = v4;
+    *(_DWORD *)(a1 + 3096) = v3 + 1;
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v7 = v5;
+      return (CDnsClientSubnetRecordsTrie **)WPP_SF_qd(
+                                               *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                               0x15u,
+                                               (__int64)&WPP_7fc80419a8b133cb02be4345e744511d_Traceguids,
+                                               a3,
+                                               v7);
+    }
+  }
+  return result;
+}
+// 1401BA4B8: using guessed type char CurrentTimeoutBin;

@@ -1,0 +1,90 @@
+//----- (0000000140046700) ----------------------------------------------------
+_BOOL8 __fastcall isDNinDS(LDAP *ld, PWSTR base, ULONG scope, PWSTR filter, char **a5)
+{
+  char *v5; // rdi
+  int v6; // r15d
+  char **v11; // rsi
+  DWORD TickCount; // eax
+  WCHAR *v13; // r9
+  DWORD v14; // ebx
+  ULONG v15; // r14d
+  PWCHAR dnW; // rax
+  __int64 v17; // rbx
+  __int64 v18; // rbx
+  char *v19; // rax
+  _BOOL8 result; // rax
+  void *ServerControls[2]; // [rsp+60h] [rbp-38h] BYREF
+  PLDAPMessage entry; // [rsp+B8h] [rbp+20h] BYREF
+
+  entry = 0i64;
+  v5 = 0i64;
+  v6 = 0;
+  ServerControls[0] = &NoDsSvrReferralControl;
+  ServerControls[1] = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_S(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x19Du,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      base);
+  }
+  v11 = a5;
+  if ( a5 )
+    *a5 = 0i64;
+  TickCount = GetTickCount();
+  v13 = g_szWildCardFilter;
+  v14 = TickCount;
+  if ( filter )
+    v13 = filter;
+  v15 = ldap_search_ext_sW(
+          ld,
+          base,
+          scope,
+          v13,
+          0i64,
+          1u,
+          (PLDAPControlW *)ServerControls,
+          0i64,
+          &g_LdapTimeout,
+          0,
+          &entry);
+  _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - v14);
+  if ( !v15 )
+  {
+    if ( ldap_first_entry(ld, entry) )
+    {
+      if ( !v11 )
+        goto LABEL_20;
+      dnW = ldap_get_dnW(ld, entry);
+      v5 = (char *)dnW;
+      v17 = -1i64;
+      do
+        ++v17;
+      while ( dnW[v17] );
+      v18 = v17 + 1;
+      v19 = (char *)Mem_Alloc(2 * (int)v18, 9i64, "ds\\dns\\server\\server\\ds.c", 16241);
+      *v11 = v19;
+      if ( !v19 || (int)StringCchCopyW(v19, v18, v5) < 0 )
+        v6 = 1;
+    }
+    else
+    {
+      v15 = 32;
+    }
+    if ( v5 )
+      ldap_memfreeW((PWCHAR)v5);
+  }
+LABEL_20:
+  if ( entry )
+    ldap_msgfree(entry);
+  result = v15 == 0;
+  if ( v6 )
+    return 0i64;
+  return result;
+}
+// 1401C7D48: using guessed type int dword_1401C7D48;
+// 1401EC420: using guessed type __int64 NoDsSvrReferralControl;
+// 140046700: using guessed type PLDAPControlW var_38[2];

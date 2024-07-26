@@ -1,0 +1,59 @@
+//----- (0000000140165744) ----------------------------------------------------
+void __fastcall DnssrvFreeZoneSigningInfo(void **a1)
+{
+  void *v2; // rcx
+  __int64 i; // rsi
+  _QWORD *v4; // rdi
+  void **v5; // rbp
+  void **v6; // rbp
+  _QWORD *v7; // rbp
+  void *v8; // rcx
+  void *v9; // rcx
+
+  if ( a1 )
+  {
+    MIDL_user_free(a1[5]);
+    MIDL_user_free(a1[9]);
+    v2 = a1[13];
+    if ( v2 )
+      MIDL_user_free(v2);
+    if ( a1 != (void **)-120i64 )
+    {
+      for ( i = 0i64; (unsigned int)i < *((_DWORD *)a1 + 28); i = (unsigned int)(i + 1) )
+      {
+        v4 = a1[i + 15];
+        if ( v4 )
+        {
+          v5 = (void **)v4[1];
+          if ( v5 )
+          {
+            MIDL_user_free(v5[3]);
+            MIDL_user_free(v5);
+          }
+          v6 = (void **)v4[2];
+          if ( v6 )
+          {
+            MIDL_user_free(v6[6]);
+            MIDL_user_free(v6[7]);
+            MIDL_user_free(v6[8]);
+            MIDL_user_free(v6);
+          }
+          v7 = (_QWORD *)v4[3];
+          if ( v7 )
+          {
+            v8 = (void *)v7[6];
+            if ( v8 )
+              MIDL_user_free(v8);
+            v9 = (void *)v7[8];
+            if ( v9 )
+              MIDL_user_free(v9);
+            MIDL_user_free(v7);
+          }
+          MIDL_user_free(v4);
+        }
+      }
+      MIDL_user_free(a1 + 15);
+    }
+    MIDL_user_free(a1);
+  }
+}

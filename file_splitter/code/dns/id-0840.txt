@@ -1,0 +1,29 @@
+//----- (0000000140074C98) ----------------------------------------------------
+__int64 __fastcall Reg_SetZonesSource(int a1)
+{
+  unsigned int v1; // ebx
+  const char *v2; // r9
+  const char *v3; // r8
+
+  v1 = g_ZonesRegistrySource;
+  g_ZonesRegistrySource = a1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v2 = "CurrentControlSet";
+    v3 = "CurrentControlSet";
+    if ( a1 == 1 )
+      v3 = "Software";
+    if ( v1 == 1 )
+      v2 = "Software";
+    WPP_SF_ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xEu,
+      (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+      v2,
+      (__int64)v3);
+  }
+  return v1;
+}
+// 1401B9024: using guessed type int g_ZonesRegistrySource;

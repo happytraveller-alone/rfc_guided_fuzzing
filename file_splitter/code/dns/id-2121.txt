@@ -1,0 +1,183 @@
+//----- (000000014010CB6C) ----------------------------------------------------
+__int64 __fastcall DnsOls_RefreshSignaturesForZone(struct _zone_info *a1)
+{
+  struct _DnsTreeNode *v1; // r15
+  unsigned int v3; // edi
+  _QWORD *v4; // r12
+  bool v5; // r14
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  __int64 v7; // rcx
+  const char *v8; // r9
+  int v9; // esi
+  unsigned int refreshed; // eax
+  __int64 v11; // rdx
+  __int64 v12; // r8
+  unsigned int v13; // r9d
+  unsigned int SnapShot_ScopeMap; // eax
+  __int64 v15; // rsi
+  int v16; // r15d
+  struct _DnsTreeNode *v17; // r9
+  unsigned int v18; // eax
+  __int64 v19; // rdx
+  __int64 v20; // r8
+  int v21; // r9d
+  unsigned int v23; // [rsp+90h] [rbp+48h] BYREF
+  int v24; // [rsp+98h] [rbp+50h] BYREF
+  unsigned __int64 v25; // [rsp+A0h] [rbp+58h] BYREF
+  _QWORD *v26; // [rsp+A8h] [rbp+60h] BYREF
+
+  v1 = (struct _DnsTreeNode *)*((_QWORD *)a1 + 5);
+  v3 = 0;
+  v25 = 0i64;
+  v4 = 0i64;
+  v26 = 0i64;
+  v24 = 0;
+  v23 = 0;
+  if ( *((int *)a1 + 108) > 0 || (*((_DWORD *)a1 + 99) & 0x2000) != 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Bu,
+        (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+        *((const char **)a1 + 2));
+    }
+  }
+  else if ( v1 )
+  {
+    v5 = 0;
+    if ( (*((_BYTE *)a1 + 1040) & 2) != 0 || (*((_BYTE *)a1 + 388) & 1) == 0 )
+    {
+      if ( !*((_DWORD *)a1 + 278)
+        || (dword_1401B9714 = Dns_GetCurrentTimeInSeconds(), (unsigned int)dword_1401B9714 >= *((_DWORD *)a1 + 278)) )
+      {
+        v5 = 1;
+      }
+    }
+    if ( dword_1401B99FC )
+    {
+      v6 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x4Cu,
+          (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+          *((const char **)a1 + 2));
+        v6 = WPP_GLOBAL_Control;
+      }
+      v5 = 1;
+    }
+    else
+    {
+      v6 = WPP_GLOBAL_Control;
+    }
+    if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v6 + 17) & 0x200000) != 0
+      && *((_BYTE *)v6 + 65) >= 5u )
+    {
+      v7 = *((_QWORD *)v6 + 7);
+      v8 = "but not";
+      if ( v5 )
+        v8 = "and";
+      WPP_SF_ss(v7, 0x4Du, (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids, v8, *((_QWORD *)a1 + 2));
+    }
+    v9 = *((_DWORD *)a1 + 128);
+    refreshed = refreshSignatures(&v25, &v23, a1, v1, v5);
+    v3 = refreshed;
+    if ( v25 )
+    {
+      if ( !refreshed && (v9 != *((_DWORD *)a1 + 128) || (v3 = refreshSOASignature(&v25, v23, a1)) == 0) )
+        Xfr_SendNotify((__int64)a1, v11, v12, v13);
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_Dds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Eu,
+        (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+        v3,
+        dword_1401B9714,
+        *((_QWORD *)a1 + 2));
+    }
+    if ( g_fDnsServiceExit != 1 && *((int *)a1 + 108) <= 0 && (*((_DWORD *)a1 + 99) & 0x2000) == 0 )
+    {
+      SnapShot_ScopeMap = Get_SnapShot_ScopeMap(*((_QWORD *)a1 + 20), *((_QWORD *)a1 + 21), 1, v13, &v24, &v26);
+      v4 = v26;
+      v3 = SnapShot_ScopeMap;
+      if ( !SnapShot_ScopeMap )
+      {
+        if ( v24 )
+        {
+          v15 = (__int64)v26;
+          if ( v26 )
+          {
+            do
+            {
+              v16 = *((_DWORD *)a1 + 128);
+              v17 = *(struct _DnsTreeNode **)(*(_QWORD *)v15 + 40i64);
+              v25 = 0i64;
+              v18 = refreshSignatures(&v25, &v23, *(struct _zone_info **)v15, v17, v5);
+              v3 = v18;
+              if ( v25 )
+              {
+                if ( !v18 && (v16 != *((_DWORD *)a1 + 128) || (v3 = refreshSOASignature(&v25, v23, a1)) == 0) )
+                  Xfr_SendNotify((__int64)a1, v19, v20, v21);
+              }
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+              {
+                WPP_SF_DDSs(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  *(_QWORD *)v15,
+                  v20,
+                  v3,
+                  dword_1401B9714,
+                  *(_QWORD *)(*(_QWORD *)v15 + 192i64),
+                  *(_QWORD *)(*(_QWORD *)v15 + 16i64));
+              }
+              if ( v3 && (g_fDnsServiceExit == 1 || *((int *)a1 + 108) > 0 || (*((_DWORD *)a1 + 99) & 0x2000) != 0) )
+                break;
+              v15 = *(_QWORD *)(v15 + 8);
+            }
+            while ( v15 );
+            v4 = v26;
+          }
+        }
+        dword_1401B9714 = Dns_GetCurrentTimeInSeconds();
+        *((_DWORD *)a1 + 276) = dword_1401B9714;
+        DnsOls_SetZoneSigRefreshTime((__int64)a1, v5 ? 4 : 0);
+      }
+    }
+  }
+  Free_ScopeList(v4);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x50u,
+      (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+      v3,
+      *((_QWORD *)a1 + 2));
+  }
+  return v3;
+}
+// 14010CCF2: variable 'v11' is possibly undefined
+// 14010CCF2: variable 'v12' is possibly undefined
+// 14010CCF2: variable 'v13' is possibly undefined
+// 14010CE18: variable 'v19' is possibly undefined
+// 14010CE18: variable 'v20' is possibly undefined
+// 14010CE18: variable 'v21' is possibly undefined
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B99FC: using guessed type int dword_1401B99FC;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

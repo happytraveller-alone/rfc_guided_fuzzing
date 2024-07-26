@@ -1,0 +1,7 @@
+//----- (00000001400F2F94) ----------------------------------------------------
+void __fastcall std::_Tree_val<std::_Tmap_traits<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>,0>>::~_Tree_val<std::_Tmap_traits<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>,0>>(
+        __int64 a1)
+{
+  operator delete(*(void **)(a1 + 8));
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

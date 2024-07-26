@@ -1,0 +1,14 @@
+//----- (0000000140043F80) ----------------------------------------------------
+_BOOL8 __fastcall Ds_InterpretBoolAttrValue(struct berval ***a1, BOOL a2)
+{
+  struct berval **v2; // rax
+
+  v2 = *a1;
+  if ( *a1 )
+  {
+    a2 = (*v2)->bv_len == 4 && !_strnicmp((*v2)->bv_val, "TRUE", 4ui64);
+    ldap_value_free_len(*a1);
+    *a1 = 0i64;
+  }
+  return a2;
+}

@@ -1,0 +1,47 @@
+//----- (00000001401194A8) ----------------------------------------------------
+__int64 Mem_HeapInit()
+{
+  unsigned int v0; // ebx
+  HANDLE v1; // rax
+  int LastError; // eax
+  unsigned int v3; // esi
+  char *i; // rdi
+  int HeapInformation; // [rsp+30h] [rbp+8h] BYREF
+
+  v0 = 0;
+  HeapInformation = 2;
+  g_AllocFailureCount = 0;
+  v1 = HeapCreate(0, 0i64, 0i64);
+  hDnsHeap = v1;
+  if ( v1 )
+  {
+    if ( !HeapSetInformation(v1, HeapCompatibilityInformation, &HeapInformation, 4ui64) )
+    {
+      LastError = GetLastError();
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && *((char *)WPP_GLOBAL_Control + 28) < 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          0x17u,
+          (__int64)&WPP_772ae84e4aa83dd2ec494ba833f0aab1_Traceguids,
+          LastError);
+      }
+    }
+    HeapSetInformation(hDnsHeap, HeapEnableTerminationOnCorruption, 0i64, 0i64);
+    v3 = 0;
+    for ( i = (char *)&unk_1401B8114; !(unsigned int)DnsInitializeCriticalSection((LPCRITICAL_SECTION)(i + 28)); i += 88 )
+    {
+      *(_QWORD *)(i - 20) = 0i64;
+      ++v3;
+      *(_QWORD *)i = 0i64;
+      *((_QWORD *)i + 1) = 0i64;
+      *((_QWORD *)i + 2) = 0i64;
+      if ( v3 > 3 )
+        return 1;
+    }
+  }
+  return v0;
+}
+// 1401B9D58: using guessed type int g_AllocFailureCount;

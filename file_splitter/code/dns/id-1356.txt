@@ -1,0 +1,36 @@
+//----- (00000001400AC5D0) ----------------------------------------------------
+void Tcp_ConnectionListReread()
+{
+  int Error; // eax
+  int buf; // [rsp+40h] [rbp+8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x16u, (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids);
+  }
+  EnterCriticalSection(&mg_TcpConnectionListCS);
+  if ( !g_bTcpSelectWoken )
+  {
+    buf = 0;
+    g_bTcpSelectWoken = 1;
+    if ( sendto(g_TcpSelectWakeupSocket, (const char *)&buf, 4, 0, &g_wakeupSockaddr, 128) < 0 )
+    {
+      Error = WSAGetLastError();
+      if ( Error != 10035
+        && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x17u,
+          (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+          Error);
+      }
+    }
+  }
+  LeaveCriticalSection(&mg_TcpConnectionListCS);
+}
+// 1401C7A30: using guessed type int g_bTcpSelectWoken;

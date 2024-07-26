@@ -1,0 +1,29 @@
+//----- (00000001400A57C0) ----------------------------------------------------
+__int64 __fastcall cfg_SetScopeOptionValue(__int64 a1)
+{
+  int v1; // edx
+
+  v1 = *(_DWORD *)(a1 + 8);
+  if ( v1 )
+  {
+    if ( (unsigned int)(v1 - 9) > 0xFFF5 || v1 == dword_1401B99B4 )
+    {
+      if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 4) != 0 )
+        Template_xxqb(a1, &DNS_EVENT_INVALID_SCOPE_EDNS_OPCODE, *(unsigned int *)(a1 + 8), 65432i64);
+      *(_DWORD *)(a1 + 8) = 65432;
+    }
+    else if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 1) != 0 )
+    {
+      Template_xqb(a1, &DNS_EVENT_SCOPE_EDNS_OPCODE_SET, *(unsigned int *)(a1 + 8));
+    }
+  }
+  else
+  {
+    *(_DWORD *)(a1 + 8) = 0;
+  }
+  return 0i64;
+}
+// 140186858: using guessed type EVENT_DESCRIPTOR DNS_EVENT_INVALID_SCOPE_EDNS_OPCODE;
+// 140187A58: using guessed type EVENT_DESCRIPTOR DNS_EVENT_SCOPE_EDNS_OPCODE_SET;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;
+// 1401B99B4: using guessed type int dword_1401B99B4;

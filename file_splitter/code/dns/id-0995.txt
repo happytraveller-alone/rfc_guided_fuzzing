@@ -1,0 +1,33 @@
+//----- (0000000140085E54) ----------------------------------------------------
+__int64 __fastcall validateNsecBitmaps(unsigned __int64 a1, unsigned __int64 a2, _DWORD *a3)
+{
+  int v3; // r10d
+  unsigned int v5; // r9d
+  unsigned __int8 *v6; // rcx
+  unsigned __int8 v7; // r8
+  _BYTE *v8; // rcx
+
+  v3 = 0;
+  *a3 = 0;
+  v5 = 1;
+  while ( 1 )
+  {
+    if ( a1 >= a2 )
+    {
+      *a3 = v3;
+      return v5;
+    }
+    if ( a1 + 2 > a2 )
+      break;
+    v6 = (unsigned __int8 *)(a1 + 1);
+    v7 = *v6;
+    v8 = v6 + 1;
+    if ( (unsigned __int8)(v7 - 1) > 0x1Fu )
+      break;
+    a1 = (unsigned __int64)&v8[v7];
+    if ( a1 > a2 )
+      break;
+    ++v3;
+  }
+  return 0;
+}

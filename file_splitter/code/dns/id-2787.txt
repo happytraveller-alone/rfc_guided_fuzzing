@@ -1,0 +1,84 @@
+//----- (0000000140149F94) ----------------------------------------------------
+__int64 __fastcall Get_PolicyObject(char *Src, __int64 a2)
+{
+  const void *v2; // rbx
+  unsigned __int64 v3; // r8
+  const void **v6; // rsi
+  const void **v7; // rdi
+  __int64 v8; // rcx
+  __int64 v9; // rcx
+  const void *v11[5]; // [rsp+20h] [rbp-A9h] BYREF
+  const void *v12[5]; // [rsp+48h] [rbp-81h] BYREF
+  const void *v13[5]; // [rsp+70h] [rbp-59h] BYREF
+  const void *v14[5]; // [rsp+98h] [rbp-31h] BYREF
+  const void *v15[3]; // [rsp+C0h] [rbp-9h] BYREF
+  unsigned __int64 v16; // [rsp+D8h] [rbp+Fh]
+
+  v2 = 0i64;
+  v16 = 7i64;
+  v3 = -1i64;
+  v15[2] = 0i64;
+  LOWORD(v15[0]) = 0;
+  do
+    ++v3;
+  while ( *(_WORD *)&Src[2 * v3] );
+  std::wstring::assign((char *)v15, Src, v3);
+  v6 = *(const void ***)(a2 + 8);
+  v7 = (const void **)v6[1];
+  while ( !*((_BYTE *)v7 + 73) )
+  {
+    v11[3] = (const void *)7;
+    v11[2] = 0i64;
+    LOWORD(v11[0]) = 0;
+    std::wstring::assign(v11, v15, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+    v12[3] = (const void *)7;
+    v12[2] = 0i64;
+    LOWORD(v12[0]) = 0;
+    std::wstring::assign(v12, v7 + 3, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+    if ( CDnsCompareName::operator()(v8, (__int64)v12, (__int64)v11) )
+    {
+      v7 = (const void **)v7[2];
+    }
+    else
+    {
+      v6 = v7;
+      v7 = (const void **)*v7;
+    }
+  }
+  if ( v6 == *(const void ***)(a2 + 8) )
+    goto LABEL_10;
+  v13[3] = (const void *)7;
+  v13[2] = 0i64;
+  LOWORD(v13[0]) = 0;
+  std::wstring::assign(v13, v6 + 3, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+  v14[3] = (const void *)7;
+  v14[2] = 0i64;
+  LOWORD(v14[0]) = 0;
+  std::wstring::assign(v14, v15, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+  if ( CDnsCompareName::operator()(v9, (__int64)v14, (__int64)v13) )
+LABEL_10:
+    v6 = *(const void ***)(a2 + 8);
+  if ( v6 == *(const void ***)(a2 + 8) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x7Fu,
+        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+        (const unsigned __int16 *)Src);
+    }
+  }
+  else
+  {
+    v2 = v6[8];
+  }
+  if ( v16 >= 8 )
+    operator delete((void *)v15[0]);
+  return (__int64)v2;
+}
+// 14014A04D: variable 'v8' is possibly undefined
+// 14014A0B3: variable 'v9' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

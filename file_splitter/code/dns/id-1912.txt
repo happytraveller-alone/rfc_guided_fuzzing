@@ -1,0 +1,12 @@
+//----- (00000001400E990C) ----------------------------------------------------
+void __fastcall DnsSign::CBadCommandLineException::~CBadCommandLineException(void **this)
+{
+  *this = &DnsSign::CException::`vftable';
+  if ( (unsigned __int64)this[5] >= 8 )
+    operator delete(this[2]);
+  this[5] = (void *)7;
+  this[4] = 0i64;
+  *((_WORD *)this + 8) = 0;
+}
+// 1401716A0: using guessed type void *DnsSign::CException::`vftable';
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

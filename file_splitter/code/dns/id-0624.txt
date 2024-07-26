@@ -1,0 +1,93 @@
+//----- (0000000140057824) ----------------------------------------------------
+void regenerateBackupExclusionKey()
+{
+  LPCWSTR v0; // rsi
+  int v1; // ebx
+  BYTE *v2; // rdi
+  __int64 v3; // rbx
+  size_t v4; // rbx
+  DWORD cbData; // ebp
+  wchar_t *v6; // rax
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  unsigned __int16 v8; // dx
+  int v9; // r9d
+  LSTATUS v10; // eax
+  HKEY hKey; // [rsp+60h] [rbp+8h] BYREF
+
+  v0 = g_pwszLogFileName;
+  hKey = 0i64;
+  v1 = 0;
+  v2 = 0i64;
+  if ( g_pwszLogFileName )
+  {
+    v3 = -1i64;
+    do
+      ++v3;
+    while ( g_pwszLogFileName[v3] );
+    v4 = v3 + 43;
+    cbData = 2 * v4;
+    v6 = (wchar_t *)Mem_Alloc(2 * (int)v4, 0i64, "ds\\dns\\server\\server\\log.c", 1744);
+    v2 = (BYTE *)v6;
+    if ( !v6 )
+    {
+      v1 = 14;
+      goto LABEL_19;
+    }
+    sprintfSafe(v6, v4, L"%s%c%s%c", L"%SystemRoot%\\system32\\dns\\backup\\dns.log", 0i64, v0, 0i64);
+    v1 = RegOpenKeyExW(
+           HKEY_LOCAL_MACHINE,
+           L"SYSTEM\\CurrentControlSet\\Control\\BackupRestore\\FilesNotToBackup",
+           0,
+           0x20006u,
+           &hKey);
+    if ( !hKey )
+      v1 = 87;
+    if ( v1 )
+    {
+      v7 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v8 = 16;
+        v9 = v1;
+LABEL_18:
+        WPP_SF_D(*((_QWORD *)v7 + 7), v8, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids, v9);
+      }
+    }
+    else
+    {
+      v10 = RegSetValueExW(hKey, L"DNS Server", 0, 7u, v2, cbData);
+      v1 = v10;
+      if ( v10 )
+      {
+        v7 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v8 = 17;
+          v9 = v10;
+          goto LABEL_18;
+        }
+      }
+    }
+  }
+LABEL_19:
+  Mem_Free(v2, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 1804);
+  if ( hKey )
+    RegCloseKey(hKey);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x12u,
+      (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids,
+      v1,
+      (__int64)L"SYSTEM\\CurrentControlSet\\Control\\BackupRestore\\FilesNotToBackup");
+  }
+}
+// 14018DE70: using guessed type wchar_t aSystemrootSyst[41];
+// 14018DEC8: using guessed type wchar_t aSCSC[9];

@@ -1,0 +1,151 @@
+//----- (000000014005EDA4) ----------------------------------------------------
+ULONG __fastcall Template_csscsqqqqqbz(
+        __int64 a1,
+        __int64 a2,
+        char a3,
+        const char *a4,
+        const char *a5,
+        char a6,
+        const char *a7,
+        char a8,
+        char a9,
+        char a10,
+        char a11,
+        int a12,
+        __int64 a13,
+        const unsigned __int16 *a14)
+{
+  __int64 v14; // rdx
+  __int64 v15; // rcx
+  int v16; // ecx
+  const char *v17; // r10
+  const char *v18; // rax
+  __int64 v19; // rcx
+  int v20; // ecx
+  const char *v21; // rax
+  __int64 v22; // rax
+  int v23; // eax
+  int v24; // ecx
+  const wchar_t *v25; // rax
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-C9h] BYREF
+  const char *v28; // [rsp+30h] [rbp-B9h]
+  int v29; // [rsp+38h] [rbp-B1h]
+  int v30; // [rsp+3Ch] [rbp-ADh]
+  const char *v31; // [rsp+40h] [rbp-A9h]
+  int v32; // [rsp+48h] [rbp-A1h]
+  int v33; // [rsp+4Ch] [rbp-9Dh]
+  char *v34; // [rsp+50h] [rbp-99h]
+  __int64 v35; // [rsp+58h] [rbp-91h]
+  const char *v36; // [rsp+60h] [rbp-89h]
+  int v37; // [rsp+68h] [rbp-81h]
+  int v38; // [rsp+6Ch] [rbp-7Dh]
+  char *v39; // [rsp+70h] [rbp-79h]
+  __int64 v40; // [rsp+78h] [rbp-71h]
+  char *v41; // [rsp+80h] [rbp-69h]
+  __int64 v42; // [rsp+88h] [rbp-61h]
+  char *v43; // [rsp+90h] [rbp-59h]
+  __int64 v44; // [rsp+98h] [rbp-51h]
+  char *v45; // [rsp+A0h] [rbp-49h]
+  __int64 v46; // [rsp+A8h] [rbp-41h]
+  int *v47; // [rsp+B0h] [rbp-39h]
+  __int64 v48; // [rsp+B8h] [rbp-31h]
+  __int64 v49; // [rsp+C0h] [rbp-29h]
+  int v50; // [rsp+C8h] [rbp-21h]
+  int v51; // [rsp+CCh] [rbp-1Dh]
+  const wchar_t *v52; // [rsp+D0h] [rbp-19h]
+  int v53; // [rsp+D8h] [rbp-11h]
+  int v54; // [rsp+DCh] [rbp-Dh]
+  char v55; // [rsp+110h] [rbp+27h] BYREF
+
+  v55 = a3;
+  *(_QWORD *)&UserData.Size = 1i64;
+  v14 = -1i64;
+  UserData.Ptr = (ULONGLONG)&v55;
+  if ( a4 )
+  {
+    v15 = -1i64;
+    do
+      ++v15;
+    while ( a4[v15] );
+    v16 = v15 + 1;
+  }
+  else
+  {
+    v16 = 5;
+  }
+  v17 = "NULL";
+  v29 = v16;
+  v18 = "NULL";
+  v30 = 0;
+  if ( a4 )
+    v18 = a4;
+  v28 = v18;
+  if ( a5 )
+  {
+    v19 = -1i64;
+    do
+      ++v19;
+    while ( a5[v19] );
+    v20 = v19 + 1;
+  }
+  else
+  {
+    v20 = 5;
+  }
+  v32 = v20;
+  v21 = "NULL";
+  if ( a5 )
+    v21 = a5;
+  v33 = 0;
+  v31 = v21;
+  v34 = &a6;
+  v35 = 1i64;
+  if ( a7 )
+  {
+    v22 = -1i64;
+    do
+      ++v22;
+    while ( a7[v22] );
+    v23 = v22 + 1;
+  }
+  else
+  {
+    v23 = 5;
+  }
+  v37 = v23;
+  v39 = &a8;
+  if ( a7 )
+    v17 = a7;
+  v36 = v17;
+  v41 = &a9;
+  v43 = &a10;
+  v45 = &a11;
+  v47 = &a12;
+  v49 = a13;
+  v50 = a12;
+  v38 = 0;
+  v40 = 4i64;
+  v42 = 4i64;
+  v44 = 4i64;
+  v46 = 4i64;
+  v48 = 4i64;
+  v51 = 0;
+  if ( a14 )
+  {
+    do
+      ++v14;
+    while ( a14[v14] );
+    v24 = 2 * v14 + 2;
+  }
+  else
+  {
+    v24 = 10;
+  }
+  v53 = v24;
+  v25 = L"NULL";
+  if ( a14 )
+    v25 = a14;
+  v54 = 0;
+  v52 = v25;
+  return EventWrite(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_QUERY_RECEIVED, 0xCu, &UserData);
+}

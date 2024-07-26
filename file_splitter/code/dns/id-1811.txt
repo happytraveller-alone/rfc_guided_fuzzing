@@ -1,0 +1,37 @@
+//----- (00000001400E5160) ----------------------------------------------------
+void std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::~_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>()
+{
+  __int64 v0; // rdi
+  __int64 *v1; // rbx
+  __int64 *v2; // r14
+  struct _RTL_CRITICAL_SECTION *v3; // rcx
+
+  v0 = qword_1401B9288;
+  v1 = *(__int64 **)(qword_1401B9288 + 8);
+  v2 = v1;
+  if ( !*((_BYTE *)v1 + 297) )
+  {
+    do
+    {
+      std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::_Erase(
+        (__int64)&g_RFC5011_Trust_Points,
+        (_QWORD *)v2[2]);
+      v2 = (__int64 *)*v2;
+      v3 = (struct _RTL_CRITICAL_SECTION *)v1[36];
+      if ( v3 )
+        TrustPoint::`scalar deleting destructor'(v3);
+      operator delete(v1);
+      v1 = v2;
+    }
+    while ( !*((_BYTE *)v2 + 297) );
+    v0 = qword_1401B9288;
+  }
+  *(_QWORD *)(v0 + 8) = v0;
+  *(_QWORD *)qword_1401B9288 = qword_1401B9288;
+  *(_QWORD *)(qword_1401B9288 + 16) = qword_1401B9288;
+  qword_1401B9290 = 0i64;
+  operator delete((void *)qword_1401B9288);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B9288: using guessed type __int64 qword_1401B9288;
+// 1401B9290: using guessed type __int64 qword_1401B9290;

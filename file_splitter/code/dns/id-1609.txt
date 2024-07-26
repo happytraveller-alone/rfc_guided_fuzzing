@@ -1,0 +1,70 @@
+//----- (00000001400CB73C) ----------------------------------------------------
+void Zone_ListMigrateZones()
+{
+  CDnsClientSubnetRecordsTrie *v0; // rcx
+  const char *v1; // r9
+  __int64 *i; // rdx
+  int v3; // r9d
+  const unsigned __int16 **NextZone; // rax
+  __int64 *v5; // rbx
+  int v6; // ecx
+
+  if ( g_ServerState == 2 )
+  {
+    v0 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v1 = "CurrentControlSet";
+      if ( g_ZonesRegistrySource == 1 )
+        v1 = "Software";
+      WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xDu, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, v1);
+      v0 = WPP_GLOBAL_Control;
+    }
+    if ( g_ZonesRegistrySource != 1 )
+    {
+      if ( v0 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v0 + 68) & 0x10) != 0
+        && *((_BYTE *)v0 + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)v0 + 7), 0xBu, (__int64)&WPP_e9bd1dc2a46f305bdfd2287edb3f40c9_Traceguids);
+      }
+      EnterCriticalSection(&csZoneList);
+      Reg_SetZonesSource(1);
+      for ( i = 0i64; ; i = v5 )
+      {
+        NextZone = Zone_ListGetNextZoneEx(0i64, i, 0);
+        v5 = (__int64 *)NextZone;
+        if ( !NextZone )
+        {
+          Reg_SetZonesSource(0);
+          Reg_DeleteAllZones();
+          v6 = 1;
+          goto LABEL_18;
+        }
+        v3 = Zone_WriteZoneToRegistry((__int64)NextZone);
+        if ( v3 )
+          break;
+      }
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xCu,
+          (__int64)&WPP_e9bd1dc2a46f305bdfd2287edb3f40c9_Traceguids,
+          v3,
+          v5[2]);
+      }
+      Reg_DeleteAllZones();
+      v6 = 0;
+LABEL_18:
+      Reg_SetZonesSource(v6);
+      LeaveCriticalSection(&csZoneList);
+    }
+  }
+}
+// 1401B7EB0: using guessed type int g_ServerState;
+// 1401B9024: using guessed type int g_ZonesRegistrySource;

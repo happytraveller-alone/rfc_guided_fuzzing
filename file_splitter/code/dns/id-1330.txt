@@ -1,0 +1,36 @@
+//----- (00000001400A9B50) ----------------------------------------------------
+__int64 __fastcall Rpc_CreatePolicy(__int64 a1, const char *a2, __int64 a3, __int64 a4, __int64 a5, char **a6)
+{
+  unsigned int CDNSPolicy; // ebx
+
+  CDNSPolicy = Policy_AcquireWriteLock(&g_hServerLevelPolicyLock, (unsigned int)a2);
+  if ( CDNSPolicy )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x43u,
+        (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids,
+        CDNSPolicy);
+    }
+  }
+  else
+  {
+    if ( !_strnicmp("CreatePolicy", a2, 0xDui64) )
+    {
+      CDNSPolicy = Create_CDNSPolicy(0i64, (__int64)a6, 0);
+      if ( !CDNSPolicy )
+        LogCreatePolicyEvent(0i64, (__int64)a6);
+    }
+    else if ( !_strnicmp("UpdatePolicy", a2, 0xDui64) )
+    {
+      CDNSPolicy = Update_CDNSPolicy(0i64, a6);
+    }
+    Lock_ReleaseWrite(g_hServerLevelPolicyLock);
+  }
+  return CDNSPolicy;
+}
+// 1401B9240: using guessed type __int64 g_hServerLevelPolicyLock;

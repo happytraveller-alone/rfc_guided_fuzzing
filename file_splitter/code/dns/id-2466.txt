@@ -1,0 +1,115 @@
+//----- (000000014012AEE0) ----------------------------------------------------
+_OWORD *__fastcall std::num_put<unsigned short,std::ostreambuf_iterator<unsigned short>>::do_put(
+        __int64 a1,
+        _OWORD *a2,
+        __int128 *a3,
+        __int64 a4,
+        unsigned __int16 a5,
+        char a6)
+{
+  unsigned __int16 v9; // si
+  __int64 *v10; // rax
+  struct std::locale::facet *v11; // rbx
+  void **v12; // rax
+  unsigned __int16 **v13; // rcx
+  __int64 v14; // rbx
+  unsigned __int64 v15; // rdi
+  __int64 v16; // rbx
+  __int128 v17; // xmm0
+  void **v18; // r14
+  __int64 v19; // rsi
+  unsigned __int16 v20; // r8
+  int v21; // ecx
+  unsigned __int16 *v22; // rdx
+  __int128 v24; // [rsp+50h] [rbp-79h] BYREF
+  __int64 v25; // [rsp+60h] [rbp-69h]
+  __int128 v26; // [rsp+68h] [rbp-61h] BYREF
+  void *v27[2]; // [rsp+78h] [rbp-51h] BYREF
+  unsigned __int64 v28; // [rsp+88h] [rbp-41h]
+  unsigned __int64 v29; // [rsp+90h] [rbp-39h]
+  void *v30[5]; // [rsp+A0h] [rbp-29h] BYREF
+
+  v25 = -2i64;
+  v9 = a5;
+  if ( (*(_DWORD *)(a4 + 24) & 0x4000) != 0 )
+  {
+    v10 = std::ios_base::getloc(a4, (__int64 *)&v24);
+    v11 = std::use_facet<std::numpunct<unsigned short>>(v10);
+    std::locale::~locale((std::locale *)&v24);
+    v29 = 7i64;
+    v28 = 0i64;
+    LOWORD(v27[0]) = 0;
+    if ( a6 )
+      v12 = (void **)std::numpunct<unsigned short>::truename((__int64)v11, (__int64)v30);
+    else
+      v12 = (void **)std::numpunct<unsigned short>::falsename((__int64)v11, (__int64)v30);
+    std::wstring::assign(v27, v12);
+    if ( v30[3] >= (void *)8 )
+      operator delete(v30[0]);
+    v14 = *(_QWORD *)(a4 + 40);
+    v15 = v28;
+    if ( v14 <= 0 || v14 <= v28 )
+      v16 = 0i64;
+    else
+      v16 = v14 - v28;
+    if ( (*(_DWORD *)(a4 + 24) & 0x1C0) != 64 )
+    {
+      v24 = *a3;
+      *a3 = *std::num_put<unsigned short,std::ostreambuf_iterator<unsigned short>>::_Rep(
+               (__int64)v13,
+               &v26,
+               (__int64)&v24,
+               a5,
+               v16);
+      v16 = 0i64;
+      v15 = v28;
+    }
+    v17 = *a3;
+    v24 = *a3;
+    v18 = v27;
+    if ( v29 >= 8 )
+      v18 = (void **)v27[0];
+    if ( v15 )
+    {
+      v19 = *((_QWORD *)&v24 + 1);
+      do
+      {
+        v20 = *(_WORD *)v18;
+        if ( !v19
+          || (!**(_QWORD **)(v19 + 72) ? (v21 = 0) : (v21 = **(_DWORD **)(v19 + 96)),
+              v21 <= 0
+            ? (v20 = (*(__int64 (__fastcall **)(__int64, _QWORD))(*(_QWORD *)v19 + 24i64))(v19, v20))
+            : (--**(_DWORD **)(v19 + 96), v13 = *(unsigned __int16 ***)(v19 + 72), v22 = *v13, ++*v13, *v22 = v20),
+              v20 == 0xFFFF) )
+        {
+          LOBYTE(v24) = 1;
+        }
+        v18 = (void **)((char *)v18 + 2);
+        --v15;
+      }
+      while ( v15 );
+      v17 = v24;
+      v9 = a5;
+    }
+    *a3 = v17;
+    *(_QWORD *)(a4 + 40) = 0i64;
+    v24 = *a3;
+    std::num_put<unsigned short,std::ostreambuf_iterator<unsigned short>>::_Rep(
+      (__int64)v13,
+      a2,
+      (__int64)&v24,
+      v9,
+      v16);
+    if ( v29 >= 8 )
+      operator delete(v27[0]);
+  }
+  else
+  {
+    v24 = *a3;
+    (*(void (__fastcall **)(__int64, _OWORD *, __int128 *))(*(_QWORD *)a1 + 56i64))(a1, a2, &v24);
+  }
+  return a2;
+}
+// 14012B01A: variable 'v13' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

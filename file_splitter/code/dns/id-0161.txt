@@ -1,0 +1,43 @@
+//----- (0000000140014300) ----------------------------------------------------
+__int64 __fastcall Msg_CreateSendMessage(int a1)
+{
+  __int64 TcpMessage; // rax
+  __int64 v2; // rdi
+  __int64 result; // rax
+  void *v4; // rcx
+  int FamilyCount; // eax
+  __int16 v6; // cx
+
+  if ( a1 )
+    TcpMessage = (__int64)Packet_AllocateTcpMessage(a1);
+  else
+    TcpMessage = Packet_AllocateUdpMessage();
+  v2 = TcpMessage;
+  if ( TcpMessage )
+  {
+    *(_QWORD *)(TcpMessage + 6304) = 0i64;
+    *(_DWORD *)(TcpMessage + 6312) = 0;
+    *(_QWORD *)(TcpMessage + 32) = TcpMessage + 6316;
+    *(_QWORD *)(TcpMessage + 56) = g_UdpSendSocket4;
+    *(_BYTE *)(TcpMessage + 1412) = 0;
+    memset_0((void *)(TcpMessage + 64), 0, 0x40ui64);
+    v4 = g_ServerAddrs;
+    *(_DWORD *)(v2 + 96) = 32;
+    FamilyCount = DnsAddrArray_GetFamilyCount((__int64)v4, 2);
+    *(_WORD *)(v2 + 66) = 13568;
+    v6 = FamilyCount != 0 ? 0xFFEB : 0;
+    result = v2;
+    *(_WORD *)(v2 + 64) = v6 + 23;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_85122b8292e131b12c3e63125c6a84cb_Traceguids);
+    }
+    return 0i64;
+  }
+  return result;
+}

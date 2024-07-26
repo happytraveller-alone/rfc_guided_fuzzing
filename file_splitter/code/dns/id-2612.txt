@@ -1,0 +1,150 @@
+//----- (000000014013496C) ----------------------------------------------------
+__int64 __fastcall CDnsPolicyManager::InitializePolicyCriteriaSearchTrees(CDnsPolicyManager *this)
+{
+  unsigned __int16 v1; // si
+  unsigned int LastError; // ebx
+  void *v3; // rax
+  void *v4; // rdi
+  void *v5; // rax
+  void *v6; // rdi
+  void *v7; // rax
+  void *v8; // rdi
+  void *v9; // rax
+  void *v10; // rdi
+  void *v11; // rax
+  void *v12; // rdi
+  _QWORD *v13; // rcx
+  _DWORD *v14; // rdx
+  __int64 v15; // r8
+  __int64 v16; // r9
+  __int64 v17; // r10
+  __int64 v18; // r11
+  int v19; // eax
+
+  v1 = 0;
+  LastError = 0;
+  v3 = operator new(0x38ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v4 = v3;
+  if ( v3 )
+  {
+    memset_0(v3, 0, 0x38ui64);
+    g_PolicyCriteriaSearchRootsQP = v4;
+  }
+  else
+  {
+    v4 = 0i64;
+    g_PolicyCriteriaSearchRootsQP = 0i64;
+  }
+  if ( !v4 )
+    goto LABEL_5;
+  qword_1401B9218 = (__int64)Lock_Create();
+  if ( !qword_1401B9218 )
+    goto LABEL_5;
+  v5 = operator new(0x38ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v6 = v5;
+  if ( v5 )
+  {
+    memset_0(v5, 0, 0x38ui64);
+    g_PolicyCriteriaSearchRootsDU = v6;
+  }
+  else
+  {
+    v6 = 0i64;
+    g_PolicyCriteriaSearchRootsDU = 0i64;
+  }
+  if ( !v6 )
+    goto LABEL_5;
+  qword_1401B9238 = (__int64)Lock_Create();
+  if ( !qword_1401B9238 )
+    goto LABEL_5;
+  v7 = operator new(0x38ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v8 = v7;
+  if ( v7 )
+  {
+    memset_0(v7, 0, 0x38ui64);
+    g_PolicyCriteriaSearchRootsXfr = v8;
+  }
+  else
+  {
+    v8 = 0i64;
+    g_PolicyCriteriaSearchRootsXfr = 0i64;
+  }
+  if ( !v8 )
+    goto LABEL_5;
+  qword_1401B91F8 = (__int64)Lock_Create();
+  if ( !qword_1401B91F8 )
+    goto LABEL_5;
+  v9 = operator new(0x38ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v10 = v9;
+  if ( v9 )
+  {
+    memset_0(v9, 0, 0x38ui64);
+    g_PolicyCriteriaSearchRootsRecursion = v10;
+  }
+  else
+  {
+    v10 = 0i64;
+    g_PolicyCriteriaSearchRootsRecursion = 0i64;
+  }
+  if ( !v10 )
+    goto LABEL_5;
+  qword_1401B9208 = (__int64)Lock_Create();
+  if ( !qword_1401B9208 )
+    goto LABEL_5;
+  v11 = operator new(0x38ui64, (const struct std::nothrow_t *)&std::nothrow);
+  v12 = v11;
+  if ( v11 )
+  {
+    memset_0(v11, 0, 0x38ui64);
+    g_PolicyCriteriaSearchRootsRRLExceptionlist = v12;
+  }
+  else
+  {
+    v12 = 0i64;
+    g_PolicyCriteriaSearchRootsRRLExceptionlist = 0i64;
+  }
+  if ( v12 && (qword_1401B9228 = (__int64)Lock_Create()) != 0 && (hClientSubnetRecordsLock = Lock_Create()) != 0i64 )
+  {
+    v13 = (_QWORD *)g_PolicyCriteriaSearchRootsDU;
+    v14 = PolicyCriteriaOrder;
+    v15 = g_PolicyCriteriaSearchRootsQP - g_PolicyCriteriaSearchRootsDU;
+    v16 = g_PolicyCriteriaSearchRootsXfr - g_PolicyCriteriaSearchRootsDU;
+    v17 = g_PolicyCriteriaSearchRootsRecursion - g_PolicyCriteriaSearchRootsDU;
+    v18 = g_PolicyCriteriaSearchRootsRRLExceptionlist - g_PolicyCriteriaSearchRootsDU;
+    do
+    {
+      *(_QWORD *)((char *)v13 + v15) = 0i64;
+      *v13 = 0i64;
+      *(_QWORD *)((char *)v13 + v16) = 0i64;
+      *(_QWORD *)((char *)v13 + v17) = 0i64;
+      v19 = v1++;
+      *(_QWORD *)((char *)v13++ + v18) = 0i64;
+      *v14++ = v19;
+    }
+    while ( v1 < 7u );
+  }
+  else
+  {
+LABEL_5:
+    LastError = GetLastError();
+  }
+  if ( LastError
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Fu,
+      (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+      LastError);
+  }
+  return LastError;
+}
+// 1401B91D0: using guessed type _DWORD PolicyCriteriaOrder[7];
+// 1401B91F8: using guessed type __int64 qword_1401B91F8;
+// 1401B9208: using guessed type __int64 qword_1401B9208;
+// 1401B9218: using guessed type __int64 qword_1401B9218;
+// 1401B9228: using guessed type __int64 qword_1401B9228;
+// 1401B9238: using guessed type __int64 qword_1401B9238;
+// 1401B9DB8: using guessed type void *hClientSubnetRecordsLock;

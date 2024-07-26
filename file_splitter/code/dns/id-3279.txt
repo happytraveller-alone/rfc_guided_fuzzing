@@ -1,0 +1,100 @@
+//----- (0000000140170AD8) ----------------------------------------------------
+__int64 __fastcall WPP_SF_sdsddddddS(
+        __int64 a1,
+        __int64 a2,
+        const char *a3,
+        int a4,
+        const char *a5,
+        __int64 a6,
+        __int64 a7,
+        __int64 a8,
+        __int64 a9,
+        __int64 a10,
+        __int64 a11,
+        const wchar_t *a12)
+{
+  __int64 v12; // r9
+  __int64 v14; // rcx
+  __int64 v15; // rcx
+  __int64 v16; // r10
+  __int64 v17; // r10
+  __int64 v18; // r9
+  const char *v19; // r8
+  const wchar_t *v20; // rax
+  const char *v21; // rdx
+  int v23; // [rsp+E8h] [rbp+20h] BYREF
+
+  v23 = a4;
+  v12 = -1i64;
+  if ( a12 )
+  {
+    v14 = -1i64;
+    do
+      ++v14;
+    while ( a12[v14] );
+    v15 = v14 + 1;
+  }
+  else
+  {
+    v15 = 5i64;
+  }
+  if ( a5 )
+  {
+    v16 = -1i64;
+    do
+      ++v16;
+    while ( a5[v16] );
+    v17 = v16 + 1;
+  }
+  else
+  {
+    v17 = 5i64;
+  }
+  if ( a3 )
+  {
+    do
+      ++v12;
+    while ( a3[v12] );
+    v18 = v12 + 1;
+  }
+  else
+  {
+    v18 = 5i64;
+  }
+  v19 = "NULL";
+  v20 = L"NULL";
+  if ( a12 )
+    v20 = a12;
+  v21 = "NULL";
+  if ( a5 )
+    v21 = a5;
+  if ( a3 )
+    v19 = a3;
+  return FastWppTraceMessage(
+           (__int64)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids,
+           0x18u,
+           v19,
+           v18,
+           &v23,
+           4i64,
+           v21,
+           v17,
+           &a6,
+           4i64,
+           &a7,
+           4i64,
+           &a8,
+           4i64,
+           &a9,
+           4i64,
+           &a10,
+           4i64,
+           &a11,
+           4i64,
+           v20,
+           2 * v15,
+           0i64);
+}
+
+// nfuncs=3340 queued=3279 decompiled=3279 lumina nreq=0 worse=0 better=0
+// ALL OK, 3279 function(s) have been successfully decompiled

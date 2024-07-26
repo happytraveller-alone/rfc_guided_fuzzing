@@ -1,0 +1,165 @@
+//----- (000000014003EDF8) ----------------------------------------------------
+__int64 __fastcall Ds_OpenZone(__int64 a1)
+{
+  unsigned int v2; // ebx
+  wchar_t *v3; // r13
+  int v4; // r12d
+  __int64 *v5; // r15
+  __int64 v6; // r14
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  DWORD TickCount; // ebx
+  ULONG v9; // r14d
+  LDAPMessage *entry; // rax
+  unsigned int v11; // r9d
+  __int64 v13[2]; // [rsp+60h] [rbp-48h] BYREF
+  void *ServerControls[2]; // [rsp+70h] [rbp-38h] BYREF
+  PLDAPMessage v15; // [rsp+B8h] [rbp+10h] BYREF
+  LDAPMessage *res; // [rsp+C0h] [rbp+18h]
+
+  v15 = 0i64;
+  v2 = 0;
+  ServerControls[0] = &SecurityDescriptorControl_DGO;
+  ServerControls[1] = 0i64;
+  if ( !pServerLdap )
+  {
+    v2 = Ds_OpenServer(4096);
+    if ( v2 )
+      goto LABEL_23;
+  }
+  if ( *(_DWORD *)(a1 + 372) || *(_QWORD *)(a1 + 840) )
+    goto LABEL_24;
+  v3 = (wchar_t *)Mem_Alloc(0xA02u, 0i64, "ds\\dns\\server\\server\\ds.c", 9061);
+  if ( !v3 )
+  {
+    v2 = 14;
+    goto LABEL_18;
+  }
+  v4 = 0;
+  v13[0] = g_pDomainDp;
+  v5 = v13;
+  v13[1] = g_pLegacyDp;
+  while ( 1 )
+  {
+    v6 = *v5;
+    if ( !*v5 || (*(_BYTE *)(v6 + 100) & 0x10) == 0 || !*(_QWORD *)(v6 + 40) )
+      goto LABEL_12;
+    if ( StringCbPrintfW(v3, 0xA02ui64, L"DC=%s,%s%s", L"RootDNSServers", L"cn=MicrosoftDNS,", *(_QWORD *)(v6 + 40)) < 0 )
+      break;
+    res = Ds_LoadOrCreateDSObject(0i64, v3, 0i64, 0, 0i64, 0i64);
+    if ( res )
+    {
+      v2 = Zone_DatabaseSetup(a1, 1u, 0i64, 0, 0, v6, 0, 0i64);
+      ldap_msgfree(res);
+      goto LABEL_16;
+    }
+LABEL_12:
+    ++v4;
+    ++v5;
+    if ( (unsigned __int64)v4 >= 2 )
+      goto LABEL_16;
+  }
+  v2 = 14;
+LABEL_16:
+  Mem_Free(v3, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 9127);
+LABEL_18:
+  if ( v2 )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    {
+      if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xD8u,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          v2);
+        goto LABEL_23;
+      }
+LABEL_40:
+      if ( v7 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)v7 + 17) & 0x400) != 0
+        && *((_BYTE *)v7 + 65) >= 4u )
+      {
+        WPP_SF_DsS(
+          *((_QWORD *)v7 + 7),
+          0xDBu,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          v2,
+          *(_QWORD *)(a1 + 16),
+          *(_QWORD *)(a1 + 840));
+      }
+    }
+    goto LABEL_44;
+  }
+LABEL_24:
+  DS_CreateZoneDsName(a1);
+  if ( !*(_QWORD *)(a1 + 840) )
+  {
+    v2 = 14;
+LABEL_23:
+    v7 = WPP_GLOBAL_Control;
+    goto LABEL_40;
+  }
+  TickCount = GetTickCount();
+  v9 = ldap_search_ext_sW(
+         pServerLdap,
+         *(const PWSTR *)(a1 + 840),
+         0,
+         g_szDnsZoneFilter,
+         &DsTypeAttributeTable,
+         0,
+         (PLDAPControlW *)ServerControls,
+         0i64,
+         &g_LdapTimeout,
+         0,
+         &v15);
+  _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - TickCount);
+  if ( v9 )
+  {
+    v2 = Ds_ErrorHandler(v9, *(_QWORD *)(a1 + 840), pServerLdap, 0);
+    goto LABEL_23;
+  }
+  entry = ldap_first_entry(pServerLdap, v15);
+  Ds_ReadZoneProperties(a1, entry);
+  v11 = *(_DWORD *)(a1 + 372);
+  if ( v11 == 2 || v11 >= 5 )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xD9u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        v11,
+        *(_QWORD *)(a1 + 16));
+      v7 = WPP_GLOBAL_Control;
+    }
+    v2 = 9611;
+    goto LABEL_40;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_sS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xDAu,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      *(const char **)(a1 + 16),
+      *(_QWORD *)(a1 + 840));
+  }
+  v2 = 0;
+LABEL_44:
+  if ( v15 )
+    ldap_msgfree(v15);
+  return v2;
+}
+// 1401B8C98: using guessed type __int64 g_pDomainDp;
+// 1401B8D10: using guessed type __int64 g_pLegacyDp;
+// 1401C7D48: using guessed type int dword_1401C7D48;
+// 1401EC440: using guessed type __int64 SecurityDescriptorControl_DGO;
+// 14003EDF8: using guessed type PLDAPControlW var_38[2];

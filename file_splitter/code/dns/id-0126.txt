@@ -1,0 +1,127 @@
+//----- (0000000140010C7C) ----------------------------------------------------
+__int64 __fastcall loadZonesIntoDbase(const unsigned __int16 **a1)
+{
+  int v1; // r15d
+  unsigned int v2; // edi
+  int StartLoadingThreads; // r14d
+  const unsigned __int16 **i; // rax
+  __int64 v6; // rcx
+  int v7; // ebp
+  int Zone; // eax
+  __int64 v9; // rdx
+  const wchar_t *v10; // rax
+  const unsigned __int16 **v11; // rax
+  const unsigned __int16 *v12; // rcx
+  __int64 v13; // rax
+  __int64 v14; // rbx
+  __int64 v15; // rdx
+  __int128 v17; // [rsp+40h] [rbp-28h] BYREF
+
+  v1 = 0;
+  v2 = 0;
+  StartLoadingThreads = 13;
+  for ( i = Zone_ListGetNextZoneEx(a1, 0i64, 0); ; i = Zone_ListGetNextZoneEx(a1, (__int64 *)v14, 0) )
+  {
+    v14 = (__int64)i;
+    if ( !i )
+      break;
+    if ( *((_DWORD *)i + 93) )
+    {
+      v7 = _stricmp((const char *)i[2], "TrustAnchors") == 0;
+      Zone = loadZone(v14, v7);
+      StartLoadingThreads = Zone;
+      if ( !Zone || (unsigned int)(*(_DWORD *)(v14 + 372) - 2) <= 1 && Zone == 2 )
+      {
+        if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 2) != 0 )
+        {
+          v11 = *(const unsigned __int16 ***)(v14 + 200);
+          if ( v11 )
+            v12 = *v11;
+          else
+            v12 = L".";
+          Template_zzsz(
+            (__int64)v12,
+            v9,
+            *(const unsigned __int16 **)(v14 + 24),
+            *(const unsigned __int16 **)(v14 + 144),
+            Str,
+            v12);
+        }
+        ++v1;
+        if ( (*(_BYTE *)(v14 + 388) & 2) != 0 )
+          ++v2;
+        if ( dword_1401B98F8 )
+        {
+          v13 = g_pTrustAnchorsZone;
+          if ( v7 )
+            v13 = v14;
+          g_pTrustAnchorsZone = v13;
+        }
+        if ( *(_QWORD *)(v14 + 184) )
+          loadZoneScopes(v14);
+      }
+      else
+      {
+        if ( v7 && (Microsoft_Windows_DNS_Server_ServiceEnableBits & 0x10000) != 0 )
+          Template_z(
+            Microsoft_Windows_DNS_Server_ServiceHandle,
+            &DNS_EVENT_CANNOT_LOAD_TRUST_ANCHORS,
+            *(const unsigned __int16 **)(v14 + 24));
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          if ( a1 )
+            v10 = *a1;
+          else
+            v10 = L".";
+          WPP_SF_SS(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x24u,
+            (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+            *(const unsigned __int16 **)(v14 + 24),
+            (__int64)v10);
+        }
+      }
+    }
+  }
+  DnsOls_ResetZoneKeymasterFlags(v6, 1);
+  if ( v1 <= 0 && !a1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x25u, (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids);
+    }
+    v17 = DNS_EVENT_CACHING_SERVER_ONLY;
+    Eventlog_LogEvent((__int64)&v17, v15, 0, 0i64, 0i64, 0, 0, 0i64);
+LABEL_40:
+    if ( v2 )
+      return 0i64;
+    goto LABEL_41;
+  }
+  if ( v2 )
+  {
+    StartLoadingThreads = DsLoad_StartLoadingThreads(v2);
+    goto LABEL_40;
+  }
+LABEL_41:
+  if ( v1 > 0 )
+  {
+    v17 = DNS_EVENT_ZONE_LOAD_COMPLETE;
+    Eventlog_LogEvent((__int64)&v17, v15, 0, 0i64, 0i64, StartLoadingThreads, 0, 0i64);
+  }
+  DnsBL_AutoconfigureBlocklist();
+  return 0i64;
+}
+// 140010EEC: conditional instruction was optimized away because edi.4==0
+// 140010DCD: variable 'v9' is possibly undefined
+// 140010E35: variable 'v6' is possibly undefined
+// 140010E9B: variable 'v15' is possibly undefined
+// 140186308: using guessed type __int128 DNS_EVENT_CACHING_SERVER_ONLY;
+// 140186D30: using guessed type EVENT_DESCRIPTOR DNS_EVENT_CANNOT_LOAD_TRUST_ANCHORS;
+// 140186FB0: using guessed type __int128 DNS_EVENT_ZONE_LOAD_COMPLETE;
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;
+// 1401B98F8: using guessed type int dword_1401B98F8;

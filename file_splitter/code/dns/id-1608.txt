@@ -1,0 +1,67 @@
+//----- (00000001400CB610) ----------------------------------------------------
+const unsigned __int16 **__fastcall Zone_ListGetNextZoneEx(const unsigned __int16 **a1, __int64 *a2, int a3)
+{
+  struct _RTL_CRITICAL_SECTION *v3; // rbp
+  const unsigned __int16 **v7; // rax
+  struct _RTL_CRITICAL_SECTION *v8; // rcx
+  const unsigned __int16 **v9; // rsi
+  __int64 **v10; // r14
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  const unsigned __int16 *v12; // r9
+  const unsigned __int16 **v13; // rbx
+
+  v3 = &csZoneList;
+  if ( !a3 )
+  {
+    v7 = a1 + 8;
+    v8 = &csZoneList;
+    if ( a1 )
+      v8 = (struct _RTL_CRITICAL_SECTION *)v7;
+    EnterCriticalSection(v8);
+  }
+  v9 = (const unsigned __int16 **)&listheadZone;
+  if ( a2 )
+  {
+    v10 = (__int64 **)(a2 + 1);
+    if ( *(__int64 **)a2[1] != a2 )
+    {
+      v11 = WPP_GLOBAL_Control;
+      do
+      {
+        if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)v11 + 68) & 0x10) != 0
+          && *((_BYTE *)v11 + 65) >= 5u )
+        {
+          if ( a1 )
+            v12 = *a1;
+          else
+            v12 = L".";
+          WPP_SF_Ss(*((_QWORD *)v11 + 7), 0xAu, (__int64)&WPP_e9bd1dc2a46f305bdfd2287edb3f40c9_Traceguids, v12, a2[2]);
+          v11 = WPP_GLOBAL_Control;
+        }
+        a2 = *v10;
+        v10 = (__int64 **)(*v10 + 1);
+      }
+      while ( (__int64 *)**v10 != a2 );
+    }
+  }
+  else
+  {
+    a2 = &listheadZone;
+    if ( a1 )
+      a2 = (__int64 *)(a1 + 5);
+  }
+  v13 = (const unsigned __int16 **)*a2;
+  if ( !a3 )
+  {
+    if ( a1 )
+      v3 = (struct _RTL_CRITICAL_SECTION *)(a1 + 8);
+    LeaveCriticalSection(v3);
+  }
+  if ( a1 )
+    v9 = a1 + 5;
+  if ( v13 == v9 )
+    return 0i64;
+  return v13;
+}
+// 1401BA3B0: using guessed type __int64 listheadZone;

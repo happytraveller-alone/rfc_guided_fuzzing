@@ -1,0 +1,35 @@
+//----- (0000000140099A2C) ----------------------------------------------------
+__int64 Security_Initialize()
+{
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xFu, (__int64)&WPP_dbf3f831936d348c620109e06a2c93ef_Traceguids);
+  }
+  g_pDefaultServerSD = 0i64;
+  g_pServerObjectSD = 0i64;
+  g_pServerSid = 0i64;
+  g_pServerGroupSid = 0i64;
+  g_pDnsAdminSid = 0i64;
+  g_pAuthenticatedUserSid = 0i64;
+  g_pEnterpriseDomainControllersSid = 0i64;
+  g_pDomainControllersSid = 0i64;
+  g_pEnterpriseReadOnlyDomainControllersSid = 0i64;
+  g_pReadOnlyDomainControllersSid = 0i64;
+  g_pLocalSystemSid = 0i64;
+  g_pEveryoneSid = 0i64;
+  g_pDomainAdminsSid = 0i64;
+  g_pDynuproxSid = 0i64;
+  g_pEnterpriseAdminsSid = 0i64;
+  g_pBuiltInAdminsSid = 0i64;
+  Security_CreateStandardSids();
+  return 0i64;
+}
+// 1401C94A8: using guessed type __int64 g_pBuiltInAdminsSid;
+// 1401C94B0: using guessed type __int64 g_pServerObjectSD;
+// 1401C94C8: using guessed type __int64 g_pDefaultServerSD;
+// 1401C94F0: using guessed type __int64 g_pDomainControllersSid;
+// 1401C94F8: using guessed type __int64 g_pDomainAdminsSid;
+// 1401C9508: using guessed type __int64 g_pDnsAdminSid;
+// 1401C9520: using guessed type __int64 g_pEnterpriseAdminsSid;

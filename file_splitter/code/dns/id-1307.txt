@@ -1,0 +1,20 @@
+//----- (00000001400A7980) ----------------------------------------------------
+__int64 Rpc_ClearDebugLog()
+{
+  __int16 v1[256]; // [rsp+20h] [rbp-218h] BYREF
+
+  memset_0(v1, 0, sizeof(v1));
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x12u, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids);
+  }
+  Log_InitializeLogging(0, 0, (char *)v1);
+  if ( (dword_1401B9104 & 0x800) != 0 )
+    Template_z(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_CLEAR_DEBUG_LOGS, (const unsigned __int16 *)v1);
+  return 0i64;
+}
+// 140186178: using guessed type EVENT_DESCRIPTOR DNS_EVENT_CLEAR_DEBUG_LOGS;
+// 1401B9104: using guessed type int dword_1401B9104;
+// 1400A7980: using guessed type unsigned __int16 var_218[256];

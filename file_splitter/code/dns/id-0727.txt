@@ -1,0 +1,35 @@
+//----- (0000000140065818) ----------------------------------------------------
+void __fastcall cleanupNbstatQuery(struct _DNS_MSGINFO *a1, unsigned int a2)
+{
+  _QWORD *v3; // rdi
+
+  v3 = (_QWORD *)*((_QWORD *)a1 + 165);
+  if ( *((_DWORD *)a1 + 348) == dwInterfaceBitmask )
+  {
+    PQ_YankQueuedPacket(pNbstatPrivateQueue, (__int64 *)a1, 0);
+    if ( !*((_BYTE *)a1 + 1396) )
+    {
+      *((_BYTE *)a1 + 1396) = 1;
+      Send_NameError(a1, 0i64);
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x2Cu,
+        (__int64)&WPP_fc3a6397bf853e2fe940ea821e43295b_Traceguids,
+        a1);
+    }
+    freeNbstatBuffer(v3);
+    *((_QWORD *)a1 + 165) = 0i64;
+    Packet_Free((__int64)a1);
+  }
+  else
+  {
+    LODWORD(v3[262 * a2]) = -572662307;
+  }
+}
+// 1401CBDD8: using guessed type int dwInterfaceBitmask;
+// 1401CBE08: using guessed type __int64 pNbstatPrivateQueue;

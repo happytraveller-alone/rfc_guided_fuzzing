@@ -1,0 +1,34 @@
+//----- (00000001400AFEAC) ----------------------------------------------------
+void __fastcall Timeout_FreeWithFunctionEx(__int64 a1, __int64 a2, __int64 a3, int a4)
+{
+  _QWORD *v8; // rax
+  _QWORD *v9; // rbx
+
+  if ( a1 )
+  {
+    if ( !(unsigned int)Mem_VerifyHeapBlock(a1, 0, 0) )
+      Dbg_HardAssert("ds\\dns\\server\\server\\timeout.c", 0x64Cu, "Mem_VerifyHeapBlock( pItem, 0, 0 )");
+    v8 = Mem_Alloc(0x28u, 7i64, "ds\\dns\\server\\server\\timeout.c", 1618);
+    v9 = v8;
+    if ( v8 )
+    {
+      *((_DWORD *)v8 + 8) = -568660482;
+      v8[1] = a1;
+      v8[2] = a2;
+      v8[3] = a3;
+      *((_DWORD *)v8 + 9) = a4;
+      _InterlockedIncrement(&dword_1401C8458);
+      if ( a2 )
+        _InterlockedIncrement(&dword_1401C845C);
+      EnterCriticalSection(&csTimeoutLock);
+      ++CurrentDelayedCount;
+      *v9 = CurrentDelayedFreeList;
+      CurrentDelayedFreeList = (__int64)v9;
+      LeaveCriticalSection(&csTimeoutLock);
+    }
+  }
+}
+// 1401BB510: using guessed type __int64 CurrentDelayedFreeList;
+// 1401BB520: using guessed type int CurrentDelayedCount;
+// 1401C8458: using guessed type int dword_1401C8458;
+// 1401C845C: using guessed type int dword_1401C845C;

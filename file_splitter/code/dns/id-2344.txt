@@ -1,0 +1,66 @@
+//----- (00000001401206B4) ----------------------------------------------------
+__int64 __fastcall buildKeyOrSignatureFromTokens(_QWORD *a1, _DWORD *a2, unsigned int a3, __int64 a4)
+{
+  unsigned int v4; // ebp
+  char *v5; // r14
+  _BYTE *v6; // rsi
+  __int64 v7; // r12
+  unsigned int v8; // edi
+  unsigned int v10; // ebx
+  unsigned int v11; // edx
+  _DWORD *v12; // rcx
+  unsigned int v13; // r8d
+  char *i; // r15
+  size_t v15; // rbx
+
+  v4 = 0;
+  v5 = 0i64;
+  v6 = 0i64;
+  v7 = a4;
+  v8 = a3;
+  if ( a3 )
+  {
+    v11 = 0;
+    v12 = (_DWORD *)(a4 + 8);
+    do
+    {
+      v13 = v4 + *v12;
+      if ( v13 < v4 )
+      {
+        v10 = -1072573182;
+        goto LABEL_13;
+      }
+      ++v11;
+      v12 += 4;
+      v4 = v13;
+    }
+    while ( v11 < v8 );
+    v5 = (char *)Mem_Alloc(v13, 0i64, "ds\\dns\\server\\dnscore\\rrfile.c", 1853);
+    if ( v5 && (v6 = Mem_Alloc(v4, 0i64, "ds\\dns\\server\\dnscore\\rrfile.c", 1860)) != 0i64 )
+    {
+      for ( i = v5; v8; --v8 )
+      {
+        v15 = *(unsigned int *)(v7 + 8);
+        memcpy_0(i, *(const void **)v7, v15);
+        i += v15;
+        v7 += 16i64;
+      }
+      v10 = Dns_SecurityBase64StringToKey(v6, a2, (__int64)v5, v4);
+    }
+    else
+    {
+      v10 = 14;
+    }
+  }
+  else
+  {
+    v10 = -1072573181;
+  }
+LABEL_13:
+  Mem_Free(v5, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\rrfile.c", 1898);
+  if ( v10 )
+    Mem_Free(v6, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\rrfile.c", 1901);
+  else
+    *a1 = v6;
+  return v10;
+}

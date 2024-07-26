@@ -1,0 +1,36 @@
+//----- (00000001400C79D8) ----------------------------------------------------
+void __fastcall Zone_CheckAndFixDefaultRecordsOnLoad(__int64 a1, int a2)
+{
+  _OWORD *v3; // rdi
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xB7u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const char **)(a1 + 16));
+  }
+  if ( ((*(_BYTE *)(a1 + 388) & 1) == 0 || !dword_1401B9750 && !g_fDsReadOnlyDcMode)
+    && (*(_BYTE *)(a1 + 1160) & 0x40) == 0
+    && ((*(_BYTE *)(a1 + 396) & 0x10) == 0 || *(_DWORD *)(a1 + 372) == 1 && (*(_BYTE *)(a1 + 1040) & 4) != 0) )
+  {
+    v3 = checkAndFixDefaultZoneRecords(a1, a2);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_sq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xB8u,
+        (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+        *(const char **)(a1 + 16));
+    }
+    *(_QWORD *)(a1 + 152) = v3;
+  }
+}
+// 1400C7A65: variable 'a2' is possibly undefined
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9750: using guessed type int dword_1401B9750;

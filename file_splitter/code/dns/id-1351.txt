@@ -1,0 +1,17 @@
+//----- (00000001400ABD20) ----------------------------------------------------
+__int64 *__fastcall Tcp_ConnectionFindForSocket(__int64 a1)
+{
+  __int64 *i; // rbx
+
+  EnterCriticalSection(&mg_TcpConnectionListCS);
+  for ( i = (__int64 *)mg_TcpConnectionList; i != &mg_TcpConnectionList; i = (__int64 *)*i )
+  {
+    if ( i[2] == a1 )
+      goto LABEL_6;
+  }
+  i = 0i64;
+LABEL_6:
+  LeaveCriticalSection(&mg_TcpConnectionListCS);
+  return i;
+}
+// 1401C79F0: using guessed type __int64 mg_TcpConnectionList;

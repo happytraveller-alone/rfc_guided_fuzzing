@@ -1,0 +1,45 @@
+//----- (00000001400C8F0C) ----------------------------------------------------
+__int64 __fastcall Zone_GetMaxTtlAmongAllZoneScopes(__int64 a1)
+{
+  unsigned int v2; // edi
+  __int64 v3; // rcx
+  __int64 v4; // rdx
+  unsigned int v5; // eax
+  __int64 NextElement_ScopeMap; // rax
+  __int64 v7; // rcx
+  unsigned int v9; // [rsp+40h] [rbp+8h] BYREF
+
+  v2 = *(_DWORD *)(a1 + 536);
+  if ( *(_QWORD *)(a1 + 184) )
+  {
+    v3 = *(_QWORD *)(a1 + 168);
+    v9 = -1;
+    acquireRead(v3, 0xFFFFFFFF, &v9);
+    v4 = 0i64;
+    while ( 1 )
+    {
+      NextElement_ScopeMap = Get_NextElement_ScopeMap(*(_QWORD *)(a1 + 160), v4, 0i64);
+      v7 = NextElement_ScopeMap;
+      if ( !NextElement_ScopeMap )
+        break;
+      v5 = *(_DWORD *)(NextElement_ScopeMap + 536);
+      v4 = *(_QWORD *)(v7 + 192);
+      if ( v5 > v2 )
+        v2 = v5;
+    }
+    v9 = -1;
+    releaseRead(*(_QWORD *)(a1 + 168), &v9, 1);
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xD1u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      v2,
+      *(_QWORD *)(a1 + 24));
+  }
+  return v2;
+}

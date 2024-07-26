@@ -1,0 +1,136 @@
+//----- (00000001400A4A98) ----------------------------------------------------
+__int64 Load_ServerScopeProperties()
+{
+  DWORD v0; // esi
+  char *LocalDnsName; // rdi
+  int v2; // eax
+  int v3; // ebx
+  __int64 v5; // rdx
+  int v6; // ebx
+  __int64 v7; // r8
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  unsigned __int16 v9; // dx
+  __int64 v10; // rdx
+  __int64 v11; // r8
+  unsigned int v12; // r9d
+  const wchar_t *v13; // rax
+  const wchar_t *v14; // rcx
+  HKEY v15; // [rsp+48h] [rbp-C0h] BYREF
+  HKEY hKey; // [rsp+50h] [rbp-B8h] BYREF
+  unsigned __int16 *v17; // [rsp+58h] [rbp-B0h] BYREF
+  _QWORD v18[3]; // [rsp+60h] [rbp-A8h] BYREF
+  __int16 v19[256]; // [rsp+78h] [rbp-90h] BYREF
+
+  v0 = 0;
+  hKey = 0i64;
+  v15 = 0i64;
+  LocalDnsName = (char *)Dns_GetLocalDnsName();
+  do
+  {
+    while ( 1 )
+    {
+      v2 = Reg_EnumScopes(0i64, 0i64, &hKey, v0++, &v15, (LPWSTR)v19, 1);
+      v3 = v2;
+      if ( v2 )
+        break;
+      v6 = ServerScope_Create((unsigned __int16 *)v19);
+      if ( v6 )
+      {
+        v8 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v9 = 46;
+LABEL_27:
+          WPP_SF_S(
+            *((_QWORD *)v8 + 7),
+            v9,
+            (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+            (const unsigned __int16 *)v19);
+        }
+      }
+      else
+      {
+        v6 = Config_SetupServerScope(v15, (const unsigned __int16 *)v19, v7);
+        if ( !v6 )
+        {
+          v8 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 5u )
+          {
+            goto LABEL_35;
+          }
+          v9 = 48;
+          goto LABEL_27;
+        }
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x2Fu,
+            (__int64)&WPP_7130a3a4d89e343b55addd3e43accbbd_Traceguids,
+            (const unsigned __int16 *)v19);
+        }
+        ServerScope_Delete((const unsigned __int16 *)v19, v10, v11, v12);
+      }
+      if ( v6 )
+      {
+        v17 = (unsigned __int16 *)v19;
+        if ( g_pwsServerName )
+        {
+          v18[0] = g_pwsServerName;
+        }
+        else
+        {
+          v13 = (const wchar_t *)Dns_StringCopyAllocate((char *)Str, 0, 2i64, 1);
+          g_pwsServerName = (__int64)v13;
+          v14 = &LocaleName;
+          if ( v13 )
+            v14 = v13;
+          v18[0] = v14;
+        }
+        *(_OWORD *)&v18[1] = DNS_EVENT_SERVERSCOPE_LOAD_FAILURE;
+        Eventlog_LogEvent((__int64)&v18[1], v5, 2u, &v17, (unsigned __int8 *)1, v6, 0, 0i64);
+        goto LABEL_37;
+      }
+LABEL_35:
+      if ( (dword_1401B9144 & 0x2000) != 0 )
+        Template_zs(
+          Microsoft_Windows_DNS_Server_ServiceHandle,
+          &DNS_EVENT_SERVERSCOPE_LOAD_OK,
+          (const unsigned __int16 *)v19,
+          LocalDnsName);
+LABEL_37:
+      RegCloseKey(v15);
+      v15 = 0i64;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Bu,
+        (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+        v2);
+    }
+  }
+  while ( v3 != 259 && v3 != 2 );
+  Mem_Free(LocalDnsName, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\srvcfg.c", 4299);
+  if ( hKey )
+    RegCloseKey(hKey);
+  return 0i64;
+}
+// 1400A4BFB: variable 'v7' is possibly undefined
+// 1400A4C3D: variable 'v10' is possibly undefined
+// 1400A4C3D: variable 'v11' is possibly undefined
+// 1400A4C3D: variable 'v12' is possibly undefined
+// 1400A4D0C: variable 'v5' is possibly undefined
+// 140187808: using guessed type __int128 DNS_EVENT_SERVERSCOPE_LOAD_FAILURE;
+// 1401B9144: using guessed type int dword_1401B9144;
+// 1401EC328: using guessed type __int64 g_pwsServerName;
+// 1400A4A98: using guessed type WCHAR var_210[256];

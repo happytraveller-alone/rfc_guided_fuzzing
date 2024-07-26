@@ -1,0 +1,12 @@
+//----- (00000001400E9AA4) ----------------------------------------------------
+void __fastcall DnsSign::CCertificate::~CCertificate(const CERT_CONTEXT **this)
+{
+  const CERT_CONTEXT *v2; // rcx
+
+  v2 = *this;
+  if ( v2 )
+  {
+    CertFreeCertificateContext(v2);
+    *this = 0i64;
+  }
+}

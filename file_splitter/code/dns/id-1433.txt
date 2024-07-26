@@ -1,0 +1,55 @@
+//----- (00000001400B3214) ----------------------------------------------------
+__int64 __fastcall NTree_FindBestNSEC3Node(__int64 *a1, __int64 a2, __int64 a3, int a4)
+{
+  __int64 Child; // rbx
+  __int64 v9; // rsi
+  __int64 v10; // rax
+  unsigned int v12; // [rsp+40h] [rbp+8h] BYREF
+
+  Child = 0i64;
+  v12 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v12);
+  if ( a1 && a3 )
+  {
+    if ( *a1 )
+    {
+      if ( !NTree_NodeHasNsecRecords(*a1, 0x32u, a4) )
+        Child = *a1;
+    }
+    else if ( a2 )
+    {
+      Child = a2;
+    }
+    else
+    {
+      Child = NTree_FirstChild(a3);
+    }
+    v9 = Child;
+    while ( 1 )
+    {
+      while ( 1 )
+      {
+        if ( !Child )
+          goto LABEL_18;
+        v10 = NTree_PreviousSibling(Child);
+        *a1 = v10;
+        if ( !v10 )
+          *a1 = NTree_LastChild(a3);
+        if ( *a1 && !NTree_NodeHasNsecRecords(*a1, 0x32u, a4) )
+          break;
+LABEL_16:
+        Child = 0i64;
+      }
+      Child = *a1;
+      if ( *a1 == v9 )
+      {
+        *a1 = 0i64;
+        goto LABEL_16;
+      }
+    }
+  }
+LABEL_18:
+  v12 = -1;
+  return releaseRead(DbaseLock, &v12, 1);
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

@@ -1,0 +1,58 @@
+//----- (0000000140115AE8) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::GetPrincipalSID(LPCWSTR lpAccountName, void **a2)
+{
+  void *v2; // r8
+  unsigned int v3; // ebx
+  DWORD LastError; // eax
+  int v7; // ecx
+  __int64 result; // rax
+  void *ReferencedDomainName; // rdi
+  void *v10; // rax
+  enum _SID_NAME_USE peUse[10]; // [rsp+40h] [rbp-28h] BYREF
+  DWORD cchReferencedDomainName; // [rsp+80h] [rbp+18h] BYREF
+  DWORD cbSid; // [rsp+88h] [rbp+20h] BYREF
+
+  v2 = *a2;
+  v3 = 0;
+  cchReferencedDomainName = 0;
+  cbSid = 0;
+  LookupAccountNameW(0i64, lpAccountName, v2, &cbSid, 0i64, &cchReferencedDomainName, peUse);
+  LastError = GetLastError();
+  v7 = LastError;
+  if ( LastError != 122 )
+    goto LABEL_2;
+  ReferencedDomainName = Dns_MemNew<unsigned short>(cchReferencedDomainName);
+  if ( !ReferencedDomainName )
+    return 2147942414i64;
+  v10 = Dns_MemNew<unsigned char>(cbSid);
+  *a2 = v10;
+  if ( !v10 )
+  {
+    v3 = -2147024882;
+    goto LABEL_11;
+  }
+  if ( LookupAccountNameW(
+         0i64,
+         lpAccountName,
+         v10,
+         &cbSid,
+         (LPWSTR)ReferencedDomainName,
+         &cchReferencedDomainName,
+         peUse) )
+  {
+LABEL_11:
+    operator delete(ReferencedDomainName);
+    return v3;
+  }
+  operator delete(*a2);
+  *a2 = 0i64;
+  operator delete(ReferencedDomainName);
+  LastError = GetLastError();
+  v7 = LastError;
+LABEL_2:
+  result = (unsigned __int16)LastError | 0x80070000;
+  if ( v7 <= 0 )
+    return (unsigned int)v7;
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

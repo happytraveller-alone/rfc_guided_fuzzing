@@ -1,0 +1,7 @@
+//----- (00000001400A5960) ----------------------------------------------------
+__int64 __fastcall cfg_SetNoRecursion(__int64 a1)
+{
+  dword_1401B97F8 = *(_DWORD *)(a1 + 8) == 0;
+  return 8i64;
+}
+// 1401B97F8: using guessed type int dword_1401B97F8;

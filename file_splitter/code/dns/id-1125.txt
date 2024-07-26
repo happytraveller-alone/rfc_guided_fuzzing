@@ -1,0 +1,5 @@
+//----- (0000000140090AE0) ----------------------------------------------------
+char *__fastcall PtrWireWrite(__int64 a1, unsigned __int64 a2, __int64 a3, __int64 a4)
+{
+  return Name_WriteCountNameToPacketEx(a1, a2, (unsigned __int8 *)(a4 + 56), 1);
+}

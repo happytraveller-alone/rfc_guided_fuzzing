@@ -1,0 +1,30 @@
+//----- (0000000140065F8C) ----------------------------------------------------
+void closeNbt()
+{
+  _QWORD *v0; // rcx
+  void *v1; // rax
+  __int64 v2; // rbx
+
+  v0 = (_QWORD *)pahNbtHandles;
+  if ( pahNbtHandles )
+  {
+    if ( *(_QWORD *)pahNbtHandles )
+    {
+      v1 = *(void **)pahNbtHandles;
+      v2 = 0i64;
+      do
+      {
+        NtClose(v1);
+        v0 = (_QWORD *)pahNbtHandles;
+        ++v2;
+        v1 = *(void **)(pahNbtHandles + 8 * v2);
+      }
+      while ( v1 );
+    }
+    Mem_Free(v0, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\nbstat.c", 1775);
+  }
+  pahNbtHandles = 0i64;
+  cNbtInterfaceCount = 0;
+}
+// 1401CBDC8: using guessed type int cNbtInterfaceCount;
+// 1401CBDD0: using guessed type __int64 pahNbtHandles;

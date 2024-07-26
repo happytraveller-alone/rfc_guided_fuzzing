@@ -1,0 +1,63 @@
+//----- (00000001400F2260) ----------------------------------------------------
+__int64 DnsOls_Initialize()
+{
+  unsigned int v0; // ebx
+  const char *v1; // r9
+  int LastError; // eax
+  CDnsClientSubnetRecordsTrie *v3; // rcx
+  unsigned __int16 v4; // dx
+
+  v0 = 0;
+  g_fEnableOnlineSigning = dword_1401B99D8;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v1 = "disabled";
+    if ( dword_1401B99D8 )
+      v1 = "enabled";
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAEu, (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids, v1);
+  }
+  g_hOlsKeyRolloverEvent = CreateEventW(0i64, 1, 0, 0i64);
+  if ( g_hOlsKeyRolloverEvent )
+  {
+    g_hOlsResignChangeEvent = CreateEventW(0i64, 1, 0, 0i64);
+    if ( g_hOlsResignChangeEvent )
+    {
+LABEL_18:
+      v3 = WPP_GLOBAL_Control;
+      goto LABEL_19;
+    }
+    LastError = GetLastError();
+    v0 = LastError;
+    v3 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      return v0;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0 || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      goto LABEL_19;
+    v4 = 176;
+LABEL_17:
+    WPP_SF_D(*((_QWORD *)v3 + 7), v4, (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids, LastError);
+    goto LABEL_18;
+  }
+  LastError = GetLastError();
+  v0 = LastError;
+  v3 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+    return v0;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v4 = 175;
+    goto LABEL_17;
+  }
+LABEL_19:
+  if ( v3 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v3 + 17) & 0x200000) != 0
+    && *((_BYTE *)v3 + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)v3 + 7), 0xB1u, (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids, v0);
+  }
+  return v0;
+}
+// 1401B917C: using guessed type int g_fEnableOnlineSigning;
+// 1401B99D8: using guessed type int dword_1401B99D8;

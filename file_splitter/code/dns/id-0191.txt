@@ -1,0 +1,53 @@
+//----- (000000014001722C) ----------------------------------------------------
+__int64 *__fastcall Lookup_FindNsecNodeMatchingDbaseName(__int64 a1, __int64 *a2, unsigned __int8 *a3)
+{
+  __int64 *v6; // rsi
+  const char *v7; // r9
+  __int64 NextRecord; // rbx
+  _QWORD *v9; // rbx
+  _QWORD *v10; // rax
+  int v11; // eax
+  _QWORD *v13; // [rsp+40h] [rbp-158h] BYREF
+  unsigned __int8 v14[272]; // [rsp+50h] [rbp-148h] BYREF
+
+  v6 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v7 = *(const char **)(a1 + 16);
+    else
+      v7 = 0i64;
+    WPP_SF_sq(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x20u, (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids, v7);
+  }
+  if ( a1 )
+  {
+    if ( (*(_BYTE *)(a1 + 396) & 0x20) != 0 )
+    {
+      NextRecord = RR_FindNextRecordEx(*(_QWORD *)(a1 + 40), 0, 0x33u, 0i64, 0, 0);
+      if ( NextRecord )
+      {
+        Name_CopyCountName(v14, a3);
+        Validator_HashDbName(v14, NextRecord, *(unsigned __int8 **)(a1 + 32), 0);
+        a3 = v14;
+      }
+    }
+    v9 = 0i64;
+    if ( a2 )
+    {
+      v10 = (_QWORD *)RR_FindNextRecordEx((__int64)a2, 0, 0xFFF1u, 0i64, 0, 0);
+      v9 = v10;
+      if ( v10 )
+        v9 = RR_CopyRecordListWithOwnerName(a2, v10, v10);
+    }
+    v13 = v9;
+    if ( v9 && (v11 = nameMatchOrCoveredByNSECSet(a3, (__int64 *)&v13, 1u, 0, 1, 0i64), v9 = v13, v11 == 1) )
+      v6 = a2;
+    else
+      v6 = (__int64 *)Lookup_ZoneNode(a1, a3 + 2, 0i64, 0i64, 16, (__int64 *)0xFFFFFFFFFFFFFFFFi64, 0i64, 0i64);
+    if ( v9 )
+      RR_ListFree(v9);
+  }
+  return v6;
+}

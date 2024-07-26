@@ -1,0 +1,48 @@
+//----- (00000001400A8DF0) ----------------------------------------------------
+__int64 Rpc_PrepareForDemotion()
+{
+  int v0; // eax
+  int v1; // eax
+  CDnsClientSubnetRecordsTrie *v2; // rcx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Cu, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids);
+  }
+  g_fReceivedDemotionSignal = 1;
+  v0 = Dns_MaintainNtdsDependency(1, &g_fDnsServiceExit, 0i64);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Du, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids, v0);
+  }
+  Dnssrv_RemoveZoneNsRecords();
+  v1 = Dnssrv_UndoSelfPointDnsClient();
+  v2 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Eu, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids, v1);
+    v2 = WPP_GLOBAL_Control;
+  }
+  if ( (dword_1401B9104 & 0x800) != 0 )
+  {
+    TemplateEventDescriptor(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_PREPARE_FOR_DEMOTION);
+    v2 = WPP_GLOBAL_Control;
+  }
+  if ( v2 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v2 + 68) & 4) != 0
+    && *((_BYTE *)v2 + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)v2 + 7), 0x2Fu, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids, 0);
+  }
+  return 0i64;
+}
+// 140187908: using guessed type EVENT_DESCRIPTOR DNS_EVENT_PREPARE_FOR_DEMOTION;
+// 1401B9070: using guessed type int g_fReceivedDemotionSignal;
+// 1401B9104: using guessed type int dword_1401B9104;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

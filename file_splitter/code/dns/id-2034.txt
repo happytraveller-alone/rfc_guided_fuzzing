@@ -1,0 +1,250 @@
+//----- (00000001400FB9E8) ----------------------------------------------------
+__int64 __fastcall SavePropertiesToRegistryIfChanged(__int64 a1, __int64 a2)
+{
+  unsigned int v4; // esi
+  int v5; // r8d
+  int v6; // r8d
+  int v7; // r8d
+  int v8; // r8d
+  int v9; // r8d
+  int v10; // r8d
+  int v11; // r8d
+  unsigned __int8 v12; // al
+  unsigned __int8 v13; // al
+  unsigned __int16 v14; // ax
+  BYTE *v15; // r14
+  __int64 v16; // rax
+  __int64 v17; // rbp
+  int v18; // edx
+  _WORD *v19; // rcx
+  int v20; // r9d
+  CDnsClientSubnetRecordsTrie *v21; // rcx
+  unsigned __int16 v22; // dx
+  int v23; // r8d
+  int v24; // r8d
+  int v25; // r8d
+  int v26; // r8d
+  int v27; // r8d
+  DWORD v28; // ebp
+  BYTE *v29; // rax
+  int v30; // r9d
+  CDnsClientSubnetRecordsTrie *v31; // rcx
+  unsigned __int16 v32; // dx
+  __int64 i; // rdi
+  int v34; // ebp
+  char *v35; // rax
+
+  v4 = 0;
+  v5 = (*(_DWORD *)(a1 + 1040) >> 1) & 1;
+  if ( ((*(_DWORD *)a2 >> 1) & 1) != v5 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "IsKeymaster", v5, 0x10000000);
+  }
+  v6 = (*(_DWORD *)(a1 + 1040) >> 4) & 1;
+  if ( ((*(_DWORD *)a2 >> 4) & 1) != v6 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "SignWithNSEC3", v6, 0x10000000);
+  }
+  v7 = (*(_DWORD *)(a1 + 1040) >> 5) & 1;
+  if ( ((*(_DWORD *)a2 >> 5) & 1) != v7 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "NSEC3OptOut", v7, 0x10000000);
+  }
+  v8 = (*(_DWORD *)(a1 + 1040) >> 6) & 7;
+  if ( ((*(_DWORD *)a2 >> 6) & 7) != v8 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "MaintainTrustAnchor", v8, 0x10000000);
+  }
+  v9 = (*(_DWORD *)(a1 + 1040) >> 9) & 7;
+  if ( ((*(_DWORD *)a2 >> 9) & 7) != v9 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "DsRecordAlgorithms", v9, 0x10000000);
+  }
+  v10 = (*(_DWORD *)(a1 + 1040) >> 12) & 1;
+  if ( ((*(_DWORD *)a2 >> 12) & 1) != v10 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "RFC5011KeyRollovers", v10, 0x10000000);
+  }
+  v11 = (*(_DWORD *)(a1 + 1040) >> 13) & 1;
+  if ( ((*(_DWORD *)a2 >> 13) & 1) != v11 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "ParentHasSecureDelegation", v11, 0x10000000);
+  }
+  v12 = *(_BYTE *)(a1 + 1044);
+  if ( *(_BYTE *)(a2 + 4) != v12 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "NSEC3HashAlgorithm", v12, 0x10000000);
+  }
+  v13 = *(_BYTE *)(a1 + 1045);
+  if ( *(_BYTE *)(a2 + 5) != v13 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "NSEC3RandomSaltLength", v13, 0x10000000);
+  }
+  v14 = *(_WORD *)(a1 + 1046);
+  if ( *(_WORD *)(a2 + 6) != v14 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "NSEC3Iterations", v14, 0x10000000);
+  }
+  v15 = *(BYTE **)(a1 + 1048);
+  v16 = -1i64;
+  LODWORD(v17) = 0;
+  v18 = 0;
+  if ( v15 )
+  {
+    v17 = -1i64;
+    do
+      ++v17;
+    while ( *(_WORD *)&v15[2 * v17] );
+  }
+  v19 = *(_WORD **)(a2 + 8);
+  if ( v19 )
+  {
+    do
+      ++v16;
+    while ( v19[v16] );
+    v18 = v16;
+  }
+  if ( (_DWORD)v17 != v18 || (_DWORD)v17 && memcmp_0(v19, *(const void **)(a1 + 1048), (unsigned int)(2 * v17 + 2)) )
+  {
+    v4 = 1;
+    if ( v15 )
+    {
+      v20 = Reg_SetValue(0x10000000, 0i64, a1, (const CHAR *)L"NSEC3UserSalt", 0xF0000001, v15, 2 * (int)v17 + 2);
+      if ( v20 )
+      {
+        v21 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v22 = 88;
+LABEL_36:
+          WPP_SF_Dss(
+            *((_QWORD *)v21 + 7),
+            v22,
+            (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+            v20,
+            (__int64)"NSEC3UserSalt",
+            *(_QWORD *)(a1 + 16));
+        }
+      }
+    }
+    else
+    {
+      v20 = Reg_DeleteValue(0x10000000, 0i64, a1, "NSEC3UserSalt");
+      if ( v20 )
+      {
+        v21 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          v22 = 89;
+          goto LABEL_36;
+        }
+      }
+    }
+  }
+  v23 = *(_DWORD *)(a1 + 1056);
+  if ( *(_DWORD *)(a2 + 16) != v23 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "DNSKEYRecordSetTTL", v23, 0x10000000);
+  }
+  v24 = *(_DWORD *)(a1 + 1060);
+  if ( *(_DWORD *)(a2 + 20) != v24 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "DSRecordSetTTL", v24, 0x10000000);
+  }
+  v25 = *(_DWORD *)(a1 + 1064);
+  if ( *(_DWORD *)(a2 + 24) != v25 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "SignatureInceptionOffset", v25, 0x10000000);
+  }
+  v26 = *(_DWORD *)(a1 + 1068);
+  if ( *(_DWORD *)(a2 + 28) != v26 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "SecureDelegationPollingPeriod", v26, 0x10000000);
+  }
+  v27 = *(_DWORD *)(a1 + 1072);
+  if ( *(_DWORD *)(a2 + 32) != v27 )
+  {
+    v4 = 1;
+    WriteDWORDToRegistry(a1, "PropagationTime", v27, 0x10000000);
+  }
+  v28 = *(_DWORD *)(a1 + 1096);
+  if ( v28 != *(_DWORD *)(a2 + 56) || v28 && memcmp_0(*(const void **)(a1 + 1088), *(const void **)(a1 + 1088), v28) )
+  {
+    v29 = *(BYTE **)(a1 + 1088);
+    v4 = 1;
+    if ( v29 )
+    {
+      v30 = Reg_SetValue(0x10000000, 0i64, a1, (const CHAR *)L"NSEC3CurrentSalt", 0xF0000003, v29, v28);
+      if ( !v30 )
+        goto LABEL_67;
+      v31 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_67;
+      }
+      v32 = 90;
+    }
+    else
+    {
+      v30 = Reg_DeleteValue(0x10000000, 0i64, a1, "NSEC3CurrentSalt");
+      if ( !v30 )
+        goto LABEL_67;
+      v31 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_67;
+      }
+      v32 = 91;
+    }
+    WPP_SF_Dss(
+      *((_QWORD *)v31 + 7),
+      v32,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      v30,
+      (__int64)"NSEC3CurrentSalt",
+      *(_QWORD *)(a1 + 16));
+  }
+LABEL_67:
+  for ( i = *(_QWORD *)(a1 + 1136); i; i = *(_QWORD *)i )
+  {
+    v34 = DnsOls_WriteSkdToStorage(0x10000000, a1, i, 0);
+    if ( v34
+      && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v35 = Dbg_GuidString((const IID *)(i + 8));
+      WPP_SF_DS(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x5Cu,
+        (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+        v34,
+        (__int64)v35);
+    }
+  }
+  return v4;
+}
+// 1401924A8: using guessed type wchar_t aNsec3usersalt_0[14];
+// 140192CC0: using guessed type wchar_t aNsec3currentsa_0[17];

@@ -1,0 +1,33 @@
+//----- (0000000140058458) ----------------------------------------------------
+__int16 __fastcall Etw_LogTransportInfo(__int64 a1, __int64 a2)
+{
+  bool v2; // zf
+  u_short v5; // cx
+  int v6; // eax
+
+  v2 = *(_BYTE *)(a1 + 1413) == 0;
+  *(_BYTE *)(a2 + 4) = 52;
+  if ( v2 )
+    *(_DWORD *)a2 = 1984971861;
+  else
+    *(_DWORD *)a2 = 1984971604;
+  *(_BYTE *)(a2 + 5) = 0;
+  v2 = *(_WORD *)(a1 + 64) == 23;
+  v5 = *(_WORD *)(a1 + 66);
+  if ( v2 )
+  {
+    LOWORD(v6) = ntohs(v5);
+    *(_WORD *)(a2 + 6) = v6;
+    *(_BYTE *)(a2 + 4) = 54;
+    *(_OWORD *)(a2 + 8) = *(_OWORD *)(a1 + 72);
+  }
+  else
+  {
+    *(_WORD *)(a2 + 6) = ntohs(v5);
+    *(_QWORD *)(a2 + 8) = 0i64;
+    *(_QWORD *)(a2 + 16) = 0i64;
+    v6 = *(_DWORD *)(a1 + 68);
+    *(_DWORD *)(a2 + 8) = v6;
+  }
+  return v6;
+}

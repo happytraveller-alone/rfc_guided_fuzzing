@@ -1,0 +1,7 @@
+//----- (00000001400E6730) ----------------------------------------------------
+void std::_Tree_val<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::~_Tree_val<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>()
+{
+  operator delete((void *)qword_1401B9288);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B9288: using guessed type __int64 qword_1401B9288;

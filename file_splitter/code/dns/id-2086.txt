@@ -1,0 +1,30 @@
+//----- (0000000140105B28) ----------------------------------------------------
+struct _DnsTreeNode *__fastcall DnsOls_FindNextNsec3Node(struct _zone_info *a1, struct _DnsTreeNode *a2)
+{
+  __int64 i; // rax
+  __int64 Sibling; // rbx
+  unsigned int v7; // [rsp+40h] [rbp+18h] BYREF
+
+  v7 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v7);
+  for ( i = NTree_NextSibling((__int64)a2); ; i = NTree_FirstChild(*((_QWORD *)a1 + 5)) )
+  {
+    Sibling = i;
+    if ( i )
+    {
+      do
+      {
+        if ( NTree_NodeHasNsecRecords(Sibling, 0x32u, 1) )
+          break;
+        Sibling = NTree_NextSibling(Sibling);
+      }
+      while ( Sibling );
+      if ( Sibling )
+        break;
+    }
+  }
+  v7 = -1;
+  releaseRead(DbaseLock, &v7, 1);
+  return (struct _DnsTreeNode *)Sibling;
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

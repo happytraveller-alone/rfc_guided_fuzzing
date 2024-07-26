@@ -1,0 +1,261 @@
+//----- (0000000140055430) ----------------------------------------------------
+__int64 __fastcall Rpc_IpValidate(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        __int64 a6,
+        _DWORD *a7,
+        _QWORD *a8)
+{
+  unsigned int v8; // esi
+  _DWORD *v9; // r12
+  unsigned int *v10; // rbx
+  int v11; // r14d
+  int v12; // r9d
+  __int64 v13; // rdi
+  __int64 v14; // rdx
+  __int64 v15; // r8
+  int v16; // r9d
+  unsigned int *v17; // rax
+  bool v18; // zf
+  __int64 v19; // rax
+  void *v20; // rcx
+  const char *v21; // r14
+  __int64 v22; // r15
+  __int64 v23; // r8
+  CDnsClientSubnetRecordsTrie *v24; // rcx
+  DWORD TickCount; // ebx
+  DNS_STATUS v26; // edi
+  CDnsClientSubnetRecordsTrie *v27; // rcx
+  __int64 v28; // r15
+  DNS_STATUS v29; // ecx
+  int v30; // eax
+  int i; // [rsp+48h] [rbp-A9h]
+  DWORD Options; // [rsp+4Ch] [rbp-A5h]
+  BOOL v34; // [rsp+50h] [rbp-A1h]
+  int v35; // [rsp+54h] [rbp-9Dh]
+  PDNS_RECORD ppQueryResults; // [rsp+58h] [rbp-99h] BYREF
+  __int64 v37; // [rsp+60h] [rbp-91h]
+  unsigned int *v38; // [rsp+68h] [rbp-89h]
+  __int64 v39; // [rsp+70h] [rbp-81h]
+  _DWORD *v40; // [rsp+78h] [rbp-79h]
+  int pExtra[2]; // [rsp+88h] [rbp-69h] BYREF
+  __int64 v42; // [rsp+90h] [rbp-61h]
+  int v43; // [rsp+98h] [rbp-59h]
+  char v44[4]; // [rsp+9Ch] [rbp-55h] BYREF
+  unsigned int *v45; // [rsp+A0h] [rbp-51h]
+  WORD v46; // [rsp+158h] [rbp+67h]
+
+  pExtra[0] = -2147483647;
+  pExtra[1] = 120;
+  v42 = 0i64;
+  v8 = 0;
+  v43 = 10;
+  v9 = 0i64;
+  v10 = 0i64;
+  v11 = 4168;
+  memset_0(v44, 0, 0x64ui64);
+  if ( a5 == 41 && (v13 = a6) != 0 && a8 )
+  {
+    v40 = DnsAddrArray_CopyAndExpand(*(_DWORD **)(a6 + 24), 0i64, 0i64, v12);
+    v9 = v40;
+    if ( v40 && (v17 = DnsAddrArray_Create(1u, v14, v15, v16), v38 = v17, (v10 = v17) != 0i64) )
+    {
+      v18 = *(_DWORD *)(a6 + 8) == 3;
+      v45 = v17;
+      if ( v18 )
+        v11 = 4172;
+      v19 = 0i64;
+      v35 = 0;
+      Options = v11;
+      if ( v40[1] )
+      {
+        v20 = v10 + 8;
+        do
+        {
+          v21 = *(const char **)(v13 + 16);
+          v22 = (__int64)&v9[16 * v19 + 8];
+          ppQueryResults = 0i64;
+          v39 = v22;
+          v34 = 1;
+          if ( !v21 || !*v21 )
+            v21 = ".";
+          v46 = 6;
+          memset_0(v20, 0, (unsigned __int64)v10[1] << 6);
+          v10[1] = 0;
+          if ( !(unsigned int)DnsAddrArray_AddAddr(v10, v22, v23, 0) )
+            goto LABEL_73;
+          v24 = WPP_GLOBAL_Control;
+          for ( i = 0; ; i = 1 )
+          {
+            if ( v24 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)v24 + 68) & 4) != 0
+              && *((_BYTE *)v24 + 65) >= 4u )
+            {
+              WPP_SF_sd(*((_QWORD *)v24 + 7), 0xAu, (__int64)&WPP_5317e627c81d3e59033c1b22be788796_Traceguids, v21);
+            }
+            TickCount = GetTickCount();
+            v26 = DnsQuery_UTF8(v21, v46, Options, pExtra, &ppQueryResults, 0i64);
+            HIDWORD(v37) = GetTickCount() - TickCount;
+            v27 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_sddd(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0xBu,
+                (__int64)&WPP_5317e627c81d3e59033c1b22be788796_Traceguids,
+                v21);
+              v27 = WPP_GLOBAL_Control;
+            }
+            if ( (*(_DWORD *)(a6 + 8) & 0xFFFFFFFD) == 0 && ((unsigned int)(v26 - 9002) <= 1 || v26 == 9501) )
+            {
+              if ( v27 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)v27 + 68) & 4) != 0
+                && *((_BYTE *)v27 + 65) >= 4u )
+              {
+                WPP_SF_sdD(*((_QWORD *)v27 + 7), 0xCu, (__int64)&WPP_5317e627c81d3e59033c1b22be788796_Traceguids, v21);
+              }
+              v26 = 0;
+            }
+            DnsFree(ppQueryResults, DnsFreeRecordList);
+            ppQueryResults = 0i64;
+            v28 = v39;
+            v8 = 0;
+            v9 = v40;
+            if ( i || v26 != 1460 )
+              break;
+            if ( (*(_DWORD *)(a6 + 8) & 0xFFFFFFFD) != 0 )
+              goto LABEL_67;
+            v21 = Str;
+            if ( !Str )
+              goto LABEL_67;
+            v46 = 255;
+            v24 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_Ds(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0xDu,
+                (__int64)&WPP_5317e627c81d3e59033c1b22be788796_Traceguids,
+                255,
+                (__int64)Str);
+              v24 = WPP_GLOBAL_Control;
+            }
+          }
+          if ( !v26 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_sd(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0xEu,
+                (__int64)&WPP_5317e627c81d3e59033c1b22be788796_Traceguids,
+                v21);
+            }
+            v29 = DnsQuery_UTF8(v21, v46, Options | 2, pExtra, &ppQueryResults, 0i64);
+            if ( (unsigned int)(v29 - 9002) <= 1 || v29 == 9501 )
+              v29 = 0;
+            v34 = v29 != 0;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_sddd(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0xFu,
+                (__int64)&WPP_5317e627c81d3e59033c1b22be788796_Traceguids,
+                v21);
+            }
+            DnsFree(ppQueryResults, DnsFreeRecordList);
+LABEL_54:
+            *(_DWORD *)(v28 + 40) = 0;
+            goto LABEL_68;
+          }
+          if ( v26 == 1460 )
+          {
+LABEL_67:
+            *(_DWORD *)(v39 + 40) = 3;
+          }
+          else
+          {
+            if ( v26 > 9001 )
+            {
+              if ( v26 <= 9003 )
+              {
+                *(_DWORD *)(v39 + 40) = 4;
+                goto LABEL_68;
+              }
+              if ( v26 == 9501 )
+                goto LABEL_54;
+              if ( (unsigned int)(v26 - 10046) <= 1 )
+              {
+                if ( *(_WORD *)v39 == 2 )
+                {
+                  *(_DWORD *)(v39 + 40) = 5;
+                }
+                else if ( *(_WORD *)v39 == 23 )
+                {
+                  *(_DWORD *)(v39 + 40) = 6;
+                }
+                else
+                {
+                  *(_DWORD *)(v39 + 40) = 255;
+                }
+                goto LABEL_68;
+              }
+            }
+            *(_DWORD *)(v39 + 40) = 255;
+          }
+LABEL_68:
+          *(_DWORD *)(v28 + 40) |= (HIDWORD(v37) / 0xA) << 12;
+          v30 = *(_DWORD *)(v28 + 40);
+          if ( (v30 & 0xFFF) == 0 && v34 )
+            *(_DWORD *)(v28 + 40) = v30 | 0x80000000;
+          v10 = v38;
+          v19 = (unsigned int)(v35 + 1);
+          v13 = a6;
+          v35 = v19;
+          v20 = v38 + 8;
+        }
+        while ( (unsigned int)v19 < v9[1] );
+      }
+    }
+    else
+    {
+      v8 = 14;
+    }
+  }
+  else
+  {
+LABEL_73:
+    v8 = 87;
+  }
+  Dns_Free(v10);
+  if ( v8 )
+  {
+    *a7 = 0;
+    *a8 = 0i64;
+    Dns_Free(v9);
+  }
+  else
+  {
+    *a7 = 34;
+    *a8 = v9;
+  }
+  return v8;
+}
+// 1400554B7: variable 'v12' is possibly undefined
+// 1400554D7: variable 'v14' is possibly undefined
+// 1400554D7: variable 'v15' is possibly undefined
+// 1400554D7: variable 'v16' is possibly undefined
+// 140055571: variable 'v23' is possibly undefined
+// 140055430: using guessed type char var_8C[4];
+// 140055430: using guessed type WORD arg_20[4];

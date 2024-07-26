@@ -1,0 +1,18 @@
+//----- (000000014011E3DC) ----------------------------------------------------
+char *__fastcall multilineBase64Encoding(unsigned __int8 *a1, unsigned int a2, char *a3, __int64 a4)
+{
+  char *v8; // rax
+  char *v9; // rbx
+  char *v10; // rax
+
+  v8 = (char *)Mem_Alloc(4 * (a2 / 3) + 14, 0i64, "ds\\dns\\server\\dnscore\\dfwrite_core.c", 1516);
+  v9 = v8;
+  if ( v8 )
+  {
+    v10 = Dns_SecurityKeyToBase64String(a1, a2, v8);
+    if ( v10 )
+      a3 = splitStringMultiline(v9, v10, a3, a4);
+  }
+  Mem_Free(v9, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\dfwrite_core.c", 1547);
+  return a3;
+}

@@ -1,0 +1,34 @@
+//----- (0000000140058CCC) ----------------------------------------------------
+int __fastcall LogRecordUpdatesEvent(int a1, __int64 a2, __int64 a3)
+{
+  void **v3; // rax
+  _QWORD *i; // rdi
+  __int64 v8; // r14
+  __int64 j; // rbx
+  __int64 k; // rbx
+  void *retaddr; // [rsp+48h] [rbp+0h] BYREF
+
+  if ( a1 )
+  {
+    v3 = &retaddr;
+    if ( a3 )
+    {
+      for ( i = *(_QWORD **)a3; i; i = (_QWORD *)*i )
+      {
+        v8 = i[1];
+        for ( j = i[2]; j; j = *(_QWORD *)j )
+        {
+          if ( *(_WORD *)(j + 12) && *(_WORD *)(j + 14) )
+            LODWORD(v3) = LogUpdateRecord(a1, 1, *(struct in_addr **)(a3 + 32), v8, a2, j);
+        }
+        for ( k = i[3]; k; k = *(_QWORD *)k )
+        {
+          if ( *(_WORD *)(k + 12) && *(_WORD *)(k + 14) )
+            LODWORD(v3) = LogUpdateRecord(a1, 0, *(struct in_addr **)(a3 + 32), v8, a2, k);
+        }
+      }
+    }
+  }
+  return (int)v3;
+}
+// 140058DA3: variable 'v3' is possibly undefined

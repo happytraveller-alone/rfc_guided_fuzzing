@@ -1,0 +1,26 @@
+//----- (0000000140156740) ----------------------------------------------------
+__int64 __fastcall DnsAddrArray_Union(__int64 a1, __int64 a2, unsigned int **a3, int a4)
+{
+  unsigned int *v7; // rax
+  __int64 v8; // r8
+  unsigned int v9; // ebx
+  unsigned int *v10; // rsi
+  unsigned int i; // r14d
+
+  v7 = DnsAddrArray_Create(*(_DWORD *)(a1 + 4) + *(_DWORD *)(a2 + 4), a2, (__int64)a3, a4);
+  v9 = 0;
+  v10 = v7;
+  if ( !v7 )
+    return 14i64;
+  *a3 = v7;
+  for ( i = 0; i < *(_DWORD *)(a1 + 4); ++i )
+    DnsAddrArray_AddAddr(v10, ((unsigned __int64)i << 6) + a1 + 32, v8, -1);
+  if ( *(_DWORD *)(a2 + 4) )
+  {
+    do
+      DnsAddrArray_AddAddr(v10, ((unsigned __int64)v9++ << 6) + a2 + 32, v8, -1);
+    while ( v9 < *(_DWORD *)(a2 + 4) );
+  }
+  return 0i64;
+}
+// 14015679C: variable 'v8' is possibly undefined

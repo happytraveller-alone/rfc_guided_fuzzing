@@ -1,0 +1,115 @@
+//----- (00000001400A5CA0) ----------------------------------------------------
+__int64 LoadGlobalPolicies()
+{
+  DWORD v0; // esi
+  DWORD v1; // edi
+  int v2; // eax
+  int v3; // ebx
+  int v4; // eax
+  int v5; // ebx
+  HKEY hKey; // [rsp+38h] [rbp-D0h] BYREF
+  HKEY v8; // [rsp+40h] [rbp-C8h] BYREF
+  HKEY v9; // [rsp+48h] [rbp-C0h] BYREF
+  HKEY v10; // [rsp+50h] [rbp-B8h] BYREF
+  __int16 v11[512]; // [rsp+58h] [rbp-B0h] BYREF
+  __int16 v12[512]; // [rsp+458h] [rbp+350h] BYREF
+
+  v0 = 0;
+  v10 = 0i64;
+  v8 = 0i64;
+  memset_0(v11, 0, sizeof(v11));
+  v9 = 0i64;
+  hKey = 0i64;
+  v1 = 0;
+  memset_0(v12, 0, sizeof(v12));
+  while ( 1 )
+  {
+    while ( 1 )
+    {
+      v2 = Reg_EnumClientSubnets(&v9, v1++, &hKey, (WCHAR *)v12);
+      v3 = v2;
+      if ( v2 )
+        break;
+      if ( (unsigned int)SetupClientSubnetFromRegistry(hKey, (unsigned __int16 *)v12)
+        && (Microsoft_Windows_DNS_Server_ServiceEnableBits & 4) != 0 )
+      {
+        Template_z(
+          Microsoft_Windows_DNS_Server_ServiceHandle,
+          &DNS_EVENT_CLIENT_SUBNET_RECORD_LOAD_FAILURE,
+          (const unsigned __int16 *)v12);
+      }
+      RegCloseKey(hKey);
+      hKey = 0i64;
+    }
+    if ( v2 == 259 || v2 == 2 )
+      break;
+    if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 4) != 0 )
+      Template_s(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_CLIENT_SUBNET_RECORD_REGISTRY_LOAD_FAILURE, Str);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x5Eu,
+        (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+        v3);
+    }
+  }
+  if ( v9 )
+    RegCloseKey(v9);
+  while ( 1 )
+  {
+    while ( 1 )
+    {
+      v4 = Reg_EnumPolicies(0i64, &v10, v0++, 0, &v8, (LPWSTR)v11);
+      v5 = v4;
+      if ( v4 )
+        break;
+      if ( (unsigned int)SetupPolicyFromRegistry(v8, (unsigned __int16 *)v11, 0i64) )
+      {
+        if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 4) != 0 )
+          Template_zs(
+            Microsoft_Windows_DNS_Server_ServiceHandle,
+            &DNS_EVENT_SERVER_LEVEL_POLICY_LOAD_FAILURE,
+            (const unsigned __int16 *)v11,
+            Str);
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x5Du,
+            (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+            (const unsigned __int16 *)v11);
+        }
+      }
+      RegCloseKey(v8);
+      v8 = 0i64;
+    }
+    if ( v4 == 259 || v4 == 2 )
+      break;
+    if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 4) != 0 )
+      Template_s(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_SERVER_LEVEL_POLICY_REGISTRY_LOAD_FAILURE, Str);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x5Cu,
+        (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+        v5);
+    }
+  }
+  if ( v10 )
+    RegCloseKey(v10);
+  return Create_CDNSPolicies(0i64);
+}
+// 140186A08: using guessed type EVENT_DESCRIPTOR DNS_EVENT_SERVER_LEVEL_POLICY_REGISTRY_LOAD_FAILURE;
+// 140187090: using guessed type EVENT_DESCRIPTOR DNS_EVENT_CLIENT_SUBNET_RECORD_LOAD_FAILURE;
+// 140187140: using guessed type EVENT_DESCRIPTOR DNS_EVENT_CLIENT_SUBNET_RECORD_REGISTRY_LOAD_FAILURE;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;
+// 1400A5CA0: using guessed type WCHAR var_410[512];
+// 1400A5CA0: using guessed type WCHAR var_810[512];

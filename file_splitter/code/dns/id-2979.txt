@@ -1,0 +1,14 @@
+//----- (000000014015793C) ----------------------------------------------------
+char __fastcall base32HexToBinary(char a1)
+{
+  char v1; // dl
+
+  v1 = -1;
+  if ( (unsigned __int8)(a1 - 48) <= 9u )
+    return a1 - 48;
+  if ( (unsigned __int8)(a1 - 97) <= 0x15u )
+    return a1 - 87;
+  if ( (unsigned __int8)(a1 - 65) <= 0x15u )
+    return a1 - 55;
+  return v1;
+}

@@ -1,0 +1,56 @@
+//----- (000000014011AA98) ----------------------------------------------------
+__int64 __fastcall Name_ConvertLookupNameToCountName(unsigned __int8 *a1, unsigned __int16 *a2)
+{
+  unsigned __int8 *v4; // r14
+  int v5; // r13d
+  unsigned __int16 *v6; // r15
+  const void **v7; // r12
+  unsigned int v8; // edx
+  int v9; // ebp
+  __int64 v10; // rbx
+  char *v11; // r14
+
+  if ( a2 && a1 && a2[1] <= 0xFFu )
+  {
+    *(_WORD *)a1 = 1;
+    v4 = a1 + 2;
+    a1[2] = 0;
+    v5 = 0;
+    if ( !*a2 )
+    {
+LABEL_10:
+      *v4 = 0;
+      return 0i64;
+    }
+    v6 = a2 + 164;
+    v7 = (const void **)(a2 + 4);
+    while ( 1 )
+    {
+      v8 = *(unsigned __int8 *)v6;
+      if ( v8 > 0x3F )
+        break;
+      v9 = v8 + 1 + *a1;
+      if ( v9 < v8 + 1 || v9 > 255 )
+        break;
+      *v4 = v8;
+      v10 = v8;
+      v11 = (char *)(v4 + 1);
+      memcpy_0(v11, *v7, v8);
+      ++a1[1];
+      v4 = (unsigned __int8 *)&v11[v10];
+      *a1 = v9;
+      ++v5;
+      v6 = (unsigned __int16 *)((char *)v6 + 1);
+      ++v7;
+      if ( v5 >= *a2 )
+        goto LABEL_10;
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x800) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x25u, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids);
+  }
+  return 123i64;
+}

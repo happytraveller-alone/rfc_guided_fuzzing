@@ -1,0 +1,6 @@
+//----- (00000001400DD5DC) ----------------------------------------------------
+void __fastcall std::locale::facet::~facet(std::locale::facet *this)
+{
+  *(_QWORD *)this = &std::locale::facet::`vftable';
+}
+// 140171600: using guessed type void *std::locale::facet::`vftable';

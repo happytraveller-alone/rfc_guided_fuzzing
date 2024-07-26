@@ -1,0 +1,5 @@
+//----- (0000000140131B50) ----------------------------------------------------
+_BOOL8 __fastcall CDnsPolicy_FQDNCriteriaTree::Empty(CDnsPolicy_FQDNCriteriaTree *this)
+{
+  return *((_QWORD *)this + 1) == 0i64;
+}

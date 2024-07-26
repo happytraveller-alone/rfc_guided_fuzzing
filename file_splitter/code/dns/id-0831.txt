@@ -1,0 +1,19 @@
+//----- (0000000140074600) ----------------------------------------------------
+__int64 __fastcall Recurse_DefaultCallback(__int64 a1, unsigned int a2)
+{
+  __int64 result; // rax
+
+  result = a2;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    return WPP_SF_qd(
+             *((_QWORD *)WPP_GLOBAL_Control + 7),
+             0x85u,
+             (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+             a1,
+             a2);
+  }
+  return result;
+}

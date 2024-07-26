@@ -1,0 +1,14 @@
+//----- (0000000140057184) ----------------------------------------------------
+void Log_PrintfW(const wchar_t *a1, ...)
+{
+  va_list va; // [rsp+38h] [rbp+10h] BYREF
+
+  va_start(va, a1);
+  if ( (unsigned int)Log_EnterLock() )
+  {
+    logPrefix((const char *)g_pszCurrentLogLevelString);
+    Log_vsprintW(a1, va);
+    Log_LeaveLock();
+  }
+}
+// 1401B8F28: using guessed type __int64 g_pszCurrentLogLevelString;

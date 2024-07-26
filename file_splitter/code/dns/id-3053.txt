@@ -1,0 +1,108 @@
+//----- (000000014015DB6C) ----------------------------------------------------
+__int64 __fastcall Dns_WritePacketNameToBuffer(
+        char *a1,
+        char **a2,
+        unsigned __int8 *a3,
+        __int64 a4,
+        unsigned __int64 a5)
+{
+  unsigned __int64 v5; // r12
+  unsigned __int8 *v6; // r13
+  int v7; // r14d
+  char *v8; // rbx
+  char *v10; // rsi
+  unsigned __int8 *v11; // rdi
+  char *v12; // rax
+  bool i; // cf
+  unsigned __int8 v14; // bp
+  unsigned __int8 *v15; // rdi
+  char v16; // r15
+  char *v17; // rax
+  char *v18; // rbx
+  unsigned __int16 v19; // bp
+  STRSAFE_LPSTR v20; // rax
+  STRSAFE_LPSTR v21; // rax
+  char *v23; // [rsp+80h] [rbp+18h]
+
+  v5 = a5;
+  v6 = 0i64;
+  v7 = (int)a3;
+  v8 = a1;
+  if ( !a5 )
+    v5 = -1i64;
+  if ( v5 <= (unsigned __int64)a3 )
+    return 0i64;
+  v10 = a1 + 510;
+  v11 = a3;
+  v12 = a1 + 426;
+  v23 = a1 + 426;
+  for ( i = a1 < a1 + 426; i; i = v8 < v23 )
+  {
+    v14 = *v11;
+    v15 = v11 + 1;
+    v16 = v14 & 0xC0;
+    if ( (byte_1401BA003 & 1) != 0 )
+      WPP_SF_dDdD((__int64)a1, (__int64)a2, v14, v14);
+    if ( v16 )
+    {
+      if ( v16 != -64 )
+      {
+        v21 = Dns_SprintfPointerA(v8, v10 - v8, "[ERROR length byte: 0x%02X]", v14);
+        goto LABEL_27;
+      }
+      if ( (unsigned __int64)v15 >= v5 )
+      {
+        v21 = Dns_SprintfPointerA(v8, v10 - v8, "[ERROR compression word at %p is outside message]\n", v15);
+        goto LABEL_27;
+      }
+      v19 = *v15++ | (v14 << 8);
+      v20 = Dns_SprintfPointerA(v8, v10 - v8, "[%04hX]", v19);
+      v8 = v20;
+      if ( !a4 )
+      {
+        *v20 = 0;
+        v18 = v20 + 1;
+        goto LABEL_29;
+      }
+      if ( !v6 )
+        v6 = v15;
+      a1 = (char *)(a4 + (v19 ^ 0xC000i64));
+      if ( a1 >= (char *)v15 - 2 )
+      {
+        v21 = Dns_SprintfPointerA(v20, v10 - v20, "[ERROR offset at %p to higher byte in packet %p]\n", v15 - 2, a1);
+        goto LABEL_28;
+      }
+      v11 = (unsigned __int8 *)(a4 + (v19 ^ 0xC000i64));
+    }
+    else
+    {
+      v17 = Dns_SprintfPointerA(v8, v10 - v8, "(%d)", v14);
+      v18 = v17;
+      if ( !v14 )
+        goto LABEL_29;
+      if ( (unsigned __int64)&v15[v14] >= v5 )
+      {
+        v21 = Dns_SprintfPointerA(v17, v10 - v17, "[ERROR length byte: 0x%02X at %p leads outside message]\n", v14, v15);
+        goto LABEL_27;
+      }
+      memcpy_0(v17, v15, v14);
+      v11 = &v15[v14];
+      v8 = &v18[v14];
+    }
+    v12 = v23;
+  }
+  v21 = Dns_SprintfPointerA(v12, v10 - v12, "-- [ERROR name exceeds safe print buffer length]\n");
+LABEL_27:
+  LODWORD(v15) = v7;
+LABEL_28:
+  v18 = v21;
+LABEL_29:
+  if ( a2 )
+    *a2 = v18;
+  if ( v6 )
+    LODWORD(v15) = (_DWORD)v6;
+  return (unsigned int)((_DWORD)v15 - v7);
+}
+// 14015DBFA: variable 'a1' is possibly undefined
+// 14015DBFA: variable 'a2' is possibly undefined
+// 1401BA003: using guessed type char byte_1401BA003;

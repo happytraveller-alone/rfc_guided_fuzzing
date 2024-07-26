@@ -1,0 +1,20 @@
+//----- (00000001400F2E4C) ----------------------------------------------------
+void __fastcall CPointerVector<DnsSign::CDnsKeyPair>::~CPointerVector<DnsSign::CDnsKeyPair>(__int64 a1)
+{
+  DnsSign::CDnsKeyPair **i; // rbx
+
+  if ( *(_BYTE *)(a1 + 32) )
+  {
+    for ( i = *(DnsSign::CDnsKeyPair ***)a1; i != *(DnsSign::CDnsKeyPair ***)(a1 + 8); ++i )
+    {
+      if ( *i )
+        DnsSign::CDnsKeyPair::`scalar deleting destructor'(*i);
+    }
+  }
+  if ( *(_QWORD *)a1 )
+    operator delete(*(void **)a1);
+  *(_QWORD *)a1 = 0i64;
+  *(_QWORD *)(a1 + 8) = 0i64;
+  *(_QWORD *)(a1 + 16) = 0i64;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

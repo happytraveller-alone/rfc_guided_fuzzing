@@ -1,0 +1,21 @@
+//----- (000000014007C8C8) ----------------------------------------------------
+__int64 DnsRq_Cleanup()
+{
+  __int64 *v0; // rbx
+  __int64 v1; // rdi
+
+  PQ_CleanupPacketQueueHandles(g_pRemoteQueryQueue);
+  v0 = g_RemoteNameHashArray;
+  v1 = 256i64;
+  do
+  {
+    if ( *v0 )
+      Mem_Free((_QWORD *)*v0, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\remotequerysystem.c", 394);
+    ++v0;
+    --v1;
+  }
+  while ( v1 );
+  return 0i64;
+}
+// 1401C9538: using guessed type __int64 g_pRemoteQueryQueue;
+// 1401CA560: using guessed type __int64 g_RemoteNameHashArray[256];

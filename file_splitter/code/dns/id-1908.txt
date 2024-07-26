@@ -1,0 +1,5 @@
+//----- (00000001400E9860) ----------------------------------------------------
+__int64 __fastcall DnsSign::CException::GetDnsSignErrorCode(DnsSign::CException *this)
+{
+  return *((unsigned int *)this + 3);
+}

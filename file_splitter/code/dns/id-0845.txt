@@ -1,0 +1,76 @@
+//----- (0000000140075118) ----------------------------------------------------
+__int64 __fastcall Reg_EnumZones(const WCHAR *a1, HKEY *a2, DWORD a3, HKEY *a4, LPWSTR lpName)
+{
+  HKEY v9; // rbx
+  HKEY v10; // rax
+  unsigned int v12; // edi
+  CDnsClientSubnetRecordsTrie *v13; // rcx
+  __int64 v14; // rcx
+  const wchar_t *v15; // rax
+  const wchar_t *v16; // rax
+  __int64 v17; // rcx
+  HKEY v18; // rax
+  DWORD cchName; // [rsp+68h] [rbp+10h] BYREF
+
+  cchName = 255;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Dq(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x15u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a3);
+  }
+  v9 = *a2;
+  if ( !*a2 )
+  {
+    v10 = Reg_OpenZones(a1);
+    v9 = v10;
+    if ( !v10 )
+      return 110i64;
+    *a2 = v10;
+  }
+  v12 = RegEnumKeyExW(v9, a3, lpName, &cchName, 0i64, 0i64, 0i64, 0i64);
+  v13 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Dd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x16u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a3);
+    v13 = WPP_GLOBAL_Control;
+  }
+  if ( v12 )
+  {
+    if ( (*((_BYTE *)v13 + 68) & 2) != 0
+      && v12 != 259
+      && v13 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && *((_BYTE *)v13 + 65) >= 4u )
+    {
+      v14 = *((_QWORD *)v13 + 7);
+      v15 = L".";
+      if ( a1 )
+        v15 = a1;
+      WPP_SF_dSd(v14, 0x17u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a3, (__int64)v15);
+    }
+    return v12;
+  }
+  else
+  {
+    if ( v13 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v13 + 68) & 2) != 0
+      && *((_BYTE *)v13 + 65) >= 4u )
+    {
+      v16 = L".";
+      v17 = *((_QWORD *)v13 + 7);
+      if ( a1 )
+        v16 = a1;
+      WPP_SF_SS(v17, 0x18u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, lpName, (__int64)v16);
+    }
+    if ( a4 )
+    {
+      v18 = Reg_OpenZone(a1, lpName, v9);
+      *a4 = v18;
+      if ( !v18 )
+        return 110i64;
+    }
+    return 0i64;
+  }
+}

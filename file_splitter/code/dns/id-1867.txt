@@ -1,0 +1,33 @@
+//----- (00000001400E7118) ----------------------------------------------------
+__int64 __fastcall std::_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>::_Init(
+        _QWORD *a1,
+        __int64 a2)
+{
+  unsigned __int64 v2; // rbp
+  unsigned __int64 *v4; // rbx
+  unsigned __int64 v6; // r9
+  unsigned __int64 v7; // r10
+  __int64 result; // rax
+  __int64 v9; // [rsp+30h] [rbp+8h] BYREF
+
+  v2 = 2 * a2;
+  v4 = a1 + 4;
+  std::vector<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>::reserve(
+    a1 + 4,
+    2 * a2);
+  v6 = *v4;
+  v7 = v4[1];
+  v9 = a1[1];
+  if ( v6 != v7 )
+    v4[1] = v6;
+  std::vector<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>::_Insert_n(
+    (__int64)v4,
+    *v4,
+    v2,
+    &v9);
+  result = a2 - 1;
+  a1[9] = a2;
+  a1[8] = a2 - 1;
+  return result;
+}
+// 1400E7174: conditional instruction was optimized away because rdx.8==0

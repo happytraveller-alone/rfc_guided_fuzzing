@@ -1,0 +1,19 @@
+//----- (0000000140085F40) ----------------------------------------------------
+__int64 __fastcall Nsec3Validate(_BYTE *a1, unsigned __int16 a2)
+{
+  unsigned int v2; // ebx
+  int v4; // [rsp+38h] [rbp+10h] BYREF
+
+  v2 = 0;
+  if ( a2 < 7u
+    || a1[57] > 1u
+    || !a1[61]
+    || !(unsigned int)validateNsecBitmaps(
+                        (unsigned __int64)&a1[(unsigned __int8)a1[60] + 62 + (unsigned __int8)a1[61]],
+                        (unsigned __int64)&a1[a2 + 56],
+                        &v4) )
+  {
+    return 13;
+  }
+  return v2;
+}

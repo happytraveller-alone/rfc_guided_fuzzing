@@ -1,0 +1,35 @@
+//----- (0000000140154C94) ----------------------------------------------------
+CDnsVirtualizationManager *__fastcall CDnsVirtualizationManager::CDnsVirtualizationManager(
+        CDnsVirtualizationManager *this)
+{
+  _QWORD *v2; // rbx
+  _QWORD *v3; // rax
+  __int64 i; // rcx
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  v2 = operator new(0x20ui64);
+  if ( v2 )
+  {
+    *v2 = Is_Less_Than2;
+    v2[2] = 0i64;
+    v3 = operator new(0x30ui64);
+    if ( !v3 )
+    {
+      std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+    }
+    v2[1] = v3;
+    *v3 = v3;
+    *(_QWORD *)(v2[1] + 8i64) = v2[1];
+    *(_QWORD *)(v2[1] + 16i64) = v2[1];
+    for ( i = 0i64; i < 2; ++i )
+      *(_BYTE *)(i + v2[1] + 40) = 1;
+  }
+  else
+  {
+    v2 = 0i64;
+  }
+  *(_QWORD *)this = v2;
+  *((_QWORD *)this + 1) = 0i64;
+  return this;
+}

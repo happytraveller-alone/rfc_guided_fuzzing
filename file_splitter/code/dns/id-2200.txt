@@ -1,0 +1,27 @@
+//----- (0000000140116118) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::IsAllowOrDenyAceFound(PACL *this, void *a2)
+{
+  DWORD v4; // edi
+  _DWORD *v5; // rbx
+  LPVOID pAce; // [rsp+20h] [rbp-38h] BYREF
+  int pAclInformation[4]; // [rsp+28h] [rbp-30h] BYREF
+
+  if ( GetAclInformation(this[3], pAclInformation, 0xCu, AclSizeInformation) )
+  {
+    v4 = 0;
+    if ( pAclInformation[0] )
+    {
+      while ( GetAce(this[3], v4, &pAce) )
+      {
+        v5 = pAce;
+        if ( !*(_BYTE *)pAce && *((_BYTE *)pAce + 1) == 2 && EqualSid(a2, (char *)pAce + 8) && v5[1] == 983423 )
+          return 1i64;
+        if ( ++v4 >= pAclInformation[0] )
+          return 0i64;
+      }
+    }
+  }
+  return 0i64;
+}
+// 140116186: conditional instruction was optimized away because al.1==0
+// 140116118: using guessed type unsigned int pAclInformation[4];

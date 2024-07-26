@@ -1,0 +1,5 @@
+//----- (00000001400E6390) ----------------------------------------------------
+void __fastcall std::basic_streambuf<unsigned short>::_Lock(__int64 a1)
+{
+  std::_Mutex::_Lock((LPCRITICAL_SECTION *)(a1 + 8));
+}

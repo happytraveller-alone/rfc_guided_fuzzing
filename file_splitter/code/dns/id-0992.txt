@@ -1,0 +1,44 @@
+//----- (0000000140085D10) ----------------------------------------------------
+__int64 __fastcall TxtValidate(__int64 a1, unsigned __int16 a2)
+{
+  _BYTE *v2; // rcx
+  _BYTE *v3; // r8
+  unsigned int v4; // ebx
+  CDnsClientSubnetRecordsTrie *v5; // rcx
+  unsigned __int16 v6; // dx
+
+  v2 = (_BYTE *)(a1 + 56);
+  v3 = &v2[a2];
+  v4 = 0;
+  if ( a2 )
+  {
+    while ( v2 < v3 && *v2 )
+      v2 += (unsigned __int8)*v2 + 1;
+    if ( v2 > v3 )
+    {
+      v4 = 13;
+      v5 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v6 = 17;
+        goto LABEL_14;
+      }
+    }
+  }
+  else
+  {
+    v4 = 13;
+    v5 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v6 = 16;
+LABEL_14:
+      WPP_SF_(*((_QWORD *)v5 + 7), v6, (__int64)&WPP_ee6cca70a61333d4c68f5849229f01e3_Traceguids);
+    }
+  }
+  return v4;
+}

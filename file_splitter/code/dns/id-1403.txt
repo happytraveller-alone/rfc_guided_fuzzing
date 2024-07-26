@@ -1,0 +1,10 @@
+//----- (00000001400B1194) ----------------------------------------------------
+_QWORD *__fastcall NTree_InitializeEx(int a1)
+{
+  _QWORD *result; // rax
+
+  result = NTree_CreateNode(0i64, 0i64, 0i64, 0, a1);
+  if ( result )
+    *((_DWORD *)result + 23) |= 0x10u;
+  return result;
+}

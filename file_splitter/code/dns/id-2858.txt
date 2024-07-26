@@ -1,0 +1,79 @@
+//----- (000000014014E650) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateKey::UpdateKeyData(CDnsRRLParameters *a1, struct in_addr *a2, char *a3, int a4)
+{
+  unsigned int v4; // ebx
+  __int64 v6; // r8
+  signed __int64 v10; // r8
+  int *v11; // rcx
+  __int64 v12; // r9
+  const char *v13; // rax
+  unsigned __int16 v14; // dx
+  CDnsRRLParameters *v15; // rax
+  __int64 v17[6]; // [rsp+30h] [rbp-48h] BYREF
+
+  v4 = 0;
+  v17[3] = 15i64;
+  v17[2] = 0i64;
+  LOBYTE(v17[0]) = 0;
+  v6 = -1i64;
+  do
+    ++v6;
+  while ( a3[v6] );
+  std::string::assign(v17, a3, (char *)v6);
+  CDnsRRLStateKey::SetImputedDomainName((__int64)a1, (__int64)v17);
+  *((_DWORD *)a1 + 16) = a4;
+  if ( a2->S_un.S_un_w.s_w1 == 23 )
+  {
+    v10 = g_DnsRRLConfigParams - a1;
+    *((_DWORD *)a1 + 17) = 1;
+    v11 = (int *)((char *)a1 + 8);
+    v12 = 4i64;
+    do
+    {
+      *v11 = *(int *)((char *)v11 + v10 + 28) & *(int *)((char *)v11 + (char *)a2 - (char *)a1);
+      ++v11;
+      --v12;
+    }
+    while ( v12 );
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v13 = DnsAddr_Ntoa(a2);
+      v14 = 10;
+LABEL_15:
+      WPP_SF_ss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        v14,
+        (__int64)&WPP_9d24e83261bb323d145bf67b982c6afc_Traceguids,
+        v13,
+        (__int64)a3);
+    }
+  }
+  else if ( a2->S_un.S_un_w.s_w1 == 2 )
+  {
+    v15 = g_DnsRRLConfigParams;
+    *((_DWORD *)a1 + 17) = 0;
+    *((_DWORD *)a1 + 2) = a2[1].S_un.S_addr & *((_DWORD *)v15 + 8);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v13 = DnsAddr_Ntoa(a2);
+      v14 = 11;
+      goto LABEL_15;
+    }
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xCu, (__int64)&WPP_9d24e83261bb323d145bf67b982c6afc_Traceguids);
+    }
+    return 87;
+  }
+  return v4;
+}
+// 14014E650: using guessed type _QWORD var_48[6];

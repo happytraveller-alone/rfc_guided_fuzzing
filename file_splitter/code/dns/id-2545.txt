@@ -1,0 +1,5 @@
+//----- (000000014012EA80) ----------------------------------------------------
+__int64 CDNSPolicyCriteriaQueryType::GetCriteriaType()
+{
+  return 5i64;
+}

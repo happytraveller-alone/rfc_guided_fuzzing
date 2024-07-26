@@ -1,0 +1,38 @@
+//----- (00000001400E6AB4) ----------------------------------------------------
+_QWORD *__fastcall std::string::erase(_QWORD *a1, unsigned __int64 a2, unsigned __int64 a3)
+{
+  unsigned __int64 v5; // r8
+  _QWORD *v6; // rbx
+  unsigned __int64 v7; // r8
+  _QWORD *v8; // rdx
+  unsigned __int64 v9; // rcx
+  bool v10; // cf
+  _QWORD *v11; // rax
+
+  v5 = a1[2];
+  v6 = a1;
+  if ( v5 < a2 )
+    std::wstring::_Xran();
+  v7 = v5 - a2;
+  if ( v7 < a3 )
+    a3 = v7;
+  if ( a3 )
+  {
+    if ( a1[3] < 0x10ui64 )
+      v8 = a1;
+    else
+      v8 = (_QWORD *)*a1;
+    if ( a1[3] >= 0x10ui64 )
+      a1 = (_QWORD *)*a1;
+    memmove((char *)a1 + a2, (char *)v8 + a2 + a3, v7 - a3);
+    v9 = v6[2] - a3;
+    v10 = v6[3] < 0x10ui64;
+    v6[2] = v9;
+    if ( v10 )
+      v11 = v6;
+    else
+      v11 = (_QWORD *)*v6;
+    *((_BYTE *)v11 + v9) = 0;
+  }
+  return v6;
+}

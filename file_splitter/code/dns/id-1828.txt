@@ -1,0 +1,46 @@
+//----- (00000001400E5D30) ----------------------------------------------------
+__int64 __fastcall std::filebuf::pbackfail(__int64 a1, unsigned int a2)
+{
+  unsigned __int64 *v2; // rax
+  unsigned int v5; // ecx
+  unsigned __int64 v6; // rdx
+  FILE *v8; // rdx
+  _QWORD *v9; // r8
+  _BYTE *v10; // rdx
+  _QWORD *v11; // r9
+
+  v2 = *(unsigned __int64 **)(a1 + 64);
+  v5 = 0;
+  v6 = *v2;
+  if ( !*v2 || **(_QWORD **)(a1 + 32) >= v6 || a2 != -1 && *(unsigned __int8 *)(v6 - 1) != a2 )
+  {
+    v8 = *(FILE **)(a1 + 152);
+    if ( v8 && a2 != -1 )
+    {
+      if ( !*(_QWORD *)(a1 + 128) && ungetc((unsigned __int8)a2, v8) != -1 )
+        return a2;
+      v9 = *(_QWORD **)(a1 + 64);
+      v10 = (_BYTE *)(a1 + 136);
+      if ( *v9 != a1 + 136 )
+      {
+        v11 = *(_QWORD **)(a1 + 32);
+        *v10 = a2;
+        if ( (_BYTE *)*v11 != v10 )
+        {
+          *(_QWORD *)(a1 + 112) = *v11;
+          *(_QWORD *)(a1 + 120) = *v9 + **(int **)(a1 + 88);
+        }
+        *v11 = v10;
+        **(_QWORD **)(a1 + 64) = v10;
+        **(_DWORD **)(a1 + 88) = 1;
+        return a2;
+      }
+    }
+    return 0xFFFFFFFFi64;
+  }
+  ++**(_DWORD **)(a1 + 88);
+  --**(_QWORD **)(a1 + 64);
+  if ( a2 != -1 )
+    return a2;
+  return v5;
+}

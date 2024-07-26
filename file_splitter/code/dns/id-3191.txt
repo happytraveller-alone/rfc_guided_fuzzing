@@ -1,0 +1,10 @@
+//----- (0000000140168A3C) ----------------------------------------------------
+void __fastcall _Atexit(void (*a1)(void))
+{
+  if ( !qword_1401B7E78 )
+    abort();
+  --qword_1401B7E78;
+  qword_1401B8600[qword_1401B7E78] = EncodePointer(a1);
+}
+// 1401B7E78: using guessed type __int64 qword_1401B7E78;
+// 1401B8600: using guessed type _QWORD qword_1401B8600[10];

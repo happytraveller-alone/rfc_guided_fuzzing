@@ -1,0 +1,167 @@
+//----- (000000014014A890) ----------------------------------------------------
+__int64 __fastcall Add_PolicyToMap(const void **a1, __int64 a2)
+{
+  __int64 v2; // r14
+  char v4; // si
+  unsigned int v6; // r13d
+  char *v7; // r14
+  __int64 v8; // rax
+  const void ****v9; // r12
+  __int64 v10; // rax
+  const unsigned __int16 *v11; // r9
+  void *v12; // rcx
+  void **v13; // rax
+  const void **v14; // rax
+  __int64 v15; // rax
+  const void **v16; // rax
+  __int64 v17; // rax
+  bool v18; // zf
+  __int64 PolicyName; // rax
+  const unsigned __int16 *v20; // r9
+  char v22[16]; // [rsp+38h] [rbp-71h] BYREF
+  void *v23[3]; // [rsp+48h] [rbp-61h] BYREF
+  unsigned __int64 v24; // [rsp+60h] [rbp-49h]
+  void *v25[2]; // [rsp+70h] [rbp-39h] BYREF
+  __int64 v26; // [rsp+80h] [rbp-29h]
+  unsigned __int64 v27; // [rsp+88h] [rbp-21h]
+  const void **v28; // [rsp+98h] [rbp-11h]
+  void *v29[3]; // [rsp+A0h] [rbp-9h] BYREF
+  unsigned __int64 v30; // [rsp+B8h] [rbp+Fh]
+
+  v2 = *((int *)a1 + 22);
+  v4 = 0;
+  CDnsPolicy::GetPolicyName(a1, (__int64)v29);
+  v6 = 0;
+  if ( a2 )
+    v7 = *(char **)(a2 + 8 * v2 + 216);
+  else
+    v7 = (char *)&g_PolicySvr + 32 * v2;
+  if ( v30 >= 8 )
+    operator delete(v29[0]);
+  v30 = 7i64;
+  v29[2] = 0i64;
+  LOWORD(v29[0]) = 0;
+  if ( !v7 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v4 = 1;
+      PolicyName = CDnsPolicy::GetPolicyName(a1, (__int64)v23);
+      v20 = (const unsigned __int16 *)PolicyName;
+      if ( *(_QWORD *)(PolicyName + 24) >= 8ui64 )
+        v20 = *(const unsigned __int16 **)PolicyName;
+      WPP_SF_Sdd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x88u,
+        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+        v20);
+    }
+    v18 = (v4 & 1) == 0;
+LABEL_49:
+    if ( v18 )
+      return v6;
+    goto LABEL_50;
+  }
+  v8 = *((int *)a1 + 22);
+  if ( a2 )
+    v9 = *(const void *****)(a2 + 8 * v8 + 256);
+  else
+    v9 = (const void ****)((char *)&g_PolicyOrder + 72 * v8);
+  if ( !v9 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v4 = 2;
+      v10 = CDnsPolicy::GetPolicyName(a1, (__int64)v29);
+      v11 = (const unsigned __int16 *)v10;
+      if ( *(_QWORD *)(v10 + 24) >= 8ui64 )
+        v11 = *(const unsigned __int16 **)v10;
+      WPP_SF_Sdd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x89u,
+        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+        v11);
+    }
+    if ( (v4 & 2) != 0 && v30 >= 8 )
+    {
+      v12 = v29[0];
+LABEL_52:
+      operator delete(v12);
+      return v6;
+    }
+    return v6;
+  }
+  v13 = (void **)CDnsPolicy::GetPolicyName(a1, (__int64)v23);
+  v26 = 0i64;
+  v27 = 7i64;
+  LOWORD(v25[0]) = 0;
+  std::wstring::assign(v25, v13);
+  v28 = a1;
+  v14 = (const void **)std::_Tree_val<std::_Tmap_traits<std::wstring,CDnsPolicy_CriteriaNode *,bool (*)(std::wstring const &,std::wstring const &),std::allocator<std::pair<std::wstring const,CDnsPolicy_CriteriaNode *>>,0>>::_Buynode<std::pair<std::wstring,CDnsPolicy_CriteriaNode *>>(
+                         (__int64)v7,
+                         (__int64)v25);
+  std::_Tree<std::_Tmap_traits<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>,0>>::_Linsert(
+    (__int64)v7,
+    (__int64)v22,
+    v14);
+  if ( v27 >= 8 )
+    operator delete(v25[0]);
+  v27 = 7i64;
+  v26 = 0i64;
+  LOWORD(v25[0]) = 0;
+  if ( v24 >= 8 )
+    operator delete(v23[0]);
+  v6 = CDnsPolicyOrder::AddPolicyProcessingOrder(v9, (struct CDnsPolicy *)a1);
+  if ( !v6 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v4 = 8;
+      v17 = CDnsPolicy::GetPolicyName(a1, (__int64)v23);
+      if ( *(_QWORD *)(v17 + 24) >= 8ui64 )
+        v17 = *(_QWORD *)v17;
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x8Bu,
+        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+        (const unsigned __int16 *)v17);
+    }
+    v18 = (v4 & 8) == 0;
+    goto LABEL_49;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v4 = 4;
+    v15 = CDnsPolicy::GetPolicyName(a1, (__int64)v23);
+    if ( *(_QWORD *)(v15 + 24) >= 8ui64 )
+      v15 = *(_QWORD *)v15;
+    WPP_SF_Sdd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x8Au,
+      (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+      (const unsigned __int16 *)v15);
+  }
+  if ( (v4 & 4) != 0 && v24 >= 8 )
+    operator delete(v23[0]);
+  v16 = (const void **)CDnsPolicy::GetPolicyName(a1, (__int64)v23);
+  std::_Tree<std::_Tmap_traits<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>,0>>::erase(
+    (__int64)v7,
+    v16);
+LABEL_50:
+  if ( v24 >= 8 )
+  {
+    v12 = v23[0];
+    goto LABEL_52;
+  }
+  return v6;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 14014A890: using guessed type char var_C8[16];

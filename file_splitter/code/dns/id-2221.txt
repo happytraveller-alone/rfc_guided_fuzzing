@@ -1,0 +1,25 @@
+//----- (0000000140118350) ----------------------------------------------------
+char *__fastcall Dbg_GuidString(const IID *a1)
+{
+  __int64 v1; // r9
+  __int64 v2; // rax
+  char *v3; // rbx
+  LPOLESTR lpsz; // [rsp+30h] [rbp+8h] BYREF
+
+  v1 = *(_QWORD *)NtCurrentTeb()->ThreadLocalStoragePointer;
+  v2 = v1 + 520i64 * (_InterlockedIncrement((volatile signed __int32 *)(v1 + 32)) % 5);
+  v3 = (char *)(v2 + 9024);
+  if ( a1 )
+  {
+    lpsz = 0i64;
+    StringFromCLSID(a1, &lpsz);
+    if ( (int)StringCchCopyW(v3, 260i64, (char *)lpsz) < 0 )
+      *(_WORD *)v3 = 0;
+    CoTaskMemFree(lpsz);
+  }
+  else if ( (int)StringCchCopyW((char *)(v2 + 9024), 260i64, (char *)L"NULL") < 0 )
+  {
+    *(_WORD *)v3 = 0;
+  }
+  return v3;
+}

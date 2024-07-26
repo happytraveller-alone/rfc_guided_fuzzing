@@ -1,0 +1,6 @@
+//----- (0000000140143B80) ----------------------------------------------------
+void __fastcall CDNSPolicyCriteriaFqdn::Begin(CDNSPolicyCriteriaFqdn *this)
+{
+  *((_QWORD *)this + 14) = **((_QWORD **)this + 8);
+  *((_DWORD *)this + 3) = 1;
+}

@@ -1,0 +1,35 @@
+//----- (0000000140064374) ----------------------------------------------------
+_BYTE *__fastcall Name_PlaceNodeLabelInRpcBuffer(_BYTE *a1, unsigned __int64 a2, __int64 a3)
+{
+  size_t v6; // rsi
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Bu, (__int64)&WPP_7fc80419a8b133cb02be4345e744511d_Traceguids);
+  }
+  v6 = *(unsigned __int8 *)(a3 + 101);
+  if ( (unsigned int)Wire_TestForBytesRemaining((unsigned __int64)a1, a2, v6 + 2) )
+  {
+    memcpy_0(a1 + 1, (const void *)(a3 + 102), v6);
+    a1[v6 + 1] = 0;
+    *a1 = v6;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_sDq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Cu,
+        (__int64)&WPP_7fc80419a8b133cb02be4345e744511d_Traceguids,
+        a1 + 1);
+    }
+    return &a1[v6 + 1];
+  }
+  else
+  {
+    SetLastError(0xEAu);
+    return 0i64;
+  }
+}

@@ -1,0 +1,58 @@
+//----- (0000000140063324) ----------------------------------------------------
+__int64 __fastcall Name_LookupNameToIpAddress(unsigned __int16 *a1, struct in_addr *a2)
+{
+  char *v4; // rax
+  __int64 v6; // rdx
+  UCHAR *p_s_b4; // r11
+  unsigned __int16 *i; // r10
+  unsigned __int8 v9; // r9
+  unsigned __int8 *v10; // rbx
+  unsigned int v11; // eax
+  int v12; // ecx
+  int v13; // eax
+  struct in_addr in; // [rsp+30h] [rbp+8h] BYREF
+
+  in = 0;
+  if ( *a1 == 6 )
+  {
+    v6 = 0i64;
+    p_s_b4 = &in.S_un.S_un_b.s_b4;
+    for ( i = a1 + 4; ; i += 4 )
+    {
+      v9 = *((_BYTE *)a1 + v6 + 328);
+      v10 = *(unsigned __int8 **)i;
+      if ( v9 > 3u )
+        break;
+      v11 = 0;
+      if ( v9 )
+      {
+        do
+        {
+          v12 = 5 * v11;
+          v13 = *v10++;
+          v11 = v13 + 2 * v12 - 48;
+          --v9;
+        }
+        while ( v9 );
+        if ( v11 > 0xFF )
+          break;
+      }
+      *p_s_b4 = v11;
+      ++v6;
+      --p_s_b4;
+      if ( v6 >= 4 )
+      {
+        DnsAddr_BuildFromIp4(a2, in, 0);
+        return 1i64;
+      }
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v4 = Dbg_LookupName(a1);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x27u, (__int64)&WPP_7966accab5e33f0669cbfec5669d513c_Traceguids, v4);
+  }
+  return 0i64;
+}

@@ -1,0 +1,36 @@
+//----- (00000001400C08E4) ----------------------------------------------------
+__int64 __fastcall ZoneScopes_UnLockAll(__int64 a1, unsigned int a2, __int64 **a3)
+{
+  __int64 *i; // rdi
+  __int64 v6; // rcx
+  __int64 v7; // rdx
+  __int64 NextElement_ScopeMap; // rax
+  __int64 v9; // rbx
+  unsigned int v11; // [rsp+38h] [rbp+10h] BYREF
+
+  v11 = a2;
+  if ( a3 )
+  {
+    for ( i = *a3; i; i = (__int64 *)i[1] )
+      Zone_UnlockAfterWriteEx(*i, 2, (__int64)"ds\\dns\\server\\server\\zone.c", 188);
+    Free_ScopeList(*a3);
+    *a3 = 0i64;
+  }
+  else
+  {
+    v6 = *(_QWORD *)(a1 + 160);
+    v7 = 0i64;
+    while ( 1 )
+    {
+      NextElement_ScopeMap = Get_NextElement_ScopeMap(v6, v7, 0i64);
+      v9 = NextElement_ScopeMap;
+      if ( !NextElement_ScopeMap )
+        break;
+      Zone_UnlockAfterWriteEx(NextElement_ScopeMap, 2, (__int64)"ds\\dns\\server\\server\\zone.c", 201);
+      v7 = *(_QWORD *)(v9 + 192);
+      v6 = *(_QWORD *)(a1 + 160);
+    }
+  }
+  v11 = -1;
+  return releaseRead(*(_QWORD *)(a1 + 168), &v11, 1);
+}

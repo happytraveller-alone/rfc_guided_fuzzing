@@ -1,0 +1,71 @@
+//----- (0000000140081698) ----------------------------------------------------
+void **__fastcall allocateRpcZoneInfoW2K(__int64 a1)
+{
+  void **zero; // rax
+  __int64 v3; // r8
+  void **v4; // rbx
+  BOOL v5; // eax
+  BOOL v6; // eax
+  __int64 v7; // r8
+  void *v9; // rcx
+  void *v10; // rcx
+  void *v11; // rcx
+  void *v12; // rcx
+  void *v13; // rcx
+
+  zero = (void **)MIDL_user_allocate_zero(0x80ui64);
+  v4 = zero;
+  if ( zero )
+  {
+    *((_DWORD *)zero + 2) = *(_DWORD *)(a1 + 372);
+    *((_DWORD *)zero + 3) = (*(_DWORD *)(a1 + 396) >> 1) & 1;
+    *((_DWORD *)zero + 7) = (*(_DWORD *)(a1 + 396) >> 2) & 1;
+    *((_DWORD *)zero + 4) = *(_BYTE *)(a1 + 392) & 3;
+    *((_DWORD *)zero + 8) = *(_DWORD *)(a1 + 388) & 1;
+    *((_DWORD *)zero + 14) = *(_DWORD *)(a1 + 380);
+    *((_DWORD *)zero + 15) = *(unsigned __int8 *)(a1 + 385);
+    *((_DWORD *)zero + 5) = (*(_DWORD *)(a1 + 396) >> 12) & 1;
+    *((_DWORD *)zero + 6) = (*(_DWORD *)(a1 + 396) >> 13) & 1;
+    v5 = (*(_BYTE *)(a1 + 396) & 2) == 0 && *(_QWORD *)(a1 + 344);
+    *((_DWORD *)v4 + 20) = v5;
+    v6 = (*(_BYTE *)(a1 + 396) & 2) != 0 && *(_QWORD *)(a1 + 344);
+    *((_DWORD *)v4 + 21) = v6;
+    *((_DWORD *)v4 + 22) = *(_DWORD *)(a1 + 396) & 1;
+    if ( *(_DWORD *)(a1 + 372) == 1 )
+    {
+      *((_DWORD *)v4 + 23) = *(_DWORD *)(a1 + 992);
+      *((_DWORD *)v4 + 24) = *(_DWORD *)(a1 + 996);
+      *((_DWORD *)v4 + 25) = *(_DWORD *)(a1 + 1000);
+    }
+    if ( (unsigned int)RpcUtil_CopyStringToRpcBuffer(v4, *(_BYTE **)(a1 + 16), v3)
+      && (unsigned int)RpcUtil_CopyStringToRpcBuffer(v4 + 5, *(_BYTE **)(a1 + 136), v7)
+      && (*(_DWORD *)(a1 + 372) == 1 || (unsigned int)RpcUtil_CopyIpArrayToRpcBuffer(v4 + 6, *(_QWORD *)(a1 + 1168)))
+      && (unsigned int)RpcUtil_CopyIpArrayToRpcBuffer(v4 + 8, *(_QWORD *)(a1 + 552))
+      && (unsigned int)RpcUtil_CopyIpArrayToRpcBuffer(v4 + 9, *(_QWORD *)(a1 + 544))
+      && (*(_DWORD *)(a1 + 372) != 1 || (unsigned int)RpcUtil_CopyIpArrayToRpcBuffer(v4 + 13, *(_QWORD *)(a1 + 1008))) )
+    {
+      return v4;
+    }
+    if ( *v4 )
+      MIDL_user_free(*v4);
+    v9 = v4[5];
+    if ( v9 )
+      MIDL_user_free(v9);
+    v10 = v4[6];
+    if ( v10 )
+      MIDL_user_free(v10);
+    v11 = v4[8];
+    if ( v11 )
+      MIDL_user_free(v11);
+    v12 = v4[9];
+    if ( v12 )
+      MIDL_user_free(v12);
+    v13 = v4[13];
+    if ( v13 )
+      MIDL_user_free(v13);
+    MIDL_user_free(v4);
+  }
+  return 0i64;
+}
+// 14008179D: variable 'v3' is possibly undefined
+// 1400817B1: variable 'v7' is possibly undefined

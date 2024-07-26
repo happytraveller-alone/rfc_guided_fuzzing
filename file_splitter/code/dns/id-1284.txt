@@ -1,0 +1,29 @@
+//----- (00000001400A5840) ----------------------------------------------------
+__int64 __fastcall cfg_SetVirtualizationInstanceOptionValue(__int64 a1)
+{
+  int v1; // edx
+
+  v1 = *(_DWORD *)(a1 + 8);
+  if ( v1 )
+  {
+    if ( (unsigned int)(v1 - 9) > 0xFFF5 || v1 == dword_1401B99AC )
+    {
+      if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 4) != 0 )
+        Template_xxqb(a1, &DNS_EVENT_INVALID_VIRT_INST_EDNS_OPCODE, *(unsigned int *)(a1 + 8), 65434i64);
+      *(_DWORD *)(a1 + 8) = 65434;
+    }
+    else if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 1) != 0 )
+    {
+      Template_xqb(a1, &DNS_EVENT_VIRT_INST_EDNS_OPCODE_SET, *(unsigned int *)(a1 + 8));
+    }
+  }
+  else
+  {
+    *(_DWORD *)(a1 + 8) = 0;
+  }
+  return 0i64;
+}
+// 1401862C8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_INVALID_VIRT_INST_EDNS_OPCODE;
+// 140187040: using guessed type EVENT_DESCRIPTOR DNS_EVENT_VIRT_INST_EDNS_OPCODE_SET;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;
+// 1401B99AC: using guessed type int dword_1401B99AC;

@@ -1,0 +1,54 @@
+//----- (0000000140028F34) ----------------------------------------------------
+void __fastcall Dnssec_MarkUnvalidatedRRSetsBogus(__int64 a1, __int64 a2)
+{
+  __int64 v4; // rsi
+  unsigned __int16 v5; // r8
+  unsigned __int16 v6; // dx
+  __int64 v7; // rdx
+  __int64 NoExistRecord; // rax
+
+  if ( a1 && a2 )
+  {
+    Dbase_LockEx(0i64, 2, (__int64)"ds\\dns\\server\\server\\dnssec.c", 94);
+    v4 = 0i64;
+    if ( *(_DWORD *)(a2 + 1468) )
+    {
+      while ( *(_DWORD *)(a2 + 24 * v4 + 1568) )
+      {
+LABEL_14:
+        v4 = (unsigned int)(v4 + 1);
+        if ( (unsigned int)v4 >= *(_DWORD *)(a2 + 1468) )
+          goto LABEL_15;
+      }
+      v5 = *(_WORD *)(a2 + 24 * v4 + 1566);
+      v6 = *(_WORD *)(a2 + 24 * v4 + 1564);
+      if ( v5 == 0xFFF0 )
+      {
+        if ( v6 == 0xF0F0 )
+        {
+          v7 = *(_QWORD *)(*(_QWORD *)(a2 + 24 * v4 + 1552) + 64i64);
+LABEL_11:
+          if ( v7 )
+            setValidationStatusOnRRset(a2, v7, 2u, 1u, *(_DWORD *)(a1 + 568), 0xFFFFFFFF);
+          *(_DWORD *)(a2 + 24 * v4 + 1568) = 1;
+          goto LABEL_14;
+        }
+        NoExistRecord = (__int64)Dnssec_FindNoExistRecord(*(_QWORD *)(a2 + 24 * v4 + 1552), v6);
+      }
+      else
+      {
+        NoExistRecord = RR_FindNextRecordEx(
+                          *(_QWORD *)(a2 + 24 * v4 + 1552),
+                          v6,
+                          v5,
+                          0i64,
+                          *(_DWORD *)(a2 + 568),
+                          *(_DWORD *)(a2 + 24 * v4 + 1560) | 1u);
+      }
+      v7 = NoExistRecord;
+      goto LABEL_11;
+    }
+LABEL_15:
+    Dbase_UnlockEx(0i64, 2, (__int64)"ds\\dns\\server\\server\\dnssec.c", 160);
+  }
+}

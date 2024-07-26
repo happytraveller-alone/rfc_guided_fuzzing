@@ -1,0 +1,39 @@
+//----- (000000014015C780) ----------------------------------------------------
+_WORD *__fastcall Ds_RecordBuildW(int a1, __int64 a2)
+{
+  _WORD *result; // rax
+  __int64 v4; // rbx
+  _WORD *Record; // rdi
+  char *v6; // rax
+  char *v7; // rsi
+  int v8; // [rsp+40h] [rbp+8h] BYREF
+
+  if ( a1 != 4 )
+  {
+    SetLastError(0xDu);
+    return 0i64;
+  }
+  v4 = -1i64;
+  do
+    ++v4;
+  while ( *(_WORD *)(*(_QWORD *)(a2 + 24) + 2 * v4) );
+  v8 = v4;
+  Record = Dns_AllocateRecordEx((unsigned __int16)(v4 + 10));
+  if ( !Record )
+    return 0i64;
+  Record[16] = wcstoul(*(const wchar_t **)a2, 0i64, 0);
+  *((_BYTE *)Record + 34) = wcstoul(*(const wchar_t **)(a2 + 8), 0i64, 10);
+  *((_BYTE *)Record + 35) = wcstoul(*(const wchar_t **)(a2 + 16), 0i64, 10);
+  v6 = (char *)Dns_StringCopyAllocate(*(char **)(a2 + 24), 0, 1i64, 2);
+  v7 = v6;
+  if ( Record != (_WORD *)-40i64 )
+  {
+    buildByteBufferFromHexString((__int64)(Record + 20), &v8, v6, (_BYTE *)Record + 40);
+    LOWORD(v4) = v8;
+  }
+  Dns_Free(v7);
+  Record[18] = v4;
+  result = Record;
+  Record[9] = v4 + 4;
+  return result;
+}

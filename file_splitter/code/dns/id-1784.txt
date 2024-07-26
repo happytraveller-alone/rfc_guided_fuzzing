@@ -1,0 +1,78 @@
+//----- (00000001400E096C) ----------------------------------------------------
+void __fastcall TrustPoint::DeleteTrustAnchorFromTAZone(TrustPoint *this, unsigned __int16 **a2)
+{
+  unsigned __int16 v3; // di
+  struct _DnsTreeNode *v5; // r14
+  const char *v6; // r9
+  _BYTE *v7; // rax
+  _BYTE *v8; // rbx
+  int updated; // eax
+  const char *v10; // rsi
+  __int64 v11; // rax
+  __int64 v12; // r8
+  const char *v13; // rsi
+  __int64 v14; // rax
+  __int64 v15; // r8
+  __int64 v16; // [rsp+68h] [rbp+10h] BYREF
+
+  v3 = 0;
+  v16 = 0i64;
+  if ( !(unsigned int)Zone_FindOrCreateTrustAnchorsZone(&v16) )
+  {
+    v5 = (struct _DnsTreeNode *)Lookup_ZoneNode(v16, (unsigned __int8 *)this + 178, 0i64, 0i64, 33, 0i64, 0i64, 0i64);
+    if ( v5 )
+    {
+      v7 = RR_Copy(*a2);
+      v8 = v7;
+      if ( v7 )
+      {
+        if ( *((_WORD *)v7 + 6) == 48 && (ntohs(*((_WORD *)v7 + 28)) & 0x80u) != 0 )
+          *((_WORD *)v8 + 28) ^= htons(0x80u);
+        updated = TrustPoint::UpdateTrustAnchorZone(v5, 0i64, (struct _Dbase_Record *)v8);
+        if ( !updated || updated == 9711 )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+          {
+            if ( *a2 )
+              v3 = (*a2)[6];
+            v13 = (char *)this + 136;
+            if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+              v13 = *(const char **)v13;
+            v14 = DnsRecordStringForWritableType(v3);
+            WPP_SF_sqsD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x23u, v15, v13, (char)this, v14);
+          }
+        }
+        else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+               && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+               && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          if ( *a2 )
+            v3 = (*a2)[6];
+          v10 = (char *)this + 136;
+          if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+            v10 = *(const char **)v10;
+          v11 = DnsRecordStringForWritableType(v3);
+          WPP_SF_sqsDD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x22u, v12, v10, (char)this, v11);
+        }
+      }
+    }
+    else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+           && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v6 = (char *)this + 136;
+      if ( *((_QWORD *)this + 20) >= 0x10ui64 )
+        v6 = *(const char **)v6;
+      WPP_SF_sq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x21u,
+        (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids,
+        v6);
+    }
+  }
+}
+// 1400E0B0F: variable 'v12' is possibly undefined
+// 1400E0B83: variable 'v15' is possibly undefined
+// 140183D30: using guessed type __int64 __fastcall DnsRecordStringForWritableType(_QWORD);

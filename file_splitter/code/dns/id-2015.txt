@@ -1,0 +1,25 @@
+//----- (00000001400F8348) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall DnsOls_DeleteSkdKeyPairObject(__int64 a1)
+{
+  CDnsClientSubnetRecordsTrie **result; // rax
+  DnsSign::CDnsKeyPair *v3; // rcx
+
+  if ( a1 && *(_QWORD *)(a1 + 8) )
+  {
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      result = (CDnsClientSubnetRecordsTrie **)WPP_SF_qS(
+                                                 *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                                 0xAu,
+                                                 (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids);
+    }
+    v3 = *(DnsSign::CDnsKeyPair **)(a1 + 8);
+    if ( v3 )
+      result = (CDnsClientSubnetRecordsTrie **)DnsSign::CDnsKeyPair::`scalar deleting destructor'(v3);
+    *(_QWORD *)(a1 + 8) = 0i64;
+  }
+  return result;
+}

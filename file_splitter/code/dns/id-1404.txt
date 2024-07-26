@@ -1,0 +1,84 @@
+//----- (00000001400B11C0) ----------------------------------------------------
+_QWORD *__fastcall NTree_CreateNode(void *Src, void *a2, size_t Size, unsigned int a4, int a5)
+{
+  size_t v6; // rsi
+  const char *v9; // rax
+  __int64 v10; // rdx
+  unsigned int v11; // ebx
+  _QWORD *v12; // rax
+  _QWORD *v13; // rdi
+  const char *v14; // rax
+  char *v16; // rbx
+  void *v17; // rax
+
+  v6 = (unsigned int)Size;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = (const char *)FormatLabelA((unsigned int)Size, Src);
+    WPP_SF_ssD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xAu,
+      (__int64)&WPP_800d841ceeab39a775299d72a602aebb_Traceguids,
+      v9,
+      (__int64)a2);
+  }
+  v10 = 39i64;
+  v11 = 2 * v6 + 106;
+  if ( a4 )
+    v10 = a4;
+  v12 = Mem_Alloc(2 * (int)v6 + 106, v10, "ds\\dns\\server\\server\\tree.c", 216);
+  v13 = v12;
+  if ( v12 )
+  {
+    memset_0(v12, 0, 0x69ui64);
+    if ( !a5 )
+    {
+      _InterlockedIncrement(&dword_1401C8490);
+      _InterlockedIncrement(&dword_1401C848C);
+      _InterlockedExchangeAdd(&dword_1401C8488, v11);
+      _InterlockedExchangeAdd((volatile signed __int32 *)pcDatabaseNodeMemory, v11);
+      v13[6] = v13 + 5;
+      v13[5] = v13 + 5;
+    }
+    memcpy_0((char *)v13 + 102, Src, v6);
+    *((_BYTE *)v13 + v6 + 102) = 0;
+    v16 = (char *)v13 + (unsigned __int8)v6;
+    *((_BYTE *)v13 + 101) = v6;
+    memcpy_0(v16 + 103, a2, v6);
+    v16[v6 + 103] = 0;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      v17 = FormatLabelA(v6, Src);
+      WPP_SF_qs(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xCu,
+        (__int64)&WPP_800d841ceeab39a775299d72a602aebb_Traceguids,
+        v13,
+        v17);
+    }
+    return v13;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v14 = (const char *)FormatLabelA(v6, Src);
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xBu,
+        (__int64)&WPP_800d841ceeab39a775299d72a602aebb_Traceguids,
+        v14);
+    }
+    return 0i64;
+  }
+}
+// 1401C8488: using guessed type int dword_1401C8488;
+// 1401C848C: using guessed type int dword_1401C848C;
+// 1401C8490: using guessed type int dword_1401C8490;
+// 1401C8630: using guessed type __int64 pcDatabaseNodeMemory;

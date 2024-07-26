@@ -1,0 +1,20 @@
+//----- (0000000140166580) ----------------------------------------------------
+_BYTE *__fastcall TlsaDnsRecordConvert(__int64 a1)
+{
+  int v1; // esi
+  _BYTE *result; // rax
+  _BYTE *v4; // rbx
+
+  v1 = *(unsigned __int16 *)(a1 + 36);
+  result = Rpc_AllocateRecord(v1 + 3);
+  v4 = result;
+  if ( result )
+  {
+    result[24] = *(_BYTE *)(a1 + 32);
+    result[25] = *(_BYTE *)(a1 + 33);
+    result[26] = *(_BYTE *)(a1 + 34);
+    memcpy_0(result + 27, (const void *)(a1 + 41), (unsigned __int16)v1);
+    return v4;
+  }
+  return result;
+}

@@ -1,0 +1,228 @@
+//----- (000000014003B7BC) ----------------------------------------------------
+__int64 __fastcall Ds_SetDsaVersionGlobals(LDAP *ld)
+{
+  unsigned int v2; // edi
+  wchar_t *v3; // rsi
+  __int64 v5; // rbx
+  __int64 v6; // rbx
+  char *v7; // rax
+  unsigned __int16 *v8; // rbp
+  int v9; // r12d
+  char *v10; // rax
+  int *v11; // r14
+  __int64 v12; // rax
+  size_t v13; // rbx
+  wchar_t *v14; // rax
+  wchar_t *v15; // rax
+  __int64 v16; // rax
+  size_t v17; // rbx
+  DWORD TickCount; // ebx
+  int v19; // r15d
+  int v20; // eax
+  __int64 v21; // rdx
+  ULONG LastError; // ebx
+  __int64 v23; // r8
+  PLDAPMessage res; // [rsp+A8h] [rbp+10h] BYREF
+  PWSTR attrs; // [rsp+B0h] [rbp+18h] BYREF
+
+  v2 = 0;
+  v3 = 0i64;
+  if ( !qword_1401B6B70 )
+    return 13i64;
+  v5 = -1i64;
+  do
+    ++v5;
+  while ( qword_1401B6B70[v5] );
+  v6 = v5 + 20;
+  v7 = (char *)Mem_Alloc(2 * (int)v6, 9i64, "ds\\dns\\server\\server\\ds.c", 5382);
+  v8 = (unsigned __int16 *)v7;
+  if ( v7 )
+  {
+    if ( (int)StringCchCopyW(v7, v6, (char *)L"CN=Sites,") >= 0
+      && (int)StringCchCatW(v8, v6, (char *)qword_1401B6B70) >= 0 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_S(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x7Cu,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          v8);
+      }
+      v9 = 0;
+      while ( 1 )
+      {
+        attrs = 0i64;
+        res = 0i64;
+        if ( v9 )
+        {
+          if ( v9 == 1 )
+          {
+            v15 = (wchar_t *)Mem_Alloc(0xC2u, 9i64, "ds\\dns\\server\\server\\ds.c", 5466);
+            v3 = v15;
+            if ( !v15 )
+              goto LABEL_6;
+            sprintfSafe(v15, 0x61ui64, L"(&(objectCategory=ntdsDsa)(!(msDS-Behavior-Version>=%d)))");
+            v11 = (int *)&g_ulDownlevelDCsInForest;
+          }
+          else if ( v9 == 2 )
+          {
+            v12 = -1i64;
+            do
+              ++v12;
+            while ( DistinguishedName[v12] );
+            v13 = 2 * v12 + 70;
+            v14 = (wchar_t *)Mem_Alloc(2 * (int)v13, 9i64, "ds\\dns\\server\\server\\ds.c", 5489);
+            v3 = v14;
+            if ( !v14 )
+              goto LABEL_6;
+            sprintfSafe(v14, v13, L"(&(objectCategory=ntdsDsa)(|(msDS-HasMasterNCs=%s)(hasMasterNCs=%s)))");
+            v11 = &g_ulDCsInDomain;
+          }
+          else
+          {
+            v10 = (char *)Mem_Alloc(0x32u, 9i64, "ds\\dns\\server\\server\\ds.c", 5514);
+            v3 = (wchar_t *)v10;
+            if ( !v10 )
+              goto LABEL_6;
+            if ( (int)StringCchCopyW(v10, 25i64, (char *)L"(objectCategory=ntdsDsa)") < 0 )
+              break;
+            v11 = &g_ulDCsInForest;
+          }
+        }
+        else
+        {
+          v16 = -1i64;
+          do
+            ++v16;
+          while ( DistinguishedName[v16] );
+          v17 = 2 * v16 + 139;
+          v3 = (wchar_t *)Mem_Alloc(2 * (int)v17, 9i64, "ds\\dns\\server\\server\\ds.c", 5442);
+          if ( !v3 )
+            goto LABEL_6;
+          sprintfSafe(
+            v3,
+            v17,
+            L"(&(objectCategory=ntdsDsa)(!(msDS-Behavior-Version>=%d))(|(msDS-HasMasterNCs=%s)(hasMasterNCs=%s)))",
+            2i64,
+            DistinguishedName,
+            DistinguishedName);
+          v11 = &g_ulDownlevelDCsInDomain;
+        }
+        TickCount = GetTickCount();
+        v19 = ldap_search_ext_sW(ld, v8, 2u, v3, &attrs, 0, 0i64, 0i64, &g_LdapTimeout, 0, &res);
+        _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - TickCount);
+        if ( v19 )
+        {
+          if ( v19 == 4 )
+          {
+            *v11 = 2;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_DSS(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x7Du,
+                (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                2,
+                (__int64)v8,
+                (__int64)v3);
+            }
+            if ( !v2 )
+              v2 = 0;
+          }
+          else
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_dqSS(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x7Eu,
+                (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                v19,
+                (char)ld,
+                (__int64)v8,
+                (__int64)v3);
+            }
+            if ( !v2 )
+              v2 = v19;
+          }
+        }
+        else
+        {
+          v20 = ldap_count_entries(ld, res);
+          if ( v20 == -1 )
+          {
+            LastError = LdapGetLastError();
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_dDqSS(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                v21,
+                v23,
+                LastError,
+                LastError,
+                (char)ld,
+                (__int64)v8,
+                (__int64)v3);
+            }
+            if ( !v2 )
+              v2 = LastError;
+          }
+          else
+          {
+            *v11 = v20;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_DSS(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x80u,
+                (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+                v20,
+                (__int64)v8,
+                (__int64)v3);
+            }
+          }
+        }
+        if ( res )
+        {
+          ldap_msgfree(res);
+          res = 0i64;
+        }
+        Mem_Free(v3, 0i64, 9i64, (__int64)"ds\\dns\\server\\server\\ds.c", 5635);
+        ++v9;
+        v3 = 0i64;
+        if ( v9 >= 4 )
+          goto LABEL_60;
+      }
+    }
+    v2 = 87;
+  }
+  else
+  {
+LABEL_6:
+    v2 = 14;
+  }
+LABEL_60:
+  Mem_Free(v3, 0i64, 9i64, (__int64)"ds\\dns\\server\\server\\ds.c", 5641);
+  Mem_Free(v8, 0i64, 9i64, (__int64)"ds\\dns\\server\\server\\ds.c", 5642);
+  return v2;
+}
+// 14003BBBF: variable 'v21' is possibly undefined
+// 14003BBBF: variable 'v23' is possibly undefined
+// 14018C0F0: using guessed type wchar_t aObjectcategory_2[100];
+// 14018C1C0: using guessed type wchar_t aObjectcategory[58];
+// 14018C240: using guessed type wchar_t aObjectcategory_1[70];
+// 1401B7EF4: using guessed type int g_ulDCsInForest;
+// 1401B7F00: using guessed type int g_ulDCsInDomain;
+// 1401B7F04: using guessed type int g_ulDownlevelDCsInDomain;
+// 1401C7D48: using guessed type int dword_1401C7D48;

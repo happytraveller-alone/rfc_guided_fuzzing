@@ -1,0 +1,20 @@
+//----- (0000000140085EB0) ----------------------------------------------------
+__int64 __fastcall NsecValidate(__int64 a1, unsigned __int16 a2)
+{
+  unsigned int v2; // ebx
+  unsigned __int64 v6; // rcx
+  int v7; // [rsp+38h] [rbp+10h] BYREF
+
+  v2 = 0;
+  v7 = 0;
+  if ( a2 < 2u )
+    return 13i64;
+  if ( !(unsigned int)Name_ValidateCountName((unsigned __int8 *)(a1 + 56)) )
+    return 123i64;
+  v6 = *(unsigned __int8 *)(a1 + 56) + a1 + 58;
+  if ( !v6 || !(unsigned int)validateNsecBitmaps(v6, a2 + a1 + 56, &v7) )
+    return 123i64;
+  if ( !v7 )
+    return 13;
+  return v2;
+}

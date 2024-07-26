@@ -1,0 +1,78 @@
+//----- (000000014009F220) ----------------------------------------------------
+__int64 __fastcall sockFindDnsSendSocket(int a1, __int64 a2, int a3)
+{
+  __int64 v4; // rbx
+  CDnsClientSubnetRecordsTrie *v6; // r10
+  __int64 *v8; // r9
+  _DWORD *v9; // rcx
+  int v10; // eax
+
+  v4 = 0i64;
+  EnterCriticalSection(&g_SocketListCs);
+  v6 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Ddd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x21u,
+      (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+      a1);
+    v6 = WPP_GLOBAL_Control;
+  }
+  if ( a1 != 53 )
+  {
+    if ( v6 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      goto LABEL_14;
+    if ( (*((_DWORD *)v6 + 17) & 0x2000) != 0 && *((_BYTE *)v6 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v6 + 7), 0x22u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+      v6 = WPP_GLOBAL_Control;
+    }
+    goto LABEL_10;
+  }
+  v4 = g_SocketList;
+  v8 = &g_SocketList;
+  while ( (__int64 *)v4 != v8 )
+  {
+    v9 = (_DWORD *)(v4 + 32);
+    if ( *(_DWORD *)(v4 + 96) == 2 && *(unsigned __int16 *)v9 == a3 && *(_WORD *)(v4 + 34) == 13568 )
+    {
+      LOBYTE(v10) = DnsAddr_IsLoopback(v9, 0);
+      if ( !v10 )
+        goto LABEL_23;
+    }
+    v4 = *(_QWORD *)v4;
+  }
+  v4 = 0i64;
+LABEL_23:
+  if ( !v4 )
+  {
+LABEL_10:
+    if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v6 + 17) & 0x2000) != 0
+      && *((_BYTE *)v6 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v6 + 7), 0x24u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+    }
+    goto LABEL_14;
+  }
+  if ( v6 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v6 + 17) & 0x2000) != 0
+    && *((_BYTE *)v6 + 65) >= 4u )
+  {
+    WPP_SF_Dq(
+      *((_QWORD *)v6 + 7),
+      0x23u,
+      (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+      *(_DWORD *)(v4 + 16));
+  }
+LABEL_14:
+  LeaveCriticalSection(&g_SocketListCs);
+  return v4;
+}
+// 14009F2D6: variable 'v6' is possibly undefined
+// 14009F35A: variable 'v10' is possibly undefined
+// 14009F362: variable 'v8' is possibly undefined
+// 1401C87F0: using guessed type __int64 g_SocketList;

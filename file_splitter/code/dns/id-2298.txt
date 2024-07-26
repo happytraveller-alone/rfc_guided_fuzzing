@@ -1,0 +1,22 @@
+//----- (000000014011D220) ----------------------------------------------------
+STRSAFE_LPSTR __fastcall AFileWrite(unsigned __int8 *a1, char *a2, __int64 a3)
+{
+  HRESULT v3; // eax
+  STRSAFE_LPSTR v4; // rcx
+  int v6; // [rsp+30h] [rbp-28h]
+  int v7; // [rsp+38h] [rbp-20h]
+  int v8; // [rsp+40h] [rbp-18h]
+  int v9; // [rsp+48h] [rbp-10h]
+  STRSAFE_LPSTR ppszDestEnd; // [rsp+60h] [rbp+8h] BYREF
+
+  v9 = a1[59];
+  v8 = a1[58];
+  v7 = a1[57];
+  v6 = a1[56];
+  ppszDestEnd = 0i64;
+  v3 = StringCchPrintfExA(a2, a3 - (_QWORD)a2, &ppszDestEnd, 0i64, 0, "%d.%d.%d.%d\r\n", v6, v7, v8, v9);
+  v4 = ppszDestEnd;
+  if ( v3 < 0 )
+    return 0i64;
+  return v4;
+}

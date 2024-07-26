@@ -1,0 +1,18 @@
+//----- (000000014007E6B0) ----------------------------------------------------
+void __stdcall MIDL_user_free(void *a1)
+{
+  if ( a1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x26u,
+        (__int64)&WPP_ba1772ab8ae33e60555253e1dffe9548_Traceguids,
+        a1);
+    }
+    Mem_Free(a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\rpc.c", 702);
+  }
+}

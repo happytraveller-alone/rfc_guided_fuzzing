@@ -1,0 +1,6 @@
+//----- (00000001400E6724) ----------------------------------------------------
+__int64 __fastcall std::_Tree_val<std::_Tmap_traits<std::wstring,CDnsPolicy_CriteriaNode *,bool (*)(std::wstring const &,std::wstring const &),std::allocator<std::pair<std::wstring const,CDnsPolicy_CriteriaNode *>>,0>>::_Myval(
+        __int64 a1)
+{
+  return a1 + 24;
+}

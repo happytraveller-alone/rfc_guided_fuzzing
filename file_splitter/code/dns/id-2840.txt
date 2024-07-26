@@ -1,0 +1,5 @@
+//----- (000000014014E2E0) ----------------------------------------------------
+void __fastcall CDnsRRLStateKey::SetIPMaskValue(CDnsRRLStateKey *this, unsigned int a2, int a3)
+{
+  *((_DWORD *)this + a2 + 2) = a3;
+}

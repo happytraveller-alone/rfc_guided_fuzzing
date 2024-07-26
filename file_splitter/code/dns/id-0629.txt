@@ -1,0 +1,23 @@
+//----- (0000000140057F14) ----------------------------------------------------
+__int64 Etw_TraceInitialize()
+{
+  ULONG v0; // ecx
+  int v1; // eax
+
+  g_EtwTraceInitialized = 1;
+  v0 = RegisterTraceGuidsW(
+         (WMIDPREQUEST)Etw_ControlCallback,
+         0i64,
+         &ProviderGuid,
+         0,
+         0i64,
+         0i64,
+         0i64,
+         &g_EtwTraceRegHandle);
+  v1 = g_EtwTraceInitialized;
+  if ( v0 )
+    v1 = 0;
+  g_EtwTraceInitialized = v1;
+  return v0;
+}
+// 1401B8F38: using guessed type int g_EtwTraceInitialized;

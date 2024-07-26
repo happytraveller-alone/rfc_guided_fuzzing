@@ -1,0 +1,97 @@
+//----- (00000001400AAFC8) ----------------------------------------------------
+__int64 __fastcall Zone_AggregateZoneScopeStats(__int64 a1, volatile signed __int64 *a2, char a3)
+{
+  __int64 v6; // rcx
+  __int64 v7; // rsi
+  __int64 i; // rax
+  __int64 v10; // rbx
+  unsigned int v11; // esi
+  CDnsClientSubnetRecordsTrie *v12; // rcx
+  unsigned __int16 v13; // dx
+  __int64 v14; // rcx
+  __int64 v15; // rcx
+  unsigned int v16; // [rsp+70h] [rbp+40h] BYREF
+  unsigned int v17; // [rsp+88h] [rbp+58h] BYREF
+
+  v6 = *(_QWORD *)(a1 + 168);
+  v7 = 0i64;
+  v16 = 0;
+  v17 = -1;
+  if ( (unsigned int)acquireRead(v6, 0x2710u, &v17) == -1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x10u,
+        (__int64)&WPP_04ba7adc0f233f32aafbb90a0c0540d0_Traceguids,
+        9607);
+    }
+    return 9607i64;
+  }
+  else
+  {
+    for ( i = Get_NextElement_ScopeMap(*(_QWORD *)(a1 + 160), 0i64, &v16);
+          ;
+          i = Get_NextElement_ScopeMap(*(_QWORD *)(a1 + 160), v7, &v16) )
+    {
+      v10 = i;
+      if ( !i )
+        break;
+      if ( (unsigned int)(*(_DWORD *)(i + 372) - 1) <= 1 && *(_QWORD *)(i + 1648) )
+      {
+        if ( a3 )
+        {
+          v16 = Zone_LockForWriteEx(i, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\stats.c", 56);
+          v11 = v16;
+          if ( v16 )
+          {
+            v12 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v13 = 17;
+              goto LABEL_22;
+            }
+            goto LABEL_23;
+          }
+          Add_ZoneScope_Stats(a2, *(unsigned __int64 **)(v10 + 1648));
+          Zone_Stats_Initialize(*(_QWORD *)(v10 + 1648));
+          Zone_UnlockAfterWriteEx(v10, 1, (__int64)"ds\\dns\\server\\server\\stats.c", 71);
+        }
+        else
+        {
+          v16 = Zone_LockForReadEx(i, 0, 0x3E8u);
+          v11 = v16;
+          if ( v16 )
+          {
+            v12 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v13 = 18;
+LABEL_22:
+              WPP_SF_(*((_QWORD *)v12 + 7), v13, (__int64)&WPP_04ba7adc0f233f32aafbb90a0c0540d0_Traceguids);
+            }
+LABEL_23:
+            v14 = *(_QWORD *)(a1 + 168);
+            v16 = -1;
+            releaseRead(v14, &v16, 1);
+            return v11;
+          }
+          Add_ZoneScope_Stats(a2, *(unsigned __int64 **)(v10 + 1648));
+          Zone_UnlockAfterReadEx(v10, 0);
+        }
+        v7 = *(_QWORD *)(v10 + 192);
+      }
+    }
+    v15 = *(_QWORD *)(a1 + 168);
+    v17 = -1;
+    releaseRead(v15, &v17, 1);
+    return v16;
+  }
+}

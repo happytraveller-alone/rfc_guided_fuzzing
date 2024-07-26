@@ -1,0 +1,105 @@
+//----- (000000014008F280) ----------------------------------------------------
+__int64 __fastcall RR_CopyRRList(__int64 a1, __int64 a2, int a3, __int64 a4, _QWORD *a5)
+{
+  unsigned int v5; // ebx
+  _QWORD *v9; // r14
+  unsigned __int16 *v10; // rdi
+  _BYTE *v11; // rax
+  __int64 v12; // rax
+  const unsigned __int8 *v13; // r8
+  _QWORD *v15; // [rsp+30h] [rbp-28h] BYREF
+  _QWORD *v16; // [rsp+38h] [rbp-20h]
+  unsigned int v17; // [rsp+68h] [rbp+10h] BYREF
+
+  v5 = 0;
+  v15 = 0i64;
+  v16 = &v15;
+  v17 = -1;
+  acquireRead(DbaseLock, 0xFFFFFFFF, &v17);
+  v9 = a5;
+  if ( !a3 && !a5 )
+  {
+    v5 = 13;
+    goto LABEL_30;
+  }
+  if ( a1 )
+  {
+    v10 = *(unsigned __int16 **)(a1 + 64);
+    if ( v10 )
+    {
+      while ( 1 )
+      {
+        if ( ((v10[6] - 46) & 0xFFFD) != 0 )
+        {
+          if ( v10[6] > 0x30u )
+            goto LABEL_8;
+        }
+        else if ( v10[6] != 46 || ntohs(v10[28]) == 48 )
+        {
+          v11 = RR_Copy(v10);
+          if ( !v11 )
+          {
+            v5 = 14;
+            goto LABEL_30;
+          }
+          if ( a3 )
+          {
+            v5 = AddToNode(a4, *(_QWORD *)(a4 + 40), (__int64)v11, 0);
+            if ( v5 )
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+              {
+                WPP_SF_SD(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x6Cu,
+                  (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+                  *(const unsigned __int16 **)(a4 + 192));
+              }
+              goto LABEL_30;
+            }
+          }
+          else
+          {
+            *v16 = v11;
+            v16 = v11;
+          }
+        }
+        v10 = *(unsigned __int16 **)v10;
+        if ( !v10 )
+        {
+LABEL_8:
+          if ( !a3 )
+            *v9 = v15;
+          goto LABEL_30;
+        }
+      }
+    }
+  }
+  v5 = 13;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v12 = *(_QWORD *)(a1 + 56);
+    if ( v12 )
+      v13 = *(const unsigned __int8 **)(v12 + 16);
+    else
+      v13 = &Annotation;
+    WPP_SF_Dqs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x6Bu,
+      (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+      48,
+      a1,
+      (__int64)v13);
+  }
+LABEL_30:
+  v17 = -1;
+  releaseRead(DbaseLock, &v17, 1);
+  if ( v5 )
+    RR_ListFree(v15);
+  return v5;
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

@@ -1,0 +1,67 @@
+//----- (00000001400E7284) ----------------------------------------------------
+const void **__fastcall std::wstring::assign(char *a1, char *Src, unsigned __int64 a3)
+{
+  char *v5; // rbx
+  char *v6; // rax
+  char *v7; // rax
+  bool v9; // cf
+  char *v10; // rax
+  char *v11; // rcx
+  char *v12; // rax
+
+  v5 = a1;
+  if ( !Src )
+    goto LABEL_13;
+  v6 = *((_QWORD *)a1 + 3) < 8ui64 ? a1 : *(char **)a1;
+  if ( Src < v6 )
+    goto LABEL_13;
+  if ( *((_QWORD *)a1 + 3) >= 8ui64 )
+    a1 = *(char **)a1;
+  if ( &a1[2 * *((_QWORD *)v5 + 2)] > Src )
+  {
+    if ( *((_QWORD *)v5 + 3) < 8ui64 )
+      v7 = v5;
+    else
+      v7 = *(char **)v5;
+    return std::wstring::assign((const void **)v5, (const void **)v5, (Src - v7) >> 1, a3);
+  }
+  else
+  {
+LABEL_13:
+    if ( a3 > 0x7FFFFFFFFFFFFFFEi64 )
+      std::wstring::_Xlen();
+    if ( *((_QWORD *)v5 + 3) >= a3 )
+    {
+      if ( !a3 )
+      {
+        v9 = *((_QWORD *)v5 + 3) < 8ui64;
+        *((_QWORD *)v5 + 2) = 0i64;
+        if ( v9 )
+          v10 = v5;
+        else
+          v10 = *(char **)v5;
+        *(_WORD *)v10 = 0;
+      }
+    }
+    else
+    {
+      std::wstring::_Copy((const void **)v5, a3, *((const void **)v5 + 2));
+    }
+    if ( a3 )
+    {
+      if ( *((_QWORD *)v5 + 3) < 8ui64 )
+        v11 = v5;
+      else
+        v11 = *(char **)v5;
+      memcpy_0(v11, Src, 2 * a3);
+      v9 = *((_QWORD *)v5 + 3) < 8ui64;
+      *((_QWORD *)v5 + 2) = a3;
+      if ( v9 )
+        v12 = v5;
+      else
+        v12 = *(char **)v5;
+      *(_WORD *)&v12[2 * a3] = 0;
+    }
+    return (const void **)v5;
+  }
+}

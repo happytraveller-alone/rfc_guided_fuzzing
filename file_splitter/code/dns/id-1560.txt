@@ -1,0 +1,177 @@
+//----- (00000001400C5440) ----------------------------------------------------
+__int64 __fastcall ZoneScope_LoadRootHints(__int64 a1)
+{
+  unsigned int v2; // edi
+  _QWORD *v4; // rax
+  CDnsClientSubnetRecordsTrie *v5; // rcx
+  unsigned __int16 v6; // dx
+  unsigned int DatabaseFile; // esi
+  __int64 v8; // rdx
+  _BYTE *v9; // rbp
+  _BYTE *ARecord; // rdi
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  unsigned __int16 v12; // dx
+  __int128 v13; // [rsp+40h] [rbp-18h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_S(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x74u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const unsigned __int16 **)(a1 + 192));
+  }
+  if ( *(char *)(a1 + 428) < 0 && *(_DWORD *)(a1 + 404) == GetCurrentThreadId()
+    || (v2 = Zone_LockForWriteEx(a1, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\zone.c", 201)) == 0 )
+  {
+    v4 = NTree_InitializeEx(0);
+    *(_QWORD *)(a1 + 72) = v4;
+    *(_QWORD *)(a1 + 64) = v4;
+    if ( *(_QWORD *)(g_Database + 56)
+      && (!g_pVirtualizationManager || !*(_QWORD *)(*(_QWORD *)g_pVirtualizationManager + 16i64)) )
+    {
+      v5 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_38;
+      }
+      v6 = 118;
+LABEL_37:
+      WPP_SF_S(
+        *((_QWORD *)v5 + 7),
+        v6,
+        (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+        *(const unsigned __int16 **)(a1 + 192));
+LABEL_38:
+      DatabaseFile = 0;
+      goto LABEL_39;
+    }
+    DatabaseFile = File_LoadDatabaseFile(a1, 0i64, 0i64, 0i64);
+    if ( DatabaseFile )
+    {
+      if ( GetLastError() )
+        DatabaseFile = GetLastError();
+      if ( DatabaseFile )
+      {
+        if ( dword_1401B97EC || qword_1401B97D0 && *(_DWORD *)(qword_1401B97D0 + 4) || dword_1401B9708 )
+        {
+          v5 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          {
+            goto LABEL_38;
+          }
+          v6 = 119;
+          goto LABEL_37;
+        }
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_S(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x78u,
+            (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+            *(const unsigned __int16 **)(a1 + 192));
+        }
+        v13 = DNS_EVENT_NO_CACHE_FILE_SPECIFIED;
+        Eventlog_LogEvent((__int64)&v13, v8, 0, 0i64, 0i64, DatabaseFile, 0, 0i64);
+      }
+    }
+LABEL_39:
+    Zone_ActivateLoadedZone(a1);
+    v9 = Lookup_ZoneNodeFromDotted((_QWORD *)a1, "localhost", 0, 18, 0i64, 0i64);
+    if ( v9 )
+    {
+      ARecord = RR_CreateARecord(16777343, 0, 0x21u);
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_S(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x79u,
+          (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+          *(const unsigned __int16 **)(a1 + 192));
+        v11 = WPP_GLOBAL_Control;
+      }
+      if ( ARecord )
+      {
+        if ( (unsigned int)RR_AddToNode(a1, (__int64)v9, (__int64)ARecord) )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_S(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x7Au,
+              (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+              *(const unsigned __int16 **)(a1 + 192));
+          }
+          RR_Free((__int64)ARecord);
+        }
+        else
+        {
+          *((_WORD *)ARecord + 5) |= 0x20u;
+          ARecord[8] = -63;
+          *((_DWORD *)ARecord + 5) = htonl(0x258u);
+          *((_DWORD *)v9 + 23) |= 0x10000u;
+        }
+        goto LABEL_61;
+      }
+      if ( v11 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)v11 + 68) & 0x10) == 0
+        || *((_BYTE *)v11 + 65) < 4u )
+      {
+LABEL_61:
+        Zone_UnlockAfterWriteEx(a1, 1, (__int64)"ds\\dns\\server\\server\\zone.c", 90);
+        return DatabaseFile;
+      }
+      v12 = 123;
+    }
+    else
+    {
+      v11 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_61;
+      }
+      v12 = 124;
+    }
+    WPP_SF_S(
+      *((_QWORD *)v11 + 7),
+      v12,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const unsigned __int16 **)(a1 + 192));
+    goto LABEL_61;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x75u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      v2,
+      *(_QWORD *)(a1 + 192));
+  }
+  return v2;
+}
+// 1400C5637: variable 'v8' is possibly undefined
+// 140186F40: using guessed type __int128 DNS_EVENT_NO_CACHE_FILE_SPECIFIED;
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;
+// 1401B9708: using guessed type int dword_1401B9708;
+// 1401B97D0: using guessed type __int64 qword_1401B97D0;
+// 1401B97EC: using guessed type int dword_1401B97EC;
+// 1401EC600: using guessed type __int64 g_Database;
+// 1400C5440: using guessed type __int128 var_18;

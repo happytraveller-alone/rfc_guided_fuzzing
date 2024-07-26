@@ -1,0 +1,11 @@
+//----- (00000001400F1884) ----------------------------------------------------
+struct _Dbase_Record *__fastcall DnsOls_GetDnskeyRecordFromKeyPair(DnsSign::CDnsKeyPair *a1, u_long a2, _DWORD *a3)
+{
+  struct _Dbase_Record *DnskeyRecord; // [rsp+20h] [rbp-28h]
+
+  DnskeyRecord = DnsSign::CDnsKeyPair::GetDnskeyRecord(a1, a2);
+  if ( a3 )
+    *a3 = 0;
+  return DnskeyRecord;
+}
+// 1400F1884: could not find valid save-restore pair for rbp

@@ -1,0 +1,22 @@
+//----- (0000000140111710) ----------------------------------------------------
+void __fastcall FreeOLSParams(__int64 a1)
+{
+  _QWORD *v2; // rcx
+  _QWORD *v3; // rbx
+
+  Mem_Free(*(_QWORD **)(a1 + 8), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 105);
+  Mem_Free(*(_QWORD **)(a1 + 40), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 106);
+  Mem_Free(*(_QWORD **)(a1 + 48), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zoneutil.cpp", 107);
+  v2 = *(_QWORD **)(a1 + 96);
+  if ( v2 )
+  {
+    do
+    {
+      v3 = (_QWORD *)*v2;
+      Dns_FreeSkd((__int64)v2);
+      v2 = v3;
+    }
+    while ( v3 );
+  }
+  *(_QWORD *)(a1 + 96) = 0i64;
+}

@@ -1,0 +1,58 @@
+//----- (000000014012E0E4) ----------------------------------------------------
+BCRYPT_ALG_HANDLE __fastcall DnsSign::CCNGAlgorithmManager::GetHashAlgorithmProviderByDigestType(
+        DnsSign::CCNGAlgorithmManager *this,
+        const unsigned __int16 *a2)
+{
+  unsigned int v2; // ebx
+  BCRYPT_ALG_HANDLE result; // rax
+  char v4[56]; // [rsp+28h] [rbp-80h] BYREF
+  char pExceptionObject[56]; // [rsp+60h] [rbp-48h] BYREF
+
+  v2 = (unsigned __int8)a2;
+  switch ( (unsigned __int8)a2 )
+  {
+    case 1u:
+      result = DnsSign::g_CNGAlgMgr;
+      if ( !DnsSign::g_CNGAlgMgr )
+      {
+        result = DnsSign::OpenBCryptAlgorithmProvider(L"SHA1", a2);
+        DnsSign::g_CNGAlgMgr = result;
+      }
+      break;
+    case 2u:
+      result = hAlgorithm;
+      if ( !hAlgorithm )
+      {
+        result = DnsSign::OpenBCryptAlgorithmProvider(L"SHA256", a2);
+        hAlgorithm = result;
+      }
+      break;
+    case 4u:
+      result = qword_1401B84A0;
+      if ( !qword_1401B84A0 )
+      {
+        result = DnsSign::OpenBCryptAlgorithmProvider(L"SHA384", a2);
+        qword_1401B84A0 = result;
+      }
+      break;
+    default:
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          0xCu,
+          (__int64)&WPP_a9354bd5cd823ab7126e1b8d4348d392_Traceguids,
+          (unsigned __int8)a2);
+      }
+      DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v4, (__int64)a2, 27);
+      DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v4, 0xD6DBBu, v2);
+      DnsSign::CRunTimeException::CRunTimeException(
+        (DnsSign::CRunTimeException *)pExceptionObject,
+        (const struct DnsSign::CRunTimeException *)v4);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  return result;
+}
+// 14012E169: variable 'a2' is possibly undefined

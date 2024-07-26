@@ -1,0 +1,173 @@
+//----- (000000014008CFBC) ----------------------------------------------------
+__int64 __fastcall RR_UpdateDeleteType(__int64 a1, __int64 a2, unsigned __int16 a3, char a4)
+{
+  __int64 v4; // rbp
+  _QWORD *v6; // rsi
+  int v10; // r13d
+  __int64 v11; // rcx
+  _QWORD **v12; // rdi
+  _QWORD *v13; // r13
+  int v14; // r14d
+  _WORD *v15; // rax
+  __int64 v16; // rcx
+  char v17; // r9
+  _QWORD *v18; // rdi
+  __int64 *v19; // rcx
+  int v21; // [rsp+80h] [rbp+18h] BYREF
+
+  v4 = 0i64;
+  v6 = 0i64;
+  v21 = -1;
+  acquireUpdate(DbaseLock, 0xFFFFFFFF, (unsigned int *)&v21, 1);
+  v10 = a2 && *(_QWORD *)(a2 + 64);
+  *(_DWORD *)(a2 + 76) = 0;
+  v21 = v10;
+  if ( *(_DWORD *)(a1 + 372) )
+    deleteCachedRecordsForUpdate(a2);
+  if ( a3 == 255 )
+  {
+    if ( (*(_DWORD *)(a2 + 92) & 0x100) != 0 )
+    {
+      v18 = (_QWORD *)(a2 + 64);
+      Dbase_LockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 140);
+      v19 = *(__int64 **)(a2 + 64);
+      if ( v19 )
+      {
+        do
+        {
+          if ( ((*((_WORD *)v19 + 6) - 2) & 0xFFFB) != 0 )
+          {
+            if ( v4 )
+              *v6 = v19;
+            else
+              v4 = (__int64)v19;
+            v6 = v19;
+          }
+          else
+          {
+            *v18 = v19;
+            v18 = v19;
+          }
+          v19 = (__int64 *)*v19;
+        }
+        while ( v19 );
+        if ( v4 )
+        {
+          *v6 = 0i64;
+          *v18 = 0i64;
+          RR_ListResetNodeFlags(a2);
+        }
+      }
+      NTree_ChangeAncestorCounters((volatile signed __int32 **)a2, v10);
+      v17 = -79;
+    }
+    else
+    {
+      Dbase_LockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 111);
+      v4 = *(_QWORD *)(a2 + 64);
+      *(_QWORD *)(a2 + 64) = 0i64;
+      *(_DWORD *)(a2 + 92) &= ~0x2000u;
+      RR_ListResetNodeFlags(a2);
+      NTree_ChangeAncestorCounters((volatile signed __int32 **)a2, v10);
+      v17 = 119;
+    }
+LABEL_58:
+    Dbase_UnlockEx(v16, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", v17);
+    goto LABEL_59;
+  }
+  if ( (*(_DWORD *)(a2 + 92) & 0x100) == 0 || a3 != 6 && (a3 != 2 || (a4 & 1) == 0) )
+  {
+    v11 = a2 + 64;
+    v12 = (_QWORD **)(a2 + 64);
+LABEL_13:
+    v13 = (_QWORD *)v11;
+    while ( 1 )
+    {
+      v11 = *(_QWORD *)v11;
+      if ( !v11 )
+        break;
+      if ( *(_WORD *)(v11 + 12) < 0x2Eu )
+        v12 = (_QWORD **)v11;
+      if ( *(_WORD *)(v11 + 12) == a3 )
+      {
+        v6 = (_QWORD *)v11;
+        if ( !v4 )
+          v4 = v11;
+      }
+      else
+      {
+        if ( *(_WORD *)(v11 + 12) < a3 )
+          goto LABEL_13;
+        if ( (a4 & 0x80) == 0 || !v12 || !*v12 || *((_WORD *)*v12 + 6) == 46 )
+          break;
+      }
+    }
+    if ( v4 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Dq(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x48u,
+          (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids,
+          a3);
+      }
+      Dbase_LockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 13);
+      *v13 = *v6;
+      v14 = a4 & 0x80;
+      if ( !v14 || v6 != v12 )
+        *v6 = 0i64;
+      RR_ListResetNodeFlags(a2);
+      if ( v14 )
+      {
+        while ( 1 )
+        {
+          while ( 1 )
+          {
+            if ( !v12 )
+              goto LABEL_44;
+            v15 = *v12;
+            if ( !*v12 || v15[6] != 46 )
+              goto LABEL_44;
+            if ( ntohs(v15[28]) == a3 )
+              break;
+LABEL_43:
+            v12 = (_QWORD **)*v12;
+          }
+          if ( v6 == v12 )
+          {
+            v6 = (_QWORD *)*v6;
+            if ( v6 )
+              *v13 = *v6;
+            goto LABEL_43;
+          }
+          *v6 = *v12;
+          *v12 = (_QWORD *)**v12;
+          v6 = (_QWORD *)*v6;
+          *v6 = 0i64;
+        }
+      }
+LABEL_44:
+      *v6 = 0i64;
+      NTree_ChangeAncestorCounters((volatile signed __int32 **)a2, v21);
+      v17 = 90;
+      goto LABEL_58;
+    }
+  }
+LABEL_59:
+  v21 = -1;
+  releaseUpdate(DbaseLock, (unsigned int *)&v21, 1);
+  insertNodeIntoTimeoutSystem(a2);
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Dq(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x49u, (__int64)&WPP_10d39582251c332017bd035d2c946054_Traceguids, a3);
+  }
+  return v4;
+}
+// 14008D272: variable 'v16' is possibly undefined
+// 1401EC5E8: using guessed type __int64 DbaseLock;

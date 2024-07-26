@@ -1,0 +1,141 @@
+//----- (000000014003D9BC) ----------------------------------------------------
+__int64 __fastcall Ds_GetNextMessageInSearch(__int64 a1)
+{
+  __int64 v2; // rsi
+  LDAPMessage *v3; // rdx
+  LDAPMessage *entry; // rax
+  ULONG LastError; // eax
+  ULONG next_page_s; // ebp
+  LDAPMessage **v7; // r14
+  DWORD TickCount; // ebx
+  __int64 v9; // rax
+  __int64 v10; // r10
+  __int64 v12; // rax
+  ULONG *TotalCount; // [rsp+20h] [rbp-78h]
+  LDAPMessage **Results; // [rsp+28h] [rbp-70h]
+  ULONG v15; // [rsp+A0h] [rbp+8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xB1u, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids, a1);
+  }
+  v2 = 0i64;
+  *(_DWORD *)(a1 + 76) += *(_DWORD *)(a1 + 128);
+  ++*(_DWORD *)(a1 + 68);
+  if ( *(_DWORD *)(a1 + 136) )
+    ++*(_DWORD *)(a1 + 72);
+  v3 = *(LDAPMessage **)(a1 + 16);
+  if ( v3 )
+  {
+    entry = ldap_next_entry(pServerLdap, v3);
+    if ( entry )
+      goto LABEL_43;
+    LastError = LdapGetLastError();
+    next_page_s = LastError;
+    if ( LastError )
+    {
+LABEL_10:
+      *(_DWORD *)(a1 + 48) = LastError;
+      goto LABEL_31;
+    }
+  }
+  v7 = (LDAPMessage **)(a1 + 8);
+  if ( *(_QWORD *)(a1 + 8) )
+  {
+    ldap_msgfree(*v7);
+    *v7 = 0i64;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_qqqdqq(*((_QWORD *)WPP_GLOBAL_Control + 7));
+  }
+  TickCount = GetTickCount();
+  next_page_s = ldap_get_next_page_s(
+                  pServerLdap,
+                  *(PLDAPSearch *)a1,
+                  &g_LdapTimeout,
+                  0x64u,
+                  &v15,
+                  (LDAPMessage **)(a1 + 8));
+  _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - TickCount);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    LODWORD(Results) = next_page_s;
+    LODWORD(TotalCount) = v15;
+    WPP_SF_qdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xB3u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      *v7,
+      TotalCount,
+      Results);
+  }
+  if ( next_page_s )
+  {
+    *(_DWORD *)(a1 + 48) = next_page_s;
+    if ( next_page_s - 94 > 1 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xB4u,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          next_page_s);
+      }
+      goto LABEL_31;
+    }
+    *v7 = 0i64;
+    goto LABEL_30;
+  }
+  entry = ldap_first_entry(pServerLdap, *v7);
+  if ( entry )
+  {
+LABEL_43:
+    *(_QWORD *)(a1 + 16) = entry;
+    return 0i64;
+  }
+  LastError = LdapGetLastError();
+  next_page_s = LastError;
+  if ( LastError )
+    goto LABEL_10;
+LABEL_30:
+  next_page_s = 1168897;
+LABEL_31:
+  *(_QWORD *)(a1 + 16) = 0i64;
+  Ds_CleanupSearchBlob(a1);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = *(_QWORD *)(a1 + 24);
+    if ( v9 )
+      v10 = *(_QWORD *)(v9 + 16);
+    else
+      v10 = 0i64;
+    WPP_SF_dssddDdddd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      *(unsigned int *)(a1 + 32),
+      a1 + 80,
+      next_page_s,
+      v10,
+      a1 + 80);
+  }
+  if ( next_page_s == 1168897 )
+    return 1168897i64;
+  v12 = *(_QWORD *)(a1 + 24);
+  if ( v12 )
+    v2 = *(_QWORD *)(v12 + 840);
+  return Ds_ErrorHandler(next_page_s, v2, pServerLdap, 0);
+}
+// 14003DB31: variable 'TotalCount' is possibly undefined
+// 14003DB31: variable 'Results' is possibly undefined
+// 1401C7D48: using guessed type int dword_1401C7D48;

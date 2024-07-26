@@ -1,0 +1,7 @@
+//----- (000000014014F044) ----------------------------------------------------
+void __fastcall CDnsRRLManager::ResetFreeListAllocationTrigger(CDnsRRLManager *this)
+{
+  EnterCriticalSection((LPCRITICAL_SECTION)((char *)this + 88));
+  *((_DWORD *)this + 7) = 15 * *((_DWORD *)this + 6) / 0x64u;
+  LeaveCriticalSection((LPCRITICAL_SECTION)((char *)this + 88));
+}

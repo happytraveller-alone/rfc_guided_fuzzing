@@ -1,0 +1,9 @@
+//----- (00000001401471FC) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy::GetZoneName(__int64 a1, __int64 a2)
+{
+  *(_QWORD *)(a2 + 24) = 15i64;
+  *(_QWORD *)(a2 + 16) = 0i64;
+  *(_BYTE *)a2 = 0;
+  std::string::assign((const void **)a2, (const void **)(a1 + 40), 0i64, (char *)0xFFFFFFFFFFFFFFFFi64);
+  return a2;
+}

@@ -1,0 +1,72 @@
+//----- (000000014013D60C) ----------------------------------------------------
+__int64 __fastcall Get_DNSPolicy(char *a1, __int64 a2, struct _DnssrvRpcPolicy **a3)
+{
+  CDnsPolicy *Policy; // rax
+  CDnsPolicy *v7; // rbp
+  unsigned int v8; // edi
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned __int16 v10; // dx
+  __int64 v11; // rax
+  char *v12; // rcx
+  int v14; // [rsp+68h] [rbp+20h] BYREF
+
+  v14 = 0;
+  Policy = (CDnsPolicy *)Get_Policy(a1, a2, &v14);
+  v7 = Policy;
+  if ( Policy )
+  {
+    v8 = CDnsPolicy::GetPolicy(Policy, a3);
+    if ( v8 )
+    {
+      v9 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v10 = 38;
+        goto LABEL_6;
+      }
+    }
+    else
+    {
+      v11 = *((int *)v7 + 22);
+      v8 = 0;
+      if ( a2 )
+        v12 = *(char **)(a2 + 8 * v11 + 256);
+      else
+        v12 = (char *)&g_PolicyOrder + 72 * v11;
+      if ( !v12 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_SD(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x27u,
+            (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+            (const unsigned __int16 *)a1);
+        }
+        return 87;
+      }
+    }
+  }
+  else
+  {
+    v8 = 9972;
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v10 = 37;
+LABEL_6:
+      WPP_SF_Sdd(
+        *((_QWORD *)v9 + 7),
+        v10,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        (const unsigned __int16 *)a1);
+    }
+  }
+  return v8;
+}

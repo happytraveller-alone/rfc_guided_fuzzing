@@ -1,0 +1,28 @@
+//----- (0000000140123AB0) ----------------------------------------------------
+char *__fastcall SoaWriteCanonicalizedRdata(char *a1, unsigned __int64 a2, __int64 a3)
+{
+  unsigned __int8 *v6; // rsi
+  char *v7; // rcx
+  char *v8; // rax
+
+  if ( a2 < (unsigned __int64)&a1[*(unsigned __int16 *)(a3 + 14) - 4] )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_qqqd(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xCu, a3, a3, a2, a1, *(unsigned __int16 *)(a3 + 14));
+    }
+    return 0i64;
+  }
+  v6 = (unsigned __int8 *)(a3 + 76);
+  v7 = Name_WriteCanonicalizedCountName(a1, a2, (unsigned __int8 *)(a3 + 76));
+  if ( !v7 )
+    return 0i64;
+  v8 = Name_WriteCanonicalizedCountName(v7, a2, &v6[*v6 + 2]);
+  if ( !v8 )
+    return 0i64;
+  *(_OWORD *)v8 = *(_OWORD *)(a3 + 56);
+  *((_DWORD *)v8 + 4) = *(_DWORD *)(a3 + 72);
+  return v8 + 20;
+}

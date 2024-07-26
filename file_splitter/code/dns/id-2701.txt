@@ -1,0 +1,29 @@
+//----- (000000014014110C) ----------------------------------------------------
+void *__fastcall std::_Tree_val<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::_Buynode<std::pair<std::wstring,CDNSClientSubnetRecord *>>(
+        __int64 a1,
+        __int64 a2)
+{
+  void *v3; // rbx
+  char pExceptionObject[48]; // [rsp+28h] [rbp-30h] BYREF
+
+  v3 = operator new(0x50ui64);
+  if ( !v3 )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *(_QWORD *)v3 = qword_1401B93E8;
+  *((_QWORD *)v3 + 1) = qword_1401B93E8;
+  *((_QWORD *)v3 + 2) = qword_1401B93E8;
+  *((_WORD *)v3 + 36) = 0;
+  if ( v3 != (void *)-24i64 )
+  {
+    *((_QWORD *)v3 + 6) = 7i64;
+    *((_QWORD *)v3 + 5) = 0i64;
+    *((_WORD *)v3 + 12) = 0;
+    std::wstring::assign((void **)v3 + 3, (void **)a2);
+    *((_QWORD *)v3 + 8) = *(_QWORD *)(a2 + 40);
+  }
+  return v3;
+}
+// 1401B93E8: using guessed type __int64 qword_1401B93E8;

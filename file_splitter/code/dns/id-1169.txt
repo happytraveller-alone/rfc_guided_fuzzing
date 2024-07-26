@@ -1,0 +1,76 @@
+//----- (00000001400973C8) ----------------------------------------------------
+__int64 __fastcall deleteNodeOrSubtreeForAdminPrivate(__int64 a1, unsigned int a2, __int64 a3, _DWORD *a4)
+{
+  __int64 v5; // rsi
+  unsigned int v6; // eax
+  __int64 v7; // rbx
+  unsigned int v8; // edi
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  char *v10; // rax
+  __int64 Child; // rsi
+  int v13; // eax
+
+  v5 = a3;
+  v6 = a2;
+  v7 = a1;
+  v8 = 1;
+  v9 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    v10 = Dbg_NodeName(v7);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x36u, (__int64)&WPP_94ace1326352386894146b7c4d888c88_Traceguids, v10);
+    v9 = WPP_GLOBAL_Control;
+    v6 = a2;
+  }
+  if ( (*(_DWORD *)(v7 + 92) & 0x100) != 0 )
+  {
+    if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v9 + 68) & 4) != 0
+      && *((_BYTE *)v9 + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)v9 + 7),
+        0x37u,
+        (__int64)&WPP_94ace1326352386894146b7c4d888c88_Traceguids,
+        *(const char **)(*(_QWORD *)(v7 + 56) + 16i64));
+    }
+    return 0i64;
+  }
+  if ( *(_QWORD *)(v7 + 32) && v6 )
+  {
+    Child = NTree_FirstChild(v7);
+    if ( Child )
+    {
+      do
+      {
+        v8 &= -((unsigned int)deleteNodeOrSubtreeForAdminPrivate(Child, a2, a3, a4) != 0);
+        Child = NTree_NextSiblingWithLocking(Child);
+      }
+      while ( Child );
+      v7 = a1;
+    }
+    v5 = a3;
+  }
+  if ( *(_QWORD *)(v7 + 64) )
+  {
+    if ( v5 )
+    {
+      if ( !Up_CreateAppendUpdate(v5, v7, 0i64, 255, 0i64) )
+        return 0i64;
+    }
+    else
+    {
+      v13 = RR_ListDelete(v7);
+      if ( v13 == 13 && a4 )
+        *a4 = 1;
+      v8 = v13 == 0;
+      if ( (*(_DWORD *)(v7 + 92) & 0x8000) == 0 )
+        *(_DWORD *)(v7 + 92) &= 0x5001u;
+      RR_ListResetNodeFlags(v7);
+    }
+  }
+  *(_DWORD *)(v7 + 92) &= ~0x2000u;
+  return v8;
+}

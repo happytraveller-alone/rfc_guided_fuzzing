@@ -1,0 +1,145 @@
+//----- (00000001400DB51C) ----------------------------------------------------
+__int64 __fastcall processSoaCheckResponse(struct _DNS_MSGINFO *a1)
+{
+  int started; // r14d
+  __int64 v3; // rbx
+  int v4; // r15d
+  unsigned int v5; // esi
+  __int64 ZoneFromSoaAnswer; // rax
+  __int64 v7; // rcx
+  const char *v8; // rax
+  int v9; // eax
+  bool v10; // zf
+  int v11; // eax
+  unsigned int v12; // ecx
+  __int64 v13; // rax
+  int v15; // [rsp+60h] [rbp+8h] BYREF
+
+  started = 0;
+  v15 = 0;
+  v3 = 0i64;
+  v4 = 0;
+  v5 = 1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x51u, (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids, a1);
+  }
+  _InterlockedIncrement(&dword_1401C80B0);
+  if ( !*((_WORD *)a1 + 3155) )
+    goto LABEL_17;
+  if ( (*((_BYTE *)a1 + 6307) & 0xF) != 0 )
+    goto LABEL_17;
+  ZoneFromSoaAnswer = readZoneFromSoaAnswer(a1, 6i64, (u_long *)&v15, 0i64);
+  v3 = ZoneFromSoaAnswer;
+  if ( !ZoneFromSoaAnswer )
+    goto LABEL_17;
+  if ( *(_DWORD *)(ZoneFromSoaAnswer + 372) != 3 && (*(_BYTE *)(ZoneFromSoaAnswer + 1160) & 0x40) == 0
+    || (v7 = *(_QWORD *)(ZoneFromSoaAnswer + 1176)) == 0 )
+  {
+    v7 = *(_QWORD *)(ZoneFromSoaAnswer + 1168);
+  }
+  if ( !(unsigned int)DnsAddrArray_ContainsAddr(v7, (_WORD *)a1 + 32, 3) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v8 = DnsAddr_Ntoa((struct in_addr *)a1 + 16);
+      WPP_SF_qss(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x52u,
+        (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+        a1,
+        *(_QWORD *)(v3 + 16),
+        v8);
+    }
+LABEL_17:
+    _InterlockedIncrement(&dword_1401C80B4);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x55u,
+        (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+        a1);
+    }
+    goto LABEL_21;
+  }
+  if ( (unsigned int)Zone_LockForWriteEx(v3, 256, 0x3E8u, (__int64)"ds\\dns\\server\\server\\zonesec.c", 57) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x53u,
+        (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+        *(const char **)(v3 + 16));
+    }
+  }
+  else
+  {
+    v4 = 1;
+    v9 = time(0i64);
+    v10 = (*(_DWORD *)(v3 + 396) & 0x86000) == 0;
+    *(_DWORD *)(v3 + 1512) = v9;
+    if ( !v10 )
+      goto LABEL_33;
+    if ( !(unsigned int)doesMasterHaveFreshVersion(v3, (struct in_addr *)a1 + 16, v15) )
+      goto LABEL_21;
+    if ( *(_DWORD *)(v3 + 372) == 3 )
+LABEL_33:
+      *(_DWORD *)(v3 + 1160) |= 4u;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x54u,
+        (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+        *(const char **)(v3 + 16));
+    }
+    *(_DWORD *)(v3 + 1160) |= 1u;
+    v11 = *(_DWORD *)(v3 + 1160);
+    if ( (v11 & 0xC) != 0 )
+      goto LABEL_46;
+    v12 = *(_DWORD *)(v3 + 1548);
+    if ( v12 >= 5 )
+      goto LABEL_46;
+    if ( *(_DWORD *)(v3 + 372) != 3 && (v11 & 0x40) == 0 || (v13 = *(_QWORD *)(v3 + 1176)) == 0 )
+      v13 = *(_QWORD *)(v3 + 1168);
+    if ( v12 >= *(_DWORD *)(v13 + 4) || !(unsigned int)Xfr_SendUdpIxfrQuery(v3, (_OWORD *)a1 + 4) )
+    {
+LABEL_46:
+      *(_DWORD *)(v3 + 1160) |= 4u;
+      started = startTcpXfr(v3, (__int64)a1 + 64, v15, *((_QWORD *)a1 + 7));
+      v4 = 0;
+      if ( started )
+        v5 = 0;
+    }
+  }
+LABEL_21:
+  if ( v3 && started != 565 )
+  {
+    if ( v5 )
+      *(_DWORD *)(v3 + 1544) = 0;
+    else
+      ++*(_DWORD *)(v3 + 1544);
+    if ( !v5 && *(_DWORD *)(v3 + 1544) > 5u )
+    {
+      v5 = 1;
+      Xfr_RetryZone(v3);
+    }
+  }
+  if ( v4 )
+    Zone_UnlockAfterWriteEx(v3, 256, (__int64)"ds\\dns\\server\\server\\zonesec.c", 237);
+  return v5;
+}
+// 1401C80B0: using guessed type int dword_1401C80B0;
+// 1401C80B4: using guessed type int dword_1401C80B4;

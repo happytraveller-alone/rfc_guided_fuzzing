@@ -1,0 +1,52 @@
+//----- (00000001400A025C) ----------------------------------------------------
+__int64 __fastcall Sock_BackOutSocketPoolSize(_DWORD *a1)
+{
+  unsigned int v2; // ebx
+  CDnsClientSubnetRecordsTrie *v3; // rcx
+  unsigned __int16 v4; // dx
+  int v5; // r9d
+  int v7; // [rsp+20h] [rbp-18h] BYREF
+  unsigned int v8; // [rsp+28h] [rbp-10h]
+  int v9; // [rsp+2Ch] [rbp-Ch]
+
+  v7 = 4;
+  v9 = 0;
+  if ( (unsigned int)dword_1401B97C4 > 0x9C4 )
+  {
+    *a1 = 0;
+    v8 = 2500;
+  }
+  else
+  {
+    v8 = (unsigned int)dword_1401B97C4 >> 1;
+    *a1 = 1;
+  }
+  v2 = Config_ResetProperty(0, "SocketPoolSize", (__int64)&v7);
+  if ( !v2 )
+  {
+    v3 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      return v2;
+    }
+    v5 = dword_1401B97C4;
+    v4 = 61;
+    goto LABEL_13;
+  }
+  v3 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v4 = 60;
+    v5 = v2;
+LABEL_13:
+    WPP_SF_D(*((_QWORD *)v3 + 7), v4, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, v5);
+  }
+  if ( v2 )
+    *a1 = 0;
+  return v2;
+}
+// 1401B97C4: using guessed type int dword_1401B97C4;

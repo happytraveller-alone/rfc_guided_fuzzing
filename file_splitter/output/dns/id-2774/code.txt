@@ -1,0 +1,257 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 2774
+// Total lines: 132
+
+//----- (0000000140146F80) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy::GetPolicy(CDnsPolicy *this, struct _DnssrvRpcPolicy **a2)
+{
+  __int64 v2; // rbx
+  CDnsPolicy *v3; // rdi
+  struct _DnssrvRpcPolicyAction *v4; // rbp
+  unsigned int PolicyContent; // esi
+  _DWORD *zero; // r14
+  __int64 v8; // rcx
+  _WORD *v9; // rax
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  unsigned __int16 v11; // dx
+  char *v12; // rcx
+  void *v13; // rax
+  _QWORD *v14; // rax
+  unsigned int v15; // r13d
+  _QWORD *v16; // rbx
+  _QWORD *v17; // r15
+  __int64 v18; // rax
+  CDnsPolicyContent *v19; // rcx
+  struct _DnssrvRpcPolicyAction *v21; // [rsp+50h] [rbp+8h] BYREF
+
+  v2 = *((unsigned int *)this + 30);
+  v3 = this;
+  v4 = 0i64;
+  PolicyContent = 0;
+  v21 = 0i64;
+  zero = MIDL_user_allocate_zero(8 * v2 + 72);
+  if ( *((_QWORD *)v3 + 3) < 8ui64 )
+    v8 = (__int64)v3;
+  else
+    v8 = *(_QWORD *)v3;
+  v9 = MIDL_user_copy_stringW(v8);
+  *(_QWORD *)zero = v9;
+  if ( v9 )
+  {
+    v12 = (char *)v3 + 40;
+    zero[5] = *((_DWORD *)v3 + 20);
+    zero[2] = *((_DWORD *)v3 + 21);
+    zero[3] = *((_DWORD *)v3 + 22);
+    zero[4] = *((_DWORD *)v3 + 23);
+    zero[6] = *((_DWORD *)v3 + 24);
+    zero[7] = *((_DWORD *)v3 + 26);
+    zero[14] = v2;
+    if ( *((_QWORD *)v3 + 8) >= 0x10ui64 )
+      v12 = *(char **)v12;
+    v13 = Dns_StringCopyAllocate(v12, 0, 2i64, 2);
+    *((_QWORD *)zero + 4) = v13;
+    if ( v13 )
+    {
+      v14 = (_QWORD *)*((_QWORD *)v3 + 14);
+      v15 = 0;
+      v16 = (_QWORD *)*v14;
+      if ( (_QWORD *)*v14 == v14 )
+      {
+LABEL_24:
+        v19 = (CDnsPolicyContent *)*((_QWORD *)v3 + 17);
+        if ( v19 )
+        {
+          PolicyContent = CDnsPolicyContent::GetPolicyContent(v19, &v21);
+          if ( PolicyContent )
+            goto LABEL_26;
+          v4 = v21;
+        }
+        *((_QWORD *)zero + 5) = v4;
+        *a2 = (struct _DnssrvRpcPolicy *)zero;
+        return PolicyContent;
+      }
+      while ( 1 )
+      {
+        v17 = MIDL_user_allocate_zero(0x10ui64);
+        if ( !v17 )
+          break;
+        *(_DWORD *)v17 = (*(__int64 (__fastcall **)(_QWORD))(*(_QWORD *)v16[2] + 40i64))(v16[2]);
+        v17[1] = (*(__int64 (__fastcall **)(_QWORD))(*(_QWORD *)v16[2] + 48i64))(v16[2]);
+        v18 = v15++;
+        *(_QWORD *)&zero[2 * v18 + 16] = v17;
+        v16 = (_QWORD *)*v16;
+        if ( v16 == *((_QWORD **)v3 + 14) )
+          goto LABEL_24;
+      }
+      PolicyContent = 14;
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_26;
+      }
+      if ( *((_QWORD *)v3 + 3) >= 8ui64 )
+        v3 = *(CDnsPolicy **)v3;
+      v11 = 90;
+    }
+    else
+    {
+      PolicyContent = 14;
+      v10 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_26;
+      }
+      if ( *((_QWORD *)v3 + 3) >= 8ui64 )
+        v3 = *(CDnsPolicy **)v3;
+      v11 = 89;
+    }
+  }
+  else
+  {
+    PolicyContent = 14;
+    v10 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_26;
+    }
+    if ( *((_QWORD *)v3 + 3) >= 8ui64 )
+      v3 = *(CDnsPolicy **)v3;
+    v11 = 88;
+  }
+  WPP_SF_S(
+    *((_QWORD *)v10 + 7),
+    v11,
+    (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+    (const unsigned __int16 *)v3);
+LABEL_26:
+  Free_RpcPolicy(zero);
+  return PolicyContent;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

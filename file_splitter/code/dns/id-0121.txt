@@ -1,0 +1,43 @@
+//----- (000000014000FF10) ----------------------------------------------------
+__int64 Boot_FromRegistryNoZones()
+{
+  int v0; // ebx
+  HKEY v1; // rdi
+  _DWORD *v2; // roff
+  int v3; // eax
+  __int64 v4; // rcx
+  int v6; // [rsp+40h] [rbp+8h] BYREF
+
+  v0 = 0;
+  v6 = 0;
+  LoadAndInitRRL();
+  LoadGlobalPolicies();
+  v1 = OpenZoneKey(0i64, L"..Cache");
+  if ( v1 )
+  {
+    if ( !(unsigned int)Reg_ReadDwordValue(v1, 0i64, (const unsigned __int16 *)"PluginEnabled", 0, &v6) )
+    {
+      v2 = (_DWORD *)(g_pCacheZone + 396);
+      *(_DWORD *)(g_pCacheZone + 396) &= ~0x20000u;
+      *v2 |= (v6 != 0) << 17;
+    }
+    v6 = 0;
+    v3 = Reg_ReadDwordValue(v1, 0i64, (const unsigned __int16 *)"EnablePolicies", 0, &v6);
+    v4 = g_pCacheZone;
+    if ( v3 )
+    {
+      *(_DWORD *)(g_pCacheZone + 304) = 1;
+    }
+    else
+    {
+      LOBYTE(v0) = v6 != 0;
+      *(_DWORD *)(g_pCacheZone + 304) = v0;
+    }
+    Boot_ZoneScopeFromRegistry(v4);
+    LoadZonePolicies((struct _zone_info *)g_pCacheZone);
+    RegCloseKey(v1);
+  }
+  return 0i64;
+}
+// 1400111B4: using guessed type __int64 __fastcall LoadZonePolicies(struct _zone_info *a1);
+// 1401EC628: using guessed type __int64 g_pCacheZone;

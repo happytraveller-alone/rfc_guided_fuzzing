@@ -1,0 +1,157 @@
+//----- (00000001401297F4) ----------------------------------------------------
+void __fastcall DnsSign::CCertificateStore::SelectCertificates(HCERTSTORE *a1, __int64 a2, _QWORD *a3)
+{
+  const WCHAR *v6; // rcx
+  const CERT_CONTEXT *v7; // rax
+  __int64 v8; // rdx
+  BYTE *v9; // r15
+  BYTE *v10; // r12
+  const CERT_CONTEXT *v11; // rsi
+  WCHAR *v12; // rdi
+  __int64 v13; // rax
+  unsigned __int64 v14; // rcx
+  __int64 v15; // rdi
+  __int64 v16; // rdx
+  unsigned __int64 v17; // rcx
+  unsigned __int64 v18; // rcx
+  unsigned __int64 v19; // rdx
+  unsigned __int64 v20; // rdx
+  PCCERT_CONTEXT *v21; // rsi
+  __int64 v22; // rdx
+  unsigned __int64 v23; // rcx
+  unsigned __int64 v24; // rcx
+  unsigned __int64 v25; // rdx
+  unsigned __int64 v26; // rdx
+  PCCERT_CONTEXT *v27; // rdi
+  __int64 v28; // [rsp+28h] [rbp-89h] BYREF
+  PCCERT_CONTEXT v29; // [rsp+30h] [rbp-81h] BYREF
+  struct _CRYPTOAPI_BLOB pCertName1; // [rsp+38h] [rbp-79h] BYREF
+  struct _CRYPTOAPI_BLOB v31; // [rsp+48h] [rbp-69h] BYREF
+  struct _CRYPTOAPI_BLOB pInt1; // [rsp+58h] [rbp-59h] BYREF
+  __int128 v33; // [rsp+68h] [rbp-49h] BYREF
+  __int64 v34; // [rsp+78h] [rbp-39h]
+  __int128 v35; // [rsp+88h] [rbp-29h] BYREF
+  __int64 v36; // [rsp+98h] [rbp-19h]
+  LPCWSTR lpString2[2]; // [rsp+A8h] [rbp-9h] BYREF
+  __int64 v38; // [rsp+B8h] [rbp+7h]
+  __int64 v39; // [rsp+C8h] [rbp+17h]
+
+  v39 = -2i64;
+  v33 = 0i64;
+  v34 = 0i64;
+  v6 = *(const WCHAR **)(a2 + 8);
+  if ( v6 )
+    DnsSign::EncodeCertificateNameString(v6, (__int64 *)&v33);
+  v35 = 0i64;
+  v36 = 0i64;
+  if ( *(_QWORD *)a2 )
+    DnsSign::EncodeCertificateNameString(*(LPCWSTR *)a2, (__int64 *)&v35);
+  v7 = CertEnumCertificatesInStore(*a1, 0i64);
+  v9 = (BYTE *)v33;
+  v10 = (BYTE *)v35;
+  while ( 1 )
+  {
+    v11 = v7;
+    if ( !v7 )
+      break;
+    v29 = v7;
+    if ( !*(_QWORD *)(a2 + 16) )
+      goto LABEL_16;
+    *(_OWORD *)lpString2 = 0i64;
+    v38 = 0i64;
+    LOBYTE(v28) = 0;
+    DnsSign::CCertificate::GetCertificateContextProperty(&v29, v8, &v28, (__int64 *)lpString2);
+    v12 = (WCHAR *)lpString2[0];
+    if ( (_BYTE)v28 && lpString2[0] != lpString2[1] && !lstrcmpiW(*(LPCWSTR *)(a2 + 16), lpString2[0]) )
+    {
+      if ( v12 )
+        operator delete(v12);
+LABEL_16:
+      if ( !*(_QWORD *)(a2 + 8)
+        || v9 != *((BYTE **)&v33 + 1)
+        && (pCertName1.cbData = DWORD2(v33) - (_DWORD)v9,
+            pCertName1.pbData = v9,
+            CertCompareCertificateName(0x10001u, &pCertName1, &v11->pCertInfo->Issuer)) )
+      {
+        if ( !*(_QWORD *)a2
+          || v10 != *((BYTE **)&v35 + 1)
+          && (v31.cbData = DWORD2(v35) - (_DWORD)v10,
+              v31.pbData = v10,
+              CertCompareCertificateName(0x10001u, &v31, &v11->pCertInfo->Subject)) )
+        {
+          v13 = *(_QWORD *)(a2 + 32);
+          if ( *(_QWORD *)(a2 + 24) == v13
+            || (pInt1.cbData = v13 - *(_DWORD *)(a2 + 24),
+                pInt1.pbData = *(BYTE **)(a2 + 24),
+                CertCompareIntegerBlob(&pInt1, &v11->pCertInfo->SerialNumber)) )
+          {
+            v14 = a3[1];
+            if ( (unsigned __int64)&v29 >= v14 || *a3 > (unsigned __int64)&v29 )
+            {
+              v22 = a3[2];
+              if ( v14 == v22 )
+              {
+                v23 = (__int64)(v14 - *a3) >> 3;
+                if ( v23 > 0x1FFFFFFFFFFFFFFEi64 )
+                  std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+                v24 = v23 + 1;
+                v25 = (v22 - *a3) >> 3;
+                if ( v24 > v25 )
+                {
+                  if ( 0x1FFFFFFFFFFFFFFFi64 - (v25 >> 1) >= v25 )
+                    v26 = (v25 >> 1) + v25;
+                  else
+                    v26 = 0i64;
+                  if ( v26 < v24 )
+                    v26 = v24;
+                  std::vector<DnsSign::CCertificate>::reserve((__int64)a3, v26);
+                }
+              }
+              v27 = (PCCERT_CONTEXT *)a3[1];
+              if ( v27 )
+                *v27 = CertDuplicateCertificateContext(v29);
+            }
+            else
+            {
+              v15 = ((__int64)&v29 - *a3) >> 3;
+              v16 = a3[2];
+              if ( v14 == v16 )
+              {
+                v17 = (__int64)(v14 - *a3) >> 3;
+                if ( v17 > 0x1FFFFFFFFFFFFFFEi64 )
+                  std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+                v18 = v17 + 1;
+                v19 = (v16 - *a3) >> 3;
+                if ( v18 > v19 )
+                {
+                  if ( 0x1FFFFFFFFFFFFFFFi64 - (v19 >> 1) >= v19 )
+                    v20 = (v19 >> 1) + v19;
+                  else
+                    v20 = 0i64;
+                  if ( v20 < v18 )
+                    v20 = v18;
+                  std::vector<DnsSign::CCertificate>::reserve((__int64)a3, v20);
+                }
+              }
+              v21 = (PCCERT_CONTEXT *)a3[1];
+              if ( v21 )
+                *v21 = CertDuplicateCertificateContext(*(PCCERT_CONTEXT *)(*a3 + 8 * v15));
+            }
+            a3[1] += 8i64;
+          }
+        }
+      }
+      goto LABEL_49;
+    }
+    if ( v12 )
+      operator delete(v12);
+LABEL_49:
+    v7 = CertEnumCertificatesInStore(*a1, v29);
+  }
+  if ( v10 )
+    operator delete(v10);
+  if ( v9 )
+    operator delete(v9);
+}
+// 1401298B6: variable 'v8' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

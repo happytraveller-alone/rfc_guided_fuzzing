@@ -1,0 +1,29 @@
+//----- (0000000140122230) ----------------------------------------------------
+__int64 __fastcall AUnknownFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  __int64 result; // rax
+  int v8; // ebx
+  _BYTE *v9; // rax
+  _BYTE *v10; // rcx
+  unsigned __int64 v11; // rax
+  int v12; // [rsp+48h] [rbp+10h] BYREF
+
+  v12 = 0;
+  if ( a2 < 3 )
+    return 3222394115i64;
+  if ( !(unsigned int)File_ParseDwordToken(&v12, a3 + 16, 0i64) || v12 != 4 )
+    return 3222394113i64;
+  v8 = a2 - 2;
+  v9 = RR_AllocateEx(4u, 0, 0);
+  if ( !v9 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v9;
+  v10 = v9 + 56;
+  v11 = (unsigned __int64)(v9 + 60);
+  if ( !v8 )
+    return 3222394113i64;
+  result = buildByteBufferFromHexStringTokens(v10, &v12, v8, a3 + 32, v11);
+  if ( (_DWORD)result )
+    return 3222394113i64;
+  return result;
+}

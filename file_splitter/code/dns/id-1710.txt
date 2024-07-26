@@ -1,0 +1,49 @@
+//----- (00000001400DAE8C) ----------------------------------------------------
+__int64 __fastcall doesMasterHaveFreshVersion(__int64 a1, struct in_addr *a2, int a3)
+{
+  int v3; // ebp
+  const char *v7; // rax
+  __int64 v8; // rdx
+  __int64 v9; // r8
+  int v10; // eax
+  _WORD *v11; // rcx
+
+  v3 = *(_DWORD *)(a1 + 512);
+  if ( a3 - v3 > 0 )
+    return 1i64;
+  if ( a3 == v3 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x43u,
+        (__int64)&WPP_8f5c62d9956434feed7ea8f9d17b2299_Traceguids,
+        *(const char **)(a1 + 16));
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v7 = DnsAddr_Ntoa(a2);
+    WPP_SF_ssLL(*((_QWORD *)WPP_GLOBAL_Control + 7), v8, v9, *(const char **)(a1 + 16), (__int64)v7);
+  }
+  LOBYTE(v10) = DnsAddr_IsClear((_DWORD *)(a1 + 1248));
+  if ( v10 || (unsigned int)DnsAddr_IsEqual(v11, a2, 3) )
+  {
+    Xfr_RefreshZone(a1);
+  }
+  else
+  {
+    *(_DWORD *)(a1 + 1160) |= 0x10u;
+    Xfr_RetryZone(a1);
+  }
+  return 0i64;
+}
+// 1400DAF41: variable 'v8' is possibly undefined
+// 1400DAF41: variable 'v9' is possibly undefined
+// 1400DAF54: variable 'v10' is possibly undefined
+// 1400DAF5D: variable 'v11' is possibly undefined

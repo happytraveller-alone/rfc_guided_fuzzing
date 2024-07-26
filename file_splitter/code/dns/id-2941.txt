@@ -1,0 +1,11 @@
+//----- (0000000140155BDC) ----------------------------------------------------
+__int64 Dns_VirtualInstanceTree_ReleaseReadLock()
+{
+  unsigned int v1; // [rsp+30h] [rbp+8h] BYREF
+
+  if ( !g_pVirtualizationManager )
+    return 14i64;
+  v1 = -1;
+  return releaseRead(*((_QWORD *)g_pVirtualizationManager + 1), &v1, 1);
+}
+// 1401B9270: using guessed type struct CDnsVirtualizationManager *g_pVirtualizationManager;

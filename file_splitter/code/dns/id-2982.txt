@@ -1,0 +1,55 @@
+//----- (0000000140157B68) ----------------------------------------------------
+__int64 __fastcall Dns_Ip6StringToAddressEx_A(struct in6_addr *Addr, char *S, __int64 a3, const char *a4)
+{
+  int v4; // edi
+  char *v7; // rcx
+  __int64 v8; // rdx
+  char v9; // al
+  __int64 result; // rax
+  int v11[4]; // [rsp+30h] [rbp-D8h] BYREF
+  char v12[80]; // [rsp+40h] [rbp-C8h] BYREF
+  __int16 v13[40]; // [rsp+90h] [rbp-78h] BYREF
+
+  v4 = a3;
+  if ( (byte_1401BA002 & 0x10) != 0 )
+  {
+    if ( (unsigned int)a3 <= 0x7FFFFFFEui64 )
+    {
+      v7 = v12;
+      v8 = 66i64;
+      do
+      {
+        if ( !(v8 + (unsigned int)a3 - 66i64) )
+          break;
+        v9 = v7[S - v12];
+        if ( !v9 )
+          break;
+        *v7++ = v9;
+        --v8;
+      }
+      while ( v8 );
+      if ( !v8 )
+        --v7;
+      *v7 = 0;
+    }
+    else
+    {
+      v12[0] = 0;
+    }
+    WPP_SF_sq(11i64, (unsigned __int16)&WPP_062643ef31a239c8bb306d825262a94b_Traceguids, (__int64)v12, S);
+  }
+  if ( v4 )
+  {
+    v11[0] = 65;
+    result = Dns_StringCopy(v13, (unsigned int *)v11, (WCHAR *)S, v4, 3, 3);
+    if ( !(_DWORD)result )
+      return result;
+    S = (char *)v13;
+  }
+  return Dns_Ip6StringToAddress_A(Addr, S, a3, a4);
+}
+// 140157C3F: variable 'a3' is possibly undefined
+// 140157C3F: variable 'a4' is possibly undefined
+// 1401BA002: using guessed type char byte_1401BA002;
+// 140157B68: using guessed type unsigned int var_D8[4];
+// 140157B68: using guessed type _WORD var_78[40];

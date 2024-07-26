@@ -1,0 +1,55 @@
+//----- (00000001400E2F04) ----------------------------------------------------
+char __fastcall TrustPoint::SerializeToFile(LPCRITICAL_SECTION lpCriticalSection, void *a2)
+{
+  char v4; // bl
+  __int64 TrustPointName; // rax
+  int v6; // ebp
+  _QWORD *v7; // rax
+  _QWORD *v8; // rbx
+  int LockSemaphore; // [rsp+28h] [rbp-80h]
+  int LockSemaphore_high; // [rsp+30h] [rbp-78h]
+  int SpinCount; // [rsp+38h] [rbp-70h]
+  void *v13[5]; // [rsp+58h] [rbp-50h] BYREF
+
+  v4 = 0;
+  EnterCriticalSection(lpCriticalSection);
+  if ( lpCriticalSection[1].OwningThread && (lpCriticalSection[3].RecursionCount & 0xFFFFFFFB) != 0 )
+  {
+    TrustPointName = TrustPoint::GetTrustPointName((__int64)lpCriticalSection, (__int64)v13);
+    if ( *(_QWORD *)(TrustPointName + 24) >= 0x10ui64 )
+      TrustPointName = *(_QWORD *)TrustPointName;
+    SpinCount = lpCriticalSection[12].SpinCount;
+    LockSemaphore_high = HIDWORD(lpCriticalSection[12].LockSemaphore);
+    LockSemaphore = (int)lpCriticalSection[12].LockSemaphore;
+    v6 = FormattedWriteFile(
+           a2,
+           "TrustPoint,%2u,%19I64u,%19I64u,%5u,%12u,%12u, %s\n",
+           (unsigned int)lpCriticalSection[3].RecursionCount,
+           lpCriticalSection[12].DebugInfo,
+           *(_QWORD *)&lpCriticalSection[12].LockCount,
+           LockSemaphore,
+           LockSemaphore_high,
+           SpinCount,
+           (const char *)TrustPointName);
+    if ( v13[3] >= (void *)0x10 )
+      operator delete(v13[0]);
+    if ( v6 )
+    {
+      v7 = *(_QWORD **)&lpCriticalSection[1].LockCount;
+      v8 = (_QWORD *)*v7;
+      if ( (_QWORD *)*v7 != v7 )
+      {
+        do
+        {
+          TrustAnchor::SerializeToFile((TrustAnchor *)(v8 + 3), a2);
+          v8 = (_QWORD *)*v8;
+        }
+        while ( v8 != *(_QWORD **)&lpCriticalSection[1].LockCount );
+      }
+      v4 = 1;
+    }
+  }
+  LeaveCriticalSection(lpCriticalSection);
+  return v4;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

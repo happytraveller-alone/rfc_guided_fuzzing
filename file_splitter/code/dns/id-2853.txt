@@ -1,0 +1,5 @@
+//----- (000000014014E540) ----------------------------------------------------
+struct CDnsRRLLockObject *__fastcall CDnsRRLStateInfo::GetLockObject(CDnsRRLStateInfo *this)
+{
+  return (struct CDnsRRLLockObject *)*((_QWORD *)this + 11);
+}

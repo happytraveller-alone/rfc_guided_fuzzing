@@ -1,0 +1,5 @@
+//----- (000000014012D410) ----------------------------------------------------
+wchar_t __fastcall std::ctype<unsigned short>::do_toupper(__int64 a1, wchar_t a2)
+{
+  return Towupper(a2, (const _Ctypevec *)(a1 + 16));
+}

@@ -1,0 +1,43 @@
+//----- (000000014016F5B4) ----------------------------------------------------
+__int64 WPP_SF_sDdd(unsigned __int16 a1, __int64 a2, const char *a3, int a4, ...)
+{
+  __int64 v5; // r9
+  __int64 v6; // r9
+  const char *v7; // r8
+  int v9; // [rsp+88h] [rbp+20h] BYREF
+  __int64 v10; // [rsp+90h] [rbp+28h] BYREF
+  va_list va; // [rsp+90h] [rbp+28h]
+  va_list va1; // [rsp+98h] [rbp+30h] BYREF
+
+  va_start(va1, a4);
+  va_start(va, a4);
+  v10 = va_arg(va1, _QWORD);
+  v9 = a4;
+  if ( a3 )
+  {
+    v5 = -1i64;
+    do
+      ++v5;
+    while ( a3[v5] );
+    v6 = v5 + 1;
+  }
+  else
+  {
+    v6 = 5i64;
+  }
+  v7 = "NULL";
+  if ( a3 )
+    v7 = a3;
+  return FastWppTraceMessage(
+           (__int64)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids,
+           a1,
+           v7,
+           v6,
+           &v9,
+           4i64,
+           va,
+           4i64,
+           va1,
+           4i64,
+           0i64);
+}

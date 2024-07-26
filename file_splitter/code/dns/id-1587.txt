@@ -1,0 +1,32 @@
+//----- (00000001400C8858) ----------------------------------------------------
+__int64 __fastcall Zone_AssumeReadLockEx(__int64 a1, __int64 a2, unsigned int a3)
+{
+  __int64 v3; // rbx
+  int v4; // edx
+  signed __int32 v5; // eax
+  signed __int32 v6; // ett
+  int TlsCounter; // eax
+  unsigned int v9; // [rsp+50h] [rbp+18h] BYREF
+
+  v9 = a3;
+  v3 = *(_QWORD *)(a1 + 416);
+  v4 = 0;
+  v9 = -1;
+  if ( v3 )
+  {
+    v5 = *(_DWORD *)(v3 + 16);
+    while ( v5 && v5 != 0x80000000 )
+    {
+      v6 = v5;
+      v5 = _InterlockedCompareExchange((volatile signed __int32 *)(v3 + 16), v5 - 1, v5);
+      if ( v6 == v5 )
+      {
+        TlsCounter = getTlsCounter(v3, 0, &v9);
+        setTlsCounter(v3, 0, TlsCounter + 1, &v9, 1);
+        v4 = 1;
+        return v4 == 0 ? 0xA7 : 0;
+      }
+    }
+  }
+  return v4 == 0 ? 0xA7 : 0;
+}

@@ -1,0 +1,6 @@
+//----- (0000000140167CDC) ----------------------------------------------------
+void __fastcall std::_Lockit::~_Lockit(std::_Lockit *this)
+{
+  if ( *(int *)this < 4 )
+    Mtxunlock(&CriticalSection + *(int *)this);
+}

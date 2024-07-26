@@ -1,0 +1,36 @@
+//----- (0000000140099290) ----------------------------------------------------
+_BYTE *__fastcall NsecWireRead(__int64 a1, __int64 a2, unsigned __int8 *a3, unsigned __int16 a4)
+{
+  _BYTE *v6; // rsi
+  unsigned __int8 *v7; // rax
+  unsigned __int8 *v8; // rbp
+  unsigned int v9; // edi
+  unsigned int v10; // eax
+  unsigned int v11; // ecx
+  _BYTE *v12; // rax
+  unsigned __int8 v14[272]; // [rsp+30h] [rbp-138h] BYREF
+
+  v6 = 0i64;
+  v7 = Name_PacketNameToCountNameEx(v14, a2, a3, (unsigned __int64)&a3[a4]);
+  v8 = v7;
+  if ( v7 )
+  {
+    if ( v7 >= a3 && v7 - a3 <= 0xFFFFFFFFi64 && a4 >= (unsigned int)((_DWORD)v7 - (_DWORD)a3) )
+    {
+      v9 = a4 - ((_DWORD)v7 - (_DWORD)a3);
+      v10 = v14[0] + 2;
+      v11 = v10 + v9;
+      if ( v10 + v9 >= v10 && v11 <= 0xFFFF )
+      {
+        v12 = RR_AllocateEx(v11, 0, 0);
+        v6 = v12;
+        if ( v12 )
+        {
+          Name_CopyCountName(v12 + 56, v14);
+          memcpy_0(&v6[(unsigned __int8)v6[56] + 58], v8, v9);
+        }
+      }
+    }
+  }
+  return v6;
+}

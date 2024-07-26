@@ -1,0 +1,31 @@
+//----- (0000000140017A70) ----------------------------------------------------
+__int64 __fastcall Lookup_ZoneTreeNodeFromDottedNameEx(_BYTE *a1, unsigned int a2, int a3, __int64 a4)
+{
+  char v10[2]; // [rsp+30h] [rbp-2B8h] BYREF
+  char v11[270]; // [rsp+32h] [rbp-2B6h] BYREF
+  __int16 v12[184]; // [rsp+140h] [rbp-1A8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x2Bu,
+      (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids,
+      a1,
+      a3);
+  }
+  if ( (unsigned int)Name_ConvertFileNameToCountNameEx((unsigned __int8 *)v10, a1, (_WORD *)a2, 1) == 123
+    || !(unsigned int)Name_ConvertRawNameToLookupName((unsigned __int8 *)v11, (unsigned __int16 *)v12) )
+  {
+    return 0i64;
+  }
+  else
+  {
+    return Lookup_ZoneTreeNodeEx((unsigned __int16 *)v12, a3, a4);
+  }
+}
+// 140017A70: using guessed type unsigned __int8 var_2B8[2];
+// 140017A70: using guessed type unsigned __int16 var_1A8[184];
+// 140017A70: using guessed type unsigned __int8 var_2B6[270];

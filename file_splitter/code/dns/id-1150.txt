@@ -1,0 +1,35 @@
+//----- (00000001400943EC) ----------------------------------------------------
+__int64 __fastcall WPP_SF_Sssd(__int64 a1, __int64 a2, __int64 a3, const unsigned __int16 *a4, __int64 a5, __int64 a6)
+{
+  __int64 v7; // rcx
+  __int64 v9; // r9
+  __int64 v10; // r10
+  const wchar_t *v11; // rax
+
+  v7 = -1i64;
+  if ( a6 )
+  {
+    v9 = -1i64;
+    do
+      ++v9;
+    while ( *(_BYTE *)(a6 + v9) );
+  }
+  if ( a5 )
+  {
+    v10 = -1i64;
+    do
+      ++v10;
+    while ( *(_BYTE *)(a5 + v10) );
+  }
+  if ( a4 )
+  {
+    do
+      ++v7;
+    while ( a4[v7] );
+  }
+  v11 = L"NULL";
+  if ( a4 )
+    v11 = a4;
+  return EtwTraceMessage(a1, 43i64, &WPP_94ace1326352386894146b7c4d888c88_Traceguids, 39i64, v11);
+}
+// 140184FE0: using guessed type __int64 __fastcall EtwTraceMessage(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);

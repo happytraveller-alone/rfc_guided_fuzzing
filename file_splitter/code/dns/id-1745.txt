@@ -1,0 +1,34 @@
+//----- (00000001400DDA50) ----------------------------------------------------
+void __fastcall std::ios_base::_Init(std::ios_base *this)
+{
+  void ***v2; // rdi
+  struct std::locale::_Locimp *v3; // rsi
+  __int64 v4; // rcx
+  char v5; // [rsp+30h] [rbp+8h] BYREF
+
+  *((_DWORD *)this + 6) = 513;
+  *((_QWORD *)this + 8) = 0i64;
+  *((_QWORD *)this + 1) = 0i64;
+  *((_DWORD *)this + 5) = 0;
+  *((_QWORD *)this + 5) = 0i64;
+  *((_QWORD *)this + 6) = 0i64;
+  *((_QWORD *)this + 7) = 0i64;
+  *((_QWORD *)this + 4) = 6i64;
+  std::ios_base::clear(this, 0, 0);
+  v2 = (void ***)operator new(8ui64);
+  if ( v2 )
+  {
+    *v2 = std::locale::_Init();
+    v3 = std::locale::_Getgloballocale();
+    std::_Lockit::_Lockit((std::_Lockit *)&v5, 0);
+    v4 = *((_QWORD *)v3 + 1);
+    if ( v4 != -1 )
+      *((_QWORD *)v3 + 1) = v4 + 1;
+    std::_Lockit::~_Lockit((std::_Lockit *)&v5);
+  }
+  else
+  {
+    v2 = 0i64;
+  }
+  *((_QWORD *)this + 8) = v2;
+}

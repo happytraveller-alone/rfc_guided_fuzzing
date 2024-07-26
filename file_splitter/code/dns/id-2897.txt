@@ -1,0 +1,55 @@
+//----- (0000000140150C58) ----------------------------------------------------
+__int64 __fastcall Validator_HashDbName(unsigned __int8 *a1, __int64 a2, unsigned __int8 *a3, int a4)
+{
+  unsigned int v4; // edi
+  char v9; // bp
+  u_short v10; // ax
+  UCHAR *pbInput; // r15
+  unsigned __int8 v12; // bl
+  unsigned __int16 v13; // r14
+  char *v14; // rax
+  int v15; // esp
+  int v16; // edx
+  __int64 v18; // [rsp+40h] [rbp-168h] BYREF
+  __int64 v19; // [rsp+48h] [rbp-160h] BYREF
+  char v20[256]; // [rsp+50h] [rbp-158h] BYREF
+  __int64 v21[11]; // [rsp+150h] [rbp-58h] BYREF
+
+  v4 = 0;
+  v19 = 0i64;
+  LODWORD(v18) = 0;
+  if ( a1 && a2 && a3 )
+  {
+    if ( *(_WORD *)(a2 + 12) == 50 )
+    {
+      v9 = *(_BYTE *)(a2 + 56);
+      v10 = ntohs(*(_WORD *)(a2 + 58));
+      pbInput = (UCHAR *)(a2 + 62);
+    }
+    else
+    {
+      if ( *(_WORD *)(a2 + 12) != 51 )
+        return v4;
+      v9 = *(_BYTE *)(a2 + 56);
+      v10 = ntohs(*(_WORD *)(a2 + 58));
+      pbInput = (UCHAR *)(a2 + 61);
+    }
+    v12 = *(_BYTE *)(a2 + 60);
+    v13 = v10;
+    v14 = Name_WriteCanonicalizedCountName(v20, (unsigned __int64)v21, a1);
+    if ( v14 )
+    {
+      v16 = (_DWORD)v14 - (v15 + 80);
+      if ( (unsigned int)computeHash((UCHAR *)v20, v16, v9, v13, pbInput, v12, (PUCHAR *)&v19, &v18) )
+      {
+        if ( (unsigned int)Validator_HashToBase32HexFQDN(v19, v18, a3, a4, a1) )
+          v4 = 1;
+        Mem_Free((_QWORD *)v19, 0i64, 0i64, (__int64)"ds\\dns\\server\\validator\\validator_hash.c", 741);
+      }
+    }
+  }
+  return v4;
+}
+// 140150D0C: variable 'v15' is possibly undefined
+// 140150C58: using guessed type __int64 var_58[11];
+// 140150C58: using guessed type UCHAR var_158[256];

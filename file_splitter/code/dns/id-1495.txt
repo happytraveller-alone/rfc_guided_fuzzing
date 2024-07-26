@@ -1,0 +1,33 @@
+//----- (00000001400BC310) ----------------------------------------------------
+__int64 __fastcall Up_DsPeerThread(__int64 a1)
+{
+  int v1; // edi
+  unsigned int v4; // [rsp+30h] [rbp+8h] BYREF
+
+  v1 = g_dwPeerUpdateVersion;
+  Lock_AssumeWrite(g_hPeerUpdateLock);
+  while ( 1 )
+  {
+    Lock_ReleaseWrite(g_hPeerUpdateLock);
+    if ( !a1 || !v1 || g_fDnsServiceExit == 1 )
+      break;
+    dsPeerThreadWorker(a1);
+    v4 = -1;
+    acquireWrite(g_hPeerUpdateLock, 0xFFFFFFFF, &v4);
+    if ( v1 == g_dwPeerUpdateVersion )
+    {
+      g_pnodePeerUpdateNode = 0i64;
+      g_dwPeerUpdateVersion = 0;
+      Lock_ReleaseWrite(g_hPeerUpdateLock);
+      break;
+    }
+    a1 = g_pnodePeerUpdateNode;
+    v1 = g_dwPeerUpdateVersion;
+  }
+  Thread_Close(0);
+  return 0i64;
+}
+// 1401B90A0: using guessed type int g_dwPeerUpdateVersion;
+// 1401B90A8: using guessed type __int64 g_pnodePeerUpdateNode;
+// 1401B90B0: using guessed type __int64 g_hPeerUpdateLock;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

@@ -1,0 +1,67 @@
+//----- (0000000140145CC0) ----------------------------------------------------
+unsigned __int16 *__fastcall CDNSPolicyCriteriaFqdn::GetPolicyCriteriaString(CDNSPolicyCriteriaFqdn *this)
+{
+  int v2; // edi
+  int v3; // r14d
+  _QWORD *v4; // rax
+  _QWORD *v5; // rbx
+  int v6; // edi
+  _QWORD *v7; // rax
+  _QWORD *v8; // rbx
+  char *v9; // rcx
+  void *v10; // rbx
+  void *Src[3]; // [rsp+28h] [rbp-38h] BYREF
+  unsigned __int64 v13; // [rsp+40h] [rbp-20h]
+
+  v13 = 15i64;
+  Src[2] = 0i64;
+  LOBYTE(Src[0]) = 0;
+  v2 = 0;
+  v3 = 0;
+  v4 = (_QWORD *)*((_QWORD *)this + 8);
+  v5 = (_QWORD *)*v4;
+  if ( (_QWORD *)*v4 != v4 )
+  {
+    do
+    {
+      if ( !v2 )
+      {
+        std::string::append(Src, "EQ", 2ui64);
+        v2 = 1;
+        v3 = 1;
+      }
+      std::string::append((size_t *)Src, 1ui64, 44);
+      std::string::append((size_t *)Src, v5 + 2, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+      v5 = (_QWORD *)*v5;
+    }
+    while ( v5 != *((_QWORD **)this + 8) );
+  }
+  v6 = 0;
+  v7 = (_QWORD *)*((_QWORD *)this + 11);
+  v8 = (_QWORD *)*v7;
+  if ( (_QWORD *)*v7 != v7 )
+  {
+    do
+    {
+      if ( !v6 )
+      {
+        if ( v3 )
+          std::string::append((size_t *)Src, 1ui64, 59);
+        std::string::append(Src, "NE", 2ui64);
+        v6 = 1;
+      }
+      std::string::append((size_t *)Src, 1ui64, 44);
+      std::string::append((size_t *)Src, v8 + 2, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+      v8 = (_QWORD *)*v8;
+    }
+    while ( v8 != *((_QWORD **)this + 11) );
+  }
+  v9 = (char *)Src;
+  if ( v13 >= 0x10 )
+    v9 = (char *)Src[0];
+  v10 = Dns_StringCopyAllocate(v9, 0, 2i64, 1);
+  if ( v13 >= 0x10 )
+    operator delete(Src[0]);
+  return (unsigned __int16 *)v10;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

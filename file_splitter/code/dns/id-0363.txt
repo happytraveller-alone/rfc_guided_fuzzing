@@ -1,0 +1,56 @@
+//----- (000000014002F584) ----------------------------------------------------
+__int64 __fastcall Dp_FindByFqdn(char *String1)
+{
+  __int64 v2; // rbx
+  __int64 *i; // rcx
+  const char *v4; // rdx
+  __int64 *Next; // rax
+
+  if ( !String1 || !*String1 )
+    goto LABEL_14;
+  if ( _strnicmp(String1, "..For", 5ui64) )
+  {
+    if ( !_strnicmp(String1, "..Dom", 5ui64) )
+    {
+      v2 = g_pDomainDp;
+      goto LABEL_15;
+    }
+    if ( _strnicmp(String1, "..Leg", 5ui64) )
+    {
+      for ( i = 0i64; ; i = (__int64 *)v2 )
+      {
+        Next = Dp_GetNext(i);
+        v2 = (__int64)Next;
+        if ( !Next )
+          break;
+        v4 = (const char *)Next[3];
+        if ( v4 )
+        {
+          if ( !_stricmp(String1, v4) )
+            break;
+        }
+      }
+      goto LABEL_15;
+    }
+LABEL_14:
+    v2 = g_pLegacyDp;
+    goto LABEL_15;
+  }
+  v2 = g_pForestDp;
+LABEL_15:
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x27u,
+      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+      v2,
+      String1);
+  }
+  return v2;
+}
+// 1401B8C98: using guessed type __int64 g_pDomainDp;
+// 1401B8CA0: using guessed type __int64 g_pForestDp;
+// 1401B8D10: using guessed type __int64 g_pLegacyDp;

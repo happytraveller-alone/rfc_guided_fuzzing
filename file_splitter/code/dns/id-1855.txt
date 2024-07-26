@@ -1,0 +1,28 @@
+//----- (00000001400E6794) ----------------------------------------------------
+void __fastcall std::list<std::pair<unsigned short const,TrustAnchor>>::~list<std::pair<unsigned short const,TrustAnchor>>(
+        void ***a1)
+{
+  void **v2; // rsi
+  void **v3; // rbx
+
+  v2 = (void **)**a1;
+  **a1 = *a1;
+  (*a1)[1] = *a1;
+  a1[1] = 0i64;
+  if ( v2 != *a1 )
+  {
+    do
+    {
+      v3 = (void **)*v2;
+      std::_Dest_val<std::allocator<std::_List_nod<std::pair<unsigned short const,TrustAnchor>>::_Node>,std::_List_nod<std::pair<unsigned short const,TrustAnchor>>::_Node>(
+        (__int64)a1,
+        (__int64)v2);
+      operator delete(v2);
+      v2 = v3;
+    }
+    while ( v3 != *a1 );
+  }
+  operator delete(*a1);
+}
+// 1400E67D3: variable 'a1' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

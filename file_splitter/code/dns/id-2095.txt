@@ -1,0 +1,50 @@
+//----- (0000000140108E24) ----------------------------------------------------
+void **__fastcall std::vector<CDnsPolicy_CriteriaNode *>::resize(__int64 a1, unsigned __int64 a2)
+{
+  void **result; // rax
+  const void *v5; // rdx
+  __int64 v6; // r10
+  unsigned __int64 v7; // r8
+  void *v8; // rbx
+  unsigned __int64 v9; // rdx
+  unsigned __int64 v10; // rdx
+  __int64 v11; // rax
+  void *retaddr; // [rsp+38h] [rbp+0h] BYREF
+
+  result = &retaddr;
+  v5 = *(const void **)(a1 + 8);
+  v6 = *(_QWORD *)a1;
+  v7 = ((__int64)v5 - *(_QWORD *)a1) >> 3;
+  if ( v7 > a2 )
+  {
+    v8 = (void *)(v6 + 8 * a2);
+    if ( v8 == v5 )
+      return result;
+    memmove(v8, v5, 0i64);
+    result = (void **)v8;
+    goto LABEL_4;
+  }
+  if ( v7 < a2 )
+  {
+    if ( 0x1FFFFFFFFFFFFFFFi64 - (a2 - v7) < v7 )
+      std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+    v9 = (*(_QWORD *)(a1 + 16) - v6) >> 3;
+    if ( a2 > v9 )
+    {
+      if ( 0x1FFFFFFFFFFFFFFFi64 - (v9 >> 1) >= v9 )
+        v10 = (v9 >> 1) + v9;
+      else
+        v10 = 0i64;
+      if ( v10 < a2 )
+        v10 = a2;
+      std::vector<unsigned short *>::reserve(a1, v10);
+    }
+    v11 = (__int64)(*(_QWORD *)(a1 + 8) - *(_QWORD *)a1) >> 3;
+    if ( a2 != v11 )
+      memset_0(*(void **)(a1 + 8), 0, 8 * (a2 - v11));
+    result = (void **)(*(_QWORD *)(a1 + 8) + 8 * (a2 - ((__int64)(*(_QWORD *)(a1 + 8) - *(_QWORD *)a1) >> 3)));
+LABEL_4:
+    *(_QWORD *)(a1 + 8) = result;
+  }
+  return result;
+}

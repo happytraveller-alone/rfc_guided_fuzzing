@@ -1,0 +1,106 @@
+//----- (000000014001F788) ----------------------------------------------------
+HANDLE __fastcall File_OpenDatabaseFile(__int64 a1, char *a2, int *a3)
+{
+  int v3; // esi
+  HANDLE v4; // rbp
+  char *v8; // rdx
+  char *v9; // rdi
+  char *v10; // rcx
+  __int64 v11; // rcx
+  __int64 v12; // rax
+  __int64 v13; // rax
+  __int64 v14; // rcx
+  __int64 v15; // rax
+  unsigned __int16 v17[264]; // [rsp+40h] [rbp-A68h] BYREF
+  __int16 v18[1040]; // [rsp+250h] [rbp-858h] BYREF
+
+  v3 = *a3;
+  v4 = 0i64;
+  if ( (*a3 & 0x10000000) != 0 && (unsigned int)RpcUtil_SwitchSecurityContext(0) )
+  {
+    v3 &= ~0x10000000u;
+    goto LABEL_39;
+  }
+  if ( !a2 || (int)StringCchCopyW((char *)v17, 261i64, a2) < 0 || (int)StringCchCatW(v17, 261i64, (char *)L".temp") < 0 )
+    goto LABEL_39;
+  v8 = a1 && *(_QWORD *)(a1 + 192) ? *(char **)(a1 + 24) : 0i64;
+  v9 = (char *)L".";
+  if ( a1 )
+  {
+    v11 = *(_QWORD *)(a1 + 328);
+    v12 = a1;
+    if ( v11 )
+      v12 = *(_QWORD *)(a1 + 328);
+    if ( *(_QWORD *)(v12 + 200) )
+    {
+      v13 = a1;
+      if ( v11 )
+        v13 = *(_QWORD *)(a1 + 328);
+      v10 = **(char ***)(v13 + 200);
+    }
+    else
+    {
+      v10 = (char *)L".";
+    }
+  }
+  else
+  {
+    v10 = 0i64;
+  }
+  if ( !(unsigned int)File_CreateDatabaseFilePathEx(v10, v8, (char *)v18, 1040i64, 0i64, 0i64, v17) )
+    goto LABEL_39;
+  if ( a1 )
+  {
+    v14 = *(_QWORD *)(a1 + 328);
+    v15 = a1;
+    if ( v14 )
+      v15 = *(_QWORD *)(a1 + 328);
+    if ( *(_QWORD *)(v15 + 200) )
+    {
+      if ( v14 )
+        a1 = *(_QWORD *)(a1 + 328);
+      v9 = **(char ***)(a1 + 200);
+    }
+  }
+  else
+  {
+    v9 = 0i64;
+  }
+  v4 = OpenWriteFileEx2W(v9, (const WCHAR *)v18, 0);
+  if ( v4 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x20) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xAu,
+        (__int64)&WPP_7a25c08cfd4c38e91e9430fcc1361a51_Traceguids,
+        (const unsigned __int16 *)a2);
+    }
+LABEL_38:
+    if ( v4 )
+      goto LABEL_41;
+    goto LABEL_39;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    GetLastError();
+    WPP_SF_SD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xBu,
+      (__int64)&WPP_7a25c08cfd4c38e91e9430fcc1361a51_Traceguids,
+      (const unsigned __int16 *)a2);
+    goto LABEL_38;
+  }
+LABEL_39:
+  if ( (v3 & 0x10000000) != 0 )
+    RpcUtil_SwitchSecurityContext(1);
+LABEL_41:
+  *a3 = v3;
+  return v4;
+}
+// 14001F788: using guessed type WCHAR var_858[1040];

@@ -1,0 +1,59 @@
+//----- (0000000140045FF0) ----------------------------------------------------
+__int64 __fastcall Ds_WriteNodeProperties(__int64 a1)
+{
+  __int64 *v2; // rsi
+  unsigned int inited; // ebx
+  int v5; // eax
+  __int64 v6; // r8
+  wchar_t Buffer[1288]; // [rsp+30h] [rbp-4A28h] BYREF
+  __int64 v8[2048]; // [rsp+A40h] [rbp-4018h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x191u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      a1,
+      8);
+  }
+  v2 = *(__int64 **)(a1 + 56);
+  if ( !v2 )
+    return 87i64;
+  inited = Ds_InitModBuffer(v8, 0x4000u, 2, 30, 0);
+  if ( !inited )
+  {
+    writeDsPropertyStruct(v8, 8, v2 + 127, 8u);
+    inited = buildDsNodeNameFromNode(Buffer, v2, a1);
+    if ( inited )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_SD(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x192u,
+          (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+          Buffer);
+      }
+    }
+    else
+    {
+      v5 = writePropertyToDsNode(0i64, (__int64)Buffer, (__int64)v8);
+      inited = v5;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_qSd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x193u, v6, a1, Buffer, v5);
+      }
+    }
+  }
+  Ds_CleanupModBuffer((__int64)v8);
+  return inited;
+}
+// 140046157: variable 'v6' is possibly undefined
+// 140045FF0: using guessed type _QWORD var_4018[2048];

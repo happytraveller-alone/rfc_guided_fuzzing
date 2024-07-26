@@ -1,0 +1,31 @@
+//----- (0000000140090DC0) ----------------------------------------------------
+char *__fastcall NaptrWireWrite(__int64 a1, _DWORD *a2, unsigned __int64 a3, __int64 a4)
+{
+  unsigned __int8 *v5; // rdi
+  _DWORD *v9; // rbx
+  int v10; // ebp
+  int v11; // esi
+  __int64 v12; // rax
+
+  v5 = (unsigned __int8 *)(a4 + 60);
+  if ( (unsigned int)Wire_TestForBytesRemaining((unsigned __int64)a2, a3, 4i64) )
+  {
+    *a2 = *(_DWORD *)(a4 + 56);
+    v9 = a2 + 1;
+    v10 = 0;
+    while ( 1 )
+    {
+      v11 = *v5;
+      if ( !(unsigned int)Wire_TestForBytesRemaining((unsigned __int64)v9, a3, v11 + 1) )
+        break;
+      memcpy_0(v9, v5, v11 + 1);
+      ++v10;
+      v12 = (unsigned __int8)(v11 + 1);
+      v9 = (_DWORD *)((char *)v9 + v12);
+      v5 += v12;
+      if ( v10 >= 3 )
+        return Name_WriteCountNameToPacketEx(a1, (unsigned __int64)v9, v5, 0);
+    }
+  }
+  return 0i64;
+}

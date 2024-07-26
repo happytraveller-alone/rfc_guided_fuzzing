@@ -1,0 +1,29 @@
+//----- (00000001400E5618) ----------------------------------------------------
+__int64 __fastcall stdext::hash_multimap<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>>::hash_multimap<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>>(
+        __int64 a1)
+{
+  __int64 v2; // rdi
+  _QWORD *v3; // rax
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  *(_BYTE *)a1 = a1;
+  v2 = a1 + 8;
+  *(_QWORD *)(a1 + 16) = 0i64;
+  v3 = operator new(0x40ui64);
+  if ( !v3 )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *(_QWORD *)v2 = v3;
+  *v3 = v3;
+  *(_QWORD *)(*(_QWORD *)v2 + 8i64) = *(_QWORD *)v2;
+  *(_QWORD *)(a1 + 32) = 0i64;
+  *(_QWORD *)(a1 + 40) = 0i64;
+  *(_QWORD *)(a1 + 48) = 0i64;
+  *(_DWORD *)(a1 + 80) = 1065353216;
+  std::_Hash<std::_Hmap_traits<unsigned short,TrustAnchor,stdext::hash_compare<unsigned short,std::less<unsigned short>>,std::allocator<std::pair<unsigned short const,TrustAnchor>>,1>>::_Init(
+    (_QWORD *)a1,
+    8i64);
+  return a1;
+}

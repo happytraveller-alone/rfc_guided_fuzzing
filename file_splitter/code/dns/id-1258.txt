@@ -1,0 +1,95 @@
+//----- (00000001400A3484) ----------------------------------------------------
+__int64 __fastcall Config_ResetServerScopeProperty(int a1, char *a2, _DWORD *a3, __int64 a4)
+{
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  unsigned __int16 v8; // dx
+  unsigned int IndexForPropertyName; // eax
+  __int64 v10; // rbp
+  __int64 result; // rax
+  unsigned int v12; // ebx
+  bool v13; // zf
+  HKEY v14; // rax
+  int v15; // [rsp+60h] [rbp+8h] BYREF
+
+  v15 = a1;
+  if ( _stricmp(a2, "NoRecursion") )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      return 9553;
+    }
+    v8 = 39;
+    goto LABEL_29;
+  }
+  IndexForPropertyName = findIndexForPropertyName(a2);
+  v10 = IndexForPropertyName;
+  if ( IndexForPropertyName != -1 )
+  {
+    result = Validate_DwordProperty(0x10000000, a2, a3);
+    v12 = result;
+    if ( (_DWORD)result )
+      return result;
+    if ( !_stricmp(a2, (&ServerPropertyTable)[7 * v10]) )
+    {
+      v13 = g_bRegistryWriteBack == 0;
+      *(_DWORD *)(a4 + 296) = a3[2] == 0;
+      *(_DWORD *)(a4 + 284) = a3[2];
+      if ( !v13 )
+      {
+        v14 = Reg_OpenScope(0i64, 0i64, 0i64, *(const unsigned __int16 **)a4, 1);
+        if ( v14 )
+        {
+          v15 = a3[2];
+          v12 = Reg_SetValue(0x10000000, v14, 0i64, a2, 4u, (BYTE *)&v15, 4u);
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_sd(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x2Au,
+              (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+              a2);
+          }
+        }
+        else
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_s(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x2Bu,
+              (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+              a2);
+          }
+          return 110;
+        }
+      }
+      return v12;
+    }
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      return 9553;
+    }
+    v8 = 41;
+LABEL_29:
+    WPP_SF_s(*((_QWORD *)v7 + 7), v8, (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids, a2);
+    return 9553;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x28u, (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids, a2);
+  }
+  return 9553i64;
+}
+// 1401B805C: using guessed type int g_bRegistryWriteBack;

@@ -1,0 +1,494 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 1487
+// Total lines: 337
+
+//----- (00000001400BAA0C) ----------------------------------------------------
+__int64 __fastcall processDsSecureUpdate(__int64 a1, __int64 a2)
+{
+  unsigned int updated; // ebp
+  unsigned int v5; // edi
+  __int64 v6; // rsi
+  __int64 *v7; // r15
+  LDAP *v8; // r13
+  const char *v9; // r12
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  unsigned int SecurityContextFromAndVerifySignature; // eax
+  __int64 v13; // rsi
+  __int64 v14; // r8
+  int v15; // r9d
+  __int64 v16; // r8
+  __int64 v17; // r8
+  unsigned __int64 v18; // r8
+  CDnsClientSubnetRecordsTrie *v19; // r10
+  const char *v20; // rax
+  const char *v21; // r8
+  int v23; // [rsp+88h] [rbp+10h]
+  void *v24; // [rsp+90h] [rbp+18h] BYREF
+  LDAP *v25; // [rsp+98h] [rbp+20h] BYREF
+
+  updated = 0;
+  v24 = 0i64;
+  v5 = 0;
+  v25 = 0i64;
+  v6 = *(_QWORD *)(a2 + 32);
+  v7 = 0i64;
+  v8 = 0i64;
+  v23 = 0;
+  v9 = 0i64;
+  v10 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x93u,
+      (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+      a2,
+      *(_QWORD *)(a1 + 16));
+    v10 = WPP_GLOBAL_Control;
+  }
+  if ( v6 )
+  {
+    if ( !*(_WORD *)(v6 + 6314) )
+    {
+      if ( *(_QWORD *)a2 )
+      {
+        if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v10 + 17) & 0x80000) != 0
+          && *((_BYTE *)v10 + 65) >= 4u )
+        {
+          WPP_SF_q(*((_QWORD *)v10 + 7), 0x95u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v6);
+        }
+        if ( (*(_BYTE *)(a2 + 40) & 1) != 0 )
+          _InterlockedAdd(&dword_1401C8180, 1u);
+        else
+          _InterlockedAdd(&dword_1401C82C0, 1u);
+        return 5i64;
+      }
+      else
+      {
+        if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)v10 + 17) & 0x80000) != 0
+          && *((_BYTE *)v10 + 65) >= 4u )
+        {
+          WPP_SF_q(*((_QWORD *)v10 + 7), 0x94u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v6);
+        }
+        return 0i64;
+      }
+    }
+    SecurityContextFromAndVerifySignature = Dns_FindSecurityContextFromAndVerifySignature(
+                                              (__int64 **)&v24,
+                                              (__int128 *)(v6 + 64),
+                                              v6 + 6304,
+                                              *(unsigned __int16 *)(v6 + 6302) + v6 + 6304);
+    v7 = (__int64 *)v24;
+    updated = SecurityContextFromAndVerifySignature;
+    if ( SecurityContextFromAndVerifySignature )
+    {
+      v9 = "Security context verification";
+LABEL_23:
+      v13 = a1;
+      goto LABEL_24;
+    }
+    v10 = WPP_GLOBAL_Control;
+  }
+  if ( !*(_QWORD *)a2 )
+  {
+    if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v10 + 17) & 0x80000) != 0
+      && *((_BYTE *)v10 + 65) >= 4u )
+    {
+      WPP_SF_q(*((_QWORD *)v10 + 7), 0x96u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v6);
+    }
+    if ( !v6 )
+      goto LABEL_23;
+    goto LABEL_43;
+  }
+  updated = Up_PrepareUpdateListForExecution(a1, 0i64, a2, 0);
+  if ( updated )
+  {
+    v9 = "DS update initialization";
+    v5 = 9002;
+    goto LABEL_23;
+  }
+  v16 = *(unsigned int *)(a2 + 40);
+  LODWORD(v16) = v16 | 0x400;
+  updated = Up_ApplyUpdatesToDatabase(a2, a1, v16, v15);
+  if ( updated )
+  {
+    v9 = "Update in-memory execution";
+    goto LABEL_23;
+  }
+  if ( !(unsigned int)checkTempNodesForUpdateEffect(a1, a2) )
+  {
+    _InterlockedAdd(&dword_1401C7CC8, 1u);
+    _InterlockedAdd(&dword_1401C7CCC, 1u);
+    _InterlockedAdd(&dword_1401C7CD0, 1u);
+    _InterlockedAdd(&dword_1401C7D18, 1u);
+    v7 = (__int64 *)v24;
+    goto LABEL_42;
+  }
+  if ( v6 )
+  {
+    if ( !*v7 )
+    {
+      if ( (byte_1401BA001 & 4) != 0 )
+        WPP_SF_(57i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v17);
+      updated = 9017;
+      goto LABEL_55;
+    }
+    updated = (*(__int64 (__fastcall **)(__int64))(g_pSecurityFunctionTable + 96))(*v7 + 8);
+    if ( updated )
+    {
+LABEL_55:
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x97u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+      }
+      v5 = 9002;
+      v9 = "Impersonating incoming client";
+      goto LABEL_23;
+    }
+    v23 = 1;
+  }
+  else if ( (*(_BYTE *)(a2 + 40) & 2) == 0 )
+  {
+    goto LABEL_69;
+  }
+  updated = Ds_OpenServerForSecureUpdate(&v25);
+  if ( updated )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x9Bu, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+    }
+    v5 = 9002;
+    v9 = "Contacting DS";
+    goto LABEL_23;
+  }
+  v8 = v25;
+LABEL_69:
+  updated = Ds_WriteUpdateToDs((__int64)v8, a2, a1);
+  if ( !updated )
+  {
+LABEL_42:
+    if ( !v6 )
+      goto LABEL_23;
+LABEL_43:
+    v18 = *(_QWORD *)(v6 + 24);
+    *(_BYTE *)(v6 + 6306) |= 0x80u;
+    *(_BYTE *)(v6 + 1412) = 1;
+    updated = Dns_SignMessageWithGssTsig(v7, (char *)(v6 + 6304), v18, (_QWORD *)(v6 + 32));
+    if ( updated )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x9Du, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+      }
+      v5 = 9002;
+      v9 = "Signing return message";
+    }
+    else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+           && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x9Eu, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+    }
+    goto LABEL_23;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x9Cu,
+      (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+      updated);
+  }
+  v13 = a1;
+  rollBackFailedUpdateFromDs((__int64)v8, a2, a1);
+  v5 = 9005;
+  if ( (*(_BYTE *)(a2 + 40) & 1) != 0 )
+    _InterlockedAdd(&dword_1401C8184, 1u);
+  else
+    _InterlockedAdd(&dword_1401C82C4, 1u);
+  if ( (*(_BYTE *)(a2 + 40) & 1) != 0 )
+    _InterlockedAdd(&dword_1401C8194, 1u);
+  else
+    _InterlockedAdd(&dword_1401C82D4, 1u);
+  v7 = (__int64 *)v24;
+  v9 = "Write to the DS";
+LABEL_24:
+  Ds_LdapUnbind(&v25);
+  if ( v23 )
+  {
+    if ( *v7 )
+    {
+      (*(void (__fastcall **)(__int64))(g_pSecurityFunctionTable + 104))(*v7 + 8);
+    }
+    else if ( (byte_1401BA001 & 4) != 0 )
+    {
+      WPP_SF_(58i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, v14);
+    }
+  }
+  if ( v7 )
+  {
+    if ( (byte_1401BA001 & 0x20) != 0 )
+      WPP_SF_q(155i64, (unsigned __int16)&WPP_9b9f12dbc4273be48aea1d81c92c8dd1_Traceguids, (__int64)v7);
+    Dns_EnlistSecurityContext(*v7);
+    Dns_CleanupSecurityPacketInfoEx(v7, 1);
+  }
+  if ( updated )
+  {
+    if ( updated == 5 )
+    {
+      v5 = 5;
+    }
+    else if ( !v5 )
+    {
+      v5 = updated;
+    }
+    if ( (*(_BYTE *)(a2 + 40) & 1) != 0 )
+      _InterlockedAdd(&dword_1401C8190, 1u);
+    else
+      _InterlockedAdd(&dword_1401C82D0, 1u);
+    _InterlockedAdd((volatile signed __int32 *)pcSecureUpdateFailure, 1u);
+    _InterlockedAdd((volatile signed __int32 *)pcSecureUpdateReceived, 1u);
+    v19 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v20 = "unknown error";
+      if ( v9 )
+        v20 = v9;
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x9Fu,
+        (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+        v5,
+        (__int64)v20);
+      v19 = WPP_GLOBAL_Control;
+    }
+    if ( (qword_1401B9780 & 0x4000) == 0 )
+      goto LABEL_114;
+    if ( (unsigned int)Log_EnterLock() )
+    {
+      v21 = "<none>";
+      g_pszCurrentLogLevelString = (__int64)"DSWRITE";
+      if ( v9 )
+        v21 = v9;
+      Log_Printf("Update Error <%lu>: %s\r\n", updated, v21);
+      g_pszCurrentLogLevelString = 0i64;
+      Log_LeaveLock();
+    }
+  }
+  else
+  {
+    if ( (*(_BYTE *)(a2 + 40) & 1) != 0 )
+      _InterlockedAdd(&dword_1401C8188, 1u);
+    else
+      _InterlockedAdd(&dword_1401C82C8, 1u);
+    _InterlockedAdd((volatile signed __int32 *)pcSecureUpdateReceived, 1u);
+  }
+  v19 = WPP_GLOBAL_Control;
+LABEL_114:
+  if ( v19 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v19 + 17) & 0x80000) != 0
+    && *((_BYTE *)v19 + 65) >= 4u )
+  {
+    WPP_SF_Dqs(
+      *((_QWORD *)v19 + 7),
+      0xA0u,
+      (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+      v5,
+      a2,
+      *(_QWORD *)(v13 + 16));
+  }
+  return v5;
+}
+// 1400BABCA: variable 'v14' is possibly undefined
+// 1400BAC61: variable 'v15' is possibly undefined
+// 1400BAD59: variable 'v17' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B8F28: using guessed type __int64 g_pszCurrentLogLevelString;
+// 1401B9780: using guessed type __int64 qword_1401B9780;
+// 1401BA001: using guessed type char byte_1401BA001;
+// 1401BA088: using guessed type __int64 g_pSecurityFunctionTable;
+// 1401C7CC8: using guessed type int dword_1401C7CC8;
+// 1401C7CCC: using guessed type int dword_1401C7CCC;
+// 1401C7CD0: using guessed type int dword_1401C7CD0;
+// 1401C7D18: using guessed type int dword_1401C7D18;
+// 1401C8180: using guessed type int dword_1401C8180;
+// 1401C8184: using guessed type int dword_1401C8184;
+// 1401C8188: using guessed type int dword_1401C8188;
+// 1401C8190: using guessed type int dword_1401C8190;
+// 1401C8194: using guessed type int dword_1401C8194;
+// 1401C82C0: using guessed type int dword_1401C82C0;
+// 1401C82C4: using guessed type int dword_1401C82C4;
+// 1401C82C8: using guessed type int dword_1401C82C8;
+// 1401C82D0: using guessed type int dword_1401C82D0;
+// 1401C82D4: using guessed type int dword_1401C82D4;
+// 1401C8620: using guessed type __int64 pcSecureUpdateReceived;
+// 1401C8628: using guessed type __int64 pcSecureUpdateFailure;
+##############################
+Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+		"(...)"
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.

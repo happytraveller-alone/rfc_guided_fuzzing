@@ -1,0 +1,32 @@
+//----- (000000014001D9D4) ----------------------------------------------------
+char *__fastcall Dbg_NodeName(__int64 a1)
+{
+  __int64 v1; // r9
+  __int64 v2; // rax
+  char *v3; // rbx
+  const char *v4; // rax
+
+  v1 = *(_QWORD *)NtCurrentTeb()->ThreadLocalStoragePointer;
+  v2 = v1 + 510i64 * (_InterlockedIncrement((volatile signed __int32 *)(v1 + 36)) % 5);
+  v3 = (char *)(v2 + 6464);
+  *(_BYTE *)(v2 + 6464) = 0;
+  if ( a1 )
+  {
+    if ( *(_QWORD *)(a1 + 8) == 0xCCFFCCFFCCFFCCFFui64 )
+    {
+      v4 = (const char *)FormatLabelA(*(unsigned __int8 *)(a1 + 101), (const void *)(a1 + 102));
+      sprintfSafeA(v3, 0x1FEui64, "[CUTNODE %s]", v4);
+    }
+    else
+    {
+      Name_PlaceNodeNameInBuffer((_BYTE *)(v2 + 6464), v2 + 6720, (__int64 *)a1, 0i64);
+    }
+  }
+  else
+  {
+    sprintfSafeA((char *)(v2 + 6464), 0x1FEui64, "[NULL node pointer]");
+  }
+  if ( !*v3 )
+    sprintfSafeA(v3, 0x1FEui64, "[ERROR: invalid node name]");
+  return v3;
+}

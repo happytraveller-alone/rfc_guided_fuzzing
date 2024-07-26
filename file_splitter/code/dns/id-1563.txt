@@ -1,0 +1,55 @@
+//----- (00000001400C5F7C) ----------------------------------------------------
+__int64 __fastcall Zone_VerifyRootHintsBeforeWrite(__int64 a1)
+{
+  __int64 v1; // rdi
+  __int64 v3; // rsi
+  __int64 NextRecord; // rax
+  _BYTE *GlueNodeForDbaseName; // rax
+  __int64 v6; // rbp
+  unsigned int v7; // [rsp+48h] [rbp+10h] BYREF
+
+  if ( !g_ulDownlevelDCsInDomain || !dword_1401B9740 )
+    return 1i64;
+  v1 = *(_QWORD *)(a1 + 48);
+  if ( v1 )
+  {
+    v7 = -1;
+    acquireRead(DbaseLock, 0xFFFFFFFF, &v7);
+    v3 = 0i64;
+    while ( 1 )
+    {
+      NextRecord = RR_FindNextRecordEx(v1, 0, 2u, v3, 0, 0);
+      v3 = NextRecord;
+      if ( !NextRecord )
+        break;
+      GlueNodeForDbaseName = Lookup_FindGlueNodeForDbaseName(0i64, NextRecord + 56);
+      v6 = (__int64)GlueNodeForDbaseName;
+      if ( GlueNodeForDbaseName
+        && (RR_FindNextRecordEx((__int64)GlueNodeForDbaseName, 0, 1u, 0i64, 0, 0)
+         || RR_FindNextRecordEx(v6, 0, 0x1Cu, 0i64, 0, 0)) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x8Du, (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids);
+        }
+        v7 = -1;
+        releaseRead(DbaseLock, &v7, 1);
+        return 1i64;
+      }
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x8Cu, (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids);
+    }
+    v7 = -1;
+    releaseRead(DbaseLock, &v7, 1);
+  }
+  return 0i64;
+}
+// 1401B7F04: using guessed type int g_ulDownlevelDCsInDomain;
+// 1401B9740: using guessed type int dword_1401B9740;
+// 1401EC5E8: using guessed type __int64 DbaseLock;

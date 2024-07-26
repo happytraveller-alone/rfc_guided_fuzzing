@@ -1,0 +1,72 @@
+//----- (00000001400AC804) ----------------------------------------------------
+__int64 Tcp_ConnectionListInitialize()
+{
+  __int64 v0; // r8
+  char *v2; // rax
+  u_long argp; // [rsp+20h] [rbp-19h] BYREF
+  int namelen[3]; // [rsp+24h] [rbp-15h] BYREF
+  struct sockaddr name; // [rsp+30h] [rbp-9h] BYREF
+  __int128 v6; // [rsp+70h] [rbp+37h] BYREF
+
+  argp = 1;
+  qword_1401C79F8 = (__int64)&mg_TcpConnectionList;
+  mg_TcpConnectionList = (__int64)&mg_TcpConnectionList;
+  if ( (unsigned int)DnsInitializeCriticalSection(&mg_TcpConnectionListCS) )
+    return 0i64;
+  mg_TcpConnectionListInitialized = 1;
+  g_bTcpSelectWoken = 1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Fu, (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids);
+  }
+  *(_QWORD *)&v6 = 0i64;
+  *((_QWORD *)&v6 + 1) = 0x100000000000000i64;
+  DnsAddr_BuildFromIp6((char *)&name, &v6, v0, 0);
+  v2 = Sock_CreateSocket(2, &name, 0, 0i64);
+  g_TcpSelectWakeupSocket = (SOCKET)v2;
+  if ( !v2 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x20u, (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids);
+    }
+    DnsAddr_BuildFromIp4((struct in_addr *)&name, (struct in_addr)16777343, 0);
+    v2 = Sock_CreateSocket(2, &name, 0, 0i64);
+    g_TcpSelectWakeupSocket = (SOCKET)v2;
+    if ( !v2 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x21u, (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids);
+      }
+      return 0i64;
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x22u,
+      (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+      (int)v2);
+    v2 = (char *)g_TcpSelectWakeupSocket;
+  }
+  ioctlsocket((SOCKET)v2, -2147195266, &argp);
+  namelen[0] = 128;
+  getsockname(g_TcpSelectWakeupSocket, &g_wakeupSockaddr, namelen);
+  return 1i64;
+}
+// 1400AC8C6: variable 'v0' is possibly undefined
+// 1401C79E8: using guessed type int mg_TcpConnectionListInitialized;
+// 1401C79F0: using guessed type __int64 mg_TcpConnectionList;
+// 1401C79F8: using guessed type __int64 qword_1401C79F8;
+// 1401C7A30: using guessed type int g_bTcpSelectWoken;
+// 1400AC804: using guessed type int namelen[3];

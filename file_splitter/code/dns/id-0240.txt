@@ -1,0 +1,13 @@
+//----- (000000014001F670) ----------------------------------------------------
+_BOOL8 __fastcall omitRecordFromSignedWinsZone(__int64 a1, __int64 a2)
+{
+  _BOOL8 result; // rax
+
+  result = 0i64;
+  if ( a1 && a2 && *(_DWORD *)(a1 + 372) == 1 && (*(_BYTE *)(a1 + 1040) & 4) != 0 )
+  {
+    if ( *(_QWORD *)(a1 + 344) )
+      return ((*(_WORD *)(a2 + 12) - 46) & 0xFFFA) == 0;
+  }
+  return result;
+}

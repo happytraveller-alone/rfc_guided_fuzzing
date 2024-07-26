@@ -1,0 +1,76 @@
+//----- (000000014013F828) ----------------------------------------------------
+__int64 __fastcall UpdateContent(__int64 a1, __int64 a2)
+{
+  unsigned int *v2; // rax
+  void *zero; // rax
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  unsigned __int16 v7; // dx
+  __int64 v8; // rsi
+  __int64 v9; // rdx
+
+  v2 = *(unsigned int **)(a2 + 40);
+  if ( !v2 )
+    return 0i64;
+  zero = MIDL_user_allocate_zero(8i64 * *v2 + 16);
+  *(_QWORD *)(a1 + 40) = zero;
+  if ( zero )
+  {
+    memset_0(zero, 0, 8i64 * **(unsigned int **)(a2 + 40) + 16);
+    v8 = 0i64;
+    if ( **(_DWORD **)(a2 + 40) )
+    {
+      while ( 1 )
+      {
+        *(_QWORD *)(*(_QWORD *)(a1 + 40) + 8 * v8 + 8) = MIDL_user_allocate_zero(0x10ui64);
+        v9 = *(_QWORD *)(*(_QWORD *)(a1 + 40) + 8 * v8 + 8);
+        if ( !v9 )
+          break;
+        *(_DWORD *)(v9 + 8) = *(_DWORD *)(*(_QWORD *)(*(_QWORD *)(a2 + 40) + 8 * v8 + 8) + 8i64);
+        **(_QWORD **)(*(_QWORD *)(a1 + 40) + 8 * v8 + 8) = Dns_StringCopyAllocate(
+                                                             **(char ***)(*(_QWORD *)(a2 + 40) + 8 * v8 + 8),
+                                                             0,
+                                                             1i64,
+                                                             1);
+        if ( !**(_QWORD **)(*(_QWORD *)(a1 + 40) + 8 * v8 + 8) )
+        {
+          v6 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            v7 = 88;
+            goto LABEL_21;
+          }
+          goto LABEL_22;
+        }
+        v8 = (unsigned int)(v8 + 1);
+        if ( (unsigned int)v8 >= **(_DWORD **)(a2 + 40) )
+          goto LABEL_11;
+      }
+      v6 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v7 = 87;
+        goto LABEL_21;
+      }
+      goto LABEL_22;
+    }
+LABEL_11:
+    **(_DWORD **)(a1 + 40) = **(_DWORD **)(a2 + 40);
+    return 0i64;
+  }
+  v6 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    v7 = 86;
+LABEL_21:
+    WPP_SF_(*((_QWORD *)v6 + 7), v7, (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids);
+  }
+LABEL_22:
+  Free_RpcPolicyContent(*(struct _DnssrvRpcPolicyAction **)(a1 + 40));
+  return 14i64;
+}

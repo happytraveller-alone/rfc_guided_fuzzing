@@ -1,0 +1,70 @@
+//----- (0000000140128DC0) ----------------------------------------------------
+int __fastcall DnsSign::CCertificate::GetCertificateContextProperty(
+        PCCERT_CONTEXT *a1,
+        __int64 a2,
+        _BYTE *a3,
+        __int64 *a4)
+{
+  int result; // eax
+  int v8; // ebx
+  int LastError; // ebx
+  DWORD pcbData; // [rsp+30h] [rbp-59h] BYREF
+  __int64 v11; // [rsp+38h] [rbp-51h]
+  char v12[56]; // [rsp+40h] [rbp-49h] BYREF
+  char pExceptionObject[56]; // [rsp+78h] [rbp-11h] BYREF
+
+  v11 = -2i64;
+  pcbData = 0;
+  if ( CertGetCertificateContextProperty(*a1, 0xBu, 0i64, &pcbData) )
+  {
+    std::vector<unsigned char>::resize(a4, pcbData);
+    result = CertGetCertificateContextProperty(*a1, 0xBu, (void *)*a4, &pcbData);
+    if ( !result )
+    {
+      LastError = GetLastError();
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        WPP_SF_Dd(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          0x13u,
+          (__int64)&WPP_53898a8021d033fe120236609d33d737_Traceguids,
+          11);
+      }
+      DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v12, LastError);
+      DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v12, 0xD6D97u, 11i64);
+      DnsSign::CRunTimeException::CRunTimeException(
+        (DnsSign::CRunTimeException *)pExceptionObject,
+        (const struct DnsSign::CRunTimeException *)v12);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+    }
+    *a3 = 1;
+  }
+  else
+  {
+    result = GetLastError();
+    v8 = result;
+    if ( result != -2146885628 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        WPP_SF_Dd(
+          *((_QWORD *)WPP_GLOBAL_Control + 2),
+          0x12u,
+          (__int64)&WPP_53898a8021d033fe120236609d33d737_Traceguids,
+          11);
+      }
+      DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v12, v8);
+      DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v12, 0xD6D97u, 11i64);
+      DnsSign::CRunTimeException::CRunTimeException(
+        (DnsSign::CRunTimeException *)pExceptionObject,
+        (const struct DnsSign::CRunTimeException *)v12);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+    }
+    *a3 = 0;
+  }
+  return result;
+}

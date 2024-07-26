@@ -1,0 +1,150 @@
+//----- (00000001400F695C) ----------------------------------------------------
+__int64 __fastcall DnsOls_ExportKey(struct _zone_info *a1, const IID *a2, __int64 a3, _QWORD **a4, _DWORD *a5)
+{
+  unsigned __int16 *v8; // rsi
+  __int64 v10; // rbx
+  char *v11; // rax
+  _DWORD *v12; // r15
+  unsigned int v13; // ebx
+  unsigned int v14; // eax
+  __int64 v15; // rax
+  int v16; // r12d
+  char *v17; // rax
+  unsigned __int16 v18; // dx
+  unsigned int v19; // ecx
+  _QWORD *v20; // rax
+  __int64 v21; // rcx
+  int v23[2]; // [rsp+40h] [rbp-20h] BYREF
+  unsigned __int16 *v24; // [rsp+48h] [rbp-18h]
+  NCryptBufferDesc pParameterList; // [rsp+50h] [rbp-10h] BYREF
+  DWORD pcbResult; // [rsp+A0h] [rbp+40h] BYREF
+  __int64 v27; // [rsp+B0h] [rbp+50h]
+  unsigned __int16 *v28; // [rsp+B8h] [rbp+58h] BYREF
+
+  v27 = a3;
+  v8 = 0i64;
+  v28 = 0i64;
+  pcbResult = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v10 = *((_QWORD *)a1 + 2);
+    else
+      v10 = 0i64;
+    v11 = Dbg_GuidString(a2);
+    WPP_SF_Ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Eu,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      (const unsigned __int16 *)v11,
+      v10);
+  }
+  v12 = a5;
+  *a4 = 0i64;
+  *v12 = 0;
+  if ( !a1 )
+  {
+    v13 = 13;
+LABEL_31:
+    Mem_Free(*a4, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsds.cpp", 2971);
+    *a4 = 0i64;
+    *v12 = 0;
+    goto LABEL_32;
+  }
+  v14 = DnsOls_CreateKeyProtectionDescriptorString(a1, &v28);
+  v8 = v28;
+  v13 = v14;
+  if ( v14 )
+    goto LABEL_31;
+  v23[0] = 0;
+  pParameterList.pBuffers = (PBCryptBuffer)v23;
+  v15 = -1i64;
+  pParameterList.ulVersion = 0;
+  pParameterList.cBuffers = 1;
+  v23[1] = 3;
+  v24 = v28;
+  do
+    ++v15;
+  while ( v28[v15] );
+  v23[0] = 2 * v15 + 2;
+  v16 = NCryptExportKey(*(_QWORD *)(a3 + 104), 0i64, L"ProtectedKeyBlob", &pParameterList, 0i64, 0, &pcbResult, 0);
+  if ( v16 < 0 )
+  {
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_30;
+    }
+    v17 = Dbg_GuidString(a2);
+    v18 = 79;
+LABEL_29:
+    WPP_SF_DSs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      v18,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      v16,
+      (__int64)v17,
+      *((_QWORD *)a1 + 2));
+LABEL_30:
+    v13 = 9110;
+    goto LABEL_31;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x50u,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      pcbResult);
+  }
+  v19 = pcbResult + 16;
+  *v12 = pcbResult + 16;
+  v20 = Mem_Alloc(v19, 12i64, "ds\\dns\\server\\server\\olsds.cpp", 2932);
+  *a4 = v20;
+  if ( !v20 )
+  {
+    v13 = 14;
+    goto LABEL_31;
+  }
+  v21 = v27;
+  *(IID *)v20 = *a2;
+  v16 = NCryptExportKey(
+          *(_QWORD *)(v21 + 104),
+          0i64,
+          L"ProtectedKeyBlob",
+          &pParameterList,
+          (PBYTE)*a4 + 16,
+          pcbResult,
+          &pcbResult,
+          0);
+  if ( v16 < 0 )
+  {
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_30;
+    }
+    v17 = Dbg_GuidString(a2);
+    v18 = 81;
+    goto LABEL_29;
+  }
+LABEL_32:
+  Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsds.cpp", 2976);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_dqd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x52u,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      v13);
+  }
+  return v13;
+}

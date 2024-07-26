@@ -1,0 +1,59 @@
+//----- (00000001401612D8) ----------------------------------------------------
+__int64 __fastcall Dns_FlagForString(__int64 a1, int a2, const char *a3, int a4)
+{
+  int v4; // edi
+  __int64 v5; // rsi
+  __int64 v8; // rbp
+  const char **v9; // rax
+  bool i; // zf
+  const char *v11; // rdx
+  __int64 v12; // rax
+  bool j; // zf
+  const char *v14; // rdx
+  __int64 v15; // rax
+
+  v4 = 0;
+  LODWORD(v5) = a4;
+  if ( !a4 )
+  {
+    v5 = -1i64;
+    do
+      ++v5;
+    while ( a3[v5] );
+  }
+  v8 = 0i64;
+  v9 = (const char **)(a1 + 8);
+  if ( a2 )
+  {
+    for ( i = *v9 == 0i64; !i; i = *v9 == 0i64 )
+    {
+      v11 = *v9;
+      v12 = -1i64;
+      do
+        ++v12;
+      while ( v11[v12] );
+      if ( (_DWORD)v5 == (_DWORD)v12 && !_strnicmp(a3, v11, (int)v5) )
+        break;
+      ++v8;
+      ++v4;
+      v9 = (const char **)(a1 + 16 * v8 + 8);
+    }
+  }
+  else
+  {
+    for ( j = *v9 == 0i64; !j; j = *v9 == 0i64 )
+    {
+      v14 = *v9;
+      v15 = -1i64;
+      do
+        ++v15;
+      while ( v14[v15] );
+      if ( (_DWORD)v5 == (_DWORD)v15 && !strncmp(a3, v14, (int)v5) )
+        break;
+      ++v8;
+      ++v4;
+      v9 = (const char **)(a1 + 16 * v8 + 8);
+    }
+  }
+  return *(unsigned int *)(a1 + 16i64 * v4);
+}

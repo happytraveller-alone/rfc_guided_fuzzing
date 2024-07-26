@@ -1,0 +1,12 @@
+//----- (0000000140003238) ----------------------------------------------------
+__int64 __fastcall Aging_ResetZoneAgingTime(__int64 a1)
+{
+  __int64 result; // rax
+  unsigned int v3; // ecx
+
+  result = Aging_UpdateAgingTime();
+  v3 = result + *(_DWORD *)(a1 + 996);
+  if ( v3 > *(_DWORD *)(a1 + 1000) )
+    *(_DWORD *)(a1 + 1000) = v3;
+  return result;
+}

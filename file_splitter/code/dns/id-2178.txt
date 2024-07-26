@@ -1,0 +1,38 @@
+//----- (00000001401130FC) ----------------------------------------------------
+__int64 RegisterTelemetryProvider()
+{
+  GUID v0; // xmm0
+  signed int v1; // eax
+  unsigned int v2; // ebx
+  GUID ProviderId; // [rsp+20h] [rbp-28h] BYREF
+
+  g_isRegisteredForUTC = 0;
+  v0 = (GUID)*((_OWORD *)off_1401B5F28 - 1);
+  qword_1401B5F48 = 0i64;
+  qword_1401B5F50 = 0i64;
+  ProviderId = v0;
+  v1 = EventRegister(&ProviderId, TlgEnableCallback, &dword_1401B5F20, &RegHandle);
+  v2 = v1;
+  if ( v1 )
+  {
+    v2 = (unsigned __int16)v1 | 0x80070000;
+    if ( v1 <= 0 )
+      v2 = v1;
+  }
+  else
+  {
+    EventSetInformation(RegHandle, 2i64, off_1401B5F28, *(unsigned __int16 *)off_1401B5F28);
+  }
+  if ( !v2 )
+  {
+    g_isRegisteredForUTC = 1;
+    DnsInitializeCriticalSection(&csTelemetry);
+  }
+  return v2;
+}
+// 140184858: using guessed type __int64 __fastcall EventSetInformation(_QWORD, _QWORD, _QWORD, _QWORD);
+// 1401B5F20: using guessed type int dword_1401B5F20;
+// 1401B5F28: using guessed type void *off_1401B5F28;
+// 1401B5F48: using guessed type __int64 qword_1401B5F48;
+// 1401B5F50: using guessed type __int64 qword_1401B5F50;
+// 1401B9190: using guessed type int g_isRegisteredForUTC;

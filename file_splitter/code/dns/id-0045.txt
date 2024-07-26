@@ -1,0 +1,80 @@
+//----- (0000000140003060) ----------------------------------------------------
+__int64 __fastcall Aging_ForceAgingOnNodeOrSubtree(__int64 a1, __int64 a2, unsigned int a3)
+{
+  int v7; // eax
+  unsigned int v8; // edi
+  __int64 v9; // rax
+  __int64 v10; // r8
+  __int64 v11[2]; // [rsp+48h] [rbp-29h] BYREF
+  int v12; // [rsp+5Ch] [rbp-15h]
+  char v13[40]; // [rsp+70h] [rbp-1h] BYREF
+  int v14; // [rsp+98h] [rbp+27h]
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_ssD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x36u,
+      (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids,
+      *(const char **)(a1 + 16),
+      (a2 + 102) & -(__int64)(a2 != 0));
+  }
+  if ( (*(_BYTE *)(a1 + 396) & 1) == 0 )
+    return 9611i64;
+  memset_0(v11, 0, 0x68ui64);
+  v12 = 514;
+  Aging_UpdateAgingTime();
+  v7 = privateSetNoAgingRRs(a1, *(_QWORD *)(a1 + 40));
+  v8 = v7;
+  if ( v7 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x37u,
+        (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids,
+        v7);
+    }
+    return v8;
+  }
+  else
+  {
+    v9 = *(_QWORD *)(a1 + 48);
+    v11[0] = a1;
+    v11[1] = v9;
+    memset_0(v13, 0, 0x40ui64);
+    if ( (unsigned int)forceAgingOrNodeOrSubtreePrivate(a2, a3, v11) )
+    {
+      executeScavengeUpdate(v11, 1);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_SLLL(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x38u, v10, *(const unsigned __int16 **)(a1 + 24));
+      }
+      return 0i64;
+    }
+    else
+    {
+      v14 |= 0x10000000u;
+      Up_FreeUpdatesInUpdateList((__int64)v13);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_S(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x39u,
+          (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids,
+          *(const unsigned __int16 **)(a1 + 24));
+      }
+      return 9603i64;
+    }
+  }
+}
+// 1400031C7: variable 'v10' is possibly undefined

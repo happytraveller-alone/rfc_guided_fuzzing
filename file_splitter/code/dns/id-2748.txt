@@ -1,0 +1,90 @@
+//----- (0000000140144A60) ----------------------------------------------------
+unsigned __int16 *__fastcall CDNSPolicyCriteriaTime::GetPolicyCriteriaString(CDNSPolicyCriteriaTime *this)
+{
+  int v2; // edi
+  int v3; // esi
+  _QWORD *v4; // rax
+  _QWORD *v5; // rbx
+  int v6; // edi
+  _QWORD *v7; // rax
+  _QWORD *v8; // rbx
+  void **v9; // rcx
+  _WORD *v10; // rbx
+  void *Src[3]; // [rsp+30h] [rbp-61h] BYREF
+  unsigned __int64 v13; // [rsp+48h] [rbp-49h]
+  __int16 v14[56]; // [rsp+58h] [rbp-39h] BYREF
+
+  v13 = 7i64;
+  Src[2] = 0i64;
+  LOWORD(Src[0]) = 0;
+  v2 = 0;
+  v3 = 0;
+  memset_0(v14, 0, 0x64ui64);
+  v4 = (_QWORD *)*((_QWORD *)this + 8);
+  v5 = (_QWORD *)*v4;
+  if ( (_QWORD *)*v4 != v4 )
+  {
+    do
+    {
+      if ( !v2 )
+      {
+        std::wstring::append((char *)Src, (char *)L"EQ");
+        v2 = 1;
+        v3 = 1;
+      }
+      std::wstring::operator+=((__int64)Src, 44);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v5 + 12), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      std::wstring::operator+=((__int64)Src, 58);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v5 + 13), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      std::wstring::operator+=((__int64)Src, 45);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v5 + 20), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      std::wstring::operator+=((__int64)Src, 58);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v5 + 21), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      v5 = (_QWORD *)*v5;
+    }
+    while ( v5 != *((_QWORD **)this + 8) );
+  }
+  v6 = 0;
+  v7 = (_QWORD *)*((_QWORD *)this + 11);
+  v8 = (_QWORD *)*v7;
+  if ( (_QWORD *)*v7 != v7 )
+  {
+    do
+    {
+      if ( !v6 )
+      {
+        if ( v3 )
+          std::wstring::operator+=((__int64)Src, 59);
+        std::wstring::append((char *)Src, (char *)L"NE");
+        v6 = 1;
+      }
+      std::wstring::operator+=((__int64)Src, 44);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v8 + 12), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      std::wstring::operator+=((__int64)Src, 58);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v8 + 13), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      std::wstring::operator+=((__int64)Src, 45);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v8 + 20), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      std::wstring::operator+=((__int64)Src, 58);
+      Get_TimeInStringFormat(*((unsigned __int16 *)v8 + 21), (wchar_t *)v14);
+      std::wstring::append((char *)Src, (char *)v14);
+      v8 = (_QWORD *)*v8;
+    }
+    while ( v8 != *((_QWORD **)this + 11) );
+  }
+  v9 = Src;
+  if ( v13 >= 8 )
+    v9 = (void **)Src[0];
+  v10 = MIDL_user_copy_stringW((__int64)v9);
+  if ( v13 >= 8 )
+    operator delete(Src[0]);
+  return v10;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140144A60: using guessed type wchar_t var_90[56];

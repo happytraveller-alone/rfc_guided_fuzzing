@@ -1,0 +1,19 @@
+//----- (000000014015D590) ----------------------------------------------------
+__int64 __fastcall Dns_NameCompare_UTF8(WCHAR *a1, WCHAR *a2)
+{
+  unsigned int v4[4]; // [rsp+30h] [rbp-428h] BYREF
+  WCHAR String2[256]; // [rsp+40h] [rbp-418h] BYREF
+  WCHAR String1[256]; // [rsp+240h] [rbp-218h] BYREF
+
+  if ( a1
+    && a2
+    && (v4[0] = 512, (unsigned int)Dns_StringCopy(String1, v4, a1, 0, 2, 1))
+    && (v4[0] = 512, (unsigned int)Dns_StringCopy(String2, v4, a2, 0, 2, 1)) )
+  {
+    return Dns_NameCompare_W(String1, String2);
+  }
+  else
+  {
+    return 0i64;
+  }
+}

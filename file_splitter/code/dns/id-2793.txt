@@ -1,0 +1,112 @@
+//----- (000000014014A664) ----------------------------------------------------
+__int64 __fastcall Remove_PolicyFromMap(char *a1, __int64 a2)
+{
+  int *Policy; // rax
+  const void **v5; // r14
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  unsigned int v7; // edi
+  unsigned __int16 v8; // dx
+  __int64 v9; // rcx
+  char *v10; // rbp
+  CDnsPolicyOrder *v11; // rcx
+  const void **PolicyName; // rax
+  unsigned int v14; // [rsp+30h] [rbp-68h] BYREF
+  void *v15[5]; // [rsp+38h] [rbp-60h] BYREF
+
+  v14 = 0;
+  Policy = (int *)Get_Policy(a1, a2, &v14);
+  v5 = (const void **)Policy;
+  if ( Policy )
+  {
+    v9 = Policy[22];
+    v7 = 0;
+    if ( a2 )
+      v10 = *(char **)(a2 + 8 * v9 + 216);
+    else
+      v10 = (char *)&g_PolicySvr + 32 * v9;
+    if ( v10 )
+    {
+      if ( a2 )
+        v11 = *(CDnsPolicyOrder **)(a2 + 8 * v9 + 256);
+      else
+        v11 = (CDnsPolicyOrder *)((char *)&g_PolicyOrder + 72 * v9);
+      if ( v11 )
+      {
+        v7 = CDnsPolicyOrder::RemovePolicy(v11, (struct CDnsPolicy *)Policy);
+        if ( v7 )
+        {
+          v6 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+          {
+            v8 = 134;
+            goto LABEL_34;
+          }
+        }
+        else
+        {
+          PolicyName = (const void **)CDnsPolicy::GetPolicyName(v5, (__int64)v15);
+          std::_Tree<std::_Tmap_traits<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>,0>>::erase(
+            (__int64)v10,
+            PolicyName);
+          if ( v15[3] >= (void *)8 )
+            operator delete(v15[0]);
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_SD(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x87u,
+              (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+              (const unsigned __int16 *)a1);
+          }
+        }
+      }
+      else
+      {
+        v6 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v8 = 133;
+          goto LABEL_34;
+        }
+      }
+    }
+    else
+    {
+      v6 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v8 = 132;
+        goto LABEL_34;
+      }
+    }
+  }
+  else
+  {
+    v6 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v7 = v14;
+      v8 = 131;
+LABEL_34:
+      WPP_SF_Sdd(
+        *((_QWORD *)v6 + 7),
+        v8,
+        (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+        (const unsigned __int16 *)a1);
+      return v7;
+    }
+    return v14;
+  }
+  return v7;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

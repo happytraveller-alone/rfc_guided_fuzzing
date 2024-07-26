@@ -1,0 +1,229 @@
+//----- (000000014005A280) ----------------------------------------------------
+void __fastcall LogClientSubnetRecordEvent(__int16 a1, struct _ClientSubnetRecord *a2, wchar_t *a3)
+{
+  struct _ClientSubnetRecord *v4; // rbx
+  int v5; // r13d
+  char *v6; // r12
+  char *v7; // rbp
+  char *v8; // rsi
+  __int64 v9; // r9
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  unsigned __int16 v11; // dx
+  __int64 v12; // r9
+  __int64 v13; // rax
+  __int64 v14; // rcx
+  size_t v15; // r15
+  CDnsClientSubnetRecordsTrie *v16; // rcx
+  unsigned __int16 v17; // dx
+  int v18; // edx
+  __int64 v19; // r8
+  char *v20; // rcx
+  char v21; // al
+  const EVENT_DESCRIPTOR *v22; // rdx
+  int v23; // [rsp+80h] [rbp+8h] BYREF
+  struct _ClientSubnetRecord *v24; // [rsp+98h] [rbp+20h] BYREF
+
+  v4 = 0i64;
+  v5 = 0;
+  v6 = 0i64;
+  v24 = 0i64;
+  v7 = 0i64;
+  v8 = 0i64;
+  switch ( a1 )
+  {
+    case 576:
+      v23 = 0;
+      if ( (unsigned int)Rpc_GetClientSubnetRecord(
+                           0i64,
+                           0i64,
+                           0i64,
+                           (__int64)"GetClientSubnetRecord",
+                           3,
+                           a3,
+                           &v23,
+                           &v24) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Au, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids);
+        }
+        v4 = v24;
+        goto LABEL_79;
+      }
+      v4 = v24;
+      v5 = 1;
+      break;
+    case 574:
+      v4 = a2;
+      break;
+    case 575:
+      if ( (dword_1401B9104 & 0x1000) != 0 )
+        Template_z(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_DELETE_CLIENT_SUBNET_RECORD, a3);
+      goto LABEL_79;
+  }
+  v6 = dnsAddrArrayStringEx(*((_QWORD *)v4 + 1), 1);
+  if ( !v6 )
+  {
+    v9 = *((_QWORD *)v4 + 1);
+    if ( v9 )
+    {
+      if ( *(_DWORD *)(v9 + 4) )
+      {
+        v10 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+        {
+          goto LABEL_79;
+        }
+        v11 = 27;
+        goto LABEL_16;
+      }
+    }
+  }
+  v7 = dnsAddrArrayStringEx(*((_QWORD *)v4 + 2), 1);
+  if ( !v7 )
+  {
+    v12 = *((_QWORD *)v4 + 2);
+    if ( v12 )
+    {
+      if ( *(_DWORD *)(v12 + 4) )
+      {
+        v10 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+        {
+          goto LABEL_79;
+        }
+        v11 = 28;
+LABEL_16:
+        WPP_SF_q(*((_QWORD *)v10 + 7), v11, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids);
+        goto LABEL_79;
+      }
+    }
+  }
+  v13 = -1i64;
+  v14 = -1i64;
+  do
+    ++v14;
+  while ( v7[v14] );
+  do
+    ++v13;
+  while ( v6[v13] );
+  v15 = (unsigned int)(v14 + v13 + 2);
+  v8 = (char *)Mem_AllocZero(v15, 0i64, "ds\\dns\\server\\server\\log.c", 3918);
+  if ( !v8 )
+  {
+    v16 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_79;
+    }
+    v17 = 29;
+    goto LABEL_37;
+  }
+  if ( !v6 || !strcmp_0(v6, "NULL") )
+    goto LABEL_64;
+  v18 = 0;
+  if ( v15 - 1 > 0x7FFFFFFE )
+    v18 = -2147024809;
+  if ( v18 < 0 )
+  {
+    if ( (_DWORD)v15 )
+      *v8 = 0;
+  }
+  else
+  {
+    v18 = 0;
+    v19 = (unsigned int)v15;
+    v20 = v8;
+    if ( !(_DWORD)v15 )
+      goto LABEL_48;
+    do
+    {
+      if ( !(2147483646i64 - (unsigned int)v15 + v19) )
+        break;
+      v21 = v20[v6 - v8];
+      if ( !v21 )
+        break;
+      *v20++ = v21;
+      --v19;
+    }
+    while ( v19 );
+    if ( !v19 )
+    {
+LABEL_48:
+      --v20;
+      v18 = -2147024774;
+    }
+    *v20 = 0;
+  }
+  if ( v18 < 0 )
+  {
+    v16 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_79;
+    }
+    v17 = 30;
+    goto LABEL_37;
+  }
+  if ( v7 )
+  {
+    if ( strcmp_0(v7, "NULL") && (int)StringCchCatA(v8, (unsigned int)v15, ",") < 0 )
+    {
+      v16 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_79;
+      }
+      v17 = 31;
+      goto LABEL_37;
+    }
+LABEL_64:
+    if ( v7 && (strcmp_0(v7, "NULL") || !strcmp_0(v6, "NULL")) && (int)StringCchCatA(v8, (unsigned int)v15, v7) < 0 )
+    {
+      v16 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_79;
+      }
+      v17 = 32;
+LABEL_37:
+      WPP_SF_(*((_QWORD *)v16 + 7), v17, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids);
+      goto LABEL_79;
+    }
+  }
+  if ( a1 == 574 )
+  {
+    if ( (dword_1401B9104 & 0x1000) == 0 )
+      goto LABEL_79;
+    v22 = &DNS_EVENT_CREATE_CLIENT_SUBNET_RECORD;
+  }
+  else
+  {
+    if ( a1 != 576 || (dword_1401B9104 & 0x1000) == 0 )
+      goto LABEL_79;
+    v22 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_UPDATE_CLIENT_SUBNET_RECORD;
+  }
+  Template_zs(Microsoft_Windows_DNSServerHandle, v22, *(const unsigned __int16 **)v4, v8);
+LABEL_79:
+  Mem_Free(v6, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 3962);
+  Mem_Free(v7, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 3963);
+  Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 3964);
+  if ( v5 )
+    Mem_Free(v4, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 3967);
+}
+// 1401860A8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_DELETE_CLIENT_SUBNET_RECORD;
+// 1401B9104: using guessed type int dword_1401B9104;

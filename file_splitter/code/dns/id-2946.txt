@@ -1,0 +1,24 @@
+//----- (0000000140155E04) ----------------------------------------------------
+__int64 __fastcall DnsAddr_BuildFromIp4(struct in_addr *a1, struct in_addr in, USHORT a3)
+{
+  int v6; // ebx
+  char *v7; // rax
+  __int64 result; // rax
+  int v9; // [rsp+20h] [rbp-18h]
+
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    v6 = a3;
+    v7 = inet_ntoa(in);
+    v9 = v6;
+    WPP_SF_qsD(13i64, (unsigned __int16)"�N՗ \rT?�c�c��j\n", (__int64)a1, v7, v9);
+  }
+  memset_0(a1, 0, 0x40ui64);
+  result = 2i64;
+  a1->S_un.S_un_w.s_w2 = a3;
+  a1[1] = in;
+  a1->S_un.S_un_w.s_w1 = 2;
+  a1[8].S_un.S_addr = 16;
+  return result;
+}
+// 1401BA001: using guessed type char byte_1401BA001;

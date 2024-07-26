@@ -1,0 +1,24 @@
+//----- (000000014002EA4C) ----------------------------------------------------
+__int64 __fastcall Ds_GetPartitionsContainerDn(wchar_t *a1)
+{
+  __int64 v1; // rax
+
+  if ( a1 )
+  {
+    if ( qword_1401B6B70 )
+    {
+      v1 = -1i64;
+      do
+        ++v1;
+      while ( qword_1401B6B70[v1] );
+      if ( (unsigned __int64)(v1 + 17) <= 0x501 )
+      {
+        sprintfSafe(a1, 0x501ui64, L"CN=Partitions,%s");
+        return 0i64;
+      }
+    }
+    *a1 = 0;
+  }
+  return 13i64;
+}
+// 14018B4C0: using guessed type wchar_t aCnPartitionsS[17];

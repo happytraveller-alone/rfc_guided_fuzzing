@@ -1,0 +1,26 @@
+//----- (00000001401195E8) ----------------------------------------------------
+__int64 __fastcall QueryIndexForType(unsigned __int16 a1)
+{
+  unsigned __int16 v1; // dx
+  __int16 v2; // ax
+
+  v1 = a1;
+  if ( a1 > 0x34u )
+  {
+    if ( a1 > 0xFFu )
+    {
+      if ( (unsigned __int16)(a1 + 255) <= 1u )
+      {
+        v2 = 308;
+        return (unsigned __int16)(v2 + a1);
+      }
+    }
+    else if ( a1 >= 0xF9u )
+    {
+      v2 = -194;
+      return (unsigned __int16)(v2 + a1);
+    }
+    return 0;
+  }
+  return v1;
+}

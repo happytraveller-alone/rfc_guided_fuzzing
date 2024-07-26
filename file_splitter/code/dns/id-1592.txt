@@ -1,0 +1,30 @@
+//----- (00000001400C8DB8) ----------------------------------------------------
+DWORD __fastcall ConvertTimeToUTCTimeString(u_long netlong, unsigned __int16 *a2)
+{
+  DWORD result; // eax
+  FILETIME FileTime; // [rsp+30h] [rbp-D0h] BYREF
+  struct _SYSTEMTIME SystemTime; // [rsp+38h] [rbp-C8h] BYREF
+  WCHAR TimeStr[2]; // [rsp+50h] [rbp-B0h] BYREF
+  char v8[524]; // [rsp+54h] [rbp-ACh] BYREF
+
+  *(_QWORD *)&SystemTime.wMonth = 0i64;
+  *(_DWORD *)&SystemTime.wMinute = 0;
+  SystemTime.wMilliseconds = 0;
+  *(_DWORD *)TimeStr = 0;
+  SystemTime.wYear = 0;
+  memset_0(v8, 0, 0x204ui64);
+  FileTime = (FILETIME)(10000000 * ((int)ntohl(netlong) + 0x2B6109100i64));
+  if ( !FileTimeToSystemTime(&FileTime, &SystemTime) )
+    GetLastError();
+  if ( !GetDateFormatW(0x400u, 0x40u, &SystemTime, 0i64, a2, 260)
+    || !GetTimeFormatW(0x400u, 0, &SystemTime, 0i64, TimeStr, 260) )
+  {
+    return GetLastError();
+  }
+  result = (unsigned __int16)StringCchCatW(a2, 260i64, (char *)L" ");
+  if ( !(_WORD)result )
+    return (unsigned __int16)StringCchCatW(a2, 260i64, (char *)TimeStr);
+  return result;
+}
+// 14018BA70: using guessed type int dword_14018BA70;
+// 1400C8DB8: using guessed type char var_22C[524];

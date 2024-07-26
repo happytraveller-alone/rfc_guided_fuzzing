@@ -1,0 +1,24 @@
+//----- (0000000140076C50) ----------------------------------------------------
+__int64 __fastcall Reg_ReadQwordValue(HKEY a1, const unsigned __int16 *a2, _QWORD *a3)
+{
+  __int64 v5; // rdx
+  unsigned int Value; // ebx
+  __int64 v7; // r8
+  DWORD v9; // [rsp+50h] [rbp+18h] BYREF
+  __int64 v10; // [rsp+58h] [rbp+20h] BYREF
+
+  v10 = 0i64;
+  v9 = 8;
+  Value = Reg_GetValue(a1, 0i64, a2, 11, (LPBYTE)&v10, &v9);
+  if ( !Value
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_si(*((_QWORD *)WPP_GLOBAL_Control + 7), v5, v7, (const char *)a2);
+  }
+  *a3 = v10;
+  return Value;
+}
+// 140076CC9: variable 'v5' is possibly undefined
+// 140076CC9: variable 'v7' is possibly undefined

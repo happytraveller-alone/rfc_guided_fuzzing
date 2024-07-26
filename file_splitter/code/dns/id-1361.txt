@@ -1,0 +1,36 @@
+//----- (00000001400ACC94) ----------------------------------------------------
+void __fastcall Tcp_ConnectionCompletion(__int64 a1)
+{
+  __int64 *v2; // rax
+  void (__fastcall *v3)(__int64, __int64); // rbx
+  __int64 v4; // rdi
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x27u, (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids, a1);
+  }
+  _InterlockedIncrement(&dword_1401C7F0C);
+  EnterCriticalSection(&mg_TcpConnectionListCS);
+  v2 = Tcp_ConnectionFindForSocket(a1);
+  if ( v2 )
+  {
+    v3 = (void (__fastcall *)(__int64, __int64))v2[17];
+    v4 = v2[27];
+    v2[17] = 0i64;
+    v2[27] = 0i64;
+    *((_DWORD *)v2 + 36) = dword_1401B9714 + 15;
+    LeaveCriticalSection(&mg_TcpConnectionListCS);
+    *(_QWORD *)(v4 + 1288) = 0i64;
+    if ( v3 )
+      v3(v4, 1i64);
+  }
+  else
+  {
+    LeaveCriticalSection(&mg_TcpConnectionListCS);
+  }
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401C7F0C: using guessed type int dword_1401C7F0C;

@@ -1,0 +1,75 @@
+//----- (000000014003748C) ----------------------------------------------------
+int *__fastcall Ds_GetExtendedLdapErrString(LDAP *a1)
+{
+  int *v1; // rbx
+  CDnsClientSubnetRecordsTrie *v2; // rcx
+  unsigned __int16 v3; // dx
+  __int64 v4; // rdi
+  char *v5; // rax
+  PWCHAR Block; // [rsp+40h] [rbp+8h] BYREF
+
+  Block = 0i64;
+  if ( !a1 )
+    a1 = pServerLdap;
+  ldap_get_optionW(a1, 51, &Block);
+  if ( !Block )
+  {
+    v1 = &dword_14018BA70;
+    v2 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v3 = 13;
+LABEL_13:
+      WPP_SF_(*((_QWORD *)v2 + 7), v3, (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids);
+      goto LABEL_24;
+    }
+    goto LABEL_24;
+  }
+  if ( *Block )
+  {
+    v4 = -1i64;
+    do
+      ++v4;
+    while ( Block[v4] );
+    v5 = (char *)Mem_Alloc(2 * (int)v4 + 4, 12i64, "ds\\dns\\server\\server\\ds.c", 872);
+    v1 = (int *)v5;
+    if ( v5 )
+    {
+      if ( (int)StringCchCopyW(v5, v4 + 1, (char *)Block) >= 0 )
+      {
+        if ( *((_WORD *)v1 + v4 - 1) == 10 )
+          *((_WORD *)v1 + v4 - 1) = 0;
+        goto LABEL_20;
+      }
+      Mem_Free(v1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 880);
+    }
+    v1 = &dword_14018BA70;
+LABEL_20:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xFu,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        (const unsigned __int16 *)v1);
+    }
+    goto LABEL_24;
+  }
+  v1 = &dword_14018BA70;
+  v2 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v3 = 14;
+    goto LABEL_13;
+  }
+LABEL_24:
+  ldap_memfreeW(Block);
+  return v1;
+}
+// 14018BA70: using guessed type int dword_14018BA70;

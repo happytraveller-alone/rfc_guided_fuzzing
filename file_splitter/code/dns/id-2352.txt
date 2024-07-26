@@ -1,0 +1,113 @@
+//----- (0000000140121530) ----------------------------------------------------
+__int64 __fastcall DsFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  unsigned int v7; // ebp
+  _BYTE *v8; // r14
+  unsigned __int16 v9; // si
+  unsigned int v10; // ebx
+  u_short v11; // r13
+  unsigned int v12; // edi
+  int v13; // eax
+  char v14; // r12
+  unsigned int v15; // edi
+  _DWORD *v16; // rax
+  __int64 v17; // rcx
+  size_t v18; // rbp
+  _BYTE *v19; // rax
+  _BYTE *v20; // rdi
+  u_short v21; // ax
+  unsigned int Size; // [rsp+30h] [rbp-38h] BYREF
+  int Size_4; // [rsp+34h] [rbp-34h]
+  unsigned int v25; // [rsp+78h] [rbp+10h] BYREF
+
+  v25 = 0;
+  Size = 0;
+  v7 = 0;
+  v8 = 0i64;
+  v9 = 0;
+  if ( a2 < 4 )
+    goto LABEL_2;
+  if ( !(unsigned int)File_ParseDwordToken(&v25, a3, a4) || (v11 = v25, v25 > 0xFFFF) )
+  {
+    v10 = -1072573183;
+    goto LABEL_27;
+  }
+  v12 = a2 - 1;
+  Size_4 = Dns_ValueForString((__int64)&DnssecAlgorithmTable, 1, *(_QWORD *)(a3 + 16), *(_DWORD *)(a3 + 24));
+  if ( (_BYTE)Size_4 == 0xFF )
+  {
+    v13 = File_ParseDwordToken(&v25, a3 + 16, a4);
+    if ( !v13 || v25 > 0xFF )
+      goto LABEL_17;
+    LOBYTE(v13) = v25;
+    Size_4 = v13;
+  }
+  if ( !(unsigned int)File_ParseDwordToken(&v25, a3 + 32, a4) || (v14 = v25, v25 > 0xFF) )
+  {
+LABEL_17:
+    v10 = -1072573183;
+    goto LABEL_28;
+  }
+  v15 = v12 - 2;
+  if ( v15 )
+  {
+    v16 = (_DWORD *)(a3 + 56);
+    v17 = v15;
+    do
+    {
+      v7 += *v16;
+      v16 += 4;
+      --v17;
+    }
+    while ( v17 );
+    Size = v7;
+  }
+  v8 = Mem_Alloc(v7, 0i64, "ds\\dns\\server\\dnscore\\rrfile.c", 3353);
+  if ( !v8 )
+    goto LABEL_16;
+  if ( v15 )
+  {
+    v10 = buildByteBufferFromHexStringTokens(v8, &Size, v15, a3 + 48, (unsigned __int64)&v8[v7]);
+    if ( !v10 )
+    {
+      v18 = Size;
+      if ( Size <= 0xFFFF )
+      {
+        v9 = Size + 4;
+        if ( (unsigned __int16)(Size + 4) >= 4u )
+        {
+LABEL_24:
+          v19 = RR_AllocateEx(v9, 0, 0);
+          v20 = v19;
+          if ( !v19 )
+          {
+LABEL_16:
+            v10 = 14;
+            goto LABEL_29;
+          }
+          *(_QWORD *)(a4 + 800) = v19;
+          v21 = htons(v11);
+          v20[59] = v14;
+          *((_WORD *)v20 + 28) = v21;
+          v20[58] = Size_4;
+          memcpy_0(v20 + 60, v8, v18);
+          goto LABEL_27;
+        }
+        v9 = -1;
+      }
+      v10 = 13;
+      goto LABEL_24;
+    }
+LABEL_27:
+    if ( v10 != -1072573183 )
+      goto LABEL_29;
+LABEL_28:
+    *(_DWORD *)(a4 + 1596) = -1072573180;
+    goto LABEL_29;
+  }
+LABEL_2:
+  v10 = -1072573181;
+LABEL_29:
+  Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnscore\\rrfile.c", 3420);
+  return v10;
+}

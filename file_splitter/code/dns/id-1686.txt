@@ -1,0 +1,22 @@
+//----- (00000001400D7AF0) ----------------------------------------------------
+__int64 __fastcall Rpc_RetrieveRootTrustAnchors(__int64 a1, __int64 a2, __int64 a3)
+{
+  unsigned int RootTrustAnchors; // ebx
+
+  if ( a3 != g_pTrustAnchorsZone )
+    return 9603i64;
+  RootTrustAnchors = DNSSEC_RetrieveRootTrustAnchors();
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x83u,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      RootTrustAnchors,
+      (__int64)pwszUrl);
+  }
+  return RootTrustAnchors;
+}
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;

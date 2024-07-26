@@ -1,0 +1,107 @@
+//----- (00000001400A4204) ----------------------------------------------------
+__int64 __fastcall Config_SetupForwarders(int a1, _DWORD *a2, int a3, int a4)
+{
+  unsigned int v4; // ebx
+  _DWORD *v9; // rdi
+  _QWORD *v11; // rax
+  unsigned int v12; // ecx
+  unsigned __int64 v13; // rax
+  __int64 v14; // r8
+  int v15; // r9d
+  __int64 v16; // rax
+  int v17; // eax
+  int v18; // ecx
+  int v19; // [rsp+68h] [rbp+10h] BYREF
+
+  v4 = 0;
+  v9 = 0i64;
+  if ( !a2 )
+    goto LABEL_9;
+  if ( (unsigned int)RpcUtil_ScreenIps((__int64)a2, 0) )
+    return 9552i64;
+  if ( !a2[1] )
+    goto LABEL_9;
+  v11 = Config_ValidateAndCopyNonLocalIpArray(a2);
+  v9 = v11;
+  if ( v11 && *((_DWORD *)v11 + 1) )
+  {
+    v12 = 0;
+    do
+    {
+      v13 = (unsigned __int64)v12++ << 6;
+      *(_WORD *)((char *)v9 + v13 + 34) = 13568;
+    }
+    while ( v12 < v9[1] );
+LABEL_9:
+    if ( a3 )
+    {
+      dword_1401B97E0 = a3;
+    }
+    else if ( !dword_1401B97E0 )
+    {
+      dword_1401B97E0 = 3;
+    }
+    dword_1401B97E4 = a4;
+    Timeout_FreeWithFunctionEx(
+      qword_1401B97D0,
+      (__int64)DnsAddrArray_Free,
+      (__int64)"ds\\dns\\server\\server\\srvcfg.c",
+      3749);
+    v16 = (__int64)v9;
+    qword_1401B97D0 = (__int64)v9;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_qdD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x3Fu,
+        (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+        v9,
+        dword_1401B97E0,
+        dword_1401B97E4);
+      v16 = qword_1401B97D0;
+    }
+    if ( g_bRegistryWriteBack )
+    {
+      if ( v9 )
+      {
+        Reg_SetAddrArrayEx(a1, 0i64, 0i64, "Forwarders", v16, 0);
+        v19 = dword_1401B97E0;
+        Reg_SetValue(a1, 0i64, 0i64, "ForwardingTimeout", 4u, (BYTE *)&v19, 4u);
+        v19 = dword_1401B97E4;
+        Reg_SetValue(a1, 0i64, 0i64, "IsSlave", 4u, (BYTE *)&v19, 4u);
+      }
+      else
+      {
+        Reg_DeleteValue(a1, 0i64, 0i64, "Forwarders");
+        Reg_DeleteValue(a1, 0i64, 0i64, "ForwardingTimeout");
+        Reg_DeleteValue(a1, 0i64, 0i64, "IsSlave");
+      }
+      v9 = 0i64;
+    }
+    DF_InitializeDynamicForwarderList(1, 0i64, v14, v15);
+    if ( qword_1401B97D0 )
+      v17 = *(_DWORD *)(qword_1401B97D0 + 4);
+    else
+      v17 = 0;
+    v18 = dword_1401B95C0;
+    if ( g_isRegisteredForUTC == 1 )
+      v18 = v17;
+    dword_1401B95C0 = v18;
+    goto LABEL_29;
+  }
+  v4 = 9552;
+LABEL_29:
+  Dns_Free(v9);
+  return v4;
+}
+// 1400A43F1: variable 'v14' is possibly undefined
+// 1400A43F1: variable 'v15' is possibly undefined
+// 1401560E0: using guessed type __int64 __fastcall DnsAddrArray_Free();
+// 1401B805C: using guessed type int g_bRegistryWriteBack;
+// 1401B9190: using guessed type int g_isRegisteredForUTC;
+// 1401B95C0: using guessed type int dword_1401B95C0;
+// 1401B97D0: using guessed type __int64 qword_1401B97D0;
+// 1401B97E0: using guessed type int dword_1401B97E0;
+// 1401B97E4: using guessed type int dword_1401B97E4;

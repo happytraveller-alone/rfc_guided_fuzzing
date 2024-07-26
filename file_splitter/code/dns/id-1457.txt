@@ -1,0 +1,55 @@
+//----- (00000001400B59AC) ----------------------------------------------------
+__int64 __fastcall Up_IsValidAddRR(__int64 a1)
+{
+  unsigned int v1; // ebx
+  __int64 v2; // rdi
+  _QWORD *v3; // rsi
+  _QWORD *i; // rax
+  _QWORD *j; // rcx
+  unsigned int v7; // [rsp+30h] [rbp+8h] BYREF
+
+  v1 = 0;
+  if ( a1 )
+  {
+    v2 = *(_QWORD *)(a1 + 8);
+    if ( v2 )
+    {
+      v3 = *(_QWORD **)(a1 + 16);
+      if ( v3 )
+      {
+        if ( *(int *)(a1 + 36) < 0 )
+        {
+          v7 = -1;
+          acquireRead(DbaseLock, 0xFFFFFFFF, &v7);
+          for ( i = *(_QWORD **)(v2 + 64); i; i = (_QWORD *)*i )
+          {
+            if ( i == v3 )
+            {
+              v1 = 1;
+              break;
+            }
+          }
+          if ( (*(_DWORD *)(v2 + 84) & 0x88880000) == -2004353024 && !v1 )
+          {
+            for ( j = *(_QWORD **)(*(_QWORD *)(v2 + 8) + 64i64); j; j = (_QWORD *)*j )
+            {
+              if ( j == v3 )
+              {
+                v1 = 1;
+                break;
+              }
+            }
+          }
+          v7 = -1;
+          releaseRead(DbaseLock, &v7, 1);
+        }
+        else
+        {
+          return 1;
+        }
+      }
+    }
+  }
+  return v1;
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

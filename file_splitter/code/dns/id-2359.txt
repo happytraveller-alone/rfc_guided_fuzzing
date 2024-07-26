@@ -1,0 +1,41 @@
+//----- (00000001401222E0) ----------------------------------------------------
+__int64 __fastcall PtrUnknownFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  int v8; // ebx
+  char *v9; // rbx
+  unsigned __int8 *v10; // rax
+  _BYTE *v11; // rax
+  int v12; // [rsp+30h] [rbp-D0h] BYREF
+  int v13[3]; // [rsp+34h] [rbp-CCh] BYREF
+  unsigned __int8 v14[272]; // [rsp+40h] [rbp-C0h] BYREF
+  char v15[256]; // [rsp+150h] [rbp+50h] BYREF
+  __int64 v16[4]; // [rsp+250h] [rbp+150h] BYREF
+
+  v13[0] = 0;
+  memset_0(v15, 0, sizeof(v15));
+  if ( a2 < 3 )
+    return 3222394115i64;
+  if ( !(unsigned int)File_ParseDwordToken(v13, a3 + 16, 0i64) )
+    return 3222394113i64;
+  v8 = a2 - 2;
+  v12 = 256;
+  if ( !v8
+    || (unsigned int)buildByteBufferFromHexStringTokens(v15, &v12, v8, a3 + 32, (unsigned __int64)v16)
+    || v12 != v13[0] )
+  {
+    return 3222394113i64;
+  }
+  v9 = &v15[v12];
+  v10 = v15 < v9 ? Name_PacketNameToCountNameForUnknown(v14, (unsigned __int64)v9, (unsigned __int8 *)v15) : 0i64;
+  if ( v10 != (unsigned __int8 *)v9 )
+    return 3222394113i64;
+  v11 = RR_AllocateEx(v14[0] + 2, 0, 0);
+  if ( !v11 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v11;
+  Name_CopyCountName(v11 + 56, v14);
+  return 0i64;
+}
+// 1401222E0: using guessed type __int64 var_20[4];
+// 1401222E0: using guessed type int var_23C[3];
+// 1401222E0: using guessed type unsigned __int8 var_120[256];

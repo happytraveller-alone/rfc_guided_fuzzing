@@ -1,0 +1,122 @@
+//----- (0000000140020F14) ----------------------------------------------------
+__int64 __fastcall RR_WriteToFile(_QWORD *a1, __int64 a2, __int64 a3, __int64 *a4, int a5)
+{
+  unsigned __int16 v6; // r13
+  char *v11; // rbx
+  unsigned __int64 v12; // rbp
+  __int64 v13; // r8
+  char *v14; // rax
+  char *v15; // rbx
+  __int64 v16; // r9
+  unsigned int v17; // ecx
+  u_long v18; // eax
+  STRSAFE_LPSTR v19; // rax
+  size_t v20; // rdx
+  STRSAFE_LPSTR v21; // rbx
+  __int64 (__fastcall *v22)(__int64, STRSAFE_LPSTR, unsigned __int64, __int64); // rax
+  __int64 (__fastcall *v23)(__int64, STRSAFE_LPSTR, unsigned __int64, __int64); // r12
+  __int64 v24; // rax
+  const char *v25; // [rsp+70h] [rbp+18h]
+
+  v6 = *(_WORD *)(a3 + 12);
+  if ( *(char *)(a3 + 10) < 0 )
+    return 1i64;
+  v11 = (char *)a1[4];
+  v12 = a1[3];
+  if ( (unsigned __int64)(v11 + 69632) > v12 )
+  {
+    WriteBufferToFile((__int64)a1);
+    v11 = (char *)a1[4];
+  }
+  v25 = (const char *)DnsRecordStringForWritableType(v6);
+  if ( a4 )
+  {
+    v13 = a2;
+    if ( a5 )
+      v13 = 0i64;
+    v14 = (char *)writeNodeNameToBuffer((__int64)a1, a4, v13, 0i64);
+  }
+  else
+  {
+    v14 = sprintfSafeA(v11, v12 - (_QWORD)v11, "%s", "                        ");
+  }
+  v15 = v14;
+  if ( !v14 )
+    goto LABEL_35;
+  v16 = *(unsigned int *)(a3 + 24);
+  if ( (_DWORD)v16 )
+  {
+    if ( a2 )
+    {
+      if ( (*(_BYTE *)(a2 + 396) & 1) != 0 )
+      {
+        v15 = sprintfSafeA(v14, v12 - (_QWORD)v14, "[AGE:%u]\t", v16);
+        if ( !v15 )
+          goto LABEL_35;
+      }
+    }
+  }
+  if ( a5
+    || a2
+    && ((v17 = *(_DWORD *)(a2 + 372), v17 - 1 <= 1) || v17 >= 5)
+    && *(_DWORD *)(a2 + 528) != *(_DWORD *)(a3 + 20)
+    && (*(_BYTE *)(a3 + 10) & 0x40) == 0 )
+  {
+    v18 = ntohl(*(_DWORD *)(a3 + 20));
+    v15 = sprintfSafeA(v15, v12 - (_QWORD)v15, "%u\t", v18);
+    if ( !v15 )
+      goto LABEL_35;
+  }
+  if ( v6 == 6 )
+  {
+    v19 = sprintfSafeA(v15, v12 - (_QWORD)v15, "IN  SOA");
+  }
+  else
+  {
+    if ( a5 )
+    {
+      v15 = sprintfSafeA(v15, v12 - (_QWORD)v15, "IN  ");
+      if ( !v15 )
+      {
+LABEL_35:
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x20) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x21u,
+            (__int64)&WPP_7a25c08cfd4c38e91e9430fcc1361a51_Traceguids,
+            v6);
+        }
+        return 0i64;
+      }
+    }
+    v20 = v12 - (_QWORD)v15;
+    if ( v25 )
+      v19 = sprintfSafeA(v15, v20, "%s\t", v25);
+    else
+      v19 = sprintfSafeA(v15, v20, "TYPE%d\t", v6);
+  }
+  v21 = v19;
+  if ( !v19 )
+    goto LABEL_35;
+  v22 = (__int64 (__fastcall *)(__int64, STRSAFE_LPSTR, unsigned __int64, __int64))RR_DispatchFunctionForType(
+                                                                                     (__int64)&RRFileWriteTable,
+                                                                                     v6);
+  v23 = v22;
+  if ( v22 )
+  {
+    v24 = v22(a3, v21, v12, a2);
+    if ( v24 || a1[4] != a1[2] && (WriteBufferToFile((__int64)a1), (v24 = v23(a3, v21, v12, a2)) != 0) )
+    {
+      a1[4] = v24;
+      return 1i64;
+    }
+    goto LABEL_35;
+  }
+  return 0i64;
+}
+// 140183D30: using guessed type __int64 __fastcall DnsRecordStringForWritableType(_QWORD);
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B5F60: using guessed type __int64 (__fastcall *RRFileWriteTable)();

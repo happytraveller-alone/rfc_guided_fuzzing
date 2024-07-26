@@ -1,0 +1,23 @@
+//----- (00000001401411C8) ----------------------------------------------------
+const char *__fastcall GetCriteriaTypeString(int a1)
+{
+  const char *result; // rax
+
+  switch ( a1 )
+  {
+    case 0:
+      return "DnsPolicyCriteriaSubnet";
+    case 1:
+      return "DnsPolicyCriteriaTransportProtocol";
+    case 2:
+      return "DnsPolicyCriteriaNetworkProtocol";
+    case 3:
+      return "DnsPolicyCriteriaInterface";
+    case 4:
+      return "DnsPolicyCriteriaFqdn";
+  }
+  result = "DnsPolicyCriteriaQtype";
+  if ( a1 != 5 )
+    return "DnsPolicyCriteriaTime";
+  return result;
+}

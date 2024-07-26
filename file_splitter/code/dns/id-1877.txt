@@ -1,0 +1,23 @@
+//----- (00000001400E7864) ----------------------------------------------------
+void __fastcall std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::_Erase(
+        __int64 a1,
+        _QWORD *a2)
+{
+  _QWORD *v2; // rbx
+  _QWORD *i; // rdi
+  struct _RTL_CRITICAL_SECTION *v5; // rcx
+
+  v2 = a2;
+  for ( i = a2; !*((_BYTE *)i + 297); v2 = i )
+  {
+    std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::_Erase(
+      a1,
+      (_QWORD *)i[2]);
+    v5 = (struct _RTL_CRITICAL_SECTION *)v2[36];
+    i = (_QWORD *)*i;
+    if ( v5 )
+      TrustPoint::`scalar deleting destructor'(v5);
+    operator delete(v2);
+  }
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

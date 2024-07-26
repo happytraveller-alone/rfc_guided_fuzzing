@@ -1,0 +1,154 @@
+//----- (00000001401435D0) ----------------------------------------------------
+__int64 __fastcall CDNSPolicyCriteriaNetProtocol::AddCriteria(
+        CDNSPolicyCriteriaNetProtocol *this,
+        struct _PolicyCriteriaList *a2,
+        unsigned __int16 *a3)
+{
+  int v3; // r9d
+  char *v4; // rbp
+  unsigned int v8; // r14d
+  __int64 v9; // rsi
+  __int64 v10; // rcx
+  unsigned int i; // ebp
+  __int64 v12; // rcx
+  unsigned int j; // ebp
+  int *v14; // rsi
+  int v15; // edi
+  _WORD *v16; // rax
+  _WORD *v17; // rax
+  unsigned __int64 v18; // r8
+  int v19; // [rsp+68h] [rbp+10h] BYREF
+  unsigned __int16 *v20; // [rsp+70h] [rbp+18h]
+
+  v20 = a3;
+  v3 = *((_DWORD *)a2 + 1);
+  v4 = (char *)a3;
+  if ( v3 == 2 )
+  {
+    v8 = 0;
+    if ( *(_DWORD *)a2 )
+    {
+      do
+      {
+        v9 = 16i64 * v8;
+        v10 = v9 + *((_QWORD *)a2 + 1);
+        if ( *(_DWORD *)v10 == 1 )
+        {
+          for ( i = 0; i < *(_DWORD *)(v10 + 4); v10 = v9 + *((_QWORD *)a2 + 1) )
+          {
+            std::vector<unsigned short>::push_back(
+              (unsigned __int64 *)this + 8,
+              *(unsigned __int16 **)(*(_QWORD *)(v10 + 8) + 8i64 * i));
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_D(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x2Fu,
+                (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                **(unsigned __int16 **)(*(_QWORD *)(v9 + *((_QWORD *)a2 + 1) + 8) + 8i64 * i));
+            }
+            ++i;
+          }
+        }
+        v12 = v9 + *((_QWORD *)a2 + 1);
+        if ( *(_DWORD *)v12 == 2 )
+        {
+          for ( j = 0; j < *(_DWORD *)(v12 + 4); v12 = v9 + *((_QWORD *)a2 + 1) )
+          {
+            std::vector<unsigned short>::push_back(
+              (unsigned __int64 *)this + 12,
+              *(unsigned __int16 **)(*(_QWORD *)(v12 + 8) + 8i64 * j));
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_D(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x30u,
+                (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+                **(unsigned __int16 **)(*(_QWORD *)(v9 + *((_QWORD *)a2 + 1) + 8) + 8i64 * j));
+            }
+            ++j;
+          }
+        }
+        ++v8;
+      }
+      while ( v8 < *(_DWORD *)a2 );
+      v4 = (char *)v20;
+    }
+    if ( ((*((_QWORD *)this + 9) - *((_QWORD *)this + 8)) & 0xFFFFFFFFFFFFFFFEui64) == 0
+      && ((*((_QWORD *)this + 13) - *((_QWORD *)this + 12)) & 0xFFFFFFFFFFFFFFFEui64) == 0 )
+    {
+LABEL_44:
+      v18 = -1i64;
+      do
+        ++v18;
+      while ( *(_WORD *)&v4[2 * v18] );
+      std::wstring::assign((char *)this + 24, v4, v18);
+      return 0i64;
+    }
+    v19 = 1;
+    v14 = &v19;
+    v15 = 0;
+    while ( 1 )
+    {
+      if ( ((*((_QWORD *)this + 9) - *((_QWORD *)this + 8)) & 0xFFFFFFFFFFFFFFFEui64) == 0 )
+        goto LABEL_37;
+      v16 = (_WORD *)*((_QWORD *)this + 8);
+      if ( v16 == *((_WORD **)this + 9) )
+        break;
+      do
+      {
+        if ( *v16 == *(_WORD *)v14 )
+          break;
+        ++v16;
+      }
+      while ( v16 != *((_WORD **)this + 9) );
+      if ( v16 == *((_WORD **)this + 9) )
+        break;
+      if ( ((*((_QWORD *)this + 13) - *((_QWORD *)this + 12)) & 0xFFFFFFFFFFFFFFFEui64) != 0
+        && *(_DWORD *)(*((_QWORD *)this + 2) + 80i64) != 1 )
+      {
+        goto LABEL_37;
+      }
+LABEL_42:
+      std::vector<unsigned short>::push_back((unsigned __int64 *)this + 16, (unsigned __int16 *)&v19 + v15);
+LABEL_43:
+      ++v15;
+      v14 = (int *)((char *)v14 + 2);
+      if ( v15 >= 2 )
+        goto LABEL_44;
+    }
+    if ( ((*((_QWORD *)this + 13) - *((_QWORD *)this + 12)) & 0xFFFFFFFFFFFFFFFEui64) == 0
+      || !*(_DWORD *)(*((_QWORD *)this + 2) + 80i64) )
+    {
+      goto LABEL_43;
+    }
+LABEL_37:
+    if ( ((*((_QWORD *)this + 13) - *((_QWORD *)this + 12)) & 0xFFFFFFFFFFFFFFFEui64) == 0 )
+      goto LABEL_43;
+    v17 = (_WORD *)*((_QWORD *)this + 12);
+    if ( v17 != *((_WORD **)this + 13) )
+    {
+      do
+      {
+        if ( *v17 == *(_WORD *)v14 )
+          break;
+        ++v17;
+      }
+      while ( v17 != *((_WORD **)this + 13) );
+      if ( v17 != *((_WORD **)this + 13) )
+        goto LABEL_43;
+    }
+    goto LABEL_42;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Eu, (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids, v3);
+  }
+  return 87i64;
+}

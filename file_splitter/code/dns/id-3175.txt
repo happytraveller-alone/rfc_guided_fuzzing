@@ -1,0 +1,11 @@
+//----- (00000001401682D4) ----------------------------------------------------
+void __fastcall std::locale::_Setgloballocale(void *a1)
+{
+  if ( !byte_1401B85E1 )
+  {
+    byte_1401B85E1 = 1;
+    _Atexit(sub_140168310);
+  }
+  qword_1401B85A0 = a1;
+}
+// 1401B85E1: using guessed type char byte_1401B85E1;

@@ -1,0 +1,358 @@
+//----- (000000014009E600) ----------------------------------------------------
+__int64 __fastcall Sock_ReadAndOpenListeningSockets(__int64 a1, __int64 a2, __int64 a3, int a4)
+{
+  _DWORD *v4; // rax
+  __int64 v5; // r8
+  unsigned int v6; // ebx
+  const WCHAR **v7; // rdi
+  int v8; // eax
+  unsigned int v9; // ebx
+  __int64 v10; // rdi
+  HANDLE IoCompletionPort; // rax
+  int Error; // eax
+  CDnsClientSubnetRecordsTrie *v13; // rcx
+  unsigned __int16 v14; // dx
+  char *v15; // r10
+  CDnsClientSubnetRecordsTrie *v16; // rcx
+  _QWORD *v17; // r11
+  unsigned __int8 *v18; // rax
+  int v19; // edx
+  int v20; // ecx
+  int v21; // edi
+  __int64 v22; // rdx
+  int v23; // r9d
+  __int64 v24; // rbx
+  CDnsClientSubnetRecordsTrie *v25; // rcx
+  __int64 v26; // rdx
+  int v27; // r9d
+  __int128 v28; // xmm0
+  __int64 v29; // rbx
+  __int64 v30; // rbx
+  int v32; // [rsp+48h] [rbp-C0h] BYREF
+  __int128 v33; // [rsp+58h] [rbp-B0h] BYREF
+  struct in_addr v34[16]; // [rsp+68h] [rbp-A0h] BYREF
+  struct WSAData WSAData; // [rsp+A8h] [rbp-60h] BYREF
+
+  v32 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xFu, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+  }
+  g_hUdpCompletionPort = 0i64;
+  *(_DWORD *)g_UdpRecvBufferSize = 0;
+  g_SocketListCount = 0x80000000;
+  g_fUdpSocketsDirty = 0;
+  g_ServerAddrs = 0i64;
+  g_BoundAddrs = 0i64;
+  g_UdpSendSocket4 = 0i64;
+  g_pUdpSendDnsSocket4 = 0i64;
+  g_UdpSendSocket6 = 0i64;
+  g_pUdpSendDnsSocket6 = 0i64;
+  g_UdpZeroBoundSocket4 = 0i64;
+  g_UdpZeroBoundSocket6 = 0i64;
+  g_SendBindingPort = 1;
+  g_TcpZeroBoundSocket = 0i64;
+  g_TcpListenSocketV6 = 0i64;
+  g_UdpListenSocketV6 = 0i64;
+  if ( !g_LoopbackAddrs )
+  {
+    *(_QWORD *)&v33 = "127.0.0.1";
+    *((_QWORD *)&v33 + 1) = "::1";
+    v4 = DnsAddrArray_Create(2u, a2, a3, a4);
+    g_LoopbackAddrs = (__int64)v4;
+    if ( v4 )
+    {
+      v6 = 0;
+      v7 = (const WCHAR **)&v33;
+      while ( (unsigned int)Dns_StringToDnsAddrEx((struct in_addr *)&v4[16 * (unsigned __int64)v6 + 8], *v7, v5, 0) )
+      {
+        v4 = (_DWORD *)g_LoopbackAddrs;
+        ++v6;
+        ++v7;
+        if ( v6 >= 2 )
+          goto LABEL_16;
+      }
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x10u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+      }
+      Dns_Free((void *)g_LoopbackAddrs);
+      v4 = 0i64;
+      g_LoopbackAddrs = 0i64;
+LABEL_16:
+      v4[1] = 2;
+    }
+    else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+           && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x11u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+    }
+  }
+  v8 = g_ProcessorCount;
+  if ( g_ProcessorCount == 1 )
+    v8 = 2;
+  g_OverlapCount = v8;
+  v9 = DnsInitializeCriticalSection(&g_SocketListCs);
+  if ( v9 )
+    return v9;
+  v10 = -1i64;
+  qword_1401C87F8 = (__int64)&g_SocketList;
+  g_SocketList = (__int64)&g_SocketList;
+  g_SocketListCount = 0;
+  IoCompletionPort = CreateIoCompletionPort((HANDLE)0xFFFFFFFFFFFFFFFFi64, 0i64, 0i64, g_ProcessorCount);
+  g_hUdpCompletionPort = IoCompletionPort;
+  if ( !IoCompletionPort )
+    return v9;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      v9 + 18,
+      (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+      IoCompletionPort);
+  }
+  if ( WSAStartup(2u, &WSAData) == -1 )
+  {
+    Error = WSAGetLastError();
+    v9 = Error;
+    v13 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v14 = 19;
+LABEL_34:
+      WPP_SF_D(*((_QWORD *)v13 + 7), v14, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, Error);
+      return v9;
+    }
+    return v9;
+  }
+  Str = Dns_GetLocalDnsName();
+  v15 = (char *)Str;
+  if ( Str )
+  {
+    v17 = (_QWORD *)qword_1401B9700;
+    if ( qword_1401B9700 )
+    {
+      v18 = (unsigned __int8 *)qword_1401B9700;
+      do
+      {
+        v19 = (unsigned __int8)Str[(_QWORD)v18 - qword_1401B9700];
+        v20 = *v18 - v19;
+        if ( v20 )
+          break;
+        ++v18;
+      }
+      while ( v19 );
+      if ( !v20 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_ss(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x15u,
+            (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+            (const char *)qword_1401B9700,
+            (__int64)Str);
+          v17 = (_QWORD *)qword_1401B9700;
+        }
+        Mem_Free(v17, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\socket.c", 921);
+        v15 = (char *)Str;
+        qword_1401B9700 = 0i64;
+      }
+    }
+    v16 = WPP_GLOBAL_Control;
+  }
+  else
+  {
+    v16 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x14u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+      v16 = WPP_GLOBAL_Control;
+    }
+    v15 = "FixMe";
+    Str = "FixMe";
+  }
+  do
+    ++v10;
+  while ( v15[v10] );
+  v21 = v10 - 1;
+  if ( v16 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v16 + 68) & 2) != 0
+    && *((_BYTE *)v16 + 65) >= 4u )
+  {
+    WPP_SF_sd(*((_QWORD *)v16 + 7), 0x16u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, v15);
+    v15 = (char *)Str;
+  }
+  if ( v21 && v15[v21] == 46 && v15[v21 - 1] == 46 )
+  {
+    v15[v21] = 0;
+    v15 = (char *)Str;
+  }
+  v9 = Name_ConvertFileNameToCountNameEx((unsigned __int8 *)&g_ServerDbaseName, v15, 0i64, 1);
+  if ( v9 == 123 )
+    return v9;
+  if ( (unsigned __int8)byte_1401C86C1 <= 1u )
+  {
+    v33 = DNS_EVENT_SINGLE_LABEL_HOSTNAME;
+    Eventlog_LogEvent((__int64)&v33, v22, 0, 0i64, 0i64, 0, 0, 0i64);
+  }
+  Error = rebuildServerAddressList();
+  v9 = Error;
+  if ( !Error )
+  {
+    v24 = qword_1401B97A0;
+    if ( !qword_1401B97A0 )
+    {
+      g_BoundAddrs = (__int64)DnsAddrArray_CopyAndExpand(g_ServerAddrs, 0i64, 0i64, v23);
+      v30 = g_BoundAddrs;
+      if ( !g_BoundAddrs )
+        return 14;
+      DnsAddr_BuildFromIp4(v34, 0, 0);
+      DnsAddrArray_DeleteAddr(v30, v34, 3);
+      if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0 )
+        Dbg_DnsAddrArray("After eliminating NULLs", g_BoundAddrs);
+LABEL_94:
+      if ( (unsigned int)Tcp_ConnectionListInitialize() )
+      {
+        g_fdsListenTcp.fd_count = 0;
+        openListeningSockets();
+        v9 = Sock_OpenSocketPoolSockets(&v32);
+        if ( v9 )
+        {
+          if ( v32 )
+          {
+            Error = Sock_OpenSocketPoolSockets(&v32);
+            v9 = Error;
+            if ( Error )
+            {
+              v13 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                v14 = 25;
+                goto LABEL_34;
+              }
+            }
+          }
+        }
+        else if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0 )
+        {
+          Dbg_DnsAddrArray("Server address list", (__int64)g_ServerAddrs);
+          Dbg_DnsAddrArray("Bound address list", g_BoundAddrs);
+        }
+        return v9;
+      }
+      return 14;
+    }
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0 )
+    {
+      Dbg_DnsAddrArray("Listen address list from registry", qword_1401B97A0);
+      v24 = qword_1401B97A0;
+    }
+    DnsAddr_BuildFromIp4(v34, 0, 0);
+    DnsAddrArray_DeleteAddr(v24, v34, 3);
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0 )
+      Dbg_DnsAddrArray("Listen address list NULLs deleted", qword_1401B97A0);
+    if ( g_BoundAddrs )
+    {
+      Timeout_FreeWithFunctionEx(
+        g_BoundAddrs,
+        (__int64)DnsAddrArray_Free,
+        (__int64)"ds\\dns\\server\\server\\socket.c",
+        1006);
+      g_BoundAddrs = 0i64;
+    }
+    DnsAddrArray_Diff(g_ServerAddrs, (_DWORD *)qword_1401B97A0, 3, 0i64, 0i64, &g_BoundAddrs);
+    v25 = WPP_GLOBAL_Control;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0 )
+    {
+      Dbg_DnsAddrArray("Bound IP addresses:", g_BoundAddrs);
+      v25 = WPP_GLOBAL_Control;
+    }
+    v26 = *(unsigned int *)(g_BoundAddrs + 4);
+    if ( (_DWORD)v26 )
+    {
+      if ( (unsigned int)v26 >= *(_DWORD *)(qword_1401B97A0 + 4) )
+      {
+LABEL_90:
+        v29 = g_BoundAddrs;
+        DnsAddr_BuildFromIp4(v34, 0, 0);
+        DnsAddrArray_DeleteAddr(v29, v34, 3);
+        goto LABEL_94;
+      }
+      v28 = DNS_EVENT_UPDATE_LISTEN_ADDRESSES;
+    }
+    else
+    {
+      if ( (*((_DWORD *)v25 + 17) & 0x2000) != 0 )
+      {
+        if ( v25 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control && *((_BYTE *)v25 + 65) >= 4u )
+          WPP_SF_(*((_QWORD *)v25 + 7), 0x18u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+        Dbg_DnsAddrArray("Listen IP addresses from registry", qword_1401B97A0);
+      }
+      Dns_Free((void *)g_BoundAddrs);
+      g_BoundAddrs = (__int64)DnsAddrArray_CopyAndExpand(g_ServerAddrs, 0i64, 0i64, v27);
+      if ( !g_BoundAddrs )
+        return 14;
+      Dns_Free((void *)qword_1401B97A0);
+      qword_1401B97A0 = 0i64;
+      Reg_DeleteValue(0, 0i64, 0i64, "ListenAddresses");
+      v28 = DNS_EVENT_INVALID_LISTEN_ADDRESSES;
+    }
+    v33 = v28;
+    Eventlog_LogEvent((__int64)&v33, v26, 0, 0i64, 0i64, 0, 0, 0i64);
+    goto LABEL_90;
+  }
+  v13 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v14 = 23;
+    goto LABEL_34;
+  }
+  return v9;
+}
+// 14009E717: variable 'a2' is possibly undefined
+// 14009E717: variable 'a3' is possibly undefined
+// 14009E717: variable 'a4' is possibly undefined
+// 14009E746: variable 'v5' is possibly undefined
+// 14009EA7F: variable 'v22' is possibly undefined
+// 14009EC14: variable 'v27' is possibly undefined
+// 14009EC94: variable 'v26' is possibly undefined
+// 14009ECCD: variable 'v23' is possibly undefined
+// 1401560E0: using guessed type __int64 __fastcall DnsAddrArray_Free();
+// 140186CE0: using guessed type __int128 DNS_EVENT_UPDATE_LISTEN_ADDRESSES;
+// 1401872B0: using guessed type __int128 DNS_EVENT_SINGLE_LABEL_HOSTNAME;
+// 140187818: using guessed type __int128 DNS_EVENT_INVALID_LISTEN_ADDRESSES;
+// 1401B8084: using guessed type int g_SocketListCount;
+// 1401B9058: using guessed type __int64 g_LoopbackAddrs;
+// 1401B9700: using guessed type __int64 qword_1401B9700;
+// 1401B97A0: using guessed type __int64 qword_1401B97A0;
+// 1401C86A8: using guessed type __int16 g_SendBindingPort;
+// 1401C86AC: using guessed type int g_fUdpSocketsDirty;
+// 1401C86C0: using guessed type char g_ServerDbaseName;
+// 1401C86C1: using guessed type char byte_1401C86C1;
+// 1401C87D0: using guessed type __int64 g_UdpSendSocket6;
+// 1401C87F0: using guessed type __int64 g_SocketList;
+// 1401C87F8: using guessed type __int64 qword_1401C87F8;
+// 1401C8828: using guessed type int g_OverlapCount;
+// 1401C8830: using guessed type __int64 g_pUdpSendDnsSocket4;
+// 1401C8838: using guessed type __int64 g_pUdpSendDnsSocket6;
+// 1401C8858: using guessed type __int64 g_TcpZeroBoundSocket;
+// 1401C91C8: using guessed type __int64 g_TcpListenSocketV6;
+// 1401C91D0: using guessed type __int64 g_UdpListenSocketV6;

@@ -1,0 +1,30 @@
+//----- (0000000140020694) ----------------------------------------------------
+__int64 __fastcall zoneTraverseAndWriteToFile(_QWORD *a1, __int64 a2, __int64 a3)
+{
+  __int64 i; // rax
+  __int64 v8; // rbx
+
+  if ( (*(_BYTE *)(a3 + 92) & 0x10) != 0 )
+  {
+    if ( (*(_DWORD *)(a3 + 92) & 0x100) == 0 )
+      return writeDelegation(a1, a2, (__int64 *)a3);
+    if ( !(unsigned int)writeZoneRoot(a1, a2, (__int64 *)a3) )
+      return 0i64;
+  }
+  else
+  {
+    writeNodeRecordsToFile(a1, a2, (__int64 *)a3);
+  }
+  if ( *(_QWORD *)(a3 + 32) )
+  {
+    for ( i = NTree_FirstChild(a3); ; i = NTree_NextSiblingWithLocking(v8) )
+    {
+      v8 = i;
+      if ( !i )
+        break;
+      if ( !(unsigned int)zoneTraverseAndWriteToFile(a1, a2, i) )
+        return 0i64;
+    }
+  }
+  return 1i64;
+}

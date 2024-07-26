@@ -1,0 +1,218 @@
+//----- (0000000140110A74) ----------------------------------------------------
+__int64 __fastcall parseKeyDigest(struct IXmlReader *a1, struct _Dbase_Record **a2)
+{
+  int v3; // r13d
+  unsigned int v5; // ebx
+  int v6; // eax
+  unsigned __int16 *v7; // rcx
+  int v8; // eax
+  unsigned __int16 *v9; // rcx
+  __int64 v10; // rdx
+  __int64 v11; // rdx
+  char *v12; // r15
+  int v13; // r14d
+  struct _Dbase_Record *v14; // rsi
+  struct _Dbase_Record **v16; // [rsp+20h] [rbp-60h]
+  unsigned __int16 *v17; // [rsp+30h] [rbp-50h] BYREF
+  unsigned __int16 *v18; // [rsp+38h] [rbp-48h] BYREF
+  int v19; // [rsp+40h] [rbp-40h] BYREF
+  unsigned int v20; // [rsp+44h] [rbp-3Ch] BYREF
+  unsigned int v21; // [rsp+48h] [rbp-38h] BYREF
+  struct _FILETIME v22; // [rsp+50h] [rbp-30h] BYREF
+  struct _FILETIME v23; // [rsp+58h] [rbp-28h] BYREF
+  struct _Dbase_Record *v24; // [rsp+60h] [rbp-20h] BYREF
+  struct _FILETIME SystemTimeAsFileTime; // [rsp+68h] [rbp-18h] BYREF
+  LPCCH lpMultiByteStr; // [rsp+70h] [rbp-10h] BYREF
+  enum XmlNodeType v27; // [rsp+C8h] [rbp+48h] BYREF
+  unsigned int v28; // [rsp+D0h] [rbp+50h] BYREF
+  unsigned int v29; // [rsp+D8h] [rbp+58h] BYREF
+
+  v22 = 0i64;
+  v3 = 0;
+  v23 = 0i64;
+  *a2 = 0i64;
+  GetSystemTimeAsFileTime(&SystemTimeAsFileTime);
+  if ( !(unsigned int)getNextNode(a1, &v27) )
+  {
+    while ( 1 )
+    {
+      if ( v27 == XmlNodeType_Element )
+      {
+        v17 = 0i64;
+        v18 = 0i64;
+        if ( checkNodeName(a1, (char *)L"KeyDigest")
+          && !((unsigned int (__fastcall *)(struct IXmlReader *))a1->lpVtbl->MoveToFirstAttribute)(a1)
+          && checkNodeName(a1, (char *)L"id")
+          && !((unsigned int (__fastcall *)(struct IXmlReader *))a1->lpVtbl->MoveToNextAttribute)(a1)
+          && checkNodeName(a1, (char *)L"validFrom")
+          && !((unsigned int (__fastcall *)(struct IXmlReader *, unsigned __int16 **, _QWORD))a1->lpVtbl->GetValue)(
+                a1,
+                &v18,
+                0i64) )
+        {
+          if ( v18 )
+          {
+            v6 = parseXSDDateTime(v18, &v22);
+            v7 = v18;
+            if ( v6 )
+              v7 = 0i64;
+            v18 = v7;
+          }
+          if ( !((unsigned int (__fastcall *)(struct IXmlReader *, unsigned int *))a1->lpVtbl->GetAttributeCount)(
+                  a1,
+                  &v29)
+            && v29 >= 2
+            && v29 <= 3
+            && (v29 != 3
+             || !((unsigned int (__fastcall *)(struct IXmlReader *))a1->lpVtbl->MoveToNextAttribute)(a1)
+             && checkNodeName(a1, (char *)L"validUntil")
+             && !((unsigned int (__fastcall *)(struct IXmlReader *, unsigned __int16 **, _QWORD))a1->lpVtbl->GetValue)(
+                   a1,
+                   &v17,
+                   0i64)) )
+          {
+            if ( v17 )
+            {
+              v8 = parseXSDDateTime(v17, &v23);
+              v9 = v17;
+              if ( v8 )
+                v9 = 0i64;
+              v17 = v9;
+            }
+            if ( !(unsigned int)getTextElement(a1, (char *)L"KeyTag", 0xFFFFu, 0i64, &v28)
+              && !(unsigned int)getTextElement(a1, (char *)L"Algorithm", 0xFFu, 0i64, &v21)
+              && !(unsigned int)getTextElement(a1, (char *)L"DigestType", 0xFFu, 0i64, &v20)
+              && !(unsigned int)getTextElement(a1, (char *)L"Digest", 0, (wchar_t **)&lpMultiByteStr, 0i64) )
+            {
+              while ( !(unsigned int)getNextNode(a1, &v27) )
+              {
+                if ( v27 == XmlNodeType_EndElement
+                  && checkNodeName(a1, (char *)L"KeyDigest")
+                  && !((unsigned int (__fastcall *)(struct IXmlReader *, int *))a1->lpVtbl->GetDepth)(a1, &v19)
+                  && v19 == 2 )
+                {
+                  ++v3;
+                  if ( v18 )
+                  {
+                    if ( v17 && *(_QWORD *)&v22 >= *(__int64 *)&v23 )
+                    {
+                      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+                        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+                      {
+                        WPP_SF_DSS(
+                          *((_QWORD *)WPP_GLOBAL_Control + 7),
+                          0x26u,
+                          (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+                          v28,
+                          (__int64)v18,
+                          (__int64)v17);
+                      }
+                      goto LABEL_70;
+                    }
+                    if ( *(_QWORD *)&SystemTimeAsFileTime + 25920000000000i64 < *(_QWORD *)&v22 )
+                    {
+                      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+                        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+                      {
+                        WPP_SF_DS(
+                          *((_QWORD *)WPP_GLOBAL_Control + 7),
+                          0x27u,
+                          (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+                          v28,
+                          (__int64)v18);
+                      }
+                      goto LABEL_70;
+                    }
+                  }
+                  if ( v17 && *(_QWORD *)&SystemTimeAsFileTime > *(__int64 *)&v23 )
+                  {
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+                    {
+                      WPP_SF_DS(
+                        *((_QWORD *)WPP_GLOBAL_Control + 7),
+                        0x28u,
+                        (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+                        v28,
+                        (__int64)v17);
+                    }
+                    goto LABEL_70;
+                  }
+                  v10 = -1i64;
+                  v24 = 0i64;
+                  do
+                    ++v10;
+                  while ( *(_WORD *)&lpMultiByteStr[2 * v10] );
+                  v12 = (char *)Dns_StringCopyAllocate((char *)lpMultiByteStr, v10, 1i64, 2);
+                  if ( !v12 )
+                  {
+                    v5 = 14;
+                    goto LABEL_72;
+                  }
+                  v13 = v28;
+                  LOBYTE(v11) = v21;
+                  v5 = CreateDsRecord((DnsSign::CCNGAlgorithmManager *)(unsigned __int16)v28, v11, v20, v12, &v24);
+                  if ( v5 )
+                  {
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      WPP_SF_Dd(
+                        *((_QWORD *)WPP_GLOBAL_Control + 7),
+                        0x24u,
+                        (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+                        v13);
+                    }
+                  }
+                  else
+                  {
+                    v14 = v24;
+                    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+                      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+                    {
+                      LODWORD(v16) = v13;
+                      WPP_SF_qd(
+                        *((_QWORD *)WPP_GLOBAL_Control + 7),
+                        0x25u,
+                        (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+                        v24,
+                        v16);
+                    }
+                    *(_QWORD *)v14 = *a2;
+                    *a2 = v14;
+                  }
+                  Mem_Free(v12, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\roottrustanchordistribution.cpp", 1078);
+                  if ( v5 != 9105 && v5 )
+                    goto LABEL_72;
+                  goto LABEL_70;
+                }
+              }
+            }
+          }
+        }
+        goto LABEL_71;
+      }
+      if ( v27 == XmlNodeType_EndElement )
+        break;
+LABEL_70:
+      if ( (unsigned int)getNextNode(a1, &v27) )
+        goto LABEL_71;
+    }
+    if ( checkNodeName(a1, (char *)L"TrustAnchor") && v3 )
+      return *a2 == 0i64 ? 0x23A7 : 0;
+  }
+LABEL_71:
+  v5 = parseFailure(a1, v27);
+LABEL_72:
+  if ( *a2 )
+    RR_ListFree(*a2);
+  return v5;
+}
+// 140110EBB: variable 'v11' is possibly undefined
+// 140110F44: variable 'v16' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

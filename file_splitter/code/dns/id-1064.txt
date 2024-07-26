@@ -1,0 +1,33 @@
+//----- (0000000140089788) ----------------------------------------------------
+__int64 __fastcall isRRLockedInCache(__int64 a1, __int64 a2, __int64 a3)
+{
+  unsigned int v3; // edi
+  unsigned int v4; // esi
+  bool v6; // cc
+
+  v3 = 0;
+  v4 = a2;
+  if ( dword_1401B99B8
+    && (*(_BYTE *)(a1 + 8) & 1) != 0
+    && (unsigned int)RR_PacketTtlForCachedRecord(a1, a2, a3) != -1
+    && *(_WORD *)(a1 + 12) != 46
+    && (*(_BYTE *)(a1 + 10) & 0x10) == 0 )
+  {
+    if ( dword_1401B99B8 == 100 )
+    {
+      v6 = v4 <= *(_DWORD *)(a1 + 20);
+    }
+    else
+    {
+      if ( v4 <= *(_DWORD *)(a1 + 16) )
+        return 1;
+      v6 = 100 * (unsigned __int64)(v4 - *(_DWORD *)(a1 + 16)) <= (unsigned int)dword_1401B99B8
+                                                                * (unsigned __int64)(unsigned int)(*(_DWORD *)(a1 + 20)
+                                                                                                 - *(_DWORD *)(a1 + 16));
+    }
+    if ( v6 )
+      return 1;
+  }
+  return v3;
+}
+// 1401B99B8: using guessed type int dword_1401B99B8;

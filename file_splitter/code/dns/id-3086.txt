@@ -1,0 +1,66 @@
+//----- (00000001401617B0) ----------------------------------------------------
+void __fastcall SoaRecordPrint(void (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3)
+{
+  WCHAR *v6; // rdi
+  const wchar_t *v7; // rax
+  const wchar_t *v8; // rdi
+  const wchar_t *v9; // rax
+  __int64 v10; // [rsp+20h] [rbp-458h]
+  __int64 v11; // [rsp+28h] [rbp-450h]
+  __int64 v12; // [rsp+30h] [rbp-448h]
+  __int64 v13; // [rsp+38h] [rbp-440h]
+  __int64 v14; // [rsp+40h] [rbp-438h]
+  __int16 v15[256]; // [rsp+50h] [rbp-428h] BYREF
+  __int16 v16[256]; // [rsp+250h] [rbp-228h] BYREF
+
+  if ( a1 )
+  {
+    v6 = *(WCHAR **)(a3 + 40);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v6 = (WCHAR *)recordStringWide(a3, v6, v15);
+    v7 = *(const wchar_t **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v7 = recordStringWide(a3, *(WCHAR **)(a3 + 32), v16);
+    a1(
+      a2,
+      "\tPrimary        = %ls\r\n"
+      "\tAdmin          = %ls\r\n"
+      "\tSerial         = %d\r\n"
+      "\tRefresh        = %d\r\n"
+      "\tRetry          = %d\r\n"
+      "\tExpire         = %d\r\n"
+      "\tDefault TTL    = %d\r\n",
+      v7,
+      v6,
+      *(_DWORD *)(a3 + 48),
+      *(_DWORD *)(a3 + 52),
+      *(_DWORD *)(a3 + 56),
+      *(_DWORD *)(a3 + 60),
+      *(_DWORD *)(a3 + 64));
+  }
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    v8 = *(const wchar_t **)(a3 + 40);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v8 = recordStringWide(a3, *(WCHAR **)(a3 + 40), v15);
+    v9 = *(const wchar_t **)(a3 + 32);
+    if ( (*(_DWORD *)(a3 + 20) & 0x18) != 8 )
+      v9 = recordStringWide(a3, *(WCHAR **)(a3 + 32), v16);
+    LODWORD(v14) = *(_DWORD *)(a3 + 64);
+    LODWORD(v13) = *(_DWORD *)(a3 + 60);
+    LODWORD(v12) = *(_DWORD *)(a3 + 56);
+    LODWORD(v11) = *(_DWORD *)(a3 + 52);
+    LODWORD(v10) = *(_DWORD *)(a3 + 48);
+    WPP_SF_SSddddd((unsigned int)v10, a2, v9, v8, v10, v11, v12, v13, v14);
+  }
+}
+// 1401618D2: variable 'a2' is possibly undefined
+// 1401618D2: variable 'v10' is possibly undefined
+// 1401618D2: variable 'v11' is possibly undefined
+// 1401618D2: variable 'v12' is possibly undefined
+// 1401618D2: variable 'v13' is possibly undefined
+// 1401618D2: variable 'v14' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 1401617B0: using guessed type _WORD var_428[256];
+// 1401617B0: using guessed type _WORD var_228[256];

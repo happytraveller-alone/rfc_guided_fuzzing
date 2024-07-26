@@ -1,0 +1,15 @@
+//----- (0000000140119A44) ----------------------------------------------------
+__int64 __fastcall Name_CopyCountName(void *a1, unsigned __int8 *a2)
+{
+  char *v3; // rax
+
+  memcpy_0(a1, a2, *a2 + 2i64);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    v3 = Dbg_CountName((unsigned __int8 *)a1);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xCu, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids, v3);
+  }
+  return 0i64;
+}

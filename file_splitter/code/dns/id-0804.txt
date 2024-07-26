@@ -1,0 +1,39 @@
+//----- (000000014006F9CC) ----------------------------------------------------
+void __fastcall Recurse_ClearMoveToParentTtls(__int64 a1)
+{
+  __int64 v1; // rbx
+  char *v2; // rax
+  unsigned int v3; // [rsp+30h] [rbp+8h] BYREF
+
+  if ( a1 )
+  {
+    v1 = a1;
+    if ( !*(_QWORD *)(a1 + 56) )
+    {
+      v3 = -1;
+      acquireRead(DbaseLock, 0xFFFFFFFF, &v3);
+      do
+      {
+        if ( !*(_QWORD *)v1 )
+          break;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x4000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+        {
+          v2 = Dbg_NodeName(v1);
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xAu,
+            (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+            v2);
+        }
+        *(_DWORD *)(v1 + 80) = 0;
+        v1 = *(_QWORD *)v1;
+      }
+      while ( v1 );
+      v3 = -1;
+      releaseRead(DbaseLock, &v3, 1);
+    }
+  }
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

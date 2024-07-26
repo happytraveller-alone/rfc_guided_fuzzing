@@ -1,0 +1,75 @@
+//----- (00000001400ABD7C) ----------------------------------------------------
+void __fastcall tcpConnectionDelete(_QWORD *a1, __int64 a2)
+{
+  _QWORD *v4; // rdx
+  _QWORD **v5; // rax
+  __int64 v6; // rsi
+  const unsigned __int8 *v7; // rax
+  _QWORD *v8; // rax
+  int v9; // [rsp+20h] [rbp-18h]
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = *((_DWORD *)a1 + 4);
+    WPP_SF_qd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xAu,
+      (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+      a1,
+      v9);
+  }
+  EnterCriticalSection(&mg_TcpConnectionListCS);
+  v4 = (_QWORD *)*a1;
+  v5 = (_QWORD **)a1[1];
+  if ( *(_QWORD **)(*a1 + 8i64) != a1 || *v5 != a1 )
+    __fastfail(3u);
+  *v5 = v4;
+  v4[1] = v5;
+  LeaveCriticalSection(&mg_TcpConnectionListCS);
+  closesocket(a1[2]);
+  v6 = a1[27];
+  if ( !v6 )
+    goto LABEL_16;
+  if ( !a1[17] )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v7 = &Annotation;
+      if ( *(_BYTE *)(v6 + 1414) )
+        v7 = "IN";
+      WPP_SF_Dqs(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xBu,
+        (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+        *((_DWORD *)a1 + 4),
+        v6,
+        (__int64)v7);
+    }
+    Packet_Free(v6);
+LABEL_16:
+    Mem_Free(a1, 0i64, 18i64, (__int64)"ds\\dns\\server\\server\\tcpcon.c", 217);
+    return;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xCu,
+      (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+      a1,
+      a1[27]);
+  }
+  v8 = *(_QWORD **)(a2 + 8);
+  if ( *v8 != a2 )
+    __fastfail(3u);
+  *a1 = a2;
+  a1[1] = v8;
+  *v8 = a1;
+  *(_QWORD *)(a2 + 8) = a1;
+}

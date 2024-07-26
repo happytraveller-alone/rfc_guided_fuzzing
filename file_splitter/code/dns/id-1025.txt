@@ -1,0 +1,26 @@
+//----- (00000001400879D0) ----------------------------------------------------
+__int64 __fastcall Nsec3ParamFlatRead(unsigned __int16 *a1, __int64 a2)
+{
+  __int64 v2; // rsi
+  unsigned __int64 v4; // rcx
+  _BYTE *v7; // rax
+  _BYTE *v8; // rdi
+  u_short v9; // ax
+
+  v2 = *((unsigned __int8 *)a1 + 28);
+  v4 = *a1;
+  if ( v2 + 5 > v4 )
+    return 9702i64;
+  v7 = RR_AllocateEx(v4, 0, 0);
+  v8 = v7;
+  if ( !v7 )
+    return 14i64;
+  *(_QWORD *)(a2 + 800) = v7;
+  v7[56] = *((_BYTE *)a1 + 24);
+  v7[57] = *((_BYTE *)a1 + 25);
+  v9 = htons(a1[13]);
+  v8[60] = v2;
+  *((_WORD *)v8 + 29) = v9;
+  memcpy_0(v8 + 61, (char *)a1 + 29, (unsigned int)v2);
+  return 0i64;
+}

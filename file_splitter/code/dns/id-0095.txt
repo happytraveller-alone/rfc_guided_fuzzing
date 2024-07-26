@@ -1,0 +1,142 @@
+//----- (000000014000BB28) ----------------------------------------------------
+__int64 __fastcall buildForwarderArrayFromDnsClient(_QWORD *a1, unsigned int **a2, __int64 a3, int a4)
+{
+  unsigned int **v5; // r15
+  unsigned int v6; // r13d
+  unsigned int *v7; // rax
+  int v8; // r11d
+  unsigned int *v9; // rsi
+  CDnsClientSubnetRecordsTrie *v10; // rdi
+  __int64 result; // rax
+  int v12; // r15d
+  _QWORD *v13; // rcx
+  __int64 v14; // rcx
+  unsigned int v15; // r12d
+  struct in_addr *v16; // rbp
+  int v17; // eax
+  int v18; // edx
+  int v19; // eax
+  __int64 v20; // r8
+  void *v21; // r10
+  const char *v22; // rax
+  unsigned __int16 v23; // dx
+  _QWORD *v25; // [rsp+80h] [rbp+18h]
+
+  v5 = a2;
+  *a2 = 0i64;
+  v6 = 0;
+  v7 = DnsAddrArray_Create(0x1Eu, (__int64)a2, a3, a4);
+  v8 = 2;
+  v9 = v7;
+  if ( v7 )
+  {
+    if ( !a1 )
+      goto LABEL_3;
+    v10 = WPP_GLOBAL_Control;
+    while ( 1 )
+    {
+      v12 = 0;
+      do
+      {
+        v13 = a1 + 3;
+        if ( v12 )
+          v13 = a1 + 12;
+        v25 = v13;
+        v14 = v13[8];
+        if ( v14 )
+        {
+          v15 = 0;
+          if ( *(_DWORD *)(v14 + 4) )
+          {
+            while ( 1 )
+            {
+              v16 = (struct in_addr *)(((unsigned __int64)v15 << 6) + v14 + 32);
+              LOBYTE(v17) = DnsAddr_IsLoopback(v16, 0);
+              if ( v17 )
+                goto LABEL_32;
+              v19 = DnsAddrArray_ContainsAddr((__int64)g_ServerAddrs, v16, v18 + 3);
+              v8 = 2;
+              if ( v19 )
+                goto LABEL_32;
+              v21 = g_ServerAddrs;
+              if ( v16->S_un.S_un_w.s_w1 == 2 && !(unsigned int)DnsAddrArray_GetFamilyCount((__int64)g_ServerAddrs, 2) )
+                break;
+              if ( v16->S_un.S_un_w.s_w1 == 23 && !(unsigned int)DnsAddrArray_GetFamilyCount((__int64)v21, 23) )
+              {
+                if ( v10 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  || ((unsigned __int8)v8 & *((_BYTE *)v10 + 68)) == 0
+                  || *((_BYTE *)v10 + 65) < 4u )
+                {
+                  goto LABEL_32;
+                }
+                v22 = DnsAddr_Ntoa(v16);
+                v23 = 46;
+LABEL_24:
+                WPP_SF_s(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  v23,
+                  (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids,
+                  v22);
+                v10 = WPP_GLOBAL_Control;
+                v8 = 2;
+                goto LABEL_32;
+              }
+              DnsAddrArray_AddAddr(v9, (__int64)v16, v20, 3);
+              v8 = 2;
+              v10 = WPP_GLOBAL_Control;
+              if ( v9[1] == *v9 )
+              {
+                a1 = 0i64;
+                goto LABEL_35;
+              }
+LABEL_32:
+              ++v15;
+              v14 = v25[8];
+              if ( v15 >= *(_DWORD *)(v14 + 4) )
+                goto LABEL_35;
+            }
+            if ( v10 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || ((unsigned __int8)v8 & *((_BYTE *)v10 + 68)) == 0
+              || *((_BYTE *)v10 + 65) < 4u )
+            {
+              goto LABEL_32;
+            }
+            v22 = DnsAddr_Ntoa(v16);
+            v23 = 45;
+            goto LABEL_24;
+          }
+        }
+LABEL_35:
+        ++v12;
+      }
+      while ( v12 < v8 );
+      a1 = (_QWORD *)*a1;
+      if ( !a1 )
+      {
+        v5 = a2;
+        goto LABEL_4;
+      }
+    }
+  }
+  v6 = 14;
+  Dns_Free(0i64);
+  LOBYTE(v8) = 2;
+  v9 = 0i64;
+LABEL_3:
+  v10 = WPP_GLOBAL_Control;
+LABEL_4:
+  if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && ((unsigned __int8)v8 & *((_BYTE *)v10 + 68)) != 0
+    && *((_BYTE *)v10 + 65) >= 4u )
+  {
+    WPP_SF_dqd(*((_QWORD *)v10 + 7), 0x2Fu, (__int64)&WPP_dd5a12aafb1b34b87fc868998e41e2af_Traceguids, v6);
+  }
+  result = v6;
+  *v5 = v9;
+  return result;
+}
+// 14000BB87: variable 'v8' is possibly undefined
+// 14000BC30: variable 'v17' is possibly undefined
+// 14000BC3D: variable 'v18' is possibly undefined
+// 14000BCDE: variable 'v21' is possibly undefined
+// 14000BD1A: variable 'v20' is possibly undefined

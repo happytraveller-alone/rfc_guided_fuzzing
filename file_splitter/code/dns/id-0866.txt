@@ -1,0 +1,78 @@
+//----- (0000000140077574) ----------------------------------------------------
+HKEY __fastcall Reg_OpenScope(HKEY hKey, const WCHAR *a2, const WCHAR *a3, const unsigned __int16 *a4, int a5)
+{
+  int v5; // edi
+  HKEY v9; // rbx
+  const wchar_t *v11; // r8
+  HKEY phkResult; // [rsp+50h] [rbp-28h] BYREF
+  DWORD v13; // [rsp+98h] [rbp+20h] BYREF
+
+  phkResult = 0i64;
+  v5 = 0;
+  v13 = 0;
+  v9 = hKey;
+  if ( !a4 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x60u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids);
+    }
+    return 0i64;
+  }
+  if ( !hKey )
+  {
+    if ( a5 )
+    {
+      v9 = OpenServerScopes(0, (int *)&v13);
+      if ( !v9 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x62u,
+            (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+            v13);
+        }
+        return 0i64;
+      }
+    }
+    else
+    {
+      v9 = OpenZoneScopes(0i64, 0, a3, a2, (LSTATUS *)&v13);
+      if ( !v9 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v11 = L".";
+          if ( a2 )
+            v11 = a2;
+          WPP_SF_SSD(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x61u,
+            (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+            a3,
+            (__int64)v11);
+        }
+        return 0i64;
+      }
+    }
+    v5 = 1;
+  }
+  if ( RegCreateKeyExW(v9, a4, 0, (LPWSTR)L"DnsRegistryClass", 0, 0x2001Fu, 0i64, &phkResult, 0i64)
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_SD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x63u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a4);
+  }
+  if ( v5 )
+    RegCloseKey(v9);
+  return phkResult;
+}

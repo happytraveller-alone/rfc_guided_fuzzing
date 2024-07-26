@@ -1,0 +1,122 @@
+//----- (0000000140162420) ----------------------------------------------------
+int __fastcall Nsec3RecordPrint(void (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3, int a4)
+{
+  unsigned __int8 v4; // r12
+  unsigned __int8 v6; // r15
+  const char *v9; // r14
+  __int64 StringForValue; // rax
+  unsigned int v11; // edx
+  __int64 v12; // r10
+  int v13; // r11d
+  const char *v14; // rax
+  int v15; // r10d
+  int v16; // r11d
+  __int64 v17; // rdx
+  __int64 v18; // rcx
+  unsigned __int8 v19; // r14
+  unsigned __int8 *v20; // rbx
+  __int64 v21; // r15
+  unsigned __int8 v22; // r12
+  unsigned int v23; // r15d
+  __int64 v24; // r12
+  __int64 v25; // r14
+  const char *v26; // r9
+  __int64 v28; // [rsp+28h] [rbp-E0h]
+  __int64 v29; // [rsp+30h] [rbp-D8h]
+  int v30[4]; // [rsp+40h] [rbp-C8h] BYREF
+  char v31[112]; // [rsp+50h] [rbp-B8h] BYREF
+
+  v4 = *(_BYTE *)(a3 + 32);
+  v6 = *(_BYTE *)(a3 + 33);
+  v9 = "Non Opt-Out";
+  if ( a1 )
+  {
+    StringForValue = Dns_GetStringForValue((__int64)&DnssecNSEC3HashAlgTable, v4);
+    a1(
+      a2,
+      "\tHashAlgorithm                   = %s (%d)\n"
+      "\tFlags                           = %s (0x%02x)\n"
+      "\tIterations                      = %d\n"
+      "\tSalt                            = ",
+      StringForValue,
+      v11,
+      v12,
+      v6,
+      v13);
+  }
+  if ( (byte_1401BA001 & 4) != 0 )
+  {
+    if ( (v6 & 1) != 0 )
+      v9 = "Opt-Out";
+    v14 = (const char *)Dns_GetStringForValue((__int64)&DnssecNSEC3HashAlgTable, v4);
+    LODWORD(v29) = v15;
+    LODWORD(v28) = v16;
+    WPP_SF_sdsDd(v18, v17, v14, v17, v9, v28, v29);
+  }
+  v19 = *(_BYTE *)(a3 + 36);
+  if ( v19 )
+  {
+    v20 = (unsigned __int8 *)(a3 + 40);
+    v21 = v19;
+    do
+    {
+      v22 = *v20;
+      if ( a1 )
+        a1(a2, "%02x", v22);
+      if ( (byte_1401BA001 & 4) != 0 )
+        WPP_SF_D(29i64, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, v22, a4);
+      ++v20;
+      --v21;
+    }
+    while ( v21 );
+  }
+  else
+  {
+    if ( a1 )
+      a1(a2, "-");
+    if ( (byte_1401BA001 & 4) != 0 )
+      WPP_SF_(28i64, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, a3);
+  }
+  v23 = *(unsigned __int8 *)(a3 + 37);
+  v24 = v19;
+  v30[0] = 100;
+  v25 = v19 + a3 + 40;
+  if ( (unsigned int)Dns_BinaryToBase32Hex(v25, v23, v31, v30) && v30[0] < 0x64u )
+  {
+    if ( (unsigned int)v30[0] >= 0x64ui64 )
+      _report_rangecheckfailure();
+    v31[v30[0]] = 0;
+    if ( a1 )
+      a1(a2, "\n\tNext Hashed Owner Name (Base32) = %s\n", v31);
+    if ( (byte_1401BA001 & 4) != 0 )
+      WPP_SF_s(30i64, (unsigned __int16)&WPP_cb270f16dde935b5e1552b160c3fa946_Traceguids, (__int64)v31, v26);
+  }
+  else
+  {
+    DnsPrint_RawBinary(a1, a2, (__int64)"\n\tNext Hashed Owner Name (Binary):", "\t\t  ", v25, v23, 0);
+  }
+  return DnsPrint_RawBinary(
+           a1,
+           a2,
+           (__int64)"\tType Bit Maps:",
+           "\t\t  ",
+           v24 + (unsigned __int8)v23 + a3 + 40,
+           *(unsigned __int16 *)(a3 + 38),
+           0);
+}
+// 14016249D: variable 'v11' is possibly undefined
+// 1401624B6: variable 'v12' is possibly undefined
+// 1401624B6: variable 'v13' is possibly undefined
+// 1401624EC: variable 'v15' is possibly undefined
+// 1401624F4: variable 'v16' is possibly undefined
+// 140162501: variable 'v18' is possibly undefined
+// 140162501: variable 'v17' is possibly undefined
+// 140162501: variable 'v28' is possibly undefined
+// 140162501: variable 'v29' is possibly undefined
+// 14016253F: variable 'a3' is possibly undefined
+// 14016258E: variable 'a4' is possibly undefined
+// 140162621: variable 'v26' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401BA001: using guessed type char byte_1401BA001;
+// 140162420: using guessed type unsigned int var_C8[4];
+// 140162420: using guessed type char var_B8[112];

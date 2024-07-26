@@ -1,0 +1,16 @@
+//----- (000000014015BAC0) ----------------------------------------------------
+_WORD *__fastcall Ptr_RecordBuildW(int a1, _QWORD *a2)
+{
+  _WORD *result; // rax
+
+  if ( a1 != 1 )
+  {
+    SetLastError(0xDu);
+    return 0i64;
+  }
+  result = Dns_AllocateRecordEx(8ui64);
+  if ( !result )
+    return 0i64;
+  *((_QWORD *)result + 4) = *a2;
+  return result;
+}

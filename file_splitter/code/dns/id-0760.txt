@@ -1,0 +1,65 @@
+//----- (000000014006A660) ----------------------------------------------------
+void __fastcall Packet_Free(__int64 a1)
+{
+  unsigned int v2; // esi
+  __int64 v3; // rcx
+  __int64 v4; // rcx
+  __int64 *v5; // rdi
+
+  if ( a1 )
+  {
+    v2 = 0;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x19u,
+        (__int64)&WPP_1ee363084b3c359da1ab0e74ab955d70_Traceguids,
+        a1);
+    }
+    *(_QWORD *)(a1 + 6280) = 0i64;
+    *(_QWORD *)(a1 + 3664) = 0i64;
+    *(_DWORD *)(a1 + 6288) = 0;
+    *(_QWORD *)(a1 + 3680) = 0i64;
+    *(_QWORD *)(a1 + 3688) = 0i64;
+    *(_QWORD *)(a1 + 3696) = 0i64;
+    *(_WORD *)(a1 + 3712) = 0;
+    *(_WORD *)(a1 + 4736) = 0;
+    *(_BYTE *)(a1 + 5760) = 0;
+    v3 = *(_QWORD *)(a1 + 1256);
+    *(_BYTE *)(a1 + 6272) = 0;
+    if ( v3 )
+      Packet_FreeUdpMessage(v3);
+    v4 = *(_QWORD *)(a1 + 1280);
+    if ( v4 )
+    {
+      *(_BYTE *)(v4 + 1457) = 1;
+      *(_DWORD *)(v4 + 40) = -1431690718;
+      Packet_FreeTcpMessage(v4, 0x4000);
+      *(_QWORD *)(a1 + 1280) = 0i64;
+      _InterlockedIncrement(&dword_1401C7BF0);
+      *(_QWORD *)(a1 + 1280) = 0i64;
+    }
+    *(_DWORD *)(a1 + 16) = 0;
+    Plugin_DnsQueryCleanup(a1);
+    v5 = (__int64 *)(a1 + 280);
+    do
+    {
+      if ( !*v5 )
+        break;
+      *(_DWORD *)(*v5 + 92) |= 0x80000u;
+      NTree_DeleteSubtree(*v5);
+      *v5 = 0i64;
+      ++v2;
+      ++v5;
+    }
+    while ( v2 < 0x14 );
+    if ( *(_BYTE *)(a1 + 1413) )
+      Packet_FreeTcpMessage(a1, 0);
+    else
+      Packet_FreeUdpMessage(a1);
+  }
+}
+// 1401C7BF0: using guessed type int dword_1401C7BF0;

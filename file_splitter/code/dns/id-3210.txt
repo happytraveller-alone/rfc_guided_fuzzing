@@ -1,0 +1,45 @@
+//----- (0000000140169784) ----------------------------------------------------
+int __cdecl Wcrtomb(char *a1, wchar_t a2, mbstate_t *a3, const _Cvtvec *a4)
+{
+  unsigned int Page; // ebx
+  unsigned int v6; // eax
+  unsigned int Mbcurmax; // esi
+  int result; // eax
+  int cbMultiByte; // eax
+  WCHAR WideCharStr; // [rsp+58h] [rbp+10h] BYREF
+  WINBOOL UsedDefaultChar; // [rsp+68h] [rbp+20h] BYREF
+
+  WideCharStr = a2;
+  if ( a4 )
+  {
+    Page = a4->_Page;
+    Mbcurmax = a4->_Mbcurmax;
+  }
+  else
+  {
+    Page = *(_DWORD *)(___lc_handle_func(a1) + 8);
+    v6 = ___lc_codepage_func();
+    a2 = WideCharStr;
+    Mbcurmax = v6;
+  }
+  if ( !Page )
+  {
+    if ( a2 <= 0xFFu )
+    {
+      *a1 = a2;
+      return 1;
+    }
+    goto LABEL_9;
+  }
+  UsedDefaultChar = 0;
+  cbMultiByte = ___mb_cur_max_func();
+  result = WideCharToMultiByte(Mbcurmax, 0, &WideCharStr, 1, a1, cbMultiByte, 0i64, &UsedDefaultChar);
+  if ( !result || UsedDefaultChar )
+  {
+LABEL_9:
+    *_errno() = 42;
+    return -1;
+  }
+  return result;
+}
+// 140184C10: using guessed type __int64 __fastcall ___lc_handle_func(_QWORD);

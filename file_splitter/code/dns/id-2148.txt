@@ -1,0 +1,38 @@
+//----- (0000000140110668) ----------------------------------------------------
+__int64 __fastcall parseFailure(struct IXmlReader *a1, int a2)
+{
+  int v5; // [rsp+50h] [rbp+18h] BYREF
+  int v6; // [rsp+58h] [rbp+20h] BYREF
+
+  v6 = 0;
+  v5 = 0;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0 )
+  {
+    if ( ((unsigned int (__fastcall *)(struct IXmlReader *, int *))a1->lpVtbl->GetLineNumber)(a1, &v6)
+      || ((unsigned int (__fastcall *)(struct IXmlReader *, int *))a1->lpVtbl->GetLinePosition)(a1, &v5) )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x22u,
+          (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+          a2);
+      }
+    }
+    else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+           && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+           && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_Ddd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x21u,
+        (__int64)&WPP_30cfbd22d50a3461be1a51829a1408eb_Traceguids,
+        a2);
+    }
+  }
+  return 9126i64;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

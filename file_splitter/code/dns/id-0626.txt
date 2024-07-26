@@ -1,0 +1,17 @@
+//----- (0000000140057A68) ----------------------------------------------------
+char *__fastcall Log_CurrentSection(__int64 a1)
+{
+  char **v1; // r8
+  unsigned __int8 v2; // al
+
+  v1 = off_1401B6D28;
+  if ( (*(_BYTE *)(a1 + 6306) & 0x78) == 40 )
+    v1 = off_1401B6D50;
+  v2 = *(_BYTE *)(a1 + 1415);
+  if ( v2 >= 5u )
+    return v1[4];
+  else
+    return v1[v2];
+}
+// 1401B6D28: using guessed type char *off_1401B6D28[10];
+// 1401B6D50: using guessed type char *off_1401B6D50[5];

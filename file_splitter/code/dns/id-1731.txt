@@ -1,0 +1,5 @@
+//----- (00000001400DD6B0) ----------------------------------------------------
+__int64 CDNSPolicyCriteriaTransProtocol::GetCriteriaType()
+{
+  return 1i64;
+}

@@ -1,0 +1,15 @@
+//----- (000000014012D9DC) ----------------------------------------------------
+__int64 __fastcall std::basic_ostream<unsigned short>::sentry::~sentry(__int64 *a1)
+{
+  __int64 result; // rax
+  __int64 v3; // rcx
+
+  if ( !std::uncaught_exception() )
+    std::basic_ostream<unsigned short>::_Osfx(*a1);
+  result = *(_QWORD *)*a1;
+  v3 = *(_QWORD *)(*(int *)(result + 4) + *a1 + 72);
+  if ( v3 )
+    return (*(__int64 (__fastcall **)(__int64))(*(_QWORD *)v3 + 16i64))(v3);
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

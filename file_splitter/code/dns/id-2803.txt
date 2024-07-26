@@ -1,0 +1,5 @@
+//----- (000000014014B294) ----------------------------------------------------
+void **__fastcall std::list<_DnsAddr *>::_Construct_n(__int64 **a1, __int64 a2, _QWORD *a3)
+{
+  return std::list<_DnsAddr *>::_Insert_n((__int64)a1, **a1, (__int64)a3, a3);
+}

@@ -1,0 +1,81 @@
+//----- (0000000140002A24) ----------------------------------------------------
+__int64 __fastcall Scavenge_CheckForAndStart(int a1)
+{
+  DWORD LastError; // ebx
+  CDnsClientSubnetRecordsTrie *v3; // rcx
+  unsigned __int16 v4; // dx
+
+  LastError = 0;
+  v3 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x29u, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids, a1);
+    v3 = WPP_GLOBAL_Control;
+  }
+  if ( !dword_1401B9904 )
+    goto LABEL_33;
+  if ( g_ServerState != 2 || g_lDsLoadingThreads )
+  {
+    if ( v3 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v3 + 17) & 0x200) != 0
+      && *((_BYTE *)v3 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v3 + 7), 0x2Au, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids);
+      v3 = WPP_GLOBAL_Control;
+    }
+    LastError = 9568;
+    goto LABEL_33;
+  }
+  if ( a1 || dword_1401B9714 >= (unsigned int)g_NextScavengeTime || dword_1401B9A04 )
+  {
+    if ( g_ScavengeLock )
+    {
+      if ( !Thread_Create("ScavengeThread", (__int64 (__fastcall *)(__int64))Scavenge_Thread, 0i64, 0) )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x2Cu, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids);
+        }
+        LastError = GetLastError();
+        goto LABEL_17;
+      }
+      v3 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+        return LastError;
+      if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200) == 0 || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+        goto LABEL_33;
+      v4 = 45;
+LABEL_16:
+      WPP_SF_(*((_QWORD *)v3 + 7), v4, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids);
+LABEL_17:
+      v3 = WPP_GLOBAL_Control;
+      goto LABEL_33;
+    }
+    if ( v3 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      return LastError;
+    if ( (*((_DWORD *)v3 + 17) & 0x200) != 0 && *((_BYTE *)v3 + 65) >= 4u )
+    {
+      v4 = 43;
+      goto LABEL_16;
+    }
+  }
+LABEL_33:
+  if ( v3 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v3 + 17) & 0x200) != 0
+    && *((_BYTE *)v3 + 65) >= 5u )
+  {
+    WPP_SF_Dd(*((_QWORD *)v3 + 7), 0x2Eu, (__int64)&WPP_7b1a01b88f443306118dfd5b288785fb_Traceguids, a1);
+  }
+  return LastError;
+}
+// 1401B7EA0: using guessed type int g_ScavengeLock;
+// 1401B7EB0: using guessed type int g_ServerState;
+// 1401B8C14: using guessed type int g_NextScavengeTime;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9904: using guessed type int dword_1401B9904;
+// 1401B9A04: using guessed type int dword_1401B9A04;
+// 1401EBEE8: using guessed type int g_lDsLoadingThreads;

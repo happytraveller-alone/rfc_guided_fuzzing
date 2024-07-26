@@ -1,0 +1,119 @@
+//----- (0000000140056654) ----------------------------------------------------
+signed __int64 writeAndResetLogBuffer()
+{
+  signed int v0; // ebx
+  unsigned int v1; // ecx
+  ULONGLONG v2; // rax
+  ULONGLONG v3; // rax
+  int LastError; // eax
+  int v5; // eax
+  signed __int64 result; // rax
+  DWORD NumberOfBytesWritten; // [rsp+60h] [rbp+30h] BYREF
+  union _ULARGE_INTEGER TotalNumberOfFreeBytes; // [rsp+68h] [rbp+38h] BYREF
+  union _ULARGE_INTEGER TotalNumberOfBytes; // [rsp+70h] [rbp+40h] BYREF
+
+  v0 = (_DWORD)lpMultiByteStr - qword_1401B8F78;
+  g_iBytesWrittenToLog += (unsigned int)((_DWORD)lpMultiByteStr - qword_1401B8F78);
+  while ( 1 )
+  {
+    if ( g_pwszLogFileDrive )
+    {
+      if ( dword_1401B8F50 || (v1 = g_dwLogsSinceFreeSpaceCheck, ++g_dwLogsSinceFreeSpaceCheck, v1 > 0x320) )
+      {
+        TotalNumberOfFreeBytes.QuadPart = 0i64;
+        TotalNumberOfBytes.QuadPart = 0i64;
+        if ( GetDiskFreeSpaceExW(g_pwszLogFileDrive, 0i64, &TotalNumberOfBytes, &TotalNumberOfFreeBytes) )
+        {
+          v2 = 0x280000000i64;
+          if ( TotalNumberOfBytes.QuadPart >> 6 < 0x280000000i64 )
+            v2 = TotalNumberOfBytes.QuadPart >> 6;
+          if ( v2 >= 0x40000000 )
+          {
+            v3 = 0x280000000i64;
+            if ( TotalNumberOfBytes.QuadPart >> 6 < 0x280000000i64 )
+              v3 = TotalNumberOfBytes.QuadPart >> 6;
+          }
+          else
+          {
+            v3 = 0x40000000i64;
+          }
+          if ( TotalNumberOfFreeBytes.QuadPart < v3 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_D(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0xAu,
+                (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids,
+                TotalNumberOfFreeBytes.LowPart);
+            }
+            if ( !dword_1401B8F50 )
+            {
+              WriteFile(
+                g_hLogFile,
+                "\nThe disk is dangerously full.\nNo more logs will be written until disk space is freed.\n\n",
+                0x58u,
+                &NumberOfBytesWritten,
+                0i64);
+              dword_1401B8F50 = 1;
+            }
+            goto LABEL_31;
+          }
+        }
+        else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+               && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+               && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          LastError = GetLastError();
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xBu,
+            (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids,
+            LastError);
+        }
+        g_dwLogsSinceFreeSpaceCheck = 0;
+      }
+    }
+    dword_1401B8F50 = 0;
+    if ( !WriteFile(g_hLogFile, &pchLogBuffer, v0, &NumberOfBytesWritten, 0i64) )
+      break;
+    v0 -= NumberOfBytesWritten;
+    if ( v0 <= 0 )
+      goto LABEL_31;
+  }
+  v5 = GetLastError();
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Dd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xCu, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids, v5);
+  }
+LABEL_31:
+  lpMultiByteStr = (STRSAFE_LPSTR)qword_1401B8F78;
+  LODWORD(qword_1401B8F90) = dword_1401B8F70;
+  result = (unsigned int)dword_1401B9788;
+  if ( (unsigned int)dword_1401B9788 < 0x10000 )
+    result = 0x10000i64;
+  dword_1401B9788 = result;
+  if ( !dword_1401B8F50 && g_iBytesWrittenToLog >= result )
+  {
+    if ( !dword_1401B978C )
+      return Log_InitializeLogging(1, 0, 0i64);
+    result = Dns_GetCurrentTimeInSeconds();
+    dword_1401B9714 = result;
+    if ( (unsigned int)result > g_LastLogFileOpenTime + 1 )
+      return Log_InitializeLogging(1, 0, 0i64);
+  }
+  return result;
+}
+// 1401B8058: using guessed type int g_dwLogsSinceFreeSpaceCheck;
+// 1401B8F50: using guessed type int dword_1401B8F50;
+// 1401B8F70: using guessed type int dword_1401B8F70;
+// 1401B8F78: using guessed type __int64 qword_1401B8F78;
+// 1401B8F98: using guessed type __int64 g_iBytesWrittenToLog;
+// 1401B8FA0: using guessed type int g_LastLogFileOpenTime;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9788: using guessed type int dword_1401B9788;
+// 1401B978C: using guessed type int dword_1401B978C;

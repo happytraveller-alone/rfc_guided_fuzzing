@@ -1,0 +1,42 @@
+//----- (000000014012E31C) ----------------------------------------------------
+const unsigned __int16 *__fastcall DnsSign::CCNGAlgorithmManager::GetCNGHashAlgorithmID(
+        DnsSign::CCNGAlgorithmManager *this,
+        __int64 a2)
+{
+  char v3[56]; // [rsp+28h] [rbp-80h] BYREF
+  char pExceptionObject[56]; // [rsp+60h] [rbp-48h] BYREF
+
+  switch ( (unsigned __int8)a2 )
+  {
+    case 5u:
+    case 7u:
+      return L"SHA1";
+    case 8u:
+      return L"SHA256";
+    case 0xAu:
+      return L"SHA512";
+    case 0xDu:
+      return L"SHA256";
+  }
+  if ( (unsigned __int8)a2 != 14 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0xFu,
+        (__int64)&WPP_a9354bd5cd823ab7126e1b8d4348d392_Traceguids,
+        (unsigned __int8)a2);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v3, a2, 2);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v3, 0xD6D89u);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v3);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+  return L"SHA384";
+}
+// 14012E3B9: variable 'a2' is possibly undefined

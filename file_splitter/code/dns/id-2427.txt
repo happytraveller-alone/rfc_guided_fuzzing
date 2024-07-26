@@ -1,0 +1,58 @@
+//----- (0000000140127780) ----------------------------------------------------
+const void **__fastcall DnsSign::AppendCertificateSelectionString(__int64 a1, __int64 a2, char *a3)
+{
+  UINT v6; // edx
+  char *v7; // rdx
+  char *v8; // rdx
+  __int64 v9; // rbx
+  wchar_t Buffer[8]; // [rsp+20h] [rbp-38h] BYREF
+
+  if ( a1 )
+  {
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DD9u, *(_QWORD *)a1);
+    std::wstring::append(a3, (char *)L"\n");
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDAu);
+    v6 = 880096;
+    if ( !*(_BYTE *)(a1 + 8) )
+      v6 = 880097;
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, v6);
+    std::wstring::append(a3, (char *)L"\n");
+  }
+  DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDBu);
+  if ( *(_QWORD *)a2 )
+    std::wstring::append(a3, *(char **)a2);
+  else
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDFu);
+  std::wstring::append(a3, (char *)L"\n");
+  DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDCu);
+  v7 = *(char **)(a2 + 8);
+  if ( v7 )
+    std::wstring::append(a3, v7);
+  else
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDFu);
+  std::wstring::append(a3, (char *)L"\n");
+  DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDDu);
+  v8 = *(char **)(a2 + 16);
+  if ( v8 )
+    std::wstring::append(a3, v8);
+  else
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDFu);
+  std::wstring::append(a3, (char *)L"\n");
+  DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDEu);
+  if ( *(_QWORD *)(a2 + 24) == *(_QWORD *)(a2 + 32) )
+  {
+    DnsSign::AppendFormattedMessageByIDVariableArgs(a3, 0xD6DDFu);
+  }
+  else
+  {
+    v9 = *(_QWORD *)(a2 + 32);
+    do
+    {
+      StringCchPrintfW(Buffer, 5i64, L"%02x ", *(unsigned __int8 *)--v9);
+      std::wstring::append(a3, (char *)Buffer);
+    }
+    while ( v9 != *(_QWORD *)(a2 + 24) );
+  }
+  return std::wstring::append(a3, (char *)L"\n");
+}
+// 140194648: using guessed type wchar_t asc_140194648[2];

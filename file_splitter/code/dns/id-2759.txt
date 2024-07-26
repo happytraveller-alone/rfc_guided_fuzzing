@@ -1,0 +1,27 @@
+//----- (000000014014543C) ----------------------------------------------------
+const void **__fastcall CDNSPolicyCriteriaFqdn::GetNext(__int64 a1, const void **a2)
+{
+  __int64 v3; // rdx
+  __int64 v4; // r8
+
+  if ( !*(_DWORD *)(a1 + 12) || (v3 = *(_QWORD *)(a1 + 112), v3 == *(_QWORD *)(a1 + 64)) )
+  {
+    a2[3] = (const void *)15;
+    v4 = -1i64;
+    a2[2] = 0i64;
+    *(_BYTE *)a2 = 0;
+    do
+      ++v4;
+    while ( *(_BYTE *)v4 );
+    std::string::assign(a2, 0i64, (char *)v4);
+  }
+  else
+  {
+    *(_QWORD *)(a1 + 112) = **(_QWORD **)(a1 + 112);
+    a2[2] = 0i64;
+    a2[3] = (const void *)15;
+    *(_BYTE *)a2 = 0;
+    std::string::assign(a2, (const void **)(v3 + 16), 0i64, (char *)0xFFFFFFFFFFFFFFFFi64);
+  }
+  return a2;
+}

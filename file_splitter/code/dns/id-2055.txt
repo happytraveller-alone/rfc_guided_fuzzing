@@ -1,0 +1,159 @@
+//----- (00000001400FFAE0) ----------------------------------------------------
+__int64 __fastcall Rpc_GetZoneSKDState(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        LPCOLESTR lpsz,
+        _DWORD *a7,
+        void ***a8)
+{
+  __int64 v8; // rbx
+  void **SkdState; // rbp
+  const char *v11; // r9
+  unsigned int v12; // edi
+  __int64 v13; // rcx
+  int v14; // eax
+  _QWORD *ZoneSkdByGuid; // rax
+  _QWORD *v16; // r14
+  char *v17; // rax
+  const EVENT_DESCRIPTOR *v18; // rdx
+  FILETIME FileTime2; // [rsp+30h] [rbp-48h] BYREF
+  GUID pclsid; // [rsp+38h] [rbp-40h] BYREF
+
+  v8 = 0i64;
+  *(_QWORD *)&pclsid.Data2 = 0i64;
+  SkdState = 0i64;
+  *(_DWORD *)&pclsid.Data4[4] = 0;
+  pclsid.Data1 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a3 )
+      v11 = *(const char **)(a3 + 16);
+    else
+      v11 = 0i64;
+    WPP_SF_sS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x2Fu,
+      (__int64)&WPP_fcf90f505e41335ad1a88e0d5ede2d0c_Traceguids,
+      v11,
+      (__int64)lpsz);
+  }
+  *a7 = 0;
+  *a8 = 0i64;
+  if ( !a3 )
+  {
+    v12 = 87;
+    goto LABEL_41;
+  }
+  v13 = a3;
+  if ( *(_QWORD *)(a3 + 328) )
+    v13 = *(_QWORD *)(a3 + 328);
+  if ( *(_QWORD *)(v13 + 200) )
+  {
+    v12 = 9553;
+    goto LABEL_41;
+  }
+  v12 = Zone_LockForWriteEx(a3, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\olsrpc.cpp", 237);
+  if ( v12 )
+    goto LABEL_41;
+  if ( *(_DWORD *)(a3 + 372) != 1 )
+  {
+    v12 = 9611;
+    goto LABEL_37;
+  }
+  if ( a5 == 3 && lpsz )
+  {
+    v14 = CLSIDFromString(lpsz, &pclsid);
+    if ( v14 )
+      v12 = GuidFromString((__int64)lpsz, v14);
+    else
+      v12 = 0;
+    if ( !v12 )
+    {
+      ZoneSkdByGuid = DnsOls_FindZoneSkdByGuid(a3, &pclsid);
+      v16 = ZoneSkdByGuid;
+      if ( ZoneSkdByGuid )
+      {
+        if ( !*((_DWORD *)ZoneSkdByGuid + 24) )
+        {
+          FileTime2 = 0i64;
+          if ( CompareFileTime((const FILETIME *)((char *)ZoneSkdByGuid + 84), &FileTime2) )
+          {
+            if ( !(unsigned int)OffsetFromCurrentTime((FILETIME *)((char *)v16 + 84)) )
+            {
+              *((_DWORD *)v16 + 24) = 1;
+              if ( *((_DWORD *)v16 + 9) )
+              {
+                if ( (dword_1401B9144 & 0x40) == 0 )
+                  goto LABEL_33;
+                v17 = Dbg_GuidString((const IID *)(v16 + 1));
+                v18 = (const EVENT_DESCRIPTOR *)&DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+              }
+              else
+              {
+                if ( (dword_1401B9144 & 0x40) == 0 )
+                  goto LABEL_33;
+                v17 = Dbg_GuidString((const IID *)(v16 + 1));
+                v18 = &DNS_EVENT_NEXT_ZSKROLLOVER_STAGE;
+              }
+              Template_zzz(
+                Microsoft_Windows_DNS_Server_ServiceHandle,
+                v18,
+                (const unsigned __int16 *)v17,
+                *(const unsigned __int16 **)(a3 + 24),
+                L"DNS_SKD_STATUS_QUEUED");
+            }
+          }
+        }
+LABEL_33:
+        SkdState = (void **)Rpc_AllocateSkdState((struct _dnsskd *)v16);
+        if ( !SkdState )
+          v12 = 14;
+        goto LABEL_37;
+      }
+      v12 = 1168;
+    }
+  }
+  else
+  {
+    v12 = 87;
+  }
+LABEL_37:
+  Zone_UnlockAfterWriteEx(a3, 1, (__int64)"ds\\dns\\server\\server\\olsrpc.cpp", 72);
+  if ( v12 )
+  {
+    if ( SkdState )
+    {
+      MIDL_user_free(SkdState[6]);
+      MIDL_user_free(SkdState[7]);
+      MIDL_user_free(SkdState[8]);
+      MIDL_user_free(SkdState);
+    }
+  }
+  else
+  {
+    *a7 = 47;
+    *a8 = SkdState;
+  }
+LABEL_41:
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a3 )
+      v8 = *(_QWORD *)(a3 + 16);
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x30u,
+      (__int64)&WPP_fcf90f505e41335ad1a88e0d5ede2d0c_Traceguids,
+      v12,
+      v8);
+  }
+  return v12;
+}
+// 140187B50: using guessed type __int128 DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+// 1401B9144: using guessed type int dword_1401B9144;

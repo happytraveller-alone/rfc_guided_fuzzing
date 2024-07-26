@@ -1,0 +1,17 @@
+//----- (000000014012D170) ----------------------------------------------------
+void *__fastcall std::ctype<unsigned short>::`vector deleting destructor'(void *a1, char a2)
+{
+  bool v2; // zf
+
+  v2 = *((_DWORD *)a1 + 8) == 0;
+  *(_QWORD *)a1 = &std::ctype<unsigned short>::`vftable';
+  if ( !v2 )
+    free(*((void **)a1 + 3));
+  *(_QWORD *)a1 = &std::locale::facet::`vftable';
+  if ( (a2 & 1) != 0 )
+    operator delete(a1);
+  return a1;
+}
+// 140171600: using guessed type void *std::locale::facet::`vftable';
+// 140171778: using guessed type void *std::ctype<unsigned short>::`vftable';
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

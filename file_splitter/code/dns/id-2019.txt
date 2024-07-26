@@ -1,0 +1,58 @@
+//----- (00000001400F8770) ----------------------------------------------------
+__int64 __fastcall DnsOls_RemoveSkdFromZone(__int64 a1, __int64 *a2)
+{
+  __int64 *v4; // rcx
+  int v5; // edx
+  unsigned int v6; // esi
+  __int64 *i; // rax
+  __int64 v8; // rax
+  char *v9; // rax
+
+  v4 = 0i64;
+  v5 = 0;
+  v6 = 13;
+  if ( a1 && *(_DWORD *)(a1 + 372) == 1 && a2 )
+  {
+    for ( i = *(__int64 **)(a1 + 1136); i; i = (__int64 *)*i )
+    {
+      if ( i == a2 )
+      {
+        v8 = *a2;
+        if ( v4 )
+        {
+          *v4 = v8;
+        }
+        else
+        {
+          *(_QWORD *)(a1 + 1136) = v8;
+          v5 = 1;
+        }
+        *a2 = 0i64;
+        v6 = 0;
+        goto LABEL_14;
+      }
+      v4 = i;
+    }
+  }
+  else
+  {
+    v6 = 87;
+LABEL_14:
+    if ( v5 )
+      Dns_SetPropsOnAllZoneScopes((__int64 *)a1, 2u, a1, 0, 0i64);
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = Dbg_GuidString((const IID *)(a2 + 1));
+    WPP_SF_DSs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x10u,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      v6,
+      (__int64)v9,
+      *(_QWORD *)(a1 + 16));
+  }
+  return v6;
+}

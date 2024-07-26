@@ -1,0 +1,46 @@
+//----- (000000014003201C) ----------------------------------------------------
+__int64 __fastcall Dp_UnloadAllZones(__int64 a1)
+{
+  __int64 *i; // rdx
+  const unsigned __int16 **NextZone; // rax
+  struct _zone_info *v4; // rbx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x63u,
+      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+      *(const char **)(a1 + 24));
+  }
+  for ( i = 0i64; ; i = (__int64 *)v4 )
+  {
+    NextZone = Zone_ListGetNextZoneEx(0i64, i, 0);
+    v4 = (struct _zone_info *)NextZone;
+    if ( !NextZone )
+      break;
+    if ( NextZone[106] == (const unsigned __int16 *)a1 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x64u,
+          (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+          (const char *)NextZone[2]);
+      }
+      Zone_Delete(v4, 0, 0, 0, 0);
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x65u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids, 0);
+  }
+  return 0i64;
+}

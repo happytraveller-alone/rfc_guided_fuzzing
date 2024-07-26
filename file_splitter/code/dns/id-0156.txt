@@ -1,0 +1,78 @@
+//----- (0000000140013E2C) ----------------------------------------------------
+__int64 Version_Initialize()
+{
+  _QWORD *v0; // rdi
+  int v1; // esi
+  __int64 v2; // rbx
+  DWORD FileVersionInfoSize; // eax
+  _QWORD *v4; // rax
+  HRESULT v5; // eax
+  _BYTE *v6; // rdi
+  LPVOID lpData; // [rsp+28h] [rbp-E0h]
+  DWORD dwHandle; // [rsp+48h] [rbp-C0h] BYREF
+  DWORD v10; // [rsp+4Ch] [rbp-BCh] BYREF
+  DWORD v11; // [rsp+50h] [rbp-B8h] BYREF
+  unsigned int puLen; // [rsp+54h] [rbp-B4h] BYREF
+  __int64 v13; // [rsp+58h] [rbp-B0h] BYREF
+  LPVOID lpBuffer; // [rsp+60h] [rbp-A8h] BYREF
+  WCHAR Filename[264]; // [rsp+68h] [rbp-A0h] BYREF
+
+  dwHandle = 0;
+  v0 = 0i64;
+  lpBuffer = 0i64;
+  puLen = 0;
+  v1 = 0;
+  v2 = -1i64;
+  if ( _InterlockedIncrement(&g_VersionInitialized) == 1 )
+    InitializeCriticalSection(&g_VersionCritSec);
+  else
+    _InterlockedAdd(&g_VersionInitialized, 0xFFFFFFFF);
+  if ( !GetModuleFileNameW(0i64, Filename, 0x104u) )
+  {
+LABEL_10:
+    FileVersionInfoSize = dwHandle;
+    goto LABEL_11;
+  }
+  FileVersionInfoSize = GetFileVersionInfoSizeExW(1u, Filename, &dwHandle);
+  dwHandle = FileVersionInfoSize;
+  if ( FileVersionInfoSize )
+  {
+    v4 = Mem_Alloc(FileVersionInfoSize, 21i64, "ds\\dns\\server\\server\\chaosver.c", 154);
+    v0 = v4;
+    if ( v4 && GetFileVersionInfoExW(3u, Filename, 0, dwHandle, v4) && VerQueryValueW(v0, L"\\", &lpBuffer, &puLen) )
+      v1 = *((_DWORD *)lpBuffer + 3);
+    goto LABEL_10;
+  }
+LABEL_11:
+  Mem_Free(v0, FileVersionInfoSize, 21i64, (__int64)"ds\\dns\\server\\server\\chaosver.c", 186);
+  if ( DnsGetVersionInfo(&v11, &v10, (DWORD *)&v13) )
+  {
+    LODWORD(lpData) = v10;
+    v5 = dword_1401B99C4 == 1
+       ? StringCbPrintfA((STRSAFE_LPSTR)Filename, 0x104ui64, "Microsoft DNS %d.%d.%d (%08X)", v11, lpData, v13, v1)
+       : StringCbPrintfA((STRSAFE_LPSTR)Filename, 0x104ui64, "Microsoft DNS %d.%d", v11, lpData);
+    if ( v5 >= 0 )
+    {
+      do
+        ++v2;
+      while ( *((_BYTE *)Filename + v2) );
+      v6 = RR_AllocateEx((unsigned __int16)v2 + 1, 0, 0);
+      if ( v6 )
+      {
+        *((_DWORD *)v6 + 5) = 600;
+        *((_WORD *)v6 + 6) = 16;
+        v6[56] = v2;
+        memcpy_0(v6 + 57, Filename, (unsigned __int16)v2);
+        EnterCriticalSection(&g_VersionCritSec);
+        Timeout_FreeWithFunctionEx(g_prrVersionTxt, 0i64, (__int64)"ds\\dns\\server\\server\\chaosver.c", 276);
+        g_prrVersionTxt = (__int64)v6;
+        LeaveCriticalSection(&g_VersionCritSec);
+      }
+    }
+  }
+  return 0i64;
+}
+// 140013FB1: variable 'lpData' is possibly undefined
+// 1401B8C38: using guessed type __int64 g_prrVersionTxt;
+// 1401B8C40: using guessed type int g_VersionInitialized;
+// 1401B99C4: using guessed type int dword_1401B99C4;

@@ -1,0 +1,38 @@
+//----- (00000001400662E0) ----------------------------------------------------
+void __fastcall freeNbstatBuffer(_QWORD *a1)
+{
+  int v2; // r8d
+  __int64 v3; // [rsp+20h] [rbp-18h]
+
+  ++dword_1401C7C7C;
+  if ( cNbstatFreeListCount < 30 )
+  {
+    v2 = cNbstatFreeListCount + 1;
+    *a1 = pNbstatFreeListHead;
+    cNbstatFreeListCount = v2;
+    pNbstatFreeListHead = (__int64)a1;
+  }
+  else
+  {
+    Mem_Free(a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\nbstat.c", 2207);
+    ++dword_1401C7C6C;
+    v2 = cNbstatFreeListCount;
+  }
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x10000) != 0
+    && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    LODWORD(v3) = v2;
+    WPP_SF_qd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x3Eu,
+      (__int64)&WPP_fc3a6397bf853e2fe940ea821e43295b_Traceguids,
+      a1,
+      v3);
+  }
+}
+// 140066379: variable 'v3' is possibly undefined
+// 1401B8FB0: using guessed type int cNbstatFreeListCount;
+// 1401B8FB8: using guessed type __int64 pNbstatFreeListHead;
+// 1401C7C6C: using guessed type int dword_1401C7C6C;
+// 1401C7C7C: using guessed type int dword_1401C7C7C;

@@ -1,0 +1,36 @@
+//----- (000000014014D26C) ----------------------------------------------------
+__int64 __fastcall DnsRRL_GetResponse(__int64 a1)
+{
+  unsigned int v1; // ebx
+  unsigned __int8 v2; // dl
+  int v3; // r9d
+
+  v1 = 1;
+  if ( *(char *)(a1 + 6306) < 0 )
+  {
+    v2 = *(_BYTE *)(a1 + 6307) & 0xF;
+    if ( v2 == 3 )
+    {
+      v1 = 3;
+    }
+    else if ( v2 <= 0xAu && (v3 = 1910, _bittest(&v3, v2)) )
+    {
+      v1 = 4;
+    }
+    else if ( !v2 && !*(_WORD *)(a1 + 6310) && !*(_WORD *)(a1 + 1452) )
+    {
+      v1 = *(_WORD *)(a1 + 6312) != 0 ? 5 : 2;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_Ddq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x26u,
+        (__int64)&WPP_fb17dad7faab38b20f3316f2d4e4b278_Traceguids,
+        v1);
+    }
+  }
+  return v1;
+}

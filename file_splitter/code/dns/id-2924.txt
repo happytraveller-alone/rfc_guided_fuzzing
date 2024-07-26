@@ -1,0 +1,81 @@
+//----- (0000000140153FB4) ----------------------------------------------------
+void **__fastcall AllocateRPCVirtualizationInstanceInfo(CHAR **a1)
+{
+  _DWORD *zero; // rax
+  void **v3; // rbx
+  void **v4; // rsi
+  void **v5; // rcx
+  CDnsClientSubnetRecordsTrie *v6; // rcx
+  unsigned __int16 v7; // dx
+
+  zero = MIDL_user_allocate_zero(0x28ui64);
+  v3 = (void **)zero;
+  if ( !zero )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x17u, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+    }
+    return 0i64;
+  }
+  *zero = 1;
+  v4 = (void **)(zero + 4);
+  v5 = (void **)(zero + 4);
+  if ( a1 )
+  {
+    if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v5, *a1) )
+      goto LABEL_8;
+    if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v3 + 3, a1[1]) )
+    {
+LABEL_13:
+      v6 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_25;
+      }
+      v7 = 11;
+LABEL_24:
+      WPP_SF_(*((_QWORD *)v6 + 7), v7, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+LABEL_25:
+      MIDL_user_free(*v4);
+      MIDL_user_free(v3[3]);
+      MIDL_user_free(v3[4]);
+      MIDL_user_free(v3);
+      return 0i64;
+    }
+    if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v3 + 4, a1[2]) )
+    {
+      v6 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_25;
+      }
+      v7 = 12;
+      goto LABEL_24;
+    }
+  }
+  else
+  {
+    if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v5, (CHAR *)L".") )
+    {
+LABEL_8:
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_724dcb1c6d0b3932d6d2d238a2e9cfc2_Traceguids);
+      }
+      goto LABEL_25;
+    }
+    if ( !(unsigned int)RpcUtil_CopyStringToRpcBufferEx(v3 + 3, (CHAR *)L"Default") )
+      goto LABEL_13;
+  }
+  return v3;
+}
+// 140188260: using guessed type wchar_t aDefault_1[8];

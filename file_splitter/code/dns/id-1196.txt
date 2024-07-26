@@ -1,0 +1,90 @@
+//----- (0000000140099684) ----------------------------------------------------
+__int64 __fastcall Wire_ParseWireRecord(__int64 a1, unsigned __int64 a2, int a3, __int64 a4)
+{
+  CDnsClientSubnetRecordsTrie *v8; // rax
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned __int16 v10; // dx
+  u_short v11; // ax
+  unsigned __int16 v12; // dx
+  u_short v13; // ax
+  __int64 v15; // [rsp+20h] [rbp-38h]
+
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+  {
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) == 0 )
+      goto LABEL_8;
+    if ( *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x17u,
+        (__int64)&WPP_75a2f1109eb632ccef6002e65d5fc80e_Traceguids,
+        a1);
+      v8 = WPP_GLOBAL_Control;
+    }
+  }
+  if ( (*((_DWORD *)v8 + 17) & 0x800) != 0 && *((_BYTE *)v8 + 65) >= 5u )
+    DnsPrint_PacketRecord(0i64, 0i64, (__int64)"Resource Record ", a1, 0i64, a2);
+LABEL_8:
+  *(_QWORD *)(a4 + 8) = a1;
+  if ( a1 + 10 > a2 )
+  {
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+      return 0i64;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x18u, (__int64)&WPP_75a2f1109eb632ccef6002e65d5fc80e_Traceguids);
+      v9 = WPP_GLOBAL_Control;
+    }
+    if ( v9 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)v9 + 17) & 0x800) == 0
+      || *((_BYTE *)v9 + 65) < 4u )
+    {
+      return 0i64;
+    }
+    v10 = 25;
+    goto LABEL_29;
+  }
+  v11 = ntohs(*(_WORD *)a1);
+  *(_WORD *)(a4 + 30) = v11;
+  v12 = *(_WORD *)(a1 + 2);
+  if ( v11 != 41 && v12 != 256 && a3 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      LODWORD(v15) = v12;
+      WPP_SF_qd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Au,
+        (__int64)&WPP_75a2f1109eb632ccef6002e65d5fc80e_Traceguids,
+        a1,
+        v15);
+    }
+    return 0i64;
+  }
+  *(_WORD *)(a4 + 28) = v12;
+  *(_DWORD *)(a4 + 24) = *(_DWORD *)(a1 + 4);
+  v13 = ntohs(*(_WORD *)(a1 + 8));
+  *(_WORD *)(a4 + 32) = v13;
+  *(_QWORD *)(a4 + 16) = a1 + 10;
+  if ( (unsigned __int64)v13 + a1 + 10 > a2 )
+  {
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x800) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      return 0i64;
+    }
+    v10 = 27;
+LABEL_29:
+    WPP_SF_qq(*((_QWORD *)v9 + 7), v10, (__int64)&WPP_75a2f1109eb632ccef6002e65d5fc80e_Traceguids, a1, a2);
+    return 0i64;
+  }
+  return v13 + a1 + 10;
+}
+// 1400997E0: variable 'v15' is possibly undefined

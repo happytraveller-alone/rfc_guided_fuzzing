@@ -1,0 +1,125 @@
+//----- (0000000140067FC8) ----------------------------------------------------
+__int64 __fastcall checkKSKForDS(__int64 a1, _DWORD *a2)
+{
+  __int64 v2; // rsi
+  unsigned int v5; // r15d
+  int updated; // eax
+  u_long v7; // eax
+  u_long v8; // ecx
+  int v9; // eax
+  bool v10; // cf
+  int v11; // r9d
+  CDnsClientSubnetRecordsTrie *v12; // rcx
+  unsigned __int16 v13; // dx
+  u_long v14; // eax
+  __int64 v15; // rdx
+  unsigned int v16; // edx
+  __int64 v17; // r9
+  __int128 v19; // [rsp+30h] [rbp-10h] BYREF
+  u_long v20; // [rsp+70h] [rbp+30h] BYREF
+  __int64 *v21; // [rsp+80h] [rbp+40h] BYREF
+  __int64 v22; // [rsp+88h] [rbp+48h] BYREF
+
+  v2 = *(_QWORD *)(a1 + 1128);
+  v20 = 0;
+  v5 = 1;
+  lookupParentalDelegation(a1, &v21, &v22);
+  updated = examineDSCacheUpdateResponse((struct _zone_info *)a1, (__int64)v21, &v20);
+  switch ( updated )
+  {
+    case 2:
+      v7 = *(_DWORD *)(a1 + 1056);
+      if ( !v7 )
+        v7 = ntohl(*(_DWORD *)(a1 + 528));
+      v8 = v20;
+      if ( v7 > v20 )
+        v8 = v7;
+      if ( !dword_1401B99F0 )
+      {
+        v9 = 3600;
+        if ( v8 > 0xE10 )
+          v9 = v8;
+        v8 = v9;
+      }
+      CurrentTimePlusOffset((struct _FILETIME *)(v2 + 84), v8 + *(_DWORD *)(a1 + 1072));
+      if ( *(_DWORD *)(v2 + 96) != 6 )
+      {
+        v19 = DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+        LogDnssecKeyRollover(&v19, a1, v2, L"DNS_SKD_STATUS_KSK_WAITING_FOR_DS_TTL");
+      }
+      v10 = *(_QWORD *)(v2 + 128) != 0i64;
+      *(_DWORD *)(v2 + 96) = 6;
+      *(_DWORD *)(v2 + 100) = 5 - v10;
+      v11 = DnsOls_WriteSkdToStorage(0, a1, v2, 0);
+      if ( !v11 )
+        goto LABEL_28;
+      v12 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_28;
+      }
+      v13 = 52;
+LABEL_27:
+      WPP_SF_Ds(
+        *((_QWORD *)v12 + 7),
+        v13,
+        (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+        v11,
+        *(_QWORD *)(a1 + 16));
+LABEL_28:
+      *(_QWORD *)(a1 + 1116) = *(_QWORD *)(v2 + 84);
+      return v5;
+    case 1:
+      if ( !*(_QWORD *)(v2 + 128) )
+      {
+        v14 = *(_DWORD *)(a1 + 1056);
+        if ( !v14 )
+          v14 = ntohl(*(_DWORD *)(a1 + 528));
+        CurrentTimePlusOffset((struct _FILETIME *)(v2 + 84), v14);
+        *(_DWORD *)(v2 + 100) = 5;
+        *(_DWORD *)(v2 + 96) = 7;
+        v19 = DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+        LogDnssecKeyRollover(&v19, a1, v2, L"DNS_SKD_STATUS_KSK_WAITING_FOR_DNSKEY_TTL");
+        v11 = DnsOls_WriteSkdToStorage(0, a1, v2, 0);
+        if ( !v11 )
+          goto LABEL_28;
+        v12 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_28;
+        }
+        v13 = 53;
+        goto LABEL_27;
+      }
+      return (unsigned int)revokeKSKKey((struct _zone_info *)a1, a2);
+    case 0:
+      v15 = 60i64;
+      if ( dword_1401B99F0 )
+        v15 = 4i64;
+      CurrentTimePlusOffset((struct _FILETIME *)(v2 + 84), v15);
+      *(_DWORD *)(v2 + 100) = 3;
+      *(_DWORD *)(v2 + 96) = 5;
+      v19 = DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+      LogDnssecKeyRollover(&v19, a1, v2, L"DNS_SKD_STATUS_KSK_WAITING_FOR_DS_UPDATE");
+      *(_QWORD *)(a1 + 1116) = *(_QWORD *)(v2 + 84);
+      if ( a2 )
+      {
+        ZoneScopes_UnLockAll(a1, v16, 0i64);
+        *a2 = 0;
+      }
+      queryForParentalDS(a1, v21, v22, v17);
+      break;
+  }
+  return v5;
+}
+// 14006822D: variable 'v16' is possibly undefined
+// 140068241: variable 'v17' is possibly undefined
+// 140187B50: using guessed type __int128 DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+// 14018E3D0: using guessed type wchar_t aDnsSkdStatusKs_1[38];
+// 14018E420: using guessed type wchar_t aDnsSkdStatusKs_2[42];
+// 14018E480: using guessed type wchar_t aDnsSkdStatusKs_0[41];
+// 1401B99F0: using guessed type int dword_1401B99F0;

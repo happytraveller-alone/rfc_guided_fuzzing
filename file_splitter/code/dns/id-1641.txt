@@ -1,0 +1,82 @@
+//----- (00000001400CF7E8) ----------------------------------------------------
+_DWORD *__fastcall allocateRpcZone(__int64 a1)
+{
+  _DWORD *v2; // rax
+  _DWORD *v3; // rbx
+  void *v5; // rax
+  char v6; // al
+  int v7; // eax
+  int v8; // eax
+  __int64 v9; // rax
+  __int64 v10; // rcx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xAu,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      *(const char **)(a1 + 16));
+  }
+  v2 = MIDL_user_allocate(0x28ui64);
+  v3 = v2;
+  if ( !v2 )
+    return 0i64;
+  *v2 = 1;
+  v5 = Dns_StringCopyAllocate(*(char **)(a1 + 24), 0, 1i64, 1);
+  *((_QWORD *)v3 + 1) = v5;
+  if ( !v5 )
+  {
+    MIDL_user_free(v3);
+    return 0i64;
+  }
+  v6 = *(_BYTE *)(a1 + 372);
+  v3[4] = 0;
+  *((_BYTE *)v3 + 20) = v6;
+  v7 = v3[4];
+  *((_BYTE *)v3 + 21) = 50;
+  if ( (*(_DWORD *)(a1 + 396) & 0x1000) != 0 )
+    v7 = 1;
+  v3[4] = v7;
+  if ( (*(_DWORD *)(a1 + 396) & 0x2000) != 0 )
+    v3[4] |= 2u;
+  if ( (*(_BYTE *)(a1 + 396) & 2) != 0 )
+    v3[4] |= 4u;
+  if ( (*(_BYTE *)(a1 + 396) & 4) != 0 )
+    v3[4] |= 8u;
+  if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+    v3[4] |= 0x10u;
+  if ( (*(_BYTE *)(a1 + 396) & 1) != 0 )
+    v3[4] |= 0x20u;
+  if ( (*(_BYTE *)(a1 + 388) & 1) != 0 && (dword_1401B9750 || g_fDsReadOnlyDcMode)
+    || (*(_BYTE *)(a1 + 1160) & 0x40) != 0 )
+  {
+    v3[4] |= 0x100u;
+  }
+  v8 = *(unsigned __int8 *)(a1 + 392);
+  v3[6] = 0;
+  *((_QWORD *)v3 + 4) = 0i64;
+  v3[4] ^= (v3[4] ^ (v8 << 6)) & 0xC0;
+  if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+  {
+    v9 = *(_QWORD *)(a1 + 848);
+    if ( v9 )
+    {
+      v3[6] = *(_DWORD *)(v9 + 100);
+      v10 = *(_QWORD *)(a1 + 848);
+LABEL_30:
+      *((_QWORD *)v3 + 4) = Dns_StringCopyAllocate(*(char **)(v10 + 24), 0, 2i64, 2);
+      return v3;
+    }
+    v3[6] = 18;
+    v10 = g_pLegacyDp;
+    if ( g_pLegacyDp )
+      goto LABEL_30;
+  }
+  return v3;
+}
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B8D10: using guessed type __int64 g_pLegacyDp;
+// 1401B9750: using guessed type int dword_1401B9750;

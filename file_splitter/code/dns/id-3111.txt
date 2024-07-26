@@ -1,0 +1,35 @@
+//----- (0000000140163BF8) ----------------------------------------------------
+void *__fastcall midlConvertIp4ArrayToDnsAddrArray(unsigned int *a1, __int64 a2, __int64 a3, int a4)
+{
+  void *v4; // rbx
+  unsigned int *v5; // rdi
+  unsigned int *v6; // rax
+  unsigned int v7; // ebp
+  void *v8; // rax
+  void *v9; // rsi
+
+  v4 = 0i64;
+  v5 = 0i64;
+  if ( a1 )
+  {
+    v6 = DnsAddrArray_CreateFromIp4Array(a1, a2, a3, a4);
+    v5 = v6;
+    if ( v6 )
+    {
+      if ( v6[1] << 6 != -32 )
+      {
+        v7 = (v6[1] << 6) + 32;
+        v8 = MIDL_user_allocate(v7);
+        v9 = v8;
+        if ( v8 )
+        {
+          memset_0(v8, 0, v7);
+          v4 = v9;
+          memcpy_0(v9, v5, v7);
+        }
+      }
+    }
+  }
+  Dns_Free(v5);
+  return v4;
+}

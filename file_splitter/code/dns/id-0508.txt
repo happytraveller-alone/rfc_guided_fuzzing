@@ -1,0 +1,90 @@
+//----- (0000000140045924) ----------------------------------------------------
+__int64 __fastcall writePropertyToDsNode(LDAP *a1, __int64 a2, __int64 a3)
+{
+  __int64 v6; // r8
+  LDAPModW *v7; // rax
+  CDnsClientSubnetRecordsTrie *v8; // r9
+  int LastError; // eax
+  int v10; // eax
+  unsigned int v11; // edi
+  int outvalue; // [rsp+20h] [rbp-49h]
+  ULONG v14; // [rsp+28h] [rbp-41h]
+  __int64 v15[2]; // [rsp+40h] [rbp-29h] BYREF
+  PLDAPControlW ServerControls[2]; // [rsp+50h] [rbp-19h] BYREF
+  int v17; // [rsp+60h] [rbp-9h] BYREF
+  const WCHAR *v18; // [rsp+68h] [rbp-1h]
+  __int64 *v19; // [rsp+70h] [rbp+7h]
+  LDAPModW *mods[3]; // [rsp+78h] [rbp+Fh] BYREF
+
+  ServerControls[0] = (PLDAPControlW)Ds_LazyCommitControlPtr();
+  ServerControls[1] = 0i64;
+  v15[1] = 0i64;
+  if ( !a1 )
+    a1 = pServerLdap;
+  v15[0] = (__int64)L"(same as parent object)";
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v14 = *(_DWORD *)(v6 + 4);
+    outvalue = v6;
+    WPP_SF_Sqd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x188u,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      (const unsigned __int16 *)a2);
+  }
+  v7 = (LDAPModW *)Ds_SetupModForExecution(a3, (__int64)off_1401B6C30);
+  if ( v7 )
+  {
+    mods[0] = v7;
+    v10 = 1;
+    if ( *(_WORD *)a2
+      && *(_WORD *)(a2 + 2)
+      && *(_WORD *)(a2 + 4)
+      && *(_WORD *)(a2 + 6) == 64
+      && *(_WORD *)(a2 + 8) == 44 )
+    {
+      v10 = 2;
+      v18 = L"displayName";
+      v19 = v15;
+      mods[1] = (LDAPModW *)&v17;
+      v17 = 2;
+    }
+    mods[v10] = 0i64;
+    if ( WPP_GLOBAL_Control != v8
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x189u,
+        (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+        (const unsigned __int16 *)a2);
+    }
+    LastError = Dns_LdapModifyExt(a1, (PWSTR)a2, mods, ServerControls, outvalue, v14, 0);
+  }
+  else
+  {
+    LastError = GetLastError();
+  }
+  v11 = LastError;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x18Au,
+      (__int64)&WPP_d0fa00cabf37307abd3d7f77fcc28067_Traceguids,
+      LastError,
+      a2);
+  }
+  Ds_CleanupModBuffer(a3);
+  return v11;
+}
+// 14004599A: variable 'v6' is possibly undefined
+// 140045A44: variable 'v8' is possibly undefined
+// 140045A80: variable 'outvalue' is possibly undefined
+// 140045A80: variable 'v14' is possibly undefined
+// 14018C758: using guessed type wchar_t aSameAsParentOb[24];

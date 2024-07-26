@@ -1,0 +1,47 @@
+//----- (000000014007C930) ----------------------------------------------------
+__int64 __fastcall nameHashArrayCompareFunc(struct _RTL_AVL_TABLE *Table, __int64 *FirstStruct, __int64 *SecondStruct)
+{
+  __int64 v3; // r9
+  __int64 v4; // rdx
+  __int64 result; // rax
+  int v6; // ecx
+  unsigned __int16 *v7; // r8
+  unsigned __int16 *v8; // r10
+  unsigned __int64 v9; // rax
+  unsigned __int64 v10; // rcx
+
+  v3 = *FirstStruct;
+  v4 = *SecondStruct;
+  if ( v3 == *SecondStruct )
+    return 2i64;
+  v6 = *(unsigned __int16 *)(v3 + 496) - *(unsigned __int16 *)(v4 + 496);
+  if ( !v6 )
+  {
+    v6 = *(unsigned __int16 *)(v3 + 498) - *(unsigned __int16 *)(v4 + 498);
+    if ( !v6 )
+    {
+      v7 = *(unsigned __int16 **)(v4 + 472);
+      v8 = *(unsigned __int16 **)(v3 + 472);
+      v6 = *v8 - *v7;
+      if ( !v6 )
+      {
+        v6 = v8[1] - v7[1];
+        if ( !v6 )
+        {
+          v6 = (*(_WORD *)(v3 + 598) & 0x80) - (*(_WORD *)(v4 + 598) & 0x80);
+          if ( !v6 )
+          {
+            v9 = *(_QWORD *)(v3 + 6280);
+            v10 = *(_QWORD *)(v4 + 6280);
+            if ( v9 == v10 || (v6 = v10 < v9 ? 1 : -1) == 0 )
+              v6 = Name_CompareLookupNames(*(_WORD **)(v3 + 1400), *(_WORD **)(v4 + 1400));
+          }
+        }
+      }
+    }
+  }
+  result = (unsigned int)(v6 <= 0) + 1;
+  if ( v6 < 0 )
+    return 0i64;
+  return result;
+}

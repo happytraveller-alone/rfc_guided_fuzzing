@@ -1,0 +1,133 @@
+//----- (000000014010AF04) ----------------------------------------------------
+bool __fastcall validateDnskeyUsingChildDs(struct _DnsTreeNode *a1, struct _Dbase_Record *a2, __int64 **a3)
+{
+  bool v6; // bl
+  _QWORD *v7; // r14
+  char *v8; // rax
+  __int64 v9; // rsi
+  int v10; // eax
+  int v11; // eax
+  char *v12; // rax
+  int v13; // r9d
+  unsigned __int16 v14; // dx
+  unsigned int v15; // r15d
+  char *v16; // rax
+  int v17; // eax
+  const char *v18; // r9
+  char *v20; // [rsp+20h] [rbp-E0h]
+  int v21; // [rsp+60h] [rbp-A0h] BYREF
+  __int64 v22; // [rsp+68h] [rbp-98h] BYREF
+  int v23; // [rsp+70h] [rbp-90h] BYREF
+  int v24; // [rsp+74h] [rbp-8Ch] BYREF
+  __int64 v25; // [rsp+78h] [rbp-88h] BYREF
+  unsigned __int8 v26[272]; // [rsp+80h] [rbp-80h] BYREF
+
+  v6 = 0;
+  v7 = 0i64;
+  if ( !(unsigned int)Dnssec_NodeToCountName(v26, (__int64 *)a1) )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v8 = Dbg_NodeName((__int64)a1);
+      WPP_SF_s(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Fu,
+        (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+        v8);
+    }
+    goto LABEL_27;
+  }
+  v9 = 0i64;
+  v21 = 0;
+  v10 = RR_ListCountRecords((__int64)a3, 0x30u, 1);
+  LODWORD(v22) = v10;
+  if ( !v10 )
+    goto LABEL_22;
+  v7 = Mem_AllocZero((unsigned int)(8 * v10), 0i64, "ds\\dns\\server\\server\\olssigrefresh.cpp", 708);
+  if ( !v7 )
+    goto LABEL_22;
+  v11 = Dns_ValidateDSDigest(v26, (__int64)a2, a3[8], (__int64)v7, (unsigned int *)&v22, &v21);
+  v6 = v11 == 0;
+  if ( v11 )
+  {
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_27;
+    }
+    v12 = Dbg_NodeName((__int64)a1);
+    v13 = v21;
+    v14 = 32;
+    goto LABEL_26;
+  }
+  v24 = 0;
+  v23 = 0;
+  v15 = v22;
+  if ( !(_DWORD)v22 )
+  {
+LABEL_20:
+    if ( v6 )
+      goto LABEL_27;
+    LODWORD(v9) = v21;
+LABEL_22:
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_27;
+    }
+    v12 = Dbg_NodeName((__int64)a1);
+    v14 = 34;
+    v13 = v9;
+LABEL_26:
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      v14,
+      (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+      v13,
+      (__int64)v12);
+    goto LABEL_27;
+  }
+  while ( 1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v16 = Dbg_NodeName((__int64)a3);
+      WPP_SF_sDq(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x21u,
+        (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+        v16);
+    }
+    v17 = Dns_ValidateRRset(v26, v7[v9], v26, 0x30u, (__int64)a3[8], (__int64)a3[8], 1u, &v24, &v23, &v25, &v22, &v21);
+    v6 = v17 == 0;
+    if ( !v17 )
+      break;
+    v9 = (unsigned int)(v9 + 1);
+    if ( (unsigned int)v9 >= v15 )
+      goto LABEL_20;
+  }
+LABEL_27:
+  Mem_Free(v7, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olssigrefresh.cpp", 786);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v20 = Dbg_NodeName((__int64)a3);
+    v18 = "failed";
+    if ( v6 )
+      v18 = "succeeded";
+    WPP_SF_ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x23u,
+      (__int64)&WPP_9f96d4c672f338bf067ce342b88232b8_Traceguids,
+      v18,
+      (__int64)v20);
+  }
+  return v6;
+}

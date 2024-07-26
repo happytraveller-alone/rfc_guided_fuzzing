@@ -1,0 +1,79 @@
+//----- (000000014012D800) ----------------------------------------------------
+size_t *__fastcall std::string::insert(size_t *a1, size_t a2, size_t a3, char a4)
+{
+  size_t v6; // r8
+  size_t v9; // rdi
+  size_t *v10; // rax
+  size_t *v11; // rcx
+  size_t *v12; // rax
+  size_t *v13; // rax
+  size_t *v14; // rax
+  bool v15; // cf
+  size_t *v16; // rax
+
+  v6 = a1[2];
+  if ( v6 < a2 )
+    std::wstring::_Xran();
+  if ( -1i64 - v6 <= a3 )
+    std::wstring::_Xlen();
+  if ( a3 )
+  {
+    v9 = v6 + a3;
+    if ( v6 + a3 == -1i64 )
+      std::wstring::_Xlen();
+    if ( a1[3] >= v9 )
+    {
+      if ( v9 )
+      {
+LABEL_13:
+        if ( a1[3] < 0x10 )
+          v11 = a1;
+        else
+          v11 = (size_t *)*a1;
+        if ( a1[3] < 0x10 )
+          v12 = a1;
+        else
+          v12 = (size_t *)*a1;
+        memmove((char *)v12 + a2 + a3, (char *)v11 + a2, a1[2] - a2);
+        if ( a3 == 1 )
+        {
+          if ( a1[3] < 0x10 )
+            v13 = a1;
+          else
+            v13 = (size_t *)*a1;
+          *((_BYTE *)v13 + a2) = a4;
+        }
+        else
+        {
+          if ( a1[3] < 0x10 )
+            v14 = a1;
+          else
+            v14 = (size_t *)*a1;
+          memset_0((char *)v14 + a2, a4, a3);
+        }
+        v15 = a1[3] < 0x10;
+        a1[2] = v9;
+        if ( v15 )
+          v16 = a1;
+        else
+          v16 = (size_t *)*a1;
+        *((_BYTE *)v16 + v9) = 0;
+        return a1;
+      }
+      a1[2] = 0i64;
+      if ( a1[3] < 0x10 )
+        v10 = a1;
+      else
+        v10 = (size_t *)*a1;
+      *(_BYTE *)v10 = 0;
+    }
+    else
+    {
+      std::string::_Copy((const void **)a1, v6 + a3, v6);
+    }
+    if ( !v9 )
+      return a1;
+    goto LABEL_13;
+  }
+  return a1;
+}

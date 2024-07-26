@@ -1,0 +1,34 @@
+//----- (0000000140146990) ----------------------------------------------------
+CDnsPolicy *__fastcall CDnsPolicy::CDnsPolicy(CDnsPolicy *this, char *Src, struct _zone_info *a3)
+{
+  char *v6; // rdi
+  _QWORD *v7; // rax
+  unsigned __int64 v8; // r8
+  char pExceptionObject[48]; // [rsp+28h] [rbp-30h] BYREF
+
+  *((_QWORD *)this + 3) = 7i64;
+  *((_QWORD *)this + 2) = 0i64;
+  *(_WORD *)this = 0;
+  *((_QWORD *)this + 8) = 15i64;
+  *((_QWORD *)this + 7) = 0i64;
+  *((_BYTE *)this + 40) = 0;
+  v6 = (char *)this + 112;
+  *((_QWORD *)this + 15) = 0i64;
+  v7 = operator new(0x18ui64);
+  if ( !v7 )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *(_QWORD *)v6 = v7;
+  *v7 = v7;
+  *(_QWORD *)(*(_QWORD *)v6 + 8i64) = *(_QWORD *)v6;
+  v8 = -1i64;
+  do
+    ++v8;
+  while ( *(_WORD *)&Src[2 * v8] );
+  std::wstring::assign((char *)this, Src, v8);
+  *((_QWORD *)this + 18) = a3;
+  *((_QWORD *)this + 17) = 0i64;
+  return this;
+}

@@ -1,0 +1,42 @@
+//----- (00000001400EE2E8) ----------------------------------------------------
+void __fastcall DnsOls_CleanupZoneForUnsign(struct _zone_info *a1)
+{
+  __int64 i; // rbx
+
+  for ( i = *((_QWORD *)a1 + 142); i; i = *(_QWORD *)i )
+  {
+    *(_DWORD *)(i + 72) = 1;
+    *(_QWORD *)(i + 84) = 0i64;
+    *(_QWORD *)(i + 96) = 0i64;
+    *(_QWORD *)(i + 104) = 0i64;
+    *(_DWORD *)(i + 112) = 0;
+    if ( *(_DWORD *)(i + 36) && ((*((_DWORD *)a1 + 260) >> 12) & 1) != 0 )
+    {
+      *(_DWORD *)(i + 184) = 3;
+    }
+    else
+    {
+      if ( (*((_BYTE *)a1 + 1040) & 2) != 0 )
+        DnsOls_DeleteCertAndKey(a1, (struct _dnsskd *)i, *(unsigned __int16 **)(i + 168));
+      Mem_Free(*(_QWORD **)(i + 168), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 3002);
+      *(_QWORD *)(i + 168) = 0i64;
+      *(_DWORD *)(i + 184) = 0;
+    }
+    if ( (*((_BYTE *)a1 + 1040) & 2) != 0 )
+      DnsOls_DeleteCertAndKey(a1, (struct _dnsskd *)i, *(unsigned __int16 **)(i + 192));
+    Mem_Free(*(_QWORD **)(i + 192), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olscore.cpp", 3019);
+    *(_QWORD *)(i + 192) = 0i64;
+    *(_DWORD *)(i + 208) = 0;
+    *(_QWORD *)(i + 116) = 0i64;
+    RR_ListFree(*(_QWORD **)(i + 128));
+    RR_ListFree(*(_QWORD **)(i + 136));
+    *(_QWORD *)(i + 128) = 0i64;
+    *(_QWORD *)(i + 136) = 0i64;
+    if ( (*((_BYTE *)a1 + 388) & 1) == 0 )
+      DnsOls_WriteSkdToStorage(0, (__int64)a1, i, 0);
+  }
+  if ( (*((_BYTE *)a1 + 388) & 1) != 0 )
+    DnsOls_WriteSkdToStorage(0, (__int64)a1, 0i64, 0);
+  *((_QWORD *)a1 + 141) = 0i64;
+  *(_QWORD *)((char *)a1 + 1116) = 0i64;
+}

@@ -1,0 +1,17 @@
+//----- (0000000140016FA8) ----------------------------------------------------
+_BYTE *__fastcall Lookup_FindNodeForDbaseName(__int64 a1, __int64 a2)
+{
+  const char *v4; // r9
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    if ( a1 )
+      v4 = *(const char **)(a1 + 16);
+    else
+      v4 = 0i64;
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Eu, (__int64)&WPP_3afa02460cfc3c89a49f4b71a68cfa7c_Traceguids, v4);
+  }
+  return Lookup_ZoneNode(a1, (unsigned __int8 *)(a2 + 2), 0i64, 0i64, 16, (__int64 *)0xFFFFFFFFFFFFFFFFi64, 0i64, 0i64);
+}

@@ -1,0 +1,60 @@
+//----- (0000000140074B8C) ----------------------------------------------------
+__int64 Reg_Init()
+{
+  int v0; // ebx
+  int HasSubKeys; // edi
+  __int64 result; // rax
+  bool v3; // zf
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  __int64 v5; // rcx
+  const char *v6; // r9
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids);
+  }
+  v0 = 0;
+  g_fRegFirstTimeRun = 0;
+  HasSubKeys = Reg_KeyHasSubKeys(L"SYSTEM\\CurrentControlSet\\Services\\DNS\\Zones");
+  result = Reg_KeyHasSubKeys(L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\DNS Server\\Zones");
+  v3 = HasSubKeys == 0;
+  if ( !HasSubKeys )
+    goto LABEL_13;
+  if ( !(_DWORD)result )
+  {
+    v3 = HasSubKeys == 0;
+LABEL_13:
+    v4 = WPP_GLOBAL_Control;
+    LOBYTE(v0) = v3;
+    goto LABEL_14;
+  }
+  v4 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    result = WPP_SF_(
+               *((_QWORD *)WPP_GLOBAL_Control + 7),
+               0xBu,
+               (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids);
+    v4 = WPP_GLOBAL_Control;
+  }
+  v0 = 1;
+LABEL_14:
+  g_ZonesRegistrySource = v0;
+  if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v4 + 68) & 2) != 0
+    && *((_BYTE *)v4 + 65) >= 4u )
+  {
+    v5 = *((_QWORD *)v4 + 7);
+    v6 = "CurrentControlSet";
+    if ( v0 == 1 )
+      v6 = "Software";
+    return WPP_SF_s(v5, 0xCu, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, v6);
+  }
+  return result;
+}
+// 1401B9020: using guessed type int g_fRegFirstTimeRun;
+// 1401B9024: using guessed type int g_ZonesRegistrySource;

@@ -1,0 +1,5 @@
+//----- (00000001400DD7E0) ----------------------------------------------------
+char __fastcall std::ctype<char>::do_narrow(__int64 a1, char a2)
+{
+  return a2;
+}

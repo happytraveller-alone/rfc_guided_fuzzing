@@ -1,0 +1,568 @@
+//----- (000000014005B1B0) ----------------------------------------------------
+void __fastcall LogUpdatePolicyEvent(__int64 a1, __int64 a2, __int64 a3)
+{
+  __int64 v6; // rsi
+  __int64 v7; // rdi
+  unsigned int v8; // r12d
+  __int64 v9; // r8
+  __int64 v10; // rax
+  const WCHAR **v11; // rcx
+  const WCHAR *v12; // rcx
+  _DWORD *v13; // rax
+  unsigned int v14; // r12d
+  _DWORD *v15; // rcx
+  __int64 v16; // rbx
+  const unsigned __int16 *v17; // r8
+  __int64 v18; // rdx
+  int v19; // r9d
+  const unsigned __int16 *v20; // rcx
+  __int64 v21; // rdx
+  __int64 v22; // rbx
+  _DWORD *v23; // rcx
+  __int64 v24; // rax
+  const unsigned __int16 *v25; // rdx
+  UINT v26; // ecx
+  UINT v27; // ecx
+  __int64 v28; // rax
+  __int64 v29; // rdi
+  __int64 v30; // rax
+  __int64 v31; // rsi
+  __int64 v32; // rax
+  __int64 v33; // rdi
+  __int64 v34; // rax
+  __int64 v35; // rsi
+  bool v36; // zf
+  char *v37; // rcx
+  char *v38; // rcx
+  __int64 v39; // rax
+  __int64 v40; // rax
+  WCHAR *v41; // rbx
+  __int64 v42; // rax
+  __int64 v43; // rax
+  WCHAR *v44; // rbx
+  __int64 v45; // rax
+  __int64 v46; // rax
+  WCHAR *v47; // rbx
+  __int64 v48; // rax
+  __int64 v49; // rax
+  WCHAR *v50; // rbx
+  __int64 v51; // rax
+  __int64 v52; // rax
+  WCHAR *v53; // rbx
+  WCHAR *v54; // rbx
+  __int64 v55; // rax
+  __int64 v56; // rax
+  __int64 v57; // r8
+  unsigned __int16 *v58; // rax
+  __int64 v59; // rcx
+  CDnsClientSubnetRecordsTrie *v60; // rcx
+  unsigned __int16 v61; // dx
+  const unsigned __int16 *v62; // rcx
+  unsigned int v63; // [rsp+40h] [rbp-C0h] BYREF
+  int v64; // [rsp+44h] [rbp-BCh] BYREF
+  int v65; // [rsp+48h] [rbp-B8h]
+  unsigned __int16 *ConcatenatedString_W; // [rsp+50h] [rbp-B0h]
+  unsigned __int16 *v67; // [rsp+58h] [rbp-A8h]
+  char *v68[32]; // [rsp+60h] [rbp-A0h] BYREF
+  char *v69[32]; // [rsp+160h] [rbp+60h] BYREF
+  WCHAR v70[64]; // [rsp+260h] [rbp+160h] BYREF
+  WCHAR v71[64]; // [rsp+2E0h] [rbp+1E0h] BYREF
+  WCHAR v72[64]; // [rsp+360h] [rbp+260h] BYREF
+  WCHAR v73[64]; // [rsp+3E0h] [rbp+2E0h] BYREF
+  WCHAR v74[64]; // [rsp+460h] [rbp+360h] BYREF
+  WCHAR v75[64]; // [rsp+4E0h] [rbp+3E0h] BYREF
+  WCHAR v76[64]; // [rsp+560h] [rbp+460h] BYREF
+  WCHAR v77[64]; // [rsp+5E0h] [rbp+4E0h] BYREF
+  WCHAR v78[64]; // [rsp+660h] [rbp+560h] BYREF
+  wchar_t Buffer[64]; // [rsp+6E0h] [rbp+5E0h] BYREF
+  wchar_t v80[64]; // [rsp+760h] [rbp+660h] BYREF
+  __int16 v81[448]; // [rsp+7E0h] [rbp+6E0h] BYREF
+
+  ConcatenatedString_W = 0i64;
+  v67 = 0i64;
+  LODWORD(v6) = 0;
+  v65 = 0;
+  LODWORD(v7) = 0;
+  v8 = 0;
+  memset_0(v71, 0, sizeof(v71));
+  memset_0(v72, 0, sizeof(v72));
+  memset_0(v73, 0, sizeof(v73));
+  memset_0(v74, 0, sizeof(v74));
+  memset_0(Buffer, 0, sizeof(Buffer));
+  memset_0(v80, 0, sizeof(v80));
+  memset_0(v75, 0, sizeof(v75));
+  memset_0(v76, 0, sizeof(v76));
+  memset_0(v77, 0, sizeof(v77));
+  memset_0(v70, 0, sizeof(v70));
+  memset_0(v78, 0, sizeof(v78));
+  if ( (*(_DWORD *)(a3 + 48) & 0x40000) != 0 )
+  {
+    if ( *(_DWORD *)(a3 + 8) || *(_DWORD *)(a3 + 12) != 3 )
+    {
+      if ( *(_DWORD *)(a3 + 8) == 1 )
+      {
+        v13 = *(_DWORD **)(a3 + 40);
+        v63 = 0;
+        if ( *v13 )
+        {
+          v14 = v63;
+          do
+          {
+            v15 = *(_DWORD **)(a2 + 40);
+            v16 = 0i64;
+            if ( *v15 )
+            {
+              v9 = v14;
+              while ( lstrcmpiW(**(LPCWSTR **)(*(_QWORD *)(a3 + 40) + 8 * v9 + 8), **(LPCWSTR **)&v15[2 * v16 + 2]) )
+              {
+                v15 = *(_DWORD **)(a2 + 40);
+                v16 = (unsigned int)(v16 + 1);
+                v9 = v14;
+                if ( (unsigned int)v16 >= *v15 )
+                  goto LABEL_17;
+              }
+              v18 = *(_QWORD *)(a3 + 40);
+              v9 = *(unsigned int *)(*(_QWORD *)(v18 + 8i64 * v14 + 8) + 8i64);
+              v19 = *(_DWORD *)(*(_QWORD *)(*(_QWORD *)(a2 + 40) + 8 * v16 + 8) + 8i64);
+              if ( (_DWORD)v9 != v19 && (dword_1401B9104 & 0x1000) != 0 )
+              {
+                if ( a1 && *(_DWORD *)(a1 + 372) )
+                  v20 = *(const unsigned __int16 **)(a1 + 24);
+                else
+                  v20 = L"..Cache";
+                Template_zszqqz(
+                  (__int64)v20,
+                  v18,
+                  *(const unsigned __int16 **)a3,
+                  Str,
+                  **(const unsigned __int16 ***)(v18 + 8),
+                  v9,
+                  v19,
+                  v20);
+              }
+            }
+            else
+            {
+LABEL_17:
+              if ( (dword_1401B9104 & 0x1000) != 0 )
+              {
+                if ( a1 && *(_DWORD *)(a1 + 372) )
+                  v17 = *(const unsigned __int16 **)(a1 + 24);
+                else
+                  v17 = L"..Cache";
+                v21 = *(_QWORD *)(*(_QWORD *)(a3 + 40) + 8i64 * v14 + 8);
+                Template_zszqz(
+                  v14,
+                  v21,
+                  *(const unsigned __int16 **)a3,
+                  Str,
+                  *(const unsigned __int16 **)v21,
+                  *(_DWORD *)(v21 + 8),
+                  v17);
+              }
+            }
+            ++v14;
+          }
+          while ( v14 < **(_DWORD **)(a3 + 40) );
+          LODWORD(v6) = v65;
+          v8 = 0;
+        }
+        v22 = 0i64;
+        if ( **(_DWORD **)(a2 + 40) )
+        {
+          do
+          {
+            v23 = *(_DWORD **)(a3 + 40);
+            v24 = 0i64;
+            v63 = 0;
+            if ( *v23 )
+            {
+              v9 = (unsigned int)v22;
+              while ( lstrcmpiW(**(LPCWSTR **)(*(_QWORD *)(a2 + 40) + 8 * v9 + 8), **(LPCWSTR **)&v23[2 * v24 + 2]) )
+              {
+                v23 = *(_DWORD **)(a3 + 40);
+                v24 = v63 + 1;
+                v63 = v24;
+                v9 = (unsigned int)v22;
+                if ( (unsigned int)v24 >= *v23 )
+                  goto LABEL_37;
+              }
+            }
+            else
+            {
+LABEL_37:
+              if ( (dword_1401B9104 & 0x1000) != 0 )
+              {
+                if ( a1 && *(_DWORD *)(a1 + 372) )
+                  v25 = *(const unsigned __int16 **)(a1 + 24);
+                else
+                  v25 = L"..Cache";
+                Template_zszz(
+                  (__int64)v23,
+                  &DNS_EVENT_UPDATE_ZONE_LEVEL_POLICY_DELETE_SCOPE,
+                  *(const unsigned __int16 **)a3,
+                  Str,
+                  **(const unsigned __int16 ***)(*(_QWORD *)(a2 + 40) + 8 * v22 + 8),
+                  v25);
+              }
+            }
+            v22 = (unsigned int)(v22 + 1);
+          }
+          while ( (unsigned int)v22 < **(_DWORD **)(a2 + 40) );
+          v8 = 0;
+        }
+      }
+    }
+    else
+    {
+      v10 = *(_QWORD *)(a3 + 40);
+      if ( v10 )
+      {
+        v11 = *(const WCHAR ***)(v10 + 8);
+        if ( v11 )
+        {
+          v12 = *v11;
+          if ( v12 )
+          {
+            if ( lstrcmpiW(v12, **(LPCWSTR **)(*(_QWORD *)(a2 + 40) + 8i64)) && (dword_1401B9104 & 0x1000) != 0 )
+              Template_zszz(
+                *(_QWORD *)(*(_QWORD *)(a2 + 40) + 8i64),
+                &DNS_EVENT_UPDATE_FORWARDING_POLICY_SCOPE,
+                *(const unsigned __int16 **)a3,
+                Str,
+                **(const unsigned __int16 ***)(*(_QWORD *)(a3 + 40) + 8i64),
+                **(const unsigned __int16 ***)(*(_QWORD *)(a2 + 40) + 8i64));
+          }
+        }
+      }
+    }
+  }
+  if ( (*(_DWORD *)(a3 + 48) & 0x10000) != 0 )
+  {
+    Dns_GetResourceString(0x2F43u, v71, 64i64);
+    if ( *(_DWORD *)(a2 + 20) )
+    {
+      if ( *(_DWORD *)(a2 + 20) != 1 )
+        goto LABEL_51;
+      v26 = 12098;
+    }
+    else
+    {
+      v26 = 12097;
+    }
+    Dns_GetResourceString(v26, v72, 64i64);
+LABEL_51:
+    if ( *(_DWORD *)(a3 + 20) )
+    {
+      if ( *(_DWORD *)(a3 + 20) != 1 )
+      {
+LABEL_56:
+        v69[0] = (char *)v71;
+        v69[2] = (char *)L"; ";
+        v68[0] = (char *)v71;
+        v68[1] = (char *)v72;
+        v69[1] = (char *)v73;
+        LODWORD(v6) = 3;
+        v68[2] = (char *)L"; ";
+        LODWORD(v7) = 3;
+        goto LABEL_57;
+      }
+      v27 = 12098;
+    }
+    else
+    {
+      v27 = 12097;
+    }
+    Dns_GetResourceString(v27, v73, 64i64);
+    goto LABEL_56;
+  }
+LABEL_57:
+  if ( (*(_DWORD *)(a3 + 48) & 0x20000) != 0 )
+  {
+    Dns_GetResourceString(0x2F44u, v74, 64i64);
+    if ( _itow_s(*(_DWORD *)(a2 + 28), Buffer, 0x40ui64, 10) || _itow_s(*(_DWORD *)(a3 + 28), v80, 0x40ui64, 10) )
+    {
+      v60 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_117;
+      }
+      v61 = 43;
+      goto LABEL_116;
+    }
+    v28 = (unsigned int)v7;
+    v29 = (unsigned int)(v7 + 1);
+    v69[v28] = (char *)v74;
+    v30 = (unsigned int)v6;
+    v31 = (unsigned int)(v6 + 1);
+    v68[v30] = (char *)v74;
+    v68[v31] = (char *)Buffer;
+    v6 = (unsigned int)(v31 + 1);
+    v69[v29] = (char *)v80;
+    v7 = (unsigned int)(v29 + 1);
+    v68[v6] = (char *)L"; ";
+    LODWORD(v6) = v6 + 1;
+    v69[v7] = (char *)L"; ";
+    LODWORD(v7) = v7 + 1;
+  }
+  if ( (*(_DWORD *)(a3 + 48) & 0x80000) != 0 )
+  {
+    Dns_GetResourceString(0x2F45u, v75, 64i64);
+    Dns_GetResourceString(0x2EE3u, v76, 64i64);
+    Dns_GetResourceString(0x2EE4u, v77, 64i64);
+    v32 = (unsigned int)v7;
+    v33 = (unsigned int)(v7 + 1);
+    v69[v32] = (char *)v75;
+    v34 = (unsigned int)v6;
+    v35 = (unsigned int)(v6 + 1);
+    v36 = *(_DWORD *)(a2 + 24) == 0;
+    v68[v34] = (char *)v75;
+    v37 = (char *)v76;
+    if ( v36 )
+      v37 = (char *)v77;
+    v68[v35] = v37;
+    v6 = (unsigned int)(v35 + 1);
+    v38 = (char *)v76;
+    if ( !*(_DWORD *)(a3 + 24) )
+      v38 = (char *)v77;
+    v69[v33] = v38;
+    v7 = (unsigned int)(v33 + 1);
+    v68[v6] = (char *)L"; ";
+    LODWORD(v6) = v6 + 1;
+    v69[v7] = (char *)L"; ";
+    LODWORD(v7) = v7 + 1;
+  }
+  if ( (*(_BYTE *)(a3 + 48) & 0x7F) != 0 )
+  {
+    Dns_GetResourceString(0x2F4Eu, v70, 64i64);
+    Dns_GetResourceString(0x2F46u, v78, 64i64);
+    v39 = (unsigned int)v7;
+    v7 = (unsigned int)(v7 + 1);
+    v69[v39] = (char *)v78;
+    v40 = (unsigned int)v6;
+    v6 = (unsigned int)(v6 + 1);
+    v68[v40] = (char *)v78;
+    if ( (*(_BYTE *)(a3 + 48) & 1) != 0 )
+    {
+      Dns_GetResourceString(0x2F47u, (LPWSTR)v81, 64i64);
+      v8 = 1;
+      v69[v7] = (char *)v81;
+      LODWORD(v7) = v7 + 1;
+      v63 = v7;
+      v68[v6] = (char *)v81;
+      LODWORD(v6) = v6 + 1;
+      v64 = v6;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(4, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+    if ( (*(_BYTE *)(a3 + 48) & 2) != 0 )
+    {
+      v41 = (WCHAR *)&v81[64 * (unsigned __int64)v8];
+      Dns_GetResourceString(0x2F48u, v41, 64i64);
+      v42 = (unsigned int)v7;
+      ++v8;
+      LODWORD(v7) = v7 + 1;
+      v63 = v7;
+      v69[v42] = (char *)v41;
+      v43 = (unsigned int)v6;
+      LODWORD(v6) = v6 + 1;
+      v64 = v6;
+      v68[v43] = (char *)v41;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(0, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+    if ( (*(_BYTE *)(a3 + 48) & 4) != 0 )
+    {
+      v44 = (WCHAR *)&v81[64 * (unsigned __int64)v8];
+      Dns_GetResourceString(0x2F4Bu, v44, 64i64);
+      v45 = (unsigned int)v7;
+      ++v8;
+      LODWORD(v7) = v7 + 1;
+      v63 = v7;
+      v69[v45] = (char *)v44;
+      v46 = (unsigned int)v6;
+      LODWORD(v6) = v6 + 1;
+      v64 = v6;
+      v68[v46] = (char *)v44;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(3, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+    if ( (*(_BYTE *)(a3 + 48) & 8) != 0 )
+    {
+      v47 = (WCHAR *)&v81[64 * (unsigned __int64)v8];
+      Dns_GetResourceString(0x2F4Cu, v47, 64i64);
+      v48 = (unsigned int)v7;
+      ++v8;
+      LODWORD(v7) = v7 + 1;
+      v63 = v7;
+      v69[v48] = (char *)v47;
+      v49 = (unsigned int)v6;
+      LODWORD(v6) = v6 + 1;
+      v64 = v6;
+      v68[v49] = (char *)v47;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(5, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+    if ( (*(_BYTE *)(a3 + 48) & 0x10) != 0 )
+    {
+      v50 = (WCHAR *)&v81[64 * (unsigned __int64)v8];
+      Dns_GetResourceString(0x2F4Du, v50, 64i64);
+      v51 = (unsigned int)v7;
+      ++v8;
+      LODWORD(v7) = v7 + 1;
+      v63 = v7;
+      v69[v51] = (char *)v50;
+      v52 = (unsigned int)v6;
+      LODWORD(v6) = v6 + 1;
+      v64 = v6;
+      v68[v52] = (char *)v50;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(6, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+    if ( (*(_BYTE *)(a3 + 48) & 0x20) != 0 )
+    {
+      v53 = (WCHAR *)&v81[64 * (unsigned __int64)v8];
+      Dns_GetResourceString(0x2F49u, v53, 64i64);
+      v69[(unsigned int)v7] = (char *)v53;
+      v68[(unsigned int)v6] = (char *)v53;
+      LODWORD(v6) = v6 + 1;
+      LODWORD(v7) = v7 + 1;
+      ++v8;
+      v64 = v6;
+      v63 = v7;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(1, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+    if ( (*(_BYTE *)(a3 + 48) & 0x40) != 0 )
+    {
+      v54 = (WCHAR *)&v81[64 * (unsigned __int64)v8];
+      Dns_GetResourceString(0x2F4Au, v54, 64i64);
+      v55 = (unsigned int)v7;
+      LODWORD(v7) = v7 + 1;
+      v63 = v7;
+      v69[v55] = (char *)v54;
+      v56 = (unsigned int)v6;
+      LODWORD(v6) = v6 + 1;
+      v64 = v6;
+      v68[v56] = (char *)v54;
+      if ( (unsigned int)v7 <= 0x1C )
+      {
+        SearchAndInsertCriteriaValues(2, a2, a3, (__int64)v70, &v64, (__int64)v68, &v63, (__int64)v69);
+        LODWORD(v6) = v64;
+        LODWORD(v7) = v63;
+      }
+    }
+  }
+  if ( (_DWORD)v6 && (_DWORD)v7 )
+  {
+    v69[(unsigned int)(v7 - 1)] = 0i64;
+    v68[(unsigned int)(v6 - 1)] = 0i64;
+    ConcatenatedString_W = Dns_CreateConcatenatedString_W(v68, v6, v9);
+    v58 = Dns_CreateConcatenatedString_W(v69, v7, v57);
+    v67 = v58;
+    if ( ConcatenatedString_W && v58 )
+    {
+      if ( *(_DWORD *)(a3 + 8) )
+      {
+        if ( (dword_1401B9104 & 0x1000) != 0 )
+        {
+          if ( a1 && *(_DWORD *)(a1 + 372) )
+            v62 = *(const unsigned __int16 **)(a1 + 24);
+          else
+            v62 = L"..Cache";
+          Template_zszzz(
+            (__int64)v62,
+            (__int64)ConcatenatedString_W,
+            *(const unsigned __int16 **)a3,
+            Str,
+            v62,
+            ConcatenatedString_W,
+            v58);
+        }
+      }
+      else if ( *(_DWORD *)(a3 + 12) == 3 )
+      {
+        if ( (dword_1401B9104 & 0x1000) != 0 )
+          Template_zszz(
+            v59,
+            &DNS_EVENT_UPDATE_FORWARDING_POLICY,
+            *(const unsigned __int16 **)a3,
+            Str,
+            ConcatenatedString_W,
+            v58);
+      }
+      else if ( *(_DWORD *)(a3 + 12) == 4 )
+      {
+        if ( (dword_1401B9104 & 0x2000) != 0 )
+          Template_zszz(
+            v59,
+            &DNS_EVENT_UPDATE_RRL_EXCEPTIONLIST,
+            *(const unsigned __int16 **)a3,
+            Str,
+            ConcatenatedString_W,
+            v58);
+      }
+      else if ( (dword_1401B9104 & 0x1000) != 0 )
+      {
+        Template_zszz(
+          v59,
+          &DNS_EVENT_UPDATE_SERVER_LEVEL_POLICY,
+          *(const unsigned __int16 **)a3,
+          Str,
+          ConcatenatedString_W,
+          v58);
+      }
+      goto LABEL_117;
+    }
+    v60 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_117;
+    }
+    v61 = 44;
+LABEL_116:
+    WPP_SF_(*((_QWORD *)v60 + 7), v61, (__int64)&WPP_7aabcfb4077e3de7a2cc491a12601782_Traceguids);
+  }
+LABEL_117:
+  Mem_Free(ConcatenatedString_W, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 4440);
+  Mem_Free(v67, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\log.c", 4441);
+}
+// 14005BC49: variable 'v9' is possibly undefined
+// 14005BC59: variable 'v57' is possibly undefined
+// 14005BCAC: variable 'v59' is possibly undefined
+// 1401867B8: using guessed type EVENT_DESCRIPTOR DNS_EVENT_UPDATE_FORWARDING_POLICY_SCOPE;
+// 140186978: using guessed type EVENT_DESCRIPTOR DNS_EVENT_UPDATE_RRL_EXCEPTIONLIST;
+// 140186EC0: using guessed type EVENT_DESCRIPTOR DNS_EVENT_UPDATE_SERVER_LEVEL_POLICY;
+// 140186FE0: using guessed type EVENT_DESCRIPTOR DNS_EVENT_UPDATE_ZONE_LEVEL_POLICY_DELETE_SCOPE;
+// 140187B38: using guessed type EVENT_DESCRIPTOR DNS_EVENT_UPDATE_FORWARDING_POLICY;
+// 14018E014: using guessed type wchar_t asc_14018E014[3];
+// 1401B9104: using guessed type int dword_1401B9104;
+// 14005B1B0: using guessed type WCHAR var_3C0[448];

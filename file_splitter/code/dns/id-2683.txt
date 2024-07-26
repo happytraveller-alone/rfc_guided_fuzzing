@@ -1,0 +1,32 @@
+//----- (000000014013FC1C) ----------------------------------------------------
+__int64 __fastcall Policy_AcquireReadLock(__int64 *a1, unsigned int a2)
+{
+  unsigned int LastError; // ebx
+  _QWORD *v5; // rax
+  __int64 v6; // rcx
+  unsigned int v8; // [rsp+30h] [rbp+8h] BYREF
+
+  LastError = 0;
+  if ( *a1 || (v5 = Lock_Create(), (*a1 = (__int64)v5) != 0) )
+  {
+    v6 = *a1;
+    v8 = -1;
+    if ( (unsigned int)acquireRead(v6, a2, &v8) == -1 )
+      return 167;
+  }
+  else
+  {
+    LastError = GetLastError();
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x5Bu,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        LastError);
+    }
+  }
+  return LastError;
+}

@@ -1,0 +1,871 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 368
+// Total lines: 714
+
+//----- (000000014002F95C) ----------------------------------------------------
+__int64 __fastcall Dp_LoadFromCrossRef(LDAP *ld, LDAPMessage *entry, __int64 a3, _DWORD *a4)
+{
+  LDAP *v5; // rdi
+  WCHAR *v6; // r12
+  __int64 v7; // r13
+  PWCHAR *RangedAttributeValues; // r14
+  __int64 v10; // rsi
+  void *v11; // rax
+  const wchar_t **valuesW; // rax
+  CDnsClientSubnetRecordsTrie *v13; // rcx
+  unsigned __int16 v14; // dx
+  int v15; // r15d
+  __int64 v16; // rdx
+  __int64 v17; // r8
+  __int64 v18; // rdx
+  __int64 v19; // r8
+  PWCHAR *v21; // rax
+  void *v22; // rax
+  const wchar_t **v23; // rax
+  int v24; // eax
+  __int64 v25; // r8
+  __int64 v26; // r9
+  void *SD; // rbx
+  LDAP *v28; // rbx
+  PWCHAR *v29; // rax
+  void *v30; // rax
+  PWCHAR *v31; // rax
+  void *v32; // rax
+  void *v33; // rax
+  char **v34; // r12
+  unsigned int v35; // ecx
+  __int64 v36; // rdx
+  __int64 v37; // rdx
+  _QWORD *v38; // r13
+  int v39; // ebx
+  char **v40; // rcx
+  unsigned int v41; // r15d
+  char **v42; // rax
+  CDnsClientSubnetRecordsTrie *v43; // rcx
+  _QWORD *v44; // rax
+  __int64 v45; // rbx
+  __int64 v46; // r8
+  __int64 v47; // rbx
+  int v48; // r8d
+  __int64 v49; // r9
+  int v50; // r11d
+  unsigned __int16 **v51; // rcx
+  const char *v52; // r9
+  bool v53; // zf
+  LDAPMessage *v54; // r12
+  int v55; // edx
+  unsigned __int16 *v56; // rax
+  const wchar_t **v57; // rax
+  __int64 v58; // rdx
+  int v59; // eax
+  LDAP *v60; // rax
+  LDAP *v61; // rax
+  CDnsClientSubnetRecordsTrie *v62; // rcx
+  const char *v63; // r9
+  unsigned __int16 v64; // dx
+  int v65; // rax^4
+  PSID v66; // rbx
+  void *v67; // rdx
+  int HaveAce; // ebx
+  int LastError; // r9d
+  unsigned __int16 v70; // dx
+  const WCHAR *v71; // rax
+  __int64 v72; // [rsp+20h] [rbp-99h]
+  int v73; // [rsp+28h] [rbp-91h]
+  int v74; // [rsp+28h] [rbp-91h]
+  int v75; // [rsp+40h] [rbp-79h]
+  char *dnW; // [rsp+50h] [rbp-69h]
+  __int64 v78; // [rsp+58h] [rbp-61h] BYREF
+  LDAP *lda; // [rsp+60h] [rbp-59h] BYREF
+  int v80; // [rsp+68h] [rbp-51h]
+  __int64 v81; // [rsp+70h] [rbp-49h] BYREF
+  LDAPMessage *res; // [rsp+78h] [rbp-41h]
+  _DWORD *v83; // [rsp+80h] [rbp-39h]
+  __int128 v84; // [rsp+90h] [rbp-29h] BYREF
+  __int128 v85; // [rsp+A0h] [rbp-19h] BYREF
+  __int128 v86; // [rsp+B0h] [rbp-9h]
+  __int64 v87; // [rsp+C0h] [rbp+7h]
+
+  v80 = -1;
+  lda = ld;
+  LODWORD(v5) = 13;
+  v6 = 0i64;
+  LODWORD(v78) = 13;
+  res = 0i64;
+  v83 = a4;
+  v7 = a3;
+  RangedAttributeValues = 0i64;
+  v75 = 1;
+  EnterCriticalSection(&g_DpCS);
+  if ( v7 )
+  {
+    v10 = v7;
+    v80 = *(_DWORD *)(v7 + 16);
+    v81 = v7;
+  }
+  else
+  {
+    v81 = (__int64)Mem_AllocZero(0x88ui64, 12i64, "ds\\dns\\server\\server\\dpart.c", 2560);
+    v10 = v81;
+    if ( !v81 )
+      goto LABEL_9;
+  }
+  *(_DWORD *)(v10 + 96) = 0;
+  dnW = (char *)ldap_get_dnW(ld, entry);
+  v6 = (WCHAR *)dnW;
+  if ( !dnW )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x29u,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        entry);
+    }
+    goto LABEL_24;
+  }
+  Timeout_FreeWithFunctionEx(*(_QWORD *)(v10 + 48), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 2581);
+  v11 = Dns_StringCopyAllocate(dnW, 0, 1i64, 1);
+  *(_QWORD *)(v10 + 48) = v11;
+  if ( v11 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_S(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x2Au,
+        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+        (const unsigned __int16 *)dnW);
+    }
+    valuesW = (const wchar_t **)ldap_get_valuesW(ld, entry, (const PWSTR)L"Enabled");
+    RangedAttributeValues = (PWCHAR *)valuesW;
+    if ( valuesW && *valuesW && !_wcsicmp(*valuesW, L"FALSE") )
+    {
+      v13 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_23;
+      }
+      v14 = 43;
+      goto LABEL_22;
+    }
+    ldap_value_freeW(RangedAttributeValues);
+    v21 = ldap_get_valuesW(ld, entry, off_1401B6C60);
+    RangedAttributeValues = v21;
+    if ( v21 && *v21 )
+    {
+      Timeout_FreeWithFunctionEx(*(_QWORD *)(v10 + 72), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 2627);
+      v22 = Dns_StringCopyAllocate((char *)*RangedAttributeValues, 0, 1i64, 1);
+      *(_QWORD *)(v10 + 72) = v22;
+      if ( !v22 )
+      {
+LABEL_42:
+        LODWORD(v5) = 14;
+        goto LABEL_23;
+      }
+      ldap_value_freeW(RangedAttributeValues);
+      v23 = (const wchar_t **)ldap_get_valuesW(ld, entry, (const PWSTR)L"systemFlags");
+      RangedAttributeValues = (PWCHAR *)v23;
+      if ( v23 && *v23 )
+      {
+        v24 = _wtoi(*v23);
+        *(_DWORD *)(v10 + 88) = v24;
+        if ( (v24 & 3) != 1 )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_SDS(*((_QWORD *)WPP_GLOBAL_Control + 7), (__int64)&WPP_GLOBAL_Control, v25, v26, v24, (__int64)dnW);
+          }
+          goto LABEL_23;
+        }
+        if ( !wcsncmp((const wchar_t *)dnW, L"CN=Enterprise Schema,", 0x15ui64)
+          || !wcsncmp((const wchar_t *)dnW, L"CN=Enterprise Configuration,", 0x1Cui64) )
+        {
+          v13 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          {
+            goto LABEL_23;
+          }
+          v14 = 47;
+LABEL_22:
+          WPP_SF_S(
+            *((_QWORD *)v13 + 7),
+            v14,
+            (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+            (const unsigned __int16 *)dnW);
+LABEL_23:
+          v7 = a3;
+          goto LABEL_24;
+        }
+        SD = Ds_ReadSD(ld, entry);
+        Timeout_FreeWithFunctionEx(*(_QWORD *)(v10 + 128), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 2690);
+        *(_QWORD *)(v10 + 128) = SD;
+        ldap_value_freeW(RangedAttributeValues);
+        v28 = lda;
+        v29 = ldap_get_valuesW(lda, entry, (const PWSTR)L"nCName");
+        RangedAttributeValues = v29;
+        if ( v29 && *v29 )
+        {
+          Timeout_FreeWithFunctionEx(*(_QWORD *)(v10 + 40), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 2711);
+          v30 = Dns_StringCopyAllocate((char *)*RangedAttributeValues, 0, 1i64, 1);
+          *(_QWORD *)(v10 + 40) = v30;
+          if ( !v30 )
+            goto LABEL_42;
+          v75 = 0;
+          ldap_value_freeW(RangedAttributeValues);
+          v31 = ldap_get_valuesW(v28, entry, (const PWSTR)L"dnsRoot");
+          RangedAttributeValues = v31;
+          if ( v31 && *v31 )
+          {
+            Timeout_FreeWithFunctionEx(*(_QWORD *)(v10 + 32), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 2768);
+            v32 = Dns_StringCopyAllocate((char *)*RangedAttributeValues, 0, 1i64, 1);
+            v5 = 0i64;
+            *(_QWORD *)(v10 + 32) = v32;
+            if ( !v32 )
+              goto LABEL_42;
+            Timeout_FreeWithFunctionEx(*(_QWORD *)(v10 + 24), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 2776);
+            v33 = Dns_StringCopyAllocate((char *)*RangedAttributeValues, 0, 1i64, 2);
+            *(_QWORD *)(v10 + 24) = v33;
+            if ( !v33 )
+              goto LABEL_42;
+            ldap_value_freeW(RangedAttributeValues);
+            RangedAttributeValues = (PWCHAR *)Ds_GetRangedAttributeValues(
+                                                v28,
+                                                entry,
+                                                (WCHAR *)dnW,
+                                                L"msDS-NC-Replica-Locations",
+                                                v72,
+                                                v73,
+                                                (ULONG *)&v78);
+            if ( (v78 & 0xFFFFFFEF) != 0 )
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                WPP_SF_DS(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x33u,
+                  (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                  v78,
+                  (__int64)dnW);
+              }
+              LODWORD(v5) = 9002;
+              goto LABEL_23;
+            }
+            ldap_value_freeW(0i64);
+            v34 = (char **)Ds_GetRangedAttributeValues(
+                             v28,
+                             entry,
+                             (WCHAR *)dnW,
+                             L"msDS-NC-RO-Replica-Locations",
+                             v72,
+                             v74,
+                             (ULONG *)&v78);
+            Timeout_FreeWithFunctionEx(
+              *(_QWORD *)(v10 + 80),
+              (__int64)freeStringArray,
+              (__int64)"ds\\dns\\server\\server\\dpart.c",
+              2833);
+            if ( RangedAttributeValues && *RangedAttributeValues )
+            {
+              if ( v34 )
+              {
+                v35 = 0;
+                LODWORD(v36) = 0;
+                do
+                {
+                  v36 = (unsigned int)(v36 + 1);
+                  ++v35;
+                }
+                while ( RangedAttributeValues[v36] );
+                LODWORD(v37) = 0;
+                if ( *v34 )
+                {
+                  do
+                  {
+                    v37 = (unsigned int)(v37 + 1);
+                    ++v35;
+                  }
+                  while ( v34[v37] );
+                }
+                if ( v35 >= 0xFFFFFFF )
+                {
+                  LODWORD(v5) = 87;
+LABEL_70:
+                  v6 = (WCHAR *)dnW;
+                  goto LABEL_23;
+                }
+                v38 = Mem_AllocZero(8 * v35 + 8, 12i64, "ds\\dns\\server\\server\\dpart.c", 2866);
+                v39 = 0;
+                if ( *RangedAttributeValues )
+                {
+                  v40 = (char **)RangedAttributeValues;
+                  while ( 1 )
+                  {
+                    v38[v39] = Dns_StringCopyAllocate(*v40, 0, 1i64, 1);
+                    if ( !*(_QWORD *)((char *)v38 + (_QWORD)v5) )
+                      goto LABEL_82;
+                    v5 = (LDAP *)(8i64 * (unsigned int)++v39);
+                    v40 = (char **)((char *)RangedAttributeValues + (_QWORD)v5);
+                    if ( !*(PWCHAR *)((char *)RangedAttributeValues + (_QWORD)v5) )
+                    {
+                      v5 = 0i64;
+                      break;
+                    }
+                  }
+                }
+                v41 = 0;
+                if ( *v34 )
+                {
+                  v42 = v34;
+                  while ( 1 )
+                  {
+                    v38[v39] = Dns_StringCopyAllocate(*v42, 0, 1i64, 1);
+                    if ( !*(_QWORD *)((char *)v38 + (_QWORD)v5) )
+                      break;
+                    ++v41;
+                    ++v39;
+                    v5 = (LDAP *)(8i64 * v41);
+                    v42 = (char **)((char *)v34 + (_QWORD)v5);
+                    if ( !*(char **)((char *)v34 + (_QWORD)v5) )
+                    {
+                      LODWORD(v5) = 0;
+                      goto LABEL_81;
+                    }
+                  }
+LABEL_82:
+                  LODWORD(v5) = 14;
+                  goto LABEL_70;
+                }
+LABEL_81:
+                *(_QWORD *)(v10 + 80) = v38;
+              }
+              else
+              {
+                *(_QWORD *)(v10 + 80) = RangedAttributeValues;
+                RangedAttributeValues = 0i64;
+              }
+              freeStringArray(RangedAttributeValues);
+              freeStringArray(v34);
+              v43 = WPP_GLOBAL_Control;
+              RangedAttributeValues = 0i64;
+              if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0 )
+              {
+                if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                {
+                  WPP_SF_s(
+                    *((_QWORD *)WPP_GLOBAL_Control + 7),
+                    0x35u,
+                    (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                    *(const char **)(v10 + 24));
+                  v43 = WPP_GLOBAL_Control;
+                }
+                v44 = *(_QWORD **)(v10 + 80);
+                if ( *v44 )
+                {
+                  v45 = 0i64;
+                  v46 = 0i64;
+                  do
+                  {
+                    if ( v43 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                      && (*((_DWORD *)v43 + 17) & 0x400) != 0
+                      && *((_BYTE *)v43 + 65) >= 4u )
+                    {
+                      WPP_SF_DS(
+                        *((_QWORD *)v43 + 7),
+                        0x36u,
+                        (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                        (int)v5,
+                        v44[v46]);
+                      v43 = WPP_GLOBAL_Control;
+                    }
+                    v44 = *(_QWORD **)(v10 + 80);
+                    ++v45;
+                    LODWORD(v5) = (_DWORD)v5 + 1;
+                    v46 = v45;
+                  }
+                  while ( v44[v45] );
+                }
+                LODWORD(v5) = 0;
+              }
+              v47 = (__int64)dnW;
+            }
+            else
+            {
+              if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0 )
+              {
+                v47 = (__int64)dnW;
+              }
+              else
+              {
+                v47 = (__int64)dnW;
+                if ( *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                  WPP_SF_DS(
+                    *((_QWORD *)WPP_GLOBAL_Control + 7),
+                    0x34u,
+                    (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                    0,
+                    (__int64)dnW);
+              }
+              *(_QWORD *)(v10 + 80) = 0i64;
+            }
+            ldap_value_freeW(RangedAttributeValues);
+            RangedAttributeValues = 0i64;
+            v50 = 0;
+            if ( qword_1401B6B28 )
+            {
+              v51 = *(unsigned __int16 ***)(v10 + 80);
+              if ( v51 )
+              {
+                while ( 1 )
+                {
+                  v56 = *v51;
+                  if ( !*v51 )
+                    break;
+                  v49 = qword_1401B6B28 - (_QWORD)v56;
+                  do
+                  {
+                    v55 = *(unsigned __int16 *)((char *)v56 + v49);
+                    v48 = *v56 - v55;
+                    if ( v48 )
+                      break;
+                    ++v56;
+                  }
+                  while ( v55 );
+                  if ( !v48 )
+                  {
+                    *(_DWORD *)(v10 + 100) |= 0x10u;
+                    v50 = 1;
+                    goto LABEL_100;
+                  }
+                  ++v51;
+                }
+              }
+            }
+            *(_DWORD *)(v10 + 100) &= ~0x10u;
+LABEL_100:
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v52 = "false";
+              if ( v50 )
+                v52 = "true";
+              WPP_SF_sds(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x37u,
+                (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                v52,
+                *(_DWORD *)(v10 + 100),
+                *(_QWORD *)(v10 + 24));
+            }
+            *(_DWORD *)(v10 + 100) &= ~0x20u;
+            v15 = 0;
+            *(_DWORD *)(v10 + 16) = 0;
+            v53 = (*(_BYTE *)(v10 + 100) & 0x10) == 0;
+            LODWORD(v78) = 0;
+            if ( !v53 )
+            {
+              v5 = lda;
+              res = Ds_LoadOrCreateDSObject(lda, *(PWSTR *)(v10 + 40), 0i64, 0, 0i64, &v78);
+              v54 = res;
+              if ( !res )
+              {
+                *(_DWORD *)(v10 + 16) = 3;
+                LODWORD(v5) = 9905;
+                goto LABEL_109;
+              }
+              ldap_value_freeW(0i64);
+              v57 = (const wchar_t **)ldap_get_valuesW(v5, v54, (const PWSTR)L"instanceType");
+              LODWORD(v5) = 0;
+              RangedAttributeValues = (PWCHAR *)v57;
+              if ( v57 && *v57 )
+              {
+                v59 = wcstol(*v57, 0i64, 10);
+                LODWORD(v49) = v59;
+                if ( (v59 & 0x10) != 0 )
+                {
+                  *(_DWORD *)(v10 + 16) = 1;
+                }
+                else if ( (v59 & 0x20) != 0 )
+                {
+                  *(_DWORD *)(v10 + 16) = 2;
+                }
+                if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                  && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                {
+                  WPP_SF_DDS(
+                    *((_QWORD *)WPP_GLOBAL_Control + 7),
+                    0x38u,
+                    (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                    v59,
+                    *(_DWORD *)(v10 + 16),
+                    v47);
+                }
+              }
+              if ( v80 != 1 || *(_DWORD *)(v10 + 16) || (*(_BYTE *)(v10 + 104) & 2) != 0 )
+              {
+                if ( *(_DWORD *)(v10 + 16) == 1 && (*(_BYTE *)(v10 + 104) & 1) == 0 )
+                {
+                  v61 = *(LDAP **)(v10 + 32);
+                  v84 = DNS_EVENT_DP_REPLICATION_START;
+                  lda = v61;
+                  Eventlog_LogEvent((__int64)&v84, v58, 1u, (unsigned __int16 **)&lda, (unsigned __int8 *)1, 0, 0, 0i64);
+                  *(_DWORD *)(v10 + 104) |= 1u;
+                }
+              }
+              else
+              {
+                v60 = *(LDAP **)(v10 + 32);
+                v84 = DNS_EVENT_DP_REPLICATION_FINISHED;
+                lda = v60;
+                Eventlog_LogEvent((__int64)&v84, v58, 1u, (unsigned __int16 **)&lda, (unsigned __int8 *)1, 0, 0, 0i64);
+                *(_DWORD *)(v10 + 104) |= 2u;
+              }
+            }
+            if ( g_pszDomainDefaultDpFqdn && !_stricmp(g_pszDomainDefaultDpFqdn, *(const char **)(v10 + 24)) )
+            {
+              *(_DWORD *)(v10 + 100) |= 5u;
+              v62 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                v63 = g_pszDomainDefaultDpFqdn;
+                v64 = 57;
+                v65 = HIDWORD(g_pDomainDp);
+LABEL_155:
+                HIDWORD(v72) = v65;
+                WPP_SF_sq(*((_QWORD *)v62 + 7), v64, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids, v63);
+              }
+            }
+            else
+            {
+              if ( !g_pszForestDefaultDpFqdn || _stricmp(g_pszForestDefaultDpFqdn, *(const char **)(v10 + 24)) )
+              {
+                *(_DWORD *)(v10 + 100) &= 0xFFFFFFF2;
+                goto LABEL_157;
+              }
+              *(_DWORD *)(v10 + 100) |= 9u;
+              v62 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                v63 = g_pszForestDefaultDpFqdn;
+                v64 = 58;
+                v65 = HIDWORD(g_pForestDp);
+                goto LABEL_155;
+              }
+            }
+LABEL_157:
+            if ( (*(_DWORD *)(v10 + 100) & 8) != 0 || (*(_BYTE *)(v10 + 100) & 4) != 0 )
+            {
+              v66 = (PSID)g_pDomainControllersSid;
+              v67 = *(void **)(v10 + 128);
+              if ( (*(_DWORD *)(v10 + 100) & 8) != 0 )
+                v66 = g_pEnterpriseDomainControllersSid;
+              v87 = 0i64;
+              v85 = 0i64;
+              v86 = 0i64;
+              if ( (unsigned int)CSecurityDescriptor::Attach((PACL *)&v85, v67, v48, v49) )
+              {
+                CSecurityDescriptor::~CSecurityDescriptor((CSecurityDescriptor *)&v85);
+              }
+              else
+              {
+                if ( *((_QWORD *)&v86 + 1) )
+                  HaveAce = CSecurityDescriptor::DoesPrincipleHaveAce((PACL *)&v85, v66);
+                else
+                  HaveAce = 0;
+                CSecurityDescriptor::~CSecurityDescriptor((CSecurityDescriptor *)&v85);
+                if ( HaveAce )
+                  goto LABEL_109;
+              }
+              Dp_AlterPartitionSecurity(*(_QWORD *)(v10 + 40), ((*(_BYTE *)(v10 + 100) & 8) != 0) + 1);
+            }
+LABEL_109:
+            v6 = (WCHAR *)dnW;
+LABEL_110:
+            v7 = a3;
+            goto LABEL_25;
+          }
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          {
+            goto LABEL_23;
+          }
+          LastError = LdapGetLastError();
+          v70 = 50;
+          v71 = L"dnsRoot";
+        }
+        else
+        {
+          if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+            || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+          {
+            goto LABEL_23;
+          }
+          LastError = LdapGetLastError();
+          v70 = 48;
+          v71 = L"nCName";
+        }
+      }
+      else
+      {
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+        {
+          goto LABEL_23;
+        }
+        LastError = LdapGetLastError();
+        v70 = 45;
+        v71 = L"systemFlags";
+      }
+    }
+    else
+    {
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0 )
+      {
+        goto LABEL_23;
+      }
+      if ( *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        v15 = 1;
+        goto LABEL_110;
+      }
+      LastError = LdapGetLastError();
+      v70 = 44;
+      v71 = off_1401B6C60;
+    }
+    WPP_SF_DSS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      v70,
+      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+      LastError,
+      (__int64)v71,
+      (__int64)dnW);
+    goto LABEL_23;
+  }
+LABEL_9:
+  LODWORD(v5) = 14;
+LABEL_24:
+  v15 = v75;
+LABEL_25:
+  ldap_msgfree(res);
+  if ( v10 && !v7 )
+  {
+    if ( !(_DWORD)v5 && !v15 )
+      goto LABEL_32;
+    Dp_FreeDpInfo(&v81, v16, v17);
+    v10 = v81;
+  }
+  if ( v15 )
+    LODWORD(v5) = 0;
+LABEL_32:
+  LeaveCriticalSection(&g_DpCS);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    LODWORD(v72) = (_DWORD)v5;
+    WPP_SF_qdS(*((_QWORD *)WPP_GLOBAL_Control + 7), v18, v19, v10, v72, v6);
+  }
+  ldap_memfreeW(v6);
+  ldap_value_freeW(RangedAttributeValues);
+  if ( v83 )
+    *v83 = (_DWORD)v5;
+  return v10;
+}
+// 14002FB70: variable 'v16' is possibly undefined
+// 14002FB70: variable 'v17' is possibly undefined
+// 14002FBBE: variable 'v18' is possibly undefined
+// 14002FBBE: variable 'v19' is possibly undefined
+// 14002FBBE: variable 'v72' is possibly undefined
+// 14002FE50: variable 'v73' is possibly undefined
+// 14002FEC6: variable 'v74' is possibly undefined
+// 14003031B: variable 'v58' is possibly undefined
+// 140030463: variable 'v48' is possibly undefined
+// 140030463: variable 'v49' is possibly undefined
+// 1400305D9: variable 'v25' is possibly undefined
+// 1400305D9: variable 'v26' is possibly undefined
+// 1401860D8: using guessed type __int128 DNS_EVENT_DP_REPLICATION_START;
+// 140186128: using guessed type __int128 DNS_EVENT_DP_REPLICATION_FINISHED;
+// 14018B2C8: using guessed type wchar_t aMsdsNcReplicaL[26];
+// 14018B300: using guessed type wchar_t aMsdsNcRoReplic[29];
+// 1401B6B28: using guessed type __int64 qword_1401B6B28;
+// 1401B8C98: using guessed type __int64 g_pDomainDp;
+// 1401B8CA0: using guessed type __int64 g_pForestDp;
+// 1401C94F0: using guessed type __int64 g_pDomainControllersSid;
+##############################
+Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+		"(...)"
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.

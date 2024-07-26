@@ -1,0 +1,10 @@
+//----- (00000001401683D4) ----------------------------------------------------
+std::out_of_range *__fastcall std::out_of_range::out_of_range(
+        std::out_of_range *this,
+        const struct std::out_of_range *a2)
+{
+  exception::exception(this, a2);
+  *(_QWORD *)this = &std::out_of_range::`vftable';
+  return this;
+}
+// 1401710E8: using guessed type void *std::out_of_range::`vftable';

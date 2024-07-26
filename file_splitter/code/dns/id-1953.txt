@@ -1,0 +1,128 @@
+//----- (00000001400F04C0) ----------------------------------------------------
+void __fastcall DnsOls_MarkZoneForResign(__int64 a1, char a2)
+{
+  unsigned int v4; // r14d
+  unsigned int CurrentTimeInSeconds; // eax
+  char v6; // di
+  int v7; // ebp
+  CDnsClientSubnetRecordsTrie *v8; // r10
+  const char *v9; // r9
+  int v10; // eax
+
+  if ( !a1 || *(_DWORD *)(a1 + 372) != 1 )
+    return;
+  v4 = *(_DWORD *)(a1 + 1100);
+  CurrentTimeInSeconds = Dns_GetCurrentTimeInSeconds();
+  dword_1401B9714 = CurrentTimeInSeconds;
+  v6 = CurrentTimeInSeconds;
+  if ( (*(_BYTE *)(a1 + 1040) & 2) != 0 )
+  {
+    v7 = a2 & 1;
+    if ( !v7 )
+    {
+      if ( *(_DWORD *)(a1 + 1100) > CurrentTimeInSeconds )
+        goto LABEL_8;
+      CurrentTimeInSeconds += 180;
+    }
+    *(_DWORD *)(a1 + 1100) = CurrentTimeInSeconds;
+LABEL_8:
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_34;
+    }
+    v9 = "DELAYED";
+    if ( v7 )
+      v9 = "ASAP";
+    WPP_SF_sds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x83u,
+      (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+      v9,
+      *(_DWORD *)(a1 + 1100),
+      *(_QWORD *)(a1 + 16));
+    goto LABEL_33;
+  }
+  if ( (a2 & 1) != 0 )
+  {
+    *(_DWORD *)(a1 + 1100) = CurrentTimeInSeconds;
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_34;
+    }
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x84u,
+      (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+      CurrentTimeInSeconds,
+      *(_QWORD *)(a1 + 16));
+    goto LABEL_33;
+  }
+  if ( *(_DWORD *)(a1 + 1100) > CurrentTimeInSeconds )
+  {
+    v8 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+    {
+      goto LABEL_34;
+    }
+    WPP_SF_sdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x86u,
+      (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+      *(const char **)(a1 + 16));
+    goto LABEL_33;
+  }
+  if ( dword_1401B9A10 )
+  {
+    v10 = CurrentTimeInSeconds + 10;
+  }
+  else if ( dword_1401B9A0C )
+  {
+    v10 = CurrentTimeInSeconds + 150;
+  }
+  else
+  {
+    v10 = (unsigned __int16)Rand_GenerateWord(1) % 0x5DCu + CurrentTimeInSeconds + 300;
+  }
+  *(_DWORD *)(a1 + 1100) = v10;
+  v8 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Dds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x85u,
+      (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+      v10,
+      v10 - v6,
+      *(_QWORD *)(a1 + 16));
+LABEL_33:
+    v8 = WPP_GLOBAL_Control;
+  }
+LABEL_34:
+  if ( !v4 && *(_DWORD *)(a1 + 1100) || *(_DWORD *)(a1 + 1100) < v4 )
+  {
+    if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v8 + 17) & 0x200000) != 0
+      && *((_BYTE *)v8 + 65) >= 4u )
+    {
+      WPP_SF_s(
+        *((_QWORD *)v8 + 7),
+        0x87u,
+        (__int64)&WPP_4a0a7bf065bf32df4bbeec8f9c7ea0c3_Traceguids,
+        *(const char **)(a1 + 16));
+    }
+    SetEvent(g_hOlsResignChangeEvent);
+  }
+}
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9A0C: using guessed type int dword_1401B9A0C;
+// 1401B9A10: using guessed type int dword_1401B9A10;

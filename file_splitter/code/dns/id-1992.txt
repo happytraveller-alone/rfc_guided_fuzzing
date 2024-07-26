@@ -1,0 +1,87 @@
+//----- (00000001400F44F4) ----------------------------------------------------
+__int64 __fastcall copyStringFromBuffer(const CHAR **a1, unsigned __int64 *a2, unsigned __int16 **a3)
+{
+  unsigned __int64 v3; // rax
+  char *v4; // rbx
+  unsigned int v5; // edi
+  CDnsClientSubnetRecordsTrie *v9; // rax
+  char *v10; // rsi
+  unsigned __int16 *v12; // rax
+  bool v13; // zf
+
+  v3 = *a2;
+  v4 = (char *)*a1;
+  v5 = 0;
+  *a3 = 0i64;
+  if ( v3 < 2 )
+  {
+    v9 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_16;
+    }
+    WPP_SF_D(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x10u,
+      (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids,
+      *(_DWORD *)a2);
+LABEL_15:
+    v9 = WPP_GLOBAL_Control;
+LABEL_16:
+    v5 = 13;
+    goto LABEL_17;
+  }
+  if ( *v4 )
+  {
+    v10 = v4;
+    if ( v4 >= &v4[v3] )
+    {
+LABEL_11:
+      v9 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_16;
+      }
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x11u, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids);
+      goto LABEL_15;
+    }
+    while ( *v10 )
+    {
+      v10 += 2;
+      if ( v10 >= &v4[v3] )
+        goto LABEL_11;
+    }
+    v12 = (unsigned __int16 *)Dns_StringCopyAllocate(v4, 0, 1i64, 1);
+    *a3 = v12;
+    v13 = v12 == 0i64;
+    v9 = WPP_GLOBAL_Control;
+    if ( v13 )
+    {
+      v5 = 14;
+    }
+    else
+    {
+      *a2 += v4 - v10 - 2;
+      v4 = v10 + 2;
+    }
+  }
+  else
+  {
+    *a2 = v3 - 2;
+    v4 += 2;
+    v9 = WPP_GLOBAL_Control;
+  }
+LABEL_17:
+  *a1 = v4;
+  if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v9 + 17) & 0x200000) != 0
+    && *((_BYTE *)v9 + 65) >= 4u )
+  {
+    WPP_SF_DS(*((_QWORD *)v9 + 7), 0x12u, (__int64)&WPP_b7aea06a65693a31b0dd129af848d3b8_Traceguids, v5, (__int64)*a3);
+  }
+  return v5;
+}

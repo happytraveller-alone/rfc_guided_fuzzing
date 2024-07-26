@@ -1,0 +1,160 @@
+//----- (00000001401517E4) ----------------------------------------------------
+__int64 __fastcall Dns_ValidateDSDigest(
+        unsigned __int8 *a1,
+        __int64 a2,
+        __int64 *a3,
+        __int64 a4,
+        unsigned int *a5,
+        int *a6)
+{
+  int v8; // r14d
+  unsigned int v9; // esi
+  unsigned int v10; // ebp
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  __int64 v12; // rbx
+  __int64 v13; // r13
+  unsigned int *v14; // rdi
+  int *v15; // r12
+  unsigned int matched; // eax
+  CDnsClientSubnetRecordsTrie *v17; // rcx
+  unsigned int i; // ecx
+  __int64 v20; // rax
+  __int64 v21; // [rsp+20h] [rbp-48h]
+  __int64 v22; // [rsp+28h] [rbp-40h]
+  __int64 *v24; // [rsp+78h] [rbp+10h] BYREF
+  __int64 v25; // [rsp+88h] [rbp+20h]
+
+  v25 = a4;
+  v8 = 0;
+  v9 = 0;
+  v10 = 6;
+  v11 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_qq(
+      *((_QWORD *)WPP_GLOBAL_Control + 2),
+      0x17u,
+      (__int64)&WPP_c53e2308f6cf3329db3757b8a77c9921_Traceguids,
+      a2,
+      a3);
+    v11 = WPP_GLOBAL_Control;
+  }
+  v12 = a2;
+  if ( a2 && *(_WORD *)(a2 + 12) == 43 )
+  {
+    do
+    {
+      if ( *(_WORD *)(v12 + 12) != 43 || ((*(_BYTE *)(v12 + 59) - 2) & 0xFD) == 0 )
+        break;
+      if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v11 + 28) & 1) != 0
+        && *((_BYTE *)v11 + 25) >= 4u )
+      {
+        LODWORD(v22) = *(unsigned __int8 *)(v12 + 59);
+        LODWORD(v21) = 43;
+        WPP_SF_qdD(
+          *((_QWORD *)v11 + 2),
+          0x19u,
+          (__int64)&WPP_c53e2308f6cf3329db3757b8a77c9921_Traceguids,
+          v12,
+          v21,
+          v22);
+        v11 = WPP_GLOBAL_Control;
+      }
+      v12 = *(_QWORD *)v12;
+    }
+    while ( v12 );
+    v13 = v25;
+    if ( v12 && *(_WORD *)(v12 + 12) == 43 )
+    {
+      v8 = 1;
+    }
+    else
+    {
+      if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v11 + 28) & 1) != 0
+        && *((_BYTE *)v11 + 25) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)v11 + 2), 0x1Au, (__int64)&WPP_c53e2308f6cf3329db3757b8a77c9921_Traceguids);
+      }
+      v12 = a2;
+    }
+    v14 = a5;
+    v15 = a6;
+    while ( *(_WORD *)(v12 + 12) == 43 )
+    {
+      if ( !v8 || ((*(_BYTE *)(v12 + 59) - 2) & 0xFD) == 0 )
+      {
+        matched = Dns_MatchDSToDNSKEY(a1, v12, a3, 0, &v24, v15);
+        v10 = matched;
+        if ( matched )
+        {
+          if ( matched == 1 )
+          {
+            v9 = 0;
+            break;
+          }
+        }
+        else
+        {
+          for ( i = 0; i < v9; ++i )
+          {
+            if ( i >= *v14 )
+              break;
+            if ( *(__int64 **)(v13 + 8i64 * i) == v24 )
+              break;
+          }
+          if ( i == v9 && v9 < *v14 )
+          {
+            v20 = v9++;
+            *(_QWORD *)(v13 + 8 * v20) = v24;
+          }
+        }
+      }
+      v12 = *(_QWORD *)v12;
+      if ( !v12 )
+        break;
+    }
+    v17 = WPP_GLOBAL_Control;
+    *v14 = v9;
+    if ( v9 )
+      v10 = 0;
+    if ( v10 == 6 )
+    {
+      if ( v17 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v17 + 28) & 1) != 0
+        && *((_BYTE *)v17 + 25) >= 4u )
+      {
+        LODWORD(v22) = 6;
+        WPP_SF_qqd(*((_QWORD *)v17 + 2), 0x1Cu, (__int64)&WPP_c53e2308f6cf3329db3757b8a77c9921_Traceguids, v12, a3, v22);
+      }
+      return 6i64;
+    }
+    else
+    {
+      if ( v17 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v17 + 28) & 1) != 0
+        && *((_BYTE *)v17 + 25) >= 4u )
+      {
+        LODWORD(v22) = v10;
+        WPP_SF_qqd(*((_QWORD *)v17 + 2), 0x1Bu, (__int64)&WPP_c53e2308f6cf3329db3757b8a77c9921_Traceguids, v12, a3, v22);
+      }
+      return v10;
+    }
+  }
+  else
+  {
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v11 + 28) & 1) != 0
+      && *((_BYTE *)v11 + 25) >= 4u )
+    {
+      WPP_SF_qqd(*((_QWORD *)v11 + 2), 0x18u, (__int64)&WPP_c53e2308f6cf3329db3757b8a77c9921_Traceguids, a2, a3, 2);
+    }
+    return 2i64;
+  }
+}
+// 14015192F: conditional instruction was optimized away because rbx.8!=0
+// 1401518B7: variable 'v21' is possibly undefined
+// 1401518B7: variable 'v22' is possibly undefined

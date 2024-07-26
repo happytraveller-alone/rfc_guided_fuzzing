@@ -1,0 +1,22 @@
+//----- (0000000140161298) ----------------------------------------------------
+__int64 __fastcall Dns_GetStringForValue(__int64 a1, int a2)
+{
+  int v2; // r8d
+  __int64 v3; // r9
+  __int64 v4; // rax
+
+  v2 = 0;
+  if ( !*(_QWORD *)(a1 + 8) )
+    return 0i64;
+  v3 = 0i64;
+  v4 = a1;
+  while ( a2 != *(_DWORD *)v4 )
+  {
+    ++v3;
+    ++v2;
+    v4 = a1 + 16 * v3;
+    if ( !*(_QWORD *)(v4 + 8) )
+      return 0i64;
+  }
+  return *(_QWORD *)(a1 + 16i64 * v2 + 8);
+}

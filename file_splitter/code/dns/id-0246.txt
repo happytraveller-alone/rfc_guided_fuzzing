@@ -1,0 +1,81 @@
+//----- (0000000140020724) ----------------------------------------------------
+__int64 __fastcall writeNodeNameToBuffer(__int64 a1, __int64 *a2, __int64 a3, const char *a4)
+{
+  __int64 *v7; // r12
+  const char *v8; // rbp
+  unsigned __int64 v9; // r15
+  char *v10; // rbx
+  unsigned int v11; // esi
+  __int64 v12; // rcx
+  char *v13; // rax
+  int v14; // ecx
+  __int64 v16; // [rsp+20h] [rbp-38h]
+  const char *v17; // [rsp+28h] [rbp-30h]
+
+  if ( a3 )
+    v7 = *(__int64 **)(a3 + 40);
+  else
+    v7 = 0i64;
+  v8 = *(const char **)(a1 + 32);
+  v9 = *(_QWORD *)(a1 + 24);
+  v10 = (char *)v8;
+  if ( (unsigned __int64)(v8 + 1) >= v9 )
+    return 0i64;
+  v11 = 1;
+  while ( a2 != v7 )
+  {
+    v12 = *((unsigned __int8 *)a2 + 101);
+    if ( (unsigned __int64)&v10[v12 + 1] > v9 )
+      return 0i64;
+    if ( !*((_BYTE *)a2 + 101) )
+    {
+      if ( v10 != v8 )
+        goto LABEL_18;
+      *v10 = 46;
+      goto LABEL_17;
+    }
+    v13 = File_PlaceStringInFileBuffer(v10, v9, 0, (unsigned __int8 *)a2 + 102, v12);
+    if ( !v13 )
+      return 0i64;
+    *v13 = 46;
+    v10 = v13 + 1;
+    a2 = (__int64 *)*a2;
+    if ( !a2 )
+      goto LABEL_18;
+  }
+  if ( v10 > v8 )
+  {
+    --v10;
+    goto LABEL_18;
+  }
+  *v10 = 64;
+LABEL_17:
+  ++v10;
+LABEL_18:
+  if ( (unsigned __int64)v10 >= v9 )
+    return 0i64;
+  *v10 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    v17 = v8;
+    LODWORD(v16) = (_DWORD)v10 - (_DWORD)v8;
+    WPP_SF_sDq(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xAu, (__int64)&WPP_410f52d72e8937ebe6dfc2517de4055a_Traceguids, v8);
+  }
+  v14 = (_DWORD)v10 - *(_DWORD *)(a1 + 32);
+  *(_QWORD *)(a1 + 32) = v10;
+  if ( a4 )
+  {
+    FormattedWriteToFileBuffer(a1, "%s", a4);
+  }
+  else
+  {
+    if ( 24 - v14 > 0 )
+      v11 = 24 - v14;
+    FormattedWriteToFileBuffer(a1, "%.*s", v11, "                        ", v16, v17);
+  }
+  return *(_QWORD *)(a1 + 32);
+}
+// 140020870: variable 'v16' is possibly undefined
+// 140020870: variable 'v17' is possibly undefined

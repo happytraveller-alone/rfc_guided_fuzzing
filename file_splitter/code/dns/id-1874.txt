@@ -1,0 +1,40 @@
+//----- (00000001400E7518) ----------------------------------------------------
+unsigned __int64 __fastcall std::vector<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>::reserve(
+        unsigned __int64 *a1,
+        unsigned __int64 a2)
+{
+  unsigned __int64 result; // rax
+  _QWORD *v5; // rbx
+  __int64 v6; // r14
+  char pExceptionObject[32]; // [rsp+38h] [rbp-20h] BYREF
+
+  if ( a2 > 0x1FFFFFFFFFFFFFFFi64 )
+    std::vector<std::vector<unsigned char> *,std::allocator<std::vector<unsigned char> *>>::_Xlen();
+  result = (__int64)(a1[2] - *a1) >> 3;
+  if ( result < a2 )
+  {
+    v5 = 0i64;
+    if ( a2 )
+    {
+      v5 = operator new(8 * a2);
+      if ( !v5 )
+      {
+        std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+        CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+      }
+    }
+    std::_Uninit_move<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>> *,std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>> *,std::allocator<std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>,std::_List_iterator<std::_List_val<std::pair<IDnsRRLStateKey * const,IDnsRRLStateInfo *>>>>(
+      *a1,
+      a1[1],
+      v5);
+    v6 = (__int64)(a1[1] - *a1) >> 3;
+    if ( *a1 )
+      operator delete((void *)*a1);
+    a1[2] = (unsigned __int64)&v5[a2];
+    result = (unsigned __int64)&v5[v6];
+    a1[1] = result;
+    *a1 = (unsigned __int64)v5;
+  }
+  return result;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

@@ -1,0 +1,31 @@
+//----- (000000014013AAAC) ----------------------------------------------------
+__int64 **__fastcall std::_Tree<std::_Tmap_traits<IP6_ADDRESS,CDnsPolicy_CriteriaNode *,bool (*)(IP6_ADDRESS const &,IP6_ADDRESS const &),std::allocator<std::pair<IP6_ADDRESS const,CDnsPolicy_CriteriaNode *>>,0>>::find(
+        __int64 a1,
+        __int64 **a2,
+        __int64 a3)
+{
+  __int64 *v3; // rdi
+  __int64 v7; // rbx
+  __int64 **result; // rax
+
+  v3 = *(__int64 **)(a1 + 8);
+  v7 = v3[1];
+  while ( !*(_BYTE *)(v7 + 49) )
+  {
+    if ( (*(unsigned __int8 (__fastcall **)(__int64, __int64))a1)(v7 + 24, a3) )
+    {
+      v7 = *(_QWORD *)(v7 + 16);
+    }
+    else
+    {
+      v3 = (__int64 *)v7;
+      v7 = *(_QWORD *)v7;
+    }
+  }
+  if ( v3 == *(__int64 **)(a1 + 8) || (*(unsigned __int8 (__fastcall **)(__int64, __int64 *))a1)(a3, v3 + 3) )
+    v3 = *(__int64 **)(a1 + 8);
+  result = a2;
+  *a2 = v3;
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

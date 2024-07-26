@@ -1,0 +1,52 @@
+//----- (000000014004D1C4) ----------------------------------------------------
+__int64 __fastcall Ds_PinAuthToDC(char *a1, char *a2)
+{
+  __int64 v2; // rsi
+  __int64 v4; // rbx
+  unsigned int v6; // ebx
+  unsigned int v7; // esi
+  ULONG v8; // r12d
+  WCHAR *v9; // rax
+  WCHAR *v10; // rdi
+  unsigned int v11; // ebx
+  const WCHAR *v12; // r14
+  WCHAR *v13; // rbx
+
+  v2 = -1i64;
+  v4 = -1i64;
+  do
+    ++v4;
+  while ( *(_WORD *)&a1[2 * v4] );
+  v6 = v4 + 1;
+  do
+    ++v2;
+  while ( *(_WORD *)&a2[2 * v2] );
+  v7 = v2 + 1;
+  v8 = 2 * (v7 + v6) + 48;
+  v9 = (WCHAR *)Mem_AllocZero(v8, 0i64, "ds\\dns\\server\\server\\dspindc.c", 129);
+  v10 = v9;
+  if ( v9 )
+  {
+    v12 = v9 + 24;
+    *(_DWORD *)v9 = 1024;
+    if ( (int)StringCchCopyW((char *)v9 + 48, v6, a1) < 0
+      || (RtlInitUnicodeString((PUNICODE_STRING)(v10 + 4), v12),
+          v13 = (WCHAR *)&v12[v6],
+          (int)StringCchCopyW((char *)v13, v7, a2) < 0) )
+    {
+      v11 = 13;
+    }
+    else
+    {
+      RtlInitUnicodeString((PUNICODE_STRING)(v10 + 12), v13);
+      *((_DWORD *)v10 + 10) = 0x4000;
+      v11 = Ds_CallAuthenticationPackages(v10, v8);
+    }
+    Mem_Free(v10, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dspindc.c", 170);
+  }
+  else
+  {
+    return 14;
+  }
+  return v11;
+}

@@ -1,0 +1,17 @@
+//----- (000000014010D500) ----------------------------------------------------
+void __fastcall CPointerVector<_Dbase_Record>::~CPointerVector<_Dbase_Record>(__int64 a1)
+{
+  void **i; // rbx
+
+  if ( *(_BYTE *)(a1 + 32) )
+  {
+    for ( i = *(void ***)a1; i != *(void ***)(a1 + 8); ++i )
+      operator delete(*i);
+  }
+  if ( *(_QWORD *)a1 )
+    operator delete(*(void **)a1);
+  *(_QWORD *)a1 = 0i64;
+  *(_QWORD *)(a1 + 8) = 0i64;
+  *(_QWORD *)(a1 + 16) = 0i64;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

@@ -1,0 +1,22 @@
+//----- (0000000140040700) ----------------------------------------------------
+void __fastcall Ds_LogZoneEnumerationError(__int64 a1, int a2)
+{
+  int *ExtendedLdapErrString; // rbx
+  __int64 v4; // rdx
+  unsigned __int16 *v5[2]; // [rsp+40h] [rbp-28h] BYREF
+  __int128 v6; // [rsp+50h] [rbp-18h] BYREF
+
+  if ( a1 && a2 && g_fDnsServiceExit != 1 )
+  {
+    v5[0] = *(unsigned __int16 **)(a1 + 24);
+    ExtendedLdapErrString = Ds_GetExtendedLdapErrString(0i64);
+    v6 = DNS_EVENT_DS_ZONE_ENUM_FAILED;
+    v5[1] = (unsigned __int16 *)ExtendedLdapErrString;
+    Eventlog_LogEvent((__int64)&v6, v4, 2u, v5, 0i64, a2, 0, 0i64);
+    Ds_FreeExtendedLdapErrString(ExtendedLdapErrString);
+  }
+}
+// 140040768: variable 'v4' is possibly undefined
+// 140186DE0: using guessed type __int128 DNS_EVENT_DS_ZONE_ENUM_FAILED;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 140040700: using guessed type __int128 var_18;

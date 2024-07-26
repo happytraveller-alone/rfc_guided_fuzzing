@@ -1,0 +1,8 @@
+//----- (0000000140062D28) ----------------------------------------------------
+__int64 __fastcall Name_ConvertRpcNameToCountName(unsigned __int8 *a1, unsigned __int8 *a2)
+{
+  if ( !*a2 && a2[1] || (unsigned int)Name_ConvertFileNameToCountNameEx(a1, a2 + 1, (_WORD *)*a2, 0) == 123 )
+    return 0i64;
+  else
+    return *a1 + 2i64;
+}

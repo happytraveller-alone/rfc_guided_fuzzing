@@ -1,0 +1,10 @@
+//----- (0000000140037634) ----------------------------------------------------
+void __fastcall Ds_FreeExtendedLdapErrString(int *a1)
+{
+  if ( a1 )
+  {
+    if ( a1 != &dword_14018BA70 )
+      Mem_Free(a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\ds.c", 932);
+  }
+}
+// 14018BA70: using guessed type int dword_14018BA70;

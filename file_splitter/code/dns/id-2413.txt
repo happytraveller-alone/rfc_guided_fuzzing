@@ -1,0 +1,43 @@
+//----- (0000000140126590) ----------------------------------------------------
+const void **__fastcall DnsSign::CDnsKeyPair::GenerateKeyPair(
+        const struct DnsSign::CDnsKeySpec *a1,
+        const unsigned __int16 *a2,
+        char a3)
+{
+  __int16 v4; // ax
+  char v5; // r9
+  char *v6; // rcx
+  char v7; // r9
+  __int64 NCryptKey; // rbx
+  DnsSign::CDnsKeyPair *v9; // rax
+  const unsigned __int16 *v10; // r8
+  const void **v11; // rbx
+  char v13; // [rsp+28h] [rbp-29h]
+  const void *v14[3]; // [rsp+68h] [rbp+17h] BYREF
+  unsigned __int64 v15; // [rsp+80h] [rbp+2Fh]
+
+  v15 = 7i64;
+  v14[2] = 0i64;
+  LOWORD(v14[0]) = 0;
+  v4 = *((_WORD *)a1 + 5);
+  v5 = *((_BYTE *)a1 + 12);
+  v6 = (char *)a1 + 16;
+  if ( *((_QWORD *)v6 + 3) >= 8ui64 )
+    v6 = *(char **)v6;
+  v13 = v5;
+  v7 = (char)a2;
+  LOBYTE(a2) = *((_BYTE *)a1 + 1);
+  NCryptKey = DnsSign::GenerateNCryptKey((wchar_t *)v6, a2, *((_DWORD *)a1 + 1), v7, v13, v4 & 1, (char *)v14, a3);
+  v9 = (DnsSign::CDnsKeyPair *)operator new(0xB8ui64);
+  if ( v9 )
+    v11 = (const void **)DnsSign::CDnsKeyPair::CDnsKeyPair(v9, NCryptKey);
+  else
+    v11 = 0i64;
+  DnsSign::CDnsKeyPair::UpdateKeySpec(v11, a1, v10);
+  std::wstring::assign(v11 + 15, v14, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+  if ( v15 >= 8 )
+    operator delete((void *)v14[0]);
+  return v11;
+}
+// 14012664D: variable 'v10' is possibly undefined
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

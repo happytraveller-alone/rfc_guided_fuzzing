@@ -1,0 +1,26 @@
+//----- (000000014014FA18) ----------------------------------------------------
+__int64 __fastcall CDnsRRLParameters::GetRRLParams(CDnsRRLParameters *this, struct _DnsRRLParams_ **a2)
+{
+  CDnsRRLParameters *v2; // rbx
+  struct _DnsRRLParams_ *zero; // rax
+  struct _DnsRRLParams_ *v5; // rcx
+  __int64 result; // rax
+
+  v2 = g_DnsRRLConfigParams;
+  zero = (struct _DnsRRLParams_ *)MIDL_user_allocate_zero(0x2Cui64);
+  v5 = zero;
+  if ( !zero )
+    return 14i64;
+  *(_DWORD *)zero = *(_DWORD *)v2;
+  *((_DWORD *)zero + 1) = *((_DWORD *)v2 + 1);
+  *((_DWORD *)zero + 2) = *((_DWORD *)v2 + 2);
+  *((_DWORD *)zero + 3) = *((_DWORD *)v2 + 3);
+  *((_DWORD *)zero + 5) = *((_DWORD *)v2 + 5);
+  *((_DWORD *)zero + 4) = *((_DWORD *)v2 + 4);
+  *((_DWORD *)zero + 6) = *((_DWORD *)v2 + 6);
+  *((_DWORD *)zero + 7) = *((_DWORD *)v2 + 7);
+  *((_DWORD *)zero + 8) = *((_DWORD *)v2 + 13);
+  result = 0i64;
+  *a2 = v5;
+  return result;
+}

@@ -1,0 +1,148 @@
+//----- (000000014009E2EC) ----------------------------------------------------
+__int64 rebuildServerAddressList()
+{
+  unsigned int *v0; // rbx
+  unsigned int v1; // r12d
+  __int64 v2; // rdx
+  __int64 v3; // r8
+  int v4; // r9d
+  unsigned int v5; // r14d
+  IP_ADAPTER_ADDRESSES_LH *v6; // rbx
+  PIP_ADAPTER_UNICAST_ADDRESS_LH i; // rdi
+  int v8; // eax
+  IP_ADAPTER_ADDRESSES_LH *v9; // rsi
+  unsigned int v10; // r15d
+  PIP_ADAPTER_UNICAST_ADDRESS_LH j; // rdi
+  int v12; // eax
+  int v13; // edx
+  int v14; // eax
+  __int64 v15; // r8
+  unsigned int k; // ecx
+  unsigned __int64 v17; // rax
+  int v19[16]; // [rsp+30h] [rbp-40h] BYREF
+  IP_ADAPTER_ADDRESSES_LH *v20; // [rsp+A0h] [rbp+30h] BYREF
+
+  v20 = 0i64;
+  v0 = 0i64;
+  v1 = 0;
+  v5 = Sock_AllocAdaptersAddresses(&v20);
+  if ( v5 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xCu, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, v5);
+    }
+    goto LABEL_42;
+  }
+  v6 = v20;
+  if ( !v20 )
+    goto LABEL_21;
+  do
+  {
+    if ( v6->OperStatus == IfOperStatusUp
+      && v6->IfType != 24
+      && (v6->IfType != 131 || ((v6->TunnelType - 11) & 0xFFFFFFFD) == 0) )
+    {
+      for ( i = v6->FirstUnicastAddress; i; i = i->Next )
+      {
+        if ( (unsigned int)DnsAddr_Build(v19, &i->Address.lpSockaddr->sa_family, 0) )
+        {
+          LOBYTE(v8) = DnsAddr_IsLoopback(v19, 0);
+          if ( !v8 )
+            ++v1;
+        }
+      }
+    }
+    v6 = v6->Next;
+  }
+  while ( v6 );
+  if ( !v1 )
+  {
+LABEL_21:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xDu, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids);
+    }
+  }
+  v0 = DnsAddrArray_Create(v1, v2, v3, v4);
+  if ( !v0 )
+  {
+    v5 = 14;
+    goto LABEL_48;
+  }
+  v9 = v20;
+  v10 = 0;
+  if ( v20 )
+  {
+    do
+    {
+      if ( v9->OperStatus == IfOperStatusUp
+        && v9->IfType != 24
+        && (v9->IfType != 131 || ((v9->TunnelType - 11) & 0xFFFFFFFD) == 0) )
+      {
+        for ( j = v9->FirstUnicastAddress; j && v10 < v1; j = j->Next )
+        {
+          if ( !(unsigned int)DnsAddr_Build(v19, &j->Address.lpSockaddr->sa_family, 0)
+            || (LOBYTE(v12) = DnsAddr_IsLoopback(v19, 0), v12) )
+          {
+            v14 = 0;
+          }
+          else
+          {
+            v14 = v13 + 1;
+          }
+          if ( v14 && (unsigned int)DnsAddr_Build(v19, &j->Address.lpSockaddr->sa_family, 0) )
+          {
+            DnsAddrArray_AddAddr(v0, (__int64)v19, v15, 0);
+            ++v10;
+          }
+        }
+      }
+      v9 = v9->Next;
+    }
+    while ( v9 );
+LABEL_42:
+    if ( v5 )
+      goto LABEL_48;
+  }
+  if ( v0 )
+  {
+    for ( k = 0; k < v0[1]; *(_WORD *)((char *)v0 + v17 + 34) = 13568 )
+      v17 = (unsigned __int64)k++ << 6;
+    EnterCriticalSection(&g_SocketListCs);
+    Timeout_FreeWithFunctionEx(
+      (__int64)g_ServerAddrs,
+      (__int64)DnsAddrArray_Free,
+      (__int64)"ds\\dns\\server\\server\\socket.c",
+      727);
+    g_ServerAddrs = v0;
+    LeaveCriticalSection(&g_SocketListCs);
+    v0 = 0i64;
+    if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0 )
+      Dbg_DnsAddrArray("New server address list", (__int64)g_ServerAddrs);
+  }
+LABEL_48:
+  Mem_Free(v20, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\socket.c", 739);
+  Dns_Free(v0);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_D(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xEu, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, v5);
+  }
+  return v5;
+}
+// 14009E47B: conditional instruction was optimized away because rdi.8!=0
+// 14009E3C4: variable 'v8' is possibly undefined
+// 14009E41A: variable 'v2' is possibly undefined
+// 14009E41A: variable 'v3' is possibly undefined
+// 14009E41A: variable 'v4' is possibly undefined
+// 14009E49E: variable 'v12' is possibly undefined
+// 14009E4A0: variable 'v13' is possibly undefined
+// 14009E4C9: variable 'v15' is possibly undefined
+// 1401560E0: using guessed type __int64 __fastcall DnsAddrArray_Free();
+// 14009E2EC: using guessed type _DWORD var_40[16];

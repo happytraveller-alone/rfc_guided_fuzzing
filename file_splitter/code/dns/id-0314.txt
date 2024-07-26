@@ -1,0 +1,36 @@
+//----- (0000000140028AA0) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall Dnssec_SaveCacheResult(_DWORD *a1, __int64 a2, int a3, int a4)
+{
+  __int64 v4; // r8
+  CDnsClientSubnetRecordsTrie **result; // rax
+
+  if ( !a1 || a1[384] )
+  {
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      return (CDnsClientSubnetRecordsTrie **)WPP_SF_q(
+                                               *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                               0x51u,
+                                               (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids,
+                                               a1);
+    }
+  }
+  else
+  {
+    a1[384] = a2;
+    v4 = a3 & (unsigned int)-((_DWORD)a2 != 0);
+    a1[385] = v4;
+    a1[386] = (_DWORD)a2 != 0 ? a4 : 0;
+    result = &WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      return (CDnsClientSubnetRecordsTrie **)WPP_SF_dDq(*((_QWORD *)WPP_GLOBAL_Control + 7), a2, v4, v4);
+    }
+  }
+  return result;
+}

@@ -1,0 +1,52 @@
+//----- (00000001401205B0) ----------------------------------------------------
+__int64 __fastcall NbstatFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4, int a5)
+{
+  const void **v6; // rsi
+  int v8; // eax
+  unsigned int v9; // edi
+  __int64 result; // rax
+  _BYTE *v11; // rax
+  __int128 v12; // xmm0
+  int v13[14]; // [rsp+30h] [rbp-288h] BYREF
+  __int128 v14; // [rsp+68h] [rbp-250h]
+  unsigned __int8 v15[272]; // [rsp+180h] [rbp-138h] BYREF
+
+  DWORD1(v14) = 5;
+  v6 = (const void **)a3;
+  v8 = ParseWinsFixedFields(v13, a2, a3, a4);
+  if ( (unsigned int)(v8 - 1) > 0xFFFFFFFD )
+  {
+    *(_QWORD *)(a4 + 1608) = 0i64;
+    result = 3222394115i64;
+    *(_DWORD *)(a4 + 1600) = 1651;
+  }
+  else
+  {
+    v9 = a2 - v8;
+    if ( v9 )
+      v6 += 2 * v9;
+    if ( (unsigned int)File_ReadCountNameFromToken(v15, 0i64, a4, v6, a5) )
+    {
+      return 3222394113i64;
+    }
+    else
+    {
+      v11 = RR_AllocateEx(v15[0] + 18, 0, 0);
+      if ( v11 )
+      {
+        v12 = v14;
+        *(_QWORD *)(a4 + 800) = v11;
+        *((_WORD *)v11 + 6) = -254;
+        *(_OWORD *)(v11 + 56) = v12;
+        Name_CopyCountName(v11 + 68, v15);
+        return 0i64;
+      }
+      else
+      {
+        return 14i64;
+      }
+    }
+  }
+  return result;
+}
+// 1401205B0: using guessed type int var_288[14];

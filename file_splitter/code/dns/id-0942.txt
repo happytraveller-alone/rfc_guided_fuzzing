@@ -1,0 +1,32 @@
+//----- (000000014007F990) ----------------------------------------------------
+const char *__fastcall findMatchingFunction(const char **a1, const char *a2, int a3, _DWORD *a4)
+{
+  const char *v8; // rax
+  __int64 v9; // rbx
+
+  if ( a2 )
+  {
+    if ( a4 )
+      *a4 = 0;
+    v8 = *a1;
+    v9 = 0i64;
+    while ( v8 )
+    {
+      if ( !_stricmp(v8, a2) && (a3 == -1 || LODWORD(a1[3 * v9 + 2]) == a3 || LODWORD(a1[3 * v9 + 2]) == -1) )
+      {
+        if ( a4 )
+          *a4 = HIDWORD(a1[3 * v9 + 2]);
+        return a1[3 * v9 + 1];
+      }
+      v9 = (unsigned int)(v9 + 1);
+      v8 = a1[3 * (unsigned int)v9];
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xAu, (__int64)&WPP_3680a6bb367232ba381f4336b2d99075_Traceguids, a2);
+    }
+  }
+  return 0i64;
+}

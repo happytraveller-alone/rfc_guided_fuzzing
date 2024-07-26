@@ -1,0 +1,5 @@
+//----- (000000014014E510) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateInfo::GetReferenceCount(CDnsRRLStateInfo *this)
+{
+  return *((unsigned int *)this + 20);
+}

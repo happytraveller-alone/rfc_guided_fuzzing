@@ -1,0 +1,10 @@
+//----- (000000014016834C) ----------------------------------------------------
+std::length_error *__fastcall std::length_error::length_error(
+        std::length_error *this,
+        const struct std::length_error *a2)
+{
+  exception::exception(this, a2);
+  *(_QWORD *)this = &std::length_error::`vftable';
+  return this;
+}
+// 1401710D8: using guessed type void *std::length_error::`vftable';

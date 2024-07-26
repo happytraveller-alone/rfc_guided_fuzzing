@@ -1,0 +1,10 @@
+//----- (000000014002DE40) ----------------------------------------------------
+void __fastcall Ds_FreeServerObject(_QWORD *a1)
+{
+  if ( a1 )
+  {
+    Mem_Free((_QWORD *)*a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 395);
+    Mem_Free((_QWORD *)a1[1], 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 396);
+    Mem_Free(a1, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 397);
+  }
+}

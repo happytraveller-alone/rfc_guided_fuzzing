@@ -1,0 +1,39 @@
+//----- (00000001400A205C) ----------------------------------------------------
+void __fastcall Sock_CleanupDeadSocketMessage(__int64 a1)
+{
+  int v2; // esi
+  __int64 v3; // rdi
+  __int64 v4; // rax
+  __int64 v5; // rcx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_q(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x68u, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, a1);
+  }
+  EnterCriticalSection(&g_SocketListCs);
+  v2 = 0;
+  if ( g_OverlapCount > 0 )
+  {
+    v3 = 0i64;
+    do
+    {
+      v4 = *(_QWORD *)(a1 + 224);
+      v5 = *(_QWORD *)(v3 + v4 + 40);
+      *(_QWORD *)(v3 + v4 + 40) = 0i64;
+      if ( v5 )
+      {
+        _InterlockedIncrement(&dword_1401C7B28);
+        Packet_FreeUdpMessage(v5);
+      }
+      ++v2;
+      v3 += 64i64;
+    }
+    while ( v2 < g_OverlapCount );
+  }
+  *(_DWORD *)(a1 + 108) = -1;
+  LeaveCriticalSection(&g_SocketListCs);
+}
+// 1401C7B28: using guessed type int dword_1401C7B28;
+// 1401C8828: using guessed type int g_OverlapCount;

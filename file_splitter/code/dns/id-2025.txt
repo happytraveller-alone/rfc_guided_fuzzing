@@ -1,0 +1,79 @@
+//----- (00000001400FAD24) ----------------------------------------------------
+__int64 __fastcall DnsOls_WriteKeymasterAttributeForZone(LDAP *ld, __int64 a2, WCHAR *a3)
+{
+  const char *v6; // r9
+  __int64 v7; // rax
+  int v8; // eax
+  unsigned int v9; // ebx
+  CDnsClientSubnetRecordsTrie *v10; // rcx
+  int outvalue; // [rsp+20h] [rbp-68h]
+  ULONG v13; // [rsp+28h] [rbp-60h]
+  __int64 v14[2]; // [rsp+40h] [rbp-48h] BYREF
+  LDAPModW *mods[2]; // [rsp+50h] [rbp-38h] BYREF
+  int v16; // [rsp+60h] [rbp-28h] BYREF
+  const WCHAR *v17; // [rsp+68h] [rbp-20h]
+  __int64 *v18; // [rsp+70h] [rbp-18h]
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    if ( a2 )
+      v6 = *(const char **)(a2 + 16);
+    else
+      v6 = 0i64;
+    WPP_SF_sS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x46u,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      v6,
+      (__int64)a3);
+  }
+  v7 = *(_QWORD *)(a2 + 840);
+  v14[1] = 0i64;
+  v16 = 0;
+  mods[1] = 0i64;
+  v14[0] = v7;
+  v17 = L"msDNS-KeymasterZones";
+  v18 = v14;
+  mods[0] = (LDAPModW *)&v16;
+  v8 = Dns_LdapModifyExt(ld, a3, mods, 0i64, outvalue, v13, 0);
+  v9 = v8;
+  v10 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+  {
+    WPP_SF_DS(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x47u,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      v8,
+      (__int64)a3);
+    v10 = WPP_GLOBAL_Control;
+  }
+  if ( ((v9 - 16) & 0xFFFFFFEF) != 0 )
+  {
+    if ( v9 == 20 )
+      v9 = 0;
+  }
+  else
+  {
+    v9 = 9002;
+  }
+  if ( v10 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v10 + 17) & 0x200000) != 0
+    && *((_BYTE *)v10 + 65) >= 4u )
+  {
+    WPP_SF_DsS(
+      *((_QWORD *)v10 + 7),
+      0x48u,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      v9,
+      *(_QWORD *)(a2 + 16),
+      (__int64)a3);
+  }
+  return v9;
+}
+// 1400FADDF: variable 'outvalue' is possibly undefined
+// 1400FADDF: variable 'v13' is possibly undefined

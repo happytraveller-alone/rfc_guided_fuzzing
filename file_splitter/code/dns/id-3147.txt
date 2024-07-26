@@ -1,0 +1,79 @@
+//----- (0000000140167728) ----------------------------------------------------
+__int64 NetpCreateWellKnownSids()
+{
+  unsigned int v0; // edi
+  ULONG *v1; // rbx
+  ULONG v2; // esi
+  _QWORD *v3; // r14
+  ULONG v4; // eax
+  HLOCAL v5; // rax
+  unsigned int v6; // esi
+  ULONG *i; // rdi
+  PSID v8; // r14
+  PSID *v9; // rbx
+  ULONG v10; // r12d
+  ULONG v11; // r15d
+  ULONG v12; // eax
+  ULONG v13; // ebp
+  HLOCAL v14; // rax
+  NTSTATUS v15; // eax
+  PSID v16; // rcx
+  PUCHAR v17; // rax
+
+  v0 = 0;
+  v1 = (ULONG *)&unk_1401B6FF8;
+  while ( 1 )
+  {
+    v2 = *v1;
+    if ( *v1 > 2 )
+      break;
+    v3 = (_QWORD *)*((_QWORD *)v1 - 1);
+    v4 = RtlLengthRequiredSid(v2);
+    if ( v4 )
+      v5 = LocalAlloc(0, v4);
+    else
+      v5 = 0i64;
+    *v3 = v5;
+    if ( !v5 )
+      return 3221225495i64;
+    RtlInitializeSid(v5, (PSID_IDENTIFIER_AUTHORITY)((char *)&unk_1401B6FFC + 32 * v0), v2);
+    *RtlSubAuthoritySid(**((PSID **)v1 - 1), 0) = v1[3];
+    if ( *v1 == 2 )
+      *RtlSubAuthoritySid(**((PSID **)v1 - 1), 1u) = v1[4];
+    ++v0;
+    v1 += 8;
+    if ( v0 >= 0xB )
+    {
+      v6 = 0;
+      for ( i = (ULONG *)&unk_1401B7158; ; i += 4 )
+      {
+        v8 = BuiltinDomainSid;
+        v9 = (PSID *)*((_QWORD *)i - 1);
+        v10 = *i;
+        v11 = *RtlSubAuthorityCountSid(BuiltinDomainSid);
+        v12 = RtlLengthRequiredSid(v11 + 1);
+        v13 = v12;
+        v14 = v12 ? LocalAlloc(0, v12) : 0i64;
+        *v9 = v14;
+        if ( !v14 )
+          break;
+        v15 = RtlCopySid(v13, v14, v8);
+        v16 = *v9;
+        if ( v15 < 0 )
+        {
+          if ( v16 )
+            LocalFree(v16);
+          return 3221225495i64;
+        }
+        v17 = RtlSubAuthorityCountSid(v16);
+        ++*v17;
+        ++v6;
+        *RtlSubAuthoritySid(*v9, v11) = v10;
+        if ( v6 >= 9 )
+          return 0i64;
+      }
+      return 3221225495i64;
+    }
+  }
+  return 3221225485i64;
+}

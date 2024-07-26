@@ -1,0 +1,67 @@
+//----- (000000014013FF18) ----------------------------------------------------
+__int64 *__fastcall std::_Tree<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::find(
+        __int64 a1,
+        __int64 *a2,
+        const void **a3)
+{
+  __int64 v5; // rax
+  __int64 v6; // rbx
+  __int64 v7; // rdi
+  __int64 v8; // rcx
+  __int64 v9; // rcx
+  const void *v11[5]; // [rsp+28h] [rbp-89h] BYREF
+  const void *v12[5]; // [rsp+50h] [rbp-61h] BYREF
+  const void *v13[5]; // [rsp+78h] [rbp-39h] BYREF
+  const void *v14[13]; // [rsp+A0h] [rbp-11h] BYREF
+
+  v14[5] = (const void *)-2i64;
+  v5 = qword_1401B93E8;
+  v6 = *(_QWORD *)(qword_1401B93E8 + 8);
+  v7 = qword_1401B93E8;
+  if ( !*(_BYTE *)(v6 + 73) )
+  {
+    do
+    {
+      v11[3] = (const void *)7;
+      v11[2] = 0i64;
+      LOWORD(v11[0]) = 0;
+      std::wstring::assign(v11, a3, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+      v12[3] = (const void *)7;
+      v12[2] = 0i64;
+      LOWORD(v12[0]) = 0;
+      std::wstring::assign(v12, (const void **)(v6 + 24), 0i64, 0xFFFFFFFFFFFFFFFFui64);
+      if ( CDnsCompareName::operator()(v8, (__int64)v12, (__int64)v11) )
+      {
+        v6 = *(_QWORD *)(v6 + 16);
+      }
+      else
+      {
+        v7 = v6;
+        v6 = *(_QWORD *)v6;
+      }
+    }
+    while ( !*(_BYTE *)(v6 + 73) );
+    v5 = qword_1401B93E8;
+  }
+  if ( v7 == v5 )
+    goto LABEL_10;
+  v13[3] = (const void *)7;
+  v13[2] = 0i64;
+  LOWORD(v13[0]) = 0;
+  std::wstring::assign(v13, (const void **)(v7 + 24), 0i64, 0xFFFFFFFFFFFFFFFFui64);
+  v14[3] = (const void *)7;
+  v14[2] = 0i64;
+  LOWORD(v14[0]) = 0;
+  std::wstring::assign(v14, a3, 0i64, 0xFFFFFFFFFFFFFFFFui64);
+  if ( CDnsCompareName::operator()(v9, (__int64)v14, (__int64)v13) )
+  {
+    v5 = qword_1401B93E8;
+LABEL_10:
+    v7 = v5;
+  }
+  *a2 = v7;
+  return a2;
+}
+// 14013FFBD: variable 'v8' is possibly undefined
+// 140140035: variable 'v9' is possibly undefined
+// 1401B93E8: using guessed type __int64 qword_1401B93E8;

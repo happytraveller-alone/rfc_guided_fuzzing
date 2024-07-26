@@ -1,0 +1,26 @@
+//----- (000000014005610C) ----------------------------------------------------
+__int64 __fastcall releaseRead(__int64 a1, unsigned int *a2, int a3)
+{
+  unsigned int v3; // ebx
+  int TlsCounter; // eax
+  int v8; // ebx
+
+  v3 = -1;
+  if ( a1 )
+  {
+    TlsCounter = getTlsCounter(a1, 0, a2);
+    v8 = TlsCounter;
+    if ( TlsCounter )
+    {
+      if ( TlsCounter == 1 && _InterlockedDecrement((volatile signed __int32 *)a1) == 1 )
+        SetEvent(*(HANDLE *)(a1 + 40));
+      v3 = v8 - 1;
+      setTlsCounter(a1, 0, v3, a2, a3);
+    }
+    else
+    {
+      return (unsigned int)-1;
+    }
+  }
+  return v3;
+}

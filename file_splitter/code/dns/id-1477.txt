@@ -1,0 +1,107 @@
+//----- (00000001400B8530) ----------------------------------------------------
+__int64 __fastcall doPreconditionsRRSetsMatch(__int64 a1, int a2)
+{
+  __int64 v2; // rdi
+  _QWORD *v3; // r13
+  _QWORD *v4; // rsi
+  __int64 v5; // r15
+  __int16 v6; // r12
+  int v7; // r14d
+  unsigned int v8; // ebp
+  int *v9; // rax
+  __int64 v10; // rcx
+  __int64 *v11; // rbx
+  CDnsClientSubnetRecordsTrie *v12; // rcx
+  __int64 *v13; // rbx
+  int v14; // ebx
+
+  v2 = a1;
+  v3 = 0i64;
+  v4 = 0i64;
+  v5 = 0i64;
+  v6 = 0;
+  v7 = 0;
+  v8 = 1;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0 )
+    Dbg_UpdateList("Precon update list", a1);
+  v9 = *(int **)v2;
+  if ( *(_QWORD *)v2 )
+  {
+    do
+    {
+      v10 = *((_QWORD *)v9 + 2);
+      if ( *((_QWORD *)v9 + 1) == v5 && *(_WORD *)(v10 + 12) == v6 )
+      {
+        *v3 = v10;
+        *v4 = 0i64;
+        v3 = (_QWORD *)v10;
+        v11 = *(__int64 **)v9;
+        *((_QWORD *)v9 + 2) = 0i64;
+        Up_FreeUpdateEx(v9, 0, 1);
+        v9 = (int *)v11;
+      }
+      else
+      {
+        v5 = *((_QWORD *)v9 + 1);
+        ++v7;
+        v6 = *(_WORD *)(v10 + 12);
+        v3 = (_QWORD *)*((_QWORD *)v9 + 2);
+        if ( v4 )
+          *v4 = v9;
+        v4 = v9;
+        v9 = *(int **)v9;
+      }
+    }
+    while ( v9 );
+    v2 = a1;
+  }
+  *(_QWORD *)(v2 + 8) = v4;
+  *(_DWORD *)(v2 + 44) = v7;
+  v12 = WPP_GLOBAL_Control;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+  {
+    Dbg_UpdateList("Precon collapsed list", v2);
+    v12 = WPP_GLOBAL_Control;
+  }
+  v13 = *(__int64 **)v2;
+  if ( *(_QWORD *)v2 )
+  {
+    while ( (unsigned int)RR_ListIsMatchingSet(v13[1], v13[2], 0) )
+    {
+      *((_WORD *)v13 + 20) = -3342;
+      v13 = (__int64 *)*v13;
+      if ( !v13 )
+      {
+        v12 = WPP_GLOBAL_Control;
+        goto LABEL_19;
+      }
+    }
+    v8 = 0;
+    goto LABEL_27;
+  }
+LABEL_19:
+  if ( (*(_DWORD *)(v2 + 40) & 0x1000) == 0 )
+  {
+LABEL_27:
+    v14 = *(_DWORD *)(v2 + 40);
+    Up_FreeUpdatesInUpdateList(v2);
+    memset_0((void *)v2, 0, 0x40ui64);
+    *(_DWORD *)(v2 + 40) = v14;
+    return v8;
+  }
+  if ( a2 )
+  {
+    if ( v12 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v12 + 17) & 0x80000) != 0
+      && *((_BYTE *)v12 + 65) >= 4u )
+    {
+      WPP_SF_q(
+        *((_QWORD *)v12 + 7),
+        0x4Fu,
+        (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids,
+        *(_QWORD *)(v2 + 32));
+    }
+    *(_DWORD *)(v2 + 40) |= 0x40u;
+  }
+  return v8;
+}

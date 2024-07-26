@@ -1,0 +1,384 @@
+//----- (000000014013CD78) ----------------------------------------------------
+__int64 __fastcall Update_CDNSPolicy(struct _zone_info *a1, char **a2)
+{
+  unsigned int DNSPolicy; // edi
+  unsigned int updated; // eax
+  CDnsPolicy *v6; // r13
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  unsigned __int16 v8; // dx
+  char *v9; // r9
+  CDnsPolicy *Policy; // rax
+  CDnsPolicy *v11; // r14
+  __int64 v12; // rax
+  _QWORD *v13; // rdx
+  int v14; // eax
+  __int64 v15; // r8
+  unsigned int v16; // eax
+  CDnsPolicy *v17; // rax
+  CDnsPolicy *v18; // rsi
+  __int64 v19; // r8
+  CDnsClientSubnetRecordsTrie *v20; // rcx
+  char *v21; // r9
+  unsigned __int16 v22; // dx
+  __int64 v23; // rcx
+  __int64 v24; // rsi
+  _QWORD *v25; // rax
+  __int64 v26; // rcx
+  _QWORD *v27; // rax
+  CDnsPolicy *v28; // r13
+  __int64 v29; // rcx
+  __int64 v30; // r13
+  _QWORD *v31; // rdx
+  __int64 v32; // r8
+  CDnsPolicy *v33; // rcx
+  __int64 v34; // rcx
+  __int64 v35; // rdi
+  _QWORD *v36; // rdx
+  __int64 v37; // r8
+  void *v39; // [rsp+40h] [rbp-20h] BYREF
+  CDnsPolicy *v40; // [rsp+48h] [rbp-18h] BYREF
+  __int64 v41; // [rsp+50h] [rbp-10h]
+  CDnsPolicy *v43; // [rsp+B0h] [rbp+50h] BYREF
+  CDnsPolicy *v44; // [rsp+B8h] [rbp+58h] BYREF
+
+  v39 = 0i64;
+  v43 = 0i64;
+  DNSPolicy = Get_DNSPolicy(*a2, (__int64)a1, (struct _DnssrvRpcPolicy **)&v39);
+  if ( DNSPolicy )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Sdd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x15u,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        (const unsigned __int16 *)*a2);
+    }
+    return DNSPolicy;
+  }
+  updated = UpdateRPCPolicy((__int64)a2, (__int64)v39, &v43);
+  v6 = v43;
+  DNSPolicy = updated;
+  if ( updated )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v8 = 22;
+LABEL_11:
+      v9 = *a2;
+LABEL_98:
+      WPP_SF_Sdd(
+        *((_QWORD *)v7 + 7),
+        v8,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        (const unsigned __int16 *)v9);
+      goto LABEL_99;
+    }
+    goto LABEL_99;
+  }
+  LODWORD(v43) = Validate_PolicyData((__int64)v43, (__int64)a1);
+  DNSPolicy = (unsigned int)v43;
+  if ( (_DWORD)v43 )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v9 = *(char **)v6;
+      v8 = 23;
+      goto LABEL_98;
+    }
+    goto LABEL_99;
+  }
+  Policy = (CDnsPolicy *)Get_Policy(*a2, (__int64)a1, &v43);
+  DNSPolicy = (unsigned int)v43;
+  v11 = Policy;
+  v44 = Policy;
+  if ( !Policy || (_DWORD)v43 )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v8 = 24;
+      v9 = *a2;
+      goto LABEL_98;
+    }
+    goto LABEL_99;
+  }
+  DNSPolicy = Remove_PolicyFromMap(*a2, (__int64)a1);
+  if ( DNSPolicy )
+  {
+    v7 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v8 = 25;
+      goto LABEL_11;
+    }
+LABEL_99:
+    if ( DNSPolicy )
+    {
+LABEL_101:
+      Free_RpcPolicy(v6);
+      Free_RpcPolicy(v39);
+      return DNSPolicy;
+    }
+    goto LABEL_100;
+  }
+  *((_DWORD *)v11 + 25) = 1;
+  v12 = *((int *)v6 + 3);
+  if ( a1 )
+    v13 = (_QWORD *)*((_QWORD *)a1 + v12 + 32);
+  else
+    v13 = (_QWORD *)((char *)&g_PolicyOrder + 72 * v12);
+  v14 = 0;
+  v15 = *((unsigned int *)v6 + 7);
+  if ( (__int64)(v13[1] - *v13) >> 3 )
+    v14 = (__int64)(v13[1] - *v13) >> 3;
+  v16 = v14 + 1;
+  if ( v16 < (unsigned int)v15 )
+  {
+    DNSPolicy = 9985;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Sddd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Bu, v15, *(const unsigned __int16 **)v6);
+    }
+    goto LABEL_74;
+  }
+  if ( !(_DWORD)v15 )
+    *((_DWORD *)v6 + 7) = v16;
+  v17 = (CDnsPolicy *)operator new(0x98ui64, (const struct std::nothrow_t *)&std::nothrow);
+  if ( v17 )
+    v18 = CDnsPolicy::CDnsPolicy(v17, *(char **)v6, a1);
+  else
+    v18 = 0i64;
+  v43 = v18;
+  v40 = v18;
+  if ( !v18 )
+  {
+    DNSPolicy = 14;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_SD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Cu,
+        (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+        *(const unsigned __int16 **)v6);
+    }
+    goto LABEL_74;
+  }
+  DNSPolicy = CDnsPolicy::AddPolicy(v18, v6);
+  if ( DNSPolicy )
+  {
+    v20 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+      || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+    {
+      goto LABEL_73;
+    }
+    v21 = *(char **)v6;
+    v22 = 29;
+  }
+  else
+  {
+    *((_DWORD *)v18 + 25) = 1;
+    if ( !(unsigned int)CDnsPolicy::IsPolicyNegativeType(v18) )
+    {
+      DNSPolicy = (*(__int64 (__fastcall **)(struct CDnsPolicyManager *, CDnsPolicy *, struct _zone_info *))(*(_QWORD *)g_DnsPolicyManager + 8i64))(
+                    g_DnsPolicyManager,
+                    v43,
+                    a1);
+      if ( DNSPolicy )
+      {
+        v24 = g_FailedPolicyList;
+        v25 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(
+                v23,
+                g_FailedPolicyList,
+                *(_QWORD *)(g_FailedPolicyList + 8),
+                &v40);
+        v19 = (__int64)v25;
+        if ( qword_1401B9598 == 0x1FFFFFFFFFFFFFFEi64 )
+          std::_Xlength_error("list<T> too long");
+        ++qword_1401B9598;
+        *(_QWORD *)(v24 + 8) = v25;
+        *(_QWORD *)v25[1] = v25;
+        v20 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+          || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+        {
+          goto LABEL_73;
+        }
+        v22 = 30;
+        v21 = *a2;
+        goto LABEL_72;
+      }
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_SD(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x1Fu,
+          (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+          (const unsigned __int16 *)*a2);
+      }
+    }
+    DNSPolicy = AddPolicyToRegistry((__int64)a1, (__int64)v6, 1);
+    if ( DNSPolicy )
+    {
+      v41 = g_FailedPolicyList;
+      v27 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(
+              v26,
+              g_FailedPolicyList,
+              *(_QWORD *)(g_FailedPolicyList + 8),
+              &v40);
+      v19 = (__int64)v27;
+      if ( qword_1401B9598 == 0x1FFFFFFFFFFFFFFEi64 )
+        std::_Xlength_error("list<T> too long");
+      ++qword_1401B9598;
+      *(_QWORD *)(v41 + 8) = v27;
+      *(_QWORD *)v27[1] = v27;
+      v20 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_73;
+      }
+      v22 = 32;
+    }
+    else
+    {
+      DNSPolicy = Add_PolicyToMap((const void **)v43, (__int64)a1);
+      if ( !DNSPolicy )
+      {
+        v33 = v44;
+        *((_DWORD *)v43 + 25) = 0;
+        if ( !(unsigned int)CDnsPolicy::IsPolicyNegativeType(v33) )
+        {
+          DNSPolicy = (*(__int64 (__fastcall **)(struct CDnsPolicyManager *, CDnsPolicy *, struct _zone_info *))(*(_QWORD *)g_DnsPolicyManager + 16i64))(
+                        g_DnsPolicyManager,
+                        v44,
+                        a1);
+          if ( DNSPolicy )
+          {
+            v35 = g_FailedPolicyList;
+            v36 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(
+                    v34,
+                    g_FailedPolicyList,
+                    *(_QWORD *)(g_FailedPolicyList + 8),
+                    &v44);
+            if ( qword_1401B9598 == 0x1FFFFFFFFFFFFFFEi64 )
+              std::_Xlength_error("list<T> too long");
+            ++qword_1401B9598;
+            *(_QWORD *)(v35 + 8) = v36;
+            *(_QWORD *)v36[1] = v36;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+            {
+              WPP_SF_Sdd(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x22u,
+                (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+                (const unsigned __int16 *)*a2);
+            }
+            DNSPolicy = 0;
+            goto LABEL_100;
+          }
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_SD(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x23u,
+              (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+              (const unsigned __int16 *)*a2);
+          }
+        }
+        LogUpdatePolicyEvent((__int64)a1, (__int64)v39, (__int64)v6);
+        CDnsPolicy::DeletePolicy((const void **)v44, 1, v37);
+        CDnsPolicy::`scalar deleting destructor'(v44);
+LABEL_100:
+        DnsTelemetryPolicyInfo((__int64)v39, 0);
+        DnsTelemetryPolicyInfo((__int64)v6, 1);
+        goto LABEL_101;
+      }
+      v20 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 2u )
+      {
+        goto LABEL_73;
+      }
+      v22 = 33;
+    }
+    v21 = *a2;
+  }
+LABEL_72:
+  WPP_SF_Sdd(
+    *((_QWORD *)v20 + 7),
+    v22,
+    (__int64)&WPP_7bc0de5581043365e853c04d44d2eaeb_Traceguids,
+    (const unsigned __int16 *)v21);
+LABEL_73:
+  CDnsPolicy::DeletePolicy((const void **)v43, 1, v19);
+  CDnsPolicy::`scalar deleting destructor'(v43);
+LABEL_74:
+  Free_RpcPolicy(v6);
+  Free_RpcPolicy(v39);
+  v28 = v44;
+  LODWORD(v43) = Add_PolicyToMap((const void **)v44, (__int64)a1);
+  if ( (_DWORD)v43 )
+  {
+    v30 = g_FailedPolicyList;
+    v31 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(
+            v29,
+            g_FailedPolicyList,
+            *(_QWORD *)(g_FailedPolicyList + 8),
+            &v44);
+    if ( qword_1401B9598 == 0x1FFFFFFFFFFFFFFEi64 )
+      std::_Xlength_error("list<T> too long");
+    ++qword_1401B9598;
+    *(_QWORD *)(v30 + 8) = v31;
+    *(_QWORD *)v31[1] = v31;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_Sddd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x24u, v32, (const unsigned __int16 *)*a2);
+    }
+  }
+  else
+  {
+    *((_DWORD *)v28 + 25) = 0;
+  }
+  return DNSPolicy;
+}
+// 14013D137: variable 'v23' is possibly undefined
+// 14013D238: variable 'v26' is possibly undefined
+// 14013D31A: variable 'v19' is possibly undefined
+// 14013D365: variable 'v29' is possibly undefined
+// 14013D3EF: variable 'v32' is possibly undefined
+// 14013D451: variable 'v34' is possibly undefined
+// 14013D536: variable 'v37' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B91C0: using guessed type struct CDnsPolicyManager *g_DnsPolicyManager;
+// 1401B9590: using guessed type __int64 g_FailedPolicyList;
+// 1401B9598: using guessed type __int64 qword_1401B9598;

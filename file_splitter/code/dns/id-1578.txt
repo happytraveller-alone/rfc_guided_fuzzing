@@ -1,0 +1,123 @@
+//----- (00000001400C7D68) ----------------------------------------------------
+void __fastcall Zone_CreateDelegationInParentZone(__int64 a1, __int64 a2)
+{
+  char *v2; // r15
+  char *v3; // rsi
+  __int16 v6; // dx
+  _BYTE *v7; // rax
+  const char **v8; // rbp
+  __int64 v9; // r14
+  CHAR *v10; // r12
+  __int64 v11; // rax
+  __int64 v12; // rdi
+  size_t v13; // rdi
+  char *v14; // rax
+  __int64 v15; // rdx
+  const CHAR *v16; // r9
+  char *v17; // rcx
+  char v18; // al
+  char *v19; // rax
+  _BYTE *Ptr; // rax
+  char v21[64]; // [rsp+30h] [rbp-68h] BYREF
+  __int64 v22; // [rsp+A8h] [rbp+10h] BYREF
+
+  v22 = 0i64;
+  v2 = 0i64;
+  v3 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xBDu,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const char **)(a1 + 16));
+  }
+  if ( dword_1401B9820 && *(_QWORD *)(g_Database + 56) != a1 )
+  {
+    v6 = 0;
+    if ( dword_1401B9820 == 2 )
+      v6 = 0x2000;
+    v7 = Lookup_CreateParentZoneDelegation(a1, v6, &v22);
+    v8 = (const char **)v22;
+    v9 = (__int64)v7;
+    if ( v22 && (unsigned int)(*(_DWORD *)(v22 + 372) - 2) > 2 && v7 && (!*((_QWORD *)v7 + 8) || dword_1401B9820 != 2) )
+    {
+      memset_0(v21, 0, sizeof(v21));
+      v10 = (CHAR *)Str;
+      if ( !_strnicmp(*(const char **)(a1 + 16), "_msdcs.", 7ui64)
+        && (!strchr(Str, 46) || (*(_DWORD *)(a2 + 28) & 0x5000) != 0) )
+      {
+        v11 = -1i64;
+        v12 = -1i64;
+        do
+          ++v12;
+        while ( *(_BYTE *)(*(_QWORD *)(a1 + 16) + v12) );
+        do
+          ++v11;
+        while ( Str[v11] );
+        v13 = (unsigned int)(v11 + v12);
+        v2 = (char *)Mem_Alloc(v13, 0i64, "ds\\dns\\server\\server\\zone.c", 10166);
+        v14 = (char *)Mem_Alloc(v13, 0i64, "ds\\dns\\server\\server\\zone.c", 10167);
+        v3 = v14;
+        if ( v2 )
+        {
+          if ( v14 )
+          {
+            if ( v13 - 1 > 0x7FFFFFFE )
+            {
+              if ( v13 )
+                *v14 = 0;
+            }
+            else
+            {
+              v15 = (unsigned int)v13;
+              v16 = (const CHAR *)(Str - v14);
+              v17 = v14;
+              do
+              {
+                if ( !(2147483646 - v13 + v15) )
+                  break;
+                v18 = v17[(_QWORD)v16];
+                if ( !v18 )
+                  break;
+                *v17++ = v18;
+                --v15;
+              }
+              while ( v15 );
+              if ( !v15 )
+                --v17;
+              *v17 = 0;
+            }
+            strtok(v3, ".");
+            v19 = strchr(*(const char **)(a1 + 16), 46);
+            if ( StringCbPrintfA(v2, v13, "%s.%s", v3, v19 + 1) >= 0 )
+              v10 = v2;
+          }
+        }
+      }
+      Ptr = RR_CreatePtr(0i64, v10, 2u, *(_DWORD *)(a1 + 528), 0x21u);
+      if ( Ptr )
+      {
+        Up_CreateAppendUpdate((__int64)v21, v9, (__int64)Ptr, 0, 0i64);
+        if ( (unsigned int)Up_ExecuteUpdateEx(v8, (__int64)v21, 528, 0, (__int64)"ds\\dns\\server\\server\\zone.c", 245)
+          && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_ssD(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xBEu,
+            (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+            v8[2],
+            *(_QWORD *)(a1 + 16));
+        }
+        Mem_Free(v2, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zone.c", 10241);
+        Mem_Free(v3, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\zone.c", 10242);
+      }
+    }
+  }
+}
+// 1401B9820: using guessed type int dword_1401B9820;
+// 1401EC600: using guessed type __int64 g_Database;

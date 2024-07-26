@@ -1,0 +1,56 @@
+//----- (000000014001293C) ----------------------------------------------------
+ULONG __fastcall Template_sz(
+        REGHANDLE RegHandle,
+        PCEVENT_DESCRIPTOR EventDescriptor,
+        const char *a3,
+        const unsigned __int16 *a4)
+{
+  __int64 v5; // rdx
+  __int64 v7; // rcx
+  ULONG v8; // ecx
+  const char *v9; // rax
+  int v10; // ecx
+  const wchar_t *v11; // rax
+  struct _EVENT_DATA_DESCRIPTOR UserData; // [rsp+20h] [rbp-38h] BYREF
+  const wchar_t *v14; // [rsp+30h] [rbp-28h]
+  int v15; // [rsp+38h] [rbp-20h]
+  int v16; // [rsp+3Ch] [rbp-1Ch]
+
+  v5 = -1i64;
+  if ( a3 )
+  {
+    v7 = -1i64;
+    do
+      ++v7;
+    while ( a3[v7] );
+    v8 = v7 + 1;
+  }
+  else
+  {
+    v8 = 5;
+  }
+  UserData.Size = v8;
+  v9 = "NULL";
+  UserData.Reserved = 0;
+  if ( a3 )
+    v9 = a3;
+  UserData.Ptr = (ULONGLONG)v9;
+  if ( a4 )
+  {
+    do
+      ++v5;
+    while ( a4[v5] );
+    v10 = 2 * v5 + 2;
+  }
+  else
+  {
+    v10 = 10;
+  }
+  v15 = v10;
+  v11 = L"NULL";
+  v16 = 0;
+  if ( a4 )
+    v11 = a4;
+  v14 = v11;
+  return EventWrite(RegHandle, EventDescriptor, 2u, &UserData);
+}

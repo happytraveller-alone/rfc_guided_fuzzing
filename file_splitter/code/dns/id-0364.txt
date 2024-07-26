@@ -1,0 +1,47 @@
+//----- (000000014002F684) ----------------------------------------------------
+__int64 __fastcall Dp_AddToList(__int64 a1)
+{
+  __int64 *i; // rcx
+  __int64 *Next; // rax
+  __int64 *v4; // rbx
+  __int64 *v5; // rax
+  __int64 v6; // rax
+
+  EnterCriticalSection(&g_DpCS);
+  for ( i = 0i64; ; i = v4 )
+  {
+    Next = Dp_GetNext(i);
+    v4 = Next;
+    if ( !Next )
+      break;
+    if ( _wcsicmp(*(const wchar_t **)(a1 + 40), (const wchar_t *)Next[5]) < 0 )
+      goto LABEL_6;
+  }
+  v4 = &g_DpList;
+LABEL_6:
+  v5 = (__int64 *)v4[1];
+  if ( (__int64 *)*v5 != v4 )
+    __fastfail(3u);
+  *(_QWORD *)a1 = v4;
+  *(_QWORD *)(a1 + 8) = v5;
+  *v5 = a1;
+  v4[1] = a1;
+  _InterlockedIncrement(&g_DpListEntryCount);
+  if ( (*(_BYTE *)(a1 + 100) & 4) != 0 )
+  {
+    g_pDomainDp = a1;
+  }
+  else
+  {
+    v6 = g_pForestDp;
+    if ( (*(_BYTE *)(a1 + 100) & 8) != 0 )
+      v6 = a1;
+    g_pForestDp = v6;
+  }
+  LeaveCriticalSection(&g_DpCS);
+  return 0i64;
+}
+// 1401B8C98: using guessed type __int64 g_pDomainDp;
+// 1401B8CA0: using guessed type __int64 g_pForestDp;
+// 1401B8D18: using guessed type int g_DpListEntryCount;
+// 1401B8D20: using guessed type __int64 g_DpList;

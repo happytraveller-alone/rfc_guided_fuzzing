@@ -1,0 +1,70 @@
+//----- (00000001401185F0) ----------------------------------------------------
+__int64 __fastcall Dbg_DnsAddrArray(const char *a1, __int64 a2)
+{
+  CDnsClientSubnetRecordsTrie *v4; // rcx
+  __int64 result; // rax
+  unsigned int i; // edi
+  char v7[208]; // [rsp+30h] [rbp-E8h] BYREF
+
+  if ( a1 )
+  {
+    v4 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      result = WPP_SF_sq(
+                 *((_QWORD *)WPP_GLOBAL_Control + 2),
+                 0x2Du,
+                 (__int64)&WPP_1ea30c73e2b934762a029ee42cc8ebe7_Traceguids,
+                 a1);
+LABEL_10:
+      v4 = WPP_GLOBAL_Control;
+    }
+  }
+  else
+  {
+    v4 = WPP_GLOBAL_Control;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      result = WPP_SF_q(
+                 *((_QWORD *)WPP_GLOBAL_Control + 2),
+                 0x2Eu,
+                 (__int64)&WPP_1ea30c73e2b934762a029ee42cc8ebe7_Traceguids,
+                 a2);
+      goto LABEL_10;
+    }
+  }
+  if ( a2 )
+  {
+    if ( v4 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v4 + 28) & 1) != 0
+      && *((_BYTE *)v4 + 25) >= 4u )
+    {
+      result = WPP_SF_Dd(
+                 *((_QWORD *)v4 + 2),
+                 0x2Fu,
+                 (__int64)&WPP_1ea30c73e2b934762a029ee42cc8ebe7_Traceguids,
+                 *(_DWORD *)(a2 + 4));
+    }
+    for ( i = 0; i < *(_DWORD *)(a2 + 4); ++i )
+    {
+      v7[0] = 0;
+      result = (__int64)DnsAddr_WriteStructString_A(v7, (char *)(((unsigned __int64)i << 6) + a2 + 32));
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+      {
+        result = WPP_SF_Ds(
+                   *((_QWORD *)WPP_GLOBAL_Control + 2),
+                   0x30u,
+                   (__int64)&WPP_1ea30c73e2b934762a029ee42cc8ebe7_Traceguids,
+                   i,
+                   (__int64)v7);
+      }
+    }
+  }
+  return result;
+}

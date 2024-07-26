@@ -1,0 +1,32 @@
+//----- (00000001401249B0) ----------------------------------------------------
+void __fastcall DnsSign::MarkKeyExportable(DnsSign *this)
+{
+  int v1; // ebx
+  BYTE pbInput[4]; // [rsp+30h] [rbp-98h] BYREF
+  __int64 v3; // [rsp+38h] [rbp-90h]
+  char v4[56]; // [rsp+40h] [rbp-88h] BYREF
+  char pExceptionObject[56]; // [rsp+78h] [rbp-50h] BYREF
+
+  v3 = -2i64;
+  *(_DWORD *)pbInput = 3;
+  v1 = NCryptSetProperty((NCRYPT_HANDLE)this, L"Export Policy", pbInput, 4u, 0x80000000);
+  if ( v1 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x100000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        0x10u,
+        (__int64)&WPP_52544f7432c93905eab44474fa1b3f20_Traceguids,
+        v1);
+    }
+    DnsSign::CRunTimeException::CRunTimeException((DnsSign::CRunTimeException *)v4, v1);
+    DnsSign::CException::AppendErrorMessageByID((DnsSign::CException *)v4, 0xD6D8Eu);
+    DnsSign::CRunTimeException::CRunTimeException(
+      (DnsSign::CRunTimeException *)pExceptionObject,
+      (const struct DnsSign::CRunTimeException *)v4);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVCRunTimeException_DnsSign__);
+  }
+}

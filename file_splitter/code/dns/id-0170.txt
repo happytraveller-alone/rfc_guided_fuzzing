@@ -1,0 +1,63 @@
+//----- (000000014001532C) ----------------------------------------------------
+void __fastcall Dbase_UnlockEx(__int64 a1, int a2, __int64 a3, char a4)
+{
+  int v7; // edx
+  int v8; // eax
+  __int64 v9; // r8
+  __int64 v10; // r9
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  void *v12; // rax
+  int v13; // [rsp+20h] [rbp-38h]
+  unsigned int v14; // [rsp+68h] [rbp+10h] BYREF
+
+  if ( a2 )
+  {
+    v7 = a2 - 1;
+    if ( v7 )
+    {
+      if ( v7 == 1 )
+      {
+        v8 = Lock_ReleaseWrite(DbaseLock);
+        DbaseLockCount = v8;
+        v11 = WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+        {
+          if ( a1 )
+          {
+            v12 = FormatLabelA(*(unsigned __int8 *)(a1 + 101), (const void *)(a1 + 102));
+            v11 = WPP_GLOBAL_Control;
+          }
+          else
+          {
+            v12 = 0i64;
+          }
+          WPP_SF_ddqsds(*((_QWORD *)v11 + 7), 0xCu, v9, v10, v13, a1, (__int64)v12, a4, a3);
+          v8 = DbaseLockCount;
+        }
+        if ( !v8 )
+        {
+          DbaseLockCount = 0;
+          DbaseLockThread = 0;
+        }
+      }
+    }
+    else
+    {
+      v14 = -1;
+      releaseUpdate(DbaseLock, &v14, 1);
+    }
+  }
+  else
+  {
+    v14 = -1;
+    releaseRead(DbaseLock, &v14, 1);
+  }
+}
+// 1400153C8: variable 'v9' is possibly undefined
+// 1400153C8: variable 'v10' is possibly undefined
+// 1400153C8: variable 'v13' is possibly undefined
+// 1401EC5E8: using guessed type __int64 DbaseLock;
+// 1401EC5F0: using guessed type int DbaseLockCount;
+// 1401EC5F4: using guessed type int DbaseLockThread;

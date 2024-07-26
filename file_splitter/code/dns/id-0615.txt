@@ -1,0 +1,24 @@
+//----- (0000000140056F5C) ----------------------------------------------------
+void __fastcall Log_vsprint(STRSAFE_LPCSTR pszFormat, va_list argList)
+{
+  int v4; // edx
+  DWORD v5; // [rsp+20h] [rbp-28h]
+  STRSAFE_LPSTR ppszDestEnd; // [rsp+60h] [rbp+18h] BYREF
+
+  ppszDestEnd = 0i64;
+  if ( (unsigned int)Log_EnterLock() )
+  {
+    if ( StringCchVPrintfExA(lpMultiByteStr, (unsigned int)qword_1401B8F90, &ppszDestEnd, 0i64, v5, pszFormat, argList) >= 0
+      && ppszDestEnd )
+    {
+      v4 = (_DWORD)ppszDestEnd - (_DWORD)lpMultiByteStr;
+      if ( ppszDestEnd - lpMultiByteStr <= (unsigned __int64)(unsigned int)qword_1401B8F90 )
+      {
+        lpMultiByteStr = ppszDestEnd;
+        LODWORD(qword_1401B8F90) = qword_1401B8F90 - v4;
+      }
+    }
+    Log_LeaveLock();
+  }
+}
+// 140056F9A: variable 'v5' is possibly undefined

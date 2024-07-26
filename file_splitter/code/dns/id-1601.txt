@@ -1,0 +1,75 @@
+//----- (00000001400CABE0) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall ZoneScope_CreateDefaultZoneScopeFileName(__int64 a1)
+{
+  CDnsClientSubnetRecordsTrie **result; // rax
+  CDnsClientSubnetRecordsTrie *v3; // rcx
+  unsigned __int16 v4; // dx
+  __int16 MultiByteStr[264]; // [rsp+20h] [rbp-228h] BYREF
+
+  if ( *(_DWORD *)(a1 + 372) )
+  {
+    if ( (int)StringCchCopyW((char *)MultiByteStr, 261i64, *(char **)(a1 + 192)) < 0
+      || (int)StringCchCatW((unsigned __int16 *)MultiByteStr, 261i64, (char *)L".dns") < 0 )
+    {
+      *(_QWORD *)(a1 + 144) = 0i64;
+      v3 = WPP_GLOBAL_Control;
+      result = &WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v4 = 255;
+        return (CDnsClientSubnetRecordsTrie **)WPP_SF_S(
+                                                 *((_QWORD *)v3 + 7),
+                                                 v4,
+                                                 (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+                                                 *(const unsigned __int16 **)(a1 + 192));
+      }
+    }
+    else
+    {
+      result = (CDnsClientSubnetRecordsTrie **)Dns_StringCopyAllocate((char *)MultiByteStr, 0, 1i64, 1);
+      *(_QWORD *)(a1 + 144) = result;
+      if ( !result )
+      {
+        v3 = WPP_GLOBAL_Control;
+        result = &WPP_GLOBAL_Control;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+        {
+          v4 = 256;
+          return (CDnsClientSubnetRecordsTrie **)WPP_SF_S(
+                                                   *((_QWORD *)v3 + 7),
+                                                   v4,
+                                                   (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+                                                   *(const unsigned __int16 **)(a1 + 192));
+        }
+      }
+    }
+  }
+  else
+  {
+    result = (CDnsClientSubnetRecordsTrie **)Dns_StringCopyAllocate((char *)L"cache.dns", 0, 1i64, 1);
+    *(_QWORD *)(a1 + 144) = result;
+    if ( !result )
+    {
+      *(_QWORD *)(a1 + 144) = 0i64;
+      v3 = WPP_GLOBAL_Control;
+      result = &WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        v4 = 254;
+        return (CDnsClientSubnetRecordsTrie **)WPP_SF_S(
+                                                 *((_QWORD *)v3 + 7),
+                                                 v4,
+                                                 (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+                                                 *(const unsigned __int16 **)(a1 + 192));
+      }
+    }
+  }
+  return result;
+}
+// 1400CABE0: using guessed type unsigned __int16 MultiByteStr[264];

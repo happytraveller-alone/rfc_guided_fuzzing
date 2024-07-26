@@ -1,0 +1,25 @@
+//----- (0000000140109708) ----------------------------------------------------
+char *__fastcall std::_Tree_val<std::_Tmap_traits<NodeTypePair,bool,CNodeTypePairComparator,std::allocator<std::pair<NodeTypePair const,bool>>,0>>::_Buynode<std::pair<NodeTypePair,bool>>(
+        __int64 a1,
+        __int64 a2)
+{
+  char *result; // rax
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  result = (char *)operator new(0x38ui64);
+  if ( !result )
+  {
+    std::bad_alloc::bad_alloc((std::bad_alloc *)pExceptionObject, 0i64);
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVbad_alloc_std__);
+  }
+  *(_QWORD *)result = *(_QWORD *)(a1 + 8);
+  *((_QWORD *)result + 1) = *(_QWORD *)(a1 + 8);
+  *((_QWORD *)result + 2) = *(_QWORD *)(a1 + 8);
+  *((_WORD *)result + 24) = 0;
+  if ( result != (char *)-24i64 )
+  {
+    *(_OWORD *)(result + 24) = *(_OWORD *)a2;
+    result[40] = *(_BYTE *)(a2 + 16);
+  }
+  return result;
+}

@@ -1,0 +1,26 @@
+//----- (0000000140129BF0) ----------------------------------------------------
+void __fastcall std::vector<DnsSign::CCertificate>::~vector<DnsSign::CCertificate>(__int64 a1)
+{
+  PCCERT_CONTEXT *v1; // rdi
+  PCCERT_CONTEXT *v3; // rsi
+
+  v1 = *(PCCERT_CONTEXT **)a1;
+  if ( *(_QWORD *)a1 )
+  {
+    v3 = *(PCCERT_CONTEXT **)(a1 + 8);
+    while ( v1 != v3 )
+    {
+      if ( *v1 )
+      {
+        CertFreeCertificateContext(*v1);
+        *v1 = 0i64;
+      }
+      ++v1;
+    }
+    operator delete(*(void **)a1);
+  }
+  *(_QWORD *)a1 = 0i64;
+  *(_QWORD *)(a1 + 8) = 0i64;
+  *(_QWORD *)(a1 + 16) = 0i64;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);

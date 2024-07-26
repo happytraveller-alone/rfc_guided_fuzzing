@@ -1,0 +1,10 @@
+//----- (00000001400A59B0) ----------------------------------------------------
+__int64 __fastcall Cfg_SetRecordLifeTimeInAuthCache(__int64 a1)
+{
+  if ( dword_1401B991C )
+    *(_DWORD *)(a1 + 8) *= 60;
+  else
+    *(_DWORD *)(a1 + 8) = 0;
+  return 0i64;
+}
+// 1401B991C: using guessed type int dword_1401B991C;

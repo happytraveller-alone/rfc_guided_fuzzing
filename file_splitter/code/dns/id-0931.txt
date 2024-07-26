@@ -1,0 +1,60 @@
+//----- (000000014007E860) ----------------------------------------------------
+ULONG __fastcall RpcUtil_CreateSecurityObjects(__int64 a1, __int64 a2)
+{
+  NTSTATUS SecurityDescriptor; // ebx
+  PSECURITY_DESCRIPTOR v3; // rcx
+  __int16 v5; // [rsp+30h] [rbp-20h] BYREF
+  char v6; // [rsp+32h] [rbp-1Eh]
+  int v7; // [rsp+34h] [rbp-1Ch]
+  void *v8; // [rsp+38h] [rbp-18h]
+  __int16 v9; // [rsp+40h] [rbp-10h]
+  char v10; // [rsp+42h] [rbp-Eh]
+  int v11; // [rsp+44h] [rbp-Ch]
+  void *v12; // [rsp+48h] [rbp-8h]
+  PSECURITY_DESCRIPTOR CreatorDescriptor; // [rsp+60h] [rbp+10h] BYREF
+  void *TokenHandle; // [rsp+68h] [rbp+18h] BYREF
+
+  v5 = 0;
+  v9 = 0;
+  v8 = &AliasAdminsSid;
+  v12 = &AliasSystemOpsSid;
+  v6 = 0;
+  v7 = 0x10000000;
+  v10 = 0;
+  v11 = 983043;
+  SecurityDescriptor = NetpCreateSecurityDescriptor(
+                         (__int64)&v5,
+                         a2,
+                         (void *)LocalSystemSid,
+                         (void *)LocalSystemSid,
+                         (struct _ACL **)&CreatorDescriptor);
+  if ( SecurityDescriptor >= 0 )
+  {
+    SecurityDescriptor = NtOpenProcessToken((HANDLE)0xFFFFFFFFFFFFFFFFi64, 8u, &TokenHandle);
+    if ( SecurityDescriptor >= 0 )
+    {
+      SecurityDescriptor = RtlNewSecurityObject(
+                             0i64,
+                             CreatorDescriptor,
+                             &g_GlobalSecurityDescriptor,
+                             0,
+                             TokenHandle,
+                             &g_GlobalSecurityInfoMapping);
+      NtClose(TokenHandle);
+      if ( CreatorDescriptor )
+      {
+        v3 = CreatorDescriptor;
+LABEL_7:
+        LocalFree(v3);
+      }
+    }
+    else
+    {
+      v3 = CreatorDescriptor;
+      if ( CreatorDescriptor )
+        goto LABEL_7;
+    }
+  }
+  return RtlNtStatusToDosError(SecurityDescriptor);
+}
+// 1401B9F88: using guessed type __int64 LocalSystemSid;

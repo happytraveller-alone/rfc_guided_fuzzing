@@ -1,0 +1,26 @@
+//----- (0000000140156224) ----------------------------------------------------
+_DWORD *__fastcall DnsAddrArray_CopyAndExpand(_DWORD *Src, __int64 a2, __int64 a3, int a4)
+{
+  int v4; // ebp
+  _DWORD *v7; // rax
+  _DWORD *v8; // rsi
+  int v9; // ebx
+
+  v4 = a3;
+  if ( !Src )
+  {
+    if ( (_DWORD)a2 )
+      return DnsAddrArray_Create(a2, a2, a3, a4);
+    return 0i64;
+  }
+  v7 = DnsAddrArray_Create((int)a2 + Src[1], a2, a3, a4);
+  v8 = v7;
+  if ( !v7 )
+    return 0i64;
+  v9 = *v7;
+  memcpy_0(v7, Src, (unsigned int)((Src[1] << 6) + 32));
+  *v8 = v9;
+  if ( v4 )
+    Dns_Free(Src);
+  return v8;
+}

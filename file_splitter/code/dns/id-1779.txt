@@ -1,0 +1,22 @@
+//----- (00000001400E03DC) ----------------------------------------------------
+__int64 __fastcall std::pair<unsigned short,TrustAnchor>::~pair<unsigned short,TrustAnchor>(__int64 a1)
+{
+  __int64 result; // rax
+  volatile signed __int32 *v2; // rbx
+
+  result = a1 + 8;
+  v2 = *(volatile signed __int32 **)(a1 + 16);
+  if ( v2 )
+  {
+    result = (unsigned int)_InterlockedExchangeAdd(v2 + 2, 0xFFFFFFFF);
+    if ( (_DWORD)result == 1 )
+    {
+      (**(void (__fastcall ***)(volatile signed __int32 *))v2)(v2);
+      result = (unsigned int)_InterlockedExchangeAdd(v2 + 3, 0xFFFFFFFF);
+      if ( (_DWORD)result == 1 )
+        return (*(__int64 (__fastcall **)(volatile signed __int32 *))(*(_QWORD *)v2 + 8i64))(v2);
+    }
+  }
+  return result;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

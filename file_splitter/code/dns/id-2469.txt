@@ -1,0 +1,17 @@
+//----- (000000014012B2D0) ----------------------------------------------------
+__int64 __fastcall std::numpunct<unsigned short>::do_falsename(__int64 a1, __int64 a2)
+{
+  char *v3; // rdx
+  unsigned __int64 v4; // r8
+
+  v3 = *(char **)(a1 + 32);
+  v4 = -1i64;
+  *(_QWORD *)(a2 + 24) = 7i64;
+  *(_QWORD *)(a2 + 16) = 0i64;
+  *(_WORD *)a2 = 0;
+  do
+    ++v4;
+  while ( *(_WORD *)&v3[2 * v4] );
+  std::wstring::assign((char *)a2, v3, v4);
+  return a2;
+}

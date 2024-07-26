@@ -1,0 +1,50 @@
+//----- (0000000140116018) ----------------------------------------------------
+__int64 __fastcall CSecurityDescriptor::RemovePrincipalFromACL(PACL pAcl, PSID pSid1)
+{
+  __int64 result; // rax
+  signed int LastError; // ecx
+  DWORD v6; // ebx
+  char *v7; // rdx
+  LPVOID pAce; // [rsp+20h] [rbp-28h] BYREF
+  int pAclInformation[4]; // [rsp+28h] [rbp-20h] BYREF
+
+  if ( !pAcl )
+    return 2147942487i64;
+  if ( GetAclInformation(pAcl, pAclInformation, 0xCu, AclSizeInformation) )
+  {
+    v6 = 0;
+    if ( !pAclInformation[0] )
+      return 0i64;
+    while ( GetAce(pAcl, v6, &pAce) )
+    {
+      if ( *(_BYTE *)pAce > 4u )
+      {
+        if ( *(_BYTE *)pAce > 8u )
+          goto LABEL_18;
+        v7 = (char *)pAce + 12;
+        if ( (*((_BYTE *)pAce + 8) & 1) != 0 )
+          v7 = (char *)pAce + 28;
+        if ( (*((_BYTE *)pAce + 8) & 2) != 0 )
+          v7 += 16;
+      }
+      else
+      {
+        v7 = (char *)pAce + 8;
+      }
+      if ( v7 && EqualSid(pSid1, v7) )
+      {
+        DeleteAce(pAcl, v6);
+        return 0i64;
+      }
+LABEL_18:
+      if ( ++v6 >= pAclInformation[0] )
+        return 0i64;
+    }
+  }
+  LastError = GetLastError();
+  result = (unsigned __int16)LastError | 0x80070000;
+  if ( LastError <= 0 )
+    return (unsigned int)LastError;
+  return result;
+}
+// 140116018: using guessed type unsigned int pAclInformation[4];

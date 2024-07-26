@@ -1,0 +1,17 @@
+//----- (000000014013EDD0) ----------------------------------------------------
+void __fastcall Free_RpcPolicy(void *a1)
+{
+  unsigned int i; // esi
+
+  if ( a1 )
+  {
+    for ( i = 0; i < *((_DWORD *)a1 + 14); ++i )
+    {
+      MIDL_user_free(*(void **)(*((_QWORD *)a1 + i + 8) + 8i64));
+      MIDL_user_free(*((void **)a1 + i + 8));
+    }
+    Free_RpcPolicyContent(*((struct _DnssrvRpcPolicyAction **)a1 + 5));
+    MIDL_user_free(*(void **)a1);
+    MIDL_user_free(a1);
+  }
+}

@@ -1,0 +1,40 @@
+//----- (0000000140123CC0) ----------------------------------------------------
+char *__fastcall NaptrWriteCanonicalizedRdata(_DWORD *a1, unsigned __int64 a2, __int64 a3)
+{
+  unsigned __int8 *v4; // r14
+  _DWORD *v6; // rbx
+  int v7; // ebp
+  __int64 v8; // rsi
+  __int64 v9; // rax
+
+  v4 = (unsigned __int8 *)(a3 + 60);
+  if ( a2 >= (unsigned __int64)a1 + *(unsigned __int16 *)(a3 + 14) - 2 )
+  {
+    v6 = a1 + 1;
+    if ( (unsigned __int64)(a1 + 1) <= a2 )
+    {
+      v7 = 0;
+      *a1 = *(_DWORD *)(a3 + 56);
+      while ( 1 )
+      {
+        v8 = *v4;
+        if ( (unsigned __int64)v6 + v8 + 1 > a2 )
+          break;
+        memcpy_0(v6, v4, (unsigned __int8)v8 + 1);
+        ++v7;
+        v9 = (unsigned __int8)(v8 + 1);
+        v6 = (_DWORD *)((char *)v6 + v9);
+        v4 += v9;
+        if ( v7 >= 3 )
+          return Name_WriteCanonicalizedCountName((char *)v6, a2, v4);
+      }
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 0x20) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 4u )
+  {
+    WPP_SF_qqqd(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xFu, a3, a3, a2, a1, *(unsigned __int16 *)(a3 + 14));
+  }
+  return 0i64;
+}

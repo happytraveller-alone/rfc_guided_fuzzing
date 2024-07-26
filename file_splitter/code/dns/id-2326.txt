@@ -1,0 +1,53 @@
+//----- (000000014011EFF8) ----------------------------------------------------
+__int64 __fastcall Rand_GenerateWord(int a1)
+{
+  unsigned __int16 v2; // bx
+  int v3; // edi
+  unsigned int v4; // ecx
+  BOOL v5; // eax
+  int v6; // esi
+  int v7; // eax
+  unsigned int v9; // [rsp+48h] [rbp+10h] BYREF
+
+  v2 = 0;
+  v9 = 0;
+  v3 = 10;
+  if ( !g_hCryptProv )
+    goto LABEL_15;
+  EnterCriticalSection(&g_csDnsRand);
+  v4 = g_wRandArrayIdx;
+  if ( (unsigned int)g_wRandArrayIdx < 0x100 )
+  {
+    v6 = 1;
+  }
+  else
+  {
+    v5 = CryptGenRandom(g_hCryptProv, 0x200u, &g_wRandArray);
+    v4 = 0;
+    v6 = v5;
+    g_wRandArrayIdx = 0;
+  }
+  if ( v6 )
+  {
+    g_wRandArrayIdx = v4 + 1;
+    v2 = *((_WORD *)&g_wRandArray + v4);
+  }
+  LeaveCriticalSection(&g_csDnsRand);
+  if ( (!v6 || !a1) && !v2 )
+  {
+LABEL_15:
+    do
+    {
+      v7 = v3--;
+      if ( v7 <= 0 )
+        break;
+      v9 = 0;
+      rand_s(&v9);
+      v2 = v9 + v9 / 0xFFFF;
+    }
+    while ( !v2 );
+  }
+  return v2;
+}
+// 140184D78: using guessed type __int64 __fastcall rand_s(_QWORD);
+// 1401BA10C: using guessed type int g_wRandArrayIdx;

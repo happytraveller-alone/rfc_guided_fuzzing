@@ -1,0 +1,26 @@
+//----- (0000000140090BA0) ----------------------------------------------------
+char *__fastcall SoaWireWrite(__int64 a1, unsigned __int64 a2, unsigned __int64 a3, __int64 a4)
+{
+  unsigned __int8 *v4; // rbx
+  char *v9; // rdx
+  char *v11; // rax
+  char *v12; // rbx
+
+  v4 = (unsigned __int8 *)(a4 + 76);
+  v9 = Name_WriteCountNameToPacketEx(a1, a2, (unsigned __int8 *)(a4 + 76), 1);
+  if ( !v9 )
+    return 0i64;
+  v11 = Name_WriteCountNameToPacketEx(a1, (unsigned __int64)v9, &v4[*v4 + 2], 1);
+  v12 = v11;
+  if ( !v11 || !(unsigned int)Wire_TestForBytesRemaining((unsigned __int64)v11, a3, 20i64) )
+    return 0i64;
+  *(_OWORD *)v12 = *(_OWORD *)(a4 + 56);
+  *((_DWORD *)v12 + 4) = *(_DWORD *)(a4 + 72);
+  if ( *(_BYTE *)(a1 + 1416) )
+  {
+    if ( *(_WORD *)(a1 + 480) == 6 )
+      Wire_SaveAdditionalInfo(a1, 0i64, a2, 1u, 0);
+  }
+  *(_QWORD *)(a1 + 488) = a4;
+  return v12 + 20;
+}

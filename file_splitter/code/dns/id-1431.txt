@@ -1,0 +1,15 @@
+//----- (00000001400B3028) ----------------------------------------------------
+_BOOL8 __fastcall NTree_NodeHasNsecRecords(__int64 a1, unsigned __int16 a2, int a3)
+{
+  BOOL v4; // edi
+  BOOL v7; // r8d
+
+  v4 = 0;
+  v7 = RR_FindNextRecordEx(a1, 0, a2, 0i64, 0, 0) != 0;
+  if ( a3 && (*(_DWORD *)(a1 + 92) & 0x1000000) != 0 && (a2 == 47 || (*(_DWORD *)(a1 + 92) & 0x200000) != 0) )
+  {
+    LOBYTE(v4) = !v7;
+    return v4;
+  }
+  return v7;
+}

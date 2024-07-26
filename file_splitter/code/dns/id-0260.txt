@@ -1,0 +1,79 @@
+//----- (000000014002180C) ----------------------------------------------------
+void indicateShutdown()
+{
+  CDnsClientSubnetRecordsTrie *v0; // rcx
+  const char *v1; // r9
+  unsigned __int32 v2; // eax
+  __int64 v3; // rbx
+  int v4; // ebx
+
+  EnterCriticalSection(&g_csGeneralServer);
+  v0 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v1 = "is not";
+    if ( g_fDnsServiceExit == 1 )
+      v1 = "is";
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x12u, (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids, v1);
+    v0 = WPP_GLOBAL_Control;
+  }
+  if ( g_fDnsServiceExit == 1 )
+    goto LABEL_27;
+  g_fDnsServiceExit = 1;
+  g_fDnsThreadAlert = 1;
+  if ( hDnsShutdownEvent )
+    SetEvent(hDnsShutdownEvent);
+  if ( hDnsContinueEvent )
+    SetEvent(hDnsContinueEvent);
+  if ( g_hIpNotify )
+  {
+    CancelMibChangeNotify2(g_hIpNotify);
+    g_hIpNotify = 0i64;
+  }
+  Sock_CloseAllSockets();
+  v2 = _InterlockedCompareExchange(&g_cThreadsWaitingForUdp, 0, 0);
+  if ( v2 )
+  {
+    v3 = v2;
+    do
+    {
+      PostQueuedCompletionStatus(g_hUdpCompletionPort, 0, 0i64, 0i64);
+      --v3;
+    }
+    while ( v3 );
+  }
+  v4 = 0;
+  while ( _InterlockedCompareExchange(&g_cThreadsWaitingForUdp, 0, 0) )
+  {
+    if ( (unsigned int)++v4 >= 0x12C )
+      break;
+    Sleep(0x64u);
+  }
+  if ( g_hUdpCompletionPort )
+  {
+    CloseHandle(g_hUdpCompletionPort);
+    g_hUdpCompletionPort = 0i64;
+  }
+  v0 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control )
+  {
+    if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x13u, (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids);
+      v0 = WPP_GLOBAL_Control;
+    }
+LABEL_27:
+    if ( v0 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v0 + 68) & 1) != 0
+      && *((_BYTE *)v0 + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)v0 + 7), 0x14u, (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids);
+    }
+  }
+  LeaveCriticalSection(&g_csGeneralServer);
+}
+// 1401B7EB4: using guessed type int g_fDnsThreadAlert;
+// 1401B909C: using guessed type int g_cThreadsWaitingForUdp;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;

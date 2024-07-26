@@ -1,0 +1,36 @@
+//----- (00000001400815DC) ----------------------------------------------------
+__int64 __fastcall DotNetRpc_GetZoneInfo(int a1, __int64 a2, __int64 a3, _DWORD *a4, _QWORD *a5)
+{
+  _DWORD *RpcZoneInfoDotNet; // rax
+  __int64 result; // rax
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xDu,
+      (__int64)&WPP_21ab4c8ef415362ee12b8a2b34f36684_Traceguids,
+      a1,
+      *(_QWORD *)(a2 + 16));
+  }
+  RpcZoneInfoDotNet = allocateRpcZoneInfoDotNet(a2);
+  if ( RpcZoneInfoDotNet )
+  {
+    *a5 = RpcZoneInfoDotNet;
+    result = 0i64;
+    *a4 = 22;
+  }
+  else
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xEu, (__int64)&WPP_21ab4c8ef415362ee12b8a2b34f36684_Traceguids);
+    }
+    return 14i64;
+  }
+  return result;
+}

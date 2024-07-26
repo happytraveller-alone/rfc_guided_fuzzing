@@ -1,0 +1,17 @@
+//----- (000000014009F198) ----------------------------------------------------
+__int64 __fastcall sockFindDnsSocketForIpAddr(_WORD *a1, int a2)
+{
+  __int64 i; // rbx
+
+  EnterCriticalSection(&g_SocketListCs);
+  for ( i = g_SocketList; (__int64 *)i != &g_SocketList; i = *(_QWORD *)i )
+  {
+    if ( *(_DWORD *)(i + 96) == a2 && (unsigned int)DnsAddr_IsEqual((_WORD *)(i + 32), a1, 0xFFFF) )
+      goto LABEL_7;
+  }
+  i = 0i64;
+LABEL_7:
+  LeaveCriticalSection(&g_SocketListCs);
+  return i;
+}
+// 1401C87F0: using guessed type __int64 g_SocketList;

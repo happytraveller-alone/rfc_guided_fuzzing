@@ -1,0 +1,17 @@
+//----- (00000001400DD2AC) ----------------------------------------------------
+BOOL __fastcall DnsGetVersionInfo(DWORD *a1, DWORD *a2, DWORD *a3)
+{
+  BOOL result; // eax
+  struct _OSVERSIONINFOW VersionInformation; // [rsp+20h] [rbp-148h] BYREF
+
+  memset_0(&VersionInformation, 0, 0x11Cui64);
+  VersionInformation.dwOSVersionInfoSize = 284;
+  result = GetVersionExW(&VersionInformation);
+  if ( result )
+  {
+    *a1 = VersionInformation.dwMajorVersion;
+    *a2 = VersionInformation.dwMinorVersion;
+    *a3 = VersionInformation.dwBuildNumber;
+  }
+  return result;
+}

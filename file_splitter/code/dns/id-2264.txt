@@ -1,0 +1,60 @@
+//----- (000000014011ACA0) ----------------------------------------------------
+unsigned __int8 *__fastcall Name_PacketNameToCountNameForUnknown(_BYTE *a1, unsigned __int64 a2, unsigned __int8 *a3)
+{
+  unsigned __int8 *v4; // r9
+  unsigned __int8 *v5; // r8
+  char v7; // di
+  unsigned __int8 *v8; // rax
+  unsigned __int8 v9; // cl
+  unsigned __int8 v10; // r10
+  char *v11; // rax
+
+  v4 = a1 + 2;
+  v5 = a1 + 257;
+  v7 = 0;
+LABEL_8:
+  v10 = *a3++;
+  if ( v10 )
+  {
+    if ( (v10 & 0xC0) == 0 )
+    {
+      ++v7;
+      if ( &v4[v10 + 1] <= v5 )
+      {
+        *v4++ = v10;
+        if ( (unsigned __int64)&a3[v10] < a2 )
+        {
+          v8 = v4 + 1;
+          while ( 1 )
+          {
+            v9 = *a3;
+            --v10;
+            ++a3;
+            if ( v8 > v5 )
+              break;
+            *v4 = v9;
+            ++v8;
+            ++v4;
+            if ( !v10 )
+              goto LABEL_8;
+          }
+        }
+      }
+    }
+    return 0i64;
+  }
+  if ( v4 + 1 > v5 )
+    return 0i64;
+  *v4 = 0;
+  a1[1] = v7;
+  *a1 = (_BYTE)v4 - (_BYTE)a1 - 1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    v11 = Dbg_PacketName(a1 + 2, 0i64, 0i64);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 2), 0x26u, (__int64)&WPP_9b89b12181b832778f87f82d45d7beb0_Traceguids, v11);
+  }
+  return a3;
+}
+// 14011ACFC: conditional instruction was optimized away because r10.1!=0

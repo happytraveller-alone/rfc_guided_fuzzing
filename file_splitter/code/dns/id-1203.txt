@@ -1,0 +1,84 @@
+//----- (000000014009B8E0) ----------------------------------------------------
+__int64 __fastcall Send_ResponseAndReset(__int64 a1)
+{
+  __int64 v1; // rax
+  unsigned int i; // edi
+  unsigned int v4; // esi
+  int Error; // eax
+  __int64 v6; // r8
+  __int64 result; // rax
+  struct timeval *timeout; // [rsp+20h] [rbp-9C8h]
+  __int64 v9; // [rsp+28h] [rbp-9C0h]
+  struct timeval v10; // [rsp+40h] [rbp-9A8h] BYREF
+  fd_set exceptfds; // [rsp+50h] [rbp-998h] BYREF
+
+  *(_BYTE *)(a1 + 6306) |= 0x80u;
+  v1 = *(_QWORD *)(a1 + 3688);
+  *(_BYTE *)(a1 + 1412) = 0;
+  if ( v1 )
+    *(_BYTE *)(a1 + 6307) = *(_BYTE *)(a1 + 6307) & 0x7F | ((*(_DWORD *)(v1 + 296) != 0) << 7);
+  else
+    *(_BYTE *)(a1 + 6307) = *(_BYTE *)(a1 + 6307) & 0x7F | ((dword_1401B97F8 != 0) << 7);
+  for ( i = 0; i < 0x14; ++i )
+  {
+    v4 = Send_Msg(a1, 1);
+    if ( v4 != 10035 )
+      break;
+    if ( !i )
+    {
+      exceptfds.fd_array[0] = *(_QWORD *)(a1 + 56);
+      exceptfds.fd_count = 1;
+      v10 = (struct timeval)1i64;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+    {
+      LODWORD(v9) = i;
+      LODWORD(timeout) = *(_DWORD *)(a1 + 56);
+      WPP_SF_qdD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x2Au,
+        (__int64)&WPP_398a615c07233f5235cf23860937c5e7_Traceguids,
+        a1,
+        timeout,
+        v9);
+    }
+    if ( select(0, 0i64, 0i64, &exceptfds, &v10) )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+      {
+        Error = WSAGetLastError();
+        WPP_SF_dqdd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x2Bu,
+          (__int64)&WPP_398a615c07233f5235cf23860937c5e7_Traceguids,
+          Error);
+      }
+      v4 = 9002;
+      break;
+    }
+  }
+  *(_DWORD *)(a1 + 3096) = 0;
+  *(_QWORD *)(a1 + 3104) = 0i64;
+  if ( *(_WORD *)(a1 + 6308) )
+  {
+    v6 = *(_QWORD *)(a1 + 456);
+    *(_QWORD *)(a1 + 32) = *(_QWORD *)(a1 + 472) + 4i64;
+    Name_SaveCompressionWithNode(a1, a1 + 6316, v6);
+  }
+  else
+  {
+    *(_QWORD *)(a1 + 32) = a1 + 6316;
+  }
+  *(_BYTE *)(a1 + 6306) &= ~2u;
+  result = v4;
+  *(_DWORD *)(a1 + 6310) = 0;
+  *(_WORD *)(a1 + 6314) = 0;
+  return result;
+}
+// 14009B9DA: variable 'timeout' is possibly undefined
+// 14009B9DA: variable 'v9' is possibly undefined
+// 1401B97F8: using guessed type int dword_1401B97F8;

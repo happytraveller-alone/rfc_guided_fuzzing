@@ -1,0 +1,17 @@
+//----- (0000000140057A04) ----------------------------------------------------
+_BYTE *__fastcall Log_FormatNodeName(__int64 *a1)
+{
+  _BYTE *v2; // rax
+  _BYTE *v3; // rbx
+
+  v2 = Mem_Alloc(0x200u, 0i64, "ds\\dns\\server\\server\\log.c", 1884);
+  v3 = v2;
+  if ( v2 )
+  {
+    if ( a1 )
+      Name_PlaceNodeNameInBuffer(v2, (unsigned __int64)(v2 + 510), a1, 0i64);
+    else
+      *(_WORD *)v2 = 46;
+  }
+  return v3;
+}

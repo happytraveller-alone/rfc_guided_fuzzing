@@ -1,0 +1,117 @@
+//----- (0000000140013704) ----------------------------------------------------
+__int64 __fastcall writeZoneToBootFile(HANDLE hFile, __int64 a2)
+{
+  unsigned int v4; // r14d
+  unsigned __int8 *v5; // r9
+  __int64 v6; // rbx
+  __int64 v7; // rax
+  unsigned __int8 *v8; // r9
+  int v9; // ecx
+  int v10; // ecx
+  int v11; // ecx
+  int v12; // ecx
+  __int64 result; // rax
+  const char *v14; // rbx
+  __int64 v15; // rcx
+  char *StringFromIpAddressArray; // rax
+  char *v17; // rsi
+  const char *v18; // r9
+  const char *v19; // r8
+  char v20[1041]; // [rsp+30h] [rbp-D0h] BYREF
+  char v21[15]; // [rsp+441h] [rbp+341h] BYREF
+  char v22[1021]; // [rsp+450h] [rbp+350h] BYREF
+  char v23[3]; // [rsp+84Dh] [rbp+74Dh] BYREF
+
+  v4 = 0;
+  memset_0(v20, 0, sizeof(v20));
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x14u,
+      (__int64)&WPP_60a4112be8d5305b8c36a81144862647_Traceguids,
+      *(const char **)(a2 + 16));
+  }
+  v5 = *(unsigned __int8 **)(a2 + 16);
+  v6 = -1i64;
+  v7 = -1i64;
+  do
+    ++v7;
+  while ( v5[v7] );
+  File_PlaceStringInFileBuffer(v22, (unsigned __int64)v23, 2, v5, v7);
+  v8 = *(unsigned __int8 **)(a2 + 136);
+  if ( v8 )
+  {
+    do
+      ++v6;
+    while ( v8[v6] );
+    File_PlaceStringInFileBuffer(v20, (unsigned __int64)v21, 3, v8, v6);
+  }
+  v9 = *(_DWORD *)(a2 + 372);
+  if ( v9 )
+  {
+    v10 = v9 - 1;
+    if ( v10 )
+    {
+      v11 = v10 - 1;
+      if ( v11 )
+      {
+        v12 = v11 - 1;
+        if ( v12 )
+        {
+          if ( v12 != 1 )
+            return 9611i64;
+          v14 = "forward";
+        }
+        else
+        {
+          v14 = "stub";
+        }
+      }
+      else
+      {
+        v14 = "secondary";
+      }
+      v15 = *(_QWORD *)(a2 + 1168);
+      if ( v15 )
+      {
+        StringFromIpAddressArray = createStringFromIpAddressArray(v15);
+        v17 = StringFromIpAddressArray;
+        if ( *(_QWORD *)(a2 + 136) )
+          FormattedWriteFile(hFile, "%-12s %-27s %s %s\r\n", v14, v22, StringFromIpAddressArray, v20);
+        else
+          FormattedWriteFile(hFile, "%-12s %-27s %s\r\n", v14, v22, StringFromIpAddressArray);
+        Mem_Free(v17, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\bootfile.c", 1032);
+      }
+      else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+             && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+             && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x15u,
+          (__int64)&WPP_60a4112be8d5305b8c36a81144862647_Traceguids,
+          v14);
+      }
+      return v4;
+    }
+    if ( (*(_BYTE *)(a2 + 388) & 1) != 0 )
+      return v4;
+    v18 = v22;
+    v19 = "primary";
+LABEL_33:
+    FormattedWriteFile(hFile, "%-12s %-27s %s\r\n", v19, v18, v20);
+    return v4;
+  }
+  if ( v20[0] || (result = StringCchCatA(v20, 1041i64, "cache.dns"), v4 = result, (int)result >= 0) )
+  {
+    v18 = ".";
+    v19 = "cache";
+    goto LABEL_33;
+  }
+  return result;
+}
+// 140013704: using guessed type char var_33[3];
+// 140013704: using guessed type char var_43F[15];

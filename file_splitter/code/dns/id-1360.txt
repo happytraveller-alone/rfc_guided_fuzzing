@@ -1,0 +1,65 @@
+//----- (00000001400ACB0C) ----------------------------------------------------
+__int64 __fastcall Tcp_ConnectForForwarding(
+        __int64 a1,
+        struct in_addr *a2,
+        unsigned int a3,
+        void (__fastcall *a4)(__int64, _QWORD))
+{
+  unsigned int CurrentTimeInSeconds; // eax
+  int v9; // edi
+  const char *v10; // rax
+  int v13; // [rsp+28h] [rbp-10h]
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v13 = a3 - dword_1401B9714;
+    WPP_SF_qdD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x24u,
+      (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+      a1,
+      a3,
+      v13);
+  }
+  if ( (unsigned int)Msg_MakeTcpConnection(a1, (__int64)a2, 0i64, 16) )
+  {
+    CurrentTimeInSeconds = Dns_GetCurrentTimeInSeconds();
+    dword_1401B9714 = CurrentTimeInSeconds;
+    if ( a3 < CurrentTimeInSeconds )
+      v9 = 1;
+    else
+      v9 = a3 - CurrentTimeInSeconds;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x25u,
+        (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+        v9);
+    }
+    if ( (unsigned int)Tcp_ConnectionCreate(*(_QWORD *)(a1 + 56), (__int64)a4, v9, a1) )
+      return 1i64;
+    Sock_CloseSocket(*(_QWORD *)(a1 + 56));
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v10 = DnsAddr_Ntoa(a2);
+    WPP_SF_sq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x26u,
+      (__int64)&WPP_9f19520dfb7e38d3377701f712cb1704_Traceguids,
+      v10);
+  }
+  *(_QWORD *)(a1 + 56) = g_UdpSendSocket4;
+  *(_BYTE *)(a1 + 1413) = 0;
+  a4(a1, 0i64);
+  return 0i64;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 1401B9714: using guessed type int dword_1401B9714;

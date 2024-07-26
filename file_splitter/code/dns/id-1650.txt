@@ -1,0 +1,116 @@
+//----- (00000001400D1600) ----------------------------------------------------
+__int64 __fastcall zoneResetToForwarder(__int64 a1, unsigned int a2, CHAR *a3, _DWORD *a4, int a5, char *a6)
+{
+  int v10; // ecx
+  __int64 result; // rax
+  char *v12; // r15
+  int v13; // r12d
+  __int64 v14; // rax
+  __int64 v15; // rax
+  int v16; // r14d
+  int v17; // esi
+  unsigned int v18; // edi
+  __int64 v19; // [rsp+70h] [rbp+8h] BYREF
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x21u,
+      (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+      *(const char **)(a1 + 16),
+      (__int64)a3);
+  }
+  v10 = *(_DWORD *)(a1 + 388);
+  if ( (v10 & 1) != 0 && (v10 & 6) != 0 )
+    return 9568i64;
+  if ( !a2 && (*(_DWORD *)(a1 + 388) & 1) == 0 || !dword_1401B9750 && !g_fDsReadOnlyDcMode )
+  {
+    result = Zone_ValidateMasterIpList(a4);
+    if ( (_DWORD)result )
+      return result;
+    v12 = a6;
+    v13 = a5;
+    if ( a2 )
+    {
+      v19 = 0i64;
+      if ( a5 || a6 )
+      {
+        result = Dp_FindPartitionForZone(a5, a6, 1, &v19);
+        if ( (_DWORD)result )
+          return result;
+        v14 = v19;
+      }
+      else
+      {
+        v14 = *(_QWORD *)(a1 + 848);
+      }
+      if ( (unsigned int)g_ulDsDomainVersion < 2 && (!v14 || (*(_BYTE *)(v14 + 100) & 2) != 0) )
+      {
+        v15 = *(_QWORD *)(a1 + 848);
+        if ( v15 )
+        {
+          if ( (*(_BYTE *)(v15 + 100) & 2) == 0 )
+            return 50i64;
+        }
+      }
+    }
+    v16 = *(_DWORD *)(a1 + 372);
+    v17 = *(_DWORD *)(a1 + 388) & 1;
+    if ( !v17 )
+      File_WriteZoneToFile(a1, 0i64, 0x10000000);
+    if ( v16 == 4 && v17 == a2 )
+    {
+      v18 = Zone_SetMasters(a1, a4, 0, 0x10000000);
+    }
+    else
+    {
+      File_DeleteZoneFileA(a3);
+      File_DeleteZoneFileA(*(CHAR **)(a1 + 136));
+      Zone_DumpData(a1);
+      if ( v17
+        && (unsigned int)Ds_DeleteZone(a1, 0x10000000)
+        && WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x22u,
+          (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+          *(const char **)(a1 + 16));
+      }
+      v18 = Zone_ResetType(a1, 4, a4, 268435472);
+      if ( v18 )
+        goto LABEL_42;
+      v18 = Zone_DatabaseSetup(a1, a2, a3, 0, 0x10000000, 0i64, v13, v12);
+      scrubDsFields(a1);
+    }
+    if ( !v18 && (!a2 || (v18 = Ds_WriteZoneToDs(a1, 32, 0)) == 0) )
+    {
+      *(_DWORD *)(a1 + 396) &= ~0x2000u;
+      return v18;
+    }
+LABEL_42:
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x23u,
+        (__int64)&WPP_5efa35e0870730ffd13051b9da022308_Traceguids,
+        v18);
+    }
+    *(_DWORD *)(a1 + 388) &= ~1u;
+    *(_DWORD *)(a1 + 388) |= v17 & 1;
+    *(_DWORD *)(a1 + 372) = v16;
+    return v18;
+  }
+  return 9569i64;
+}
+// 1401B7F68: using guessed type int g_ulDsDomainVersion;
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9750: using guessed type int dword_1401B9750;

@@ -1,0 +1,63 @@
+//----- (00000001400A17D4) ----------------------------------------------------
+const char *Dns_GetLocalDnsName()
+{
+  int LastError; // eax
+  int v1; // eax
+  const char *v3; // rax
+  const char *v4; // rbx
+  DWORD nSize[4]; // [rsp+30h] [rbp-238h] BYREF
+  WCHAR Buffer[264]; // [rsp+40h] [rbp-228h] BYREF
+
+  nSize[0] = 256;
+  if ( !GetComputerNameExW(ComputerNameDnsFullyQualified, Buffer, nSize) )
+  {
+    LastError = GetLastError();
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x5Au,
+        (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+        LastError);
+    }
+    nSize[0] = 256;
+    if ( !GetComputerNameExW(ComputerNameDnsHostname, Buffer, nSize) )
+    {
+      v1 = GetLastError();
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_D(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x5Bu,
+          (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+          v1);
+      }
+      return 0i64;
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_SD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x5Cu,
+      (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids,
+      Buffer);
+  }
+  v3 = (const char *)Dns_StringCopyAllocate((char *)Buffer, nSize[0], 1i64, 2);
+  v4 = v3;
+  if ( !v3 )
+    return 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x5Du, (__int64)&WPP_0e6d7f56a09830e1f84833a99c0e37ce_Traceguids, v3);
+  }
+  return v4;
+}

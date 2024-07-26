@@ -1,0 +1,5 @@
+//----- (000000014013B6D8) ----------------------------------------------------
+void __noreturn std::tr1::array<CDnsPolicy_CriteriaNode *,2>::_Xran()
+{
+  std::_Xout_of_range("invalid array<T, N> subscript");
+}

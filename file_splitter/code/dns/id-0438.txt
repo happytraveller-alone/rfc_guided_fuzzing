@@ -1,0 +1,21 @@
+//----- (00000001400377DC) ----------------------------------------------------
+__int64 __fastcall Ds_ReserveBervalInModBuffer(_QWORD *a1, unsigned int a2)
+{
+  __int64 v2; // r8
+  __int64 result; // rax
+  __int64 v5; // r8
+
+  v2 = a1[3];
+  if ( v2 + (unsigned __int64)a2 + 16 >= a1[4] )
+  {
+    if ( (unsigned int)Ds_AllocateMoreSpaceInModBuffer(a1) )
+      return 0i64;
+    v2 = a1[3];
+  }
+  a1[6] = v2;
+  v5 = v2 + 16;
+  a1[3] = v5;
+  result = v5;
+  a1[7] = v5;
+  return result;
+}

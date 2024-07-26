@@ -1,0 +1,46 @@
+//----- (000000014016F7F0) ----------------------------------------------------
+__int64 __fastcall WPP_SF_sDssDsDD(
+        __int64 a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        __int64 a5,
+        __int64 a6,
+        char a7,
+        __int64 a8)
+{
+  __int64 v8; // r9
+  __int64 v9; // r10
+  __int64 v10; // r11
+  __int64 v11; // rbx
+
+  v8 = -1i64;
+  if ( a8 )
+  {
+    v9 = -1i64;
+    do
+      ++v9;
+    while ( *(_BYTE *)(a8 + v9) );
+  }
+  if ( a6 )
+  {
+    v10 = -1i64;
+    do
+      ++v10;
+    while ( *(_BYTE *)(a6 + v10) );
+  }
+  if ( a5 )
+  {
+    v11 = -1i64;
+    do
+      ++v11;
+    while ( *(_BYTE *)(a5 + v11) );
+  }
+  if ( a3 )
+  {
+    do
+      ++v8;
+    while ( *(_BYTE *)(a3 + v8) );
+  }
+  return FastWppTraceMessage((__int64)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, 0x76u);
+}

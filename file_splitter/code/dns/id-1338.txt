@@ -1,0 +1,17 @@
+//----- (00000001400AA670) ----------------------------------------------------
+__int64 __fastcall Rpc_GetRRLParams(
+        CDnsRRLParameters *a1,
+        __int64 a2,
+        __int64 a3,
+        __int64 a4,
+        int a5,
+        int a6,
+        _DWORD *a7,
+        struct _DnsRRLParams_ **a8)
+{
+  if ( !gDnsRRLInitStatus && !g_DnsRRLConfigParams )
+    return 9911i64;
+  *a7 = 61;
+  return CDnsRRLParameters::GetRRLParams(a1, a8);
+}
+// 1401B9254: using guessed type int gDnsRRLInitStatus;

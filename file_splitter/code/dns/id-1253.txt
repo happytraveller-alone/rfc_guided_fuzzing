@@ -1,0 +1,332 @@
+//----- (00000001400A227C) ----------------------------------------------------
+__int64 __fastcall loadPropertyByIndex(unsigned int a1, int a2)
+{
+  unsigned int v2; // esi
+  BYTE *v4; // r8
+  char **v5; // rdi
+  DWORD LastError; // ebx
+  int v7; // eax
+  char *v8; // rbx
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned __int16 v10; // dx
+  const char *v11; // rax
+  char *v12; // rbx
+  char *v13; // rcx
+  CDnsClientSubnetRecordsTrie *v14; // rcx
+  unsigned __int16 v15; // dx
+  const char *v16; // rax
+  char *v17; // rbx
+  char *v18; // rcx
+  CDnsClientSubnetRecordsTrie *v19; // rcx
+  unsigned __int16 v20; // dx
+  const char *v21; // r8
+  unsigned int *AddrArray; // rax
+  const unsigned __int16 *v23; // r8
+  CDnsClientSubnetRecordsTrie *v24; // rcx
+  unsigned __int16 v25; // dx
+  unsigned int v26; // eax
+  unsigned int v27; // edx
+  unsigned __int16 v28; // dx
+  char *v29; // rax
+  char *v30; // rdx
+  const char *LocalDnsName; // rax
+  char *v32; // rbx
+  __int64 v33; // rcx
+  int v34; // r9d
+  __int64 (__fastcall *v35)(); // rdx
+  LPBYTE v37; // [rsp+20h] [rbp-20h]
+  int v38; // [rsp+30h] [rbp-10h] BYREF
+  LPBYTE v39; // [rsp+38h] [rbp-8h]
+  DWORD v40; // [rsp+70h] [rbp+30h] BYREF
+  unsigned int v41; // [rsp+78h] [rbp+38h] BYREF
+
+  v41 = a2;
+  v2 = 0;
+  v40 = 0;
+  v38 = 0;
+  v4 = 0i64;
+  v39 = 0i64;
+  v5 = &(&ServerPropertyTable)[7 * a1];
+  if ( !*v5 )
+    return DWORDLONG_MAX;
+  v7 = *((_DWORD *)v5 + 2);
+  if ( v7 == 4 )
+  {
+    v23 = (const unsigned __int16 *)*v5;
+    v41 = 0;
+    v40 = 4;
+    if ( (unsigned int)Reg_GetValue(0i64, 0i64, v23, 4, (LPBYTE)&v41, &v40) )
+    {
+      v26 = *((_DWORD *)v5 + 3);
+      v41 = v26;
+      v24 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_54;
+      }
+      v25 = 16;
+    }
+    else
+    {
+      v2 = 1;
+      v24 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+        || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+      {
+        goto LABEL_53;
+      }
+      v25 = 15;
+      v26 = v41;
+    }
+    LODWORD(v37) = v26;
+    WPP_SF_sd(*((_QWORD *)v24 + 7), v25, (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids, *v5);
+    v24 = WPP_GLOBAL_Control;
+LABEL_53:
+    v26 = v41;
+LABEL_54:
+    v27 = *((_DWORD *)v5 + 6);
+    if ( !v27 && !*((_DWORD *)v5 + 7) || !v26 && *((_DWORD *)v5 + 8) )
+      goto LABEL_69;
+    if ( v26 >= v27 )
+    {
+      if ( v26 <= *((_DWORD *)v5 + 7) )
+        goto LABEL_69;
+      v26 = *((_DWORD *)v5 + 7);
+      v2 = 0;
+      v41 = v26;
+      if ( v24 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)v24 + 68) & 2) == 0
+        || *((_BYTE *)v24 + 65) < 4u )
+      {
+        goto LABEL_69;
+      }
+      v28 = 18;
+    }
+    else
+    {
+      v26 = *((_DWORD *)v5 + 6);
+      v41 = v26;
+      v2 = 0;
+      if ( v24 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        || (*((_BYTE *)v24 + 68) & 2) == 0
+        || *((_BYTE *)v24 + 65) < 4u )
+      {
+        goto LABEL_69;
+      }
+      v28 = 17;
+    }
+    LODWORD(v37) = v26;
+    WPP_SF_sd(*((_QWORD *)v24 + 7), v28, (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids, *v5);
+    v26 = v41;
+LABEL_69:
+    v38 = 4;
+    LODWORD(v39) = v26;
+    goto LABEL_70;
+  }
+  if ( v7 != 34 )
+  {
+    switch ( v7 )
+    {
+      case -268435455:
+        v16 = (const char *)Dns_StringCopyAllocate(*v5, 0, 2i64, 1);
+        v17 = (char *)v16;
+        if ( v16 )
+        {
+          v38 = -268435455;
+          v39 = Reg_GetValueAllocate(0i64, 0i64, v16, -268435455, 0i64);
+          Mem_Free(v17, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\srvcfg.c", 1788);
+          v4 = v39;
+          LOBYTE(v2) = v39 != 0i64;
+          if ( v39 || (v18 = v5[2]) == 0i64 )
+          {
+            v19 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+            {
+              goto LABEL_71;
+            }
+            v20 = 12;
+          }
+          else
+          {
+            v4 = (BYTE *)Dns_StringCopyAllocate(v18, 0, (unsigned int)((_DWORD)v39 + 1), (int)v39 + 1);
+            v39 = v4;
+            v19 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+            {
+              goto LABEL_71;
+            }
+            v20 = 11;
+          }
+          WPP_SF_sS(
+            *((_QWORD *)v19 + 7),
+            v20,
+            (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+            *v5,
+            (__int64)v4);
+          goto LABEL_70;
+        }
+        break;
+      case -16777215:
+        v11 = (const char *)Dns_StringCopyAllocate(*v5, 0, 2i64, 1);
+        v12 = (char *)v11;
+        if ( v11 )
+        {
+          v38 = -16777215;
+          v39 = Reg_GetValueAllocate(0i64, 0i64, v11, -16777215, 0i64);
+          Mem_Free(v12, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\srvcfg.c", 1846);
+          v4 = v39;
+          LOBYTE(v2) = v39 != 0i64;
+          if ( v39 || (v13 = v5[2]) == 0i64 )
+          {
+            v14 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+            {
+              goto LABEL_71;
+            }
+            v15 = 14;
+          }
+          else
+          {
+            v4 = (BYTE *)Dns_StringCopyAllocate(v13, 0, 2i64, 2);
+            v39 = v4;
+            v14 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              || (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) == 0
+              || *((_BYTE *)WPP_GLOBAL_Control + 65) < 4u )
+            {
+              goto LABEL_71;
+            }
+            v15 = 13;
+          }
+          WPP_SF_ss(
+            *((_QWORD *)v14 + 7),
+            v15,
+            (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+            *v5,
+            (__int64)v4);
+          goto LABEL_70;
+        }
+        break;
+      case -16777209:
+        v8 = (char *)Dns_StringCopyAllocate(*v5, 0, 2i64, 1);
+        if ( v8 )
+        {
+          v38 = -16777209;
+          v39 = Reg_GetValueAllocate(0i64, 0i64, v8, -16777209, 0i64);
+          Mem_Free(v8, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\srvcfg.c", 1995);
+          v4 = v39;
+          LOBYTE(v2) = v39 != 0i64;
+          v9 = WPP_GLOBAL_Control;
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            v10 = 19;
+            v37 = v39;
+LABEL_13:
+            WPP_SF_sq(*((_QWORD *)v9 + 7), v10, (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids, *v5);
+LABEL_70:
+            v4 = v39;
+            goto LABEL_71;
+          }
+          goto LABEL_71;
+        }
+        break;
+      default:
+        goto LABEL_71;
+    }
+    return 14;
+  }
+  v21 = *v5;
+  v38 = 0x20000;
+  AddrArray = Reg_GetAddrArrayEx(0i64, 0i64, v21, 0, 0i64);
+  v39 = (LPBYTE)AddrArray;
+  v4 = (BYTE *)AddrArray;
+  LOBYTE(v2) = AddrArray != 0i64;
+  v9 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v10 = 10;
+    v37 = (LPBYTE)AddrArray;
+    goto LABEL_13;
+  }
+LABEL_71:
+  v29 = v5[5];
+  if ( v29 )
+  {
+    LODWORD(v29) = ((__int64 (__fastcall *)(int *, _QWORD, __int64, _QWORD, LPBYTE))v29)(&v38, a1, 1i64, v2, v37);
+    if ( (_DWORD)v29 == 0x80000000 )
+    {
+      LastError = GetLastError();
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_sd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x15u,
+          (__int64)&WPP_44543417c05739f4a9c82c388f6d5836_Traceguids,
+          *v5);
+      }
+      return LastError;
+    }
+    v4 = v39;
+  }
+  v30 = v5[6];
+  if ( v30 && ((unsigned __int8)v29 & 1) == 0 )
+  {
+    if ( *((_DWORD *)v5 + 2) == 4 )
+    {
+      *(_DWORD *)v30 = (_DWORD)v39;
+      if ( !_stricmp(*v5, "DisableNegativeCaching") && *(_DWORD *)v5[6] == 1 )
+      {
+        LocalDnsName = Dns_GetLocalDnsName();
+        v32 = (char *)LocalDnsName;
+        if ( (Microsoft_Windows_DNS_Server_ServiceEnableBits & 1) != 0 )
+          Template_s(Microsoft_Windows_DNS_Server_ServiceHandle, &DNS_EVENT_NEGATIVE_CACHING_DISABLED, LocalDnsName);
+        Mem_Free(v32, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\srvcfg.c", 2075);
+      }
+    }
+    else
+    {
+      v33 = *(_QWORD *)v30;
+      *(_QWORD *)v30 = v4;
+      if ( v33 )
+      {
+        if ( *((_DWORD *)v5 + 2) == -16777209 || *((_DWORD *)v5 + 2) == -268435449 )
+        {
+          v34 = 2099;
+          v35 = (__int64 (__fastcall *)())Dns_FreeStringArray;
+        }
+        else if ( *((_DWORD *)v5 + 2) == 34 )
+        {
+          v34 = 2103;
+          v35 = DnsAddrArray_Free;
+        }
+        else
+        {
+          v34 = 2107;
+          v35 = 0i64;
+        }
+        Timeout_FreeWithFunctionEx(v33, (__int64)v35, (__int64)"ds\\dns\\server\\server\\srvcfg.c", v34);
+      }
+    }
+  }
+  return 0;
+}
+// 1400A2750: variable 'v37' is possibly undefined
+// 1401560E0: using guessed type __int64 __fastcall DnsAddrArray_Free();
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 140187798: using guessed type EVENT_DESCRIPTOR DNS_EVENT_NEGATIVE_CACHING_DISABLED;
+// 1401B9140: using guessed type int Microsoft_Windows_DNS_Server_ServiceEnableBits;

@@ -1,0 +1,75 @@
+//----- (000000014011CA54) ----------------------------------------------------
+char *__fastcall File_CopyFileTextData(char *a1, unsigned int a2, char *a3, unsigned int a4, int a5)
+{
+  __int64 v5; // rsi
+  char *QuotedChar; // r14
+  __int64 v7; // r15
+  const char *v9; // rax
+  char *v10; // rbx
+  __int64 v11; // rbp
+  char *v12; // rsi
+  unsigned __int64 v13; // rbp
+  char v14; // al
+
+  LODWORD(v5) = a4;
+  QuotedChar = a3;
+  v7 = a2;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 7) & 0x40000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 25) >= 5u )
+  {
+    v9 = (const char *)FormatLabelA(a4, a3);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 2), 0xEu, (__int64)&WPP_410f52d72e8937ebe6dfc2517de4055a_Traceguids, v9);
+  }
+  v10 = a1;
+  if ( (_DWORD)v5 )
+    goto LABEL_10;
+  v5 = -1i64;
+  do
+    ++v5;
+  while ( QuotedChar[v5] );
+  if ( (_DWORD)v5 )
+  {
+LABEL_10:
+    v11 = (unsigned int)v5;
+    v12 = &a1[v7];
+    v13 = (unsigned __int64)&QuotedChar[v11];
+    if ( a5 )
+      v10 = a1 + 1;
+    else
+      --v12;
+    while ( (unsigned __int64)QuotedChar < v13 )
+    {
+      if ( v10 >= v12 )
+        return 0i64;
+      v14 = *QuotedChar++;
+      if ( v14 == 92 )
+        QuotedChar = extractQuotedChar(v10, QuotedChar, v13);
+      else
+        *v10 = v14;
+      ++v10;
+    }
+    if ( a5 )
+    {
+      if ( v10 - a1 - 1 <= 255 )
+      {
+        *a1 = (_BYTE)v10 - (_BYTE)a1 - 1;
+      }
+      else
+      {
+        *a1 = 0;
+        return 0i64;
+      }
+    }
+    else
+    {
+      *v10 = 0;
+    }
+  }
+  else
+  {
+    *a1 = 0;
+    return a1 + 1;
+  }
+  return v10;
+}

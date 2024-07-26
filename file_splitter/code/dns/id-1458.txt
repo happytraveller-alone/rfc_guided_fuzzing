@@ -1,0 +1,48 @@
+//----- (00000001400B5A84) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie *__fastcall Dbg_Update(const char *a1, __int64 a2)
+{
+  CDnsClientSubnetRecordsTrie *result; // rax
+  __int64 v5; // rdx
+  const char *v6; // r10
+  __int64 v7; // r8
+  const char *v8; // r9
+  unsigned int v9; // [rsp+A0h] [rbp+18h] BYREF
+
+  result = WPP_GLOBAL_Control;
+  if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0 )
+  {
+    v9 = -1;
+    acquireRead(DbaseLock, 0xFFFFFFFF, &v9);
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      Up_IsValidAddRR(a2);
+      v5 = *(_QWORD *)(a2 + 8);
+      if ( !v5 || (v6 = " [Temp];", (*(_DWORD *)(v5 + 84) & 0x88880000) != -2004353024) )
+        v6 = ";";
+      if ( v5 )
+        v7 = v5 + 102;
+      else
+        v7 = 0i64;
+      v8 = "Update:";
+      if ( a1 )
+        v8 = a1;
+      WPP_SF_sqdqssqddqdD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        v5,
+        v7,
+        v8,
+        a2,
+        *(_DWORD *)(a2 + 32),
+        v5,
+        v7,
+        (__int64)v6);
+    }
+    Up_IsValidAddRR(a2);
+    v9 = -1;
+    return (CDnsClientSubnetRecordsTrie *)releaseRead(DbaseLock, &v9, 1);
+  }
+  return result;
+}
+// 1401EC5E8: using guessed type __int64 DbaseLock;

@@ -1,0 +1,9 @@
+//----- (000000014016D720) ----------------------------------------------------
+void sub_14016D720()
+{
+  `eh vector destructor iterator'(
+    &g_PolicySvr,
+    0x20ui64,
+    5ui64,
+    (void (__stdcall *)(void *))std::map<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>>::~map<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>>);
+}

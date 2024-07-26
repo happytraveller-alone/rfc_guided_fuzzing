@@ -1,0 +1,17 @@
+//----- (00000001400A8810) ----------------------------------------------------
+__int64 Rpc_AbortScavenging()
+{
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x26u, (__int64)&WPP_8dcaf0ee02573174dfb45ec0cfad4f2e_Traceguids);
+  }
+  g_bAbortScavenging = 1;
+  if ( (dword_1401B9104 & 0x800) != 0 )
+    TemplateEventDescriptor(Microsoft_Windows_DNSServerHandle, &DNS_EVENT_ABORT_SCAVENGING);
+  return 0i64;
+}
+// 140187728: using guessed type EVENT_DESCRIPTOR DNS_EVENT_ABORT_SCAVENGING;
+// 1401B8C10: using guessed type int g_bAbortScavenging;
+// 1401B9104: using guessed type int dword_1401B9104;

@@ -1,0 +1,5 @@
+//----- (0000000140144360) ----------------------------------------------------
+_BOOL8 __fastcall CDNSPolicyCriteriaInterfaceIP::IsCriteriaNegative(CDNSPolicyCriteriaInterfaceIP *this)
+{
+  return *((_QWORD *)this + 12) != 0i64;
+}

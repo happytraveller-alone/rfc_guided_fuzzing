@@ -1,0 +1,75 @@
+//----- (00000001400BB3AC) ----------------------------------------------------
+__int64 __fastcall processNonDsUpdate(__int64 a1, _QWORD *a2)
+{
+  const char *v4; // rsi
+  const char *v5; // r9
+  unsigned int updated; // ebx
+  int v8; // r9d
+  CDnsClientSubnetRecordsTrie *v9; // rcx
+  unsigned int v10; // eax
+  const char *v11; // r8
+
+  v4 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v5 = *(const char **)(a1 + 16);
+    else
+      v5 = 0i64;
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xA6u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, v5);
+  }
+  if ( !*a2 )
+    return 0i64;
+  updated = Up_PrepareUpdateListForExecution(a1, 0i64, (__int64)a2, 0);
+  if ( updated )
+  {
+    v9 = WPP_GLOBAL_Control;
+    v4 = "update initialization";
+  }
+  else
+  {
+    v10 = Up_ApplyUpdatesToDatabase((__int64)a2, a1, 0i64, v8);
+    v9 = WPP_GLOBAL_Control;
+    updated = v10;
+    if ( v10 )
+    {
+      v4 = "Executing update";
+    }
+    else
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x80000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0xA7u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids);
+        v9 = WPP_GLOBAL_Control;
+      }
+      updated = 0;
+    }
+  }
+  if ( updated )
+  {
+    if ( v9 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)v9 + 17) & 0x80000) != 0
+      && *((_BYTE *)v9 + 65) >= 4u )
+    {
+      WPP_SF_D(*((_QWORD *)v9 + 7), 0xA8u, (__int64)&WPP_40fcce62f6f439b0ec75be29cae6130a_Traceguids, updated);
+    }
+    if ( (qword_1401B9780 & 0x4000) != 0 && (unsigned int)Log_EnterLock() )
+    {
+      v11 = "<none>";
+      g_pszCurrentLogLevelString = (__int64)"DSWRITE";
+      if ( v4 )
+        v11 = v4;
+      Log_Printf("Update Error <%lu>: %s\r\n", updated, v11);
+      g_pszCurrentLogLevelString = 0i64;
+      Log_LeaveLock();
+    }
+  }
+  return updated;
+}
+// 1400BB44E: variable 'v8' is possibly undefined
+// 1401B8F28: using guessed type __int64 g_pszCurrentLogLevelString;
+// 1401B9780: using guessed type __int64 qword_1401B9780;

@@ -1,0 +1,198 @@
+//----- (0000000140030680) ----------------------------------------------------
+__int64 __fastcall Dp_LoadOrCreateMicrosoftDnsObject(LDAP *ld, __int64 a2, int a3)
+{
+  __int64 v3; // rbx
+  LDAPMessage *v6; // r13
+  unsigned int v7; // edi
+  LDAP *v8; // r14
+  char *v9; // r15
+  __int64 v10; // rbp
+  char *v11; // rax
+  unsigned __int16 *v12; // rdi
+  LDAPMessage *v13; // rax
+  __int64 v14; // r8
+  WCHAR *v15; // rdx
+  __int64 v16; // r8
+  int v17; // r9d
+  int v18; // r9d
+  int v19; // r9d
+  void *SD; // rbp
+  __int64 v22; // [rsp+88h] [rbp+10h] BYREF
+  __int64 v23; // [rsp+98h] [rbp+20h] BYREF
+
+  v3 = 0i64;
+  LODWORD(v22) = 0;
+  LODWORD(v23) = 0;
+  v6 = 0i64;
+  if ( a2 )
+  {
+    if ( (*(_BYTE *)(a2 + 100) & 0x10) != 0 )
+    {
+      if ( *(_DWORD *)(a2 + 16) )
+      {
+        v7 = 9905;
+      }
+      else
+      {
+        v8 = pServerLdap;
+        if ( ld )
+          v8 = ld;
+        if ( v8 )
+        {
+          Timeout_FreeWithFunctionEx(*(_QWORD *)(a2 + 56), 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 3222);
+          v9 = *(char **)(a2 + 40);
+          v10 = -1i64;
+          do
+            ++v10;
+          while ( *(_WORD *)&v9[2 * v10] );
+          v11 = (char *)Mem_Alloc(2 * (int)v10 + 42, 9i64, "ds\\dns\\server\\server\\dpart.c", 224);
+          v12 = (unsigned __int16 *)v11;
+          if ( v11
+            && ((int)StringCchCopyW(v11, v10 + 21, (char *)L"cn=MicrosoftDNS,") < 0
+             || (int)StringCchCatW(v12, v10 + 21, v9) < 0) )
+          {
+            v12 = 0i64;
+          }
+          *(_QWORD *)(a2 + 56) = v12;
+          if ( v12 )
+          {
+            v13 = Ds_LoadOrCreateDSObject(v8, v12, (__int64)L"container", a3, (BOOL *)&v23, &v22);
+            v7 = v22;
+            v6 = v13;
+            if ( (_DWORD)v22 )
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                WPP_SF_DS(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x3Cu,
+                  (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                  v22,
+                  *(_QWORD *)(a2 + 56));
+              }
+              Mem_Free(*(_QWORD **)(a2 + 56), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\dpart.c", 3248);
+              *(_QWORD *)(a2 + 56) = 0i64;
+              if ( !a3 )
+                v7 = 0;
+            }
+            else if ( v13 )
+            {
+              if ( (_DWORD)v23 )
+              {
+                v15 = *(WCHAR **)(a2 + 56);
+                if ( (*(_BYTE *)(a2 + 100) & 8) != 0 )
+                {
+                  v17 = Ds_RemovePrincipalAccess(v8, v15, v14, (void *)g_pDomainAdminsSid);
+                  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                  {
+                    WPP_SF_DS(
+                      *((_QWORD *)WPP_GLOBAL_Control + 7),
+                      0x3Du,
+                      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                      v17,
+                      *(_QWORD *)(a2 + 56));
+                  }
+                }
+                else
+                {
+                  v18 = Ds_AddPrincipalAccess(v8, v15, 0i64, L"DnsAdmins", 0xF017Fu, 2u, 1, 0);
+                  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                  {
+                    WPP_SF_DSS(
+                      *((_QWORD *)WPP_GLOBAL_Control + 7),
+                      0x3Eu,
+                      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                      v18,
+                      (__int64)L"DnsAdmins",
+                      *(_QWORD *)(a2 + 56));
+                  }
+                }
+                v7 = 0;
+                Ds_RemovePrincipalAccess(v8, *(PWSTR *)(a2 + 56), v16, g_pAuthenticatedUserSid);
+                if ( g_pEnterpriseDomainControllersSid )
+                {
+                  v19 = Ds_AddPrincipalAccess(
+                          v8,
+                          *(PWSTR *)(a2 + 56),
+                          g_pEnterpriseDomainControllersSid,
+                          0i64,
+                          0xF017Fu,
+                          2u,
+                          1,
+                          0);
+                  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+                    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                  {
+                    WPP_SF_DS(
+                      *((_QWORD *)WPP_GLOBAL_Control + 7),
+                      0x3Fu,
+                      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+                      v19,
+                      *(_QWORD *)(a2 + 56));
+                  }
+                  v7 = 0;
+                }
+              }
+              SD = Ds_ReadSD(v8, v6);
+              if ( SD )
+              {
+                Timeout_FreeWithFunctionEx(
+                  *(_QWORD *)(a2 + 120),
+                  0i64,
+                  (__int64)"ds\\dns\\server\\server\\dpart.c",
+                  3364);
+                *(_QWORD *)(a2 + 120) = SD;
+              }
+            }
+            else
+            {
+              v7 = 13;
+            }
+          }
+          else
+          {
+            v7 = 14;
+          }
+        }
+        else
+        {
+          v7 = 9717;
+        }
+      }
+    }
+    else
+    {
+      v7 = 9903;
+    }
+  }
+  else
+  {
+    v7 = 87;
+  }
+  ldap_msgfree(v6);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v3 = *(_QWORD *)(a2 + 24);
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x40u,
+      (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+      v7,
+      v3);
+  }
+  return v7;
+}
+// 140030868: variable 'v14' is possibly undefined
+// 140030938: variable 'v16' is possibly undefined
+// 14018B618: using guessed type wchar_t aContainer[10];
+// 1401C94F8: using guessed type __int64 g_pDomainAdminsSid;

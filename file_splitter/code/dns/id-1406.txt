@@ -1,0 +1,35 @@
+//----- (00000001400B14A4) ----------------------------------------------------
+void __fastcall NTree_FreeNode(__int64 a1)
+{
+  __int64 v2; // rdx
+
+  if ( (*(_DWORD *)(a1 + 92) & 0x4001000) == 4096 )
+  {
+    if ( !(unsigned int)Timeout_ClearNodeTimeout(a1) )
+      return;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 8) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_qs(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0xFu,
+        (__int64)&WPP_800d841ceeab39a775299d72a602aebb_Traceguids,
+        a1,
+        a1 + 102);
+    }
+  }
+  v2 = 2 * (unsigned int)*(unsigned __int8 *)(a1 + 101) + 106;
+  if ( (*(_DWORD *)(a1 + 92) & 0x4000000) == 0 )
+  {
+    _InterlockedIncrement(&dword_1401C8494);
+    _InterlockedDecrement(&dword_1401C848C);
+    _InterlockedExchangeAdd(&dword_1401C8488, -(int)v2);
+    _InterlockedExchangeAdd((volatile signed __int32 *)pcDatabaseNodeMemory, -(int)v2);
+  }
+  Mem_Free((_QWORD *)a1, v2, 0i64, (__int64)"ds\\dns\\server\\server\\tree.c", 447);
+}
+// 1401C8488: using guessed type int dword_1401C8488;
+// 1401C848C: using guessed type int dword_1401C848C;
+// 1401C8494: using guessed type int dword_1401C8494;
+// 1401C8630: using guessed type __int64 pcDatabaseNodeMemory;

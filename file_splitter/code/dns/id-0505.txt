@@ -1,0 +1,20 @@
+//----- (0000000140043FE4) ----------------------------------------------------
+__int64 __fastcall Ds_InterpretDwordAttrValue(struct berval ***a1, unsigned int a2)
+{
+  __int64 v4; // rax
+  const char *v5; // rcx
+
+  if ( *a1 )
+  {
+    v4 = (__int64)**a1;
+    if ( *(_DWORD *)v4 )
+    {
+      v5 = *(const char **)(v4 + 8);
+      if ( v5 )
+        a2 = atoi(v5);
+    }
+    ldap_value_free_len(*a1);
+    *a1 = 0i64;
+  }
+  return a2;
+}

@@ -1,0 +1,22 @@
+//----- (00000001400DD4A8) ----------------------------------------------------
+std::_Locinfo *__fastcall std::_Locinfo::_Locinfo(std::_Locinfo *this, char *a2)
+{
+  char pExceptionObject[32]; // [rsp+28h] [rbp-20h] BYREF
+
+  std::_Lockit::_Lockit(this, 0);
+  *((_QWORD *)this + 1) = 0i64;
+  *((_BYTE *)this + 16) = 0;
+  *((_QWORD *)this + 3) = 0i64;
+  *((_BYTE *)this + 32) = 0;
+  *((_QWORD *)this + 5) = 0i64;
+  *((_BYTE *)this + 48) = 0;
+  *((_QWORD *)this + 7) = 0i64;
+  *((_BYTE *)this + 64) = 0;
+  if ( !a2 )
+  {
+    std::runtime_error::runtime_error((std::runtime_error *)pExceptionObject, "bad locale name");
+    CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI2_AVruntime_error_std__);
+  }
+  std::_Locinfo::_Locinfo_ctor((void **)this, a2);
+  return this;
+}

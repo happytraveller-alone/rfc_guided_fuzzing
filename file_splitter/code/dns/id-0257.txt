@@ -1,0 +1,54 @@
+//----- (000000014002154C) ----------------------------------------------------
+void Service_LoadCheckpoint()
+{
+  unsigned int CurrentTimeInSeconds; // r8d
+  __int64 v1; // rcx
+
+  EnterCriticalSection(&g_csGeneralServer);
+  if ( !g_fAnnouncedStartup )
+  {
+    CurrentTimeInSeconds = Dns_GetCurrentTimeInSeconds();
+    dword_1401B9714 = CurrentTimeInSeconds;
+    if ( CurrentTimeInSeconds <= g_StartupTime + 60 )
+    {
+      if ( CurrentTimeInSeconds > dword_1401B8C50 + 3 )
+      {
+        ++DnsServiceStatus.dwCheckPoint;
+        announceServiceStatus();
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          GetCurrentTimeInSeconds(v1, &WPP_GLOBAL_Control);
+          WPP_SF_Dd(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0xEu,
+            (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids,
+            DnsServiceStatus.dwCheckPoint);
+        }
+        dword_1401B8C50 = dword_1401B9714;
+      }
+    }
+    else
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 1) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Dd(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0xDu,
+          (__int64)&WPP_304b099b29a233e472f3414eef0e1fd4_Traceguids,
+          CurrentTimeInSeconds);
+      }
+      Service_ServiceControlAnnounceStart();
+    }
+  }
+  LeaveCriticalSection(&g_csGeneralServer);
+}
+// 140021600: variable 'v1' is possibly undefined
+// 140183D98: using guessed type __int64 __fastcall GetCurrentTimeInSeconds(_QWORD, _QWORD);
+// 1401B8C50: using guessed type int dword_1401B8C50;
+// 1401B8C58: using guessed type int g_StartupTime;
+// 1401B8C5C: using guessed type int g_fAnnouncedStartup;
+// 1401B9714: using guessed type int dword_1401B9714;

@@ -1,0 +1,29 @@
+//----- (000000014008AA88) ----------------------------------------------------
+__int64 __fastcall RR_CleanupNoExist(__int64 a1)
+{
+  _QWORD *v2; // rcx
+  __int64 result; // rax
+  _QWORD **v4; // rbx
+  __int64 v5; // rdi
+
+  v2 = *(_QWORD **)(a1 + 16);
+  if ( v2 )
+  {
+    result = RR_ListFree(v2);
+    *(_QWORD *)(a1 + 16) = 0i64;
+  }
+  v4 = (_QWORD **)(a1 + 24);
+  v5 = 3i64;
+  do
+  {
+    if ( *v4 )
+    {
+      result = RR_ListFree(*v4);
+      *v4 = 0i64;
+    }
+    ++v4;
+    --v5;
+  }
+  while ( v5 );
+  return result;
+}

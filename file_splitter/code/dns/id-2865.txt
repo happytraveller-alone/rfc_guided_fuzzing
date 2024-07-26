@@ -1,0 +1,85 @@
+//----- (000000014014EEBC) ----------------------------------------------------
+__int64 __fastcall CDnsRRLManager::UpdateFreeListWithNodes(CDnsRRLManager *this, unsigned int a2)
+{
+  int v4; // r14d
+  _QWORD *v5; // rbx
+  _QWORD *v6; // rdi
+  __int64 v7; // rbx
+  __int64 v8; // rcx
+  _QWORD *v9; // rax
+  __int64 v10; // rcx
+  _QWORD *v12; // [rsp+70h] [rbp+18h] BYREF
+  _QWORD *v13; // [rsp+78h] [rbp+20h]
+
+  v4 = 0;
+  if ( a2 )
+  {
+    while ( 1 )
+    {
+      v5 = operator new(0x60ui64, (const struct std::nothrow_t *)&std::nothrow);
+      v13 = v5;
+      if ( v5 )
+      {
+        *v5 = &CDnsRRLStateInfo::`vftable';
+        v5[7] = 0i64;
+        v5[3] = 0i64;
+        *((_DWORD *)v5 + 8) = 0;
+        v5[5] = GetTickCount64();
+        v5[6] = GetTickCount64();
+        *((_DWORD *)v5 + 16) = 0;
+        v6 = operator new(0x48ui64);
+        if ( v6 )
+        {
+          *v6 = &CDnsRRLStateKey::`vftable';
+          v6[6] = 15i64;
+          v6[5] = 0i64;
+          *((_BYTE *)v6 + 24) = 0;
+          std::string::assign(v6 + 3, (char *)&Annotation, 0i64);
+          v6[8] = 1i64;
+          v6[1] = 0i64;
+          v6[2] = 0i64;
+        }
+        else
+        {
+          v6 = 0i64;
+        }
+        v5[9] = v6;
+        *((_DWORD *)v5 + 20) = 0;
+        v5[11] = 0i64;
+      }
+      else
+      {
+        v5 = 0i64;
+      }
+      if ( !v5 )
+        return 14i64;
+      EnterCriticalSection((LPCRITICAL_SECTION)((char *)this + 88));
+      v12 = v5;
+      v7 = *(_QWORD *)this;
+      v9 = std::_List_val<CDNSPolicyCriteria *>::_Buynode(
+             v8,
+             *(_QWORD *)this,
+             *(_QWORD *)(*(_QWORD *)this + 8i64),
+             &v12);
+      v10 = *((_QWORD *)this + 1);
+      if ( v10 == 0x1FFFFFFFFFFFFFFEi64 )
+        std::_Xlength_error("list<T> too long");
+      *((_QWORD *)this + 1) = v10 + 1;
+      *(_QWORD *)(v7 + 8) = v9;
+      *(_QWORD *)v9[1] = v9;
+      LeaveCriticalSection((LPCRITICAL_SECTION)((char *)this + 88));
+      ++*((_DWORD *)this + 6);
+      if ( ++v4 >= a2 )
+        goto LABEL_14;
+    }
+  }
+  else
+  {
+LABEL_14:
+    CDnsRRLManager::ResetFreeListAllocationTrigger(this);
+    return 0i64;
+  }
+}
+// 14014EFC5: variable 'v8' is possibly undefined
+// 140172060: using guessed type void *CDnsRRLStateInfo::`vftable';
+// 140172250: using guessed type void *CDnsRRLStateKey::`vftable';

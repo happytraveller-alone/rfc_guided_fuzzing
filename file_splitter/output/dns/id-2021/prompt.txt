@@ -1,0 +1,830 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 2021
+// Total lines: 673
+
+//----- (00000001400F8900) ----------------------------------------------------
+__int64 __fastcall DnsOls_LoadZoneRegistryExtentions(HKEY hKey, __int64 a2)
+{
+  const char *v2; // rsi
+  unsigned int v4; // ebx
+  __int64 v5; // r14
+  CDnsClientSubnetRecordsTrie *v7; // rcx
+  const char *v8; // r9
+  int v9; // eax
+  char v10; // al
+  char v11; // al
+  char v12; // al
+  const unsigned __int16 *v13; // rdx
+  unsigned int v14; // eax
+  unsigned int v15; // eax
+  unsigned int v16; // eax
+  unsigned int v17; // eax
+  LPBYTE v18; // rax
+  _QWORD *v19; // rcx
+  int v20; // eax
+  DWORD i; // r13d
+  int v22; // eax
+  _DWORD *Skd; // rax
+  int v24; // eax
+  int v25; // eax
+  unsigned int v26; // r8d
+  int v27; // ecx
+  unsigned int *v28; // rbx
+  unsigned __int8 v29; // al
+  unsigned int v30; // eax
+  unsigned int v31; // eax
+  unsigned int v32; // eax
+  unsigned int v33; // eax
+  unsigned int v34; // eax
+  bool v35; // zf
+  unsigned int *v36; // rbx
+  unsigned int v37; // eax
+  unsigned int v38; // ecx
+  _DWORD *v39; // rbx
+  LPBYTE ValueAllocate; // rax
+  _QWORD *v41; // rbx
+  _QWORD *v42; // rax
+  LPBYTE v43; // rax
+  _QWORD *v44; // rbx
+  _QWORD *RRListFromBuffer; // rax
+  char *v46; // rax
+  unsigned int v47; // eax
+  unsigned __int16 v48; // r8
+  __int16 v49; // cx
+  unsigned __int16 v50; // dx
+  unsigned int v52; // [rsp+40h] [rbp-C0h] BYREF
+  HKEY phkResult; // [rsp+48h] [rbp-B8h] BYREF
+  DWORD v54; // [rsp+50h] [rbp-B0h] BYREF
+  DWORD v55; // [rsp+54h] [rbp-ACh] BYREF
+  HKEY hKeya; // [rsp+58h] [rbp-A8h] BYREF
+  int v57; // [rsp+60h] [rbp-A0h] BYREF
+  int v58[3]; // [rsp+64h] [rbp-9Ch] BYREF
+  WCHAR Name[264]; // [rsp+70h] [rbp-90h] BYREF
+
+  v2 = 0i64;
+  v4 = 0;
+  hKeya = 0i64;
+  phkResult = 0i64;
+  v5 = 0i64;
+  v7 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v8 = *(const char **)(a2 + 16);
+    else
+      v8 = 0i64;
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x12u, (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids, v8);
+    v7 = WPP_GLOBAL_Control;
+  }
+  if ( hKey && a2 )
+  {
+    if ( (*(_BYTE *)(a2 + 388) & 1) != 0 || *(_DWORD *)(a2 + 372) != 1 )
+    {
+      if ( v7 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)v7 + 68) & 2) != 0
+        && *((_BYTE *)v7 + 65) >= 4u )
+      {
+        WPP_SF_s(
+          *((_QWORD *)v7 + 7),
+          0x13u,
+          (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+          *(const char **)(a2 + 16));
+      }
+    }
+    else
+    {
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"IsSigned",
+                            0,
+                            &v52) )
+      {
+        v9 = *(_DWORD *)(a2 + 1040) ^ (*(_DWORD *)(a2 + 1040) ^ (4 * (v52 != 0))) & 4;
+        *(_DWORD *)(a2 + 1040) = v9;
+        if ( *(_DWORD *)(a2 + 372) == 1 && (v9 & 4) != 0 )
+        {
+          if ( g_isRegisteredForUTC == 1 )
+          {
+            if ( (*(_BYTE *)(a2 + 388) & 1) != 0 )
+              _InterlockedAdd(&dword_1401B9608, 1u);
+            else
+              _InterlockedAdd(&dword_1401B9604, 1u);
+          }
+          if ( (*(_BYTE *)(a2 + 388) & 1) == 0 && (*(_BYTE *)(a2 + 1040) & 2) == 0 && g_isRegisteredForUTC == 1 )
+            _InterlockedAdd(&dword_1401B9610, 1u);
+        }
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"SignWithNSEC3",
+                            0,
+                            &v52) )
+      {
+        *(_DWORD *)(a2 + 1040) &= ~0x10u;
+        *(_DWORD *)(a2 + 1040) |= 16 * (v52 != 0);
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"NSEC3OptOut",
+                            0,
+                            &v52) )
+      {
+        *(_DWORD *)(a2 + 1040) &= ~0x20u;
+        *(_DWORD *)(a2 + 1040) |= 32 * (v52 != 0);
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"ParentHasSecureDelegation",
+                            0,
+                            &v52) )
+      {
+        *(_DWORD *)(a2 + 1040) &= ~0x2000u;
+        *(_DWORD *)(a2 + 1040) |= (v52 != 0) << 13;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"MaintainTrustAnchor",
+                            0,
+                            &v52) )
+      {
+        v10 = v52;
+        *(_DWORD *)(a2 + 1040) &= 0xFFFFFE3F;
+        *(_DWORD *)(a2 + 1040) |= (v10 & 1) << 6;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"NextResignTime",
+                            0,
+                            &v52) )
+        *(_DWORD *)(a2 + 1100) = v52;
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"IsSignedPending",
+                            0,
+                            &v52) )
+      {
+        v11 = v52;
+        *(_DWORD *)(a2 + 1040) &= ~8u;
+        *(_DWORD *)(a2 + 1040) |= 8 * (v11 & 1);
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"DsRecordAlgorithms",
+                            0,
+                            &v52) )
+      {
+        v12 = v52;
+        *(_DWORD *)(a2 + 1040) &= 0xFFFFF1FF;
+        *(_DWORD *)(a2 + 1040) |= (v12 & 7) << 9;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"RFC5011KeyRollovers",
+                            0,
+                            &v52) )
+      {
+        *(_DWORD *)(a2 + 1040) &= ~0x1000u;
+        *(_DWORD *)(a2 + 1040) |= (v52 != 0) << 12;
+      }
+      Reg_ReadDwordValue(
+        hKey,
+        *(const unsigned __int16 **)(a2 + 24),
+        (const unsigned __int16 *)"NSEC3HashAlgorithm",
+        0,
+        &v52);
+      v13 = *(const unsigned __int16 **)(a2 + 24);
+      *(_BYTE *)(a2 + 1044) = 1;
+      if ( !(unsigned int)Reg_ReadDwordValue(hKey, v13, (const unsigned __int16 *)"NSEC3RandomSaltLength", 0, &v52) )
+        *(_BYTE *)(a2 + 1045) = v52;
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"DNSKEYRecordSetTTL",
+                            0,
+                            &v52) )
+      {
+        v14 = v52;
+        if ( v52 > 0x93A80 )
+          v14 = 604800;
+        *(_DWORD *)(a2 + 1056) = v14;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"DSRecordSetTTL",
+                            0,
+                            &v52) )
+      {
+        v15 = v52;
+        if ( v52 > 0x93A80 )
+          v15 = 604800;
+        *(_DWORD *)(a2 + 1060) = v15;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"SignatureInceptionOffset",
+                            0,
+                            &v52) )
+      {
+        v16 = v52;
+        if ( v52 > 0x93A80 )
+          v16 = 604800;
+        *(_DWORD *)(a2 + 1064) = v16;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"SecureDelegationPollingPeriod",
+                            0,
+                            &v52) )
+      {
+        v17 = v52;
+        if ( v52 > 0x93A80 )
+          v17 = 604800;
+        *(_DWORD *)(a2 + 1068) = v17;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"PropagationTime",
+                            0,
+                            &v52) )
+        *(_DWORD *)(a2 + 1072) = v52;
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"ForceRebuildNSEC",
+                            0,
+                            &v52) )
+      {
+        *(_DWORD *)(a2 + 1040) &= ~0x8000u;
+        *(_DWORD *)(a2 + 1040) |= (v52 != 0) << 15;
+      }
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"ForceReSalt",
+                            0,
+                            &v52) )
+      {
+        *(_DWORD *)(a2 + 1040) &= ~0x4000u;
+        *(_DWORD *)(a2 + 1040) |= (v52 != 0) << 14;
+      }
+      Mem_Free(*(_QWORD **)(a2 + 1048), 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsparams.cpp", 838);
+      v18 = Reg_GetValueAllocate(hKey, 0i64, (const char *)L"NSEC3UserSalt", -268435455, 0i64);
+      v19 = *(_QWORD **)(a2 + 1088);
+      *(_QWORD *)(a2 + 1048) = v18;
+      Mem_Free(v19, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsparams.cpp", 846);
+      *(_QWORD *)(a2 + 1088) = Reg_GetValueAllocate(
+                                 hKey,
+                                 0i64,
+                                 (const char *)L"NSEC3CurrentSalt",
+                                 -268435453,
+                                 (DWORD *)(a2 + 1096));
+      if ( !RegOpenKeyExW(hKey, L"SigningKeyDescriptors", 0, 0x20019u, &hKeya) )
+      {
+        v55 = 261;
+        v20 = RegEnumKeyExW(hKeya, 0, Name, &v55, 0i64, 0i64, 0i64, 0i64);
+        for ( i = 1; ; ++i )
+        {
+          v4 = v20;
+          if ( v20 == 259 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x14u,
+                (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids);
+            }
+            goto LABEL_168;
+          }
+          if ( v20 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_D(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x15u,
+                (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+                v20);
+            }
+            goto LABEL_168;
+          }
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_S(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x16u,
+              (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+              Name);
+          }
+          if ( phkResult )
+          {
+            RegCloseKey(phkResult);
+            phkResult = 0i64;
+          }
+          v22 = RegOpenKeyExW(hKeya, Name, 0, 0x20019u, &phkResult);
+          if ( v22 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_DS(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x17u,
+                (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+                v22,
+                (__int64)Name);
+            }
+            goto LABEL_152;
+          }
+          Skd = Dns_AllocateSkd();
+          v5 = (__int64)Skd;
+          if ( !Skd )
+          {
+            v4 = 14;
+            goto LABEL_168;
+          }
+          v24 = CLSIDFromString(Name, (LPCLSID)(Skd + 2));
+          if ( v24 )
+            v25 = GuidFromString((__int64)Name, v24);
+          else
+            v25 = 0;
+          if ( v25 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_DS(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x18u,
+                (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+                v25,
+                (__int64)Name);
+            }
+            Dns_FreeSkd(v5);
+            goto LABEL_152;
+          }
+          *(_QWORD *)(v5 + 24) = Reg_GetValueAllocate(
+                                   phkResult,
+                                   0i64,
+                                   (const char *)L"KeyStorageProvider",
+                                   -268435455,
+                                   0i64);
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"IsKsk", 0, &v52);
+          *(_DWORD *)(v5 + 36) = v52 != 0;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"SigningAlgorithm", 0, &v52);
+          v26 = (unsigned __int8)v52;
+          v52 = v26;
+          if ( (unsigned __int8)v26 > 0xEu || (v27 = 26016, !_bittest(&v27, v26)) )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_sd(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x19u,
+                (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+                "SigningAlgorithm");
+            }
+            v4 = 9105;
+            goto LABEL_168;
+          }
+          *(_BYTE *)(v5 + 40) = v26;
+          v28 = (unsigned int *)(v5 + 44);
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"KeyLength", 0, (_BYTE *)(v5 + 44));
+          v29 = *(_BYTE *)(v5 + 40);
+          if ( v29 == 5 )
+            break;
+          if ( v29 > 6u )
+          {
+            if ( v29 <= 8u || v29 == 10 )
+              break;
+            if ( v29 == 13 )
+            {
+              *v28 = 256;
+            }
+            else if ( v29 == 14 )
+            {
+              *v28 = 384;
+            }
+          }
+LABEL_103:
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"InitialRolloverOffset", 0, (_BYTE *)(v5 + 48));
+          v31 = *(_DWORD *)(v5 + 48);
+          if ( v31 > 0x278D00 )
+            v31 = 2592000;
+          *(_DWORD *)(v5 + 48) = v31;
+          Reg_ReadDwordValue(
+            phkResult,
+            0i64,
+            (const unsigned __int16 *)"DNSKEYSignatureValidityPeriod",
+            0,
+            (_BYTE *)(v5 + 52));
+          v32 = *(_DWORD *)(v5 + 52);
+          if ( v32 < 0x5460 )
+            v32 = 21600;
+          if ( v32 > 0x278D00 )
+            v32 = 2592000;
+          *(_DWORD *)(v5 + 52) = v32;
+          Reg_ReadDwordValue(
+            phkResult,
+            0i64,
+            (const unsigned __int16 *)"DSSignatureValidityPeriod",
+            0,
+            (_BYTE *)(v5 + 56));
+          v33 = *(_DWORD *)(v5 + 56);
+          if ( v33 < 0x5460 )
+            v33 = 21600;
+          if ( v33 > 0x278D00 )
+            v33 = 2592000;
+          *(_DWORD *)(v5 + 56) = v33;
+          Reg_ReadDwordValue(
+            phkResult,
+            0i64,
+            (const unsigned __int16 *)"StandardSignatureValidityPeriod",
+            0,
+            (_BYTE *)(v5 + 60));
+          v34 = *(_DWORD *)(v5 + 60);
+          if ( v34 < 0x5460 )
+            v34 = 21600;
+          if ( v34 > 0x278D00 )
+            v34 = 2592000;
+          v35 = *(_DWORD *)(v5 + 36) == 0;
+          *(_DWORD *)(v5 + 60) = v34;
+          v36 = (unsigned int *)(v5 + 68);
+          *(_DWORD *)(v5 + 64) = !v35;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"RolloverPeriod", 0, (_BYTE *)(v5 + 68));
+          v37 = *(_DWORD *)(v5 + 68);
+          if ( v37 )
+          {
+            if ( v37 != -1 )
+            {
+              if ( *(_DWORD *)(v5 + 36) )
+              {
+                if ( v37 < 0x93A80 )
+                  v37 = 604800;
+                v38 = 630720000;
+              }
+              else
+              {
+                if ( v37 < 0x93A80 )
+                  v37 = 604800;
+                v38 = 157680000;
+              }
+              if ( v37 > v38 )
+                v37 = v38;
+              *v36 = v37;
+            }
+          }
+          else
+          {
+            *v36 = *(_DWORD *)(v5 + 36) != 0 ? 65232000 : 7776000;
+          }
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"NextRolloverAction", 0, (_BYTE *)(v5 + 72));
+          if ( (unsigned int)(*(_DWORD *)(v5 + 72) - 1) > 2 )
+            *(_DWORD *)(v5 + 72) = 1;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"CurrentState", 0, (_BYTE *)(v5 + 92));
+          if ( *(_DWORD *)(v5 + 92) > 1u )
+            *(_DWORD *)(v5 + 92) = 0;
+          v39 = (_DWORD *)(v5 + 96);
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"CurrentRolloverStatus", 0, (_BYTE *)(v5 + 96));
+          if ( *(_DWORD *)(v5 + 96) > 9u )
+            *v39 = 9;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"CurrentRollState", 0, (_BYTE *)(v5 + 100));
+          if ( *(_DWORD *)(v5 + 100) > 5u )
+          {
+            *(_DWORD *)(v5 + 100) = 0;
+            *v39 = 9;
+          }
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"ManualTrigger", 0, &v52);
+          *(_DWORD *)(v5 + 104) = v52 != 0;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"PrerollEvent", 0, (_BYTE *)(v5 + 108));
+          if ( *(_DWORD *)(v5 + 108) > 3u )
+            *(_DWORD *)(v5 + 108) = 3;
+          Reg_ReadQwordValue(phkResult, (const unsigned __int16 *)"LastRolloverTime", (_QWORD *)(v5 + 76));
+          Reg_ReadQwordValue(phkResult, (const unsigned __int16 *)"NextRolloverTime", (_QWORD *)(v5 + 84));
+          Reg_ReadQwordValue(phkResult, (const unsigned __int16 *)"NextKeyGenerationTime", (_QWORD *)(v5 + 116));
+          v54 = 0;
+          ValueAllocate = Reg_GetValueAllocate(phkResult, 0i64, "SavedRevokedKeyset", 3, &v54);
+          v41 = ValueAllocate;
+          if ( ValueAllocate )
+          {
+            v57 = 4;
+            if ( v54 >= 4 )
+              v42 = DnsOls_ReadRRListFromBuffer(ValueAllocate, v54, &v57);
+            else
+              v42 = 0i64;
+            *(_QWORD *)(v5 + 128) = v42;
+            Mem_Free(v41, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsparams.cpp", 1223);
+          }
+          v43 = Reg_GetValueAllocate(phkResult, 0i64, "SavedFinalKeyset", 3, &v54);
+          v44 = v43;
+          if ( v43 )
+          {
+            v58[0] = 4;
+            if ( v54 >= 4 )
+              RRListFromBuffer = DnsOls_ReadRRListFromBuffer(v43, v54, v58);
+            else
+              RRListFromBuffer = 0i64;
+            *(_QWORD *)(v5 + 136) = RRListFromBuffer;
+            Mem_Free(v44, 0i64, 0i64, (__int64)"ds\\dns\\server\\server\\olsparams.cpp", 1241);
+          }
+          *(_QWORD *)(v5 + 144) = Reg_GetValueAllocate(phkResult, 0i64, (const char *)L"ActiveKey", -268435455, 0i64);
+          *(_QWORD *)(v5 + 168) = Reg_GetValueAllocate(phkResult, 0i64, (const char *)L"StandbyKey", -268435455, 0i64);
+          *(_QWORD *)(v5 + 192) = Reg_GetValueAllocate(phkResult, 0i64, (const char *)L"NextKey", -268435455, 0i64);
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"ActiveKeySignScope", 1, &v52);
+          *(_DWORD *)(v5 + 160) = v52;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"StandbyKeySignScope", 1, &v52);
+          *(_DWORD *)(v5 + 184) = v52;
+          Reg_ReadDwordValue(phkResult, 0i64, (const unsigned __int16 *)"NextKeySignScope", 1, &v52);
+          *(_DWORD *)(v5 + 208) = v52;
+          v4 = DnsOls_AddSkdToZone(a2, v5);
+          if ( v4 )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+            {
+              v46 = Dbg_GuidString((const IID *)(v5 + 8));
+              WPP_SF_DSs(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x1Au,
+                (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+                v4,
+                (__int64)v46,
+                *(_QWORD *)(a2 + 16));
+            }
+            goto LABEL_168;
+          }
+          DnsOls_ValidateSKD(a2, v5, 1);
+          v5 = 0i64;
+LABEL_152:
+          v55 = 261;
+          v20 = RegEnumKeyExW(hKeya, i, Name, &v55, 0i64, 0i64, 0i64, 0i64);
+        }
+        v30 = *v28;
+        if ( *v28 < 0x400 )
+          v30 = 1024;
+        if ( v30 > 0x1000 )
+          v30 = 4096;
+        *v28 = v30;
+        if ( (v30 & 0x3F) != 0 )
+          *v28 = v30 >> 6;
+        goto LABEL_103;
+      }
+LABEL_168:
+      if ( !(unsigned int)Reg_ReadDwordValue(
+                            hKey,
+                            *(const unsigned __int16 **)(a2 + 24),
+                            (const unsigned __int16 *)"NSEC3Iterations",
+                            0,
+                            &v52) )
+      {
+        v47 = DnsOls_ZoneMinimumKeySize(a2);
+        v48 = v52;
+        *(_WORD *)(a2 + 1046) = v52;
+        v49 = 150;
+        v50 = 150;
+        if ( v47 <= 0x800 )
+        {
+          if ( v47 > 0x400 )
+            v50 = 500;
+        }
+        else
+        {
+          v50 = 2500;
+        }
+        if ( v48 > v50 )
+        {
+          if ( v47 <= 0x800 )
+          {
+            if ( v47 > 0x400 )
+              v49 = 500;
+          }
+          else
+          {
+            v49 = 2500;
+          }
+          *(_WORD *)(a2 + 1046) = v49;
+        }
+      }
+    }
+  }
+  if ( phkResult )
+    RegCloseKey(phkResult);
+  if ( hKeya )
+    RegCloseKey(hKeya);
+  Dns_FreeSkd(v5);
+  if ( v4 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      if ( a2 )
+        v2 = *(const char **)(a2 + 16);
+      WPP_SF_Ds(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x1Cu,
+        (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+        v4,
+        (__int64)v2);
+    }
+  }
+  else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+         && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+         && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v2 = *(const char **)(a2 + 16);
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Bu, (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids, v2);
+  }
+  return v4;
+}
+// 1401924A8: using guessed type wchar_t aNsec3usersalt_0[14];
+// 140192CC0: using guessed type wchar_t aNsec3currentsa_0[17];
+// 140192F80: using guessed type wchar_t aKeystorageprov_0[19];
+// 140193150: using guessed type wchar_t aActivekey[10];
+// 140193168: using guessed type wchar_t aStandbykey[11];
+// 140193180: using guessed type wchar_t aNextkey_0[8];
+// 1401B9190: using guessed type int g_isRegisteredForUTC;
+// 1401B9604: using guessed type int dword_1401B9604;
+// 1401B9608: using guessed type int dword_1401B9608;
+// 1401B9610: using guessed type int dword_1401B9610;
+// 1400F8900: using guessed type int var_25C[3];
+##############################
+Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+		"(...)"
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.

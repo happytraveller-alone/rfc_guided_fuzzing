@@ -1,0 +1,27 @@
+//----- (000000014015BCE0) ----------------------------------------------------
+void **__fastcall Aaaa_RecordBuildW(int a1, PCWSTR *a2)
+{
+  struct in6_addr *Record; // rax
+  __int64 v5; // r8
+  const unsigned __int16 *v6; // r9
+  void **v7; // rbx
+
+  if ( a1 != 1 )
+  {
+    SetLastError(0xDu);
+    return 0i64;
+  }
+  Record = (struct in6_addr *)Dns_AllocateRecordEx(0x10ui64);
+  v7 = (void **)Record;
+  if ( !Record )
+    return 0i64;
+  if ( !(unsigned int)Dns_Ip6StringToAddress_W(Record + 2, *a2, v5, v6) )
+  {
+    SetLastError(0xDu);
+    Dns_RecordFree(v7);
+    return 0i64;
+  }
+  return v7;
+}
+// 14015BD1A: variable 'v5' is possibly undefined
+// 14015BD1A: variable 'v6' is possibly undefined

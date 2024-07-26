@@ -1,0 +1,72 @@
+//----- (000000014015D654) ----------------------------------------------------
+__int64 __fastcall Dns_ValidateAndCategorizeDnsNameEx(_BYTE *a1, unsigned int a2)
+{
+  __int64 v2; // r8
+  int v3; // r9d
+  unsigned int v4; // edx
+  unsigned int v6; // ebx
+  _BYTE *v7; // rax
+  _BYTE *v8; // rcx
+
+  v2 = a2;
+  v3 = 0;
+  v4 = 0;
+  v6 = 9559;
+  if ( !(_DWORD)v2 )
+  {
+    v2 = -1i64;
+    do
+      ++v2;
+    while ( a1[v2] );
+  }
+  if ( (unsigned int)(v2 - 1) > 0xFE )
+  {
+LABEL_24:
+    if ( (byte_1401BA001 & 4) != 0 )
+      WPP_SF_(46i64, (unsigned __int16)&WPP_4a022543b8ef3aed3b38f7eb0a9b5a9a_Traceguids, v2);
+    return 123i64;
+  }
+  v7 = a1;
+  v8 = &a1[(unsigned int)v2];
+  if ( a1 >= v8 )
+    goto LABEL_21;
+  while ( 1 )
+  {
+    LOBYTE(v2) = *v7++;
+    if ( (_BYTE)v2 != 46 )
+    {
+      if ( !(_BYTE)v2 )
+        goto LABEL_16;
+      ++v4;
+      goto LABEL_12;
+    }
+    if ( v4 > 0x3F )
+      goto LABEL_24;
+    if ( !v4 )
+      break;
+    ++v3;
+    v6 = 9558;
+    v4 = 0;
+LABEL_12:
+    if ( v7 >= v8 )
+      goto LABEL_16;
+  }
+  if ( v7 != v8 || v7 - 1 != a1 )
+    goto LABEL_24;
+LABEL_16:
+  if ( v4 )
+  {
+    if ( v4 > 0x3F )
+      goto LABEL_24;
+    ++v3;
+  }
+  else if ( v6 == 9558 )
+  {
+    v6 = 9557;
+  }
+LABEL_21:
+  if ( (byte_1401BA001 & 4) != 0 )
+    WPP_SF_Dd(45i64, (unsigned __int16)&WPP_4a022543b8ef3aed3b38f7eb0a9b5a9a_Traceguids, v6, v3);
+  return v6;
+}
+// 1401BA001: using guessed type char byte_1401BA001;

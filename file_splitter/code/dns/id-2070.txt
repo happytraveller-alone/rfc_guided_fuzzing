@@ -1,0 +1,43 @@
+//----- (0000000140103120) ----------------------------------------------------
+__int64 __fastcall Rpc_CreateRR(struct _zone_info *a1, unsigned __int8 *a2, unsigned int a3, struct _Dbase_Record **a4)
+{
+  unsigned int v4; // ebx
+  unsigned __int8 *v7; // rsi
+  int v8; // ebp
+  __int64 i; // rdi
+  __int64 *v10; // rax
+  unsigned __int16 *v11; // rdi
+  __int64 v13; // [rsp+48h] [rbp+10h] BYREF
+
+  v4 = 0;
+  v13 = 0i64;
+  *a4 = 0i64;
+  if ( a2 && (v7 = &a2[a3], a2 < v7) && a3 >= 2 )
+  {
+    v8 = *((unsigned __int16 *)a2 + 1);
+    for ( i = (__int64)&a2[*(unsigned __int16 *)a2 + 3]; ; i = (__int64)v11 + *v11 + 27 )
+    {
+      v11 = (unsigned __int16 *)(i & 0xFFFFFFFFFFFFFFFCui64);
+      if ( !v8 )
+        break;
+      --v8;
+      if ( v11 >= (unsigned __int16 *)v7 )
+        break;
+      v4 = Dnssrv_Flat_RecordRead(a1, (__int64)a2, (__int64)v11, &v13);
+      if ( v4 )
+        goto LABEL_11;
+      v10 = RR_ListInsertInOrder(0i64, (__int64 *)*a4, v13, 0);
+      v13 = 0i64;
+      *a4 = (struct _Dbase_Record *)v10;
+    }
+  }
+  else
+  {
+    v4 = 87;
+LABEL_11:
+    RR_ListFree(*a4);
+    *a4 = 0i64;
+  }
+  return v4;
+}
+// 14010317F: variable 'a2' is possibly undefined

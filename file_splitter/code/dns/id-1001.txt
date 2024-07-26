@@ -1,0 +1,123 @@
+//----- (00000001400860B0) ----------------------------------------------------
+__int64 __fastcall Ds_CreateRecordFromDsRecord(__int64 a1, __int64 a2, __int64 a3)
+{
+  _BYTE *RecordFromDsRecordNoZone; // rax
+  __int64 v6; // rdi
+  __int64 (__fastcall *v8)(__int64, _QWORD); // rax
+  DWORD v9; // ebx
+  DWORD v10; // eax
+  char v11; // al
+  CDnsClientSubnetRecordsTrie *v12; // rcx
+  unsigned __int16 v13; // dx
+  __int64 v14; // rdx
+  __int64 v15; // rdx
+  unsigned __int16 *v16[2]; // [rsp+50h] [rbp-158h] BYREF
+  __int128 v17; // [rsp+60h] [rbp-148h] BYREF
+  char v18[256]; // [rsp+70h] [rbp-138h] BYREF
+  __int64 v19[7]; // [rsp+170h] [rbp-38h] BYREF
+
+  RecordFromDsRecordNoZone = Ds_CreateRecordFromDsRecordNoZone(a3);
+  v6 = (__int64)RecordFromDsRecordNoZone;
+  if ( !RecordFromDsRecordNoZone )
+    return 0i64;
+  v8 = (__int64 (__fastcall *)(__int64, _QWORD))RR_DispatchFunctionForType(
+                                                  (__int64)RecordValidateTable,
+                                                  *((_WORD *)RecordFromDsRecordNoZone + 6));
+  if ( !v8 )
+  {
+    v9 = 9002;
+    goto LABEL_36;
+  }
+  v10 = v8(v6, *(unsigned __int16 *)(v6 + 14));
+  v9 = v10;
+  if ( v10 )
+  {
+    if ( v10 == 9753 )
+    {
+LABEL_37:
+      SetLastError(v9);
+      return 0i64;
+    }
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x13u,
+        (__int64)&WPP_ee6cca70a61333d4c68f5849229f01e3_Traceguids,
+        *(unsigned __int16 *)(v6 + 12));
+    }
+LABEL_36:
+    Name_PlaceNodeNameInBuffer(v18, (unsigned __int64)v19, (__int64 *)a2, 0i64);
+    v16[0] = (unsigned __int16 *)v18;
+    v16[1] = *(unsigned __int16 **)(a1 + 16);
+    v17 = DNS_EVENT_DS_RECORD_LOAD_FAILED;
+    Eventlog_LogEvent((__int64)&v17, v15, 2u, v16, (unsigned __int8 *)3, v9, 0, 0i64);
+    RR_Free(v6);
+    goto LABEL_37;
+  }
+  if ( *(_DWORD *)(a1 + 372) )
+  {
+    v11 = -16;
+    if ( *(_BYTE *)(a2 + 96) != 0xF2 )
+    {
+      v12 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        WPP_SF_sqqdqq(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x14u,
+          (__int64)&WPP_ee6cca70a61333d4c68f5849229f01e3_Traceguids,
+          *(const char **)(a1 + 16));
+        v12 = WPP_GLOBAL_Control;
+      }
+      if ( *(_WORD *)(v6 + 12) == 2 )
+      {
+        if ( *(_BYTE *)(a2 + 96) != 67 )
+        {
+          if ( v12 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)v12 + 17) & 0x400) == 0
+            || *((_BYTE *)v12 + 65) < 4u )
+          {
+            goto LABEL_35;
+          }
+          v13 = 21;
+LABEL_34:
+          WPP_SF_(*((_QWORD *)v12 + 7), v13, (__int64)&WPP_ee6cca70a61333d4c68f5849229f01e3_Traceguids);
+LABEL_35:
+          v9 = 123;
+          goto LABEL_36;
+        }
+        v11 = -126;
+      }
+      else
+      {
+        if ( *(_WORD *)(v6 + 12) > 0x32u
+          || (v14 = 0x5C80010000002i64, !_bittest64(&v14, *(unsigned __int16 *)(v6 + 12))) )
+        {
+          if ( v12 == (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            || (*((_DWORD *)v12 + 17) & 0x400) == 0
+            || *((_BYTE *)v12 + 65) < 4u )
+          {
+            goto LABEL_35;
+          }
+          v13 = 22;
+          goto LABEL_34;
+        }
+        v11 = 0x80;
+      }
+    }
+    *(_BYTE *)(v6 + 8) = v11;
+    return v6;
+  }
+  *(_BYTE *)(v6 + 8) = 8;
+  return v6;
+}
+// 140086316: variable 'v15' is possibly undefined
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);
+// 140187968: using guessed type __int128 DNS_EVENT_DS_RECORD_LOAD_FAILED;
+// 1401B2F30: using guessed type __int64 (__fastcall *RecordValidateTable[10])();
+// 1400860B0: using guessed type __int64 var_38[7];

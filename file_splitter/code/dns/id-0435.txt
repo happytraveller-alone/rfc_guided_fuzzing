@@ -1,0 +1,15 @@
+//----- (0000000140037670) ----------------------------------------------------
+__int64 __fastcall Ds_AllocateMoreSpaceInModBuffer(_QWORD *a1)
+{
+  char *v3; // rax
+
+  if ( a1[5] )
+    return 14i64;
+  v3 = (char *)Mem_Alloc(0x40000u, 10i64, "ds\\dns\\server\\server\\ds.c", 975);
+  if ( !v3 )
+    return 14i64;
+  a1[5] = v3;
+  a1[3] = v3;
+  a1[4] = v3 + 0x40000;
+  return 0i64;
+}

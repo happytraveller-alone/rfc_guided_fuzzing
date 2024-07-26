@@ -1,0 +1,53 @@
+//----- (00000001401344D0) ----------------------------------------------------
+__int64 __fastcall CDnsPolicy_TimeofDayCriteriaTree::RemoveCriteriaNode(
+        CDnsPolicy_TimeofDayCriteriaTree *this,
+        unsigned __int16 a2,
+        struct CDnsPolicy_CriteriaNode *a3,
+        __int64 a4)
+{
+  int v8; // ebx
+  unsigned int v9; // ebx
+  _QWORD *v10; // rax
+  __int64 v11; // rdx
+  CDnsPolicy_CriteriaNode *v12; // rcx
+  int v14; // [rsp+20h] [rbp-28h]
+  DWORD LastError; // [rsp+28h] [rbp-20h]
+  int v16[6]; // [rsp+30h] [rbp-18h] BYREF
+
+  v16[0] = -1;
+  if ( (unsigned int)acquireWrite(a4, 0x2710u, (unsigned int *)v16) == -1 )
+  {
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 2u )
+    {
+      v8 = *((unsigned __int16 *)a3 + 24);
+      LastError = GetLastError();
+      v14 = v8;
+      WPP_SF_qdD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x4Au,
+        (__int64)&WPP_bbbcc621566c3408fe84d6a85874d543_Traceguids,
+        a3,
+        v14,
+        LastError);
+    }
+    return 0;
+  }
+  else
+  {
+    v10 = (_QWORD *)*((_QWORD *)this + 1);
+    v11 = a2;
+    v9 = 0;
+    v12 = *(CDnsPolicy_CriteriaNode **)(*v10 + 8 * v11);
+    if ( v12 )
+    {
+      *(_QWORD *)(*v10 + 8 * v11) = 0i64;
+      CDnsPolicy_CriteriaNode::`scalar deleting destructor'(v12);
+      v9 = 1;
+    }
+    Lock_ReleaseWrite(a4);
+  }
+  return v9;
+}
+// 1401344D0: using guessed type unsigned int anonymous_0[6];

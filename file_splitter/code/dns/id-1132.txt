@@ -1,0 +1,5 @@
+//----- (0000000140090F10) ----------------------------------------------------
+char *__fastcall WinsWireWrite(__int64 a1, u_long *a2, __int64 a3, __int64 a4)
+{
+  return RR_WriteWinsRdataToBuffer(a2, a3, a4);
+}

@@ -1,0 +1,88 @@
+//----- (0000000140026E44) ----------------------------------------------------
+CDnsClientSubnetRecordsTrie **__fastcall Dnssec_SetInitialRecordStatus(__int64 a1, __int64 a2, int a3)
+{
+  CDnsClientSubnetRecordsTrie **result; // rax
+  char *v5; // rax
+  unsigned __int16 v6; // dx
+  int v7; // eax
+  int v8; // [rsp+20h] [rbp-18h]
+  int v9; // [rsp+20h] [rbp-18h]
+
+  if ( dword_1401B98F8 && a2 && *(_WORD *)(a1 + 12) != 46 )
+  {
+    if ( a3 && ((unsigned __int16)(*(_WORD *)(a1 + 12) - 1) <= 1u || *(_WORD *)(a1 + 12) == 28) )
+    {
+      *(_DWORD *)(a1 + 28) &= 0xFFFFFFF8;
+      result = &WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        v5 = Dbg_NodeName(a2);
+        v6 = 33;
+LABEL_15:
+        v8 = *(unsigned __int16 *)(a1 + 12);
+        return (CDnsClientSubnetRecordsTrie **)WPP_SF_qDs(
+                                                 *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                                 v6,
+                                                 (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids,
+                                                 a1,
+                                                 v8,
+                                                 v5);
+      }
+    }
+    else
+    {
+      *(_DWORD *)(a1 + 28) &= ~1u;
+      *(_DWORD *)(a1 + 28) |= 6u;
+      result = &WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        v5 = Dbg_NodeName(a2);
+        v6 = 34;
+        goto LABEL_15;
+      }
+    }
+  }
+  else
+  {
+    *(_DWORD *)(a1 + 28) &= ~4u;
+    v7 = *(_DWORD *)(a1 + 28);
+    if ( *(_WORD *)(a1 + 12) == 46 )
+    {
+      *(_DWORD *)(a1 + 28) = v7 | 3;
+      result = &WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        return (CDnsClientSubnetRecordsTrie **)WPP_SF_q(
+                                                 *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                                 0x23u,
+                                                 (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids,
+                                                 a1);
+      }
+    }
+    else
+    {
+      *(_DWORD *)(a1 + 28) = v7 & 0xFFFFFFFC | 1;
+      result = &WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+      {
+        v9 = *(unsigned __int16 *)(a1 + 12);
+        return (CDnsClientSubnetRecordsTrie **)WPP_SF_qd(
+                                                 *((_QWORD *)WPP_GLOBAL_Control + 7),
+                                                 0x24u,
+                                                 (__int64)&WPP_61593714a64130a636c4534d3ca3552a_Traceguids,
+                                                 a1,
+                                                 v9);
+      }
+    }
+  }
+  return result;
+}
+// 1401B98F8: using guessed type int dword_1401B98F8;

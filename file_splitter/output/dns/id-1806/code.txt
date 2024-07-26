@@ -1,0 +1,360 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 1806
+// Total lines: 235
+
+//----- (00000001400E472C) ----------------------------------------------------
+__int64 __fastcall DNSSEC_EnumerateTrustPoints(char *a1, _QWORD *a2)
+{
+  unsigned __int64 v4; // r15
+  unsigned int TrustAnchorsZone; // ebx
+  unsigned __int64 v6; // rax
+  _DWORD *zero; // rax
+  _DWORD *v8; // rdi
+  __int64 v9; // rcx
+  unsigned int v10; // r14d
+  __int64 *v11; // rbx
+  struct _DnssrvRpcTrustPoint *RPCObject; // rax
+  __int64 *v13; // rax
+  __int64 *i; // rax
+  unsigned int v15; // ebp
+  __int64 v16; // rax
+  _BYTE *v17; // rax
+  __int64 v18; // rbx
+  size_t v19; // rcx
+  __int64 v20; // rax
+  unsigned __int64 v21; // r15
+  unsigned __int64 v22; // rax
+  _DWORD *v23; // rax
+  __int64 v24; // rax
+  struct _RTL_CRITICAL_SECTION *v25; // rcx
+  struct _DnssrvRpcTrustPoint *EmptyRPCObject; // rax
+  char *v27; // rcx
+  __int64 k; // rax
+  __int64 v29; // r14
+  struct _DnssrvRpcTrustPoint *v30; // rax
+  __int64 v31; // rbx
+  unsigned int j; // ebp
+  _QWORD *v33; // r14
+  void *v34; // rcx
+  __int64 v36[2]; // [rsp+40h] [rbp-168h] BYREF
+  unsigned __int8 v37[2]; // [rsp+50h] [rbp-158h] BYREF
+  char v38[270]; // [rsp+52h] [rbp-156h] BYREF
+
+  EnterCriticalSection(&g_csRFC5011_Trust_Points);
+  v4 = qword_1401B9290;
+  v36[0] = 0i64;
+  if ( !g_pTrustAnchorsZone && dword_1401B9740 && (dword_1401B9750 || g_fDsReadOnlyDcMode) )
+  {
+    if ( a1 )
+    {
+LABEL_6:
+      TrustAnchorsZone = 9714;
+      goto LABEL_74;
+    }
+    goto LABEL_9;
+  }
+  TrustAnchorsZone = Zone_FindOrCreateTrustAnchorsZone(v36);
+  if ( TrustAnchorsZone )
+    goto LABEL_74;
+  if ( !a1 )
+  {
+LABEL_9:
+    v6 = 8i64 * (unsigned int)v4;
+    if ( v6 > 0xFFFFFFFF || (unsigned int)v6 >= 0xFFFFFFE8 )
+    {
+      v8 = 0i64;
+    }
+    else
+    {
+      zero = MIDL_user_allocate_zero((unsigned int)(v6 + 24));
+      v8 = zero;
+      if ( !zero )
+      {
+LABEL_15:
+        TrustAnchorsZone = 14;
+        goto LABEL_66;
+      }
+      *zero = 1;
+    }
+    if ( !v8 )
+      goto LABEL_15;
+    v9 = qword_1401B9288;
+    v10 = 0;
+    v11 = *(__int64 **)qword_1401B9288;
+    while ( v11 != (__int64 *)v9 && v10 < v4 )
+    {
+      if ( (*(_DWORD *)(v11[36] + 132) & 0xFFFFFFFB) != 0 )
+      {
+        RPCObject = TrustPoint::GetRPCObject((LPCRITICAL_SECTION)v11[36]);
+        if ( !RPCObject )
+          goto LABEL_15;
+        *(_QWORD *)&v8[2 * v10++ + 4] = RPCObject;
+        v8[2] = v10;
+        v9 = qword_1401B9288;
+      }
+      if ( !*((_BYTE *)v11 + 297) )
+      {
+        v13 = (__int64 *)v11[2];
+        if ( *((_BYTE *)v13 + 297) )
+        {
+          for ( i = (__int64 *)v11[1]; !*((_BYTE *)i + 297) && v11 == (__int64 *)i[2]; i = (__int64 *)i[1] )
+            v11 = i;
+          v11 = i;
+        }
+        else
+        {
+          do
+          {
+            v11 = v13;
+            v13 = (__int64 *)*v13;
+          }
+          while ( !*((_BYTE *)v13 + 297) );
+        }
+      }
+    }
+LABEL_64:
+    *a2 = v8;
+    TrustAnchorsZone = 0;
+    goto LABEL_74;
+  }
+  v15 = 0;
+  memset_0(v37, 0, 0x102ui64);
+  v16 = -1i64;
+  do
+    ++v16;
+  while ( a1[v16] );
+  if ( (unsigned int)Name_ConvertFileNameToCountNameEx(v37, a1, (_WORD *)(unsigned int)v16, 1) - 9557 <= 1 )
+  {
+    v17 = Lookup_ZoneNode(v36[0], (unsigned __int8 *)v38, 0i64, 0i64, 33, 0i64, 0i64, 0i64);
+    v18 = (__int64)v17;
+    if ( !v17 )
+      goto LABEL_6;
+    v19 = 0xFFFFFFFFi64;
+    v20 = (unsigned int)(*((_DWORD *)v17 + 21) + 1);
+    v21 = (unsigned int)v20;
+    v22 = 8 * v20;
+    if ( v22 > 0xFFFFFFFF || (v19 = (unsigned int)(v22 + 24), (unsigned int)v22 >= 0xFFFFFFE8) )
+    {
+      v8 = 0i64;
+    }
+    else
+    {
+      v23 = MIDL_user_allocate_zero(v19);
+      v8 = v23;
+      if ( !v23 )
+        goto LABEL_15;
+      *v23 = 1;
+    }
+    if ( !v8 )
+      goto LABEL_15;
+    v24 = *std::_Tree<std::_Tmap_traits<_CountName,std::unique_ptr<TrustPoint>,CountNameCompare,std::allocator<std::pair<_CountName const,std::unique_ptr<TrustPoint>>>,0>>::find(
+             v19,
+             v36,
+             v37);
+    if ( v24 == qword_1401B9288 )
+    {
+      if ( !Lookup_ForEachChildNodeCallFunction(v18, (__int64 (__fastcall *)(__int64, __int64))sub_1400E4B20, 0i64) )
+      {
+        TrustAnchorsZone = 9714;
+LABEL_66:
+        if ( v8 )
+        {
+          for ( j = 0; j < v8[2]; ++j )
+          {
+            v33 = *(_QWORD **)&v8[2 * j + 4];
+            if ( v33 )
+            {
+              v34 = (void *)v33[1];
+              if ( v34 )
+                MIDL_user_free(v34);
+              MIDL_user_free(v33);
+            }
+          }
+          MIDL_user_free(v8);
+        }
+        goto LABEL_74;
+      }
+      v27 = ".";
+      if ( v37[1] )
+        v27 = (char *)(v18 + 102);
+      EmptyRPCObject = TrustPoint::GetEmptyRPCObject(v27);
+    }
+    else
+    {
+      v25 = *(struct _RTL_CRITICAL_SECTION **)(v24 + 288);
+      if ( (v25[3].RecursionCount & 0xFFFFFFFB) == 0 )
+      {
+LABEL_55:
+        if ( *(_QWORD *)(v18 + 32) )
+        {
+          for ( k = NTree_FirstChild(v18); ; k = NTree_NextSiblingWithLocking(v31) )
+          {
+            v31 = k;
+            if ( !k )
+              break;
+            v29 = v15;
+            if ( v15 >= v21 )
+              break;
+            if ( (*(_DWORD *)(k + 92) & 0x800000) != 0
+              || Lookup_ForEachChildNodeCallFunction(k, (__int64 (__fastcall *)(__int64, __int64))sub_1400E4B20, 0i64) )
+            {
+              v30 = TrustPoint::GetEmptyRPCObject((char *)(v31 + 102));
+              if ( !v30 )
+                goto LABEL_15;
+              ++v15;
+              *(_QWORD *)&v8[2 * v29 + 4] = v30;
+              v8[2] = v15;
+            }
+          }
+        }
+        goto LABEL_64;
+      }
+      EmptyRPCObject = TrustPoint::GetRPCObject(v25);
+    }
+    if ( !EmptyRPCObject )
+      goto LABEL_15;
+    *((_QWORD *)v8 + 2) = EmptyRPCObject;
+    v15 = 1;
+    v8[2] = 1;
+    goto LABEL_55;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x100000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_sd(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x54u, (__int64)&WPP_4831604f5a2431d08120905ab66c1365_Traceguids, a1);
+  }
+  TrustAnchorsZone = 123;
+LABEL_74:
+  LeaveCriticalSection(&g_csRFC5011_Trust_Points);
+  return TrustAnchorsZone;
+}
+// 1400E49B3: variable 'v19' is possibly undefined
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B8C94: using guessed type int g_fDsReadOnlyDcMode;
+// 1401B9288: using guessed type __int64 qword_1401B9288;
+// 1401B9290: using guessed type __int64 qword_1401B9290;
+// 1401B9740: using guessed type int dword_1401B9740;
+// 1401B9750: using guessed type int dword_1401B9750;
+// 1400E472C: using guessed type unsigned __int8 var_156[270];

@@ -1,0 +1,38 @@
+//----- (0000000140140558) ----------------------------------------------------
+void std::_Tree<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>::~_Tree<std::_Tmap_traits<std::wstring,CDNSClientSubnetRecord *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDNSClientSubnetRecord *>>,0>>()
+{
+  __int64 v0; // rdi
+  __int64 *v1; // rbx
+  __int64 *v2; // r14
+
+  v0 = qword_1401B93E8;
+  v1 = *(__int64 **)(qword_1401B93E8 + 8);
+  v2 = v1;
+  if ( !*((_BYTE *)v1 + 73) )
+  {
+    do
+    {
+      std::_Tree<std::_Tmap_traits<std::wstring,CDnsPolicy *,CDnsCompareName,std::allocator<std::pair<std::wstring const,CDnsPolicy *>>,0>>::_Erase(
+        (__int64)&g_SubnetRecordList,
+        (__int64 *)v2[2]);
+      v2 = (__int64 *)*v2;
+      if ( (unsigned __int64)v1[6] >= 8 )
+        operator delete((void *)v1[3]);
+      v1[6] = 7i64;
+      v1[5] = 0i64;
+      *((_WORD *)v1 + 12) = 0;
+      operator delete(v1);
+      v1 = v2;
+    }
+    while ( !*((_BYTE *)v2 + 73) );
+    v0 = qword_1401B93E8;
+  }
+  *(_QWORD *)(v0 + 8) = v0;
+  *(_QWORD *)qword_1401B93E8 = qword_1401B93E8;
+  *(_QWORD *)(qword_1401B93E8 + 16) = qword_1401B93E8;
+  qword_1401B93F0 = 0i64;
+  operator delete((void *)qword_1401B93E8);
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 1401B93E8: using guessed type __int64 qword_1401B93E8;
+// 1401B93F0: using guessed type __int64 qword_1401B93F0;

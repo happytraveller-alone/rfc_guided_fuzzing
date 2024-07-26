@@ -1,0 +1,13 @@
+//----- (0000000140156A70) ----------------------------------------------------
+unsigned int __fastcall Dns_RecordTypeForNameW(WCHAR *a1, int a2)
+{
+  unsigned int v3; // [rsp+30h] [rbp-28h] BYREF
+  __int16 Src[8]; // [rsp+38h] [rbp-20h] BYREF
+
+  v3 = 11;
+  if ( (unsigned int)Dns_StringCopy(Src, &v3, a1, a2, 1, 3) )
+    return Dns_RecordTypeForNameA(Src, 0);
+  else
+    return 0;
+}
+// 140156A70: using guessed type _WORD Src[8];

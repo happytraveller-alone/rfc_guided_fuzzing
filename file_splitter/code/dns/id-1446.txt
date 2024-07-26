@@ -1,0 +1,334 @@
+//----- (00000001400B4960) ----------------------------------------------------
+__int64 Udp_RecvThread()
+{
+  CDnsClientSubnetRecordsTrie *v0; // rcx
+  BOOL QueuedCompletionStatus; // eax
+  int v2; // ecx
+  int v3; // r14d
+  int LastError; // eax
+  unsigned int v5; // ebx
+  HANDLE *p_hEvent; // rsi
+  __int64 v7; // rdx
+  __int64 v8; // rdx
+  int v9; // edi
+  char v10; // cl
+  __int64 v11; // r8
+  __int64 v12; // rcx
+  unsigned int hEvent; // edx
+  LPOVERLAPPED v14; // rdi
+  unsigned __int16 v15; // dx
+  __int64 v16; // r8
+  const char *v17; // rax
+  __int64 Internal; // rbx
+  CDnsClientSubnetRecordsTrie *v19; // rcx
+  _OWORD *v20; // rax
+  __int64 v21; // r8
+  DWORD NumberOfBytesTransferred; // [rsp+98h] [rbp+48h] BYREF
+  unsigned __int64 CompletionKey; // [rsp+A0h] [rbp+50h] BYREF
+  LPOVERLAPPED Overlapped; // [rsp+A8h] [rbp+58h] BYREF
+
+  Overlapped = 0i64;
+  v0 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x18u, (__int64)&WPP_c6f5dbb53293365598fc41978a1596e7_Traceguids);
+    v0 = WPP_GLOBAL_Control;
+  }
+  if ( g_fDnsServiceExit != 1 )
+  {
+    if ( (unsigned int)Thread_ServiceCheck(1) )
+    {
+      while ( 1 )
+      {
+        while ( 1 )
+        {
+          CompletionKey = 0i64;
+          _InterlockedAdd(&g_cThreadsWaitingForUdp, 1u);
+          if ( g_fDnsServiceExit == 1 )
+          {
+            _InterlockedDecrement(&g_cThreadsWaitingForUdp);
+            v0 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v15 = 26;
+              goto LABEL_107;
+            }
+            return 1i64;
+          }
+          QueuedCompletionStatus = GetQueuedCompletionStatus(
+                                     g_hUdpCompletionPort,
+                                     &NumberOfBytesTransferred,
+                                     &CompletionKey,
+                                     &Overlapped,
+                                     0xFFFFFFFF);
+          _InterlockedDecrement(&g_cThreadsWaitingForUdp);
+          v2 = g_fDnsServiceExit;
+          if ( g_fDnsServiceExit == 1 )
+          {
+            v0 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v15 = 27;
+              goto LABEL_107;
+            }
+            return 1i64;
+          }
+          if ( !QueuedCompletionStatus )
+            break;
+LABEL_40:
+          v14 = Overlapped;
+          if ( CompletionKey )
+          {
+            FastMutex_Acquire(*(_QWORD *)(CompletionKey + 120), 0xFFFFFFFF);
+            v12 = CompletionKey;
+            if ( *(_DWORD *)(CompletionKey + 108) == 1 )
+            {
+              Internal = v14[1].Internal;
+              if ( !Internal )
+              {
+                if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+                  && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+                {
+                  WPP_SF_q(
+                    *((_QWORD *)WPP_GLOBAL_Control + 7),
+                    0x22u,
+                    (__int64)&WPP_c6f5dbb53293365598fc41978a1596e7_Traceguids,
+                    CompletionKey);
+                  goto LABEL_71;
+                }
+                goto LABEL_72;
+              }
+              v14[1].Internal = 0i64;
+              *(_BYTE *)(CompletionKey + 113) = 0;
+              v19 = WPP_GLOBAL_Control;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+              {
+                WPP_SF_dqqqdd(*((_QWORD *)WPP_GLOBAL_Control + 7), CompletionKey, v16, NumberOfBytesTransferred);
+                v19 = WPP_GLOBAL_Control;
+              }
+              ++UdpRecvCount;
+              LastUdpRecvTime = dword_1401B9714;
+              if ( g_fDnsThreadAlert )
+              {
+                if ( v19 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                  && (*((_DWORD *)v19 + 17) & 0x2000) != 0
+                  && *((_BYTE *)v19 + 65) >= 4u )
+                {
+                  WPP_SF_(*((_QWORD *)v19 + 7), 0x24u, (__int64)&WPP_c6f5dbb53293365598fc41978a1596e7_Traceguids);
+                  v19 = WPP_GLOBAL_Control;
+                }
+                if ( g_fDnsServiceExit == 1 )
+                  goto LABEL_89;
+                if ( !(unsigned int)Thread_ServiceCheck(1) )
+                {
+                  v19 = WPP_GLOBAL_Control;
+LABEL_89:
+                  if ( v19 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                    && (*((_DWORD *)v19 + 17) & 0x2000) != 0
+                    && *((_BYTE *)v19 + 65) >= 4u )
+                  {
+                    WPP_SF_(*((_QWORD *)v19 + 7), 0x25u, (__int64)&WPP_c6f5dbb53293365598fc41978a1596e7_Traceguids);
+                  }
+                  FastMutex_Release(*(_QWORD *)(CompletionKey + 120));
+                  return 1i64;
+                }
+                Packet_FreeUdpMessage(Internal);
+LABEL_71:
+                v12 = CompletionKey;
+LABEL_72:
+                hEvent = (unsigned int)v14[-1].hEvent;
+LABEL_73:
+                Udp_DropReceive(v12, hEvent);
+LABEL_74:
+                v12 = CompletionKey;
+                goto LABEL_75;
+              }
+              Udp_DropReceive(CompletionKey, (unsigned int)v14[-1].hEvent);
+              v20 = (_OWORD *)CompletionKey;
+              *(_OWORD *)(Internal + 128) = *(_OWORD *)(CompletionKey + 32);
+              *(_OWORD *)(Internal + 144) = v20[3];
+              *(_OWORD *)(Internal + 160) = v20[4];
+              *(_OWORD *)(Internal + 176) = v20[5];
+              FastMutex_Release(*(_QWORD *)(CompletionKey + 120));
+              qword_1401B9780 = qword_1401B9774;
+              if ( *(char *)(Internal + 6306) >= 0 )
+              {
+                _InterlockedAdd(&dword_1401C8668, 1u);
+                _InterlockedAdd((volatile signed __int32 *)pcUdpQueryReceived, 1u);
+                _InterlockedAdd((volatile signed __int32 *)pcTotalQueryReceived, 1u);
+              }
+              else
+              {
+                _InterlockedAdd(&dword_1401C8674, 1u);
+              }
+              *(_DWORD *)(Internal + 568) = dword_1401B9714;
+              *(_WORD *)(Internal + 6302) = NumberOfBytesTransferred;
+              *(_WORD *)(Internal + 6304) = __ROL2__(*(_WORD *)(Internal + 6304), 8);
+              *(_WORD *)(Internal + 6308) = __ROL2__(*(_WORD *)(Internal + 6308), 8);
+              *(_WORD *)(Internal + 6310) = __ROL2__(*(_WORD *)(Internal + 6310), 8);
+              *(_WORD *)(Internal + 6312) = __ROL2__(*(_WORD *)(Internal + 6312), 8);
+              *(_WORD *)(Internal + 6314) = __ROL2__(*(_WORD *)(Internal + 6314), 8);
+              if ( dword_1401B9770 )
+                Log_Message(Internal, 0, 0);
+              if ( g_EtwTraceOn )
+                Etw_TraceLogEvent(Internal, 0);
+              if ( (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x1000) != 0 && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 5u )
+                Dbg_DnsMessage("Received", Internal, v21);
+              Answer_ProcessMessage(Internal, *(_DWORD *)(CompletionKey + 100));
+            }
+            else
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                v17 = DnsAddr_Ntoa((struct in_addr *)(CompletionKey + 32));
+                WPP_SF_ddsq(
+                  *((_QWORD *)WPP_GLOBAL_Control + 7),
+                  0x20u,
+                  (__int64)&WPP_c6f5dbb53293365598fc41978a1596e7_Traceguids,
+                  *(_DWORD *)(CompletionKey + 108),
+                  *(_DWORD *)(CompletionKey + 16),
+                  (__int64)v17);
+                v12 = CompletionKey;
+              }
+              if ( *(_DWORD *)(v12 + 108) == -1 )
+              {
+                Sock_CleanupDeadSocketMessage(v12);
+                goto LABEL_74;
+              }
+LABEL_75:
+              FastMutex_Release(*(_QWORD *)(v12 + 120));
+            }
+          }
+          else if ( v2 == 1 || !(unsigned int)Thread_ServiceCheck(1) )
+          {
+            v0 = WPP_GLOBAL_Control;
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              v15 = 31;
+              goto LABEL_107;
+            }
+            return 1i64;
+          }
+        }
+        v3 = 0;
+        LastError = GetLastError();
+        v5 = LastError;
+        p_hEvent = &Overlapped[-1].hEvent;
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          if ( CompletionKey )
+            v7 = *(unsigned int *)(CompletionKey + 108);
+          else
+            v7 = 0xFFFFFFFFi64;
+          WPP_SF_dqqdq(*((_QWORD *)WPP_GLOBAL_Control + 7), v7, (__int64)Overlapped, LastError);
+        }
+        if ( CompletionKey )
+        {
+          FastMutex_Acquire(*(_QWORD *)(CompletionKey + 120), 0xFFFFFFFF);
+          v8 = CompletionKey;
+          v9 = *(_DWORD *)(CompletionKey + 108);
+          if ( v9 == 1 )
+          {
+            if ( v5 == 234
+              && Overlapped
+              && NumberOfBytesTransferred >= 0xC
+              && (v10 = *((_BYTE *)p_hEvent[5] + 6306), v10 < 0)
+              && (v10 & 2) != 0 )
+            {
+              v3 = 1;
+              *(_DWORD *)(CompletionKey + 108) = 1;
+            }
+            else
+            {
+              *(_DWORD *)(CompletionKey + 108) = 4;
+            }
+          }
+          else
+          {
+            if ( v9 == -1 )
+            {
+              Log_SocketFailure("Note: got GQCS failure on a dead socket context", CompletionKey, v5);
+              Sock_CleanupDeadSocketMessage(CompletionKey);
+            }
+            else
+            {
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x2000) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                GetCurrentThreadId();
+                WPP_SF_ddD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x1Du, v11, *(_DWORD *)(CompletionKey + 16));
+                v8 = CompletionKey;
+              }
+              Log_SocketFailure("ERROR: GQCS failure in weird state.", v8, v5);
+            }
+            FastMutex_Release(*(_QWORD *)(CompletionKey + 120));
+            CompletionKey = 0i64;
+          }
+        }
+        _InterlockedAdd(&dword_1401C7B3C, 1u);
+        if ( CompletionKey )
+        {
+          if ( v5 == 1234 )
+            _InterlockedAdd(&dword_1401C7B44, 1u);
+          _InterlockedAdd(&dword_1401C7B40, 1u);
+          if ( !v3 )
+          {
+            Packet_FreeUdpMessage((__int64)p_hEvent[5]);
+            p_hEvent[5] = 0i64;
+            v12 = CompletionKey;
+            hEvent = *(_DWORD *)p_hEvent;
+            goto LABEL_73;
+          }
+          v2 = g_fDnsServiceExit;
+          goto LABEL_40;
+        }
+      }
+    }
+    v0 = WPP_GLOBAL_Control;
+  }
+  if ( v0 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)v0 + 17) & 0x2000) != 0
+    && *((_BYTE *)v0 + 65) >= 4u )
+  {
+    v15 = 25;
+LABEL_107:
+    WPP_SF_(*((_QWORD *)v0 + 7), v15, (__int64)&WPP_c6f5dbb53293365598fc41978a1596e7_Traceguids);
+  }
+  return 1i64;
+}
+// 1400B4B60: variable 'v11' is possibly undefined
+// 1400B4D80: variable 'v16' is possibly undefined
+// 1400B4F65: variable 'v21' is possibly undefined
+// 1401B7EB4: using guessed type int g_fDnsThreadAlert;
+// 1401B8F34: using guessed type int g_EtwTraceOn;
+// 1401B9094: using guessed type int LastUdpRecvTime;
+// 1401B9098: using guessed type int UdpRecvCount;
+// 1401B909C: using guessed type int g_cThreadsWaitingForUdp;
+// 1401B9714: using guessed type int dword_1401B9714;
+// 1401B9770: using guessed type int dword_1401B9770;
+// 1401B9774: using guessed type __int64 qword_1401B9774;
+// 1401B9780: using guessed type __int64 qword_1401B9780;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1401C7B3C: using guessed type int dword_1401C7B3C;
+// 1401C7B40: using guessed type int dword_1401C7B40;
+// 1401C7B44: using guessed type int dword_1401C7B44;
+// 1401C8538: using guessed type __int64 pcTotalQueryReceived;
+// 1401C8540: using guessed type __int64 pcUdpQueryReceived;
+// 1401C8668: using guessed type int dword_1401C8668;
+// 1401C8674: using guessed type int dword_1401C8674;

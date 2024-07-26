@@ -1,0 +1,114 @@
+//----- (0000000140144EB8) ----------------------------------------------------
+__int64 __fastcall CDNSPolicyCriteriaQueryType::AddCriteria(CDNSPolicyCriteriaQueryType *this)
+{
+  int v2; // edi
+  int v3; // ebp
+  unsigned __int16 *v4; // rsi
+  _WORD *v5; // rax
+  _QWORD *v6; // rax
+  _WORD *v7; // rax
+  _QWORD *v8; // rax
+  void *v10[5]; // [rsp+40h] [rbp-48h] BYREF
+
+  v2 = 0;
+  if ( ((*((_QWORD *)this + 10) - *((_QWORD *)this + 9)) & 0xFFFFFFFFFFFFFFFEui64) != 0
+    || ((*((_QWORD *)this + 14) - *((_QWORD *)this + 13)) & 0xFFFFFFFFFFFFFFFEui64) != 0 )
+  {
+    v3 = 0;
+    v4 = word_140194C50;
+    while ( 1 )
+    {
+      if ( ((*((_QWORD *)this + 10) - *((_QWORD *)this + 9)) & 0xFFFFFFFFFFFFFFFEui64) == 0 )
+        goto LABEL_21;
+      v5 = (_WORD *)*((_QWORD *)this + 9);
+      if ( v5 != *((_WORD **)this + 10) )
+      {
+        do
+        {
+          if ( *v5 == *v4 )
+            break;
+          ++v5;
+        }
+        while ( v5 != *((_WORD **)this + 10) );
+        if ( v5 != *((_WORD **)this + 10) )
+          break;
+      }
+      if ( ((*((_QWORD *)this + 14) - *((_QWORD *)this + 13)) & 0xFFFFFFFFFFFFFFFEui64) != 0
+        && *(_DWORD *)(*((_QWORD *)this + 2) + 80i64) )
+      {
+        goto LABEL_21;
+      }
+LABEL_36:
+      ++v3;
+      if ( !*++v4 )
+        return 0i64;
+    }
+    if ( ((*((_QWORD *)this + 14) - *((_QWORD *)this + 13)) & 0xFFFFFFFFFFFFFFFEui64) != 0
+      && *(_DWORD *)(*((_QWORD *)this + 2) + 80i64) != 1 )
+    {
+LABEL_21:
+      if ( ((*((_QWORD *)this + 14) - *((_QWORD *)this + 13)) & 0xFFFFFFFFFFFFFFFEui64) == 0 )
+        goto LABEL_36;
+      v7 = (_WORD *)*((_QWORD *)this + 13);
+      if ( v7 != *((_WORD **)this + 14) )
+      {
+        do
+        {
+          if ( *v7 == *v4 )
+            break;
+          ++v7;
+        }
+        while ( v7 != *((_WORD **)this + 14) );
+        if ( v7 != *((_WORD **)this + 14) )
+          goto LABEL_36;
+      }
+      std::vector<unsigned short>::push_back((unsigned __int64 *)this + 17, &word_140194C50[v3]);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v8 = (_QWORD *)CDnsPolicy::Name(*((const void ***)this + 2), (__int64)v10);
+        v2 |= 2u;
+        if ( v8[3] >= 8ui64 )
+          v8 = (_QWORD *)*v8;
+        WPP_SF_DS(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x3Eu,
+          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+          *v4,
+          (__int64)v8);
+      }
+      if ( (v2 & 2) == 0 )
+        goto LABEL_36;
+      v2 &= ~2u;
+    }
+    else
+    {
+      std::vector<unsigned short>::push_back((unsigned __int64 *)this + 17, &word_140194C50[v3]);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v6 = (_QWORD *)CDnsPolicy::Name(*((const void ***)this + 2), (__int64)v10);
+        v2 |= 1u;
+        if ( v6[3] >= 8ui64 )
+          v6 = (_QWORD *)*v6;
+        WPP_SF_DS(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x3Du,
+          (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+          *v4,
+          (__int64)v6);
+      }
+      if ( (v2 & 1) == 0 )
+        goto LABEL_36;
+      v2 &= ~1u;
+    }
+    if ( v10[3] >= (void *)8 )
+      operator delete(v10[0]);
+    goto LABEL_36;
+  }
+  return 0i64;
+}
+// 140184CA8: using guessed type void __stdcall operator delete(void *);
+// 140194C50: using guessed type unsigned __int16 word_140194C50[64];

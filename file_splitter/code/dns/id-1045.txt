@@ -1,0 +1,23 @@
+//----- (00000001400886E0) ----------------------------------------------------
+char *__fastcall NsecFlatWrite(__int64 a1, __int64 a2, _BYTE *a3, unsigned __int64 a4)
+{
+  char *v6; // rdi
+  __int16 v7; // dx
+  unsigned __int16 v8; // cx
+  unsigned __int16 v9; // cx
+  __int64 v10; // rbx
+
+  v6 = Name_WriteDbaseNameToRpcBuffer(a3, a4, (unsigned __int8 *)(a2 + 56), 0);
+  if ( !v6 )
+    return 0i64;
+  v7 = *(unsigned __int8 *)(a2 + 56);
+  v8 = *(_WORD *)(a2 + 14);
+  if ( v8 < (unsigned __int16)(v7 + 2) )
+    return 0i64;
+  v9 = v8 - (v7 + 2);
+  v10 = v9;
+  if ( (__int64)(a4 - (_QWORD)v6) < v9 )
+    return 0i64;
+  memcpy_0(v6, (const void *)(*(unsigned __int8 *)(a2 + 56) + a2 + 58), v9);
+  return &v6[v10];
+}

@@ -1,0 +1,100 @@
+//----- (00000001400CE004) ----------------------------------------------------
+__int64 __fastcall writeStandardIxfrResponse(__int64 a1, __int64 a2, u_long a3)
+{
+  __int64 v6; // rax
+  __int64 v7; // r15
+  __int64 result; // rax
+  __int64 v9; // rcx
+  int v10; // ebp
+  __int64 v11; // rdi
+  __int64 v12; // r8
+  __int64 i; // rsi
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_qdq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x43u,
+      (__int64)&WPP_4e7c1fc42723374814672f05b7ca7028_Traceguids,
+      a1,
+      a3,
+      a2);
+  }
+  v6 = *(_QWORD *)(a1 + 208);
+  *(_BYTE *)(a1 + 1412) = 0;
+  v7 = *(_QWORD *)(v6 + 336);
+  result = Xfr_WriteZoneSoaWithVersion(a1, v7, 0);
+  if ( !(_DWORD)result )
+  {
+    result = Xfr_WriteZoneSoaWithVersion(a1, v7, a3);
+    if ( !(_DWORD)result )
+    {
+      v10 = 0;
+      while ( 2 )
+      {
+        v11 = a2;
+        do
+        {
+          if ( v10 )
+          {
+            if ( *(_WORD *)(v11 + 42)
+              && !(unsigned int)Up_IsDuplicateAdd(v9, (__int64 *)v11)
+              && !(unsigned int)writeZoneNodeToMessage(a1, *(__int64 **)(v11 + 8), *(_WORD *)(v11 + 42), 6) )
+            {
+              if ( !*(_BYTE *)(a1 + 1413) )
+                return 1168386i64;
+              if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+                && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+                && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+              {
+                WPP_SF_qsdq(*((_QWORD *)WPP_GLOBAL_Control + 7), *(_QWORD *)(v11 + 8) + 102i64, v12);
+              }
+              return 2i64;
+            }
+          }
+          else
+          {
+            for ( i = *(_QWORD *)(v11 + 24); i; i = *(_QWORD *)i )
+            {
+              if ( *(_WORD *)(i + 12) != 6 )
+              {
+                result = writeXfrRecord(a1, *(__int64 **)(v11 + 8), 0, i);
+                if ( (_DWORD)result )
+                  return result;
+              }
+            }
+          }
+          v11 = *(_QWORD *)v11;
+        }
+        while ( v11 );
+        result = Xfr_WriteZoneSoaWithVersion(a1, v7, 0);
+        if ( (_DWORD)result )
+          return result;
+        if ( !v10 )
+        {
+          v10 = 1;
+          continue;
+        }
+        break;
+      }
+      if ( *(_WORD *)(a1 + 6310) )
+        Send_ResponseAndReset(a1);
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x40) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_q(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x45u,
+          (__int64)&WPP_4e7c1fc42723374814672f05b7ca7028_Traceguids,
+          a1);
+      }
+      return 0i64;
+    }
+  }
+  return result;
+}
+// 1400CE0C5: variable 'v9' is possibly undefined
+// 1400CE1A0: variable 'v12' is possibly undefined

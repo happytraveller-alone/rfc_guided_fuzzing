@@ -1,0 +1,44 @@
+//----- (000000014007452C) ----------------------------------------------------
+void __fastcall Recurse_CleanupRecursionMessage(__int64 a1)
+{
+  __int64 v2; // rax
+  __int64 v3; // rax
+  __int64 v4; // rcx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x20000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a1 )
+      v2 = *(_QWORD *)(a1 + 1256);
+    else
+      v2 = 0i64;
+    WPP_SF_qq(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x84u,
+      (__int64)&WPP_045d5c95c5db3fcad9ea35acf5eb75d8_Traceguids,
+      a1,
+      v2);
+  }
+  if ( a1 )
+  {
+    v3 = *(_QWORD *)(a1 + 1256);
+    if ( v3 )
+    {
+      *(_BYTE *)(v3 + 1418) = 0;
+      *(_QWORD *)(*(_QWORD *)(a1 + 1256) + 1256i64) = 0i64;
+      Packet_Free(*(_QWORD *)(a1 + 1256));
+      *(_QWORD *)(a1 + 1256) = 0i64;
+    }
+    v4 = *(_QWORD *)(a1 + 1280);
+    if ( v4 )
+    {
+      *(_BYTE *)(v4 + 1457) = 1;
+      *(_DWORD *)(v4 + 40) = -1431690718;
+      Packet_FreeTcpMessage(v4, 0x4000);
+      *(_QWORD *)(a1 + 1280) = 0i64;
+      _InterlockedIncrement(&dword_1401C7BF0);
+    }
+  }
+}
+// 1401C7BF0: using guessed type int dword_1401C7BF0;

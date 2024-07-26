@@ -1,0 +1,29 @@
+//----- (000000014011B858) ----------------------------------------------------
+__int64 __fastcall File_MakeTokenString(_BYTE *a1, __int64 a2, __int64 a3)
+{
+  size_t v3; // rax
+  const void *v5; // rcx
+  __int64 result; // rax
+  size_t v7; // rbx
+
+  v3 = *(unsigned int *)(a2 + 8);
+  v5 = *(const void **)a2;
+  *a1 = 0;
+  if ( (unsigned int)v3 <= 0xFF )
+  {
+    v7 = v3;
+    memcpy_0(a1, v5, v3);
+    result = 1i64;
+    a1[v7] = 0;
+  }
+  else
+  {
+    if ( a3 )
+    {
+      *(_DWORD *)(a3 + 1600) = 1506;
+      *(_QWORD *)(a3 + 1608) = a2;
+    }
+    return 0i64;
+  }
+  return result;
+}

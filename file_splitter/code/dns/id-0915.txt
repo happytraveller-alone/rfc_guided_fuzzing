@@ -1,0 +1,5 @@
+//----- (000000014007CA10) ----------------------------------------------------
+PVOID __fastcall nameHashArrayAllocFunc(struct _RTL_AVL_TABLE *Table, CLONG ByteSize)
+{
+  return Mem_AllocZero(ByteSize, 0i64, "ds\\dns\\server\\server\\remotequerysystem.c", 511);
+}

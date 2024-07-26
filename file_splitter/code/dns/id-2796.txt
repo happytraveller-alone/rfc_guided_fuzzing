@@ -1,0 +1,38 @@
+//----- (000000014014AD78) ----------------------------------------------------
+__int64 __fastcall MatchDnsDomain(const char *a1, const char *a2)
+{
+  __int64 v4; // rdx
+  __int64 v5; // r9
+  unsigned int v6; // ebx
+
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_ss(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x8Cu,
+      (__int64)&WPP_42dbba61d26d3062f1ad4e084cdc81fe_Traceguids,
+      a1,
+      (__int64)a2);
+  }
+  v4 = -1i64;
+  v5 = -1i64;
+  v6 = 0;
+  do
+    ++v5;
+  while ( a1[v5] );
+  do
+    ++v4;
+  while ( a2[v4] );
+  if ( !(_DWORD)v5 || !(_DWORD)v4 )
+    return 0i64;
+  if ( a2[(unsigned int)(v4 - 1)] == 46 )
+    LODWORD(v4) = v4 - 1;
+  if ( a1[(unsigned int)(v5 - 1)] == 46 )
+    LODWORD(v5) = v5 - 1;
+  if ( (unsigned int)v5 < (unsigned int)v4 )
+    return 0i64;
+  LOBYTE(v6) = _strnicmp(&a1[(unsigned int)(v5 - v4)], a2, (unsigned int)v4) == 0;
+  return v6;
+}

@@ -1,0 +1,61 @@
+//----- (0000000140122B70) ----------------------------------------------------
+__int64 __fastcall NxtUnknownFileRead(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)
+{
+  __int64 v8; // rsi
+  int v9; // edi
+  int v10; // ebx
+  char *v11; // rbx
+  unsigned __int8 *v12; // rsi
+  _BYTE *v13; // rax
+  _BYTE *v14; // rdi
+  size_t v15; // rbx
+  int v16[4]; // [rsp+30h] [rbp-D0h] BYREF
+  unsigned __int8 v17[272]; // [rsp+40h] [rbp-C0h] BYREF
+  char v18[272]; // [rsp+150h] [rbp+50h] BYREF
+  __int64 v19[6]; // [rsp+260h] [rbp+160h] BYREF
+
+  v16[0] = 0;
+  memset_0(v18, 0, sizeof(v18));
+  if ( a2 < 3 )
+    return 3222394115i64;
+  v8 = a3 + 16;
+  if ( !(unsigned int)File_ParseDwordToken(v16, v8, 0i64) )
+    return 3222394113i64;
+  v9 = v16[0];
+  if ( v16[0] > 0x110u )
+    return 3222394113i64;
+  v10 = a2 - 2;
+  v16[0] = 272;
+  if ( !v10 )
+    return 3222394113i64;
+  if ( (unsigned int)buildByteBufferFromHexStringTokens(v18, v16, v10, v8 + 16, (unsigned __int64)v19) )
+    return 3222394113i64;
+  if ( v16[0] != v9 )
+    return 3222394113i64;
+  v11 = &v18[v16[0]];
+  if ( v18 >= v11 )
+    return 3222394113i64;
+  v12 = Name_PacketNameToCountNameForUnknown(v17, (unsigned __int64)&v18[v16[0]], (unsigned __int8 *)v18);
+  if ( !v12 )
+    return 3222394113i64;
+  v13 = RR_AllocateEx(v17[0] + 18, 0, 0);
+  v14 = v13;
+  if ( !v13 )
+    return 14i64;
+  *(_QWORD *)(a4 + 800) = v13;
+  Name_CopyCountName(v13 + 72, v17);
+  v15 = v11 - (char *)v12;
+  if ( v15 < 0x10 )
+  {
+    *((_QWORD *)v14 + 7) = 0i64;
+    *((_QWORD *)v14 + 8) = 0i64;
+  }
+  else
+  {
+    v15 = 16i64;
+  }
+  memcpy_0(v14 + 56, v12, v15);
+  return 0i64;
+}
+// 140122B70: using guessed type __int64 var_30[6];
+// 140122B70: using guessed type unsigned __int8 var_140[272];

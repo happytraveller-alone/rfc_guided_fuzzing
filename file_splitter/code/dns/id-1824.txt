@@ -1,0 +1,40 @@
+//----- (00000001400E5840) ----------------------------------------------------
+__int64 __fastcall std::filebuf::seekpos(__int64 a1, __int64 a2, __int64 a3)
+{
+  __int64 v6; // rsi
+  _QWORD *v7; // rdx
+  __int64 v8; // rcx
+  fpos_t v9; // rax
+  fpos_t Position; // [rsp+30h] [rbp+8h] BYREF
+
+  Position = *(_QWORD *)(a3 + 8);
+  v6 = *(_QWORD *)a3;
+  if ( !*(_QWORD *)(a1 + 152)
+    || !std::filebuf::_Endwrite(a1)
+    || fsetpos(*(FILE **)(a1 + 152), &Position)
+    || v6 && _fseeki64(*(FILE **)(a1 + 152), v6, 1)
+    || fgetpos(*(FILE **)(a1 + 152), &Position) )
+  {
+    *(_QWORD *)(a2 + 8) = 0i64;
+    *(_DWORD *)(a2 + 16) = 0;
+    *(_QWORD *)a2 = std::_BADOFF;
+  }
+  else
+  {
+    v7 = *(_QWORD **)(a1 + 32);
+    *(_DWORD *)(a1 + 140) = *(_DWORD *)(a3 + 16);
+    if ( *v7 == a1 + 136 )
+    {
+      v8 = *(_QWORD *)(a1 + 120);
+      *v7 = *(_QWORD *)(a1 + 112);
+      **(_QWORD **)(a1 + 64) = v8;
+      **(_DWORD **)(a1 + 88) = 0;
+    }
+    v9 = Position;
+    *(_QWORD *)a2 = 0i64;
+    *(_QWORD *)(a2 + 8) = v9;
+    *(_DWORD *)(a2 + 16) = *(_DWORD *)(a1 + 140);
+  }
+  return a2;
+}
+// 140185E68: using guessed type const __int64 std::_BADOFF;

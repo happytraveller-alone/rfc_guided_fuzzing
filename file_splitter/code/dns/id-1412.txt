@@ -1,0 +1,22 @@
+//----- (00000001400B1BC4) ----------------------------------------------------
+__int64 __fastcall btreeReadToArray(__int64 a1, __int64 a2)
+{
+  __int64 v2; // rbx
+  __int64 i; // rax
+  __int64 result; // rax
+
+  v2 = 0i64;
+  *(_QWORD *)(a1 + 8) = 0i64;
+  for ( i = *(_QWORD *)(a1 + 16); i; i = *(_QWORD *)(i + 16) )
+    a1 = i;
+  do
+  {
+    *(_QWORD *)(a2 + 8 * v2) = a1;
+    v2 = (unsigned int)(v2 + 1);
+    result = NTree_NextSibling(a1);
+    a1 = result;
+  }
+  while ( result );
+  *(_QWORD *)(a2 + 8i64 * (unsigned int)v2) = 0i64;
+  return result;
+}

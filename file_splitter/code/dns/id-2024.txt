@@ -1,0 +1,55 @@
+//----- (00000001400FAC10) ----------------------------------------------------
+__int64 __fastcall DnsOls_WriteSkdToStorage(int a1, __int64 a2, __int64 a3, char a4)
+{
+  CDnsClientSubnetRecordsTrie *v8; // rcx
+  __int64 v9; // rsi
+  __int64 v10; // rax
+  unsigned int v11; // ebx
+  unsigned int v12; // eax
+
+  v8 = WPP_GLOBAL_Control;
+  v9 = 0i64;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 4) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v10 = *(_QWORD *)(a2 + 16);
+    else
+      v10 = 0i64;
+    WPP_SF_qs(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x44u,
+      (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids,
+      a3,
+      v10);
+    v8 = WPP_GLOBAL_Control;
+  }
+  if ( !a2 )
+    goto LABEL_9;
+  if ( (*(_BYTE *)(a2 + 388) & 1) != 0 )
+  {
+    v12 = DnsOls_WriteZoneSkdsToDirectory(a2);
+    goto LABEL_14;
+  }
+  if ( a3 )
+  {
+    v12 = DnsOls_WriteZoneSkdToRegistry(a1, a2, a3, a4);
+LABEL_14:
+    v8 = WPP_GLOBAL_Control;
+    v11 = v12;
+    goto LABEL_15;
+  }
+LABEL_9:
+  v11 = 87;
+LABEL_15:
+  if ( v8 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)v8 + 68) & 4) != 0
+    && *((_BYTE *)v8 + 65) >= 4u )
+  {
+    if ( a2 )
+      v9 = *(_QWORD *)(a2 + 16);
+    WPP_SF_Dsq(*((_QWORD *)v8 + 7), 0x45u, (__int64)&WPP_bc8d8ed5e1cd3d5e5de49867d4cbf732_Traceguids, v11, v9);
+  }
+  return v11;
+}

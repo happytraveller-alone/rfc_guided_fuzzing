@@ -1,0 +1,50 @@
+//----- (00000001400E299C) ----------------------------------------------------
+__int64 __fastcall TrustAnchor::operator=(__int64 a1, __int64 *a2)
+{
+  __int64 v2; // r8
+  __int64 v4; // rdx
+  volatile signed __int32 *v6; // rcx
+  signed __int32 v8; // eax
+  __int64 v9; // [rsp+20h] [rbp-18h]
+  volatile signed __int32 *v10; // [rsp+28h] [rbp-10h]
+
+  v2 = a2[1];
+  v4 = *a2;
+  v9 = 0i64;
+  if ( v2 )
+  {
+    while ( 1 )
+    {
+      v8 = *(_DWORD *)(v2 + 8);
+      if ( !v8 )
+        break;
+      if ( v8 == _InterlockedCompareExchange((volatile signed __int32 *)(v2 + 8), v8 + 1, v8) )
+      {
+        v9 = v4;
+        goto LABEL_3;
+      }
+    }
+  }
+  v2 = 0i64;
+LABEL_3:
+  v6 = *(volatile signed __int32 **)(a1 + 8);
+  *(_QWORD *)(a1 + 8) = v2;
+  v10 = v6;
+  *(_QWORD *)a1 = v9;
+  if ( v6 )
+  {
+    if ( _InterlockedExchangeAdd(v6 + 2, 0xFFFFFFFF) == 1 )
+    {
+      (**(void (__fastcall ***)(volatile signed __int32 *, __int64))v6)(v6, v4);
+      if ( _InterlockedExchangeAdd(v10 + 3, 0xFFFFFFFF) == 1 )
+        (*(void (__fastcall **)(volatile signed __int32 *))(*(_QWORD *)v10 + 8i64))(v10);
+    }
+  }
+  *(_DWORD *)(a1 + 16) = *((_DWORD *)a2 + 4);
+  *(_WORD *)(a1 + 20) = *((_WORD *)a2 + 10);
+  *(_BYTE *)(a1 + 22) = *((_BYTE *)a2 + 22);
+  *(_QWORD *)(a1 + 24) = a2[3];
+  *(_QWORD *)(a1 + 32) = a2[4];
+  return a1;
+}
+// 140185140: using guessed type __int64 (__fastcall *_guard_dispatch_icall_fptr)(_QWORD, _QWORD);

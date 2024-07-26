@@ -1,0 +1,147 @@
+//----- (00000001400C354C) ----------------------------------------------------
+__int64 __fastcall Zone_WriteZoneToRegistry(__int64 a1)
+{
+  unsigned int v1; // edi
+  unsigned int v3; // eax
+  __int64 v4; // rax
+  const CHAR *v5; // r9
+  int v7; // [rsp+60h] [rbp+20h] BYREF
+
+  v1 = 0;
+  if ( (*(_BYTE *)(a1 + 396) & 4) != 0 || (*(_BYTE *)(a1 + 1160) & 0x40) != 0 )
+    return v1;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_SD(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x45u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const unsigned __int16 **)(a1 + 24));
+  }
+  if ( *(_QWORD *)(a1 + 192) )
+  {
+    if ( (*(_BYTE *)(a1 + 388) & 1) != 0 )
+      return v1;
+    if ( !*(_QWORD *)(a1 + 136) )
+    {
+      Reg_DeleteValue(0, 0i64, a1, "DatabaseFile");
+      return v1;
+    }
+    v3 = Reg_SetValue(0, 0i64, a1, (const CHAR *)L"DatabaseFile", 0xF0000001, *(BYTE **)(a1 + 144), 0);
+    goto LABEL_11;
+  }
+  if ( !*(_DWORD *)(a1 + 372) )
+  {
+    if ( (*(_BYTE *)(a1 + 388) & 1) != 0
+      || !(unsigned int)wcsicmp_ThatWorks(*(PCNZWCH *)(a1 + 144), (const WCHAR *)L"cache.dns") )
+    {
+      v3 = Reg_DeleteValue(0, 0i64, 0i64, "RootHintsFile");
+LABEL_11:
+      v1 = v3;
+      if ( !v3 )
+        return v1;
+      goto LABEL_50;
+    }
+    v1 = Reg_SetValue(0, 0i64, 0i64, (const CHAR *)L"RootHintsFile", 0xF0000001, *(BYTE **)(a1 + 144), 0);
+    if ( !v1 )
+      return v1;
+LABEL_49:
+    if ( !v1 )
+      return v1;
+    goto LABEL_50;
+  }
+  v7 = *(_DWORD *)(a1 + 372);
+  v1 = Reg_SetValue(0, 0i64, a1, "Type", 4u, (BYTE *)&v7, 4u);
+  if ( !v1 )
+  {
+    if ( (*(_DWORD *)(a1 + 388) & 1) != 0 )
+    {
+      v7 = *(_DWORD *)(a1 + 388) & 1;
+      v1 = Reg_SetValue(0, 0i64, a1, "DsIntegrated", 4u, (BYTE *)&v7, 4u);
+      if ( v1 )
+        goto LABEL_50;
+      v4 = *(_QWORD *)(a1 + 848);
+      if ( !v4 || (*(_BYTE *)(v4 + 100) & 2) != 0 )
+      {
+        Reg_DeleteValue(0, 0i64, a1, "DirectoryPartition");
+      }
+      else
+      {
+        v1 = Reg_SetValue(0, 0i64, a1, (const CHAR *)L"DirectoryPartition", 0xFF000001, *(BYTE **)(v4 + 24), 0);
+        if ( v1 )
+          goto LABEL_50;
+      }
+      v5 = "DatabaseFile";
+      goto LABEL_37;
+    }
+    if ( *(_QWORD *)(a1 + 136) )
+    {
+      v1 = Reg_SetValue(0, 0i64, a1, (const CHAR *)L"DatabaseFile", 0xF0000001, *(BYTE **)(a1 + 144), 0);
+      if ( v1 )
+        goto LABEL_50;
+    }
+    else
+    {
+      Reg_DeleteValue(0, 0i64, a1, "DatabaseFile");
+    }
+    if ( *(_DWORD *)(a1 + 372) != 4
+      || (v7 = *(_DWORD *)(a1 + 1556), (v1 = Reg_SetValue(0, 0i64, a1, "ForwarderTimeout", 4u, (BYTE *)&v7, 4u)) == 0)
+      && (v7 = (*(_DWORD *)(a1 + 1160) >> 5) & 1,
+          (v1 = Reg_SetValue(0, 0i64, a1, "ForwarderSlave", 4u, (BYTE *)&v7, 4u)) == 0) )
+    {
+      Reg_DeleteValue(0, 0i64, a1, "DsIntegrated");
+      v5 = "DirectoryPartition";
+LABEL_37:
+      Reg_DeleteValue(0, 0i64, a1, v5);
+      v7 = *(_DWORD *)(a1 + 380);
+      v1 = Reg_SetValue(0, 0i64, a1, "SecureSecondaries", 4u, (BYTE *)&v7, 4u);
+      if ( !v1 )
+      {
+        v7 = *(unsigned __int8 *)(a1 + 385);
+        v1 = Reg_SetValue(0, 0i64, a1, "NotifyLevel", 4u, (BYTE *)&v7, 4u);
+        if ( !v1 )
+        {
+          v1 = Reg_SetAddrArrayEx(0, 0i64, a1, "NotifyServers", *(_QWORD *)(a1 + 544), 0);
+          if ( !v1 )
+          {
+            v1 = Reg_SetAddrArrayEx(0, 0i64, a1, "SecondaryServers", *(_QWORD *)(a1 + 552), 0);
+            if ( !v1
+              && ((unsigned int)(*(_DWORD *)(a1 + 372) - 2) > 2
+               || ((*(_BYTE *)(a1 + 388) & 1) != 0
+                || (v1 = Reg_SetAddrArrayEx(0, 0i64, a1, "MasterServers", *(_QWORD *)(a1 + 1168), 0)) == 0)
+               && (v1 = Reg_SetAddrArrayEx(0, 0i64, a1, "LocalMasterServers", *(_QWORD *)(a1 + 1176), 0)) == 0) )
+            {
+              if ( *(_DWORD *)(a1 + 372) != 4
+                || (v7 = *(_DWORD *)(a1 + 1556),
+                    (v1 = Reg_SetValue(0, 0i64, a1, "ForwarderTimeout", 4u, (BYTE *)&v7, 4u)) == 0)
+                && (v7 = (*(_DWORD *)(a1 + 1160) >> 5) & 1,
+                    (v1 = Reg_SetValue(0, 0i64, a1, "ForwarderSlave", 4u, (BYTE *)&v7, 4u)) == 0) )
+              {
+                v7 = *(_DWORD *)(a1 + 304);
+                v1 = Reg_SetValue(0, 0i64, a1, "EnablePolicies", 4u, (BYTE *)&v7, 4u);
+                goto LABEL_49;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+LABEL_50:
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 0x10) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_sd(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x46u,
+      (__int64)&WPP_e9a0d5dea449334d7c383477da81f939_Traceguids,
+      *(const char **)(a1 + 16));
+  }
+  return v1;
+}
+// 140188028: using guessed type wchar_t aDirectoryparti_1[19];
+// 140188050: using guessed type wchar_t aDatabasefile_0[13];
+// 1401920B8: using guessed type wchar_t aRoothintsfile[14];

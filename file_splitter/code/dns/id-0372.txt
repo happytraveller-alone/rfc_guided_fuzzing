@@ -1,0 +1,253 @@
+//----- (0000000140031478) ----------------------------------------------------
+__int64 __fastcall Dp_ScanDpForZones(struct ldap *a1, __int64 a2, int a3, int a4, int a5)
+{
+  unsigned int v9; // edi
+  const char *v10; // r9
+  PLDAP v11; // rax
+  DWORD TickCount; // ebx
+  PLDAPSearch inited; // rsi
+  ULONG LastError; // eax
+  unsigned int NextMessageInSearch; // eax
+  int v16; // eax
+  __int64 v17; // rcx
+  __int64 v18; // rdx
+  bool v19; // zf
+  unsigned __int16 *v20; // rax
+  unsigned __int16 *v21; // rax
+  __int64 v22; // rbx
+  int v23; // eax
+  CDnsClientSubnetRecordsTrie *v24; // rcx
+  unsigned __int16 v25; // dx
+  __int64 v26; // r8
+  __int64 v28; // [rsp+68h] [rbp-A0h] BYREF
+  _QWORD v29[3]; // [rsp+70h] [rbp-98h] BYREF
+  __int64 v30[7]; // [rsp+88h] [rbp-80h] BYREF
+  int v31; // [rsp+C4h] [rbp-44h]
+  PLDAPControlW ServerControls[3]; // [rsp+218h] [rbp+110h] BYREF
+  unsigned __int16 *v33[3]; // [rsp+230h] [rbp+128h] BYREF
+
+  ServerControls[0] = (PLDAPControlW)&SecurityDescriptorControl_DGO;
+  ServerControls[2] = 0i64;
+  ServerControls[1] = (PLDAPControlW)&NoDsSvrReferralControl;
+  v9 = 0;
+  if ( !dword_1401B9954 || !(unsigned int)Ds_IsDsServer(0) || dword_1401B9728 != 3 )
+    return 0i64;
+  memset_0(v30, 0, 0x190ui64);
+  v31 = 0;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v10 = *(const char **)(a2 + 24);
+    else
+      v10 = "NULL";
+    WPP_SF_s(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x52u, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids, v10);
+  }
+  if ( !a2 || *(_DWORD *)(a2 + 16) )
+    goto LABEL_78;
+  v11 = pServerLdap;
+  if ( a1 )
+    v11 = a1;
+  if ( !v11 )
+  {
+    v9 = 9717;
+    goto LABEL_78;
+  }
+  TickCount = GetTickCount();
+  inited = ldap_search_init_pageW(
+             pServerLdap,
+             *(const PWSTR *)(a2 + 40),
+             2u,
+             g_szDnsZoneFilter,
+             &DsTypeAttributeTable,
+             0,
+             ServerControls,
+             0i64,
+             0xB4u,
+             0,
+             0i64);
+  _InterlockedExchangeAdd(&dword_1401C7D48, GetTickCount() - TickCount);
+  if ( !inited )
+  {
+    LastError = LdapGetLastError();
+    v9 = Ds_ErrorHandler(LastError, (__int64)g_pwszDnsContainerDN, pServerLdap, 0);
+    goto LABEL_78;
+  }
+  v30[0] = (__int64)inited;
+  v28 = 0i64;
+  v29[0] = 0i64;
+  while ( g_fDnsServiceExit != 1 )
+  {
+    if ( a3 )
+      Service_LoadCheckpoint();
+    NextMessageInSearch = Ds_GetNextMessageInSearch((__int64)v30);
+    v9 = NextMessageInSearch;
+    if ( NextMessageInSearch )
+    {
+      if ( NextMessageInSearch == 1168897 )
+      {
+        v9 = 0;
+        goto LABEL_78;
+      }
+      v24 = WPP_GLOBAL_Control;
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        v25 = 84;
+LABEL_77:
+        WPP_SF_(*((_QWORD *)v24 + 7), v25, (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids);
+      }
+      goto LABEL_78;
+    }
+    v16 = Ds_CreateZoneFromDs((LDAPMessage *)v30[2], a2, &v28, v29);
+    v9 = v16;
+    if ( v16 )
+    {
+      if ( v16 != 9609 )
+      {
+        if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+          && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+          && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_D(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x55u,
+            (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+            v16);
+        }
+        goto LABEL_72;
+      }
+      v17 = v29[0];
+      if ( v29[0] && *(_DWORD *)(v29[0] + 372i64) )
+      {
+        if ( !*(_QWORD *)(v29[0] + 848i64) && (*(_BYTE *)(v29[0] + 388i64) & 1) != 0 )
+          *(_QWORD *)(v29[0] + 848i64) = g_pLegacyDp;
+        v18 = *(_QWORD *)(v17 + 848);
+        if ( v18 != a2 )
+        {
+          if ( !a4 )
+          {
+            v19 = (*(_BYTE *)(v17 + 388) & 1) == 0;
+            v33[0] = *(unsigned __int16 **)(v17 + 24);
+            if ( v19 )
+            {
+              v20 = L"FILE";
+            }
+            else if ( v18 )
+            {
+              v20 = (unsigned __int16 *)&LocaleName;
+              if ( *(_QWORD *)(v18 + 32) )
+                v20 = *(unsigned __int16 **)(v18 + 32);
+            }
+            else
+            {
+              v20 = L"MicrosoftDNS";
+            }
+            v19 = *(_QWORD *)(a2 + 32) == 0i64;
+            v33[1] = v20;
+            v21 = (unsigned __int16 *)&LocaleName;
+            if ( !v19 )
+              v21 = *(unsigned __int16 **)(a2 + 32);
+            v33[2] = v21;
+            *(_OWORD *)&v29[1] = DNS_EVENT_DP_ZONE_CONFLICT;
+            Eventlog_LogEvent((__int64)&v29[1], v18, 3u, v33, (unsigned __int8 *)1, 9609, 0, 0i64);
+          }
+          goto LABEL_72;
+        }
+        *(_DWORD *)(v17 + 440) = a5;
+        goto LABEL_66;
+      }
+    }
+    else
+    {
+      v22 = v28;
+      if ( v28 )
+      {
+        *(_DWORD *)(v28 + 440) = a5;
+        *(_DWORD *)(v22 + 436) = 0;
+      }
+      if ( a4 || v22 == g_pCacheZone || v22 == g_pTrustAnchorsZone )
+      {
+        v23 = Zone_Load(v22, 0);
+        v9 = v23;
+        if ( v23 )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_D(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              0x57u,
+              (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids,
+              v23);
+          }
+          Zone_Delete((struct _zone_info *)v22, 0, 0, 0, 0);
+          goto LABEL_72;
+        }
+        if ( *(char *)(v22 + 428) < 0 && *(_BYTE *)(v22 + 400) )
+          Zone_UnlockAfterWriteEx(v22, 1, (__int64)"ds\\dns\\server\\server\\dpart.c", 98);
+        if ( v22 == g_pCacheZone )
+        {
+          if ( (unsigned int)Zone_LockForWriteEx(v22, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\dpart.c", 107) )
+          {
+            if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+              && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+              && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+            {
+              WPP_SF_(
+                *((_QWORD *)WPP_GLOBAL_Control + 7),
+                0x56u,
+                (__int64)&WPP_0f7f6e0c97433b7ed77e9ce4b2e20f93_Traceguids);
+            }
+          }
+          else
+          {
+            Zone_ActivateLoadedZone(v22);
+            Zone_UnlockAfterWriteEx(v22, 1, (__int64)"ds\\dns\\server\\server\\dpart.c", 110);
+          }
+        }
+      }
+      if ( v22 && v22 != g_pCacheZone && v22 != g_pTrustAnchorsZone )
+      {
+        v17 = v22;
+LABEL_66:
+        BuildZoneScopesfromZoneinAD(v17, a4, a5, a3);
+      }
+    }
+LABEL_72:
+    v28 = 0i64;
+    v29[0] = 0i64;
+  }
+  v24 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v25 = 83;
+    goto LABEL_77;
+  }
+LABEL_78:
+  Ds_CleanupSearchBlob((__int64)v30);
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x400) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_LD(*((_QWORD *)WPP_GLOBAL_Control + 7), 0x58u, v26, v9);
+  }
+  return v9;
+}
+// 1400319DE: variable 'v26' is possibly undefined
+// 140187000: using guessed type __int128 DNS_EVENT_DP_ZONE_CONFLICT;
+// 14018B468: using guessed type wchar_t aFile_0[5];
+// 1401B8C48: using guessed type __int64 g_pTrustAnchorsZone;
+// 1401B8D10: using guessed type __int64 g_pLegacyDp;
+// 1401B9728: using guessed type int dword_1401B9728;
+// 1401B9954: using guessed type int dword_1401B9954;
+// 1401B9A40: using guessed type int g_fDnsServiceExit;
+// 1401C7D48: using guessed type int dword_1401C7D48;
+// 1401EC420: using guessed type __int64 NoDsSvrReferralControl;
+// 1401EC440: using guessed type __int64 SecurityDescriptorControl_DGO;
+// 1401EC628: using guessed type __int64 g_pCacheZone;

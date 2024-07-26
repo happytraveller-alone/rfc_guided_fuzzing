@@ -1,0 +1,22 @@
+//----- (000000014007E7BC) ----------------------------------------------------
+__int64 __fastcall RpcUtil_CopyStringToRpcBuffer(void **a1, _BYTE *a2, __int64 a3)
+{
+  void *v5; // rcx
+  __int64 result; // rax
+
+  v5 = *a1;
+  if ( v5 )
+  {
+    MIDL_user_free(v5);
+    *a1 = 0i64;
+  }
+  if ( !a2 )
+    return 1i64;
+  result = Dns_CreateStringCopy(a2, (__int64)a2, a3);
+  *a1 = (void *)result;
+  if ( result )
+    return 1i64;
+  return result;
+}
+// 14007E7E5: variable 'a2' is possibly undefined
+// 14007E7E5: variable 'a3' is possibly undefined

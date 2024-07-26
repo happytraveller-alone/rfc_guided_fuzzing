@@ -1,0 +1,27 @@
+//----- (000000014001AAB0) ----------------------------------------------------
+__int64 __fastcall WPP_SF_ssIdd(__int64 a1, __int64 a2, __int64 a3, const char *a4, __int64 a5)
+{
+  __int64 v5; // rdx
+  __int64 v7; // r8
+  const char *v8; // rcx
+
+  v5 = -1i64;
+  if ( a5 )
+  {
+    v7 = -1i64;
+    do
+      ++v7;
+    while ( *(_BYTE *)(a5 + v7) );
+  }
+  if ( a4 )
+  {
+    do
+      ++v5;
+    while ( a4[v5] );
+  }
+  v8 = "NULL";
+  if ( a4 )
+    v8 = a4;
+  return EtwTraceMessage(a1, 43i64, &WPP_8b928f4d7aae3be62a0fe9158b6696cb_Traceguids, 49i64, v8);
+}
+// 140184FE0: using guessed type __int64 __fastcall EtwTraceMessage(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);

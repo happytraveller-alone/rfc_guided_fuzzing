@@ -1,0 +1,133 @@
+//----- (0000000140075FAC) ----------------------------------------------------
+__int64 __fastcall Reg_GetValue(HKEY hKey, __int64 a2, const unsigned __int16 *a3, int a4, LPBYTE lpData, LPDWORD a6)
+{
+  int v10; // r13d
+  CDnsClientSubnetRecordsTrie *v11; // rcx
+  const unsigned __int16 *v12; // r9
+  DWORD *lpcbData; // r14
+  const WCHAR **v14; // rax
+  const WCHAR *v15; // rcx
+  HKEY v17; // rax
+  LSTATUS v18; // eax
+  __int64 v19; // r8
+  unsigned int v20; // esi
+  __int64 v21; // rdx
+  DWORD Type; // [rsp+50h] [rbp-38h] BYREF
+  int v23; // [rsp+54h] [rbp-34h] BYREF
+
+  v10 = 0;
+  v11 = WPP_GLOBAL_Control;
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    if ( a2 )
+      v12 = *(const unsigned __int16 **)(a2 + 24);
+    else
+      v12 = 0i64;
+    WPP_SF_Ssq(*((_QWORD *)WPP_GLOBAL_Control + 7), a2, (__int64)a3, v12, (__int64)a3);
+    v11 = WPP_GLOBAL_Control;
+  }
+  lpcbData = a6;
+  if ( !a6 )
+  {
+    if ( a4 != 4 )
+      return 87i64;
+    v23 = 4;
+    lpcbData = (DWORD *)&v23;
+  }
+  if ( !hKey )
+  {
+    if ( a2 )
+    {
+      v14 = *(const WCHAR ***)(a2 + 200);
+      if ( v14 )
+        v15 = *v14;
+      else
+        v15 = 0i64;
+      v17 = Reg_OpenZone(v15, *(const WCHAR **)(a2 + 24), 0i64);
+    }
+    else
+    {
+      v17 = Reg_OpenParameters();
+    }
+    hKey = v17;
+    if ( !v17 )
+      return 110i64;
+    v11 = WPP_GLOBAL_Control;
+    v10 = 1;
+  }
+  if ( (a4 & 0xF0000000) != 0 )
+  {
+    if ( v11 != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)v11 + 68) & 2) != 0
+      && *((_BYTE *)v11 + 65) >= 4u )
+    {
+      WPP_SF_SD(*((_QWORD *)v11 + 7), 0x27u, (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids, a3);
+    }
+    a4 = (unsigned __int16)a4;
+    v18 = RegQueryValueExW(hKey, a3, 0i64, &Type, lpData, lpcbData);
+  }
+  else
+  {
+    v18 = RegQueryValueExA(hKey, (LPCSTR)a3, 0i64, &Type, lpData, lpcbData);
+  }
+  v20 = v18;
+  if ( v18 )
+  {
+    if ( (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0 )
+    {
+      if ( v18 == 2 )
+      {
+        if ( (a4 & 0xF0000000) != 0 )
+        {
+          if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+            && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+          {
+            WPP_SF_S(
+              *((_QWORD *)WPP_GLOBAL_Control + 7),
+              v18 + 38,
+              (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+              a3);
+          }
+        }
+        else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+               && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+        {
+          WPP_SF_s(
+            *((_QWORD *)WPP_GLOBAL_Control + 7),
+            0x29u,
+            (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+            (const char *)a3);
+        }
+      }
+      else if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+             && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        if ( a2 )
+          v21 = *(_QWORD *)(a2 + 24);
+        else
+          v21 = 0i64;
+        WPP_SF_sddSdqd(*((_QWORD *)WPP_GLOBAL_Control + 7), v21, v19, (const char *)a3, v18, (char)hKey, v21);
+      }
+    }
+  }
+  else if ( a4 && a4 != Type && (a4 != 2 || Type != 1) && (a4 != 3 || Type != 1) )
+  {
+    v20 = 1804;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_BYTE *)WPP_GLOBAL_Control + 68) & 2) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      WPP_SF_sdD(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x2Bu,
+        (__int64)&WPP_6ba06e9d807b3b6640892c588bf1aced_Traceguids,
+        (const char *)a3);
+    }
+  }
+  if ( v10 )
+    RegCloseKey(hKey);
+  return v20;
+}
+// 1400761F7: variable 'v19' is possibly undefined

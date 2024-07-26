@@ -1,0 +1,16 @@
+//----- (0000000140098810) ----------------------------------------------------
+_BYTE *__fastcall PtrWireRead(__int64 a1, __int64 a2, unsigned __int8 *a3, unsigned __int16 a4)
+{
+  _BYTE *v5; // rax
+  _BYTE *v6; // rbx
+  unsigned __int8 v7[272]; // [rsp+30h] [rbp-128h] BYREF
+
+  if ( Name_PacketNameToCountNameEx(v7, a2, a3, (unsigned __int64)&a3[a4]) != &a3[a4] )
+    return 0i64;
+  v5 = RR_AllocateEx(v7[0] + 2, 0, 0);
+  v6 = v5;
+  if ( !v5 )
+    return 0i64;
+  Name_CopyCountName(v5 + 56, v7);
+  return v6;
+}

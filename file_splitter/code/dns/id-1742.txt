@@ -1,0 +1,42 @@
+//----- (00000001400DD928) ----------------------------------------------------
+void __fastcall std::ios_base::clear(std::ios_base *this, char a2, char a3)
+{
+  int v3; // eax
+  int v4; // edx
+  int v5; // eax
+  const struct std::error_code *v6; // rax
+  const struct std::error_code *v7; // rax
+  const struct std::error_code *error_code; // rax
+  char v9[16]; // [rsp+20h] [rbp-48h] BYREF
+  char pExceptionObject[56]; // [rsp+30h] [rbp-38h] BYREF
+
+  v3 = *((_DWORD *)this + 5);
+  v4 = a2 & 0x17;
+  *((_DWORD *)this + 4) = v4;
+  v5 = v4 & v3;
+  if ( v5 )
+  {
+    if ( !a3 )
+    {
+      if ( (v5 & 4) == 0 )
+      {
+        if ( (v5 & 2) == 0 )
+        {
+          error_code = (const struct std::error_code *)std::make_error_code((__int64)v9);
+          std::ios_base::failure::failure(
+            (std::ios_base::failure *)pExceptionObject,
+            "ios_base::eofbit set",
+            error_code);
+          CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI4_AVfailure_ios_base_std__);
+        }
+        v7 = (const struct std::error_code *)std::make_error_code((__int64)v9);
+        std::ios_base::failure::failure((std::ios_base::failure *)pExceptionObject, "ios_base::failbit set", v7);
+        CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI4_AVfailure_ios_base_std__);
+      }
+      v6 = (const struct std::error_code *)std::make_error_code((__int64)v9);
+      std::ios_base::failure::failure((std::ios_base::failure *)pExceptionObject, "ios_base::badbit set", v6);
+      CxxThrowException_0(pExceptionObject, (_ThrowInfo *)&TI4_AVfailure_ios_base_std__);
+    }
+    CxxThrowException_0(0i64, 0i64);
+  }
+}

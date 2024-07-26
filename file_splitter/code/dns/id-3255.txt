@@ -1,0 +1,10 @@
+//----- (000000014016F2E0) ----------------------------------------------------
+__int64 __fastcall WPP_SF_ddddd(unsigned __int16 a1, __int64 a2, int a3, int a4)
+{
+  int v5; // [rsp+90h] [rbp+18h] BYREF
+  int v6; // [rsp+98h] [rbp+20h]
+
+  v6 = a4;
+  v5 = a3;
+  return FastWppTraceMessage((__int64)&WPP_7f900513327334733b8f3a4951ec5607_Traceguids, a1, &v5);
+}

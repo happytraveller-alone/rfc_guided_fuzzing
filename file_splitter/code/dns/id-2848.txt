@@ -1,0 +1,5 @@
+//----- (000000014014E4F0) ----------------------------------------------------
+__int64 __fastcall CDnsRRLStateInfo::GetResponseConsidered(CDnsRRLStateInfo *this)
+{
+  return *((unsigned int *)this + 14);
+}

@@ -1,0 +1,44 @@
+//----- (0000000140104B40) ----------------------------------------------------
+__int64 __fastcall DnsOls_CreateAppendUpdate(
+        struct _DnsUpdateList *a1,
+        struct _DnsTreeNode *a2,
+        __int64 a3,
+        __int16 a4)
+{
+  unsigned int v4; // ebx
+  unsigned __int16 v5; // di
+  char *v9; // rax
+
+  v4 = 0;
+  v5 = a4;
+  if ( a1 )
+  {
+    if ( Up_CreateAppendUpdate((__int64)a1, (__int64)a2, a3, a4, 0i64) )
+    {
+      if ( (*((_DWORD *)a2 + 21) & 0x88880000) == -2004353024 )
+        NTree_ReferenceNode(*((_QWORD *)a2 + 1));
+      if ( v5 && v5 != 46 || a3 && (v5 = *(_WORD *)(a3 + 12), v5 != 46) )
+      {
+        if ( v5 )
+          DnsOls_RemoveRrsigForType(a1, a2, v5);
+      }
+    }
+    else
+    {
+      v4 = 14;
+    }
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    v9 = Dbg_NodeName((__int64)a2);
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0xEu,
+      (__int64)&WPP_41961b29e2683d0b96cfd252d798ca95_Traceguids,
+      v4,
+      (__int64)v9);
+  }
+  return v4;
+}

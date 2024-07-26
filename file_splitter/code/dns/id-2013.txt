@@ -1,0 +1,14 @@
+//----- (00000001400F828C) ----------------------------------------------------
+_DWORD *Dns_AllocateSkd()
+{
+  _DWORD *result; // rax
+
+  result = Mem_AllocZero(0xD8ui64, 4i64, "ds\\dns\\server\\server\\olsparams.cpp", 54);
+  if ( result )
+  {
+    result[15] = 864000;
+    result[13] = 604800;
+    result[14] = 604800;
+  }
+  return result;
+}

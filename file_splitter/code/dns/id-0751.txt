@@ -1,0 +1,229 @@
+//----- (0000000140068F30) ----------------------------------------------------
+void __fastcall processRollStateMachine(struct _zone_info *a1)
+{
+  int v1; // ebx
+  __int64 v3; // rdx
+  __int64 v4; // r8
+  int v5; // r9d
+  _QWORD *v6; // r12
+  __int64 v7; // rbx
+  __int128 *v8; // r13
+  bool v9; // zf
+  __int128 *v10; // rax
+  int v11; // r9d
+  DWORD dwLowDateTime; // r14d
+  char *v13; // rax
+  _DWORD *Skd; // rax
+  unsigned int v15; // edx
+  __int64 v16; // rsi
+  int v17; // ecx
+  int v18; // ecx
+  int v19; // ecx
+  int v20; // ecx
+  int v21; // ecx
+  int started; // eax
+  __int64 v23; // r15
+  unsigned int v24; // r8d
+  EVENT_DESCRIPTOR v25; // [rsp+30h] [rbp-10h] BYREF
+  FILETIME FileTime2; // [rsp+80h] [rbp+40h] BYREF
+  int v27; // [rsp+88h] [rbp+48h]
+
+  v1 = *((_DWORD *)a1 + 128);
+  v27 = v1;
+  v5 = Zone_LockForWriteEx((__int64)a1, 1, 0x2710u, (__int64)"ds\\dns\\server\\server\\olskeyrollover.c", 121);
+  if ( !v5 )
+  {
+    if ( !*((_QWORD *)a1 + 141) )
+      goto LABEL_57;
+    v6 = (_QWORD *)((char *)a1 + 1116);
+    FileTime2 = 0i64;
+    if ( !CompareFileTime((const FILETIME *)((char *)a1 + 1116), &FileTime2)
+      || (unsigned int)OffsetFromCurrentTime((FILETIME *)((char *)a1 + 1116)) >= 2 )
+    {
+      goto LABEL_57;
+    }
+    v7 = *((_QWORD *)a1 + 141);
+    v8 = &DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+    if ( *(_DWORD *)(v7 + 96) < 2u )
+    {
+      v9 = *(_DWORD *)(v7 + 36) == 0;
+      *(_DWORD *)(v7 + 96) = 2;
+      v10 = &DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+      if ( v9 )
+        v10 = (__int128 *)&DNS_EVENT_NEXT_ZSKROLLOVER_STAGE;
+      v25 = (EVENT_DESCRIPTOR)*v10;
+      LogDnssecKeyRollover(&v25, (__int64)a1, v7, L"DNS_SKD_STATUS_ROLL_STARTED");
+    }
+    v11 = ZoneScopes_LockAll((__int64)a1, 1, 10000, 0i64, 0i64);
+    if ( v11 )
+    {
+      if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+        && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+        && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+      {
+        WPP_SF_Ds(
+          *((_QWORD *)WPP_GLOBAL_Control + 7),
+          0x50u,
+          (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+          v11,
+          *((_QWORD *)a1 + 2));
+      }
+      goto LABEL_56;
+    }
+    dwLowDateTime = 1;
+    FileTime2.dwLowDateTime = 1;
+    if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+      && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+      && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+    {
+      v13 = Dbg_GuidString((const IID *)(v7 + 8));
+      WPP_SF_Ssd(
+        *((_QWORD *)WPP_GLOBAL_Control + 7),
+        0x51u,
+        (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+        (const unsigned __int16 *)v13,
+        *((_QWORD *)a1 + 2));
+    }
+    Skd = Dns_AllocateSkd();
+    v16 = (__int64)Skd;
+    if ( !Skd )
+      goto LABEL_55;
+    if ( !(unsigned int)copySKD((__int64)Skd, v7, 1) )
+    {
+      *(_QWORD *)(v16 + 24) = 0i64;
+      Dns_FreeSkd(v16);
+      goto LABEL_55;
+    }
+    v17 = *(_DWORD *)(v7 + 100);
+    if ( v17 )
+    {
+      v18 = v17 - 1;
+      if ( v18 )
+      {
+        v19 = v18 - 1;
+        if ( v19 )
+        {
+          v20 = v19 - 1;
+          if ( v20 )
+          {
+            v21 = v20 - 1;
+            if ( v21 )
+            {
+              if ( v21 != 1 )
+                goto LABEL_52;
+              started = finishKSKRollover(a1, &FileTime2);
+            }
+            else
+            {
+              started = revokeKSKKey(a1, &FileTime2);
+            }
+          }
+          else
+          {
+            started = checkKSKForDS((__int64)a1, &FileTime2);
+          }
+        }
+        else
+        {
+          started = finishZSKRollover(a1, &FileTime2);
+        }
+      }
+      else
+      {
+        started = swapZSKActiveWithRollover(a1, &FileTime2);
+      }
+    }
+    else
+    {
+      fireRolloverEvent((__int64)a1, v7, 0x1DF5u);
+      v25 = DNS_EVENT_KEY_ROLLOVER_START;
+      LogDnssecKeyRollover(&v25, (__int64)a1, v7, 0i64);
+      if ( *(_DWORD *)(v7 + 36) )
+      {
+        if ( *(_DWORD *)(v7 + 72) == 3 )
+          started = retireKSK(a1, &FileTime2);
+        else
+          started = startKSKRoll(a1, &FileTime2);
+      }
+      else if ( *(_DWORD *)(v7 + 72) == 3 )
+      {
+        started = retireZSK(a1, &FileTime2);
+      }
+      else
+      {
+        started = startZSKRoll(a1, &FileTime2);
+      }
+    }
+    dwLowDateTime = FileTime2.dwLowDateTime;
+    if ( !started )
+    {
+      if ( !FileTime2.dwLowDateTime )
+      {
+        dwLowDateTime = 1;
+        ZoneScopes_LockAll((__int64)a1, 1, -1, 0i64, 0i64);
+      }
+      copySKD(v7, v16, 0);
+      v23 = *((_QWORD *)a1 + 141);
+      if ( *(_DWORD *)(v23 + 100) )
+      {
+        CurrentTimePlusOffset((struct _FILETIME *)(v23 + 84), 60i64);
+        v24 = 7672;
+        *v6 = *(_QWORD *)(v23 + 84);
+      }
+      else
+      {
+        *(_QWORD *)(v23 + 84) = 0i64;
+        v9 = *(_DWORD *)(v23 + 36) == 0;
+        *(_DWORD *)(v23 + 96) = 9;
+        if ( v9 )
+          v8 = (__int128 *)&DNS_EVENT_NEXT_ZSKROLLOVER_STAGE;
+        v25 = (EVENT_DESCRIPTOR)*v8;
+        LogDnssecKeyRollover(&v25, (__int64)a1, v23, L"DNS_SKD_STATUS_ROLL_ERROR");
+        v24 = 7671;
+        *v6 = 0i64;
+        *((_QWORD *)a1 + 141) = 0i64;
+      }
+      fireRolloverEvent((__int64)a1, v23, v24);
+      DnsOls_WriteSkdToStorage(0, (__int64)a1, v23, 0);
+      goto LABEL_54;
+    }
+LABEL_52:
+    if ( *(_DWORD *)(v7 + 92) == 1 )
+      Dns_FreeSkd(v7);
+LABEL_54:
+    *(_QWORD *)(v16 + 24) = 0i64;
+    Dns_FreeSkd(v16);
+    if ( !dwLowDateTime )
+    {
+LABEL_56:
+      v1 = v27;
+LABEL_57:
+      Zone_UnlockAfterWriteEx((__int64)a1, 1, (__int64)"ds\\dns\\server\\server\\olskeyrollover.c", 60);
+      goto LABEL_58;
+    }
+LABEL_55:
+    ZoneScopes_UnLockAll((__int64)a1, v15, 0i64);
+    goto LABEL_56;
+  }
+  if ( WPP_GLOBAL_Control != (CDnsClientSubnetRecordsTrie *)&WPP_GLOBAL_Control
+    && (*((_DWORD *)WPP_GLOBAL_Control + 17) & 0x200000) != 0
+    && *((_BYTE *)WPP_GLOBAL_Control + 65) >= 4u )
+  {
+    WPP_SF_Ds(
+      *((_QWORD *)WPP_GLOBAL_Control + 7),
+      0x4Fu,
+      (__int64)&WPP_bdeacb4259f0347d69c055acf1d289ef_Traceguids,
+      v5,
+      *((_QWORD *)a1 + 2));
+  }
+LABEL_58:
+  if ( v1 != *((_DWORD *)a1 + 128) )
+    Xfr_SendNotify((__int64)a1, v3, v4, v5);
+}
+// 14006932F: variable 'v15' is possibly undefined
+// 14006935C: variable 'v3' is possibly undefined
+// 14006935C: variable 'v4' is possibly undefined
+// 14006935C: variable 'v5' is possibly undefined
+// 140187B50: using guessed type __int128 DNS_EVENT_NEXT_KSKROLLOVER_STAGE;
+// 14018E240: using guessed type wchar_t aDnsSkdStatusRo[26];
+// 14018E4D8: using guessed type wchar_t aDnsSkdStatusRo_0[28];
