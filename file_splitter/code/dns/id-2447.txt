@@ -1,5 +1,0 @@
-//----- (0000000140129BDC) ----------------------------------------------------
-__int64 __fastcall std::vector<DnsSign::CCertificate>::size(_QWORD *a1)
-{
-  return (__int64)(a1[1] - *a1) >> 3;
-}

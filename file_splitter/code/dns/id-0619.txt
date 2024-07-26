@@ -1,8 +1,0 @@
-//----- (0000000140057158) ----------------------------------------------------
-void Log_RawPrintf(const char *a1, ...)
-{
-  va_list va; // [rsp+38h] [rbp+10h] BYREF
-
-  va_start(va, a1);
-  Log_vsprint(a1, va);
-}

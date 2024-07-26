@@ -1,6 +1,0 @@
-//----- (0000000140116290) ----------------------------------------------------
-void *__fastcall Dns_MemNew<unsigned char>(size_t Size)
-{
-  return operator new((unsigned int)Size);
-}
-// 140116290: could not find valid save-restore pair for rbp

@@ -1,5 +1,0 @@
-//----- (000000014012EAB0) ----------------------------------------------------
-__int64 CDNSPolicyCriteriaTime::GetCriteriaType()
-{
-  return 6i64;
-}

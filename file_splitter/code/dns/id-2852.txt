@@ -1,5 +1,0 @@
-//----- (000000014014E530) ----------------------------------------------------
-void __fastcall CDnsRRLStateInfo::DecrementReferenceCount(CDnsRRLStateInfo *this)
-{
-  --*((_DWORD *)this + 20);
-}

@@ -1,5 +1,0 @@
-//----- (00000001400E71CC) ----------------------------------------------------
-void __noreturn std::wstring::_Xran()
-{
-  std::_Xout_of_range("invalid string position");
-}

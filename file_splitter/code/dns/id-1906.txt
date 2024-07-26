@@ -1,5 +1,0 @@
-//----- (00000001400E9840) ----------------------------------------------------
-__int64 __fastcall DnsSign::CException::GetErrorMessage(__int64 a1)
-{
-  return a1 + 16;
-}

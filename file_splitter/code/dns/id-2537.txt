@@ -1,9 +1,0 @@
-//----- (000000014012E990) ----------------------------------------------------
-bool __fastcall Is_Less_ThanWstr(const wchar_t *a1, const wchar_t *a2)
-{
-  if ( *((_QWORD *)a2 + 3) >= 8ui64 )
-    a2 = *(const wchar_t **)a2;
-  if ( *((_QWORD *)a1 + 3) >= 8ui64 )
-    a1 = *(const wchar_t **)a1;
-  return _wcsicmp(a1, a2) < 0;
-}

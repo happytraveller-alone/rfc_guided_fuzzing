@@ -1,8 +1,0 @@
-//----- (000000014008DBC8) ----------------------------------------------------
-__int64 __fastcall RR_AddToNode(__int64 a1, __int64 a2, __int64 a3)
-{
-  Dbase_LockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 101);
-  LODWORD(a3) = AddToNode(a1, a2, a3, 0);
-  Dbase_UnlockEx(a2, 2, (__int64)"ds\\dns\\server\\server\\rrlist.c", 105);
-  return (unsigned int)a3;
-}

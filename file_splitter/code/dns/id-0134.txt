@@ -1,5 +1,0 @@
-//----- (000000014001279C) ----------------------------------------------------
-ULONG __fastcall TemplateEventDescriptor(REGHANDLE a1, const EVENT_DESCRIPTOR *a2)
-{
-  return EventWrite(a1, a2, 0, 0i64);
-}

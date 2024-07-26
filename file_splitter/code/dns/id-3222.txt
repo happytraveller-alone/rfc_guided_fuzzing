@@ -1,9 +1,0 @@
-//----- (000000014016D7F0) ----------------------------------------------------
-void sub_14016D7F0()
-{
-  `eh vector destructor iterator'(
-    &g_ServiceStartTempPolicyMap,
-    0x20ui64,
-    5ui64,
-    std::map<_lookup_name *,_DnsTreeNode *,DnsSign::CLookupNameCompare,std::allocator<std::pair<_lookup_name * const,_DnsTreeNode *>>>::~map<_lookup_name *,_DnsTreeNode *,DnsSign::CLookupNameCompare,std::allocator<std::pair<_lookup_name * const,_DnsTreeNode *>>>);
-}

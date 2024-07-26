@@ -1,7 +1,0 @@
-//----- (00000001400E4710) ----------------------------------------------------
-void __fastcall DNSSEC_HandleActiveRefreshResponse(TrustPoint *a1, int a2)
-{
-  TrustPoint::HandleActiveRefreshResponse(a1, a2);
-  _InterlockedDecrement((volatile signed __int32 *)&g_ConcurrentActiveRefreshes);
-}
-// 1401B9148: using guessed type volatile unsigned int g_ConcurrentActiveRefreshes;

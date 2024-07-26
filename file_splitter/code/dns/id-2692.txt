@@ -1,7 +1,0 @@
-//----- (00000001401406AC) ----------------------------------------------------
-void std::_Tree_val<std::_Tmap_traits<unsigned long,CDnsPolicy *,std::less<unsigned long>,std::allocator<std::pair<unsigned long const,CDnsPolicy *>>,0>>::~_Tree_val<std::_Tmap_traits<unsigned long,CDnsPolicy *,std::less<unsigned long>,std::allocator<std::pair<unsigned long const,CDnsPolicy *>>,0>>()
-{
-  operator delete((void *)qword_1401B9408);
-}
-// 140184CA8: using guessed type void __stdcall operator delete(void *);
-// 1401B9408: using guessed type __int64 qword_1401B9408;

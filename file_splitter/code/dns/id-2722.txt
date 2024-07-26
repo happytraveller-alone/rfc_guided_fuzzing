@@ -1,8 +1,0 @@
-//----- (0000000140142FD0) ----------------------------------------------------
-__int64 __fastcall CDNSPolicyCriteriaNetProtocol::End(CDNSPolicyCriteriaNetProtocol *this)
-{
-  if ( !*((_DWORD *)this + 3) || *((_QWORD *)this + 20) != *((_QWORD *)this + 17) )
-    return 0i64;
-  *((_DWORD *)this + 3) = 0;
-  return 1i64;
-}

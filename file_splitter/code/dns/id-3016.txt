@@ -1,5 +1,0 @@
-//----- (000000014015B93C) ----------------------------------------------------
-ULONGLONG Dns_GetCurrentTimeInSeconds()
-{
-  return GetTickCount64() / 0x3E8;
-}

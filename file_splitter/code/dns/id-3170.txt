@@ -1,5 +1,0 @@
-//----- (0000000140168060) ----------------------------------------------------
-struct std::locale::_Locimp *std::locale::_Getgloballocale(void)
-{
-  return (struct std::locale::_Locimp *)qword_1401B85A0;
-}

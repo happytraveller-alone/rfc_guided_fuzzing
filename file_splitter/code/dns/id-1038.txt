@@ -1,8 +1,0 @@
-//----- (00000001400881C0) ----------------------------------------------------
-char *__fastcall MxFlatWrite(__int64 a1, __int64 a2, u_short *a3, unsigned __int64 a4)
-{
-  if ( a4 - (unsigned __int64)a3 < 2 )
-    return 0i64;
-  *a3 = ntohs(*(_WORD *)(a2 + 56));
-  return Name_WriteDbaseNameToRpcBuffer((_BYTE *)a3 + 2, a4, (unsigned __int8 *)(a2 + 58), 0);
-}

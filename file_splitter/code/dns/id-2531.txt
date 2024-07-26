@@ -1,5 +1,0 @@
-//----- (000000014012E820) ----------------------------------------------------
-__int64 __fastcall CDnsPolicyException::getStatusFromException(CDnsPolicyException *this)
-{
-  return *((unsigned int *)this + 28);
-}

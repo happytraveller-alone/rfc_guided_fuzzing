@@ -1,5 +1,0 @@
-//----- (000000014014E4B0) ----------------------------------------------------
-__int64 __fastcall CDnsRRLStateInfo::GetResponsesLeaked(CDnsRRLStateInfo *this)
-{
-  return *((unsigned int *)this + 7);
-}

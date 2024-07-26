@@ -1,5 +1,0 @@
-//----- (000000014012EA70) ----------------------------------------------------
-__int64 CDnsPolicy_FQDNCriteriaTree::GetCriteriaType()
-{
-  return 4i64;
-}

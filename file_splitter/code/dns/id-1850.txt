@@ -1,6 +1,0 @@
-//----- (00000001400E6714) ----------------------------------------------------
-void __fastcall std::allocator<DnsSign::CDnsKeyPair *>::deallocate(__int64 a1, void *a2)
-{
-  operator delete(a2);
-}
-// 140184CA8: using guessed type void __stdcall operator delete(void *);

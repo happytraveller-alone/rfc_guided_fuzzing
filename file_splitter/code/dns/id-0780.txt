@@ -1,9 +1,0 @@
-//----- (000000014006BAC0) ----------------------------------------------------
-_BYTE *__fastcall pluginAllocator(unsigned __int16 a1)
-{
-  _BYTE *result; // rax
-
-  result = RR_AllocateEx(a1, 0, 0x22u);
-  *((_DWORD *)result + 5) = 600;
-  return result;
-}

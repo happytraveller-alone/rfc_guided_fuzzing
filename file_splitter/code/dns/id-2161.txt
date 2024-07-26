@@ -1,5 +1,0 @@
-//----- (0000000140111DA0) ----------------------------------------------------
-bool __fastcall Is_Less_Than2(unsigned __int16 *a1, unsigned __int16 *a2)
-{
-  return _wcsicmp(a1, a2) < 0;
-}

@@ -1,9 +1,0 @@
-//----- (00000001401471BC) ----------------------------------------------------
-__int64 __fastcall CDnsPolicy::GetPolicyName(const void **a1, __int64 a2)
-{
-  *(_QWORD *)(a2 + 24) = 7i64;
-  *(_QWORD *)(a2 + 16) = 0i64;
-  *(_WORD *)a2 = 0;
-  std::wstring::assign((const void **)a2, a1, 0i64, 0xFFFFFFFFFFFFFFFFui64);
-  return a2;
-}

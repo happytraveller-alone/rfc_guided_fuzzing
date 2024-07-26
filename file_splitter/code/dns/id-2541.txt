@@ -1,6 +1,0 @@
-//----- (000000014012EA00) ----------------------------------------------------
-void __fastcall CDnsPolicy_CriteriaTree::~CDnsPolicy_CriteriaTree(CDnsPolicy_CriteriaTree *this)
-{
-  *(_QWORD *)this = &CDnsPolicy_CriteriaTree::`vftable';
-}
-// 1401719A0: using guessed type void *CDnsPolicy_CriteriaTree::`vftable';

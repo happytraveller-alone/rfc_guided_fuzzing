@@ -1,5 +1,0 @@
-//----- (0000000140167EA0) ----------------------------------------------------
-const char *__fastcall std::_Generic_error_category::name(std::_Generic_error_category *this)
-{
-  return (const char *)*((_QWORD *)this + 1);
-}

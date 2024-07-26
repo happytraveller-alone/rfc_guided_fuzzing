@@ -1,8 +1,0 @@
-//----- (00000001400991B0) ----------------------------------------------------
-_BYTE *__fastcall DnskeyWireRead(__int64 a1, __int64 a2, const void *a3, unsigned __int16 a4)
-{
-  if ( a4 >= 5u )
-    return CopyWireRead(a1, a2, a3, a4);
-  else
-    return 0i64;
-}

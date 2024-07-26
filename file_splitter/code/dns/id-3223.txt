@@ -1,8 +1,0 @@
-//----- (000000014016D820) ----------------------------------------------------
-void __fastcall sub_14016D820()
-{
-  qword_1401B84C0[0] = &std::bad_alloc::`vftable';
-  exception::~exception((exception *)qword_1401B84C0);
-}
-// 140171550: using guessed type void *std::bad_alloc::`vftable';
-// 1401B84C0: using guessed type _QWORD qword_1401B84C0[3];

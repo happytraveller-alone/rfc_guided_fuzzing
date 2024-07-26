@@ -1,5 +1,0 @@
-//----- (000000014014E2C0) ----------------------------------------------------
-void __fastcall CDnsRRLStateKey::SetRRLResponseType(__int64 a1, int a2)
-{
-  *(_DWORD *)(a1 + 64) = a2;
-}

@@ -1,5 +1,0 @@
-//----- (00000001400133E0) ----------------------------------------------------
-__int64 __fastcall processDomainForwarderLine(unsigned int a1, __int64 a2, __int64 a3)
-{
-  return createSecondaryZone(4, a1, a2, a3);
-}

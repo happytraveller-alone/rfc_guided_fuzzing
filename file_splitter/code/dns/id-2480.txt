@@ -1,8 +1,0 @@
-//----- (000000014012BEA4) ----------------------------------------------------
-void __fastcall std::numpunct<unsigned short>::_Tidy(void **a1)
-{
-  operator delete[](a1[2]);
-  operator delete[](a1[4]);
-  operator delete[](a1[5]);
-}
-// 140184CD8: using guessed type void __stdcall operator delete[](void *);

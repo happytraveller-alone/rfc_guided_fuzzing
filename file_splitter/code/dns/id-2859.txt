@@ -1,6 +1,0 @@
-//----- (000000014014E7E8) ----------------------------------------------------
-void __fastcall IDnsRRLStateInfo::~IDnsRRLStateInfo(IDnsRRLStateInfo *this)
-{
-  *(_QWORD *)this = &IDnsRRLStateInfo::`vftable';
-}
-// 1401721B8: using guessed type void *IDnsRRLStateInfo::`vftable';

@@ -1,6 +1,0 @@
-//----- (00000001401162B8) ----------------------------------------------------
-void *__fastcall Dns_MemNew<unsigned short>(unsigned int a1)
-{
-  return operator new(saturated_mul(a1, 2ui64));
-}
-// 1401162B8: could not find valid save-restore pair for rbp

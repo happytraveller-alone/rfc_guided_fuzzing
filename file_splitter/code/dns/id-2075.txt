@@ -1,6 +1,0 @@
-//----- (00000001401043DC) ----------------------------------------------------
-void __fastcall DnsSign::CServerHeapPointerWrapper::~CServerHeapPointerWrapper(
-        DnsSign::CServerHeapPointerWrapper *this)
-{
-  Mem_Free(*(_QWORD **)this, 0i64, 0i64, (__int64)"ds\\dns\\server\\dnssign\\zone.cpp", 239);
-}

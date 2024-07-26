@@ -1,5 +1,0 @@
-//----- (0000000140167D5C) ----------------------------------------------------
-void __fastcall std::_Mutex::_Lock(LPCRITICAL_SECTION *this)
-{
-  Mtxlock(*this);
-}

@@ -1,5 +1,0 @@
-//----- (00000001401195A0) ----------------------------------------------------
-__int64 __fastcall Mem_DnslibAlloc(unsigned int a1)
-{
-  return Mem_Alloc(a1, 15i64, "DnsLib", 0);
-}

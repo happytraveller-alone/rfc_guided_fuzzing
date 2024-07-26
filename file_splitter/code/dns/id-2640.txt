@@ -1,7 +1,0 @@
-//----- (000000014013B6B4) ----------------------------------------------------
-void __fastcall std::list<std::wstring>::~list<std::wstring>(void **a1)
-{
-  std::list<std::wstring>::clear((__int64)a1);
-  operator delete(*a1);
-}
-// 140184CA8: using guessed type void __stdcall operator delete(void *);

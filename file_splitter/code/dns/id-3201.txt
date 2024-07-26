@@ -1,6 +1,0 @@
-//----- (0000000140169290) ----------------------------------------------------
-__int64 _CxxSetUnhandledExceptionFilter()
-{
-  SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)__CxxUnhandledExceptionFilter);
-  return 0i64;
-}

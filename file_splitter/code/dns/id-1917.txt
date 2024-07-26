@@ -1,9 +1,0 @@
-//----- (00000001400E9ACC) ----------------------------------------------------
-void __fastcall DnsSign::CCertificateStore::~CCertificateStore(void **this)
-{
-  void *v1; // rcx
-
-  v1 = *this;
-  if ( v1 )
-    CertCloseStore(v1, 0);
-}

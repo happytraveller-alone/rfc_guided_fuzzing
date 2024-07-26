@@ -1,6 +1,0 @@
-//----- (0000000140021378) ----------------------------------------------------
-int __fastcall __noreturn main(int argc, const char **argv, const char **envp)
-{
-  StartServiceCtrlDispatcherW(&steDispatchTable);
-  ExitProcess(0);
-}

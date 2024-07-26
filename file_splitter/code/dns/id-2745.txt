@@ -1,5 +1,0 @@
-//----- (00000001401448C0) ----------------------------------------------------
-_BOOL8 __fastcall CDNSPolicyCriteriaTime::IsCriteria(__int64 a1, int a2)
-{
-  return a2 == 6;
-}

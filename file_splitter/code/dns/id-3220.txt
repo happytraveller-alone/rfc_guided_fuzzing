@@ -1,9 +1,0 @@
-//----- (000000014016D750) ----------------------------------------------------
-void sub_14016D750()
-{
-  `eh vector destructor iterator'(
-    &g_PolicyOrder,
-    0x48ui64,
-    5ui64,
-    (void (__stdcall *)(void *))CDnsPolicyOrder::~CDnsPolicyOrder);
-}

@@ -1,5 +1,0 @@
-//----- (000000014012EA90) ----------------------------------------------------
-__int64 CDnsPolicy_InterfaceCriteriaTree::GetCriteriaType()
-{
-  return 3i64;
-}

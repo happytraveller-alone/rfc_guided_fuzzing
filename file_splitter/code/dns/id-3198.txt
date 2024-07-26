@@ -1,9 +1,0 @@
-//----- (0000000140169190) ----------------------------------------------------
-type_info *__fastcall type_info::`scalar deleting destructor'(type_info *this, char a2)
-{
-  type_info::~type_info(this);
-  if ( (a2 & 1) != 0 )
-    operator delete(this);
-  return this;
-}
-// 140184BF0: using guessed type void type_info::~type_info(type_info *__hidden this);

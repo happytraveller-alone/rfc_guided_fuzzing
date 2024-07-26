@@ -1,9 +1,0 @@
-//----- (00000001400E6784) ----------------------------------------------------
-_QWORD *__fastcall std::list<std::pair<unsigned short const,TrustAnchor>>::_Make_iter(
-        __int64 a1,
-        _QWORD *a2,
-        __int64 a3)
-{
-  *a2 = a3;
-  return a2;
-}

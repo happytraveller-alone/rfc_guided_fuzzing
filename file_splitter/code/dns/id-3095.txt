@@ -1,5 +1,0 @@
-//----- (00000001401622F0) ----------------------------------------------------
-int __fastcall DhcidRecordPrint(void (*a1)(__int64, const char *, ...), __int64 a2, __int64 a3)
-{
-  return DnsPrint_RawBinary(a1, a2, (__int64)"\tDHCID:", "\t\t  ", a3 + 36, *(_DWORD *)(a3 + 32), 0);
-}

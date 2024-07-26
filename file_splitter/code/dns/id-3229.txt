@@ -1,6 +1,0 @@
-//----- (000000014016D920) ----------------------------------------------------
-void sub_14016D920()
-{
-  std::locale::~locale((std::locale *)&qword_1401B85D8);
-}
-// 1401B85D8: using guessed type __int64 qword_1401B85D8;

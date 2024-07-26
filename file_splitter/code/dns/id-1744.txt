@@ -1,8 +1,0 @@
-//----- (00000001400DDA38) ----------------------------------------------------
-void __fastcall std::basic_ios<unsigned short>::~basic_ios<unsigned short,std::char_traits<unsigned short>>(
-        struct std::ios_base *a1)
-{
-  *(_QWORD *)a1 = &std::ios_base::`vftable';
-  std::ios_base::_Ios_base_dtor(a1);
-}
-// 140171498: using guessed type void *std::ios_base::`vftable';

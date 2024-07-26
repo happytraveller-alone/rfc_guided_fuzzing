@@ -1,7 +1,0 @@
-//----- (00000001400E4B38) ----------------------------------------------------
-void __fastcall std::_List_val<std::pair<unsigned short const,TrustAnchor>>::~_List_val<std::pair<unsigned short const,TrustAnchor>>(
-        void **a1)
-{
-  operator delete(*a1);
-}
-// 140184CA8: using guessed type void __stdcall operator delete(void *);

@@ -1,5 +1,0 @@
-//----- (000000014012D270) ----------------------------------------------------
-bool __fastcall std::ctype<unsigned short>::do_is(__int64 a1, unsigned __int16 a2, wchar_t a3)
-{
-  return ((unsigned __int16)Getwctype(a3, (const _Ctypevec *)(a1 + 16)) & a2) != 0;
-}

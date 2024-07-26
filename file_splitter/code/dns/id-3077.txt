@@ -1,9 +1,0 @@
-//----- (00000001401611A8) ----------------------------------------------------
-__int64 FastWppTraceMessage(__int64 a1, unsigned __int16 a2, ...)
-{
-  va_list va; // [rsp+50h] [rbp+18h] BYREF
-
-  va_start(va, a2);
-  return EtwTraceMessageVa(*((_QWORD *)WPP_GLOBAL_Control + 2), 43i64, a1, a2, (__int64 *)va);
-}
-// 140185080: using guessed type __int64 __fastcall EtwTraceMessageVa(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);

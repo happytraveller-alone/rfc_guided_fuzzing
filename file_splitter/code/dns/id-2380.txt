@@ -1,5 +1,0 @@
-//----- (0000000140123A10) ----------------------------------------------------
-char *__fastcall PtrWriteCanonicalizedRdata(char *a1, unsigned __int64 a2, __int64 a3)
-{
-  return Name_WriteCanonicalizedCountName(a1, a2, (unsigned __int8 *)(a3 + 56));
-}

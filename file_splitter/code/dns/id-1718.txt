@@ -1,8 +1,0 @@
-//----- (00000001400DD364) ----------------------------------------------------
-void __fastcall std::bad_alloc::~bad_alloc(std::bad_alloc *this)
-{
-  *(_QWORD *)this = &std::bad_alloc::`vftable';
-  exception::~exception(this);
-}
-// 140171550: using guessed type void *std::bad_alloc::`vftable';
-// 140184C90: using guessed type void exception::~exception(exception *__hidden this);

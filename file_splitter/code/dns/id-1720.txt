@@ -1,5 +1,0 @@
-//----- (00000001400DD3E0) ----------------------------------------------------
-__int64 __fastcall CDNSPolicyCriteriaTime::IsCriteriaNegative(struct _exception *a1)
-{
-  return 0i64;
-}
