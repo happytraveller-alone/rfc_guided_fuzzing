@@ -1,0 +1,11 @@
+{
+    "FunctionIndex": "0002",
+    "FunctionName": "dynamic_initializer_for__g_SslContextManager__",
+    "FunctionSummarization": [
+        "Initialize global CSslContextManager object",
+        "Register destructor at exit"
+    ],
+    "FunctionMatchRFCResult": [
+        "NONE"
+    ]
+}

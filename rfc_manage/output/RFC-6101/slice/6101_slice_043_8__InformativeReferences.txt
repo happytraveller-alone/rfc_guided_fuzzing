@@ -1,0 +1,1243 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 8. InformativeReferences ---
+[DH1]      Diffie, W. and M. Hellman, "New Directions in
+              Cryptography", IEEE Transactions on Information Theory V.
+              IT-22, n. 6, pp. 74-84, June 1977.
+
+   [SSL-2]    Hickman, K., "The SSL Protocol", February 1995.
+
+   [3DES]     Tuchman, W., "Hellman Presents No Shortcut Solutions To
+              DES", IEEE Spectrum, v. 16, n. 7, pp 40-41, July 1979.
+
+   [DES]      ANSI X3.106, "American National Standard for Information
+              Systems-Data Link Encryption", American National
+              Standards Institute, 1983.
+
+   [DSS]      NIST FIPS PUB 186, "Digital Signature Standard", National
+              Institute of Standards and Technology U.S. Department of
+              Commerce, May 1994.
+
+   [FOR]      NSA X22, "FORTEZZA: Application Implementers Guide",
+              Document # PD4002103-1.01, April 1995.
+
+   [RFC0959]  Postel, J. and J. Reynolds, "File Transfer Protocol",
+              STD 9, RFC 959, October 1985.
+
+   [RFC0791]  Postel, J., "Internet Protocol", STD 5, RFC 791,
+              September 1981.
+
+   [RFC1945]  Berners-Lee, T., Fielding, R., and H. Nielsen, "Hypertext
+              Transfer Protocol -- HTTP/1.0", RFC 1945, May 1996.
+
+   [RFC1321]  Rivest, R., "The MD5 Message-Digest Algorithm", RFC 1321,
+              April 1992.
+
+   [RFC0793]  Postel, J., "Transmission Control Protocol", STD 7,
+              RFC 793, September 1981.
+
+   [RFC0854]  Postel, J. and J. Reynolds, "Telnet Protocol
+              Specification", STD 8, RFC 854, May 1983.
+
+   [RFC1832]  Srinivasan, R., "XDR: External Data Representation
+              Standard", RFC 1832, August 1995.
+
+   [RFC2104]  Krawczyk, H., Bellare, M., and R. Canetti, "HMAC: Keyed-
+              Hashing for Message Authentication", RFC 2104,
+              February 1997.
+
+   [IDEA]     Lai, X., "On the Design and Security of Block Ciphers",
+              ETH Series in Information Processing, v. 1, Konstanz:
+              Hartung-Gorre Verlag, 1992.
+
+   [PKCS1]    RSA Laboratories, "PKCS #1: RSA Encryption Standard
+              version 1.5", November 1993.
+
+   [PKCS6]    RSA Laboratories, "PKCS #6: RSA Extended Certificate
+              Syntax Standard version 1.5", November 1993.
+
+   [PKCS7]    RSA Laboratories, "PKCS #7: RSA Cryptographic Message
+              Syntax Standard version 1.5", November 1993.
+
+   [RSA]      Rivest, R., Shamir, A., and L. Adleman, "A Method for
+              Obtaining Digital Signatures and Public-Key
+              Cryptosystems", Communications of the ACM v. 21, n. 2 pp.
+              120-126., February 1978.
+
+   [SCH]      Schneier, B., "Applied Cryptography: Protocols,
+              Algorithms, and Source Code in C", John Wiley & Sons,
+              1994.
+
+   [SHA]      NIST FIPS PUB 180-1, "Secure Hash Standard", May 1994.
+
+              National Institute of Standards and Technology, U.S.
+              Department of Commerce, DRAFT
+
+   [X509]     CCITT, "The Directory - Authentication Framework",
+              Recommendation X.509 , 1988.
+
+   [RSADSI]   RSA Data Security, Inc., "Unpublished works".
+
+Appendix A.  Protocol Constant Values
+
+   This section describes protocol types and constants.
+
+A.1.  Record Layer
+
+        struct {
+            uint8 major, minor;
+        } ProtocolVersion;
+
+        ProtocolVersion version = { 3,0 };
+
+        enum {
+            change_cipher_spec(20), alert(21), handshake(22),
+            application_data(23), (255)
+        } ContentType;
+
+        struct {
+            ContentType type;
+            ProtocolVersion version;
+            uint16 length;
+            opaque fragment[SSLPlaintext.length];
+        } SSLPlaintext;
+
+        struct {
+            ContentType type;
+            ProtocolVersion version;
+            uint16 length;
+            opaque fragment[SSLCompressed.length];
+        } SSLCompressed;
+
+        struct {
+            ContentType type;
+            ProtocolVersion version;
+            uint16 length;
+            select (CipherSpec.cipher_type) {
+                case stream: GenericStreamCipher;
+                case block:  GenericBlockCipher;
+            } fragment;
+        } SSLCiphertext;
+
+        stream-ciphered struct {
+            opaque content[SSLCompressed.length];
+            opaque MAC[CipherSpec.hash_size];
+        } GenericStreamCipher;
+
+        block-ciphered struct {
+            opaque content[SSLCompressed.length];
+
+            opaque MAC[CipherSpec.hash_size];
+            uint8 padding[GenericBlockCipher.padding_length];
+            uint8 padding_length;
+        } GenericBlockCipher;
+
+A.2.  Change Cipher Specs Message
+
+        struct {
+            enum { change_cipher_spec(1), (255) } type;
+        } ChangeCipherSpec;
+
+A.3.  Alert Messages
+
+        enum { warning(1), fatal(2), (255) } AlertLevel;
+
+        enum {
+            close_notify(0),
+            unexpected_message(10),
+            bad_record_mac(20),
+            decompression_failure(30),
+            handshake_failure(40),
+            no_certificate(41),
+            bad_certificate(42),
+            unsupported_certificate(43),
+            certificate_revoked(44),
+            certificate_expired(45),
+            certificate_unknown(46),
+            illegal_parameter (47),
+            (255)
+        } AlertDescription;
+
+        struct {
+            AlertLevel level;
+            AlertDescription description;
+        } Alert;
+
+A.4.  Handshake Protocol
+
+      enum {
+          hello_request(0), client_hello(1), server_hello(2),
+          certificate(11), server_key_exchange (12),
+          certificate_request(13), server_done(14),
+          certificate_verify(15), client_key_exchange(16),
+          finished(20), (255)
+      } HandshakeType;
+
+        struct {
+            HandshakeType msg_type;
+            uint24 length;
+            select (HandshakeType) {
+                case hello_request: HelloRequest;
+                case client_hello: ClientHello;
+                case server_hello: ServerHello;
+                case certificate: Certificate;
+                case server_key_exchange: ServerKeyExchange;
+                case certificate_request: CertificateRequest;
+                case server_done: ServerHelloDone;
+                case certificate_verify: CertificateVerify;
+                case client_key_exchange: ClientKeyExchange;
+                case finished: Finished;
+            } body;
+        } Handshake;
+
+A.4.1.  Hello Messages
+
+        struct { } HelloRequest;
+
+        struct {
+            uint32 gmt_unix_time;
+            opaque random_bytes[28];
+        } Random;
+
+        opaque SessionID<0..32>;
+
+        uint8 CipherSuite[2];
+
+        enum { null(0), (255) } CompressionMethod;
+
+        struct {
+            ProtocolVersion client_version;
+            Random random;
+            SessionID session_id;
+            CipherSuite cipher_suites<0..2^16-1>;
+            CompressionMethod compression_methods<0..2^8-1>;
+
+        } ClientHello;
+
+        struct {
+            ProtocolVersion server_version;
+            Random random;
+            SessionID session_id;
+            CipherSuite cipher_suite;
+            CompressionMethod compression_method;
+        } ServerHello;
+
+A.4.2.  Server Authentication and Key Exchange Messages
+
+        opaque ASN.1Cert<2^24-1>;
+
+        struct {
+            ASN.1Cert certificate_list<1..2^24-1>;
+        } Certificate;
+
+        enum { rsa, diffie_hellman, fortezza_kea } KeyExchangeAlgorithm;
+
+        struct {
+            opaque RSA_modulus<1..2^16-1>;
+            opaque RSA_exponent<1..2^16-1>;
+        } ServerRSAParams;
+
+        struct {
+            opaque DH_p<1..2^16-1>;
+            opaque DH_g<1..2^16-1>;
+            opaque DH_Ys<1..2^16-1>;
+        } ServerDHParams;
+
+        struct {
+            opaque r_s [128]
+        } ServerFortezzaParams
+
+        struct {
+            select (KeyExchangeAlgorithm) {
+                case diffie_hellman:
+                    ServerDHParams params;
+                    Signature signed_params;
+                case rsa:
+                    ServerRSAParams params;
+                    Signature signed_params;
+                case fortezza_kea:
+                    ServerFortezzaParams params;
+            };
+        } ServerKeyExchange;
+
+        enum { anonymous, rsa, dsa } SignatureAlgorithm;
+
+        digitally-signed struct {
+            select(SignatureAlgorithm) {
+                case anonymous: struct { };
+                case rsa:
+                    opaque md5_hash[16];
+                    opaque sha_hash[20];
+                case dsa:
+                    opaque sha_hash[20];
+            };
+        } Signature;
+
+        enum {
+            RSA_sign(1), DSS_sign(2), RSA_fixed_DH(3),
+            DSS_fixed_DH(4), RSA_ephemeral_DH(5), DSS_ephemeral_DH(6),
+            FORTEZZA_MISSI(20), (255)
+        } CertificateType;
+
+        opaque DistinguishedName<1..2^16-1>;
+
+        struct {
+            CertificateType certificate_types<1..2^8-1>;
+            DistinguishedName certificate_authorities<3..2^16-1>;
+        } CertificateRequest;
+
+        struct { } ServerHelloDone;
+
+A.5.  Client Authentication and Key Exchange Messages
+
+        struct {
+            select (KeyExchangeAlgorithm) {
+                case rsa: EncryptedPreMasterSecret;
+                case diffie_hellman: DiffieHellmanClientPublicValue;
+                case fortezza_kea: FortezzaKeys;
+            } exchange_keys;
+        } ClientKeyExchange;
+
+        struct {
+            ProtocolVersion client_version;
+            opaque random[46];
+        } PreMasterSecret;
+
+        struct {
+            public-key-encrypted PreMasterSecret pre_master_secret;
+        } EncryptedPreMasterSecret;
+
+        struct {
+            opaque y_c<0..128>;
+            opaque r_c[128];
+            opaque y_signature[40];
+            opaque wrapped_client_write_key[12];
+            opaque wrapped_server_write_key[12];
+            opaque client_write_iv[24];
+            opaque server_write_iv[24];
+            opaque master_secret_iv[24];
+            opaque encrypted_preMasterSecret[48];
+        } FortezzaKeys;
+
+        enum { implicit, explicit } PublicValueEncoding;
+
+        struct {
+            select (PublicValueEncoding) {
+                case implicit: struct {};
+                case explicit: opaque DH_Yc<1..2^16-1>;
+            } dh_public;
+        } ClientDiffieHellmanPublic;
+
+        struct {
+            Signature signature;
+        } CertificateVerify;
+
+A.5.1.  Handshake Finalization Message
+
+        struct {
+            opaque md5_hash[16];
+            opaque sha_hash[20];
+        } Finished;
+
+A.6.  The CipherSuite
+
+   The following values define the CipherSuite codes used in the client
+   hello and server hello messages.
+
+   A CipherSuite defines a cipher specifications supported in SSL
+   version 3.0.
+
+     CipherSuite SSL_NULL_WITH_NULL_NULL                = { 0x00,0x00 };
+
+   The following CipherSuite definitions require that the server provide
+   an RSA certificate that can be used for key exchange.  The server may
+   request either an RSA or a DSS signature-capable certificate in the
+   certificate request message.
+
+     CipherSuite SSL_RSA_WITH_NULL_MD5                  = { 0x00,0x01 };
+     CipherSuite SSL_RSA_WITH_NULL_SHA                  = { 0x00,0x02 };
+     CipherSuite SSL_RSA_EXPORT_WITH_RC4_40_MD5         = { 0x00,0x03 };
+     CipherSuite SSL_RSA_WITH_RC4_128_MD5               = { 0x00,0x04 };
+     CipherSuite SSL_RSA_WITH_RC4_128_SHA               = { 0x00,0x05 };
+     CipherSuite SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5     = { 0x00,0x06 };
+     CipherSuite SSL_RSA_WITH_IDEA_CBC_SHA              = { 0x00,0x07 };
+     CipherSuite SSL_RSA_EXPORT_WITH_DES40_CBC_SHA      = { 0x00,0x08 };
+     CipherSuite SSL_RSA_WITH_DES_CBC_SHA               = { 0x00,0x09 };
+     CipherSuite SSL_RSA_WITH_3DES_EDE_CBC_SHA          = { 0x00,0x0A };
+
+   The following CipherSuite definitions are used for server-
+   authenticated (and optionally client-authenticated) Diffie-Hellman.
+   DH denotes cipher suites in which the server's certificate contains
+   the Diffie-Hellman parameters signed by the certificate authority
+   (CA).  DHE denotes ephemeral Diffie-Hellman, where the Diffie-Hellman
+   parameters are signed by a DSS or RSA certificate, which has been
+   signed by the CA.  The signing algorithm used is specified after the
+   DH or DHE parameter.  In all cases, the client must have the same
+   type of certificate, and must use the Diffie-Hellman parameters
+   chosen by the server.
+
+     CipherSuite SSL_DH_DSS_EXPORT_WITH_DES40_CBC_SHA   = { 0x00,0x0B };
+     CipherSuite SSL_DH_DSS_WITH_DES_CBC_SHA            = { 0x00,0x0C };
+     CipherSuite SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA       = { 0x00,0x0D };
+     CipherSuite SSL_DH_RSA_EXPORT_WITH_DES40_CBC_SHA   = { 0x00,0x0E };
+     CipherSuite SSL_DH_RSA_WITH_DES_CBC_SHA            = { 0x00,0x0F };
+     CipherSuite SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA       = { 0x00,0x10 };
+     CipherSuite SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA  = { 0x00,0x11 };
+     CipherSuite SSL_DHE_DSS_WITH_DES_CBC_SHA           = { 0x00,0x12 };
+     CipherSuite SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA      = { 0x00,0x13 };
+     CipherSuite SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA  = { 0x00,0x14 };
+     CipherSuite SSL_DHE_RSA_WITH_DES_CBC_SHA           = { 0x00,0x15 };
+     CipherSuite SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA      = { 0x00,0x16 };
+
+   The following cipher suites are used for completely anonymous Diffie-
+   Hellman communications in which neither party is authenticated.  Note
+   that this mode is vulnerable to man-in-the-middle attacks and is
+   therefore strongly discouraged.
+
+     CipherSuite SSL_DH_anon_EXPORT_WITH_RC4_40_MD5     = { 0x00,0x17 };
+     CipherSuite SSL_DH_anon_WITH_RC4_128_MD5           = { 0x00,0x18 };
+     CipherSuite SSL_DH_anon_EXPORT_WITH_DES40_CBC_SHA  = { 0x00,0x19 };
+     CipherSuite SSL_DH_anon_WITH_DES_CBC_SHA           = { 0x00,0x1A };
+     CipherSuite SSL_DH_anon_WITH_3DES_EDE_CBC_SHA      = { 0x00,0x1B };
+
+   The final cipher suites are for the FORTEZZA token.
+
+     CipherSuite SSL_FORTEZZA_KEA_WITH_NULL_SHA         = { 0X00,0X1C };
+     CipherSuite SSL_FORTEZZA_KEA_WITH_FORTEZZA_CBC_SHA = { 0x00,0x1D };
+     CipherSuite SSL_FORTEZZA_KEA_WITH_RC4_128_SHA      = { 0x00,0x1E };
+
+   Note: All cipher suites whose first byte is 0xFF are considered
+   private and can be used for defining local/experimental algorithms.
+   Interoperability of such types is a local matter.
+
+A.7.  The CipherSpec
+
+   A cipher suite identifies a CipherSpec.  These structures are part of
+   the SSL session state.  The CipherSpec includes:
+
+        enum { stream, block } CipherType;
+
+        enum { true, false } IsExportable;
+
+        enum { null, rc4, rc2, des, 3des, des40, fortezza }
+            BulkCipherAlgorithm;
+
+        enum { null, md5, sha } MACAlgorithm;
+
+        struct {
+            BulkCipherAlgorithm bulk_cipher_algorithm;
+            MACAlgorithm mac_algorithm;
+            CipherType cipher_type;
+            IsExportable is_exportable
+            uint8 hash_size;
+            uint8 key_material;
+            uint8 IV_size;
+        } CipherSpec;
+
+Appendix B.  Glossary
+
+   application protocol:  An application protocol is a protocol that
+      normally layers directly on top of the transport layer (e.g.,
+      TCP/IP [RFC0793]/[RFC0791]).  Examples include HTTP [RFC1945],
+      TELNET [RFC0959], FTP [RFC0854], and SMTP.
+
+   asymmetric cipher:  See public key cryptography.
+
+   authentication:  Authentication is the ability of one entity to
+      determine the identity of another entity.
+
+   block cipher:  A block cipher is an algorithm that operates on
+      plaintext in groups of bits, called blocks. 64 bits is a typical
+      block size.
+
+   bulk cipher:  A symmetric encryption algorithm used to encrypt large
+      quantities of data.
+
+   cipher block chaining (CBC) mode:  CBC is a mode in which every
+      plaintext block encrypted with the block cipher is first
+      exclusive-ORed with the previous ciphertext block (or, in the case
+      of the first block, with the initialization vector).
+
+   certificate:  As part of the X.509 protocol (a.k.a.  ISO
+      Authentication framework), certificates are assigned by a trusted
+      certificate authority and provide verification of a party's
+      identity and may also supply its public key.
+
+   client:  The application entity that initiates a connection to a
+      server.
+
+   client write key:  The key used to encrypt data written by the
+      client.
+
+   client write MAC secret:  The secret data used to authenticate data
+      written by the client.
+
+   connection:  A connection is a transport (in the OSI layering model
+      definition) that provides a suitable type of service.  For SSL,
+      such connections are peer-to-peer relationships.  The connections
+      are transient.  Every connection is associated with one session.
+
+   Data Encryption Standard (DES):  DES is a very widely used symmetric
+      encryption algorithm.  DES is a block cipher [DES] [3DES].
+
+   Digital Signature Standard:  (DSS) A standard for digital signing,
+      including the Digital Signature Algorithm, approved by the
+      National Institute of Standards and Technology, defined in NIST
+      FIPS PUB 186, "Digital Signature Standard," published May, 1994 by
+      the U.S. Dept. of Commerce.
+
+   digital signatures:  Digital signatures utilize public key
+      cryptography and one-way hash functions to produce a signature of
+      the data that can be authenticated, and is difficult to forge or
+      repudiate.
+
+   FORTEZZA:  A PCMCIA card that provides both encryption and digital
+      signing.
+
+   handshake:  An initial negotiation between client and server that
+      establishes the parameters of their transactions.
+
+   Initialization Vector (IV):  When a block cipher is used in CBC mode,
+      the initialization vector is exclusive-ORed with the first
+      plaintext block prior to encryption.
+
+   IDEA:  A 64-bit block cipher designed by Xuejia Lai and James Massey
+      [IDEA].
+
+   Message Authentication Code (MAC):  A Message Authentication Code is
+      a one-way hash computed from a message and some secret data.  Its
+      purpose is to detect if the message has been altered.
+
+   master secret:  Secure secret data used for generating encryption
+      keys, MAC secrets, and IVs.
+
+   MD5:  MD5 [RFC1321] is a secure hashing function that converts an
+      arbitrarily long data stream into a digest of fixed size.
+
+   public key cryptography:  A class of cryptographic techniques
+      employing two-key ciphers.  Messages encrypted with the public key
+      can only be decrypted with the associated private key.
+      Conversely, messages signed with the private key can be verified
+      with the public key.
+
+   one-way hash function:  A one-way transformation that converts an
+      arbitrary amount of data into a fixed-length hash.  It is
+      computationally hard to reverse the transformation or to find
+      collisions.  MD5 and SHA are examples of one-way hash functions.
+
+   RC2, RC4:  Proprietary bulk ciphers from RSA Data Security, Inc.
+      (There is no good reference to these as they are unpublished
+      works; however, see [RSADSI]).  RC2 is a block cipher and RC4 is a
+      stream cipher.
+
+   RSA:  A very widely used public key algorithm that can be used for
+      either encryption or digital signing.
+
+   salt:  Non-secret random data used to make export encryption keys
+      resist precomputation attacks.
+
+   server:  The server is the application entity that responds to
+      requests for connections from clients.  The server is passive,
+      waiting for requests from clients.
+
+   session:  An SSL session is an association between a client and a
+      server.  Sessions are created by the handshake protocol.  Sessions
+      define a set of cryptographic security parameters, which can be
+      shared among multiple connections.  Sessions are used to avoid the
+      expensive negotiation of new security parameters for each
+      connection.
+
+   session identifier:  A session identifier is a value generated by a
+      server that identifies a particular session.
+
+   server write key:  The key used to encrypt data written by the
+      server.
+
+   server write MAC secret:  The secret data used to authenticate data
+      written by the server.
+
+   SHA:  The Secure Hash Algorithm is defined in FIPS PUB 180-1.  It
+      produces a 20-byte output [SHA].
+
+   stream cipher:  An encryption algorithm that converts a key into a
+      cryptographically strong keystream, which is then exclusive-ORed
+      with the plaintext.
+
+   symmetric cipher:  See bulk cipher.
+
+Appendix C.  CipherSuite Definitions
+
+CipherSuite                  Is         Key            Cipher       Hash
+                             Exportable Exchange
+
+SSL_NULL_WITH_NULL_NULL               * NULL           NULL         NULL
+SSL_RSA_WITH_NULL_MD5                 * RSA            NULL         MD5
+SSL_RSA_WITH_NULL_SHA                 * RSA            NULL         SHA
+SSL_RSA_EXPORT_WITH_RC4_40_MD5        * RSA_EXPORT     RC4_40       MD5
+SSL_RSA_WITH_RC4_128_MD5                RSA            RC4_128      MD5
+SSL_RSA_WITH_RC4_128_SHA                RSA            RC4_128      SHA
+SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5    * RSA_EXPORT     RC2_CBC_40   MD5
+SSL_RSA_WITH_IDEA_CBC_SHA               RSA            IDEA_CBC     SHA
+SSL_RSA_EXPORT_WITH_DES40_CBC_SHA     * RSA_EXPORT     DES40_CBC    SHA
+SSL_RSA_WITH_DES_CBC_SHA                RSA            DES_CBC      SHA
+SSL_RSA_WITH_3DES_EDE_CBC_SHA           RSA            3DES_EDE_CBC SHA
+SSL_DH_DSS_EXPORT_WITH_DES40_CBC_SHA  * DH_DSS_EXPORT  DES40_CBC    SHA
+SSL_DH_DSS_WITH_DES_CBC_SHA             DH_DSS         DES_CBC      SHA
+SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA        DH_DSS         3DES_EDE_CBC SHA
+SSL_DH_RSA_EXPORT_WITH_DES40_CBC_SHA  * DH_RSA_EXPORT  DES40_CBC    SHA
+SSL_DH_RSA_WITH_DES_CBC_SHA             DH_RSA         DES_CBC      SHA
+SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA        DH_RSA         3DES_EDE_CBC SHA
+SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA * DHE_DSS_EXPORT DES40_CBC    SHA
+SSL_DHE_DSS_WITH_DES_CBC_SHA            DHE_DSS        DES_CBC      SHA
+SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA       DHE_DSS        3DES_EDE_CBC SHA
+SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA * DHE_RSA_EXPORT DES40_CBC    SHA
+SSL_DHE_RSA_WITH_DES_CBC_SHA            DHE_RSA        DES_CBC      SHA
+SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA       DHE_RSA        3DES_EDE_CBC SHA
+SSL_DH_anon_EXPORT_WITH_RC4_40_MD5    * DH_anon_EXPORT RC4_40       MD5
+SSL_DH_anon_WITH_RC4_128_MD5            DH_anon        RC4_128      MD5
+SSL_DH_anon_EXPORT_WITH_DES40_CBC_SHA   DH_anon        DES40_CBC    SHA
+SSL_DH_anon_WITH_DES_CBC_SHA            DH_anon        DES_CBC      SHA
+SSL_DH_anon_WITH_3DES_EDE_CBC_SHA       DH_anon        3DES_EDE_CBC SHA
+SSL_FORTEZZA_KEA_WITH_NULL_SHA          FORTEZZA_KEA   NULL         SHA
+SSL_FORTEZZA_KEA_WITH_FORTEZZA_CBC_SHA  FORTEZZA_KEA   FORTEZZA_CBC SHA
+SSL_FORTEZZA_KEA_WITH_RC4_128_SHA       FORTEZZA_KEA   RC4_128      SHA
+
+   +----------------+------------------------------+-------------------+
+   |  Key Exchange  |          Description         |   Key Size Limit  |
+   |    Algorithm   |                              |                   |
+   +----------------+------------------------------+-------------------+
+   |     DHE_DSS    |     Ephemeral DH with DSS    |        None       |
+   |                |          signatures          |                   |
+   | DHE_DSS_EXPORT |     Ephemeral DH with DSS    |   DH = 512 bits   |
+   |                |          signatures          |                   |
+   |     DHE_RSA    |     Ephemeral DH with RSA    |        None       |
+   |                |          signatures          |                   |
+   | DHE_RSA_EXPORT |     Ephemeral DH with RSA    |   DH = 512 bits,  |
+   |                |          signatures          |     RSA = none    |
+   |     DH_anon    |  Anonymous DH, no signatures |        None       |
+   | DH_anon_EXPORT |  Anonymous DH, no signatures |   DH = 512 bits   |
+   |     DH_DSS     |       DH with DSS-based      |        None       |
+   |                |         certificates         |                   |
+   |  DH_DSS_EXPORT |       DH with DSS-based      |   DH = 512 bits   |
+   |                |         certificates         |                   |
+   |     DH_RSA     |       DH with RSA-based      |        None       |
+   |                |         certificates         |                   |
+   |  DH_RSA_EXPORT |       DH with RSA-based      |   DH = 512 bits,  |
+   |                |         certificates         |     RSA = none    |
+   |  FORTEZZA_KEA  |     FORTEZZA KEA. Details    |        N/A        |
+   |                |          unpublished         |                   |
+   |      NULL      |        No key exchange       |        N/A        |
+   |       RSA      |       RSA key exchange       |        None       |
+   |   RSA_EXPORT   |       RSA key exchange       |   RSA = 512 bits  |
+   +----------------+------------------------------+-------------------+
+
+                                  Table 1
+
+   Key size limit:  The key size limit gives the size of the largest
+      public key that can be legally used for encryption in cipher
+      suites that are exportable.
+
+   +--------------+--------+-----+-------+-------+-------+------+------+
+   | Cipher       | Cipher | IsE |  Key  |  Exp. | Effec |  IV  | Bloc |
+   |              |  Type  | xpo | Mater |  Key  |  tive | Size |   k  |
+   |              |        | rta |  ial  | Mater |  Key  |      | Size |
+   |              |        | ble |       |  ial  |  Bits |      |      |
+   +--------------+--------+-----+-------+-------+-------+------+------+
+   | NULL         | Stream |  *  |   0   |   0   |   0   |   0  |  N/A |
+   | FORTEZZA_CBC |  Block |     |   NA  |   12  |   96  |  20  |   8  |
+   |              |        |     |  (**) |  (**) |  (**) | (**) |      |
+   | IDEA_CBC     |  Block |     |   16  |   16  |  128  |   8  |   8  |
+   | RC2_CBC_40   |  Block |  *  |   5   |   16  |   40  |   8  |   8  |
+   | RC4_40       | Stream |  *  |   5   |   16  |   40  |   0  |  N/A |
+   | RC4_128      | Stream |     |   16  |   16  |  128  |   0  |  N/A |
+   | DES40_CBC    |  Block |  *  |   5   |   8   |   40  |   8  |   8  |
+   | DES_CBC      |  Block |     |   8   |   8   |   56  |   8  |   8  |
+   | 3DES_EDE_CBC |  Block |     |   24  |   24  |  168  |   8  |   8  |
+   +--------------+--------+-----+-------+-------+-------+------+------+
+
+                     * Indicates IsExportable is true.
+        ** FORTEZZA uses its own key and IV generation algorithms.
+
+                                  Table 2
+
+   Key Material:  The number of bytes from the key_block that are used
+      for generating the write keys.
+
+   Expanded Key Material:  The number of bytes actually fed into the
+      encryption algorithm.
+
+   Effective Key Bits:  How much entropy material is in the key material
+      being fed into the encryption routines.
+
+               +---------------+-----------+--------------+
+               | Hash Function | Hash Size | Padding Size |
+               +---------------+-----------+--------------+
+               |      NULL     |     0     |       0      |
+               |      MD5      |     16    |      48      |
+               |      SHA      |     20    |      40      |
+               +---------------+-----------+--------------+
+
+                                  Table 3
+
+Appendix D.  Implementation Notes
+
+   The SSL protocol cannot prevent many common security mistakes.  This
+   section provides several recommendations to assist implementers.
+
+D.1.  Temporary RSA Keys
+
+   US export restrictions limit RSA keys used for encryption to 512
+   bits, but do not place any limit on lengths of RSA keys used for
+   signing operations.  Certificates often need to be larger than 512
+   bits, since 512-bit RSA keys are not secure enough for high-value
+   transactions or for applications requiring long-term security.  Some
+   certificates are also designated signing-only, in which case they
+   cannot be used for key exchange.
+
+   When the public key in the certificate cannot be used for encryption,
+   the server signs a temporary RSA key, which is then exchanged.  In
+   exportable applications, the temporary RSA key should be the maximum
+   allowable length (i.e., 512 bits).  Because 512-bit RSA keys are
+   relatively insecure, they should be changed often.  For typical
+   electronic commerce applications, it is suggested that keys be
+   changed daily or every 500 transactions, and more often if possible.
+   Note that while it is acceptable to use the same temporary key for
+   multiple transactions, it must be signed each time it is used.
+
+   RSA key generation is a time-consuming process.  In many cases, a
+   low-priority process can be assigned the task of key generation.
+   Whenever a new key is completed, the existing temporary key can be
+   replaced with the new one.
+
+D.2.  Random Number Generation and Seeding
+
+   SSL requires a cryptographically secure pseudorandom number generator
+   (PRNG).  Care must be taken in designing and seeding PRNGs.  PRNGs
+   based on secure hash operations, most notably MD5 and/or SHA, are
+   acceptable, but cannot provide more security than the size of the
+   random number generator state.  (For example, MD5-based PRNGs usually
+   provide 128 bits of state.)
+
+   To estimate the amount of seed material being produced, add the
+   number of bits of unpredictable information in each seed byte.  For
+   example, keystroke timing values taken from a PC-compatible's 18.2 Hz
+   timer provide 1 or 2 secure bits each, even though the total size of
+   the counter value is 16 bits or more.  To seed a 128-bit PRNG, one
+   would thus require approximately 100 such timer values.
+
+   Note: The seeding functions in RSAREF and versions of BSAFE prior to
+   3.0 are order independent.  For example, if 1000 seed bits are
+   supplied, one at a time, in 1000 separate calls to the seed function,
+   the PRNG will end up in a state that depends only on the number of 0
+   or 1 seed bits in the seed data (i.e., there are 1001 possible final
+   states).  Applications using BSAFE or RSAREF must take extra care to
+   ensure proper seeding.
+
+D.3.  Certificates and Authentication
+
+   Implementations are responsible for verifying the integrity of
+   certificates and should generally support certificate revocation
+   messages.  Certificates should always be verified to ensure proper
+   signing by a trusted certificate authority (CA).  The selection and
+   addition of trusted CAs should be done very carefully.  Users should
+   be able to view information about the certificate and root CA.
+
+D.4.  CipherSuites
+
+   SSL supports a range of key sizes and security levels, including some
+   that provide no or minimal security.  A proper implementation will
+   probably not support many cipher suites.  For example, 40-bit
+   encryption is easily broken, so implementations requiring strong
+   security should not allow 40-bit keys.  Similarly, anonymous Diffie-
+   Hellman is strongly discouraged because it cannot prevent man-in-the-
+   middle attacks.  Applications should also enforce minimum and maximum
+   key sizes.  For example, certificate chains containing 512-bit RSA
+   keys or signatures are not appropriate for high-security
+   applications.
+
+D.5.  FORTEZZA
+
+   This section describes implementation details for cipher suites that
+   make use of the FORTEZZA hardware encryption system.
+
+D.5.1.  Notes on Use of FORTEZZA Hardware
+
+   A complete explanation of all issues regarding the use of FORTEZZA
+   hardware is outside the scope of this document.  However, there are a
+   few special requirements of SSL that deserve mention.
+
+   Because SSL is a full duplex protocol, two crypto states must be
+   maintained, one for reading and one for writing.  There are also a
+   number of circumstances that can result in the crypto state in the
+   FORTEZZA card being lost.  For these reasons, it's recommended that
+   the current crypto state be saved after processing a record, and
+   loaded before processing the next.
+
+   After the client generates the TEK, it also generates two message
+   encryption keys (MEKs), one for reading and one for writing.  After
+   generating each of these keys, the client must generate a
+   corresponding IV and then save the crypto state.  The client also
+   uses the TEK to generate an IV and encrypt the premaster secret.  All
+   three IVs are sent to the server, along with the wrapped keys and the
+   encrypted premaster secret in the client key exchange message.  At
+   this point, the TEK is no longer needed, and may be discarded.
+
+   On the server side, the server uses the master IV and the TEK to
+   decrypt the premaster secret.  It also loads the wrapped MEKs into
+   the card.  The server loads both IVs to verify that the IVs match the
+   keys.  However, since the card is unable to encrypt after loading an
+   IV, the server must generate a new IV for the server write key.  This
+   IV is discarded.
+
+   When encrypting the first encrypted record (and only that record),
+   the server adds 8 bytes of random data to the beginning of the
+   fragment.  These 8 bytes are discarded by the client after
+   decryption.  The purpose of this is to synchronize the state on the
+   client and server resulting from the different IVs.
+
+D.5.2.  FORTEZZA Cipher Suites
+
+   5) FORTEZZA_NULL_WITH_NULL_SHA: Uses the full FORTEZZA key exchange,
+   including sending server and client write keys and IVs.
+
+D.5.3.  FORTEZZA Session Resumption
+
+   There are two possibilities for FORTEZZA session restart: 1) Never
+   restart a FORTEZZA session. 2) Restart a session with the previously
+   negotiated keys and IVs.
+
+   Never restarting a FORTEZZA session:
+
+   Clients who never restart FORTEZZA sessions should never send session
+   IDs that were previously used in a FORTEZZA session as part of the
+   ClientHello.  Servers who never restart FORTEZZA sessions should
+   never send a previous session id on the ServerHello if the negotiated
+   session is FORTEZZA.
+
+   Restart a session:
+
+   You cannot restart FORTEZZA on a session that has never done a
+   complete FORTEZZA key exchange (that is, you cannot restart FORTEZZA
+   if the session was an RSA/RC4 session renegotiated for FORTEZZA).  If
+   you wish to restart a FORTEZZA session, you must save the MEKs and
+
+   IVs from the initial key exchange for this session and reuse them for
+   any new connections on that session.  This is not recommended, but it
+   is possible.
+
+Appendix E.  Version 2.0 Backward Compatibility
+
+   Version 3.0 clients that support version 2.0 servers must send
+   version 2.0 client hello messages [SSL-2].  Version 3.0 servers
+   should accept either client hello format.  The only deviations from
+   the version 2.0 specification are the ability to specify a version
+   with a value of three and the support for more ciphering types in the
+   CipherSpec.
+
+   Warning: The ability to send version 2.0 client hello messages will
+   be phased out with all due haste.  Implementers should make every
+   effort to move forward as quickly as possible.  Version 3.0 provides
+   better mechanisms for transitioning to newer versions.
+
+   The following cipher specifications are carryovers from SSL version
+   2.0.  These are assumed to use RSA for key exchange and
+   authentication.
+
+        V2CipherSpec SSL_RC4_128_WITH_MD5          = { 0x01,0x00,0x80 };
+        V2CipherSpec SSL_RC4_128_EXPORT40_WITH_MD5 = { 0x02,0x00,0x80 };
+        V2CipherSpec SSL_RC2_CBC_128_CBC_WITH_MD5  = { 0x03,0x00,0x80 };
+        V2CipherSpec SSL_RC2_CBC_128_CBC_EXPORT40_WITH_MD5
+                                                   = { 0x04,0x00,0x80 };
+        V2CipherSpec SSL_IDEA_128_CBC_WITH_MD5     = { 0x05,0x00,0x80 };
+        V2CipherSpec SSL_DES_64_CBC_WITH_MD5       = { 0x06,0x00,0x40 };
+        V2CipherSpec SSL_DES_192_EDE3_CBC_WITH_MD5 = { 0x07,0x00,0xC0 };
+
+   Cipher specifications introduced in version 3.0 can be included in
+   version 2.0 client hello messages using the syntax below.  Any
+   V2CipherSpec element with its first byte equal to zero will be
+   ignored by version 2.0 servers.  Clients sending any of the above
+   V2CipherSpecs should also include the version 3.0 equivalent (see
+   Appendix A.6):
+
+        V2CipherSpec (see Version 3.0 name) = { 0x00, CipherSuite };
+
+E.1.  Version 2 Client Hello
+
+   The version 2.0 client hello message is presented below using this
+   document's presentation model.  The true definition is still assumed
+   to be the SSL version 2.0 specification.
+
+        uint8 V2CipherSpec[3];
+
+        struct {
+            unit8 msg_type;
+            Version version;
+            uint16 cipher_spec_length;
+            uint16 session_id_length;
+            uint16 challenge_length;
+            V2CipherSpec cipher_specs[V2ClientHello.cipher_spec_length];
+            opaque session_id[V2ClientHello.session_id_length];
+            Random challenge;
+        } V2ClientHello;
+
+   session msg_type:  This field, in conjunction with the version field,
+      identifies a version 2 client hello message.  The value should
+      equal one (1).
+
+   version:  The highest version of the protocol supported by the client
+      (equals ProtocolVersion.version; see Appendix A.1).
+
+   cipher_spec_length:  This field is the total length of the field
+      cipher_specs.  It cannot be zero and must be a multiple of the
+      V2CipherSpec length (3).
+
+   session_id_length:  This field must have a value of either zero or
+      16.  If zero, the client is creating a new session.  If 16, the
+      session_id field will contain the 16 bytes of session
+      identification.
+
+   challenge_length:  The length in bytes of the client's challenge to
+      the server to authenticate itself.  This value must be 32.
+
+   cipher_specs:  This is a list of all CipherSpecs the client is
+      willing and able to use.  There must be at least one CipherSpec
+      acceptable to the server.
+
+   session_id:  If this field's length is not zero, it will contain the
+      identification for a session that the client wishes to resume.
+
+   challenge:  The client's challenge to the server for the server to
+      identify itself is a (nearly) arbitrary length random.  The
+      version 3.0 server will right justify the challenge data to become
+      the ClientHello.random data (padded with leading zeroes, if
+      necessary), as specified in this version 3.0 protocol.  If the
+      length of the challenge is greater than 32 bytes, then only the
+      last 32 bytes are used.  It is legitimate (but not necessary) for
+      a V3 server to reject a V2 ClientHello that has fewer than 16
+      bytes of challenge data.
+
+   Note: Requests to resume an SSL 3.0 session should use an SSL 3.0
+   client hello.
+
+E.2.  Avoiding Man-in-the-Middle Version Rollback
+
+   When SSL version 3.0 clients fall back to version 2.0 compatibility
+   mode, they use special PKCS #1 block formatting.  This is done so
+   that version 3.0 servers will reject version 2.0 sessions with
+   version 3.0-capable clients.
+
+   When version 3.0 clients are in version 2.0 compatibility mode, they
+   set the right-hand (least-significant) 8 random bytes of the PKCS
+   padding (not including the terminal null of the padding) for the RSA
+   encryption of the ENCRYPTED-KEY-DATA field of the CLIENT-MASTER-KEY
+   to 0x03 (the other padding bytes are random).  After decrypting the
+   ENCRYPTED-KEY-DATA field, servers that support SSL 3.0 should issue
+   an error if these eight padding bytes are 0x03.  Version 2.0 servers
+   receiving blocks padded in this manner will proceed normally.
+
+Appendix F.  Security Analysis
+
+   The SSL protocol is designed to establish a secure connection between
+   a client and a server communicating over an insecure channel.  This
+   document makes several traditional assumptions, including that
+   attackers have substantial computational resources and cannot obtain
+   secret information from sources outside the protocol.  Attackers are
+   assumed to have the ability to capture, modify, delete, replay, and
+   otherwise tamper with messages sent over the communication channel.
+   This appendix outlines how SSL has been designed to resist a variety
+   of attacks.
+
+F.1.  Handshake Protocol
+
+   The handshake protocol is responsible for selecting a CipherSpec and
+   generating a MasterSecret, which together comprise the primary
+   cryptographic parameters associated with a secure session.  The
+   handshake protocol can also optionally authenticate parties who have
+   certificates signed by a trusted certificate authority.
+
+F.1.1.  Authentication and Key Exchange
+
+   SSL supports three authentication modes: authentication of both
+   parties, server authentication with an unauthenticated client, and
+   total anonymity.  Whenever the server is authenticated, the channel
+   should be secure against man-in-the-middle attacks, but completely
+   anonymous sessions are inherently vulnerable to such attacks.
+
+   Anonymous servers cannot authenticate clients, since the client
+   signature in the certificate verify message may require a server
+   certificate to bind the signature to a particular server.  If the
+   server is authenticated, its certificate message must provide a valid
+   certificate chain leading to an acceptable certificate authority.
+   Similarly, authenticated clients must supply an acceptable
+   certificate to the server.  Each party is responsible for verifying
+   that the other's certificate is valid and has not expired or been
+   revoked.
+
+   The general goal of the key exchange process is to create a
+   pre_master_secret known to the communicating parties and not to
+   attackers.  The pre_master_secret will be used to generate the
+   master_secret (see Section 6.1).  The master_secret is required to
+   generate the finished messages, encryption keys, and MAC secrets (see
+   Sections 5.6.9 and 6.2.2).  By sending a correct finished message,
+   parties thus prove that they know the correct pre_master_secret.
+
+F.1.1.1.  Anonymous Key Exchange
+
+   Completely anonymous sessions can be established using RSA, Diffie-
+   Hellman, or FORTEZZA for key exchange.  With anonymous RSA, the
+   client encrypts a pre_master_secret with the server's uncertified
+   public key extracted from the server key exchange message.  The
+   result is sent in a client key exchange message.  Since eavesdroppers
+   do not know the server's private key, it will be infeasible for them
+   to decode the pre_master_secret.
+
+   With Diffie-Hellman or FORTEZZA, the server's public parameters are
+   contained in the server key exchange message and the client's are
+   sent in the client key exchange message.  Eavesdroppers who do not
+   know the private values should not be able to find the Diffie-Hellman
+   result (i.e., the pre_master_secret) or the FORTEZZA token encryption
+   key (TEK).
+
+   Warning: Completely anonymous connections only provide protection
+   against passive eavesdropping.  Unless an independent tamper-proof
+   channel is used to verify that the finished messages were not
+   replaced by an attacker, server authentication is required in
+   environments where active man-in-the-middle attacks are a concern.
+
+F.1.1.2.  RSA Key Exchange and Authentication
+
+   With RSA, key exchange and server authentication are combined.  The
+   public key either may be contained in the server's certificate or may
+   be a temporary RSA key sent in a server key exchange message.  When
+   temporary RSA keys are used, they are signed by the server's RSA or
+   DSS certificate.  The signature includes the current
+
+   ClientHello.random, so old signatures and temporary keys cannot be
+   replayed.  Servers may use a single temporary RSA key for multiple
+   negotiation sessions.
+
+   Note: The temporary RSA key option is useful if servers need large
+   certificates but must comply with government-imposed size limits on
+   keys used for key exchange.
+
+   After verifying the server's certificate, the client encrypts a
+   pre_master_secret with the server's public key.  By successfully
+   decoding the pre_master_secret and producing a correct finished
+   message, the server demonstrates that it knows the private key
+   corresponding to the server certificate.
+
+   When RSA is used for key exchange, clients are authenticated using
+   the certificate verify message (see Section 5.6.8).  The client signs
+   a value derived from the master_secret and all preceding handshake
+   messages.  These handshake messages include the server certificate,
+   which binds the signature to the server, and ServerHello.random,
+   which binds the signature to the current handshake process.
+
+F.1.1.3.  Diffie-Hellman Key Exchange with Authentication
+
+   When Diffie-Hellman key exchange is used, the server either can
+   supply a certificate containing fixed Diffie-Hellman parameters or
+   can use the server key exchange message to send a set of temporary
+   Diffie-Hellman parameters signed with a DSS or RSA certificate.
+   Temporary parameters are hashed with the hello.random values before
+   signing to ensure that attackers do not replay old parameters.  In
+   either case, the client can verify the certificate or signature to
+   ensure that the parameters belong to the server.
+
+   If the client has a certificate containing fixed Diffie-Hellman
+   parameters, its certificate contains the information required to
+   complete the key exchange.  Note that in this case, the client and
+   server will generate the same Diffie-Hellman result (i.e.,
+   pre_master_secret) every time they communicate.  To prevent the
+   pre_master_secret from staying in memory any longer than necessary,
+   it should be converted into the master_secret as soon as possible.
+   Client Diffie-Hellman parameters must be compatible with those
+   supplied by the server for the key exchange to work.
+
+   If the client has a standard DSS or RSA certificate or is
+   unauthenticated, it sends a set of temporary parameters to the server
+   in the client key exchange message, then optionally uses a
+   certificate verify message to authenticate itself.
+
+F.1.1.4.  FORTEZZA
+
+   FORTEZZA's design is classified, but at the protocol level it is
+   similar to Diffie-Hellman with fixed public values contained in
+   certificates.  The result of the key exchange process is the token
+   encryption key (TEK), which is used to wrap data encryption keys,
+   client write key, server write key, and master secret encryption key.
+   The data encryption keys are not derived from the pre_master_secret
+   because unwrapped keys are not accessible outside the token.  The
+   encrypted pre_master_secret is sent to the server in a client key
+   exchange message.
+
+F.1.2.  Version Rollback Attacks
+
+   Because SSL version 3.0 includes substantial improvements over SSL
+   version 2.0, attackers may try to make version 3.0-capable clients
+   and servers fall back to version 2.0.  This attack is occurring if
+   (and only if) two version 3.0-capable parties use an SSL 2.0
+   handshake.
+
+   Although the solution using non-random PKCS #1 block type 2 message
+   padding is inelegant, it provides a reasonably secure way for version
+   3.0 servers to detect the attack.  This solution is not secure
+   against attackers who can brute force the key and substitute a new
+   ENCRYPTED-KEY-DATA message containing the same key (but with normal
+   padding) before the application specified wait threshold has expired.
+   Parties concerned about attacks of this scale should not be using 40-
+   bit encryption keys anyway.  Altering the padding of the least
+   significant 8 bytes of the PKCS padding does not impact security,
+   since this is essentially equivalent to increasing the input block
+   size by 8 bytes.
+
+F.1.3.  Detecting Attacks against the Handshake Protocol
+
+   An attacker might try to influence the handshake exchange to make the
+   parties select different encryption algorithms than they would
+   normally choose.  Because many implementations will support 40-bit
+   exportable encryption and some may even support null encryption or
+   MAC algorithms, this attack is of particular concern.
+
+   For this attack, an attacker must actively change one or more
+   handshake messages.  If this occurs, the client and server will
+   compute different values for the handshake message hashes.  As a
+   result, the parties will not accept each other's finished messages.
+   Without the master_secret, the attacker cannot repair the finished
+   messages, so the attack will be discovered.
+
+F.1.4.  Resuming Sessions
+
+   When a connection is established by resuming a session, new
+   ClientHello.random and ServerHello.random values are hashed with the
+   session's master_secret.  Provided that the master_secret has not
+   been compromised and that the secure hash operations used to produce
+   the encryption keys and MAC secrets are secure, the connection should
+   be secure and effectively independent from previous connections.
+   Attackers cannot use known encryption keys or MAC secrets to
+   compromise the master_secret without breaking the secure hash
+   operations (which use both SHA and MD5).
+
+   Sessions cannot be resumed unless both the client and server agree.
+   If either party suspects that the session may have been compromised,
+   or that certificates may have expired or been revoked, it should
+   force a full handshake.  An upper limit of 24 hours is suggested for
+   session ID lifetimes, since an attacker who obtains a master_secret
+   may be able to impersonate the compromised party until the
+   corresponding session ID is retired.  Applications that may be run in
+   relatively insecure environments should not write session IDs to
+   stable storage.
+
+F.1.5.  MD5 and SHA
+
+   SSL uses hash functions very conservatively.  Where possible, both
+   MD5 and SHA are used in tandem to ensure that non-catastrophic flaws
+   in one algorithm will not break the overall protocol.
+
+F.2.  Protecting Application Data
+
+   The master_secret is hashed with the ClientHello.random and
+   ServerHello.random to produce unique data encryption keys and MAC
+   secrets for each connection.  FORTEZZA encryption keys are generated
+   by the token, and are not derived from the master_secret.
+
+   Outgoing data is protected with a MAC before transmission.  To
+   prevent message replay or modification attacks, the MAC is computed
+   from the MAC secret, the sequence number, the message length, the
+   message contents, and two fixed-character strings.  The message type
+   field is necessary to ensure that messages intended for one SSL
+   record layer client are not redirected to another.  The sequence
+   number ensures that attempts to delete or reorder messages will be
+   detected.  Since sequence numbers are 64 bits long, they should never
+   overflow.  Messages from one party cannot be inserted into the
+   other's output, since they use independent MAC secrets.  Similarly,
+   the server-write and client-write keys are independent so stream
+   cipher keys are used only once.
+
+   If an attacker does break an encryption key, all messages encrypted
+   with it can be read.  Similarly, compromise of a MAC key can make
+   message modification attacks possible.  Because MACs are also
+   encrypted, message-alteration attacks generally require breaking the
+   encryption algorithm as well as the MAC.
+
+   Note: MAC secrets may be larger than encryption keys, so messages can
+   remain tamper resistant even if encryption keys are broken.
+
+F.3.  Final Notes
+
+   For SSL to be able to provide a secure connection, both the client
+   and server systems, keys, and applications must be secure.  In
+   addition, the implementation must be free of security errors.
+
+   The system is only as strong as the weakest key exchange and
+   authentication algorithm supported, and only trustworthy
+   cryptographic functions should be used.  Short public keys, 40-bit
+   bulk encryption keys, and anonymous servers should be used with great
+   caution.  Implementations and users must be careful when deciding
+   which certificates and certificate authorities are acceptable; a
+   dishonest certificate authority can do tremendous damage.
+
+Appendix G.  Acknowledgements
+
+G.1.  Other Contributors
+
+   Martin Abadi                  Robert Relyea
+   Digital Equipment Corporation Netscape Communications
+   ma@pa.dec.com                 relyea@netscape.com
+
+   Taher Elgamal                 Jim Roskind
+   Netscape Communications       Netscape Communications
+   elgamal@netscape.com          jar@netscape.com
+
+   Anil Gangolli                 Micheal J. Sabin, Ph.D.
+   Netscape Communications       Consulting Engineer
+   gangolli@netscape.com         msabin@netcom.com
+
+   Kipp E.B. Hickman             Tom Weinstein
+   Netscape Communications       Netscape Communications
+   kipp@netscape.com             tomw@netscape.com
+
+G.2.  Early Reviewers
+
+   Robert Baldwin                Clyde Monma
+   RSA Data Security, Inc.       Bellcore
+   baldwin@rsa.com               clyde@bellcore.com
+
+   George Cox                    Eric Murray
+   Intel Corporation             ericm@lne.com
+   cox@ibeam.jf.intel.com
+
+   Cheri Dowell                  Avi Rubin
+   Sun Microsystems              Bellcore
+   cheri@eng.sun.com             rubin@bellcore.com
+
+   Stuart Haber                  Don Stephenson
+   Bellcore                      Sun Microsystems
+   stuart@bellcore.com           don.stephenson@eng.sun.com
+
+   Burt Kaliski                  Joe Tardo
+   RSA Data Security, Inc.       General Magic
+   burt@rsa.com                  tardo@genmagic.com
+
+Authors' Addresses
+
+   Alan O. Freier
+   Netscape Communications
+
+   Philip Karlton
+   Netscape Communications
+
+   Paul C. Kocher
+   Independent Consultant
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

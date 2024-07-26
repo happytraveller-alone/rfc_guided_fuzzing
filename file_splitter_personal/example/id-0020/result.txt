@@ -1,0 +1,16 @@
+{
+	"FunctionIndex": "0020",
+	"FunctionName": "MakeEccDhPskSessionKeysHelper",
+	"FunctionSummarization": [
+		"Session key generation",
+		"ECC DH PSK",
+		"Master key generation",
+		"Session hash computation",
+		"Session keys setup"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC8446-4.1.3-HandshakeProtocol_KeyExchangeMessages_ServerHello",
+		"RFC8446-7.4.2-CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman",
+		"RFC6101-6.1.2-CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman"
+	]
+}

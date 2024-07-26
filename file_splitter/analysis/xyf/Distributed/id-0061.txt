@@ -1,0 +1,90 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 61
+// Total lines: 59
+
+//----- (0000000180004900) ----------------------------------------------------
+__int64 __fastcall CSsl3TlsClientContext::DigestServerKeyX(
+        CSsl3TlsClientContext *this,
+        unsigned __int8 *a2,
+        unsigned int a3,
+        unsigned __int8 *a4)
+{
+  unsigned int *v7; // rdi
+  int v8; // ecx
+  __int64 result; // rax
+  unsigned __int8 *v10; // rax
+  unsigned __int8 *v11; // r9
+  int v12; // ecx
+
+  *((_QWORD *)this + 17) |= 0x8000ui64;
+  v7 = (unsigned int *)((char *)this + 960);
+  v8 = *(_DWORD *)(*((_QWORD *)this + 1) + 48i64);
+  switch ( v8 )
+  {
+    case 3:
+      result = CSsl3TlsClientContext::EccGenerateClientExchangeValue(this, a2, a3, 0i64, v7);
+      break;
+    case 2:
+      result = CSsl3TlsClientContext::DhGenerateClientExchangeValue(this, a2, a3, 0i64, v7);
+      break;
+    case 4:
+      result = CSsl3TlsClientContext::PskGenerateClientExchangeValue(this, a2, a3, 0i64, v7);
+      break;
+    default:
+      result = CSslContext::RsaGenerateClientExchangeValue(this, 0i64, v7, a4);
+      break;
+  }
+  if ( !(_DWORD)result )
+  {
+    v10 = (unsigned __int8 *)SPExternalAlloc(*v7);
+    *((_QWORD *)this + 119) = v10;
+    if ( v10 )
+    {
+      v12 = *(_DWORD *)(*((_QWORD *)this + 1) + 48i64);
+      switch ( v12 )
+      {
+        case 3:
+          return CSsl3TlsClientContext::EccGenerateClientExchangeValue(this, a2, a3, v10, v7);
+        case 2:
+          return CSsl3TlsClientContext::DhGenerateClientExchangeValue(this, a2, a3, v10, v7);
+        case 4:
+          return CSsl3TlsClientContext::PskGenerateClientExchangeValue(this, a2, a3, v10, v7);
+        default:
+          return CSslContext::RsaGenerateClientExchangeValue(this, v10, v7, v11);
+      }
+    }
+    else
+    {
+      return 14i64;
+    }
+  }
+  return result;
+}
+// 18002CF53: variable 'v11' is possibly undefined
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

@@ -1,0 +1,27 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.14. TheCGIRequest_RequestMetaVariables_SERVER_NAME_ ---
+The SERVER_NAME variable MUST be set to the name of the server host
+   to which the client request is directed.  It is a case-insensitive
+   hostname or network address.  It forms the host part of the
+   Script-URI.
+
+      SERVER_NAME = server-name
+      server-name = hostname | ipv4-address | ( "[" ipv6-address "]" )
+
+   A deployed server can have more than one possible value for this
+   variable, where several HTTP virtual hosts share the same IP address.
+   In that case, the server would use the contents of the request's Host
+   header field to select the correct virtual host.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

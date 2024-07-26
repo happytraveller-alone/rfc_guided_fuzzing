@@ -1,0 +1,64 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.6. TheCGIRequest_RequestMetaVariables_PATH_TRANSLATED_ ---
+The PATH_TRANSLATED variable is derived by taking the PATH_INFO
+   value, parsing it as a local URI in its own right, and performing any
+   virtual-to-physical translation appropriate to map it onto the
+   server's document repository structure.  The set of characters
+   permitted in the result is system-defined.
+
+      PATH_TRANSLATED = *<any character>
+
+   This is the file location that would be accessed by a request for
+
+      <scheme> "://" <server-name> ":" <server-port> <extra-path>
+
+   where <scheme> is the scheme for the original client request and
+   <extra-path> is a URL-encoded version of PATH_INFO, with ";", "=" and
+   "?"  reserved.  For example, a request such as the following:
+
+      http://somehost.com/cgi-bin/somescript/this%2eis%2epath%3binfo
+
+   would result in a PATH_INFO value of
+
+      /this.is.the.path;info
+
+   An internal URI is constructed from the scheme, server location and
+   the URL-encoded PATH_INFO:
+
+      http://somehost.com/this.is.the.path%3binfo
+
+   This would then be translated to a location in the server's document
+   repository, perhaps a filesystem path something like this:
+
+      /usr/local/www/htdocs/this.is.the.path;info
+
+   The value of PATH_TRANSLATED is the result of the translation.
+
+   The value is derived in this way irrespective of whether it maps to a
+   valid repository location.  The server MUST preserve the case of the
+   extra-path segment unless the underlying repository supports case-
+   insensitive names.  If the repository is only case-aware, case-
+   preserving, or case-blind with regard to document names, the server
+   is not required to preserve the case of the original segment through
+   the translation.
+
+   The translation algorithm the server uses to derive PATH_TRANSLATED
+   is implementation-defined; CGI scripts which use this variable may
+   suffer limited portability.
+
+   The server SHOULD set this meta-variable if the request URI includes
+   a path-info component.  If PATH_INFO is NULL, then the
+   PATH_TRANSLATED variable MUST be set to NULL (or unset).
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

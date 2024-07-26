@@ -1,0 +1,11 @@
+{
+    "FunctionIndex": "0001",
+    "FunctionName": "dynamic_initializer_for__g_cCipherMill__",
+    "FunctionSummarization": [
+        "Initialize global CCipherMill object",
+        "Register destructor at exit"
+    ],
+    "FunctionMatchRFCResult": [
+        "NONE"
+    ]
+}

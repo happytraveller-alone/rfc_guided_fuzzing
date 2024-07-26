@@ -1,0 +1,37 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 6.3. CGIResponse_ResponseHeaderFields_ ---
+The response header fields are either CGI or extension header fields
+   to be interpreted by the server, or protocol-specific header fields
+   to be included in the response returned to the client.  At least one
+   CGI field MUST be supplied; each CGI field MUST NOT appear more than
+   once in the response.  The response header fields have the syntax:
+
+      header-field    = CGI-field | other-field
+      CGI-field       = Content-Type | Location | Status
+      other-field     = protocol-field | extension-field
+      protocol-field  = generic-field
+      extension-field = generic-field
+      generic-field   = field-name ":" [ field-value ] NL
+      field-name      = token
+      field-value     = *( field-content | LWSP )
+      field-content   = *( token | separator | quoted-string )
+
+   The field-name is not case sensitive.  A NULL field value is
+   equivalent to a field not being sent.  Note that each header field in
+   a CGI-Response MUST be specified on a single line; CGI/1.1 does not
+   support continuation lines.  Whitespace is permitted between the ":"
+   and the field-value (but not between the field-name and the ":"), and
+   also between tokens in the field-value.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

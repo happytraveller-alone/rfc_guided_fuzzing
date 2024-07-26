@@ -1,0 +1,37 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.6.8. SSLProtocol_HandshakeProtocol_CertificateVerify_ ---
+This message is used to provide explicit verification of a client
+   certificate.  This message is only sent following any client
+   certificate that has signing capability (i.e., all certificates
+   except those containing fixed Diffie-Hellman parameters).
+
+          struct {
+               Signature signature;
+          } CertificateVerify;
+
+        CertificateVerify.signature.md5_hash
+                   MD5(master_secret + pad_2 +
+                       MD5(handshake_messages + master_secret + pad_1));
+        Certificate.signature.sha_hash
+                   SHA(master_secret + pad_2 +
+                       SHA(handshake_messages + master_secret + pad_1));
+
+   pad_1:  This is identical to the pad_1 defined in Section 5.2.3.1.
+
+   pad_2:  This is identical to the pad_2 defined in Section 5.2.3.1.
+
+   Here, handshake_messages refers to all handshake messages starting at
+   client hello up to but not including this message.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

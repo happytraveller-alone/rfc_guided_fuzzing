@@ -1,0 +1,109 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 496
+// Total lines: 78
+
+//----- (0000000180024700) ----------------------------------------------------
+__int64 __fastcall CCipherMill::FindSupportedProvider(
+        CCipherMill *this,
+        struct _CRYPT_CONTEXT_FUNCTION_PROVIDERS *a2,
+        ULONG a3,
+        struct CCipherMill::CIPHER_SUITE_TO_PROVIDER *a4,
+        unsigned int a5,
+        unsigned __int8 *a6,
+        unsigned __int16 *a7,
+        int a8)
+{
+  unsigned int v11; // esi
+  unsigned int v12; // ebx
+  PWSTR *rgpszProviders; // rcx
+  wchar_t *v14; // r14
+  unsigned int v15; // edi
+  struct ProviderEccCurves *v16; // rbx
+  __int64 v18; // rax
+  ULONG pcbBuffer; // [rsp+80h] [rbp+8h] BYREF
+  int v20; // [rsp+84h] [rbp+Ch]
+  PCRYPT_PROVIDER_REG ppBuffer; // [rsp+88h] [rbp+10h] BYREF
+
+  v20 = HIDWORD(this);
+  pcbBuffer = 0;
+  v11 = -1;
+  v12 = 0;
+  if ( !a2->cProviders )
+    return 1168i64;
+  while ( v11 == -1 )
+  {
+    rgpszProviders = a2->rgpszProviders;
+    ppBuffer = 0i64;
+    if ( BCryptQueryProviderRegistration(rgpszProviders[v12], a3, 0x10002u, &pcbBuffer, &ppBuffer) >= 0
+      && (a3 == 1 && ppBuffer->pUM || a3 == 2 && ppBuffer->pKM) )
+    {
+      v11 = v12;
+    }
+    if ( ppBuffer )
+      BCryptFreeBuffer(ppBuffer);
+    if ( ++v12 >= a2->cProviders )
+    {
+      if ( v11 == -1 )
+        return 1168i64;
+      break;
+    }
+  }
+  v14 = a7;
+  if ( a8 && !wcsnicmp(a2->rgpszProviders[v11], L"Microsoft SSL Protocol Provider", 0x40ui64) )
+  {
+    v18 = -1i64;
+    do
+      ++v18;
+    while ( v14[v18] );
+    v14[(unsigned int)(v18 - 5)] = 0;
+  }
+  v15 = 0;
+  if ( !qword_180092498 )
+    goto LABEL_20;
+  while ( wcsnicmp(*(const wchar_t **)(qword_180092490 + 16i64 * v15), a2->rgpszProviders[v11], 0x40ui64) )
+  {
+    if ( ++v15 >= qword_180092498 )
+      goto LABEL_20;
+  }
+  if ( v15 == -1 )
+LABEL_20:
+    v16 = 0i64;
+  else
+    v16 = (struct ProviderEccCurves *)(*(_QWORD *)qword_1800925C8 + 32i64 * v15);
+  return CCipherMill::InitializeCipherSuite(
+           (CCipherMill *)v11,
+           a4,
+           a5,
+           (CCipherSuiteInfo *)a6,
+           (char *)a2->rgpszProviders[v11],
+           v14,
+           v16);
+}
+// 180092490: using guessed type __int64 qword_180092490;
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

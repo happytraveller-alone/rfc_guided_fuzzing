@@ -1,0 +1,26 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.8. TheCGIRequest_RequestMetaVariables_REMOTE_ADDR_ ---
+The REMOTE_ADDR variable MUST be set to the network address of the
+   client sending the request to the server.
+
+      REMOTE_ADDR  = hostnumber
+      hostnumber   = ipv4-address | ipv6-address
+      ipv4-address = 1*3digit "." 1*3digit "." 1*3digit "." 1*3digit
+      ipv6-address = hexpart [ ":" ipv4-address ]
+      hexpart      = hexseq | ( [ hexseq ] "::" [ hexseq ] )
+      hexseq       = 1*4hex *( ":" 1*4hex )
+
+   The format of an IPv6 address is described in RFC 3513 [15].
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

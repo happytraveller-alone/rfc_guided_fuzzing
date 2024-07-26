@@ -1,0 +1,15 @@
+{
+	"FunctionIndex": "0013",
+	"FunctionName": "VerifyEcdsaParams",
+	"FunctionSummarization": [
+		"Verify ECDSA parameters",
+		"Import public key",
+		"Compute hash of input data",
+		"Verify ECDSA signature",
+		"Handle errors and set alerts"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC6101-5.6.3-SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_",
+		"RFC8446-4.4.3-HandshakeProtocol_AuthenticationMessages_CertificateVerify_"
+	]
+}

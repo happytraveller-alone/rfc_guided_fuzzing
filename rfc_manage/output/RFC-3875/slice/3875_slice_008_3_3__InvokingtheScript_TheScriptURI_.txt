@@ -1,0 +1,62 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 3.3. InvokingtheScript_TheScriptURI_ ---
+The mapping from client request URI to choice of script is defined by
+   the particular server implementation and its configuration.  The
+   server may allow the script to be identified with a set of several
+   different URI path hierarchies, and therefore is permitted to replace
+   the URI by other members of this set during processing and generation
+   of the meta-variables.  The server
+
+      1. MAY preserve the URI in the particular client request; or
+
+      2. it MAY select a canonical URI from the set of possible values
+         for each script; or
+
+      3. it can implement any other selection of URI from the set.
+
+   From the meta-variables thus generated, a URI, the 'Script-URI', can
+   be constructed.  This MUST have the property that if the client had
+   accessed this URI instead, then the script would have been executed
+   with the same values for the SCRIPT_NAME, PATH_INFO and QUERY_STRING
+   meta-variables.  The Script-URI has the structure of a generic URI as
+   defined in section 3 of RFC 2396 [2], with the exception that object
+   parameters and fragment identifiers are not permitted.  The various
+   components of the Script-URI are defined by some of the
+   meta-variables (see below);
+
+      script-URI = <scheme> "://" <server-name> ":" <server-port>
+                   <script-path> <extra-path> "?" <query-string>
+
+   where <scheme> is found from SERVER_PROTOCOL, <server-name>,
+   <server-port> and <query-string> are the values of the respective
+   meta-variables.  The SCRIPT_NAME and PATH_INFO values, URL-encoded
+   with ";", "=" and "?"  reserved, give <script-path> and <extra-path>.
+
+   See section 4.1.5 for more information about the PATH_INFO
+   meta-variable.
+
+   The scheme and the protocol are not identical as the scheme
+   identifies the access method in addition to the application protocol.
+   For example, a resource accessed using Transport Layer Security (TLS)
+   [14] would have a request URI with a scheme of https when using the
+   HTTP protocol [19].  CGI/1.1 provides no generic means for the script
+   to reconstruct this, and therefore the Script-URI as defined includes
+   the base protocol used.  However, a script MAY make use of
+   scheme-specific meta-variables to better deduce the URI scheme.
+
+   Note that this definition also allows URIs to be constructed which
+   would invoke the script with any permitted values for the path-info
+   or query-string, by modifying the appropriate components.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

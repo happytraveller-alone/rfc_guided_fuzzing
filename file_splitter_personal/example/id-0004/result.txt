@@ -1,0 +1,16 @@
+{
+	"FunctionIndex": "0004",
+	"FunctionName": "CSsl3TlsContext::AllocateAndGenerateCcsAndFinish",
+	"FunctionSummarization": [
+		"Check context state flags",
+		"Calculate buffer size for messages",
+		"Allocate output buffer",
+		"Generate Change Cipher Spec and Finished messages"
+	],
+	"FunctionMatchRFCResult": [
+		"RFC6101-Section5.3-SSL Protocol Change Cipher Spec Protocol",
+		"RFC6101-Section5.6.9-SSL Protocol Handshake Protocol Finished",
+		"RFC8446-Section4.5-Handshake Protocol End of Early Data",
+		"RFC8446-Section4.4.4-Handshake Protocol Authentication Messages Finished"
+	]
+}

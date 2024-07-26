@@ -1,0 +1,45 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 5.3. RecordProtocol_PerRecordNonce_ ---
+A 64-bit sequence number is maintained separately for reading and
+   writing records.  The appropriate sequence number is incremented by
+   one after reading or writing each record.  Each sequence number is
+   set to zero at the beginning of a connection and whenever the key is
+   changed; the first record transmitted under a particular traffic key
+   MUST use sequence number 0.
+
+   Because the size of sequence numbers is 64-bit, they should not wrap.
+   If a TLS implementation would need to wrap a sequence number, it MUST
+   either rekey (Section 4.6.3) or terminate the connection.
+
+   Each AEAD algorithm will specify a range of possible lengths for the
+   per-record nonce, from N_MIN bytes to N_MAX bytes of input [RFC5116].
+   The length of the TLS per-record nonce (iv_length) is set to the
+   larger of 8 bytes and N_MIN for the AEAD algorithm (see [RFC5116],
+   Section 4).  An AEAD algorithm where N_MAX is less than 8 bytes
+   MUST NOT be used with TLS.  The per-record nonce for the AEAD
+   construction is formed as follows:
+
+   1.  The 64-bit record sequence number is encoded in network byte
+       order and padded to the left with zeros to iv_length.
+
+   2.  The padded sequence number is XORed with either the static
+       client_write_iv or server_write_iv (depending on the role).
+
+   The resulting quantity (of length iv_length) is used as the
+   per-record nonce.
+
+   Note: This is a different construction from that in TLS 1.2, which
+   specified a partially explicit nonce.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

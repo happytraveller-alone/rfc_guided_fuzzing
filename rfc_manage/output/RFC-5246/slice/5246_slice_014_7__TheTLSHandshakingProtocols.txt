@@ -1,0 +1,52 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 7. TheTLSHandshakingProtocols ---
+TLS has three subprotocols that are used to allow peers to agree upon
+   security parameters for the record layer, to authenticate themselves,
+   to instantiate negotiated security parameters, and to report error
+   conditions to each other.
+
+   The Handshake Protocol is responsible for negotiating a session,
+   which consists of the following items:
+
+   session identifier
+      An arbitrary byte sequence chosen by the server to identify an
+      active or resumable session state.
+
+   peer certificate
+      X509v3 [PKIX] certificate of the peer.  This element of the state
+      may be null.
+
+   compression method
+      The algorithm used to compress data prior to encryption.
+
+   cipher spec
+      Specifies the pseudorandom function (PRF) used to generate keying
+      material, the bulk data encryption algorithm (such as null, AES,
+      etc.) and the MAC algorithm (such as HMAC-SHA1).  It also defines
+      cryptographic attributes such as the mac_length.  (See Appendix
+      A.6 for formal definition.)
+
+   master secret
+      48-byte secret shared between the client and server.
+
+   is resumable
+      A flag indicating whether the session can be used to initiate new
+      connections.
+
+   These items are then used to create security parameters for use by
+   the record layer when protecting application data.  Many connections
+   can be instantiated using the same session through the resumption
+   feature of the TLS Handshake Protocol.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -1,0 +1,12 @@
+{
+	"FunctionIndex": "0006",
+	"FunctionName": "SslImpersonateClient",
+	"FunctionSummarization": [
+		"Impersonate client using LSA table",
+		"Set thread impersonation token",
+		"Handle errors and return status"
+	],
+	"FunctionMatchRFCResult": [
+		"NONE"
+	]
+}

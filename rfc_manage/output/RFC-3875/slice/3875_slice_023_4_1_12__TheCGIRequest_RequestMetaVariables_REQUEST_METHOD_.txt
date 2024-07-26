@@ -1,0 +1,26 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.12. TheCGIRequest_RequestMetaVariables_REQUEST_METHOD_ ---
+The REQUEST_METHOD meta-variable MUST be set to the method which
+   should be used by the script to process the request, as described in
+   section 4.3.
+
+      REQUEST_METHOD   = method
+      method           = "GET" | "POST" | "HEAD" | extension-method
+      extension-method = "PUT" | "DELETE" | token
+
+   The method is case sensitive.  The HTTP methods are described in
+   section 5.1.1 of the HTTP/1.0 specification [1] and section 5.1.1 of
+   the HTTP/1.1 specification [4].
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -1,0 +1,10 @@
+{
+	"FunctionIndex": "0014",
+	"FunctionName": "ReverseInPlace",
+	"FunctionSummarization": [
+		"Reverse array elements",
+		"Handle byte swapping",
+		"Operate on input buffer"
+	],
+	"FunctionMatchRFCResult": "NONE"
+}

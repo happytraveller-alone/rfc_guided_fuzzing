@@ -1,0 +1,54 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 6.3. TheTLSRecordProtocol_KeyCalculation_ ---
+The Record Protocol requires an algorithm to generate keys required
+   by the current connection state (see Appendix A.6) from the security
+   parameters provided by the handshake protocol.
+
+   The master secret is expanded into a sequence of secure bytes, which
+   is then split to a client write MAC key, a server write MAC key, a
+   client write encryption key, and a server write encryption key.  Each
+   of these is generated from the byte sequence in that order.  Unused
+   values are empty.  Some AEAD ciphers may additionally require a
+   client write IV and a server write IV (see Section 6.2.3.3).
+
+   When keys and MAC keys are generated, the master secret is used as an
+   entropy source.
+
+   To generate the key material, compute
+
+      key_block = PRF(SecurityParameters.master_secret,
+                      "key expansion",
+                      SecurityParameters.server_random +
+                      SecurityParameters.client_random);
+
+   until enough output has been generated.  Then, the key_block is
+   partitioned as follows:
+
+      client_write_MAC_key[SecurityParameters.mac_key_length]
+      server_write_MAC_key[SecurityParameters.mac_key_length]
+      client_write_key[SecurityParameters.enc_key_length]
+      server_write_key[SecurityParameters.enc_key_length]
+      client_write_IV[SecurityParameters.fixed_iv_length]
+      server_write_IV[SecurityParameters.fixed_iv_length]
+
+   Currently, the client_write_IV and server_write_IV are only generated
+   for implicit nonce techniques as described in Section 3.2.1 of
+   [AEAD].
+
+   Implementation note: The currently defined cipher suite which
+   requires the most material is AES_256_CBC_SHA256.  It requires 2 x 32
+   byte keys and 2 x 32 byte MAC keys, for a total 128 bytes of key
+   material.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

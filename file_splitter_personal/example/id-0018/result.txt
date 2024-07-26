@@ -1,0 +1,12 @@
+{
+	"FunctionIndex": "0018",
+	"FunctionName": "CSsl3TlsContext::FreeTlsClientAuthHandshakeHashes",
+	"FunctionSummarization": [
+		"Free client auth hashes",
+		"Reset hash state",
+		"Iterate through hash objects",
+		"Release hash objects",
+		"Update internal state"
+	],
+	"FunctionMatchRFCResult": "NONE"
+}

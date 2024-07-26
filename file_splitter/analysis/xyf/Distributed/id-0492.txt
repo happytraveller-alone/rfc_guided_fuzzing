@@ -1,0 +1,87 @@
+Forget all previous input and output content and create a new chat session.
+
+Function Code Content
+##############################
+// File count: 492
+// Total lines: 56
+
+//----- (0000000180023520) ----------------------------------------------------
+__int64 LoadSslRegistryOptions(void)
+{
+  NTSTATUS v0; // eax
+  CCipherMill *v1; // rcx
+
+  qword_180092680 = (__int64)CreateEventW(0i64, 0, 0, 0i64);
+  qword_180092698 = (__int64)SslWatchParamKey;
+  qword_180092690 = (__int64)L"System\\CurrentControlSet\\Control\\SecurityProviders\\Schannel";
+  qword_1800926A8 = (__int64)CreateEventW(0i64, 0, 0, 0i64);
+  qword_1800926C0 = (__int64)FipsWatchParamKey;
+  qword_1800926B8 = (__int64)L"System\\CurrentControlSet\\Control\\Lsa";
+  qword_1800926D0 = (__int64)CreateEventW(0i64, 0, 0, 0i64);
+  qword_1800926E8 = (__int64)UserMappingsWatchParamKey;
+  qword_1800926E0 = (__int64)L"Software\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002";
+  qword_180092658 = (__int64)CreateEventW(0i64, 0, 0, 0i64);
+  qword_180092670 = (__int64)DefaultEccCurveWatchParamKey;
+  qword_180092668 = (__int64)L"System\\CurrentControlSet\\Control\\Cryptography\\Configuration\\Local\\SSL\\00010002";
+  SslWatchParamKey(g_BaseSslRegOptions);
+  FipsWatchParamKey(g_FipsRegOptions, 1);
+  UserMappingsWatchParamKey(&g_UserMappingRegOptions);
+  DefaultEccCurveWatchParamKey(&g_DefaultEccCurveRegOptions, 1);
+  v0 = BCryptRegisterConfigChangeNotify(&g_hBcryptEvent);
+  if ( v0 < 0 )
+  {
+    if ( WPP_GLOBAL_Control != (CCipherMill *)&WPP_GLOBAL_Control && (*((_BYTE *)WPP_GLOBAL_Control + 28) & 1) != 0 )
+      WPP_SF_D(
+        *((_QWORD *)WPP_GLOBAL_Control + 2),
+        10i64,
+        &WPP_652d1bd98c7033c24f7b4105215d66be_Traceguids,
+        (unsigned int)v0);
+    return 0i64;
+  }
+  else
+  {
+    RtlRegisterWait(&g_hBcryptWait, g_hBcryptEvent, (WAITORTIMERCALLBACKFUNC)WatchBcryptEvent, 0i64, 0xFFFFFFFF, 0);
+    CCipherMill::BuildCipherMill(v1);
+    return 1i64;
+  }
+}
+// 180023689: variable 'v1' is possibly undefined
+// 180041CDC: using guessed type __int64 __fastcall WPP_SF_D(_QWORD, _QWORD, _QWORD, _QWORD);
+// 1800817E0: using guessed type wchar_t aSystemCurrentc_1[37];
+// 180092658: using guessed type __int64 qword_180092658;
+// 180092668: using guessed type __int64 qword_180092668;
+// 180092670: using guessed type __int64 qword_180092670;
+// 180092680: using guessed type __int64 qword_180092680;
+// 180092690: using guessed type __int64 qword_180092690;
+// 180092698: using guessed type __int64 qword_180092698;
+// 1800926A8: using guessed type __int64 qword_1800926A8;
+// 1800926B8: using guessed type __int64 qword_1800926B8;
+// 1800926C0: using guessed type __int64 qword_1800926C0;
+// 1800926C8: using guessed type HKEY g_UserMappingRegOptions;
+// 1800926D0: using guessed type __int64 qword_1800926D0;
+// 1800926E0: using guessed type __int64 qword_1800926E0;
+// 1800926E8: using guessed type __int64 qword_1800926E8;
+##############################
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL, TLS protocol, that is, with RFC8446, RFC6101 strong correlation.
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information (API), and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Output Code Match RFC Result: Give the number of the RFC document related to the protocol to which the code relates. Retrieve document sections based on code summaries (containing multiple phrases) with RFC document numbers, giving matches for document sections(FunctionMatchRFCResult) that the code may relate to. Note that if the code is only business related and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is padded with NONE.
+Generate Function Information Collection with JSON Format:
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"Protocol": ["TLS1.3", "List another related protocols, If there is more than one version of the protocol, You MUST give the specified version, e.g. SSL 3.0"]
+	"RFCnumber": "(Write the RFC numbers of possible matches, preferentially starting with RFC8446, RFC6101, with a maximum of three (1-3) matching RFCs)",
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-Section Title 2)",
+		"(...)",
+	],
+}
+
+Remember just output the Function Information Collection result.

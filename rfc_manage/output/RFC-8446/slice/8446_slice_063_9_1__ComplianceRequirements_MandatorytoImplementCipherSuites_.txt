@@ -1,0 +1,28 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 9.1. ComplianceRequirements_MandatorytoImplementCipherSuites_ ---
+In the absence of an application profile standard specifying
+   otherwise:
+
+   A TLS-compliant application MUST implement the TLS_AES_128_GCM_SHA256
+   [GCM] cipher suite and SHOULD implement the TLS_AES_256_GCM_SHA384
+   [GCM] and TLS_CHACHA20_POLY1305_SHA256 [RFC8439] cipher suites (see
+   Appendix B.4).
+
+   A TLS-compliant application MUST support digital signatures with
+   rsa_pkcs1_sha256 (for certificates), rsa_pss_rsae_sha256 (for
+   CertificateVerify and certificates), and ecdsa_secp256r1_sha256.  A
+   TLS-compliant application MUST support key exchange with secp256r1
+   (NIST P-256) and SHOULD support key exchange with X25519 [RFC7748].
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]
