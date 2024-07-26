@@ -543,7 +543,7 @@ fn append_custom_content(file: &mut File) -> io::Result<()> {
 }
 // 
 fn write_insert_code_comments(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Now the function you want to work with is the following, \
+    writeln!(file, "Insert Code Comments: Now the function you want to work with is the following, \
                     which returns the contents of the corresponding RFC document in the same way as the example, \
                     and you need to do your best to refer to the original RFC document at every point where the control changes \
                     (e.g., if, else if, else, case, switch, while, return, label). \

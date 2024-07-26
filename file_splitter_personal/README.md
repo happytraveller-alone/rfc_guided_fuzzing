@@ -22,4 +22,6 @@
 
 ## 使用方法
 
-[在这里添加如何使用你的工具的详细说明]
+## NEED TO DO 
+
+INCLUDE https://github.com/dongri/openai-api-rs FEATURE
