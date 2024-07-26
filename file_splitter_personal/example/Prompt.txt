@@ -1,8 +1,0 @@
-Role: <>
-Function Background: <> 
-Output Function Summary: <> 
-Retrieve document sections: <> 
-Retrieve document sections Thinking Chain: <> 
-Generate Function Information Collection with JSON Format: <>
-ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.
-
