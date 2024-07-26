@@ -97,6 +97,7 @@ fn process_rfc_content(input_file: &PathBuf) -> Result<String, Box<dyn Error>> {
         header_footer: Regex::new(r"^RFC \d+\s+.*\s+\w+ \d{4}$|^.*\s+\[Page \d+\]$")?,
         page_break: Regex::new(r"\f")?,
         section_title: Regex::new(r"^(\d+)\.\s+(.*)")?,
+        section_title_two: Regex::new(r"^(\d+)\s+(.*)")?,
     };
 
     process_content(reader, &regexes)
@@ -106,6 +107,7 @@ struct Regexes {
     header_footer: Regex,
     page_break: Regex,
     section_title: Regex,
+    section_title_two: Regex,
 }
 
 /// 处理文档内容
@@ -133,6 +135,18 @@ fn process_content(reader: BufReader<File>, regexes: &Regexes) -> Result<String,
         }
 
         if let Some(captures) = regexes.section_title.captures(&line) {
+            if let Some(section_result) = process_section(
+                &captures,
+                &mut found_intro,
+                &mut in_main_content,
+                &mut iana_passed,
+            ) {
+                match section_result {
+                    SectionResult::Skip(should_skip) => skip_section = should_skip,
+                    SectionResult::Break => break,
+                }
+            }
+        } else if let Some(captures) = regexes.section_title_two.captures(&line) {
             if let Some(section_result) = process_section(
                 &captures,
                 &mut found_intro,

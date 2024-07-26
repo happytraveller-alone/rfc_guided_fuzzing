@@ -1,16 +1,46 @@
 {
+    "FunctionIndex": "0003",
+    "FunctionName": "CSslContext::MakeSessionKeys",
+    "FunctionSummarization": [
+        "Generate session keys",
+        "Free previous session objects",
+        "Check session validity",
+        "Handle error and fatal alerts"
+    ],
+    "FunctionMatchRFCResult": [
+        "RFC6101-6.2.1-The Master Secret",
+        "RFC6101-5.1-SSL Protocol Session and Connection States"
+    ]
+}
+
+{
+    "FunctionIndex": "0003",
+    "FunctionName": "CSslContext::MakeSessionKeys",
+    "FunctionSummarization": [
+        "Clear existing session keys",
+        "Check initialization status",
+        "Generate new session keys",
+        "Set error and alert on failure"
+    ],
+    "FunctionMatchRFCResult": [
+        "RFC6101-6.2.2-Converting the Master Secret into Keys and MAC Secrets"
+    ]
+}
+
+{
 	"FunctionIndex": "0003",
 	"FunctionName": "CSslContext::MakeSessionKeys",
 	"FunctionSummarization": [
-		"Free previous session keys",
-		"Check context state and input",
-		"Generate new session keys",
-		"Set error and alert on failure"
+		"Initialize session key structures",
+		"Free existing SSL objects",
+		"Check connection readiness",
+		"Generate session keys",
+		"Set error handling"
 	],
 	"FunctionMatchRFCResult": [
-		"RFC6101-Section5.1-SSL Protocol Session and Connection States",
-		"RFC6101-Section6.2.2-SSL Protocol Converting the Master Secret into Keys and MAC Secrets",
-		"RFC8446-Section7.1-Cryptographic Computations Key Schedule",
-		"RFC8446-Section7.3-Cryptographic Computations Traffic Key Calculation"
+		"RFC6101-5.1-SSLProtocol_SessionandConnectionStates_",
+		"RFC6101-6.1.1-CryptographicComputations_AsymmetricCryptographicComputations_RSA_",
+		"RFC6101-6.2.2-CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec、
+						_ConvertingtheMasterSecretintoKeysandMACSecrets_"
 	]
 }

@@ -1,0 +1,39 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.16. TheCGIRequest_RequestMetaVariables_SERVER_PROTOCOL_ ---
+The SERVER_PROTOCOL variable MUST be set to the name and version of
+   the application protocol used for this CGI request.  This MAY differ
+   from the protocol version used by the server in its communication
+   with the client.
+
+      SERVER_PROTOCOL   = HTTP-Version | "INCLUDED" | extension-version
+      HTTP-Version      = "HTTP" "/" 1*digit "." 1*digit
+      extension-version = protocol [ "/" 1*digit "." 1*digit ]
+      protocol          = token
+
+   Here, 'protocol' defines the syntax of some of the information
+   passing between the server and the script (the 'protocol-specific'
+   features).  It is not case sensitive and is usually presented in
+   upper case.  The protocol is not the same as the scheme part of the
+   script URI, which defines the overall access mechanism used by the
+   client to communicate with the server.  For example, a request that
+   reaches the script with a protocol of "HTTP" may have used an "https"
+   scheme.
+
+   A well-known value for SERVER_PROTOCOL which the server MAY use is
+   "INCLUDED", which signals that the current document is being included
+   as part of a composite document, rather than being the direct target
+   of the client request.  The script should treat this as an HTTP/1.0
+   request.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

@@ -47,6 +47,54 @@ Forget all previous input and output content and create a new chat session.
 8.	InformativeReferences
 #################################################
 
+(TLS1.2)RFC 5246 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	HMACandthePseudorandomFunction
+6.	TheTLSRecordProtocol
+6.1.	TheTLSRecordProtocol_ConnectionStates_
+6.2.	TheTLSRecordProtocol_RecordLayer_
+6.2.1.	TheTLSRecordProtocol_RecordLayer_Fragmentation_
+6.2.2.	TheTLSRecordProtocol_RecordLayer_RecordCompressionandDecompression_
+6.2.3.	TheTLSRecordProtocol_RecordLayer_RecordPayloadProtection_
+6.2.3.1.	TheTLSRecordProtocol_RecordLayer_RecordPayloadProtection_NullorStandardStreamCipher_
+6.2.3.2.	TheTLSRecordProtocol_RecordLayer_RecordPayloadProtection_CBCBlockCipher_
+6.2.3.3.	TheTLSRecordProtocol_RecordLayer_RecordPayloadProtection_AEADCiphers_
+6.3.	TheTLSRecordProtocol_KeyCalculation_
+7.	TheTLSHandshakingProtocols
+7.1.	TheTLSHandshakingProtocols_ChangeCipherSpecProtocol_
+7.2.	TheTLSHandshakingProtocols_AlertProtocol_
+7.2.1.	TheTLSHandshakingProtocols_AlertProtocol_ClosureAlerts_
+7.2.2.	TheTLSHandshakingProtocols_AlertProtocol_ErrorAlerts_
+7.3.	TheTLSHandshakingProtocols_HandshakeProtocolOverview_
+7.4.	TheTLSHandshakingProtocols_HandshakeProtocol_
+7.4.1.	TheTLSHandshakingProtocols_HandshakeProtocol_HelloMessages_
+7.4.1.1.	TheTLSHandshakingProtocols_HandshakeProtocol_HelloMessages_HelloRequest_
+7.4.1.2.	TheTLSHandshakingProtocols_HandshakeProtocol_HelloMessages_ClientHello_
+7.4.1.3.	TheTLSHandshakingProtocols_HandshakeProtocol_HelloMessages_ServerHello_
+7.4.1.4.	TheTLSHandshakingProtocols_HandshakeProtocol_HelloMessages_HelloExtensions_
+7.4.1.4.1.	TheTLSHandshakingProtocols_HandshakeProtocol_HelloMessages_HelloExtensions_SignatureAlgorithms_
+7.4.2.	TheTLSHandshakingProtocols_HandshakeProtocol_ServerCertificate_
+7.4.3.	TheTLSHandshakingProtocols_HandshakeProtocol_ServerKeyExchangeMessage_
+7.4.4.	TheTLSHandshakingProtocols_HandshakeProtocol_CertificateRequest_
+7.4.5.	TheTLSHandshakingProtocols_HandshakeProtocol_ServerHelloDone_
+7.4.6.	TheTLSHandshakingProtocols_HandshakeProtocol_ClientCertificate_
+7.4.7.	TheTLSHandshakingProtocols_HandshakeProtocol_ClientKeyExchangeMessage_
+7.4.7.1.	TheTLSHandshakingProtocols_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+7.4.7.2.	TheTLSHandshakingProtocols_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+7.4.8.	TheTLSHandshakingProtocols_HandshakeProtocol_CertificateVerify_
+7.4.9.	TheTLSHandshakingProtocols_HandshakeProtocol_Finished_
+8.	CryptographicComputations
+8.1.	CryptographicComputations_ComputingtheMasterSecret_
+8.1.1.	CryptographicComputations_ComputingtheMasterSecret_RSA_
+8.1.2.	CryptographicComputations_ComputingtheMasterSecret_DiffieHellman_
+9.	MandatoryCipherSuites
+10.	ApplicationDataProtocol
+11.	SecurityConsiderations
+12.	IANAConsiderations
+#################################################
+
 (TLS1.3)RFC 8446 SECTION:
 #################################################
 4.	HandshakeProtocol

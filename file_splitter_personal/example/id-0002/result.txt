@@ -1,14 +1,11 @@
 {
-	"FunctionIndex": "0002",
-	"FunctionName": "dynamic_initializer_for__g_SslContextManager__",
-	"FunctionSummarization": [
-		"Initialize SSL context manager",
-		"Register atexit handler",
-		"CSslContextManager constructor"
-	],
-	"FunctionMatchRFCResult": [
-		"RFC6101-Section5.1-SSL Protocol Session and Connection States",
-		"RFC6101-Section5.5-SSL Protocol Handshake Protocol Overview",
-		"RFC8446-Section4.6-Handshake Protocol Post-Handshake Messages"
-	]
+    "FunctionIndex": "0002",
+    "FunctionName": "dynamic_initializer_for__g_SslContextManager__",
+    "FunctionSummarization": [
+        "Initialize global CSslContextManager object",
+        "Register destructor at exit"
+    ],
+    "FunctionMatchRFCResult": [
+        "NONE"
+    ]
 }

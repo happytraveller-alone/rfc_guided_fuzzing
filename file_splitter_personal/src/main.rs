@@ -309,9 +309,11 @@ fn append_custom_content_part_one(file: &mut File) -> io::Result<()> {
 
     // 写入输出函数摘要说明
     writeln!(file, "Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, \
-                  focuses on covering the function's control flow information, \
-                  and highlights the protocol function points implemented by the function. \
-                  Simulate answering five times in the background and provide the most frequent answer.\n")?;
+                    focuses on covering the function's control flow information, \
+                    and highlights the protocol function points implemented by the function. \
+                    Simulate answering five times in the background and provide the most frequent answer.\n")?;
+
+
                 //   Suppose the code support the latest newwork protocol SSL(3.0) AND TLS(1.3)\n")?;
 
     // // 写入输出RFC 编号及链接的规则

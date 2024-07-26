@@ -1,0 +1,43 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.18. TheCGIRequest_RequestMetaVariables_ProtocolSpecificMetaVariables_ ---
+The server SHOULD set meta-variables specific to the protocol and
+   scheme for the request.  Interpretation of protocol-specific
+   variables depends on the protocol version in SERVER_PROTOCOL.  The
+   server MAY set a meta-variable with the name of the scheme to a
+   non-NULL value if the scheme is not the same as the protocol.  The
+   presence of such a variable indicates to a script which scheme is
+   used by the request.
+
+   Meta-variables with names beginning with "HTTP_" contain values read
+   from the client request header fields, if the protocol used is HTTP.
+   The HTTP header field name is converted to upper case, has all
+   occurrences of "-" replaced with "_" and has "HTTP_" prepended to
+   give the meta-variable name.  The header data can be presented as
+   sent by the client, or can be rewritten in ways which do not change
+   its semantics.  If multiple header fields with the same field-name
+   are received then the server MUST rewrite them as a single value
+   having the same semantics.  Similarly, a header field that spans
+   multiple lines MUST be merged onto a single line.  The server MUST,
+   if necessary, change the representation of the data (for example, the
+   character set) to be appropriate for a CGI meta-variable.
+
+   The server is not required to create meta-variables for all the
+   header fields that it receives.  In particular, it SHOULD remove any
+   header fields carrying authentication information, such as
+   'Authorization'; or that are available to the script in other
+   variables, such as 'Content-Length' and 'Content-Type'.  The server
+   MAY remove header fields that relate solely to client-side
+   communication issues, such as 'Connection'.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

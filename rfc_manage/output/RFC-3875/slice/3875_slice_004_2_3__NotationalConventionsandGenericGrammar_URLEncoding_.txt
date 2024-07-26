@@ -1,0 +1,55 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 2.3. NotationalConventionsandGenericGrammar_URLEncoding_ ---
+Some variables and constructs used here are described as being
+   'URL-encoded'.  This encoding is described in section 2 of RFC 2396
+   [2].  In a URL-encoded string an escape sequence consists of a
+   percent character ("%") followed by two hexadecimal digits, where the
+   two hexadecimal digits form an octet.  An escape sequence represents
+   the graphic character that has the octet as its code within the
+   US-ASCII [9] coded character set, if it exists.  Currently there is
+   no provision within the URI syntax to identify which character set
+   non-ASCII codes represent, so CGI handles this issue on an ad-hoc
+   basis.
+
+   Note that some unsafe (reserved) characters may have different
+   semantics when encoded.  The definition of which characters are
+   unsafe depends on the context; see section 2 of RFC 2396 [2], updated
+   by RFC 2732 [7], for an authoritative treatment.  These reserved
+   characters are generally used to provide syntactic structure to the
+   character string, for example as field separators.  In all cases, the
+   string is first processed with regard to any reserved characters
+   present, and then the resulting data can be URL-decoded by replacing
+   "%" escape sequences by their character values.
+
+   To encode a character string, all reserved and forbidden characters
+   are replaced by the corresponding "%" escape sequences.  The string
+   can then be used in assembling a URI.  The reserved characters will
+   vary from context to context, but will always be drawn from this set:
+
+      reserved = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" | "$" |
+                 "," | "[" | "]"
+
+   The last two characters were added by RFC 2732 [7].  In any
+   particular context, a sub-set of these characters will be reserved;
+   the other characters from this set MUST NOT be encoded when a string
+   is URL-encoded in that context.  Other basic rules used to describe
+   URI syntax are:
+
+      hex        = digit | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b"
+                   | "c" | "d" | "e" | "f"
+      escaped    = "%" hex hex
+      unreserved = alpha | digit | mark
+      mark       = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

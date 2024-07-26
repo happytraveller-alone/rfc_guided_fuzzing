@@ -1,0 +1,50 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 2.1. NotationalConventionsandGenericGrammar_AugmentedBNF_ ---
+All of the mechanisms specified in this document are described in
+   both prose and an augmented Backus-Naur Form (BNF) similar to that
+   used by RFC 822 [13].  Unless stated otherwise, the elements are
+   case-sensitive.  This augmented BNF contains the following
+   constructs:
+
+   name = definition
+      The name of a rule and its definition are separated by the equals
+      character ('=').  Whitespace is only significant in that
+      continuation lines of a definition are indented.
+
+   "literal"
+      Double quotation marks (") surround literal text, except for a
+      literal quotation mark, which is surrounded by angle-brackets ('<'
+      and '>').
+
+   rule1 | rule2
+      Alternative rules are separated by a vertical bar ('|').
+
+   (rule1 rule2 rule3)
+      Elements enclosed in parentheses are treated as a single element.
+
+   *rule
+      A rule preceded by an asterisk ('*') may have zero or more
+      occurrences.  The full form is 'n*m rule' indicating at least n
+      and at most m occurrences of the rule.  n and m are optional
+      decimal values with default values of 0 and infinity respectively.
+
+   [rule]
+      An element enclosed in square brackets ('[' and ']') is optional,
+      and is equivalent to '*1 rule'.
+
+   N rule
+      A rule preceded by a decimal number represents exactly N
+      occurrences of the rule.  It is equivalent to 'N*N rule'.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]

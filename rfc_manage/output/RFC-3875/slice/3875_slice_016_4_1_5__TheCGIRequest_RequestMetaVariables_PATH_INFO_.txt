@@ -1,0 +1,40 @@
+Forget all previous input and output content and start over. 
+ ###################
+CONTENT:<
+--- Section: 4.1.5. TheCGIRequest_RequestMetaVariables_PATH_INFO_ ---
+The PATH_INFO variable specifies a path to be interpreted by the CGI
+   script.  It identifies the resource or sub-resource to be returned by
+   the CGI script, and is derived from the portion of the URI path
+   hierarchy following the part that identifies the script itself.
+   Unlike a URI path, the PATH_INFO is not URL-encoded, and cannot
+   contain path-segment parameters.  A PATH_INFO of "/" represents a
+   single void path segment.
+
+      PATH_INFO = "" | ( "/" path )
+      path      = lsegment *( "/" lsegment )
+      lsegment  = *lchar
+      lchar     = <any TEXT or CTL except "/">
+
+   The value is considered case-sensitive and the server MUST preserve
+   the case of the path as presented in the request URI.  The server MAY
+   impose restrictions and limitations on what values it permits for
+   PATH_INFO, and MAY reject the request with an error if it encounters
+   any values considered objectionable.  That MAY include any requests
+   that would result in an encoded "/" being decoded into PATH_INFO, as
+   this might represent a loss of information to the script.  Similarly,
+   treatment of non US-ASCII characters in the path is system-defined.
+
+   URL-encoded, the PATH_INFO string forms the extra-path component of
+   the Script-URI (see section 3.3) which follows the SCRIPT_NAME part
+   of that path.
+
+---
+>
+###################
+Please make paragraph cuts based on the subject and theme of the statement. And give a short paragraph topic for each divided paragraph. Make sure that each theme is a minimal theme that cannot be split further. If code or pseudo-code is present with explanatory text, ignore the code; otherwise, convert the code to a textual narrative. Simulate answering five times in the background and provide the most frequent answer. Ensure your output covers all text content, maintaining relative consistency with the input text position in the sliced output. Ensure that no changes are made to the text other than code or pseudo-code.
+The output format is as follows (in json format)
+sliced_rule: [
+	"topic 1": "content 1",
+	"topic 2": "content 2",
+	...
+]
