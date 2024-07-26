@@ -546,6 +546,36 @@ fn save_sections(
     Ok(())
 }
 
+// Add this new function to remove headers and footers
+fn remove_headers_footers(input_file: &PathBuf) -> Result<String, Box<dyn Error>> {
+    let reader = BufReader::new(File::open(input_file)?);
+    let header_footer_regex = Regex::new(r"^RFC \d+\s+.*\s+\w+ \d{4}$|^.*\s+\[Page \d+\]$")?;
+    let page_break_regex = Regex::new(r"\f")?;
+
+    let mut content = String::new();
+    let mut empty_line_count = 0;
+
+    for line in reader.lines() {
+        let line = line?;
+        let line = page_break_regex.replace_all(&line, "").to_string();
+
+        if !header_footer_regex.is_match(&line) {
+            if line.trim().is_empty() {
+                empty_line_count += 1;
+                if empty_line_count <= 3 {
+                    content.push('\n');
+                }
+            } else {
+                empty_line_count = 0;
+                content.push_str(&line);
+                content.push('\n');
+            }
+        }
+    }
+
+    Ok(content.trim().to_string())
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
     if args.len() != 2 {
@@ -563,9 +593,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     } else {
         println!("找到本地文件 {:?}", input_file);
     }
+
     let body = process_rfc_content(&input_file)?;
 
     let rfc_output_dir = create_rfc_output_directory(&output_dir, rfc_number)?;
+
+    // Add the preprocessing step
+    let pre_processed_content = remove_headers_footers(&input_file)?;
+    let pre_processed_file = rfc_output_dir.join("pre_processed.txt");
+    save_content(&pre_processed_content, &pre_processed_file)?;
+    println!("预处理内容已保存到 {:?}", pre_processed_file);
 
     let body_file = rfc_output_dir.join(format!("{}_processed.txt", rfc_number));
     save_content(&body, &body_file)?;
@@ -576,3 +613,43 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
+
+// let pre_processed_content = pre_process_rfc_content(&input_file)?;
+//     let pre_processed_file = rfc_output_dir.join(format!("{}_pre_processed.txt", rfc_number));
+//     save_content(&pre_processed_content, &pre_processed_file)?;
+// fn pre_process_rfc_content(input_file: &PathBuf) -> Result<String, Box<dyn Error>> {
+//     let reader = BufReader::new(File::open(input_file)?);
+//     let regexes = Regexes {
+//         header_footer: Regex::new(r"^RFC \d+\s+.*\s+\w+ \d{4}$|^.*\s+\[Page \d+\]$")?,
+//         page_break: Regex::new(r"\f")?,
+//         section_title: Regex::new(r"^(\d+)\.\s+(.*)")?,
+//         section_title_two: Regex::new(r"^(\d+)\s+(.*)")?,
+//     };
+
+//     let mut content = String::new();
+//     let mut found_intro = false;
+
+//     for line in reader.lines() {
+//         let line = line?;
+//         let line = regexes.page_break.replace_all(&line, "").to_string();
+
+//         if regexes.header_footer.is_match(&line) {
+//             continue;
+//         }
+
+//         if line.trim() == body_start!() {
+//             found_intro = true;
+//         }
+
+//         if found_intro {
+//             content.push_str(&line);
+//             content.push('\n');
+//         }
+//     }
+
+//     if !found_intro {
+//         return Err("未找到介绍部分".into());
+//     }
+
+//     Ok(content.trim().to_string())
+// }
