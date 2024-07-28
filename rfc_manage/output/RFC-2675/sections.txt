@@ -1,8 +1,0 @@
-1.1	Document History
-2	Format of the Jumbo Payload Option
-3	Usage of the Jumbo Payload Option
-4	UDP Jumbograms
-5	TCP Jumbograms
-5.1	TCP Jumbograms_TCP MSS
-5.2	TCP Jumbograms_TCP Urgent Pointer
-6	Security Considerations
