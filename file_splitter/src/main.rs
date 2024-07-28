@@ -2,10 +2,10 @@ use regex::Regex;
 use std::env;
 use std::fs::{self, File, OpenOptions};
 use std::io::{self, BufRead, BufReader, ErrorKind, Seek, SeekFrom, Write};
+use std::path::MAIN_SEPARATOR;
 use std::path::{Path, PathBuf};
 use std::process;
 use std::time::Instant;
-use std::path::MAIN_SEPARATOR;
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 enum OutputLevel {
     // Error,
@@ -190,10 +190,10 @@ fn process_file(
             }
             first_match = true;
             file_count += 1;
-            wrap_error(
-                prepare_new_function_dir(output_dir, file_count),
-                "Failed to prepare new function directory",
-            )?;
+            // wrap_error(
+            //     prepare_new_function_dir(output_dir, &lines_buffer),
+            //    "Failed to prepare new function directory",
+            // )?;
             line_count = 0;
             lines_buffer.clear();
         }
@@ -201,6 +201,14 @@ fn process_file(
         if first_match {
             lines_buffer.push(line);
             line_count += 1;
+
+            if lines_buffer.len() == 2 {
+                // We have the function declaration, so we can prepare the directory
+                wrap_error(
+                    prepare_new_function_dir(output_dir, &lines_buffer),
+                    "Failed to prepare new function directory",
+                )?;
+            }
         }
     }
 
@@ -221,10 +229,18 @@ fn process_buffer(
     file_count: usize,
     line_count: usize,
 ) -> io::Result<()> {
-    let function_dir = output_dir.join(format!("id-{:04}", file_count));
+    // let function_dir = output_dir.join(format!("id-{:04}", file_count));
+    let function_name = if lines_buffer.len() >= 2 {
+        extract_function_name(&lines_buffer[1])
+    } else {
+        format!("unknown_{:04}", file_count)
+    };
+
+    let function_dir = output_dir.join(&function_name);
+
     let prompt_path = function_dir.join("prompt.txt");
     let code_path = function_dir.join("code.txt");
-    let code_slice_path = code_dir.join(format!("id-{:04}.txt", file_count));
+    // let code_slice_path = code_dir.join(format!("id-{:04}.txt", file_count));
 
     wrap_error(
         process_single_file(
@@ -295,8 +311,16 @@ fn process_single_file(
     Ok(())
 }
 
-fn prepare_new_function_dir(output_dir: &Path, file_count: usize) -> io::Result<()> {
-    let function_dir = output_dir.join(format!("id-{:04}", file_count));
+fn prepare_new_function_dir(output_dir: &Path, lines_buffer: &[String]) -> io::Result<()> {
+    // let function_dir = output_dir.join(format!("id-{:04}", file_count));
+    let function_name = if lines_buffer.len() >= 2 {
+        extract_function_name(&lines_buffer[1])
+    } else {
+        String::from("unknown")
+    };
+
+    let function_dir = output_dir.join(&function_name);
+
     wrap_error(
         fs::create_dir_all(&function_dir),
         &format!("Failed to create function directory {:?}", function_dir),
@@ -311,7 +335,11 @@ fn prepare_new_function_dir(output_dir: &Path, file_count: usize) -> io::Result<
     Ok(())
 }
 
-fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
+fn process_code_slice_file(
+    code_dir: &Path,
+    lines_buffer: &[String],
+    file_count: usize,
+) -> io::Result<()> {
     let initial_file_name = format!("id-{:04}.txt", file_count);
     let initial_code_slice_path = code_dir.join(&initial_file_name);
 
@@ -322,7 +350,10 @@ fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count:
             .create(true)
             .truncate(true)
             .open(&initial_code_slice_path),
-        &format!("Failed to open code slice file {:?}", initial_code_slice_path),
+        &format!(
+            "Failed to open code slice file {:?}",
+            initial_code_slice_path
+        ),
     )?;
 
     wrap_error(
@@ -339,7 +370,7 @@ fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count:
     if lines_buffer.len() >= 2 {
         let function_declaration = &lines_buffer[1];
         let function_name = extract_function_name(function_declaration);
-        
+
         if !function_name.is_empty() {
             let new_file_name = format!("{}.txt", function_name);
             let new_code_slice_path = code_dir.join(&new_file_name);
@@ -347,70 +378,16 @@ fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count:
             // 重命名文件
             wrap_error(
                 fs::rename(&initial_code_slice_path, &new_code_slice_path),
-                &format!("Failed to rename file from {:?} to {:?}", initial_code_slice_path, new_code_slice_path),
+                &format!(
+                    "Failed to rename file from {:?} to {:?}",
+                    initial_code_slice_path, new_code_slice_path
+                ),
             )?;
         }
     }
 
     Ok(())
 }
-
-// fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
-//     if lines_buffer.len() < 2 {
-//         return Err(io::Error::new(
-//             ErrorKind::InvalidData,
-//             "Not enough lines in buffer to process code slice file",
-//         ));
-//     }
-
-//     let function_declaration = &lines_buffer[1];
-//     let function_name = extract_function_name(function_declaration);
-//     let file_name = if function_name.is_empty() {
-//         format!("id-{:04}.txt", file_count)
-//     } else {
-//         format!("{}.txt", function_name)
-//     };
-
-//     let code_slice_path = code_dir.join(&file_name);
-
-//     let mut file = wrap_error(
-//         OpenOptions::new()
-//             .write(true)
-//             .create(true)
-//             .truncate(true)
-//             .open(&code_slice_path),
-//         &format!("Failed to open code slice file {:?}", code_slice_path),
-//     )?;
-
-//     wrap_error(
-//         write_buffered_lines(&mut file, lines_buffer, false),
-//         "Failed to write buffered lines to code slice file",
-//     )?;
-
-//     wrap_error(file.flush(), "Failed to flush code slice file")?;
-
-//     Ok(())
-// }
-
-// fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> io::Result<()> {
-//     let mut file = wrap_error(
-//         OpenOptions::new()
-//             .write(true)
-//             .create(true)
-//             .truncate(true)
-//             .open(code_slice_path),
-//         &format!("Failed to open code slice file {:?}", code_slice_path),
-//     )?;
-
-//     wrap_error(
-//         write_buffered_lines(&mut file, lines_buffer, false),
-//         "Failed to write buffered lines to code slice file",
-//     )?;
-
-//     wrap_error(file.flush(), "Failed to flush code slice file")?;
-
-//     Ok(())
-// }
 
 fn process_single_prompt_file(
     _function_dir: &Path,
@@ -464,10 +441,10 @@ fn process_single_code_file(
         &format!("Failed to open code file {:?}", code_path),
     )?;
 
-    wrap_error(
-        update_file_header(&mut file, file_count, line_count),
-        "Failed to update file header",
-    )?;
+    // wrap_error(
+    //     update_file_header(&mut file, file_count, line_count),
+    //     "Failed to update file header",
+    // )?;
     wrap_error(
         write_buffered_lines(&mut file, lines_buffer, false),
         "Failed to write buffered lines",
@@ -541,9 +518,9 @@ fn append_custom_content(file: &mut File) -> io::Result<()> {
     write_attention(file)?;
     Ok(())
 }
-// 
+//
 fn write_insert_code_comments(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Now the function you want to work with is the following, \
+    writeln!(file, "Insert Code Comments: Now the function you want to work with is the following, \
                     which returns the contents of the corresponding RFC document in the same way as the example, \
                     and you need to do your best to refer to the original RFC document at every point where the control changes \
                     (e.g., if, else if, else, case, switch, while, return, label). \
@@ -567,90 +544,13 @@ fn write_separator(file: &mut File) -> io::Result<()> {
 }
 
 fn write_role_description(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Role: Let's assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, \
+    writeln!(file, "Role: Let us assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, \
                     and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to \
                     correspond to a section of the RFC documentation, which will help you understand the code better. \
                     The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols \
                     are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. \
                     You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections \
                     based on the name of the function and the function summary.")
-}
-
-fn write_function_background(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. \
-                    Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, \
-                    that is, with RFC8446, RFC6101 strong correlation.\n")
-}
-
-fn write_output_function_summary(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, \
-                    focuses on covering the function's control flow information, \
-                    and highlights the protocol function points implemented by the function. \
-                    Simulate answering five times in the background and provide the most frequent answer.\n")
-}
-
-fn write_retrieve_document_sections(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Retrieve document sections: \
-                    giving matches for document sections(FunctionMatchRFCResult) that the code may related to. \
-                    NOTE if the code is only business related(i.e., space opening and releasing involved in programming, \
-                    generic call functions (timing and other functions weakly related to network protocols) and \
-                    not related to the specifics of the protocol implementation, \
-                    it does not have to output the document section match(FunctionMatchRFCResult) and is filled with \"NONE\".\n")
-}
-
-fn write_thinking_chain(file: &mut File) -> io::Result<()> {
-    writeln!(file, "Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, \
-                    and the thinking chain is provided to help you solve the problem better:")?;
-    writeln!(file, "\t1. Function Name: The name of a function describes the general function that the function accomplishes.")?;
-    writeln!(file, "\t2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.")?;
-    writeln!(file, "\t3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.")?;
-    writeln!(file, "\t4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.")?;
-    writeln!(file, "\t5. Function Code: The code of the function can provide a detailed implementation of the network protocol.")
-}
-
-fn write_json_format(file: &mut File) -> io::Result<()> {
-    writeln!(
-        file,
-        "Generate Function Information Collection with JSON Format:\n"
-    )?;
-    writeln!(file, "{{")?;
-    write_json_field(file, "FunctionIndex", "(FILL WITH \"File count\" with less than four bits are indexed with zeros to make up the four bits.)")?;
-    write_json_field(file, "FunctionName", "(Full Function Code Name)")?;
-    write_json_array(
-        file,
-        "FunctionSummarization",
-        &[
-            "(Function Summary Phrase1)",
-            "(Function Summary Phrase2)",
-            "(...)",
-        ],
-    )?;
-    write_json_array(
-        file,
-        "FunctionMatchRFCResult",
-        &[
-            "(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
-            "(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
-            "(...)",
-        ],
-    )?;
-    writeln!(file, "}}")
-}
-
-fn write_json_field(file: &mut File, key: &str, value: &str) -> io::Result<()> {
-    writeln!(file, "\t\"{}\": \"{}\",", key, value)
-}
-
-fn write_json_array(file: &mut File, key: &str, values: &[&str]) -> io::Result<()> {
-    writeln!(file, "\t\"{}\": [", key)?;
-    for (i, value) in values.iter().enumerate() {
-        if i < values.len() - 1 {
-            writeln!(file, "\t\t\"{}\",", value)?;
-        } else {
-            writeln!(file, "\t\t\"{}\"", value)?;
-        }
-    }
-    writeln!(file, "\t],")
 }
 
 fn write_attention(file: &mut File) -> io::Result<()> {
@@ -697,15 +597,151 @@ fn extract_function_name(declaration: &str) -> String {
 fn sanitize_filename(name: &str) -> String {
     // 定义不允许在文件名中使用的字符
     let invalid_chars: &[char] = &['<', '>', ':', '"', '/', '\\', '|', '?', '*'];
-    
+
     name.chars()
-        .map(|c| if invalid_chars.contains(&c) || c == MAIN_SEPARATOR {
-            '_'
-        } else {
-            c
+        .map(|c| {
+            if invalid_chars.contains(&c) || c == MAIN_SEPARATOR {
+                '_'
+            } else {
+                c
+            }
         })
         .collect::<String>()
         .trim_start_matches('_')
         .trim_end_matches('_')
         .to_string()
 }
+
+fn write_function_background(file: &mut File) -> io::Result<()> {
+    writeln!(file, "Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. \
+                    Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, \
+                    that is, with RFC8446, RFC6101 strong correlation.\n")
+}
+
+fn write_output_function_summary(file: &mut File) -> io::Result<()> {
+    writeln!(file, "Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, \
+                    focuses on covering the function's control flow information, \
+                    and highlights the protocol function points implemented by the function. \
+                    Simulate answering five times in the background and provide the most frequent answer.\n")
+}
+
+// fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
+//     if lines_buffer.len() < 2 {
+//         return Err(io::Error::new(
+//             ErrorKind::InvalidData,
+//             "Not enough lines in buffer to process code slice file",
+//         ));
+//     }
+
+//     let function_declaration = &lines_buffer[1];
+//     let function_name = extract_function_name(function_declaration);
+//     let file_name = if function_name.is_empty() {
+//         format!("id-{:04}.txt", file_count)
+//     } else {
+//         format!("{}.txt", function_name)
+//     };
+
+//     let code_slice_path = code_dir.join(&file_name);
+
+//     let mut file = wrap_error(
+//         OpenOptions::new()
+//             .write(true)
+//             .create(true)
+//             .truncate(true)
+//             .open(&code_slice_path),
+//         &format!("Failed to open code slice file {:?}", code_slice_path),
+//     )?;
+
+//     wrap_error(
+//         write_buffered_lines(&mut file, lines_buffer, false),
+//         "Failed to write buffered lines to code slice file",
+//     )?;
+
+//     wrap_error(file.flush(), "Failed to flush code slice file")?;
+
+//     Ok(())
+// }
+
+// fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> io::Result<()> {
+//     let mut file = wrap_error(
+//         OpenOptions::new()
+//             .write(true)
+//             .create(true)
+//             .truncate(true)
+//             .open(code_slice_path),
+//         &format!("Failed to open code slice file {:?}", code_slice_path),
+//     )?;
+
+//     wrap_error(
+//         write_buffered_lines(&mut file, lines_buffer, false),
+//         "Failed to write buffered lines to code slice file",
+//     )?;
+
+//     wrap_error(file.flush(), "Failed to flush code slice file")?;
+
+//     Ok(())
+// }
+
+// fn write_retrieve_document_sections(file: &mut File) -> io::Result<()> {
+//     writeln!(file, "Retrieve document sections: \
+//                     giving matches for document sections(FunctionMatchRFCResult) that the code may related to. \
+//                     NOTE if the code is only business related(i.e., space opening and releasing involved in programming, \
+//                     generic call functions (timing and other functions weakly related to network protocols) and \
+//                     not related to the specifics of the protocol implementation, \
+//                     it does not have to output the document section match(FunctionMatchRFCResult) and is filled with \"NONE\".\n")
+// }
+
+// fn write_thinking_chain(file: &mut File) -> io::Result<()> {
+//     writeln!(file, "Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, \
+//                     and the thinking chain is provided to help you solve the problem better:")?;
+//     writeln!(file, "\t1. Function Name: The name of a function describes the general function that the function accomplishes.")?;
+//     writeln!(file, "\t2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.")?;
+//     writeln!(file, "\t3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.")?;
+//     writeln!(file, "\t4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.")?;
+//     writeln!(file, "\t5. Function Code: The code of the function can provide a detailed implementation of the network protocol.")
+// }
+
+// fn write_json_format(file: &mut File) -> io::Result<()> {
+//     writeln!(
+//         file,
+//         "Generate Function Information Collection with JSON Format:\n"
+//     )?;
+//     writeln!(file, "{{")?;
+//     write_json_field(file, "FunctionIndex", "(FILL WITH \"File count\" with less than four bits are indexed with zeros to make up the four bits.)")?;
+//     write_json_field(file, "FunctionName", "(Full Function Code Name)")?;
+//     write_json_array(
+//         file,
+//         "FunctionSummarization",
+//         &[
+//             "(Function Summary Phrase1)",
+//             "(Function Summary Phrase2)",
+//             "(...)",
+//         ],
+//     )?;
+//     write_json_array(
+//         file,
+//         "FunctionMatchRFCResult",
+//         &[
+//             "(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+//             "(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+//             "(...)",
+//         ],
+//     )?;
+//     writeln!(file, "}}")
+// }
+
+// fn write_json_field(file: &mut File, key: &str, value: &str) -> io::Result<()> {
+//     writeln!(file, "\t\"{}\": \"{}\",", key, value)
+// }
+
+// fn write_json_array(file: &mut File, key: &str, values: &[&str]) -> io::Result<()> {
+//     writeln!(file, "\t\"{}\": [", key)?;
+//     for (i, value) in values.iter().enumerate() {
+//         if i < values.len() - 1 {
+//             writeln!(file, "\t\t\"{}\",", value)?;
+//         } else {
+//             writeln!(file, "\t\t\"{}\"", value)?;
+//         }
+//     }
+//     writeln!(file, "\t],")
+// }
