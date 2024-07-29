@@ -4,7 +4,7 @@ import json
 import re
 import json
 
-openai.api_key = "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"
+openai.api_key = "**************"
 
 system_intel = "You are GPT-4, answer my questions as if you were an expert in the field."
 prompt = '''If you are an RFC expert and you now have a function that requires you to explain that this code matches those in RFC8446, take a deep breath, step by step, you only need to give the chapters that match RFC8446, and only output the chapters, for example: After giving you a function, you need to output: 1.1.1, which indicates that this code reflects section 1.1.1 in RFC8446.
