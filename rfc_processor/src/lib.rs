@@ -5,6 +5,22 @@ pub mod utils;
 
 use lazy_static::lazy_static;
 
+use std::error::Error;
+use std::path::{Path, PathBuf};
+
+pub trait DownloadClient {
+    fn download_rfc(&self, rfc_number: &str, input_file: &PathBuf) -> Result<(), Box<dyn Error>>;
+    fn get_rfc_title(&self, rfc_number: &str) -> Result<String, Box<dyn Error>>;
+}
+
+pub trait ProcessClient {
+    fn process_rfc_content(&self, input_file: &PathBuf) -> Result<String, Box<dyn Error>>;
+}
+
+pub trait SliceClient {
+    fn slice_content(&self, content: &str, rfc_output_dir: &Path, rfc_number: &str) -> Result<(), Box<dyn Error>>;
+}
+
 lazy_static! {
     pub static ref FILTER_SECTIONS: Vec<&'static str> = vec![
         "Introduction",

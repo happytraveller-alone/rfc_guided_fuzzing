@@ -1,10 +1,10 @@
 use std::collections::HashMap;
-use std::env;
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
 use std::error::Error;
 use regex::Regex;
+use std::env;
 
 pub fn get_project_root() -> PathBuf {
     env::current_exe()
@@ -15,6 +15,8 @@ pub fn get_project_root() -> PathBuf {
         .expect("Failed to get project root")
         .to_path_buf()
 }
+
+
 
 pub fn create_directories(project_root: &PathBuf) -> Result<(PathBuf, PathBuf), Box<dyn Error>> {
     let input_dir = project_root.join("..\\input");
@@ -104,10 +106,4 @@ Smith, A., "Another RFC", RFC 5678, February 2023."#;
         assert_eq!(rfc_map.get("5678"), Some(&"Another RFC".to_string()));
     }
 
-    #[test]
-    fn test_remove_headers_footers() {
-        // This test would require creating a temporary file with sample content
-        // and then calling remove_headers_footers on it.
-        // For brevity, we'll skip the implementation here.
-    }
 }

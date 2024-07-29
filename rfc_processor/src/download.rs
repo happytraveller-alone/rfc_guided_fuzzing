@@ -4,6 +4,7 @@ use std::io::Write;
 use std::path::PathBuf;
 use std::error::Error;
 
+
 pub fn download_rfc(rfc_number: &str, input_file: &PathBuf) -> Result<(), Box<dyn Error>> {
     println!("正在下载 RFC {}...", rfc_number);
     let url = format!("https://www.rfc-editor.org/rfc/rfc{}.txt", rfc_number);

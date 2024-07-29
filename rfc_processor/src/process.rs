@@ -128,3 +128,4 @@ fn validate_and_finalize_content(
 
     Ok(content.trim().to_string())
 }
+
