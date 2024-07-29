@@ -1,7 +1,8 @@
 [package]
-name = "file_splitter"
+name = "code_summarization"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 regex = "1.5.4"
+lazy_static = "1.5.0"
