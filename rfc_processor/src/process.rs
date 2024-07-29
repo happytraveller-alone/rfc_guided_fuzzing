@@ -4,12 +4,29 @@ use std::io::{BufRead, BufReader};
 use std::error::Error;
 use crate::{BODY_START, BODY_END, FILTER_SECTIONS};
 
+/// 正则表达式集合结构体
 pub struct Regexes {
     pub header_footer: Regex,
     pub page_break: Regex,
     pub section_title: Regex,
 }
 
+/// 处理 RFC 内容
+///
+/// 功能说明：
+/// - 读取输入文件
+/// - 使用正则表达式处理 RFC 内容
+/// - 移除页眉页脚和页面分隔符
+/// - 提取主要内容
+///
+/// 参数：
+/// - input_file: &std::path::PathBuf - 输入文件路径
+///
+/// 返回：
+/// - Result<String, Box<dyn Error>> - 处理后的 RFC 内容或错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 pub fn process_rfc_content(input_file: &std::path::PathBuf) -> Result<String, Box<dyn Error>> {
     let reader = BufReader::new(File::open(input_file)?);
     let regexes = Regexes {
@@ -21,6 +38,23 @@ pub fn process_rfc_content(input_file: &std::path::PathBuf) -> Result<String, Bo
     process_content(reader, &regexes)
 }
 
+/// 处理文件内容
+///
+/// 功能说明：
+/// - 逐行处理文件内容
+/// - 移除页眉页脚和页面分隔符
+/// - 提取 RFC 的主要内容部分
+/// - 处理连续空行
+///
+/// 参数：
+/// - reader: BufReader<File> - 文件读取器
+/// - regexes: &Regexes - 正则表达式集合
+///
+/// 返回：
+/// - Result<String, Box<dyn Error>> - 处理后的 RFC 内容或错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 pub fn process_content(reader: BufReader<File>, regexes: &Regexes) -> Result<String, Box<dyn Error>> {
     let mut content = String::new();
     let mut empty_line_count = 0;
@@ -61,11 +95,29 @@ pub fn process_content(reader: BufReader<File>, regexes: &Regexes) -> Result<Str
     validate_and_finalize_content(content, found_intro)
 }
 
+/// 章节处理结果枚举
 enum SectionResult {
     Skip(bool),
     Break,
 }
 
+/// 处理章节标题
+///
+/// 功能说明：
+/// - 根据章节标题决定是否跳过该章节或结束处理
+/// - 更新处理状态（是否找到介绍、是否在主要内容中、是否通过 IANA 考虑事项）
+///
+/// 参数：
+/// - captures: &regex::Captures - 正则表达式匹配结果
+/// - found_intro: &mut bool - 是否找到介绍的标志
+/// - in_main_content: &mut bool - 是否在主要内容中的标志
+/// - iana_passed: &mut bool - 是否通过 IANA 考虑事项的标志
+///
+/// 返回：
+/// - Option<SectionResult> - 章节处理结果
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn process_section(
     captures: &regex::Captures,
     found_intro: &mut bool,
@@ -101,6 +153,19 @@ fn process_section(
     }
 }
 
+/// 处理单行内容
+///
+/// 功能说明：
+/// - 处理单行内容，包括空行的处理
+/// - 最多保留一个连续的空行
+///
+/// 参数：
+/// - content: &mut String - 累积的内容字符串
+/// - line: &str - 当前处理的行
+/// - empty_line_count: &mut i32 - 连续空行计数
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn process_line(content: &mut String, line: &str, empty_line_count: &mut i32) {
     if line.trim().is_empty() {
         *empty_line_count += 1;
@@ -114,6 +179,22 @@ fn process_line(content: &mut String, line: &str, empty_line_count: &mut i32) {
     }
 }
 
+/// 验证和最终化内容
+///
+/// 功能说明：
+/// - 验证处理后的内容是否有效
+/// - 确保找到了介绍部分
+/// - 确保处理后的内容不为空
+///
+/// 参数：
+/// - content: String - 处理后的内容
+/// - found_intro: bool - 是否找到介绍的标志
+///
+/// 返回：
+/// - Result<String, Box<dyn Error>> - 验证后的内容或错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn validate_and_finalize_content(
     content: String,
     found_intro: bool,

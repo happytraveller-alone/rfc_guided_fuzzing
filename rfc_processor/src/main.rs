@@ -1,12 +1,29 @@
-// use rfc_processor::{download, process, slice, utils, DownloadClient, ProcessClient, SliceClient};
 use rfc_processor::{download, process, slice, utils};
 use std::env;
 use std::error::Error;
 use std::thread;
 use std::time::Duration;
 use colored::*;
-// use std::path::Path;
 
+/// 运行 RFC 处理程序的主函数
+///
+/// 功能说明：
+/// - 处理命令行参数
+/// - 下载或使用本地 RFC 文件
+/// - 处理 RFC 内容
+/// - 创建输出目录
+/// - 获取 RFC 标题
+/// - 保存处理后的内容
+/// - 切片处理后的内容
+///
+/// 参数：
+/// - args: Vec<String> - 命令行参数
+///
+/// 返回：
+/// - Result<(), Box<dyn Error>> - 成功时返回 Ok(()), 失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn run(args: Vec<String>) -> Result<(), Box<dyn Error>> {
     let rfc_number = if args.len() != 2 {
         eprintln!("{}", "Warning: No RFC number provided.".red());
@@ -57,7 +74,17 @@ fn run(args: Vec<String>) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-
+/// 程序入口点
+///
+/// 功能说明：
+/// - 收集命令行参数
+/// - 调用 run 函数执行主要逻辑
+///
+/// 返回：
+/// - Result<(), Box<dyn Error>> - 成功时返回 Ok(()), 失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
     run(args)

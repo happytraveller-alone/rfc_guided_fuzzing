@@ -8,7 +8,7 @@ use std::cmp::Ordering;
 use crate::{INSTRUCTION_HEADER, INSTRUCTION_FOOTER, PROCESSING_INSTRUCTIONS, OUTPUT_FORMAT};
 
 
-
+/// 表示 RFC 章节编号的结构体
 #[derive(PartialEq, Eq, Clone)]
 pub struct SectionNumber(pub String);
 
@@ -36,6 +36,24 @@ impl Ord for SectionNumber {
     }
 }
 
+/// 切分 RFC 内容
+///
+/// 功能说明：
+/// - 将 RFC 内容按章节切分
+/// - 处理章节映射
+/// - 导出章节信息到文本文件
+/// - 保存切分后的章节内容
+///
+/// 参数：
+/// - content: &str - RFC 内容
+/// - rfc_output_dir: &Path - 输出目录路径
+/// - rfc_number: &str - RFC 编号
+///
+/// 返回：
+/// - Result<(), Box<dyn Error>> - 成功时返回 Ok(()), 失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 pub fn slice_content(
     content: &str,
     rfc_output_dir: &Path,
@@ -48,6 +66,21 @@ pub fn slice_content(
     Ok(())
 }
 
+/// 提取 RFC 章节
+///
+/// 功能说明：
+/// - 使用正则表达式从 RFC 内容中提取章节信息
+/// - 创建章节列表和章节映射
+///
+/// 参数：
+/// - content: &str - RFC 内容
+///
+/// 返回：
+/// - Result<(Vec<(SectionNumber, String, String)>, BTreeMap<SectionNumber, String>), Box<dyn Error>>
+///   成功时返回章节列表和章节映射，失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn extract_sections(
     content: &str,
 ) -> Result<
@@ -99,6 +132,16 @@ fn extract_sections(
     Ok((sections, section_map))
 }
 
+/// 处理章节映射
+///
+/// 功能说明：
+/// - 处理章节映射，生成完整的章节标题
+///
+/// 参数：
+/// - map: &mut BTreeMap<SectionNumber, String> - 章节映射
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn process_section_map(map: &mut BTreeMap<SectionNumber, String>) {
     let mut processed_map = BTreeMap::new();
 
@@ -133,6 +176,21 @@ fn process_section_map(map: &mut BTreeMap<SectionNumber, String>) {
     *map = processed_map;
 }
 
+/// 导出章节映射到文本文件
+///
+/// 功能说明：
+/// - 将处理后的章节映射导出到指定的文本文件
+///
+/// 参数：
+/// - map: &BTreeMap<SectionNumber, String> - 处理后的章节映射
+/// - rfc_output_dir: &Path - 输出目录路径
+/// - filename: &str - 输出文件名
+///
+/// 返回：
+/// - Result<(), Box<dyn Error>> - 成功时返回 Ok(()), 失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn export_map_to_txt(
     map: &BTreeMap<SectionNumber, String>,
     rfc_output_dir: &Path,
@@ -154,6 +212,23 @@ fn export_map_to_txt(
     Ok(())
 }
 
+/// 保存切分后的章节
+///
+/// 功能说明：
+/// - 准备切片目录
+/// - 保存每个章节到单独的文件
+///
+/// 参数：
+/// - sections: &[(SectionNumber, String, String)] - 章节列表
+/// - section_map: &BTreeMap<SectionNumber, String> - 章节映射
+/// - rfc_output_dir: &Path - 输出目录路径
+/// - rfc_number: &str - RFC 编号
+///
+/// 返回：
+/// - Result<(), Box<dyn Error>> - 成功时返回 Ok(()), 失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn save_sections(
     sections: &[(SectionNumber, String, String)],
     section_map: &BTreeMap<SectionNumber, String>,
@@ -166,6 +241,19 @@ fn save_sections(
     Ok(())
 }
 
+/// 准备切片目录
+///
+/// 功能说明：
+/// - 创建或清空切片目录
+///
+/// 参数：
+/// - rfc_output_dir: &Path - RFC 输出目录路径
+///
+/// 返回：
+/// - Result<PathBuf, Box<dyn Error>> - 成功时返回切片目录路径，失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn prepare_slice_directory(rfc_output_dir: &Path) -> Result<PathBuf, Box<dyn Error>> {
     let slice_dir = rfc_output_dir.join("slice");
     if slice_dir.exists() {
@@ -178,6 +266,19 @@ fn prepare_slice_directory(rfc_output_dir: &Path) -> Result<PathBuf, Box<dyn Err
     Ok(slice_dir)
 }
 
+/// 清空目录
+///
+/// 功能说明：
+/// - 删除指定目录下的所有文件和子目录
+///
+/// 参数：
+/// - dir: &Path - 要清空的目录路径
+///
+/// 返回：
+/// - Result<(), Box<dyn Error>> - 成功时返回 Ok(()), 失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn clear_directory(dir: &Path) -> Result<(), Box<dyn Error>> {
     for entry in fs::read_dir(dir)? {
         let entry = entry?;
@@ -191,6 +292,22 @@ fn clear_directory(dir: &Path) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// 保存章节文件
+///
+/// 功能说明：
+/// - 将每个非空章节保存为单独的文件
+///
+/// 参数：
+/// - sections: &[(SectionNumber, String, String)] - 章节列表
+/// - section_map: &BTreeMap<SectionNumber, String> - 章节映射
+/// - slice_dir: &Path - 切片目录路径
+/// - rfc_number: &str - RFC 编号
+///
+/// 返回：
+/// - Result<usize, Box<dyn Error>> - 成功时返回保存的文件数量，失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn save_section_files(
     sections: &[(SectionNumber, String, String)],
     section_map: &BTreeMap<SectionNumber, String>,
@@ -213,6 +330,20 @@ fn save_section_files(
     Ok(saved_count)
 }
 
+/// 获取完整章节标题
+///
+/// 功能说明：
+/// - 根据章节编号从章节映射中获取完整标题
+///
+/// 参数：
+/// - number: &SectionNumber - 章节编号
+/// - section_map: &BTreeMap<SectionNumber, String> - 章节映射
+///
+/// 返回：
+/// - String - 完整的章节标题
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn get_full_title(number: &SectionNumber, section_map: &BTreeMap<SectionNumber, String>) -> String {
     match section_map.get(number) {
         Some(title) => format!("{} {}", number.0, title),
@@ -220,6 +351,21 @@ fn get_full_title(number: &SectionNumber, section_map: &BTreeMap<SectionNumber, 
     }
 }
 
+/// 生成文件名
+///
+/// 功能说明：
+/// - 根据 RFC 编号、索引和完整标题生成文件名
+///
+/// 参数：
+/// - rfc_number: &str - RFC 编号
+/// - index: usize - 章节索引
+/// - full_title: &str - 完整章节标题
+///
+/// 返回：
+/// - String - 生成的文件名
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn generate_file_name(rfc_number: &str, index: usize, full_title: &str) -> String {
     format!(
         "{}_slice_{:03}_{}.txt",
@@ -229,6 +375,21 @@ fn generate_file_name(rfc_number: &str, index: usize, full_title: &str) -> Strin
     )
 }
 
+/// 保存章节文件
+///
+/// 功能说明：
+/// - 将章节内容写入文件，包括指令头部和尾部
+///
+/// 参数：
+/// - file_path: &Path - 文件路径
+/// - full_title: &str - 完整章节标题
+/// - content: &str - 章节内容
+///
+/// 返回：
+/// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn save_section_file(file_path: &Path, full_title: &str, content: &str) -> IoResult<()> {
     let mut file = File::create(file_path)?;
     
@@ -238,6 +399,21 @@ fn save_section_file(file_path: &Path, full_title: &str, content: &str) -> IoRes
     Ok(())
 }
 
+/// 写入章节内容
+///
+/// 功能说明：
+/// - 将章节标题和内容写入文件，包括指令头部和尾部
+///
+/// 参数：
+/// - file: &mut File - 文件句柄
+/// - full_title: &str - 完整章节标题
+/// - content: &str - 章节内容
+///
+/// 返回：
+/// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn write_section(file: &mut File, full_title: &str, content: &str) -> IoResult<()> {
     writeln!(file, "{}", INSTRUCTION_HEADER)?;
     writeln!(file, "--- Section: {} ---", full_title)?;
@@ -246,6 +422,19 @@ fn write_section(file: &mut File, full_title: &str, content: &str) -> IoResult<(
     Ok(())
 }
 
+/// 写入指令
+///
+/// 功能说明：
+/// - 将处理指令和输出格式写入文件
+///
+/// 参数：
+/// - file: &mut File - 文件句柄
+///
+/// 返回：
+/// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
 fn write_instructions(file: &mut File) -> IoResult<()> {
     writeln!(file, "{}", PROCESSING_INSTRUCTIONS)?;
     writeln!(file, "{}", OUTPUT_FORMAT)?;
