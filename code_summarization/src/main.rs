@@ -11,7 +11,6 @@ mod utils;
 
 use error::*;
 use file_processing::*;
-// use output::*;
 use utils::*;
 
 fn main() {
@@ -67,10 +66,13 @@ fn run() -> io::Result<()> {
     let re = Regex::new(r"//-----\s*\(([0-9A-Fa-f]+)\)\s*-+")
         .map_err(|e| io::Error::new(ErrorKind::Other, format!("Regex compilation error: {}", e)))?;
 
-    let file_count = wrap_error(
+    let (file_count, function_names) = wrap_error(
         process_file(input_path, &sub_output_dir, &sub_code_dir, &re),
         "Failed to process file",
     )?;
+
+    write_function_list(&sub_output_dir, &function_names)?;
+
     let end_time = Instant::now();
     let duration = end_time.duration_since(start_time);
     println!(

@@ -90,6 +90,7 @@ mod tests {
         assert_eq!(extract_function_name("void test_function(int a)"), "test_function");
         assert_eq!(extract_function_name("int complex_function_name(char* b, int c)"), "complex_function_name");
         assert_eq!(extract_function_name("struct Result* get_result()"), "get_result");
+        assert_eq!(extract_function_name("__int64 __fastcall CSslContext::MakeSessionKeys(CSslContext *this, __int64 a2)"),"CSslContext::MakeSessionKeys");
         assert_eq!(extract_function_name("CSessionCacheClientItem *__fastcall CSessionCacheClientItem::`vector deleting destructor'()"),"CSessionCacheClientItem::`vector deleting destructor'");
     }
 
@@ -97,6 +98,7 @@ mod tests {
     fn test_sanitize_filename() {
         assert_eq!(sanitize_filename("normal_filename"), "normal_filename");
         assert_eq!(sanitize_filename("file:name?with*invalid<chars>"), "file_name_with_invalid_chars");
+        assert_eq!(sanitize_filename("CSslContext::MakeSessionKeys"),"CSslContext__MakeSessionKeys");
         assert_eq!(sanitize_filename("__leading_underscores__"), "leading_underscores");
         assert_eq!(sanitize_filename("trailing_underscores__"), "trailing_underscores");
         assert_eq!(sanitize_filename("file/name\\with/backslashes"), "file_name_with_backslashes");

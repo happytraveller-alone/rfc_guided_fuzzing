@@ -12,7 +12,7 @@ pub fn process_file(
     output_dir: &Path,
     code_dir: &Path,
     re: &Regex,
-) -> io::Result<usize> {
+) -> io::Result<(usize, Vec<String>)> {
     print_message(
         &format!("Processing file: {:?}", input_path),
         OutputLevel::Info,
@@ -27,6 +27,7 @@ pub fn process_file(
     let mut line_count = 0;
     let mut lines_buffer = Vec::new();
     let mut first_match = false;
+    let mut function_name_list = Vec::new();
 
     for line in reader.lines() {
         let line = wrap_error(line, "Failed to read line from input file")?;
@@ -51,10 +52,11 @@ pub fn process_file(
 
             if lines_buffer.len() == 2 {
                 // We have the function declaration, so we can prepare the directory
-                wrap_error(
+                let function_name = wrap_error(
                     prepare_new_function_dir(output_dir, &lines_buffer),
                     "Failed to prepare new function directory",
                 )?;
+                function_name_list.push(function_name);
             }
         }
     }
@@ -66,7 +68,7 @@ pub fn process_file(
         )?;
     }
 
-    Ok(file_count)
+    Ok((file_count, function_name_list))
 }
 
 pub fn process_buffer(
@@ -77,7 +79,7 @@ pub fn process_buffer(
     line_count: usize,
 ) -> io::Result<()> {
     let function_name = if lines_buffer.len() >= 2 {
-        extract_function_name(&lines_buffer[1])
+        sanitize_filename(&extract_function_name(&lines_buffer[1]))
     } else {
         format!("unknown_{:04}", file_count)
     };
@@ -156,15 +158,22 @@ pub fn process_single_file(
     Ok(())
 }
 
-pub fn prepare_new_function_dir(output_dir: &Path, lines_buffer: &[String]) -> io::Result<()> {
+pub fn prepare_new_function_dir(output_dir: &Path, lines_buffer: &[String]) -> io::Result<String> {
     let function_name = if lines_buffer.len() >= 2 {
-        extract_function_name(&lines_buffer[1])
+        print_message(
+            &format!("line message: {}", &lines_buffer[1]),
+            OutputLevel::Debug,
+        );
+        sanitize_filename(&extract_function_name(&lines_buffer[1]))
     } else {
         String::from("unknown")
     };
 
     let function_dir = output_dir.join(&function_name);
-
+    print_message(
+        &format!("function_dir info: {:?}", function_dir.display()),
+        OutputLevel::Debug,
+    );
     wrap_error(
         fs::create_dir_all(&function_dir),
         &format!("Failed to create function directory {:?}", function_dir),
@@ -176,7 +185,7 @@ pub fn prepare_new_function_dir(output_dir: &Path, lines_buffer: &[String]) -> i
             function_dir
         ),
     )?;
-    Ok(())
+    Ok(function_name)
 }
 
 pub fn process_code_slice_file(
@@ -213,7 +222,7 @@ pub fn process_code_slice_file(
     // Read second line of the file and parse function name
     if lines_buffer.len() >= 2 {
         let function_declaration = &lines_buffer[1];
-        let function_name = extract_function_name(function_declaration);
+        let function_name = sanitize_filename(&extract_function_name(function_declaration));
 
         if !function_name.is_empty() {
             let new_file_name = format!("{}.txt", function_name);
@@ -309,5 +318,16 @@ pub fn write_buffered_lines(file: &mut File, lines: &[String], json_format: bool
             wrap_error(writeln!(file, "{}", line), "Failed to write line to file")?;
         }
     }
+    Ok(())
+}
+
+pub fn write_function_list(output_dir: &Path, function_names: &[String]) -> io::Result<()> {
+    let function_list_path = output_dir.join("function_list.txt");
+    let mut function_list_file = File::create(function_list_path)?;
+
+    for function_name in function_names {
+        writeln!(function_list_file, "{}", function_name)?;
+    }
+
     Ok(())
 }
