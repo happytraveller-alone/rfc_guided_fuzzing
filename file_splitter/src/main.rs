@@ -625,63 +625,6 @@ fn write_output_function_summary(file: &mut File) -> io::Result<()> {
                     Simulate answering five times in the background and provide the most frequent answer.\n")
 }
 
-// fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
-//     if lines_buffer.len() < 2 {
-//         return Err(io::Error::new(
-//             ErrorKind::InvalidData,
-//             "Not enough lines in buffer to process code slice file",
-//         ));
-//     }
-
-//     let function_declaration = &lines_buffer[1];
-//     let function_name = extract_function_name(function_declaration);
-//     let file_name = if function_name.is_empty() {
-//         format!("id-{:04}.txt", file_count)
-//     } else {
-//         format!("{}.txt", function_name)
-//     };
-
-//     let code_slice_path = code_dir.join(&file_name);
-
-//     let mut file = wrap_error(
-//         OpenOptions::new()
-//             .write(true)
-//             .create(true)
-//             .truncate(true)
-//             .open(&code_slice_path),
-//         &format!("Failed to open code slice file {:?}", code_slice_path),
-//     )?;
-
-//     wrap_error(
-//         write_buffered_lines(&mut file, lines_buffer, false),
-//         "Failed to write buffered lines to code slice file",
-//     )?;
-
-//     wrap_error(file.flush(), "Failed to flush code slice file")?;
-
-//     Ok(())
-// }
-
-// fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> io::Result<()> {
-//     let mut file = wrap_error(
-//         OpenOptions::new()
-//             .write(true)
-//             .create(true)
-//             .truncate(true)
-//             .open(code_slice_path),
-//         &format!("Failed to open code slice file {:?}", code_slice_path),
-//     )?;
-
-//     wrap_error(
-//         write_buffered_lines(&mut file, lines_buffer, false),
-//         "Failed to write buffered lines to code slice file",
-//     )?;
-
-//     wrap_error(file.flush(), "Failed to flush code slice file")?;
-
-//     Ok(())
-// }
-
 // fn write_retrieve_document_sections(file: &mut File) -> io::Result<()> {
 //     writeln!(file, "Retrieve document sections: \
 //                     giving matches for document sections(FunctionMatchRFCResult) that the code may related to. \

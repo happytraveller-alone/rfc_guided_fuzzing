@@ -526,12 +526,12 @@ fn write_insert_code_comments(file: &mut File) -> io::Result<()> {
                     (e.g., if, else if, else, case, switch, while, return, label). \
                     ATTENTION! There may not be a corresponding RFC text in the code where the control flow changes, \
                     but you need to add comments as well (comments should be strongly related to the conceptual content of the RFC document, \
-                    not abstract generic concepts).")
+                    not abstract generic concepts).\n")
 }
 fn write_json_code_format(file: &mut File) -> io::Result<()> {
     writeln!(
         file,
-        "Generate Function Code with inserted Code Comments in C Clang Format wrap in Mardown:\n"
+        "Generate function code containing inserted comments, code formatted in C-clang, and later represented by a code package in markdown. \n"
     )
 }
 fn seek_to_end(file: &mut File) -> io::Result<()> {
@@ -550,7 +550,7 @@ fn write_role_description(file: &mut File) -> io::Result<()> {
                     The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols \
                     are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. \
                     You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections \
-                    based on the name of the function and the function summary.")
+                    based on the name of the function and the function summary.\n")
 }
 
 fn write_attention(file: &mut File) -> io::Result<()> {
@@ -624,63 +624,6 @@ fn write_output_function_summary(file: &mut File) -> io::Result<()> {
                     and highlights the protocol function points implemented by the function. \
                     Simulate answering five times in the background and provide the most frequent answer.\n")
 }
-
-// fn process_code_slice_file(code_dir: &Path, lines_buffer: &[String], file_count: usize) -> io::Result<()> {
-//     if lines_buffer.len() < 2 {
-//         return Err(io::Error::new(
-//             ErrorKind::InvalidData,
-//             "Not enough lines in buffer to process code slice file",
-//         ));
-//     }
-
-//     let function_declaration = &lines_buffer[1];
-//     let function_name = extract_function_name(function_declaration);
-//     let file_name = if function_name.is_empty() {
-//         format!("id-{:04}.txt", file_count)
-//     } else {
-//         format!("{}.txt", function_name)
-//     };
-
-//     let code_slice_path = code_dir.join(&file_name);
-
-//     let mut file = wrap_error(
-//         OpenOptions::new()
-//             .write(true)
-//             .create(true)
-//             .truncate(true)
-//             .open(&code_slice_path),
-//         &format!("Failed to open code slice file {:?}", code_slice_path),
-//     )?;
-
-//     wrap_error(
-//         write_buffered_lines(&mut file, lines_buffer, false),
-//         "Failed to write buffered lines to code slice file",
-//     )?;
-
-//     wrap_error(file.flush(), "Failed to flush code slice file")?;
-
-//     Ok(())
-// }
-
-// fn process_code_slice_file(code_slice_path: &Path, lines_buffer: &[String]) -> io::Result<()> {
-//     let mut file = wrap_error(
-//         OpenOptions::new()
-//             .write(true)
-//             .create(true)
-//             .truncate(true)
-//             .open(code_slice_path),
-//         &format!("Failed to open code slice file {:?}", code_slice_path),
-//     )?;
-
-//     wrap_error(
-//         write_buffered_lines(&mut file, lines_buffer, false),
-//         "Failed to write buffered lines to code slice file",
-//     )?;
-
-//     wrap_error(file.flush(), "Failed to flush code slice file")?;
-
-//     Ok(())
-// }
 
 // fn write_retrieve_document_sections(file: &mut File) -> io::Result<()> {
 //     writeln!(file, "Retrieve document sections: \

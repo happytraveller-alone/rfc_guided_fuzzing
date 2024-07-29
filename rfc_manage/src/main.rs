@@ -7,8 +7,9 @@ use std::error::Error;
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
-// use std::thread;
-// use std::time::Duration;
+use std::collections::HashMap;use std::time::Duration;
+use std::thread;
+use colored::*;
 
 // 宏定义
 macro_rules! body_start {
@@ -562,28 +563,73 @@ fn remove_headers_footers(input_file: &PathBuf) -> Result<String, Box<dyn Error>
     Ok(content.trim().to_string())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
-    let args: Vec<String> = env::args().collect();
-    if args.len() != 2 {
-        eprintln!("Usage: {} <RFC-NUMBER>", args[0]);
-        std::process::exit(1);
+/// Extract RFC information from text
+fn extract_rfc_info(text: &str) -> HashMap<String, String> {
+    let re = Regex::new(r#"(?P<authors>.*?), "(?P<title>.*?)", RFC (?P<number>\d+)"#).unwrap();
+    let mut rfc_map = HashMap::new();
+
+    for cap in re.captures_iter(text) {
+        let number = cap.name("number").unwrap().as_str().to_string();
+        let title = cap.name("title").unwrap().as_str().to_string();
+        rfc_map.insert(number, title);
     }
 
-    let rfc_number = &args[1];
+    rfc_map
+}
+
+/// Get RFC title
+fn get_rfc_title(rfc_number: &str) -> Result<String, Box<dyn Error>> {
+    let url = format!("https://www.rfc-editor.org/refs/ref{}.txt", rfc_number);
+    let response = reqwest::blocking::get(&url)?;
+    let content = response.text()?;
+
+    let rfc_map = extract_rfc_info(&content);
+    rfc_map.get(rfc_number)
+        .ok_or_else(|| format!("Title not found for RFC {}", rfc_number).into())
+        .map(|s| s.to_string())
+}
+
+/// Save RFC info to file
+fn save_rfc_info(rfc_number: &str, title: &str, rfc_output_dir: &Path) -> Result<(), Box<dyn Error>> {
+    let info_file = rfc_output_dir.join("rfc_info.txt");
+    let content = format!("RFC{}: \"{}\"\n", rfc_number, title);
+    
+    fs::write(&info_file, content)?;
+    println!("RFC info saved to {:?}", info_file);
+    Ok(())
+}
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let args: Vec<String> = env::args().collect();
+    let rfc_number: String;
+    if args.len() != 2 {
+        eprintln!("{}", "Warning: No RFC number provided.".red());
+        println!("Please provide an RFC number. Using default RFC 2675.");
+        thread::sleep(Duration::from_secs(3));
+        rfc_number = "2675".to_string();
+    } else {
+        rfc_number = args[1].clone();
+    }
+
+    // let rfc_number = &args[1];
     let project_root = get_project_root();
     let (input_dir, output_dir) = create_directories(&project_root)?;
     let input_file = input_dir.join(format!("{}.txt", rfc_number));
 
     if !input_file.exists() {
-        download_rfc(rfc_number, &input_file)?;
+        download_rfc(&rfc_number, &input_file)?;
     } else {
         println!("找到本地文件 {:?}", input_file);
     }
 
     let body = process_rfc_content(&input_file)?;
 
-    let rfc_output_dir = create_rfc_output_directory(&output_dir, rfc_number)?;
+    let rfc_output_dir = create_rfc_output_directory(&output_dir, &rfc_number)?;
 
+    // Get and save RFC title
+    let rfc_title = get_rfc_title(&rfc_number)?;
+    save_rfc_info(&rfc_number, &rfc_title, &rfc_output_dir)?;
+    
     // Add the preprocessing step
     let pre_processed_content = remove_headers_footers(&input_file)?;
     let pre_processed_file = rfc_output_dir.join("pre_processed.txt");
@@ -593,7 +639,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let body_file = rfc_output_dir.join(format!("{}_processed.txt", rfc_number));
     save_content(&body, &body_file)?;
 
-    slice_content(&body, &rfc_output_dir, rfc_number)?;
+    slice_content(&body, &rfc_output_dir, &rfc_number)?;
 
     println!("处理完成。");
 

@@ -4,7 +4,7 @@ import json
 import re
 import json
 
-openai.api_key = ""
+openai.api_key = "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"
 
 system_intel = "You are GPT-4, answer my questions as if you were an expert in the field."
 prompt = '''If you are an RFC expert and you now have a function that requires you to explain that this code matches those in RFC8446, take a deep breath, step by step, you only need to give the chapters that match RFC8446, and only output the chapters, for example: After giving you a function, you need to output: 1.1.1, which indicates that this code reflects section 1.1.1 in RFC8446.
@@ -30,23 +30,26 @@ Depending on the functionality of the function and RFC 8446 of TLS 1.3, the foll
 4.2.11: Flow of the pre-shared key exchange mode.
 4.2.9: Description of the key exchange protocol, possibly related to state checking in the function.
 4.1.2: Structure of the TLS handshake message, possibly related to parameter checking in the function.
-7.4: Description of TLS error alerts, possibly related to error handling in functions.
+6.2: Description of TLS error alerts, possibly related to error handling in functions.
+```json
 {
 name:CTls13ExtServer::ParsePreSharedKeyExtension;
-abstract:The function is used to parse the Pre-Shared Key extension in TLS 1.3, including parameter validation, state checks, extension decoding, and error handling;
-Process:The function first checks the validity of the input parameters, then decodes and verifies the Pre-Shared Key extension in the TLS handshake message. It also checks the state in the TLScontext, performs session resumption checks, and sets errors and alerts at the end;
-The RFC Text Sections: [" 4.2.11 ", "4.2.9", "4.1.2", "7.4"]
+function_summary:The function is used to parse the Pre-Shared Key extension in TLS 1.3, including parameter validation, state checks, extension decoding, and error handling;
+thinking_process:The function first checks the validity of the input parameters, then decodes and verifies the Pre-Shared Key extension in the TLS handshake message. It also checks the state in the TLScontext, performs session resumption checks, and sets errors and alerts at the end;
+RFC_text_sections_involved: [" 4.2.11 ", "4.2.9", "4.1.2", "6.2"]
 }
+```
 ----
 Note that the result is returned in English, and there are only four properties in the json file. The functions you have to deal with are as follows:'''
 
 
-
+temparture = 0
 # 调用GPT-4 API的函数
-def ask_GPT4(system_intel, prompt): 
+def ask_GPT4(system_intel, prompt,temperature): 
     result = openai.ChatCompletion.create(model="gpt-4",
                                  messages=[{"role": "system", "content": system_intel},
-                                           {"role": "user", "content": prompt}])
+                                           {"role": "user", "content": prompt}],
+                                 temperature=temperature)
     return result['choices'][0]['message']['content']
 
 
@@ -64,7 +67,7 @@ def process_file(filename):
 
     with open(filename, 'r') as file:
         code_content = file.read()
-        analysis_result = ask_GPT4(system_intel, prompt+code_content)
+        analysis_result = ask_GPT4(system_intel, prompt+code_content,temparture)
 
     # 将分析结果写入到answer文件中
     with open(f"id-{function_id}-answer.txt", 'w') as answer_file:
@@ -105,7 +108,7 @@ for filename in files:
             json_content = json_content.replace('\n', '')
 
             # 保存为 txt 文件
-            with open('result.json', 'w') as file:
-                file.write(json_content)
+            with open('result.json', 'a') as file:
+                file.write(json_content+'\n')
         else:
             print("No JSON content found in the file.")
