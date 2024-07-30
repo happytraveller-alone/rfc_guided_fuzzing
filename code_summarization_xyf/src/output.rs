@@ -1,5 +1,5 @@
 use std::fs::{self, File};
-use std::io::{self, Write, Seek, SeekFrom};
+use std::io::{self, Seek, SeekFrom, Write};
 use std::path::Path;
 
 use crate::error::*;
