@@ -5,7 +5,6 @@ pub mod utils;
 
 use lazy_static::lazy_static;
 
-
 lazy_static! {
     /// 需要过滤的 RFC 章节标题列表
     /// 这些章节在处理过程中会被跳过
@@ -15,6 +14,7 @@ lazy_static! {
         "Presentation Language",
         "References",
         "Authors' Addresses",
+        "References",
         "Full Copyright Statement",
     ];
 }
