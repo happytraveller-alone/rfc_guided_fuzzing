@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <antlr4-runtime.h>
-#include "CLexer.h"
-#include "CParser.h"
+#include "grammar/CLexer.h"
+#include "grammar/CParser.h"
 
 using namespace antlr4;
 

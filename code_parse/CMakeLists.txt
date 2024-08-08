@@ -26,7 +26,7 @@ add_executable(Code_parse
 
 # Link against the ANTLR4 runtime library based on the platform
 if(WIN32)
-    target_link_libraries(Code_parse ${ANTLR4_ROOT}/lib/antlr4-runtime.lib)
+    target_link_libraries(Code_parse ${ANTLR4_ROOT}/lib/antlr4-runtime)
 else()
     target_link_libraries(Code_parse ${ANTLR4_ROOT}/lib/libantlr4-runtime.a)
 endif()
