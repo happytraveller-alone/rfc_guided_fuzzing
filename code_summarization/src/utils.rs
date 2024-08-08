@@ -1,7 +1,8 @@
-use std::path::{Path, PathBuf, MAIN_SEPARATOR};
+use regex::Regex;
 use std::fs;
 use std::io;
-use regex::Regex;
+use std::path::{Path, PathBuf, MAIN_SEPARATOR};
+use sha2::{Sha256, Digest};
 
 use crate::error::wrap_error;
 use crate::output::{print_message, OutputLevel};
@@ -19,7 +20,21 @@ pub fn extract_function_name(declaration: &str) -> String {
 pub fn sanitize_filename(name: &str) -> String {
     let invalid_chars: &[char] = &['<', '>', ':', '"', '/', '\\', '|', '?', '*'];
 
-    name.chars()
+    // name.chars()
+    //     .map(|c| {
+    //         if invalid_chars.contains(&c) || c == MAIN_SEPARATOR {
+    //             '_'
+    //         } else {
+    //             c
+    //         }
+    //     })
+    //     .collect::<String>()
+    //     .trim_start_matches('_')
+    //     .trim_end_matches('_')
+    //     .to_string()
+    // First, sanitize the name
+    let sanitized = name
+        .chars()
         .map(|c| {
             if invalid_chars.contains(&c) || c == MAIN_SEPARATOR {
                 '_'
@@ -27,10 +42,20 @@ pub fn sanitize_filename(name: &str) -> String {
                 c
             }
         })
-        .collect::<String>()
-        .trim_start_matches('_')
-        .trim_end_matches('_')
-        .to_string()
+        .collect::<String>();
+
+    // Trim leading/trailing underscores
+    let trimmed = sanitized.trim_matches('_');
+
+    // If the name is still too long, hash it
+    if trimmed.len() > 200 {
+        let mut hasher = Sha256::new();
+        hasher.update(trimmed.as_bytes());
+        let result = hasher.finalize();
+        format!("long_name_{:x}", result)
+    } else {
+        trimmed.to_string()
+    }
 }
 
 pub fn clean_output_directory(dir: &str) -> io::Result<()> {
@@ -87,22 +112,49 @@ mod tests {
 
     #[test]
     fn test_extract_function_name() {
-        assert_eq!(extract_function_name("void test_function(int a)"), "test_function");
-        assert_eq!(extract_function_name("int complex_function_name(char* b, int c)"), "complex_function_name");
-        assert_eq!(extract_function_name("struct Result* get_result()"), "get_result");
-        assert_eq!(extract_function_name("__int64 __fastcall CSslContext::MakeSessionKeys(CSslContext *this, __int64 a2)"),"CSslContext::MakeSessionKeys");
+        assert_eq!(
+            extract_function_name("void test_function(int a)"),
+            "test_function"
+        );
+        assert_eq!(
+            extract_function_name("int complex_function_name(char* b, int c)"),
+            "complex_function_name"
+        );
+        assert_eq!(
+            extract_function_name("struct Result* get_result()"),
+            "get_result"
+        );
+        assert_eq!(
+            extract_function_name(
+                "__int64 __fastcall CSslContext::MakeSessionKeys(CSslContext *this, __int64 a2)"
+            ),
+            "CSslContext::MakeSessionKeys"
+        );
         assert_eq!(extract_function_name("CSessionCacheClientItem *__fastcall CSessionCacheClientItem::`vector deleting destructor'()"),"CSessionCacheClientItem::`vector deleting destructor'");
     }
 
     #[test]
     fn test_sanitize_filename() {
         assert_eq!(sanitize_filename("normal_filename"), "normal_filename");
-        assert_eq!(sanitize_filename("file:name?with*invalid<chars>"), "file_name_with_invalid_chars");
-        assert_eq!(sanitize_filename("CSslContext::MakeSessionKeys"),"CSslContext__MakeSessionKeys");
-        assert_eq!(sanitize_filename("__leading_underscores__"), "leading_underscores");
-        assert_eq!(sanitize_filename("trailing_underscores__"), "trailing_underscores");
-        assert_eq!(sanitize_filename("file/name\\with/backslashes"), "file_name_with_backslashes");
+        assert_eq!(
+            sanitize_filename("file:name?with*invalid<chars>"),
+            "file_name_with_invalid_chars"
+        );
+        assert_eq!(
+            sanitize_filename("CSslContext::MakeSessionKeys"),
+            "CSslContext__MakeSessionKeys"
+        );
+        assert_eq!(
+            sanitize_filename("__leading_underscores__"),
+            "leading_underscores"
+        );
+        assert_eq!(
+            sanitize_filename("trailing_underscores__"),
+            "trailing_underscores"
+        );
+        assert_eq!(
+            sanitize_filename("file/name\\with/backslashes"),
+            "file_name_with_backslashes"
+        );
     }
-
-
 }
