@@ -1,14 +1,16 @@
 use regex::Regex;
 use std::env;
 use std::io::{self, ErrorKind};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::time::Instant;
 
+mod call_graph;
 mod error;
 mod file_processing;
 mod output;
 mod utils;
 
+use call_graph::*;
 use error::*;
 use file_processing::*;
 use utils::*;
@@ -44,22 +46,12 @@ fn run() -> io::Result<()> {
     println!("Starting program...");
     println!("Input file: {:?}", input_path);
 
-    wrap_error(
-        clean_output_directory(output_dir),
-        "Failed to clean output directory",
-    )?;
-    wrap_error(
-        clean_output_directory(code_dir),
-        "Failed to clean code directory",
-    )?;
-    wrap_error(
-        clean_output_directory(distribution_dir),
-        "Failed to clean distribution directory",
-    )?;
-    wrap_error(
-        clean_output_directory(code_process_dir),
-        "Failed to clean distribution directory",
-    )?;
+    for dir in &[output_dir, code_dir, distribution_dir, code_process_dir] {
+        wrap_error(
+            clean_output_directory(dir),
+            &format!("Failed to clean {} directory", dir),
+        )?;
+    }
 
     let sub_output_dir = wrap_error(
         prepare_output_directory(input_path, output_dir),
@@ -85,13 +77,24 @@ fn run() -> io::Result<()> {
         "Failed to process file",
     )?;
 
-    write_function_list(&sub_output_dir, &function_names)?;
-
-    distribute_files(&sub_code_dir, distribution_dir)?;
-
-    let call_graph_input = PathBuf::from(input_path.file_name().unwrap()).with_extension("txt");
     wrap_error(
-        process_call_graph(&call_graph_input.to_str().unwrap(), sub_output_dir),
+        write_function_list(&sub_output_dir, &function_names),
+        "Failed to write function name list",
+    )?;
+
+    wrap_error(
+        distribute_files(&sub_code_dir, distribution_dir),
+        "Failed to distribute files",
+    )?;
+
+    let call_graph_input = input_path
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .to_string();
+    wrap_error(
+        process_call_graph(&call_graph_input, &sub_output_dir),
         "Failed to process call graph",
     )?;
 
