@@ -1,8 +1,7 @@
-use std::fs::{self, File};
-use std::io::{self, Write, Seek, SeekFrom};
-use std::path::Path;
-
 use crate::error::*;
+use std::fs::{self, File};
+use std::io::{self, Seek, SeekFrom, Write};
+use std::path::Path;
 #[derive(PartialEq, PartialOrd)]
 pub enum OutputLevel {
     Info,
@@ -24,7 +23,7 @@ pub fn update_file_header(file: &mut File, file_count: usize, line_count: usize)
     )?;
 
     let input_content = wrap_error(
-        fs::read_to_string("input/sectionabstract.txt"),
+        fs::read_to_string("input/prompt/sectionabstract.txt"),
         "Failed to read sectionabstract.txt",
     )?;
 
