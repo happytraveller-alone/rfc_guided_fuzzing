@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::collections::VecDeque;
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::{self, Read, Write};
@@ -40,23 +41,51 @@ impl CallGraph {
             .collect()
     }
 
-    pub fn print_entry_points(&self, node_labels: &HashMap<String, String>) {
-        println!("函数调用图的入口点（没有被其他函数调用的函数）：");
+    // #[warn(dead_code)]
+    // pub fn print_entry_points(&self, node_labels: &HashMap<String, String>) {
+    //     println!("函数调用图的入口点（没有被其他函数调用的函数，且包含TLS13）：");
+    //     for point in self.find_entry_points() {
+    //         let label = node_labels
+    //             .get(&point)
+    //             .map(String::as_str)
+    //             .unwrap_or("Unknown");
+    //         // if let Some(label) = node_labels.get(&point) {
+    //         let lower_label = label.to_lowercase();
+    //         if lower_label.contains("tls13")
+    //             && (lower_label.contains("server") || lower_label.contains("client"))
+    //         {
+    //             println!("{}: {}", point, label);
+    //         }
+    //         // }
+    //     }
+    // }
+
+    pub fn write_entry_points<W: Write>(
+        &self,
+        writer: &mut W,
+        node_labels: &HashMap<String, String>,
+    ) -> io::Result<()> {
+        writeln!(writer, "函数调用图的入口点（包含TLS13和server/client）：")?;
         for point in self.find_entry_points() {
-            let label = node_labels
-                .get(&point)
-                .map(String::as_str)
-                .unwrap_or("Unknown");
-            println!("{}: {}", point, label);
+            if let Some(label) = node_labels.get(&point) {
+                let lower_label = label.to_lowercase();
+                if lower_label.contains("tls13")
+                    && (lower_label.contains("server") || lower_label.contains("client"))
+                {
+                    writeln!(writer, "{}: {}", point, label)?;
+                }
+            }
         }
+        Ok(())
     }
 
-    pub fn print_all_calls(&self) {
-        println!("\n所有函数调用关系：");
-        for (caller, callees) in &self.callees {
-            println!("函数 {} 调用了: {:?}", caller, callees);
-        }
-    }
+    // #[warn(dead_code)]
+    // pub fn print_all_calls(&self) {
+    //     println!("\n所有函数调用关系：");
+    //     for (caller, callees) in &self.callees {
+    //         println!("函数 {} 调用了: {:?}", caller, callees);
+    //     }
+    // }
 }
 
 pub fn process_call_graph(input_file: &str, output_dir: &Path) -> io::Result<()> {
@@ -123,7 +152,7 @@ fn process_call_graph_functionality(
     }
 
     // 打印入口点和所有调用关系
-    graph.print_entry_points(node_labels);
+    // graph.print_entry_points(node_labels);
     // graph.print_all_calls();
 
     // 将 CallGraph 结果写入文件
@@ -131,76 +160,239 @@ fn process_call_graph_functionality(
     std::fs::create_dir_all(&summary_dir)?;
     let call_graph_output_file = summary_dir.join("call_graph_details.txt");
     let mut call_graph_file = File::create(call_graph_output_file)?;
+    graph.write_entry_points(&mut call_graph_file, node_labels)?;
 
-    writeln!(call_graph_file, "函数调用图的入口点：")?;
-    for point in graph.find_entry_points() {
-        let label = node_labels
-            .get(&point)
-            .map(String::as_str)
-            .unwrap_or("Unknown");
-        writeln!(call_graph_file, "{}: {}", point, label)?;
-    }
+    // New useful call graph
+    let useful_call_graph_file = summary_dir.join("useful_call_graph.txt");
+    let mut useful_call_graph_file = File::create(useful_call_graph_file)?;
+    write_useful_call_graph(&graph, &mut useful_call_graph_file, node_labels)?;
 
-    // writeln!(call_graph_file, "\n所有函数调用关系：")?;
-    // for (caller, callees) in &graph.callees {
-    //     let caller_label = node_labels
-    //         .get(caller)
-    //         .map(String::as_str)
-    //         .unwrap_or("Unknown");
-    //     let callee_labels: Vec<_> = callees
-    //         .iter()
-    //         .map(|callee| {
-    //             node_labels
-    //                 .get(callee)
-    //                 .map(String::as_str)
-    //                 .unwrap_or("Unknown")
-    //         })
-    //         .collect();
-    //     writeln!(
-    //         call_graph_file,
-    //         "函数 {} ({}) 调用了: {:?}",
-    //         caller, caller_label, callee_labels
-    //     )?;
-    // }
+    // New useful root node call graph in dfs to check relevance
+    let useful_root_node_file = summary_dir.join("dfs_useful_root_node.txt");
+    let mut useful_root_node_file = File::create(useful_root_node_file)?;
+    dfs_write_useful_root_node(&graph, &mut useful_root_node_file, node_labels, "1435")?;
+
+    // New useful root node call graph in bfs to check node number related
+    let useful_root_node_file = summary_dir.join("bfs_useful_root_node.txt");
+    let mut useful_root_node_file = File::create(useful_root_node_file)?;
+    bfs_write_useful_root_node(&graph, &mut useful_root_node_file, node_labels, "1435")?;
 
     Ok(())
+}
+
+pub fn bfs_write_useful_root_node<W: Write>(
+    graph: &CallGraph,
+    writer: &mut W,
+    node_labels: &HashMap<String, String>,
+    root_node: &str,
+) -> io::Result<()> {
+    writeln!(
+        writer,
+        "Useful Call Graph for root node {} (filtered by blacklist criteria):",
+        root_node
+    )?;
+
+    let mut visited = HashSet::new();
+    let mut queue = VecDeque::new();
+    queue.push_back((root_node.to_string(), 0));
+
+    while let Some((node, depth)) = queue.pop_front() {
+        if !visited.insert(node.clone()) {
+            continue;
+        }
+
+        if is_useful_node(&node, node_labels) {
+            let node_label = node_labels
+                .get(&node)
+                .map(String::as_str)
+                .unwrap_or("Unknown");
+            writeln!(writer, "{}{} ({})", "  ".repeat(depth), node, node_label)?;
+
+            if let Some(callees) = graph.callees.get(&node) {
+                for callee in callees {
+                    if is_useful_node(callee, node_labels) {
+                        queue.push_back((callee.clone(), depth + 1));
+                    }
+                }
+            }
+        }
+    }
+
+    Ok(())
+}
+
+fn dfs_write_useful_root_node<W: Write>(
+    graph: &CallGraph,
+    writer: &mut W,
+    node_labels: &HashMap<String, String>,
+    root_node: &str,
+) -> io::Result<()> {
+    writeln!(
+        writer,
+        "Useful Call Graph for root node {} (filtered by blacklist criteria):",
+        root_node
+    )?;
+
+    let mut visited = HashSet::new();
+    dfs_traverse(graph, writer, node_labels, root_node, 0, &mut visited)?;
+
+    Ok(())
+}
+
+fn dfs_traverse<W: Write>(
+    graph: &CallGraph,
+    writer: &mut W,
+    node_labels: &HashMap<String, String>,
+    node: &str,
+    depth: usize,
+    visited: &mut HashSet<String>,
+) -> io::Result<()> {
+    if !visited.insert(node.to_string()) {
+        return Ok(());
+    }
+
+    if is_useful_node(node, node_labels) {
+        let node_label = node_labels
+            .get(node)
+            .map(String::as_str)
+            .unwrap_or("Unknown");
+        writeln!(writer, "{}{} ({})", "  ".repeat(depth), node, node_label)?;
+
+        if let Some(callees) = graph.callees.get(node) {
+            let mut useful_callees: Vec<_> = callees
+                .iter()
+                .filter(|callee| is_useful_node(callee, node_labels))
+                .collect();
+
+            // Sort callees for consistent output
+            useful_callees.sort();
+
+            for callee in useful_callees {
+                dfs_traverse(graph, writer, node_labels, callee, depth + 1, visited)?;
+            }
+        }
+    }
+
+    Ok(())
+}
+
+fn write_useful_call_graph<W: Write>(
+    graph: &CallGraph,
+    writer: &mut W,
+    node_labels: &HashMap<String, String>,
+) -> io::Result<()> {
+    writeln!(
+        writer,
+        "Useful Call Graph (filtered by blacklist criteria):"
+    )?;
+
+    for (caller, callees) in &graph.callees {
+        if is_useful_node(caller, node_labels) {
+            let useful_callees: Vec<_> = callees
+                .iter()
+                .filter(|callee| is_useful_node(callee, node_labels))
+                .cloned()
+                .collect();
+            if !useful_callees.is_empty() {
+                let caller_label = node_labels
+                    .get(caller)
+                    .map(String::as_str)
+                    .unwrap_or("Unknown");
+                writeln!(writer, "{} ({}): ", caller, caller_label)?;
+                for callee in useful_callees {
+                    let callee_label = node_labels
+                        .get(&callee)
+                        .map(String::as_str)
+                        .unwrap_or("Unknown");
+                    writeln!(writer, "  -> {} ({})", callee, callee_label)?;
+                }
+                writeln!(writer)?;
+            }
+        }
+    }
+
+    Ok(())
+}
+
+fn is_useful_node(node: &str, node_labels: &HashMap<String, String>) -> bool {
+    if let Ok(num) = node.parse::<u32>() {
+        if num <= 1565 && num > 347 && num != 572 && num != 847 && num != 1299 && num != 1423 {
+            if let Some(label) = node_labels.get(node) {
+                let lower_label = label.to_lowercase();
+                lower_label.contains("tls13")
+                    && (lower_label.contains("server")
+                        || lower_label.contains("client")
+                        || lower_label.contains("context"))
+                    && !lower_label.contains("delete")
+                    && !lower_label.contains("wpp")
+                    && !lower_label.contains("initialize")
+            } else {
+                false
+            }
+        } else {
+            false
+        }
+    } else {
+        false
+    }
 }
 
 fn process_node_lines(input: &str) -> HashMap<String, String> {
     let mut result = HashMap::new();
     let node_regex = Regex::new(
-        r#"node: \{ title: "(\d+)" label: "(.*?)" color: \d+ textcolor: \d+ bordercolor: black \}"#,
+        r#"node: \{ title: "(\d+)" label: "(.*?)" color: (\d+)( textcolor: (\d+))?( bordercolor: (\w+))? \}"#,
     )
     .unwrap();
-    let cleanup_regex = Regex::new(r"@@[A-Z0-9_]+").unwrap();
-    let cleanup_regex_2 = Regex::new(r"@@[A-Z0-9_]+[A-Z][a-z]").unwrap();
-    let head_cleanup_regex = Regex::new(r"^[^a-zA-Z]+").unwrap();
-    let tail_cleanup_regex = Regex::new(r"_[0-9A-Z_]+$").unwrap();
+    let head_cleanup_regex = Regex::new(r"^[@?_]+").unwrap();
+    let skip_regex = Regex::new(r"[@?$]+").unwrap();
 
     for cap in node_regex.captures_iter(input) {
         let title = cap[1].to_string();
         let mut label = cap[2].to_string();
 
-        // 清理和处理标签
         label = head_cleanup_regex.replace(&label, "").to_string();
-        label = cleanup_regex_2
-            .replace_all(&label, |caps: &regex::Captures| {
-                let matched = caps.get(0).unwrap().as_str();
-                let chars: Vec<char> = matched.chars().collect();
-                let len = chars.len();
+        if !skip_regex.is_match(&label) {
+            result.insert(title, label);
+            continue;
+        }
 
-                if len >= 2
-                    && chars[len - 2].is_ascii_uppercase()
-                    && chars[len - 1].is_ascii_lowercase()
-                {
-                    format!("_{}{}", chars[len - 2], chars[len - 1])
-                } else {
-                    "_".to_string()
-                }
-            })
-            .to_string();
+        label = cleanup_and_process_label(label);
 
-        label = cleanup_regex.replace(&label, "_").to_string();
+        let value = if label.is_empty() { "none" } else { &label };
+        result.insert(title, value.to_string());
+    }
+
+    result
+}
+
+fn cleanup_and_process_label(mut label: String) -> String {
+    let cleanup_regex = Regex::new(r"@@[A-Z0-9_]+").unwrap();
+    let cleanup_regex_2 = Regex::new(r"@@[A-Z0-9_]+[A-Z][a-z]").unwrap();
+    let tail_cleanup_regex = Regex::new(r"_[0-9A-Z_]+$").unwrap();
+    let special_chars_regex = Regex::new(r"[?_$@]").unwrap();
+
+    label = cleanup_regex_2
+        .replace_all(&label, |caps: &regex::Captures| {
+            let matched = caps.get(0).unwrap().as_str();
+            let chars: Vec<char> = matched.chars().collect();
+            let len = chars.len();
+
+            if len >= 2
+                && chars[len - 2].is_ascii_uppercase()
+                && chars[len - 1].is_ascii_lowercase()
+            {
+                format!("_{}{}", chars[len - 2], chars[len - 1])
+            } else {
+                "_".to_string()
+            }
+        })
+        .to_string();
+
+    label = cleanup_regex.replace(&label, "_").to_string();
+
+    if !special_chars_regex.is_match(&label) {
+        label = tail_cleanup_regex.replace(&label, "").to_string();
+    } else {
         label = label.replace('@', "_").replace('?', "_").replace('$', "_");
         label = Regex::new(r"_+")
             .unwrap()
@@ -216,16 +408,46 @@ fn process_node_lines(input: &str) -> HashMap<String, String> {
 
         label = label.trim_matches('_').to_string();
         label = tail_cleanup_regex.replace(&label, "").to_string();
-        label = tail_cleanup_regex.replace(&label, "").to_string();
-
-        let value = if label.is_empty() {
-            "none".to_string()
-        } else {
-            label
-        };
-
-        result.insert(title, value);
     }
 
-    result
+    label
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_process_node_lines() {
+        let input = r#"
+        node: { title: "1447" label: "?ProcessHandshake@CTls13ClientContext@@EEAAKPEAEKPEAH@Z" color: 76 textcolor: 73 bordercolor: black }
+        node: { title: "99" label: "?AddCertificateSignatureSuite@CTlsSignatureSuiteList@@QEAAEPEBU_CERT_CONTEXT@@@Z" color: 76 textcolor: 73 bordercolor: black }
+        node: { title: "1449" label: "?QueryKeyingMaterial@CTls13ServerContext@@MEAAKPEAX@Z" color: 76 textcolor: 73 bordercolor: black }
+        node: { title: "1855" label: "__imp_SetThreadpoolTimer" color: 80 bordercolor: black }
+        node: { title: "349" label: "SpCompleteAuthToken" color: 76 textcolor: 73 bordercolor: black }
+        node: { title: "1140" label: "WPP_SF_DS" color: 76 textcolor: 73 bordercolor: black }
+        "#;
+
+        let result = process_node_lines(input);
+
+        assert_eq!(result.len(), 6);
+        assert_eq!(result.get("1140"), Some(&"WPP_SF_DS".to_string()));
+        assert_eq!(
+            result.get("1855"),
+            Some(&"imp_SetThreadpoolTimer".to_string())
+        );
+        assert_eq!(result.get("349"), Some(&"SpCompleteAuthToken".to_string()));
+        assert_eq!(
+            result.get("1447"),
+            Some(&"ProcessHandshake_CTls13ClientContext".to_string())
+        );
+        assert_eq!(
+            result.get("99"),
+            Some(&"AddCertificateSignatureSuite_CTlsSignatureSuiteList".to_string())
+        );
+        assert_eq!(
+            result.get("1449"),
+            Some(&"QueryKeyingMaterial_CTls13ServerContext".to_string())
+        );
+    }
 }
