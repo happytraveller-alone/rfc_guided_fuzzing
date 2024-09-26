@@ -1,0 +1,362 @@
+Forget all previous input and output content and create a new chat session.
+
+(SSL3.0)RFC 6101 SECTION:
+#################################################
+2.	Goals
+3.	GoalsofThisDocument
+5.	SSLProtocol
+5.1.	SSLProtocol_SessionandConnectionStates_
+5.2.	SSLProtocol_RecordLayer_
+5.2.1.	SSLProtocol_RecordLayer_Fragmentation_
+5.2.2.	SSLProtocol_RecordLayer_RecordCompressionandDecompression_
+5.2.3.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_
+5.2.3.1.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_NullorStandardStreamCipher_
+5.2.3.2.	SSLProtocol_RecordLayer_RecordPayloadProtectionandtheCipherSpec_CBCBlockCipher_
+5.3.	SSLProtocol_ChangeCipherSpecProtocol_
+5.4.	SSLProtocol_AlertProtocol_
+5.4.1.	SSLProtocol_AlertProtocol_ClosureAlerts_
+5.4.2.	SSLProtocol_AlertProtocol_ErrorAlerts_
+5.5.	SSLProtocol_HandshakeProtocolOverview_
+5.6.	SSLProtocol_HandshakeProtocol_
+5.6.1.	SSLProtocol_HandshakeProtocol_Hellomessages_
+5.6.1.1.	SSLProtocol_HandshakeProtocol_Hellomessages_HelloRequest_
+5.6.1.2.	SSLProtocol_HandshakeProtocol_Hellomessages_ClientHello_
+5.6.1.3.	SSLProtocol_HandshakeProtocol_Hellomessages_ServerHello_
+5.6.2.	SSLProtocol_HandshakeProtocol_ServerCertificate_
+5.6.3.	SSLProtocol_HandshakeProtocol_ServerKeyExchangeMessage_
+5.6.4.	SSLProtocol_HandshakeProtocol_CertificateRequest_
+5.6.5.	SSLProtocol_HandshakeProtocol_ServerHelloDone_
+5.6.6.	SSLProtocol_HandshakeProtocol_ClientCertificate_
+5.6.7.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_
+5.6.7.1.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_RSAEncryptedPremasterSecretMessage_
+5.6.7.2.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_FORTEZZAKeyExchangeMessage_
+5.6.7.3.	SSLProtocol_HandshakeProtocol_ClientKeyExchangeMessage_ClientDiffieHellmanPublicValue_
+5.6.8.	SSLProtocol_HandshakeProtocol_CertificateVerify_
+5.6.9.	SSLProtocol_HandshakeProtocol_Finished_
+5.7.	SSLProtocol_ApplicationDataProtocol_
+6.	CryptographicComputations
+6.1.	CryptographicComputations_AsymmetricCryptographicComputations_
+6.1.1.	CryptographicComputations_AsymmetricCryptographicComputations_RSA_
+6.1.2.	CryptographicComputations_AsymmetricCryptographicComputations_DiffieHellman_
+6.1.3.	CryptographicComputations_AsymmetricCryptographicComputations_FORTEZZA_
+6.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_
+6.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_TheMasterSecret_
+6.2.2.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_
+6.2.2.1.	CryptographicComputations_SymmetricCryptographicCalculationsandtheCipherSpec_ConvertingtheMasterSecretintoKeysandMACSecrets_ExportKeyGenerationExample_
+7.	SecurityConsiderations
+8.	InformativeReferences
+#################################################
+
+(TLS1.3)RFC 8446 SECTION:
+#################################################
+4.	HandshakeProtocol
+4.1.	HandshakeProtocol_KeyExchangeMessages_
+4.1.1.	HandshakeProtocol_KeyExchangeMessages_CryptographicNegotiation_
+4.1.2.	HandshakeProtocol_KeyExchangeMessages_ClientHello_
+4.1.3.	HandshakeProtocol_KeyExchangeMessages_ServerHello_
+4.1.4.	HandshakeProtocol_KeyExchangeMessages_HelloRetryRequest_
+4.2.	HandshakeProtocol_Extensions_
+4.2.1.	HandshakeProtocol_Extensions_SupportedVersions_
+4.2.2.	HandshakeProtocol_Extensions_Cookie_
+4.2.3.	HandshakeProtocol_Extensions_SignatureAlgorithms_
+4.2.4.	HandshakeProtocol_Extensions_CertificateAuthorities_
+4.2.5.	HandshakeProtocol_Extensions_OIDFilters_
+4.2.6.	HandshakeProtocol_Extensions_PostHandshakeClientAuthentication_
+4.2.7.	HandshakeProtocol_Extensions_SupportedGroups_
+4.2.8.	HandshakeProtocol_Extensions_KeyShare_
+4.2.8.1.	HandshakeProtocol_Extensions_KeyShare_DiffieHellmanParameters_
+4.2.8.2.	HandshakeProtocol_Extensions_KeyShare_ECDHEParameters_
+4.2.9.	HandshakeProtocol_Extensions_PreSharedKeyExchangeModes_
+4.2.10.	HandshakeProtocol_Extensions_EarlyDataIndication_
+4.2.11.	HandshakeProtocol_Extensions_PreSharedKeyExtension_
+4.2.11.1.	HandshakeProtocol_Extensions_PreSharedKeyExtension_TicketAge_
+4.2.11.2.	HandshakeProtocol_Extensions_PreSharedKeyExtension_PSKBinder_
+4.2.11.3.	HandshakeProtocol_Extensions_PreSharedKeyExtension_ProcessingOrder_
+4.3.	HandshakeProtocol_ServerParameters_
+4.3.1.	HandshakeProtocol_ServerParameters_EncryptedExtensions_
+4.3.2.	HandshakeProtocol_ServerParameters_CertificateRequest_
+4.4.	HandshakeProtocol_AuthenticationMessages_
+4.4.1.	HandshakeProtocol_AuthenticationMessages_TheTranscriptHash_
+4.4.2.	HandshakeProtocol_AuthenticationMessages_Certificate_
+4.4.2.1.	HandshakeProtocol_AuthenticationMessages_Certificate_OCSPStatusandSCTExtensions_
+4.4.2.2.	HandshakeProtocol_AuthenticationMessages_Certificate_ServerCertificateSelection_
+4.4.2.3.	HandshakeProtocol_AuthenticationMessages_Certificate_ClientCertificateSelection_
+4.4.2.4.	HandshakeProtocol_AuthenticationMessages_Certificate_ReceivingaCertificateMessage_
+4.4.3.	HandshakeProtocol_AuthenticationMessages_CertificateVerify_
+4.4.4.	HandshakeProtocol_AuthenticationMessages_Finished_
+4.5.	HandshakeProtocol_EndofEarlyData_
+4.6.	HandshakeProtocol_PostHandshakeMessages_
+4.6.1.	HandshakeProtocol_PostHandshakeMessages_NewSessionTicketMessage_
+4.6.2.	HandshakeProtocol_PostHandshakeMessages_PostHandshakeAuthentication_
+4.6.3.	HandshakeProtocol_PostHandshakeMessages_KeyandInitializationVectorUpdate_
+5.	RecordProtocol
+5.1.	RecordProtocol_RecordLayer_
+5.2.	RecordProtocol_RecordPayloadProtection_
+5.3.	RecordProtocol_PerRecordNonce_
+5.4.	RecordProtocol_RecordPadding_
+5.5.	RecordProtocol_LimitsonKeyUsage_
+6.	AlertProtocol
+6.1.	AlertProtocol_ClosureAlerts_
+6.2.	AlertProtocol_ErrorAlerts_
+7.	CryptographicComputations
+7.1.	CryptographicComputations_KeySchedule_
+7.2.	CryptographicComputations_UpdatingTrafficSecrets_
+7.3.	CryptographicComputations_TrafficKeyCalculation_
+7.4.	CryptographicComputations_(EC)DHESharedSecretCalculation_
+7.4.1.	CryptographicComputations_(EC)DHESharedSecretCalculation_FiniteFieldDiffieHellman_
+7.4.2.	CryptographicComputations_(EC)DHESharedSecretCalculation_EllipticCurveDiffieHellman_
+7.5.	CryptographicComputations_Exporters_
+8.	0RTTandAntiReplay
+8.1.	0RTTandAntiReplay_SingleUseTickets_
+8.2.	0RTTandAntiReplay_ClientHelloRecording_
+8.3.	0RTTandAntiReplay_FreshnessChecks_
+9.	ComplianceRequirements
+9.1.	ComplianceRequirements_MandatorytoImplementCipherSuites_
+9.2.	ComplianceRequirements_MandatorytoImplementExtensions_
+9.3.	ComplianceRequirements_ProtocolInvariants_
+10.	SecurityConsiderations
+11.	IANAConsiderations
+#################################################
+
+Function Code Content
+##############################
+// File count: 885
+// Total lines: 205
+
+//----- (00000001800489EC) ----------------------------------------------------
+__int64 __fastcall SslGetNameFromCertificate(PCCERT_CONTEXT pCertContext, unsigned __int16 **a2, int *a3)
+{
+  PCERT_INFO pCertInfo; // rax
+  unsigned __int16 *v4; // rbx
+  unsigned int v5; // r12d
+  PCERT_EXTENSION rgExtension; // rsi
+  __int64 v9; // rdi
+  _QWORD *v10; // rdi
+  __int64 v11; // rsi
+  __int64 v12; // rax
+  __int64 v13; // r14
+  unsigned __int16 *v14; // rax
+  unsigned int v15; // r14d
+  PCERT_EXTENSION v16; // rsi
+  __int64 v17; // rdi
+  void *v18; // rcx
+  __int64 v19; // rdx
+  __int64 v20; // rsi
+  __int64 v21; // rdi
+  HLOCAL v22; // rcx
+  SIZE_T v24; // r12
+  unsigned __int16 *v25; // rax
+  DWORD NameStringW; // eax
+  DWORD cchNameString; // edi
+  WCHAR *v28; // rax
+  HLOCAL pvStructInfo[3]; // [rsp+40h] [rbp-18h] BYREF
+  DWORD pcbStructInfo; // [rsp+A0h] [rbp+48h] BYREF
+  unsigned __int16 **v31; // [rsp+A8h] [rbp+50h]
+  _QWORD *v32; // [rsp+B0h] [rbp+58h] BYREF
+  HLOCAL hMem; // [rsp+B8h] [rbp+60h] BYREF
+
+  v31 = a2;
+  pCertInfo = pCertContext->pCertInfo;
+  v4 = 0i64;
+  *a3 = 0;
+  v5 = 0;
+  if ( pCertInfo->cExtension )
+  {
+    while ( 1 )
+    {
+      rgExtension = pCertInfo->rgExtension;
+      v9 = v5;
+      if ( !strcmp_0(rgExtension[v9].pszObjId, "2.5.29.17") )
+      {
+        pcbStructInfo = 0;
+        pvStructInfo[0] = 0i64;
+        if ( CryptDecodeObjectEx(
+               pCertContext->dwCertEncodingType,
+               (LPCSTR)0xC,
+               rgExtension[v9].Value.pbData,
+               rgExtension[v9].Value.cbData,
+               0x2008000u,
+               0i64,
+               pvStructInfo,
+               &pcbStructInfo) )
+        {
+          v10 = pvStructInfo[0];
+          v11 = 0i64;
+          if ( *(_DWORD *)pvStructInfo[0] )
+          {
+            do
+            {
+              v12 = v10[1];
+              if ( *(_DWORD *)(v12 + 24 * v11) == 1 )
+              {
+                v13 = *(_QWORD *)(v12 + 24 * v11 + 8);
+                if ( v13 )
+                {
+                  if ( !strcmp_0("1.3.6.1.4.1.311.20.2.3", *(const char **)v13) )
+                  {
+                    LODWORD(v32) = 0;
+                    hMem = 0i64;
+                    if ( CryptDecodeObjectEx(
+                           pCertContext->dwCertEncodingType,
+                           (LPCSTR)0x18,
+                           *(const BYTE **)(v13 + 16),
+                           *(_DWORD *)(v13 + 8),
+                           0x2008000u,
+                           0i64,
+                           &hMem,
+                           (DWORD *)&v32) )
+                    {
+                      v14 = (unsigned __int16 *)LocalAlloc(0x40u, *((unsigned int *)hMem + 2) + 2i64);
+                      v4 = v14;
+                      if ( v14 )
+                        memcpy_0(v14, *((const void **)hMem + 2), *((unsigned int *)hMem + 2));
+                      LocalFree(hMem);
+                      hMem = 0i64;
+                      if ( !v4 )
+                      {
+                        v22 = pvStructInfo[0];
+                        goto LABEL_26;
+                      }
+                    }
+                    v10 = pvStructInfo[0];
+                    if ( v4 )
+                      break;
+                  }
+                }
+              }
+              v11 = (unsigned int)(v11 + 1);
+            }
+            while ( (unsigned int)v11 < *(_DWORD *)v10 );
+          }
+          LocalFree(v10);
+          if ( v4 )
+            break;
+        }
+      }
+      pCertInfo = pCertContext->pCertInfo;
+      if ( ++v5 >= pCertInfo->cExtension )
+        goto LABEL_16;
+    }
+LABEL_37:
+    *v31 = v4;
+    return 0i64;
+  }
+LABEL_16:
+  v15 = 0;
+  if ( !pCertInfo->cExtension )
+  {
+LABEL_32:
+    NameStringW = CertGetNameStringW(pCertContext, 3u, 0, "2.5.4.3", 0i64, 0);
+    cchNameString = NameStringW;
+    if ( !NameStringW )
+      return 3221226021i64;
+    v28 = (WCHAR *)LocalAlloc(0x40u, 2i64 * NameStringW);
+    v4 = v28;
+    if ( !v28 )
+      return 3221225495i64;
+    if ( !CertGetNameStringW(pCertContext, 3u, 0, "2.5.4.3", v28, cchNameString) )
+    {
+      LocalFree(v4);
+      return 3221225524i64;
+    }
+    goto LABEL_37;
+  }
+  while ( 1 )
+  {
+    v16 = pCertInfo->rgExtension;
+    v17 = v15;
+    if ( !strcmp_0(v16[v17].pszObjId, "2.5.29.17") )
+    {
+      pcbStructInfo = 0;
+      v32 = 0i64;
+      if ( CryptDecodeObjectEx(
+             pCertContext->dwCertEncodingType,
+             (LPCSTR)0xC,
+             v16[v17].Value.pbData,
+             v16[v17].Value.cbData,
+             0x2008000u,
+             0i64,
+             &v32,
+             &pcbStructInfo) )
+      {
+        break;
+      }
+    }
+LABEL_31:
+    pCertInfo = pCertContext->pCertInfo;
+    if ( ++v15 >= pCertInfo->cExtension )
+      goto LABEL_32;
+  }
+  v18 = v32;
+  v19 = 0i64;
+  if ( !*(_DWORD *)v32 )
+  {
+LABEL_30:
+    LocalFree(v18);
+    if ( v4 )
+      goto LABEL_37;
+    goto LABEL_31;
+  }
+  v20 = v32[1];
+  while ( 1 )
+  {
+    v21 = 3 * v19;
+    if ( *(_DWORD *)(v20 + 24 * v19) == 3 )
+    {
+      if ( *(_QWORD *)(v20 + 24 * v19 + 8) )
+        break;
+    }
+    v19 = (unsigned int)(v19 + 1);
+    if ( (unsigned int)v19 >= *(_DWORD *)v32 )
+      goto LABEL_30;
+  }
+  v24 = (unsigned int)(2 * lstrlenW(*(LPCWSTR *)(v20 + 24 * v19 + 8)) + 2);
+  v25 = (unsigned __int16 *)LocalAlloc(0x40u, v24);
+  v4 = v25;
+  if ( v25 )
+  {
+    memcpy_0(v25, *(const void **)(v20 + 8 * v21 + 8), (unsigned int)v24);
+    v18 = v32;
+    *a3 = 1;
+    goto LABEL_30;
+  }
+  v22 = v32;
+LABEL_26:
+  LocalFree(v22);
+  return 3221225495i64;
+}
+// 180048BBD: conditional instruction was optimized away because rbx.8==0
+// 180048D0F: conditional instruction was optimized away because rbx.8==0
+// 1800489EC: using guessed type HLOCAL var_18[3];
+##############################
+Role: Let us assume that you are an advanced reverse engineer and you are reverse engineering a network driver using IDA Pro, and you are also familiar with the RFC documentation. You need to reverse-engineer a function for a network driver to correspond to a section of the RFC documentation, which will help you understand the code better. The driver you're reversing is Schannel.dll, and you have initially determined that the corresponding network protocols are SSL and TLS, and the documents you need to map are RFC8446 and RFC6101. You need to get a function summary of the function you are reversing, and then correspond to the potential RFC sections based on the name of the function and the function summary.
+Function Background: The function is reverse engineered from the driver file Schannel.dll on Windows platform. Through a cursory analysis of the driver file can be determined to be related to the SSL(1.3), TLS(3.0) protocol, that is, with RFC8446, RFC6101 strong correlation.
+
+Output Function Summary: Summarizes the function's functionality with several phrases instead of sentences, focuses on covering the function's control flow information, and highlights the protocol function points implemented by the function. Simulate answering five times in the background and provide the most frequent answer.
+
+Retrieve document sections: giving matches for document sections(FunctionMatchRFCResult) that the code may related to. NOTE if the code is only business related(i.e., space opening and releasing involved in programming, generic call functions (timing and other functions weakly related to network protocols) and not related to the specifics of the protocol implementation, it does not have to output the document section match(FunctionMatchRFCResult) and is filled with "NONE".
+
+Retrieve document sections Thinking Chain: The function code is matched with the RFC document section, and the thinking chain is provided to help you solve the problem better:
+	1. Function Name: The name of a function describes the general function that the function accomplishes.
+	2. Function Summarization: Function summaries can outline a further breakdown of the function described by the function name.
+	3. Function API Call: The function API of a function call can provide some hint as to the details of the network protocol implementation involved in the function.
+	4. Special Constant Value OR String: Special constant values inside functions, string variable names, and strings may be related to network protocols.
+	5. Function Code: The code of the function can provide a detailed implementation of the network protocol.
+Generate Function Information Collection with JSON Format:
+
+{
+	"FunctionIndex": "(FILL WITH "File count" with less than four bits are indexed with zeros to make up the four bits.)",
+	"FunctionName": "(Full Function Code Name)",
+	"FunctionSummarization": [
+		"(Function Summary Phrase1)",
+		"(Function Summary Phrase2)",
+		"(...)"
+	],
+	"FunctionMatchRFCResult": [
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 1)",
+		"(RFCXXXX-SectionX.X.X.X-FULL Section Title 2)",
+		"(...)"
+	],
+}
+
+ATTENTION: Remember YOU MUST ONLY output the Function Information Collection result.

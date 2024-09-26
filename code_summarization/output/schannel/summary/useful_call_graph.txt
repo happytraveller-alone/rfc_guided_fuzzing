@@ -1,0 +1,463 @@
+Useful Call Graph (filtered by blacklist criteria):
+1460 (VerifyBinder_CTls13ServerContext): 
+  -> 1422 (GenerateBinderData_CTls13Context)
+
+1398 (ParseCertificateMsg_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1396 (ParseCertData_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_lsSignatureSuiteList_SessionCacheItem)
+
+1342 (ComputeServerHelloExtensionsSize_CTls13ServerHandshake): 
+  -> 1338 (ComputeKeyShareEntrySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1337 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1375 (GenerateHRRExtensions_CTls13ServerHandshake): 
+  -> 1379 (GenerateNamedGroupExtension_CTls13ServerHandshake)
+  -> 1394 (GenerateSupportedVersionsExtension_CTls13ServerHandshake)
+  -> 1374 (GenerateGenericExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1368 (GenerateEncryptedExtensions_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+  -> 1374 (GenerateGenericExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1385 (GenerateSelectedALPNExtension_CTls13ServerHandshake)
+
+1379 (GenerateNamedGroupExtension_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1349 (GenerateALPNExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1325 (ComputeCertificateListSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1323 (ComputeCertificateEntrySize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1403 (ParseFinished_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1395 (GetFinishedMessageKey_CTls13Context)
+
+1145 (0CTls13ClientContext_PEAVCTlsRecord_SessionCacheClientItem): 
+  -> 1146 (0CTls13Context_PEAVCTlsRecord)
+  -> 1311 (0_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_PEAVCTls13ClientContext_TlsRecord)
+
+477 (ProcessHandshake_CTls13ServerContext): 
+  -> 1404 (ParseKeyUpdate_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1403 (ParseFinished_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo)
+  -> 1398 (ParseCertificateMsg_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1400 (ParseCertificateVerify_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1391 (GenerateStatusRequestExtension_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1153 (ECTls13ClientHandshake): 
+  -> 1312 (1_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1382 (GeneratePskExtension_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1378 (GenerateKeyShareExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+  -> 1377 (GenerateKeyShareEntry_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1158 (CleanupLsaModeKeys_CTls13ClientContext): 
+  -> 1163 (FreeApplicationTrafficKeys_CTls13Context)
+
+1436 (GenerateTlsAlertMessage_CTls13ClientContext_Buffer): 
+  -> 1437 (GenerateTlsAlertMessage_CTls13Context_Ssl3TlsContext_Buffer)
+
+1332 (ComputeClientHelloSize_CTls13ClientHandshake): 
+  -> 1331 (ComputeClientHelloExtensionsSize_CTls13ClientHandshake)
+
+1394 (GenerateSupportedVersionsExtension_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1412 (CleanupTls13SharedConnectedState_CTls13Context): 
+  -> 1419 (FreeCertificateRequestContext_CTls13Context)
+  -> 1420 (FreeEarlyKey_CTls13Context)
+
+1417 (ExportTrafficSecret_CTls13Context_TrafficType): 
+  -> 1416 (ExportRawSecretBytes_CTls13Context)
+
+1422 (GenerateBinderData_CTls13Context): 
+  -> 1420 (FreeEarlyKey_CTls13Context)
+
+1421 (GenerateApplicationWriteKeys_CTls13Context_eSslErrorState): 
+  -> 1415 (ExpandTrafficAndWriteKeys_CTls13Context_eSslErrorState)
+
+1383 (GeneratePskKeyExchangeModesExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1354 (GenerateCertificateEntry_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1356 (GenerateCertificateEntryExtensions_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1443 (LookupEccCurveType_CTls13ServerContext): 
+  -> 1418 (FindClientShare_CTls13ServerContext)
+
+1387 (GenerateServerHelloOrHRR_CTls13ServerHandshake): 
+  -> 1375 (GenerateHRRExtensions_CTls13ServerHandshake)
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1386 (GenerateServerHelloExtensions_CTls13ServerHandshake)
+
+1424 (GenerateCertVerifyHashForRemoteSigning_CTls13ClientContext): 
+  -> 1347 (DetermineCertVerifyCodePoint_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1351 (GenerateCertVerifyContentHash_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHashAlgorithm)
+  -> 1360 (GenerateCertificateMsg_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1326 (ComputeCertificateMsgSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_slCredential)
+
+1159 (CleanupLsaModeKeys_CTls13ServerContext): 
+  -> 1163 (FreeApplicationTrafficKeys_CTls13Context)
+
+1333 (ComputeEncryptedExtensionsMsgSize_CTls13ServerHandshake): 
+  -> 1334 (ComputeEncryptedExtensionsSize_CTls13ServerHandshake)
+
+1400 (ParseCertificateVerify_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1348 (DetermineCertVerifySignatureAlgorithm_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1409 (VerifySignature_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1323 (ComputeCertificateEntrySize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1321 (ComputeCertificateEntryExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1392 (GenerateSupportedGroupsExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1438 (GenerateTlsAlertMessage_CTls13ServerContext_Buffer): 
+  -> 1437 (GenerateTlsAlertMessage_CTls13Context_Ssl3TlsContext_Buffer)
+
+1384 (GenerateRenegotiationInfoExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1386 (GenerateServerHelloExtensions_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+  -> 1377 (GenerateKeyShareEntry_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1394 (GenerateSupportedVersionsExtension_CTls13ServerHandshake)
+  -> 1374 (GenerateGenericExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1382 (GeneratePskExtension_CTls13ServerHandshake)
+
+1147 (1CTls13ClientContext): 
+  -> 1312 (1_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 463 (1CTls13Context)
+  -> 1412 (CleanupTls13SharedConnectedState_CTls13Context)
+
+1399 (ParseCertificateRequest_CTls13ClientHandshake): 
+  -> 1453 (SetCertificateRequestContext_CTls13ClientContext)
+
+1173 (ParseCcsRecord_CTls13ServerContext): 
+  -> 1444 (ParseCcsRecord_CTls13Context_eSslState)
+
+1315 (E_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1313 (1_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1447 (ProcessHandshake_CTls13ClientContext): 
+  -> 1413 (DetermineClientCredentialStatus_CTls13ClientContext)
+  -> 1405 (ParseNewSessionTicket_CTls13ClientHandshake)
+  -> 1399 (ParseCertificateRequest_CTls13ClientHandshake)
+  -> 1421 (GenerateApplicationWriteKeys_CTls13Context_eSslErrorState)
+  -> 1429 (GenerateHandshakeWriteKeys_CTls13Context_eSslErrorState)
+  -> 1400 (ParseCertificateVerify_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1404 (ParseKeyUpdate_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1401 (ParseEncryptedExtensionsMsg_CTls13ClientHandshake)
+  -> 1397 (ParseCertificateMsg_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1414 (DowngradeClientToSsl3Tls_CTls13ClientContext)
+  -> 1406 (ParseServerHello_CTls13ClientHandshake)
+  -> 1402 (ParseFinished_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo)
+
+1366 (GenerateClientHelloExtensions_CTls13ClientHandshake): 
+  -> 1367 (GenerateCookieExtension_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+  -> 1378 (GenerateKeyShareExtension_CTls13ClientHandshake)
+  -> 1349 (GenerateALPNExtension_CTls13ClientHandshake)
+  -> 1383 (GeneratePskKeyExchangeModesExtension_CTls13ClientHandshake)
+  -> 1384 (GenerateRenegotiationInfoExtension_CTls13ClientHandshake)
+  -> 1388 (GenerateServerNameExtension_CTls13ClientHandshake)
+  -> 1389 (GenerateSignatureAlgorithmsExtension_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1392 (GenerateSupportedGroupsExtension_CTls13ClientHandshake)
+  -> 1393 (GenerateSupportedVersionsExtension_CTls13ClientHandshake)
+  -> 1373 (GenerateGenericExtensions_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHandshakeType)
+  -> 1381 (GeneratePskExtension_CTls13ClientHandshake)
+
+1409 (VerifySignature_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1351 (GenerateCertVerifyContentHash_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHashAlgorithm)
+
+1454 (SetClientShare_CTls13ServerContext): 
+  -> 1418 (FindClientShare_CTls13ServerContext)
+  -> 1455 (SetPeerPublicKey_CTls13Context)
+
+1154 (ECTls13Context): 
+  -> 463 (1CTls13Context)
+
+459 (GCTls13ServerContext): 
+  -> 465 (CleanupConnectedState_CTls13ServerContext)
+  -> 464 (1CTls13ServerHandshake)
+  -> 463 (1CTls13Context)
+
+1402 (ParseFinished_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1395 (GetFinishedMessageKey_CTls13Context)
+
+1397 (ParseCertificateMsg_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1396 (ParseCertData_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_lsSignatureSuiteList_SessionCacheItem)
+
+1320 (ComputeCertificateEntryExtensionsSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1336 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHandshakeType)
+
+451 (ParseExtension_CTls13ExtServer_eTlsExtensions): 
+  -> 1557 (ParseKeyShareExtension_CTls13ExtServer)
+  -> 1450 (RetrieveGenericExtension_CTls13Context_eTlsHandshakeType)
+  -> 1559 (ParsePreSharedKeyExtension_CTls13ExtServer)
+  -> 1560 (ParsePskKeyExchangeModesExtension_CTls13ExtServer)
+  -> 1563 (ParseSupportedVersionsExtension_CTls13ExtServer)
+
+1329 (ComputeCertificateRequestSize_CTls13ServerHandshake): 
+  -> 1328 (ComputeCertificateRequestExtensionsSize_CTls13ServerHandshake)
+
+1314 (G_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1312 (1_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1331 (ComputeClientHelloExtensionsSize_CTls13ClientHandshake): 
+  -> 1317 (ComputeALPNExtensionSize_CTls13ClientHandshake)
+  -> 1336 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHandshakeType)
+  -> 1341 (ComputePskExtensionSize_CTls13ClientHandshake)
+  -> 1344 (ComputeServerNameExtensionSize_CTls13ClientHandshake)
+  -> 1346 (ComputeSupportedVersionsExtensionSize_CTls13ClientHandshake)
+  -> 1339 (ComputeKeyShareExtensionSize_CTls13ClientHandshake)
+
+1388 (GenerateServerNameExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1431 (GenerateHelloRetryRequest_CTls13ServerContext_Buffer): 
+  -> 1427 (GenerateClientHelloHash_CTls13Context)
+  -> 1343 (ComputeServerHelloOrHRRSize_CTls13ServerHandshake)
+  -> 1387 (GenerateServerHelloOrHRR_CTls13ServerHandshake)
+  -> 1452 (SetCcsRecordInfo_CTls13Context_MessageInfo_CTlsRecord)
+
+1458 (UpdateHandshakeHash_CTls13ClientContext): 
+  -> 1439 (HashPostHandshakeMessage_CTls13Context)
+
+1343 (ComputeServerHelloOrHRRSize_CTls13ServerHandshake): 
+  -> 1342 (ComputeServerHelloExtensionsSize_CTls13ServerHandshake)
+  -> 1337 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1364 (GenerateCertificateVerify_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1352 (GenerateCertVerifySignature_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1459 (UpdateHandshakeHash_CTls13ServerContext): 
+  -> 1439 (HashPostHandshakeMessage_CTls13Context)
+
+1324 (ComputeCertificateListSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1322 (ComputeCertificateEntrySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1385 (GenerateSelectedALPNExtension_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1380 (GenerateNewSessionTicket_CTls13ServerHandshake): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1327 (ComputeCertificateMsgSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_slCredential): 
+  -> 1325 (ComputeCertificateListSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1430 (GenerateHello_CTls13ClientContext_Buffer): 
+  -> 1452 (SetCcsRecordInfo_CTls13Context_MessageInfo_CTlsRecord)
+  -> 1365 (GenerateClientHello_CTls13ClientHandshake)
+  -> 1332 (ComputeClientHelloSize_CTls13ClientHandshake)
+
+1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo): 
+  -> 1417 (ExportTrafficSecret_CTls13Context_TrafficType)
+
+1411 (CleanupConnectedState_CTls13ClientContext): 
+  -> 1412 (CleanupTls13SharedConnectedState_CTls13Context)
+
+476 (SetGenericExtensionBuffers_CTls13Context_SecBufferDesc_SecBuffer): 
+  -> 1442 (IsValidGenericExtensionType_CTls13Context)
+
+1361 (GenerateCertificateMsg_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1359 (GenerateCertificateList_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1355 (GenerateCertificateEntry_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1357 (GenerateCertificateEntryExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1352 (GenerateCertVerifySignature_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1351 (GenerateCertVerifyContentHash_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHashAlgorithm)
+
+1359 (GenerateCertificateList_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1355 (GenerateCertificateEntry_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1363 (GenerateCertificateRequestExtensions_CTls13ServerHandshake): 
+  -> 1389 (GenerateSignatureAlgorithmsExtension_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1353 (GenerateCertificateAuthoritiesExtension_CTls13ServerHandshake)
+  -> 1374 (GenerateGenericExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1434 (GenerateResponse_CTls13ClientContext_Buffer): 
+  -> 1424 (GenerateCertVerifyHashForRemoteSigning_CTls13ClientContext)
+  -> 1426 (GenerateClientFinished_CTls13ClientContext_Buffer)
+
+1428 (GenerateClientHelloResponse_CTls13ServerContext_Buffer): 
+  -> 1421 (GenerateApplicationWriteKeys_CTls13Context_eSslErrorState)
+  -> 1343 (ComputeServerHelloOrHRRSize_CTls13ServerHandshake)
+  -> 1452 (SetCcsRecordInfo_CTls13Context_MessageInfo_CTlsRecord)
+  -> 1333 (ComputeEncryptedExtensionsMsgSize_CTls13ServerHandshake)
+  -> 1429 (GenerateHandshakeWriteKeys_CTls13Context_eSslErrorState)
+  -> 1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo)
+  -> 1327 (ComputeCertificateMsgSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_slCredential)
+  -> 1335 (ComputeFinishedSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1362 (GenerateCertificateRequest_CTls13ServerHandshake)
+  -> 1372 (GenerateFinished_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1369 (GenerateEncryptedExtensionsMsg_CTls13ServerHandshake)
+  -> 1329 (ComputeCertificateRequestSize_CTls13ServerHandshake)
+  -> 1361 (GenerateCertificateMsg_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1364 (GenerateCertificateVerify_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1330 (ComputeCertificateVerifySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1387 (GenerateServerHelloOrHRR_CTls13ServerHandshake)
+
+1369 (GenerateEncryptedExtensionsMsg_CTls13ServerHandshake): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1368 (GenerateEncryptedExtensions_CTls13ServerHandshake)
+
+1334 (ComputeEncryptedExtensionsSize_CTls13ServerHandshake): 
+  -> 1337 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1453 (SetCertificateRequestContext_CTls13ClientContext): 
+  -> 1419 (FreeCertificateRequestContext_CTls13Context)
+
+1393 (GenerateSupportedVersionsExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1347 (DetermineCertVerifyCodePoint_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1348 (DetermineCertVerifySignatureAlgorithm_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+
+1339 (ComputeKeyShareExtensionSize_CTls13ClientHandshake): 
+  -> 1338 (ComputeKeyShareEntrySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1426 (GenerateClientFinished_CTls13ClientContext_Buffer): 
+  -> 1371 (GenerateFinished_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo)
+  -> 1335 (ComputeFinishedSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1360 (GenerateCertificateMsg_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1452 (SetCcsRecordInfo_CTls13Context_MessageInfo_CTlsRecord)
+  -> 1326 (ComputeCertificateMsgSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_slCredential)
+  -> 1364 (GenerateCertificateVerify_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer)
+  -> 1330 (ComputeCertificateVerifySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1353 (GenerateCertificateAuthoritiesExtension_CTls13ServerHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1555 (ParseExtension_CTls13ExtClient_eTlsExtensions): 
+  -> 1561 (ParseStatusRequestExtension_CTls13ExtClient)
+  -> 1556 (ParseKeyShareExtension_CTls13ExtClient)
+  -> 1562 (ParseSupportedVersionsExtension_CTls13ExtClient)
+  -> 1554 (ParseCookieExtension_CTls13ExtClient)
+  -> 1442 (IsValidGenericExtensionType_CTls13Context)
+  -> 1553 (ParseCertRequestSigAlgExtension_CTls13ExtClient)
+  -> 1558 (ParsePreSharedKeyExtension_CTls13ExtClient)
+  -> 1450 (RetrieveGenericExtension_CTls13Context_eTlsHandshakeType)
+
+1429 (GenerateHandshakeWriteKeys_CTls13Context_eSslErrorState): 
+  -> 1415 (ExpandTrafficAndWriteKeys_CTls13Context_eSslErrorState)
+  -> 1420 (FreeEarlyKey_CTls13Context)
+
+1372 (GenerateFinished_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1395 (GetFinishedMessageKey_CTls13Context)
+
+1365 (GenerateClientHello_CTls13ClientHandshake): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1366 (GenerateClientHelloExtensions_CTls13ClientHandshake)
+
+1435 (GenerateResponse_CTls13ServerContext_Buffer): 
+  -> 1431 (GenerateHelloRetryRequest_CTls13ServerContext_Buffer)
+  -> 1428 (GenerateClientHelloResponse_CTls13ServerContext_Buffer)
+  -> 1432 (GenerateNewSessionTicket_CTls13ServerContext_Buffer)
+  -> 1433 (GeneratePostHandshakeCertificateRequest_CTls13ServerContext_Buffer)
+
+1357 (GenerateCertificateEntryExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1374 (GenerateGenericExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1381 (GeneratePskExtension_CTls13ClientHandshake): 
+  -> 1350 (GenerateBinderEntry_CTls13ClientHandshake)
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1155 (GCTls13ServerHandshake): 
+  -> 464 (1CTls13ServerHandshake)
+
+1433 (GeneratePostHandshakeCertificateRequest_CTls13ServerContext_Buffer): 
+  -> 1329 (ComputeCertificateRequestSize_CTls13ServerHandshake)
+  -> 1362 (GenerateCertificateRequest_CTls13ServerHandshake)
+  -> 1425 (GenerateCertificateRequestContext_CTls13ServerContext)
+
+1330 (ComputeCertificateVerifySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1318 (ComputeCertVerifySignatureSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1347 (DetermineCertVerifyCodePoint_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1152 (ECTls13ClientContext): 
+  -> 1147 (1CTls13ClientContext)
+
+1373 (GenerateGenericExtensions_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHandshakeType): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1389 (GenerateSignatureAlgorithmsExtension_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1322 (ComputeCertificateEntrySize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1320 (ComputeCertificateEntryExtensionsSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1326 (ComputeCertificateMsgSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_slCredential): 
+  -> 1324 (ComputeCertificateListSize_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1425 (GenerateCertificateRequestContext_CTls13ServerContext): 
+  -> 1419 (FreeCertificateRequestContext_CTls13Context)
+
+1350 (GenerateBinderEntry_CTls13ClientHandshake): 
+  -> 1422 (GenerateBinderData_CTls13Context)
+
+1360 (GenerateCertificateMsg_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1358 (GenerateCertificateList_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1367 (GenerateCookieExtension_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1321 (ComputeCertificateEntryExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer): 
+  -> 1337 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+
+1172 (ParseCcsRecord_CTls13ClientContext): 
+  -> 1444 (ParseCcsRecord_CTls13Context_eSslState)
+
+1358 (GenerateCertificateList_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1354 (GenerateCertificateEntry_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient)
+
+1437 (GenerateTlsAlertMessage_CTls13Context_Ssl3TlsContext_Buffer): 
+  -> 1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo)
+
+1432 (GenerateNewSessionTicket_CTls13ServerContext_Buffer): 
+  -> 1380 (GenerateNewSessionTicket_CTls13ServerHandshake)
+  -> 1340 (ComputeNewSessionTicketSize_CTls13ServerHandshake)
+  -> 1445 (PopulateSecTrafficSecret_CTls13Context_TrafficType_CipherSuiteInfo)
+
+1362 (GenerateCertificateRequest_CTls13ServerHandshake): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1363 (GenerateCertificateRequestExtensions_CTls13ServerHandshake)
+
+1356 (GenerateCertificateEntryExtensions_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1373 (GenerateGenericExtensions_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsHandshakeType)
+
+1406 (ParseServerHello_CTls13ClientHandshake): 
+  -> 1427 (GenerateClientHelloHash_CTls13Context)
+  -> 1408 (SetServerKeyShare_CTls13ClientContext)
+
+1559 (ParsePreSharedKeyExtension_CTls13ExtServer): 
+  -> 1460 (VerifyBinder_CTls13ServerContext)
+
+1390 (GenerateStatusRequestExtension_CTls13ClientHandshake): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
+1408 (SetServerKeyShare_CTls13ClientContext): 
+  -> 1455 (SetPeerPublicKey_CTls13Context)
+
+1328 (ComputeCertificateRequestExtensionsSize_CTls13ServerHandshake): 
+  -> 1337 (ComputeGenericExtensionsSize_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1319 (ComputeCertificateAuthoritiesExtensionSize_CTls13ServerHandshake)
+
+1371 (GenerateFinished_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient): 
+  -> 1376 (GenerateHandshakeHeader_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType)
+  -> 1395 (GetFinishedMessageKey_CTls13Context)
+
+1374 (GenerateGenericExtensions_CTls13Handshake_VCTls13ServerContext_Tls13ExtServer_eTlsHandshakeType): 
+  -> 1370 (GenerateExtensionHeader_CTls13Handshake_VCTls13ClientContext_Tls13ExtClient_eTlsExtensions)
+
