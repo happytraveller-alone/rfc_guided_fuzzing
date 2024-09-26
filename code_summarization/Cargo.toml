@@ -1,9 +1,0 @@
-[package]
-name = "code_summarization"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-regex = "1.10.5"
-lazy_static = "1.5.0"
-sha2 = "0.10.8"
