@@ -1,12 +1,16 @@
+use crate::{
+    INSTRUCTION_FOOTER, INSTRUCTION_HEADER, OUTPUT_FORMAT, PROCESSING_INSTRUCTIONS, TARGET_SECTIONS,
+};
+use rayon::prelude::*;
 use regex::Regex;
-use std::collections::BTreeMap;
+use std::cmp::Ordering;
+use std::collections::{BTreeMap, HashSet};
 use std::error::Error;
 use std::fs::{self, File};
-use std::io::{Write, Result as IoResult};
+use std::io::BufWriter;
+use std::io::{Result as IoResult, Write};
 use std::path::{Path, PathBuf};
-use std::cmp::Ordering;
-use crate::{INSTRUCTION_HEADER, INSTRUCTION_FOOTER, PROCESSING_INSTRUCTIONS, OUTPUT_FORMAT};
-
+use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
 
 /// 表示 RFC 章节编号的结构体
 #[derive(PartialEq, Eq, Clone)]
@@ -58,11 +62,18 @@ pub fn slice_content(
     content: &str,
     rfc_output_dir: &Path,
     rfc_number: &str,
+    // target_sections: &[&str],
 ) -> Result<(), Box<dyn Error>> {
     let (sections, mut section_map) = extract_sections(content)?;
     process_section_map(&mut section_map);
     export_map_to_txt(&section_map, rfc_output_dir, "sections.txt")?;
-    save_sections(&sections, &section_map, rfc_output_dir, rfc_number)?;
+    save_sections(
+        &sections,
+        &section_map,
+        rfc_output_dir,
+        rfc_number,
+        TARGET_SECTIONS,
+    )?;
     Ok(())
 }
 
@@ -80,7 +91,7 @@ pub fn slice_content(
 ///   成功时返回章节列表和章节映射，失败时返回错误
 ///
 /// 作者：yuanfeng xie
-/// 日期：2024/07/29
+/// 日期：2024/10/06
 fn extract_sections(
     content: &str,
 ) -> Result<
@@ -93,7 +104,7 @@ fn extract_sections(
     let section_regex = Regex::new(r"(?m)^(\d+(?:\.\d+)*\.?)\s+(.*?)$")?;
     let mut sections = Vec::new();
     let mut section_map = BTreeMap::new();
-    let mut current_section = String::new();
+    let mut current_section = String::with_capacity(1024);
     let mut current_title = String::new();
     let mut current_number = SectionNumber(String::new());
 
@@ -103,17 +114,13 @@ fn extract_sections(
                 sections.push((
                     current_number.clone(),
                     current_title.clone(),
-                    current_section.clone(),
+                    std::mem::take(&mut current_section),
                 ));
-                current_section.clear();
             }
-            let mut number = captures.get(1).unwrap().as_str().to_string();
-            if !number.ends_with('.') {
-                number.push('.');
-            }
-            let title = captures.get(2).unwrap().as_str().to_string();
-            current_number = SectionNumber(number.clone());
-            current_title = title.trim().to_string();
+            let number = captures.get(1).unwrap().as_str().to_owned() + ".";
+            let title = captures.get(2).unwrap().as_str().to_owned();
+            current_number = SectionNumber(number);
+            current_title = title.trim().to_owned();
             section_map.insert(current_number.clone(), current_title.clone());
         } else {
             current_section.push_str(line);
@@ -122,11 +129,7 @@ fn extract_sections(
     }
 
     if !current_section.is_empty() {
-        sections.push((
-            current_number.clone(),
-            current_title.clone(),
-            current_section.trim().to_string(),
-        ));
+        sections.push((current_number, current_title, current_section));
     }
 
     Ok((sections, section_map))
@@ -141,7 +144,7 @@ fn extract_sections(
 /// - map: &mut BTreeMap<SectionNumber, String> - 章节映射
 ///
 /// 作者：yuanfeng xie
-/// 日期：2024/07/29
+/// 日期：2024/10/06
 fn process_section_map(map: &mut BTreeMap<SectionNumber, String>) {
     let mut processed_map = BTreeMap::new();
 
@@ -155,14 +158,14 @@ fn process_section_map(map: &mut BTreeMap<SectionNumber, String>) {
                 current_key.push('.');
             }
             current_key.push_str(part);
-            
+
             if let Some(section_title) = map.get(&SectionNumber(current_key.clone() + ".")) {
                 new_value.push(section_title.clone());
             }
         }
 
         new_value.pop();
-        
+
         let full_value = if new_value.is_empty() {
             value.clone()
         } else {
@@ -234,10 +237,43 @@ fn save_sections(
     section_map: &BTreeMap<SectionNumber, String>,
     rfc_output_dir: &Path,
     rfc_number: &str,
+    target_sections: &[&str],
 ) -> Result<(), Box<dyn Error>> {
     let slice_dir = prepare_slice_directory(rfc_output_dir)?;
-    let saved_count = save_section_files(sections, section_map, &slice_dir, rfc_number)?;
-    println!("共保存了 {} 个非空切片到 {:?}", saved_count, slice_dir);
+    // let saved_count = save_section_files(
+    //     sections,
+    //     section_map,
+    //     &slice_dir,
+    //     rfc_number,
+    //     target_sections,
+    // )?;
+    let target_set: HashSet<&&str> = target_sections.iter().collect();
+    let saved_count = AtomicUsize::new(0);
+
+    sections
+        .par_iter()
+        .enumerate()
+        .filter(|(_, (number, _, content))| {
+            (target_set.is_empty()
+                || target_set
+                    .iter()
+                    .any(|&prefix| number.0.starts_with(prefix)))
+                && !content.trim().is_empty()
+        })
+        .for_each(|(i, (number, _, content))| {
+            let full_title = get_full_title(number, section_map);
+            let file_name = generate_file_name(rfc_number, i, &full_title);
+            let file_path = slice_dir.join(file_name);
+            if let Ok(()) = save_section_file(&file_path, &full_title, content.trim()) {
+                saved_count.fetch_add(1, AtomicOrdering::Relaxed);
+            }
+        });
+
+    println!(
+        "共保存了 {} 个非空切片到 {:?}",
+        saved_count.load(AtomicOrdering::Relaxed),
+        slice_dir
+    );
     Ok(())
 }
 
@@ -290,44 +326,6 @@ fn clear_directory(dir: &Path) -> Result<(), Box<dyn Error>> {
         }
     }
     Ok(())
-}
-
-/// 保存章节文件
-///
-/// 功能说明：
-/// - 将每个非空章节保存为单独的文件
-///
-/// 参数：
-/// - sections: &[(SectionNumber, String, String)] - 章节列表
-/// - section_map: &BTreeMap<SectionNumber, String> - 章节映射
-/// - slice_dir: &Path - 切片目录路径
-/// - rfc_number: &str - RFC 编号
-///
-/// 返回：
-/// - Result<usize, Box<dyn Error>> - 成功时返回保存的文件数量，失败时返回错误
-///
-/// 作者：yuanfeng xie
-/// 日期：2024/07/29
-fn save_section_files(
-    sections: &[(SectionNumber, String, String)],
-    section_map: &BTreeMap<SectionNumber, String>,
-    slice_dir: &Path,
-    rfc_number: &str,
-) -> Result<usize, Box<dyn Error>> {
-    let mut saved_count = 0;
-    for (i, (number, _, content)) in sections.iter().enumerate() {
-        let trimmed_content = content.trim();
-        if trimmed_content.is_empty() {
-            continue;
-        }
-        saved_count += 1;
-
-        let full_title = get_full_title(number, section_map);
-        let file_name = generate_file_name(rfc_number, i, &full_title);
-        let file_path = slice_dir.join(file_name);
-        save_section_file(&file_path, &full_title, trimmed_content)?;
-    }
-    Ok(saved_count)
 }
 
 /// 获取完整章节标题
@@ -389,13 +387,17 @@ fn generate_file_name(rfc_number: &str, index: usize, full_title: &str) -> Strin
 /// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
 ///
 /// 作者：yuanfeng xie
-/// 日期：2024/07/29
+/// 日期：2024/10/06
 fn save_section_file(file_path: &Path, full_title: &str, content: &str) -> IoResult<()> {
-    let mut file = File::create(file_path)?;
-    
-    write_section(&mut file, full_title, content)?;
-    write_instructions(&mut file)?;
-    
+    let file = File::create(file_path)?;
+
+    let mut writer = BufWriter::new(file);
+
+    write_section(&mut writer, full_title, content)?;
+    write_instructions(&mut writer)?;
+
+    writer.flush()?;
+
     Ok(())
 }
 
@@ -413,15 +415,14 @@ fn save_section_file(file_path: &Path, full_title: &str, content: &str) -> IoRes
 /// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
 ///
 /// 作者：yuanfeng xie
-/// 日期：2024/07/29
-fn write_section(file: &mut File, full_title: &str, content: &str) -> IoResult<()> {
-    writeln!(file, "{}", INSTRUCTION_HEADER)?;
-    writeln!(file, "--- Section: {} ---", full_title)?;
-    writeln!(file, "{}", content)?;
-    writeln!(file, "{}", INSTRUCTION_FOOTER)?;
+/// 日期：2024/10/06
+fn write_section<W: Write>(writer: &mut W, full_title: &str, content: &str) -> IoResult<()> {
+    writeln!(writer, "{}", INSTRUCTION_HEADER)?;
+    writeln!(writer, "--- Section: {} ---", full_title)?;
+    writeln!(writer, "{}", content)?;
+    writeln!(writer, "{}", INSTRUCTION_FOOTER)?;
     Ok(())
 }
-
 /// 写入指令
 ///
 /// 功能说明：
@@ -434,9 +435,9 @@ fn write_section(file: &mut File, full_title: &str, content: &str) -> IoResult<(
 /// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
 ///
 /// 作者：yuanfeng xie
-/// 日期：2024/07/29
-fn write_instructions(file: &mut File) -> IoResult<()> {
-    writeln!(file, "{}", PROCESSING_INSTRUCTIONS)?;
-    writeln!(file, "{}", OUTPUT_FORMAT)?;
+/// 日期：2024/10/06
+fn write_instructions<W: Write>(writer: &mut W) -> IoResult<()> {
+    writeln!(writer, "{}", PROCESSING_INSTRUCTIONS)?;
+    writeln!(writer, "{}", OUTPUT_FORMAT)?;
     Ok(())
 }

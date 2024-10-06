@@ -19,6 +19,8 @@ lazy_static! {
     ];
 }
 
+/// 定义要处理的目标章节
+pub const TARGET_SECTIONS: &[&str] = &["4"];
 /// RFC 正文开始的标记
 pub const BODY_START: &str = "Introduction";
 /// RFC 正文结束的标记

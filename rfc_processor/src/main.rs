@@ -1,9 +1,10 @@
+// use crate::TARGET_SECTIONS;
+use colored::*;
 use rfc_processor::{download, process, slice, utils};
 use std::env;
 use std::error::Error;
 use std::thread;
 use std::time::Duration;
-use colored::*;
 
 /// 运行 RFC 处理程序的主函数
 ///
