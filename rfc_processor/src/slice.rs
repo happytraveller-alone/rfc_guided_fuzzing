@@ -240,13 +240,6 @@ fn save_sections(
     target_sections: &[&str],
 ) -> Result<(), Box<dyn Error>> {
     let slice_dir = prepare_slice_directory(rfc_output_dir)?;
-    // let saved_count = save_section_files(
-    //     sections,
-    //     section_map,
-    //     &slice_dir,
-    //     rfc_number,
-    //     target_sections,
-    // )?;
     let target_set: HashSet<&&str> = target_sections.iter().collect();
     let saved_count = AtomicUsize::new(0);
 
