@@ -1,0 +1,22 @@
+Description ID,Description
+1,"When a client first connects to a server, it is REQUIRED to send the ClientHello as its first TLS message."
+2,"In that case, the client MUST send the same ClientHello without modification, except as follows:
+-  If a ""key_share"" extension was supplied in the HelloRetryRequest, replacing the list of shares with a list containing a single KeyShareEntry from the indicated group.
+-  Removing the ""early_data"" extension (Section 4.2.10) if one was present.  Early data is not permitted after a HelloRetryRequest.
+-  Including a ""cookie"" extension if one was provided in the HelloRetryRequest.
+-  Updating the ""pre_shared_key"" extension if present by recomputing the ""obfuscated_ticket_age"" and binder values and (optionally) removing any PSKs which are incompatible with the server's indicated cipher suite.
+-  Optionally adding, removing, or changing the length of the ""padding"" extension [RFC7685].
+-  Other modifications that may be allowed by an extension defined in the future and present in the HelloRetryRequest."
+3,"legacy_version: In TLS 1.3, the client indicates its version preferences in the ""supported_versions"" extension (Section 4.2.1) and the legacy_version field MUST be set to 0x0303, which is the version number for TLS 1.2."
+4,"legacy_session_id: In compatibility mode (see Appendix D.4), this field MUST be non-empty, so a client not offering a pre-TLS 1.3 session MUST generate a new 32-byte value."
+5,"The following rules apply to certificates sent by the client:
+-  The certificate type MUST be X.509v3 [RFC5280], unless explicitly negotiated otherwise (e.g., [RFC7250]).
+-  If the ""certificate_authorities"" extension in the CertificateRequest message was present, at least one of the certificates in the certificate chain SHOULD be issued by one of the listed CAs.
+-  The certificates MUST be signed using an acceptable signature algorithm, as described in Section 4.3.2.  Note that this relaxes the constraints on certificate-signing algorithms found in prior versions of TLS.
+-  If the CertificateRequest message contained a non-empty ""oid_filters"" extension, the end-entity certificate MUST match the extension OIDs that are recognized by the client, as described in Section 4.2.5."
+6,"Servers MUST send this message when authenticating via a certificate."
+7,"Clients MUST send this message whenever authenticating via a certificate (i.e., when the Certificate message is non-empty)."
+8,"If the CertificateVerify message is sent by a server, the signature
+   algorithm MUST be one offered in the client's ""signature_algorithms""
+   extension unless no valid certificate chain can be produced without
+   unsupported algorithms (see Section 4.2.3)."
