@@ -75,7 +75,7 @@ def receive_server_response(sock):
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # 连接到服务器
-server_address = ('192.168.24.135', 443)
+server_address = ('192.168.110.128', 443)
 
 try:
     sock.connect(server_address)
