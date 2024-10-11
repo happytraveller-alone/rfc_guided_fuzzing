@@ -2,9 +2,15 @@ use std::sync::Arc;
 use clap::{arg, Command,ArgAction};
 use std::thread::sleep;
 use std::time::Duration;
-use tls_handshake::{clienthello, server_response, network_connect, terminal};
+use tls_handshake::{clienthello, network_connect, terminal};
 use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
+use rustls::ClientConnection;
+use mio::{Events, Interest, Poll, Token};
+use mio::net::TcpStream;
+use std::io::{Write, Read};
+use std::net::SocketAddr;
 use colored::*;
+// use std::fs;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     perform_local_network_test()?;
@@ -32,7 +38,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     conn.write_tls(&mut client_hello)?;
 
     parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
-    send_client_hello_if_test_env(&matches, &server_ip, port, &client_hello, easy_read)?;
+    send_client_hello_if_test_env(&matches, &server_ip, port,&mut conn, &client_hello, easy_read)?;
 
     terminal::print_help();
     Ok(())
@@ -103,29 +109,178 @@ fn parse_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &[u8]
     }
 }
 
-fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, port: u16, client_hello: &[u8], easy_read: bool) -> Result<(), Box<dyn std::error::Error>> {
-    if matches.get_flag("test_env") {
-        println!("{}", "\nTest environment is enabled. sending ClientHello to server.".green());
-        if easy_read {
-            sleep(Duration::from_secs(1));
-        }
-        let access = format!("{}:{}", server_ip, port);
-        let mut stream = network_connect::establish_tcp_connection(&access)?;
-        network_connect::send_data(&mut stream, client_hello)?;
-        println!("\nSending ClientHello to server...");
-        let mut server_response = [0; 4096];
-        let bytes_read = network_connect::receive_data(&mut stream, &mut server_response)?;
-        println!("Received {} bytes from server", bytes_read);
-        if !matches.get_flag("disable_parse_server_response") {
-            println!("{}", "\nParse Server Response is enabled. Start parsing server response.".green());
-            if easy_read {
-                sleep(Duration::from_secs(1));
-            }
-            let mut parser = server_response::ServerHelloParser::new(&server_response[..bytes_read]);
-            parser.parse_server_response();
-        }
-    } else {
+fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, port: u16, conn: &mut ClientConnection, client_hello: &[u8], easy_read: bool) -> Result<(), Box<dyn std::error::Error>> {
+    // Handle edge cases and errors first
+    if !matches.get_flag("test_env") {
         println!("{}", "\nTest environment is false. Not sending ClientHello to server.".green());
+        return Ok(());
     }
+
+    println!("{}", "\nTest environment is enabled. Sending ClientHello to server.".green());
+    if easy_read {
+        sleep(Duration::from_secs(1));
+    }
+
+    let access: SocketAddr = format!("{}:{}", server_ip, port).parse()?;
+    println!("Connecting to server at {}...", access);
+    let mut stream = TcpStream::connect(access)?;
+
+    let mut poll = Poll::new()?;
+    let mut events = Events::with_capacity(1024);
+    let token = Token(0);
+    println!("Registering stream with poll...");
+    poll.registry().register(&mut stream, token, Interest::WRITABLE | Interest::READABLE)?;
+
+    // Wait for the socket to be writable (connected)
+    let mut connected = false;
+    println!("Waiting for socket to be writable...");
+    while !connected {
+        poll.poll(&mut events, None)?;
+        for event in &events {
+            if event.token() == token && event.is_writable() {
+                connected = true;
+                println!("Socket is writable. Connection established.");
+                break;
+            }
+        }
+    }
+
+    // Write the ClientHello message
+    println!("Sending ClientHello message...");
+    match stream.write_all(client_hello) {
+        Ok(_) => println!("ClientHello message sent successfully."),
+        Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+            println!("Socket write would block. Waiting until writable...");
+            // Wait until writable again
+            while let Err(ref e) = stream.write_all(client_hello) {
+                if e.kind() == std::io::ErrorKind::WouldBlock {
+                    poll.poll(&mut events, None)?;
+                } else {
+                    println!("Failed to send ClientHello message: {}", e);
+                    return Err(Box::new(std::io::Error::new(e.kind(), e.to_string())));
+                }
+            }
+            println!("ClientHello message sent successfully after waiting.");
+        }
+        Err(e) => {
+            println!("Error sending ClientHello message: {}", e);
+            return Err(Box::new(e));
+        }
+    }
+
+    // Wait for server response using non-blocking I/O
+    println!("Waiting for server response...");
+    let mut server_response = [0; 8192];
+    let mut response_received = false;
+    // let mut decrypted_data = vec![];
+    while !response_received {
+        poll.poll(&mut events, None)?;
+        for event in &events {
+            if event.token() == token && event.is_readable() {
+                println!("Socket is readable. Receiving server response...");
+                match stream.read(&mut server_response) {
+                    Ok(bytes_read) if bytes_read > 0 => {
+                        println!("Received {} bytes from server", bytes_read);
+                        let mut read_cursor = &server_response[..bytes_read];
+                        println!("Read cursor content (hex):");
+                        for (i, byte) in read_cursor.iter().enumerate() {
+                            if i % 16 == 0 {
+                                print!("\n{:04x}: ", i);
+                            }
+                            print!("{:02x} ", byte);
+                        }
+                        println!("");
+
+                        conn.read_tls(&mut read_cursor).unwrap();
+                        println!("Success to read to tls");
+                        // conn.process_new_packets().unwrap();
+                        loop {
+                            match conn.process_new_packets() {
+                                Ok(_) => break,
+                                Err(e) => {
+                                    println!("Error processing packets: {:?}", e);
+                                    return Err(Box::new(e));
+                                }
+                            }
+                        }
+                        
+                        
+                        // let decrypted_data = conn.reader().read_to_end(&mut );
+                        let mut plaintext = Vec::new();
+                        conn.reader().read_to_end(&mut plaintext)?;
+                        if !plaintext.is_empty() {
+                            println!("Decrypted server response: {:?}", String::from_utf8_lossy(&plaintext));
+                        }
+                        response_received = true;
+                    }
+                    Ok(_) => {
+                        println!("Received 0 bytes. Continuing to wait...");
+                    }
+                    Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                        println!("Socket read would block. Continuing to wait...");
+                        continue;
+                    }
+                    Err(e) => {
+                        println!("Error receiving server response: {}", e);
+                        return Err(Box::new(e));
+                    }
+                }
+            }
+        }
+    }
+
+    // // Parse server response if enabled
+    // if !matches.get_flag("disable_parse_server_response") {
+    //     println!("{}", "\nParse Server Response is enabled. Start parsing server response.".green());
+    //     if easy_read {
+    //         sleep(Duration::from_secs(1));
+    //     }
+    //     let mut parser = server_response::ServerHelloParser::new(&decrypted_data);
+    //     parser.parse_server_response();
+    // }
+
     Ok(())
 }
+
+
+
+
+
+
+// fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, port: u16, mut conn: ClientConnection ,client_hello: &[u8], easy_read: bool) -> Result<(), Box<dyn std::error::Error>> {
+//     if matches.get_flag("test_env") {
+//         println!("{}", "\nTest environment is enabled. sending ClientHello to server.".green());
+//         if easy_read {
+//             sleep(Duration::from_secs(1));
+//         }
+//         let access = format!("{}:{}", server_ip, port);
+//         let mut stream = network_connect::establish_tcp_connection(&access)?;
+//         network_connect::send_data(&mut stream, client_hello)?;
+//         println!("\nSending ClientHello to server...");
+//         let mut response = [0; 4096];
+//         let bytes_read = network_connect::receive_data(&mut stream, &mut response)?;
+//         // let read_cursor = conn.read_tls(&mut read_cursor)?;
+//         println!("Received {} bytes from server", bytes_read);
+//         let mut read_cursor = &response[..bytes_read];
+//         conn.read_tls(&mut read_cursor)?;
+//         println!("Success to read to tls");
+//         conn.process_new_packets()?;
+//         // let decrypted_data = conn.reader().read_to_end(&mut );
+//         let mut plaintext = Vec::new();
+//         conn.reader().read_to_end(&mut plaintext)?;
+//         if !plaintext.is_empty() {
+//             println!("Decrypted server response: {:?}", String::from_utf8_lossy(&plaintext));
+//         }
+//         // if !matches.get_flag("disable_parse_server_response") {
+//         //     println!("{}", "\nParse Server Response is enabled. Start parsing server response.".green());
+//         //     if easy_read {
+//         //         sleep(Duration::from_secs(1));
+//         //     }
+//         //     let mut parser = server_response::ServerHelloParser::new(&response[..bytes_read]);
+//         //     parser.parse_server_response();
+//         // }
+//     } else {
+//         println!("{}", "\nTest environment is false. Not sending ClientHello to server.".green());
+//     }
+//     Ok(())
+// }

@@ -11,8 +11,8 @@ pub use network_connect::*;
 pub use terminal::*;
 
 
-pub const SERVER_NAME: &str = "WIN-MEGACP61GRJ";
-pub const SERVER_STATIC_IP: &str = "192.168.110.128";
+pub const SERVER_NAME: &str = "WIN-1C2P8R1FV76";
+pub const SERVER_STATIC_IP: &str = "192.168.110.129";
 pub const PORT: u16 = 443;
 
 static TLS_EXTENSIONS: phf::Map<u16, &'static str> = phf_map! {
