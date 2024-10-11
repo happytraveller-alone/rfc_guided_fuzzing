@@ -204,7 +204,7 @@ fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, po
                             }
                         }
                         
-                        
+                        // error: 阻塞了
                         // let decrypted_data = conn.reader().read_to_end(&mut );
                         let mut plaintext = Vec::new();
                         conn.reader().read_to_end(&mut plaintext)?;
