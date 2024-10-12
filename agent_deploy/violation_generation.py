@@ -1,13 +1,5 @@
-"""
-
-Sample bot that wraps Claude-3-Haiku but makes responses Haikus
-
-"""
-
 from __future__ import annotations
-
 from typing import AsyncIterable
-
 import fastapi_poe as fp
 from modal import App, Image, asgi_app
 
