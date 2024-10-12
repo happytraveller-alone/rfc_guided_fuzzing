@@ -7,6 +7,9 @@ import re
 from poe_api_wrapper import PoeApi
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+import multiprocessing
+import math
+
 # Initialize Poe API tokens
 tokens = {
     'p-b': "QiZtBLjGecaQJ4-iJPIPgA%3D%3D", 
@@ -16,9 +19,8 @@ tokens = {
 client = PoeApi(tokens=tokens, auto_proxy=False)
 executor = ThreadPoolExecutor()
 
-
 def parse_arguments():
-    # 设置默认的切片目录
+    # Set default slice directory
     default_slice_directory = "output/RFC-8446/slice"
 
     if len(sys.argv) == 1:
@@ -37,31 +39,56 @@ def parse_arguments():
     if not os.path.isdir(slice_directory):
         print(f"Error: The path '{slice_directory}' is not a directory.")
         sys.exit(1)
-    # print()
+
     return slice_directory
 
-# def get_files(slice_directory):
-#     # 获取文件列表并统计总个数
-#     files = [os.path.join(slice_directory, f) for f in os.listdir(slice_directory) if os.path.isfile(os.path.join(slice_directory, f))]
-#     print(f"Total number of files in '{slice_directory}': {len(files)}")
-#     return files
 def get_files(slice_directory):
-    # 使用 os.scandir 以提高性能
+    # Use os.scandir to improve performance
     with os.scandir(slice_directory) as entries:
         files = [entry.path for entry in entries if entry.is_file()]
     print(f"Total number of files in '{slice_directory}': {len(files)}")
     return files
 
+def message_thread(prompt, results, index, max_retries=5):
+    """Thread function for sending messages and storing results with retry mechanism."""
+    retries = 0
+    wait_time = 5  # Initial wait time before retrying
+    while retries < max_retries:
+        try:
+            message = client.send_message("semantic_analysis", prompt, timeout=60)
+            for chunk in message:
+                pass
+            results[index] = chunk["text"]
+            return
+        except Exception as e:
+            retries += 1
+            print(f"Warning: Attempt {retries} failed for index {index}. Error: {str(e)}")
+            time.sleep(wait_time)  # Wait before retrying
+            wait_time *= 2  # Exponential backoff
+    results[index] = f"Error after {max_retries} retries: {str(e)}"
 
 def process_files(files):
+    """Process each file by creating threads to handle requests."""
     # Prepare to store results
     results = [None] * len(files)
+    threads = []
+
+    # Get the maximum number of threads to use
+    total_threads = multiprocessing.cpu_count()
+    max_threads = math.floor(total_threads * 0.7)
 
     # Create and start threads
-    threads = []
     for i, file_path in enumerate(files):
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
+
+        # Limit the number of concurrent threads
+        while len(threads) >= max_threads:
+            for t in threads:
+                if not t.is_alive():
+                    threads.remove(t)
+            time.sleep(0.5)
+
         t = threading.Thread(target=message_thread, args=(content, results, i))
         t.start()
         threads.append(t)
@@ -74,6 +101,7 @@ def process_files(files):
     return results
 
 def output_results(files, results):
+    """Write the results to a CSV file."""
     # Define the pattern for extracting title and content
     pattern = r'\[([^\]]+)\]\s*\{([^}]+)\}'
 
@@ -105,15 +133,6 @@ def output_results(files, results):
                     row_id += 1
 
     print(f"Results have been written to '{csv_file_path}'.")
-
-def message_thread(prompt, results, index):
-    try:
-        message = client.send_message("semantic_analysis", prompt, timeout=40)
-        for chunk in message:
-            pass
-        results[index] = chunk["text"]
-    except Exception as e:
-        results[index] = f"Error: {str(e)}"
 
 def main():
     slice_directory = parse_arguments()
