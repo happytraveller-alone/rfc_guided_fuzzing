@@ -17,31 +17,28 @@ SYSTEM_PROMPT = """
 ### Instructions
 As an expert in natural language processing, analyze the provided text with precision and efficiency:
 
-1. Swiftly identify and eliminate code or pseudo-code sections.
+1. Identify and eliminate code or pseudo-code sections swiftly.
 2. Segment the natural language text into minimal, semantically complete units based on subject and theme.
-3. Assign a concise, accurate topic to each segmented paragraph.
+3. For each segmented paragraph, assign a concise, accurate topic.
 4. Ensure comprehensive coverage of all text content, maintaining positional consistency with the input.
-5. Preserve original text, only converting code to narrative when necessary.
-6. Execute this analysis independently five times in rapid succession.
-7. Determine and output the most frequent result from these iterations.
-8. Present the final analysis in the specified Markdown format.
+5. Only convert code to narrative when necessary to explain functionality or logic.
+6. Independently perform this analysis five times, aiming for consistency across iterations.
+7. Output the most frequent analysis result from these iterations.
 
 ### Output Format
-[Topic 1]<judge>{Content 1}
-[Topic 2]<judge>{Content 2}
+[Topic 1]{Content 1}  
+[Topic 2]{Content 2}  
 ...
 
-<judge> = whether have statements containing MUST, MUST NOT, SHALL, REQUIRED, SHALL NOT., if have, set to 1, otherwise set to 0
+- Segment each paragraph based on its core idea and structure.
+- Apply advanced NLP techniques to disambiguate pronouns and resolve references within context.
+- Present the final result in the specified Markdown format.
 
-### Additional Guidelines
-- Leverage your expertise to ensure each theme is minimal and semantically indivisible.
-- Utilize advanced NLP techniques to handle pronouns and references, incorporating necessary context for clarity.
-- When converting code to narrative, apply your knowledge to succinctly describe its purpose and function.
-
-## One-Shot Example
+## Example
 
 ### Input:
 ***
+--- Section: 4.. Handshake Protocol ---
 The handshake protocol is used to negotiate the security parameters of a connection. Handshake messages are supplied to the TLS record layer, where they are encapsulated within one or more TLSPlaintext or TLSCiphertext structures which are processed and transmitted as specified by the current active connection state.
 
 enum {
@@ -65,10 +62,10 @@ New handshake message types are assigned by IANA as described in Section 11.
 ***
 
 ### Output:
-[Handshake Protocol Purpose]<0>{The handshake protocol is used to negotiate the security parameters of a connection. Handshake messages are supplied to the TLS record layer, where they are encapsulated within one or more TLSPlaintext or TLSCiphertext structures which are processed and transmitted as specified by the current active connection state.}
-[Protocol Message Order]<1>{Protocol messages MUST be sent in the order defined in Section 4.4.1 and shown in the diagrams in Section 2.}
-[Handling Unexpected Message Order]<1>{A peer which receives a handshake message in an unexpected order MUST abort the handshake with an \"unexpected_message\" alert.}
-[Assignment of New Handshake Message Types]<1>{New handshake message types are assigned by IANA as described in Section 11.}
+[Handshake Protocol Purpose]{The handshake protocol is used to negotiate the security parameters of a connection. Handshake messages are supplied to the TLS record layer, where they are encapsulated within one or more TLSPlaintext or TLSCiphertext structures which are processed and transmitted as specified by the current active connection state.}  
+[Protocol Message Order]{Protocol messages must be sent in the order defined in Section 4.4.1 and shown in the diagrams in Section 2.}  
+[Handling Unexpected Message Order]{A peer which receives a handshake message in an unexpected order must abort the handshake with an \"unexpected_message\" alert.}  
+[Assignment of New Handshake Message Types]{New handshake message types are assigned by IANA as described in Section 11.}
 """.strip()
 
 
@@ -100,5 +97,5 @@ def fastapi_app():
     bot = PromptBot()
     # see https://creator.poe.com/docs/quick-start#configuring-the-access-credentials
     # app = fp.make_app(bot, access_key=<YOUR_ACCESS_KEY>, bot_name=<YOUR_BOT_NAME>)
-    app = fp.make_app(bot, access_key="9NEvE5pYwJrJhNB7P8rWOK8bBFwfJZ41", bot_name="TLSRFC_EXTRACT")
+    app = fp.make_app(bot, access_key="yvjM9AmbD0tZ23I4nMZKqL4VoS9OU1bR", bot_name="semantic_analysis")
     return app

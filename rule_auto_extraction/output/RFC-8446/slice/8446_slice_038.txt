@@ -1,0 +1,5 @@
+--- Section: 4.3.. Handshake Protocol_Server Parameters ---
+The next two messages from the server, EncryptedExtensions and
+   CertificateRequest, contain information from the server that
+   determines the rest of the handshake.  These messages are encrypted
+   with keys derived from the server_handshake_traffic_secret.

@@ -1,0 +1,5 @@
+--- Section: 4.1.. Handshake Protocol_Key Exchange Messages ---
+The key exchange messages are used to determine the security
+   capabilities of the client and the server and to establish shared
+   secrets, including the traffic keys used to protect the rest of the
+   handshake and the data.

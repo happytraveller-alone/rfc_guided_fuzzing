@@ -1,6 +1,7 @@
-use crate::{
-    INSTRUCTION_FOOTER, INSTRUCTION_HEADER, OUTPUT_FORMAT, PROCESSING_INSTRUCTIONS, TARGET_SECTIONS,
-};
+// use crate::{
+//     INSTRUCTION_FOOTER, INSTRUCTION_HEADER, OUTPUT_FORMAT, PROCESSING_INSTRUCTIONS, TARGET_SECTIONS,
+// };
+use crate::TARGET_SECTIONS  ;
 use rayon::prelude::*;
 use regex::Regex;
 use std::cmp::Ordering;
@@ -203,7 +204,7 @@ fn export_map_to_txt(
 
     if filestore.exists() {
         fs::remove_file(&filestore)?;
-        println!("已删除现有文件: {:?}", filestore);
+        println!("delete existed files: {:?}", filestore);
     }
 
     let mut file = File::create(&filestore)?;
@@ -211,7 +212,7 @@ fn export_map_to_txt(
         writeln!(file, "{}\t{}", key.0, value)?;
     }
 
-    println!("已创建新文件并写入内容: {:?}", filestore);
+    println!("create new file and write: {:?}", filestore);
     Ok(())
 }
 
@@ -255,7 +256,7 @@ fn save_sections(
         })
         .for_each(|(i, (number, _, content))| {
             let full_title = get_full_title(number, section_map);
-            let file_name = generate_file_name(rfc_number, i, &full_title);
+            let file_name = generate_file_name(rfc_number, i);
             let file_path = slice_dir.join(file_name);
             if let Ok(()) = save_section_file(&file_path, &full_title, content.trim()) {
                 saved_count.fetch_add(1, AtomicOrdering::Relaxed);
@@ -357,13 +358,20 @@ fn get_full_title(number: &SectionNumber, section_map: &BTreeMap<SectionNumber, 
 ///
 /// 作者：yuanfeng xie
 /// 日期：2024/07/29
-fn generate_file_name(rfc_number: &str, index: usize, full_title: &str) -> String {
+fn generate_file_name(rfc_number: &str, index: usize) -> String {
     format!(
         "{}_slice_{:03}.txt",
         rfc_number,
         index + 1,
     )
 }
+// fn generate_file_name(rfc_number: &str, index: usize, full_title: &str) -> String {
+//     format!(
+//         "{}_slice_{:03}.txt",
+//         rfc_number,
+//         index + 1,
+//     )
+// }
 
 /// 保存章节文件
 ///
@@ -415,21 +423,23 @@ fn write_section<W: Write>(writer: &mut W, full_title: &str, content: &str) -> I
     // writeln!(writer, "{}", INSTRUCTION_FOOTER)?;
     Ok(())
 }
-/// 写入指令
-///
-/// 功能说明：
-/// - 将处理指令和输出格式写入文件
-///
-/// 参数：
-/// - file: &mut File - 文件句柄
-///
-/// 返回：
-/// - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
-///
-/// 作者：yuanfeng xie
-/// 日期：2024/10/06
-fn write_instructions<W: Write>(writer: &mut W) -> IoResult<()> {
-    writeln!(writer, "{}", PROCESSING_INSTRUCTIONS)?;
-    writeln!(writer, "{}", OUTPUT_FORMAT)?;
-    Ok(())
-}
+
+
+// / 写入指令
+// /
+// / 功能说明：
+// / - 将处理指令和输出格式写入文件
+// /
+// / 参数：
+// / - file: &mut File - 文件句柄
+// /
+// / 返回：
+// / - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
+// /
+// / 作者：yuanfeng xie
+// / 日期：2024/10/06
+// fn write_instructions<W: Write>(writer: &mut W) -> IoResult<()> {
+//     writeln!(writer, "{}", PROCESSING_INSTRUCTIONS)?;
+//     writeln!(writer, "{}", OUTPUT_FORMAT)?;
+//     Ok(())
+// }
