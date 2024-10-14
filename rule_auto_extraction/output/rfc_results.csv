@@ -1,9 +1,0 @@
-ID,Title,Content
-1,Key Exchange Messages Purpose,"The key exchange messages are used to determine the security capabilities of the client and the server and to establish shared secrets, including the traffic keys used to protect the rest of the handshake and the data."
-2,ClientHello Options,"In TLS, the cryptographic negotiation proceeds by the client offering four sets of options in its ClientHello, including a list of cipher suites, supported groups, signature algorithms, and pre-shared keys."
-3,Cipher Suites and Key Exchange,"The server independently selects a cipher suite, an (EC)DHE group and key share, and a signature algorithm to authenticate itself to the client. If there is no overlap in supported groups, the server must abort the handshake."
-4,PSK Selection,"If the server selects a PSK, it must also choose a key establishment mode from the client's psk_key_exchange_modes extension, allowing for flexibility in key exchange."
-5,Handling HelloRetryRequest,"If the server selects an (EC)DHE group and the client did not offer a compatible key_share extension, the server must respond with a HelloRetryRequest message."
-6,ServerHello Parameters,"The server indicates selected parameters in the ServerHello, sending a pre_shared_key extension if PSK is used, and a key_share extension when (EC)DHE is in use."
-7,Certificate Authentication,"When authenticating via a certificate, the server sends the Certificate and CertificateVerify messages, with either a PSK or a certificate being used in TLS 1.3, but not both."
-8,Handshake Failure Conditions,"If the server cannot negotiate a supported set of parameters, it must abort the handshake with a handshake_failure or insufficient_security fatal alert."

@@ -128,7 +128,7 @@ fn run_slice_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
         .creation_flags(0x08000000)
         .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
         .arg(slice_script_path.to_str().unwrap())
-        .arg(rfc_output_dir.join("slice_test").to_str().unwrap())
+        // .arg(rfc_output_dir.join("slice_test").to_str().unwrap())
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
         .spawn() // 非阻塞地启动进程
@@ -166,7 +166,7 @@ fn run_extract_rule_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error
         .creation_flags(0x08000000)
         .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
         .arg(slice_script_path.to_str().unwrap())
-        .arg(rfc_output_dir.join("rfc_results_update_judge").to_str().unwrap())
+        // .arg(rfc_output_dir.join("rfc_results_update_judge").to_str().unwrap())
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
         .spawn() // 非阻塞地启动进程
@@ -180,6 +180,44 @@ fn run_extract_rule_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error
     // 检查脚本执行结果
     if !slice_output.status.success() {
         eprintln!("Failed to run extract_rule.py script.");
+        let slice_error = String::from_utf8_lossy(&slice_output.stderr);
+        eprintln!("Error: {}", slice_error);
+        exit(1);
+    }
+
+    // 打印脚本的标准输出
+    let slice_stdout = String::from_utf8_lossy(&slice_output.stdout);
+    println!("extract_rule.py output: {}", slice_stdout);
+    // Ok(())
+    Ok(())
+}
+
+fn run_generate_violation_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+    let violation_script_path = Path::new("python_scripts/generate_violation.py");
+    if !violation_script_path.exists() {
+        eprintln!("Python script not found at {:?}", violation_script_path);
+        exit(1);
+    }
+    println!("{}","succeed to find generate_violation.py script".green());
+    // 激活虚拟环境并运行 Python 脚本
+    let activate_command = Command::new("cmd")
+        .creation_flags(0x08000000)
+        .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
+        .arg(violation_script_path.to_str().unwrap())
+        // .arg(rfc_output_dir.join("rfc_results_slice_rule").to_str().unwrap())
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn() // 非阻塞地启动进程
+        .expect("Failed to execute generate_violation.py script");
+
+    // 等待脚本执行完毕并获取输出
+    let slice_output = activate_command
+        .wait_with_output()
+        .expect("Failed to wait on generate_violation.py script");
+
+    // 检查脚本执行结果
+    if !slice_output.status.success() {
+        eprintln!("Failed to run generate_violation.py script.");
         let slice_error = String::from_utf8_lossy(&slice_output.stderr);
         eprintln!("Error: {}", slice_error);
         exit(1);
@@ -230,34 +268,127 @@ fn judge_rule(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn check_and_run<F>(path: &Path, message: &str, action: F) -> Result<bool, Box<dyn Error>>
-where
-    F: FnOnce() -> Result<(), Box<dyn Error>>,
-{
-    if path.exists() {
-        println!("{} found, skipping.", message);
-        Ok(true)
-    } else {
-        action()?;
-        Ok(false)
+fn run_rule_slice_script(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
+    let mut reader = Reader::from_path(rfc_results_path)?;
+    let mut headers = reader.headers()?.clone();
+    let content_index = headers.iter().position(|h| h == "ExtractedRule").ok_or("Content column not found")?;
+    let re = Regex::new(r"<(SMC|CMC|SMP|CMP)>\s*<([01])>\s*\((.*?)\)\s*\+\s*<(SMC|CMC|SMP|CMP)>\s*<([01])>\s*\((.*?)\)").unwrap();
+
+    // 添加新列 "SlicedRule"
+    headers.push_field("SlicedRule");
+
+    let output_path = rfc_results_path.with_file_name("rfc_results_slice_rule.csv");
+    let mut writer = WriterBuilder::new().from_path(&output_path)?;
+    writer.write_record(&headers)?;
+
+    for result in reader.records() {
+        let mut record = result?;
+        let content = record.get(content_index).unwrap_or("");
+        
+        if content == "Skip" {
+            record.push_field("Skip");
+            writer.write_record(&record)?;
+        } else {
+            // let matches: Vec<_> = re.captures_iter(content).collect();
+            let matches: Vec<_> = re.find_iter(content).collect();
+            
+            if matches.is_empty() {
+                // 如果没有匹配，填充 "Error"
+                record.push_field("Error");
+                writer.write_record(&record)?;
+            } else {
+                for (i, m) in matches.iter().enumerate() {
+                    if i == 0 {
+                        // 第一个匹配：添加到原始记录
+                        let mut new_record = record.clone();
+                        new_record.push_field(m.as_str());
+                        writer.write_record(&new_record)?;
+                    } else {
+                        // 后续匹配：创建新行，只保留匹配的表达式
+                        let mut new_record = csv::StringRecord::new();
+                        for _ in 0..record.len() {
+                            new_record.push_field("");
+                        }
+                        new_record.push_field(m.as_str());
+                        // new_record[content_index + 1] = m.as_str().to_string();
+                        // new_record.push_field(m.as_str());
+                        writer.write_record(&new_record)?;
+                    }
+                }
+            }
+        }
     }
+
+    writer.flush()?;
+    println!("Updated CSV saved to {:?}", output_path);
+    Ok(())
 }
+
+// fn check_and_run<F>(path: &Path, message: &str, action: F) -> Result<bool, Box<dyn Error>>
+// where
+//     F: FnOnce() -> Result<(), Box<dyn Error>>,
+// {
+//     if path.exists() {
+//         println!("{} found, skipping.", message);
+//         Ok(true)
+//     } else {
+//         action()?;
+//         Ok(false)
+//     }
+// }
+// fn check_and_run(
+//     file_path: &Path,
+//     file_name: &str,
+//     action: &dyn Fn() -> Result<(), Box<dyn Error>>
+// ) -> Result<bool, Box<dyn Error>> {
+//     if !file_path.exists() {
+//         println!("{} does not exist. Running script...", file_name);
+//         action()?;
+//         Ok(false)
+//     } else {
+//         println!("{} already exists. Skipping...", file_name);
+//         Ok(true)
+//     }
+// }
 
 fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
     let rfc_results_path = agent_input_source_path.join("rfc_results.csv");
     let rfc_results_judge_path = agent_input_source_path.join("rfc_results_update_judge.csv");
     let rfc_results_extracted_path = agent_input_source_path.join("rfc_results_extracted_rule.csv");
-
-    match (
-        check_and_run(&rfc_results_path, "rfc_results.csv", || run_slice_script(rfc_output_dir))?,
-        check_and_run(&rfc_results_judge_path, "rfc_results_update_judge.csv", || judge_rule(&rfc_results_path.to_path_buf()))?,
-        check_and_run(&rfc_results_extracted_path, "rfc_results_extracted_rule.csv", || run_extract_rule_script(rfc_output_dir))?
-    ) {
-        (false, _, _) => Ok(()), // If run_slice_script was executed, we're done
-        (true, false, _) => Ok(()), // If judge_rule was executed, we're done
-        (true, true, false) => Ok(()), // If run_extract_rule_script was executed, we're done
-        (true, true, true) => Ok(()), // All files exist, nothing to do
+    let rfc_results_slice_rule_path = agent_input_source_path.join("rfc_results_slice_rule.csv");
+    let rfc_results_violation_path = agent_input_source_path.join("rfc_results_violation_rule.csv");
+    if !rfc_results_path.exists() {
+        println!("rfc_results.csv does not exist. Running slice script...");
+        run_slice_script(rfc_output_dir)?;
+        return Ok(());
     }
+
+    if !rfc_results_judge_path.exists() {
+        println!("rfc_results_update_judge.csv does not exist. Running judge rule...");
+        judge_rule(&rfc_results_path)?;
+        return Ok(());
+    }
+
+    if !rfc_results_extracted_path.exists() {
+        println!("rfc_results_extracted_rule.csv does not exist. Running extract rule script...");
+        run_extract_rule_script(rfc_output_dir)?;
+        return Ok(());
+    }
+
+    if !rfc_results_slice_rule_path.exists() {
+        println!("rfc_results_slice_rule.csv does not exist. Running rule slice script...");
+        run_rule_slice_script(&rfc_results_extracted_path)?;
+        return Ok(());
+    }
+
+    // if !rfc_results_violation_path.exists() {
+    //     println!("rfc_results_violation_rule.csv does not exist. Running generate violation script...");
+    //     run_generate_violation_script(rfc_output_dir)?;
+    //     return Ok(());
+    // }
+
+    println!("All files exist. Nothing to do.");
+    Ok(())
 }
 /// 程序入口点
 ///
@@ -279,9 +410,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     // 检查并激活虚拟环境
     activate_virtual_env()?;
 
-    // 检查 agent_input_source 文件夹中是否存在 rfc_results.csv
     let agent_input_source_path = Path::new("agent_input_source");
-
+    // 脚本执行
     process_rfc_results(agent_input_source_path, &rfc_output_dir)?;
     
     Ok(())
