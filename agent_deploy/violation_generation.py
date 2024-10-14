@@ -94,7 +94,7 @@ class PromptBot(fp.PoeBot):
 
 REQUIREMENTS = ["fastapi-poe==0.0.48"]
 image = Image.debian_slim().pip_install(*REQUIREMENTS)
-app = App("prompt-bot-poe")
+app = App("violation_generate")
 
 
 @app.function(image=image)

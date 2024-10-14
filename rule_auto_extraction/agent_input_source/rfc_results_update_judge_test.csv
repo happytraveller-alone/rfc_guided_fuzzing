@@ -1,8 +1,0 @@
-ID,Title,Content,RuleMatch
-1,Handshake Protocol Overview,"The handshake protocol is used to negotiate the security parameters of a connection. Handshake messages are supplied to the TLS record layer, where they are encapsulated within one or more TLSPlaintext or TLSCiphertext structures which are processed and transmitted as specified by the current active connection state.",0
-2,Handshake Message Types,"The enum defines various handshake message types, including client_hello, server_hello, new_session_ticket, end_of_early_data, encrypted_extensions, certificate, certificate_request, certificate_verify, finished, key_update, and message_hash.",0
-3,Structure of Handshake Messages,"The struct describes the format of handshake messages, which includes a message type, length, and a selection of message-specific structures based on the message type.",0
-4,Order of Protocol Messages,Protocol messages must be sent in the order defined in Section 4.4.1 and shown in the diagrams in Section 2.,1
-5,Handling Unexpected Message Orders,"A peer that receives a handshake message in an unexpected order must abort the handshake with an ""unexpected_message"" alert.",1
-6,Assignment of New Message Types,New handshake message types are assigned by IANA as described in Section 11.,0
-7,Error,Error: Sending request SendMessageMutation failed.  Error log: RemoteProtocolError('Server disconnected'),0
