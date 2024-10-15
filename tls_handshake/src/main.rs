@@ -10,6 +10,7 @@ use mio::net::TcpStream;
 use std::io::{Write, Read};
 use std::net::SocketAddr;
 use colored::*;
+use std::io;
 // use std::fs;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -170,7 +171,7 @@ fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, po
 
     // Wait for server response using non-blocking I/O
     println!("Waiting for server response...");
-    let mut server_response = [0; 8192];
+    let mut server_response = [0; 1024];
     let mut response_received = false;
     // let mut decrypted_data = vec![];
     while !response_received {
@@ -191,26 +192,26 @@ fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, po
                         }
                         println!("");
 
-                        conn.read_tls(&mut read_cursor).unwrap();
-                        println!("Success to read to tls");
-                        // conn.process_new_packets().unwrap();
-                        loop {
-                            match conn.process_new_packets() {
-                                Ok(_) => break,
-                                Err(e) => {
-                                    println!("Error processing packets: {:?}", e);
-                                    return Err(Box::new(e));
-                                }
+                        if let Err(e) = conn.read_tls(&mut read_cursor) {
+                            println!("Error reading TLS data: {}", e);
+                            return Err(Box::new(e));
+                        }
+
+                        let io_state = match conn.process_new_packets() {
+                            Ok(io_state) => io_state,
+                            Err(err) => {
+                                println!("TLS error: {:?}", err);
+                                // self.closing = true;
+                                return Err(Box::new(err));
                             }
+                        };
+                        println!("Success to read to tls");
+                        if io_state.plaintext_bytes_to_read() > 0 {
+                            let mut plaintext = vec![0u8; io_state.plaintext_bytes_to_read()];
+                            conn.reader().read_exact(&mut plaintext).unwrap();
+                            io::stdout().write_all(&plaintext).unwrap();
                         }
                         
-                        // error: 阻塞了
-                        // let decrypted_data = conn.reader().read_to_end(&mut );
-                        let mut plaintext = Vec::new();
-                        conn.reader().read_to_end(&mut plaintext)?;
-                        if !plaintext.is_empty() {
-                            println!("Decrypted server response: {:?}", String::from_utf8_lossy(&plaintext));
-                        }
                         response_received = true;
                     }
                     Ok(_) => {
@@ -241,3 +242,24 @@ fn send_client_hello_if_test_env(matches: &clap::ArgMatches, server_ip: &str, po
 
     Ok(())
 }
+
+
+// conn.process_new_packets().unwrap();
+                        // loop {
+                        //     match conn.process_new_packets() {
+                        //         Ok(_) => break,
+                        //         Err(e) => {
+                        //             println!("Error processing packets: {:?}", e);
+                        //             return Err(Box::new(e));
+                        //         }
+                        //     }
+                        // }
+                        
+                        // error: 阻塞了
+                        // let decrypted_data = conn.reader().read_to_end(&mut );
+                        // let mut plaintext = Vec::new();
+                        // conn.reader().read_to_end(&mut plaintext)?;
+                        // if !plaintext.is_empty() {
+                        //     println!("Decrypted server response: {:?}", String::from_utf8_lossy(&plaintext));
+                        // }
+                        // response_received = true;
