@@ -381,11 +381,11 @@ fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf)
         return Ok(());
     }
 
-    // if !rfc_results_violation_path.exists() {
-    //     println!("rfc_results_violation_rule.csv does not exist. Running generate violation script...");
-    //     run_generate_violation_script(rfc_output_dir)?;
-    //     return Ok(());
-    // }
+    if !rfc_results_violation_path.exists() {
+        println!("rfc_results_violation_rule.csv does not exist. Running generate violation script...");
+        run_generate_violation_script(rfc_output_dir)?;
+        return Ok(());
+    }
 
     println!("All files exist. Nothing to do.");
     Ok(())

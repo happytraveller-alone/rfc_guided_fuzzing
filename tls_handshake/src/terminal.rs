@@ -2,7 +2,7 @@ use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 use std::io::Write;
 use colored::*;
 use std::process::exit;
-
+use clap::{arg, Command,ArgAction};
 
 pub fn print_configuration(server_name: &str, server_ip: &str, port: u16, use_default_name: bool, use_default_ip: bool, use_default_port: bool) {
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
@@ -64,4 +64,18 @@ pub fn print_error_and_exit(message: &str) {
     writeln!(&mut stderr, "Error: {}", message).unwrap();
     stderr.reset().unwrap();
     exit(1);
+}
+
+pub fn get_command_matches() -> clap::ArgMatches {
+    Command::new("TLS Client")
+        .about("A simple TLS client to send ClientHello and optionally parse responses")
+        .arg(arg!(-s --server <SERVER_NAME> "Sets the server name").required(false))
+        .arg(arg!(-i --ip <SERVER_IP> "Sets the server IP address").required(false))
+        .arg(arg!(-p --port <PORT> "Sets the port number").required(false).default_value("443"))
+        .arg(arg!(--test_env "Enables test environment mode").action(ArgAction::SetTrue))
+        .arg(arg!(--disable_parse_client_hello "Enables or disables ClientHello parsing").default_value("false").action(ArgAction::SetTrue))
+        .arg(arg!(--disable_parse_server_response "Enables or disables Server response").default_value("false").action(ArgAction::SetTrue))
+        .arg(arg!(--use_guide "Show help information").action(ArgAction::SetTrue))
+        .arg(arg!(--easy_read "Enables easy read mode by adding delays").default_value("false").action(ArgAction::SetTrue))
+        .get_matches()
 }

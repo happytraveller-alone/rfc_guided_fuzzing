@@ -4,6 +4,12 @@ use rustls::{ClientConfig, ClientConnection, RootCertStore};
 use std::io::{Write, Read};
 use colored::*;
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
+use std::net::SocketAddr;
+use mio::net::TcpStream as MioTcpStream;
+use mio::{Events, Interest, Poll, Token};
+use std::time::Duration;
+use std::thread::sleep;
+use crate::{SERVER_NAME, SERVER_STATIC_IP, PORT};
 // use rustls::cipher_suite::*;
 mod danger {
     use pki_types::{CertificateDer, ServerName, UnixTime};
@@ -68,6 +74,19 @@ mod danger {
     }
 }
 
+
+pub fn get_server_name(matches: &clap::ArgMatches) -> String {
+    matches.get_one::<String>("server").unwrap_or(&SERVER_NAME.to_string()).to_string()
+}
+
+pub fn get_server_ip(matches: &clap::ArgMatches) -> String {
+    matches.get_one::<String>("ip").unwrap_or(&SERVER_STATIC_IP.to_string()).to_string()
+}
+
+pub fn get_port(matches: &clap::ArgMatches) -> u16 {
+    matches.get_one::<String>("port").unwrap().parse().unwrap_or(PORT)
+}
+
 pub fn create_tls_config() -> ClientConfig {
     let root_store = RootCertStore::empty();
     let versions = vec![&rustls::version::TLS13];
@@ -113,6 +132,51 @@ pub fn send_data(stream: &mut TcpStream, data: &[u8]) -> Result<(), std::io::Err
 
 pub fn receive_data(stream: &mut TcpStream, buffer: &mut [u8]) -> Result<usize, std::io::Error> {
     stream.read(buffer)
+}
+
+pub fn check_test_environment(matches: &clap::ArgMatches) -> bool {
+    let is_test_env = matches.get_flag("test_env");
+    if is_test_env {
+        println!("{}", "\nTest environment is enabled. Sending ClientHello to server.".green());
+    } else {
+        println!("{}", "\nTest environment is false. Not sending ClientHello to server.".green());
+    }
+    is_test_env
+}
+
+pub fn connect_to_server(server_ip: &str, port: u16, easy_read: bool) -> Result<MioTcpStream, Box<dyn std::error::Error>> {
+    if easy_read {
+        sleep(Duration::from_secs(1));
+    }
+
+    let access: SocketAddr = format!("{}:{}", server_ip, port).parse()?;
+    println!("Connecting to server at {}...", access);
+    Ok(MioTcpStream::connect(access)?)
+}
+
+pub fn create_poll() -> Result<Poll, Box<dyn std::error::Error>> {
+    Ok(Poll::new()?)
+}
+
+pub fn register_stream(poll: &mut Poll, stream: &mut MioTcpStream) -> Result<Token, Box<dyn std::error::Error>> {
+    let token = Token(0);
+    println!("Registering stream with poll...");
+    poll.registry().register(stream, token, Interest::WRITABLE | Interest::READABLE)?;
+    Ok(token)
+}
+
+pub fn wait_for_writable(poll: &mut Poll, token: Token) -> Result<(), Box<dyn std::error::Error>> {
+    let mut events = Events::with_capacity(1024);
+    println!("Waiting for socket to be writable...");
+    loop {
+        poll.poll(&mut events, None)?;
+        for event in &events {
+            if event.token() == token && event.is_writable() {
+                println!("Socket is writable. Connection established.");
+                return Ok(());
+            }
+        }
+    }
 }
 
 pub fn test_local_connection() -> Result<(), Box<dyn std::error::Error>> {
