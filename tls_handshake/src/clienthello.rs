@@ -152,26 +152,6 @@ impl<'a> ClientHelloParser<'a> {
             }
         }
     }
-    // fn parse_extensions(&mut self) {
-    //     if self.offset < self.data.len() {
-    //         let extensions_length = u16::from_be_bytes([self.data[self.offset], self.data[self.offset + 1]]) as usize;
-    //         self.fields.insert("14. Extensions Length".to_string(), format!("{:04X}", extensions_length));
-    //         self.offset += 2;
-    //         println!("  Extensions Length: {:04X} ({} bytes)", extensions_length, extensions_length);
-    //         while self.offset < self.data.len() {
-    //             let extension_type = u16::from_be_bytes([self.data[self.offset], self.data[self.offset + 1]]);
-    //             self.offset += 2;
-    //             let extension_length = u16::from_be_bytes([self.data[self.offset], self.data[self.offset + 1]]) as usize;
-    //             self.offset += 2;
-    //             let extension_name = TLS_EXTENSIONS.get(&extension_type).map_or("Unknown", |&name| name);
-    //             let extension_info = format!("Type: {:04X}, Length: {:04X} ({} bytes)", extension_type, extension_length, extension_length);
-    //             self.fields.insert(format!("15. Extension - {}", extension_name), extension_info);
-    //             println!("    Extension: {:<25} (Type: {:<04X}, Length: {:04X} ({:<3} bytes))", 
-    //                      extension_name, extension_type, extension_length, extension_length);
-    //             self.offset += extension_length;
-    //         }
-    //     }
-    // }
 }
 
 // 公开函数，用于解析传入的数据并生成 ClientHelloParser 实例
