@@ -71,9 +71,13 @@ def generate_violation(rows):
     
     for i, row in enumerate(rows):
         if row['SlicedRule'] and row['SlicedRule'].strip():  # Check if SlicedRule is not empty
-            if row['SlicedRule'].strip().lower() == "skip":
+            sliced_rule = row['SlicedRule'].strip().lower()
+            if sliced_rule == "skip":
                 results[i] = "Skip"
                 continue  # Skip this iteration and move to the next row
+            elif "<cmc>" not in sliced_rule:  # Check if <CMC> is not present
+                results[i] = "Temp Skip"
+                continue  # Skip further processing for this row
             # Limit the number of concurrent threads
             while len(threads) >= max_threads:
                 for t in threads:

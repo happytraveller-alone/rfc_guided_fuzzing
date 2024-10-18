@@ -9,7 +9,7 @@ use mio::{Events, Poll, Token};
 use mio::net::TcpStream as MioTcpStream;
 use std::io::{Write, Read};
 use colored::*;
-use std::io;
+// use std::io;
 // use std::fs;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {

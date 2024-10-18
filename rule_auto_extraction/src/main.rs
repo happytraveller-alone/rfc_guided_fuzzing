@@ -7,7 +7,7 @@ use std::time::Duration;
 use std::process::{Command, exit};
 use std::path::{Path,PathBuf};
 use std::os::windows::process::CommandExt;
-use csv::{Reader, WriterBuilder};
+use csv::{Reader, Writer, WriterBuilder};
 use regex::Regex;
 /// 运行 RFC 处理程序的主函数
 ///
@@ -116,7 +116,7 @@ fn activate_virtual_env() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn run_slice_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+fn run_slice_script() -> Result<(), Box<dyn Error>> {
     let slice_script_path = Path::new("python_scripts/slice_rfc.py");
     if !slice_script_path.exists() {
         eprintln!("Python script not found at {:?}", slice_script_path);
@@ -154,7 +154,7 @@ fn run_slice_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn run_extract_rule_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+fn run_extract_rule_script() -> Result<(), Box<dyn Error>> {
     let slice_script_path = Path::new("python_scripts/extract_rule.py");
     if !slice_script_path.exists() {
         eprintln!("Python script not found at {:?}", slice_script_path);
@@ -192,7 +192,7 @@ fn run_extract_rule_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error
     Ok(())
 }
 
-fn run_generate_violation_script(rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+fn run_generate_violation_script() -> Result<(), Box<dyn Error>> {
     let violation_script_path = Path::new("python_scripts/generate_violation.py");
     if !violation_script_path.exists() {
         eprintln!("Python script not found at {:?}", violation_script_path);
@@ -350,16 +350,58 @@ fn run_rule_slice_script(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error
 //         Ok(true)
 //     }
 // }
-
+fn run_generate_used_violation_script(rfc_results_path: &Path,input_file: &PathBuf) -> Result<(), Box<dyn Error>> {
+    // 构造输入文件的完整路径
+    // let input_file_path = rfc_results_path.join(output_file);
+    
+    // 创建CSV读取器
+    let mut reader = Reader::from_path(&input_file)?;
+    
+    // 获取并克隆标题
+    let headers = reader.headers()?.clone();
+    
+    // 构造输出文件路径
+    let output_path = rfc_results_path.join("rfc_results_used_violation_rule.csv");
+    
+    // 创建CSV写入器
+    let mut writer = Writer::from_path(output_path)?;
+    
+    // 写入标题
+    writer.write_record(&headers)?;
+    
+    // 获取Violation列的索引
+    let violation_index = headers.iter().position(|h| h == "Violation")
+        .ok_or("Violation column not found")?;
+    
+    // 遍历每一行
+    for result in reader.records() {
+        let record = result?;
+        
+        // 获取Violation列的值
+        let violation = &record[violation_index];
+        
+        // 检查Violation列的值是否满足条件
+        if violation != "Skip" && violation != "Temp Skip" {
+            // 写入满足条件的行
+            writer.write_record(&record)?;
+        }
+    }
+    
+    // 刷新写入器以确保所有数据都被写入
+    writer.flush()?;
+    
+    Ok(())
+}
 fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
     let rfc_results_path = agent_input_source_path.join("rfc_results.csv");
     let rfc_results_judge_path = agent_input_source_path.join("rfc_results_update_judge.csv");
     let rfc_results_extracted_path = agent_input_source_path.join("rfc_results_extracted_rule.csv");
     let rfc_results_slice_rule_path = agent_input_source_path.join("rfc_results_slice_rule.csv");
-    let rfc_results_violation_path = agent_input_source_path.join("rfc_results_violation_rule.csv");
+    let rfc_results_violation_path = agent_input_source_path.join("rfc_results_generate_violation.csv");
+    let rfc_results_used_violation_path = agent_input_source_path.join("rfc_results_used_violation_rule.csv");
     if !rfc_results_path.exists() {
         println!("rfc_results.csv does not exist. Running slice script...");
-        run_slice_script(rfc_output_dir)?;
+        run_slice_script()?;
         return Ok(());
     }
 
@@ -371,7 +413,7 @@ fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf)
 
     if !rfc_results_extracted_path.exists() {
         println!("rfc_results_extracted_rule.csv does not exist. Running extract rule script...");
-        run_extract_rule_script(rfc_output_dir)?;
+        run_extract_rule_script()?;
         return Ok(());
     }
 
@@ -383,10 +425,15 @@ fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf)
 
     if !rfc_results_violation_path.exists() {
         println!("rfc_results_violation_rule.csv does not exist. Running generate violation script...");
-        run_generate_violation_script(rfc_output_dir)?;
+        run_generate_violation_script()?;
         return Ok(());
     }
 
+    if !rfc_results_used_violation_path.exists(){
+        println!("rfc_results_used_violation_rule.csv does not exist. Running generate violation script...");
+        run_generate_used_violation_script(agent_input_source_path, &rfc_results_violation_path)?;
+        return Ok(());
+    }
     println!("All files exist. Nothing to do.");
     Ok(())
 }
