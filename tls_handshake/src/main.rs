@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use std::thread::sleep;
 use std::time::Duration;
-use tls_handshake::{clienthello, network_connect, terminal, server_response};
+use tls_handshake::{clienthello_parser, network_connect, terminal, server_response};
 use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
 use rustls::ClientConnection;
 use mio::{Events, Poll, Token};
@@ -78,7 +78,7 @@ fn parse_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &[u8]
         if easy_read {
             sleep(Duration::from_secs(2));
         }
-        clienthello::parse_client_hello(client_hello);
+        clienthello_parser::parse_client_hello(client_hello);
     }
 }
 

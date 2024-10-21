@@ -1,11 +1,13 @@
 use phf::phf_map;
 
-pub mod clienthello;
+pub mod clienthello_parser;
 pub mod server_response;
 pub mod network_connect;
 pub mod terminal;
+pub mod clienthello;
 
 pub use clienthello::*;
+pub use clienthello_parser::*;
 pub use server_response::*;
 pub use network_connect::*;
 pub use terminal::*;
