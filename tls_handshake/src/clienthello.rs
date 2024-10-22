@@ -1,6 +1,6 @@
 use super::TLS_EXTENSIONS;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ClientHello {
     // TLS Record Layer
     pub content_type: u8,           // 固定值 0x16
@@ -24,7 +24,7 @@ pub struct ClientHello {
     pub extensions: Vec<Extension>, // 动态值
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Extension {
     pub extension_type: [u8; 2],
     pub extension_length: [u8; 2],
@@ -88,7 +88,7 @@ impl ClientHello {
         
         print!("  Random: ");
         for byte in &self.random {
-            print!("{:02X}", byte);
+            print!("{:02X} ", byte);
         }
         println!();
     }
@@ -98,7 +98,7 @@ impl ClientHello {
         if !self.session_id.is_empty() {
             print!("  Session ID: ");
             for byte in &self.session_id {
-                print!("{:02X}", byte);
+                print!("{:02X} ", byte);
             }
             println!();
         }
@@ -110,7 +110,7 @@ impl ClientHello {
                  self.cipher_suites_length);
         print!("  Cipher Suites: ");
         for byte in &self.cipher_suites {
-            print!("{:02X}", byte);
+            print!("{:02X} ", byte);
         }
         println!();
     }
@@ -120,7 +120,7 @@ impl ClientHello {
                  self.compression_methods_length, self.compression_methods_length);
         print!("  Compression Methods: ");
         for byte in &self.compression_methods {
-            print!("{:02X}", byte);
+            print!("{:02X} ", byte);
         }
         println!();
     }
@@ -141,7 +141,7 @@ impl ClientHello {
                      u16::from_be_bytes(extension.extension_length));
             print!("      Content: ");
             for byte in &extension.extension_content {
-                print!("{:02X}", byte);
+                print!("{:02X} ", byte);
             }
             println!();
         }

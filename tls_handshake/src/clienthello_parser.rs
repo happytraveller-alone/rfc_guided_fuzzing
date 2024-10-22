@@ -213,7 +213,7 @@ impl<'a> ClientHelloParser<'a> {
 }
 
 // 公开函数，用于解析传入的数据并生成 ClientHelloParser 实例
-pub fn parse_client_hello(data: &[u8]) {
+pub fn parse_client_hello(data: &[u8]) -> ClientHello{
     let mut parser = ClientHelloParser::new(data);
     parser.parse();
     // 打印解析的字段映射表，格式化输出
@@ -227,4 +227,6 @@ pub fn parse_client_hello(data: &[u8]) {
 
     let client_hello = parser.get_client_hello();
     client_hello.print();
+
+    client_hello.clone()
 }
