@@ -1,6 +1,7 @@
 use phf::phf_map;
 
 pub mod clienthello_parser;
+pub mod clienthello_mutator;
 pub mod server_response;
 pub mod network_connect;
 pub mod terminal;
@@ -11,6 +12,7 @@ pub use clienthello_parser::*;
 pub use server_response::*;
 pub use network_connect::*;
 pub use terminal::*;
+pub use clienthello_mutator::*;
 
 
 pub const SERVER_NAME: &str = "WIN-1C2P8R1FV76";

@@ -40,7 +40,7 @@ def message_thread(prompt, results, index, max_retries=5):
 
 def parse_rules(text):
     """Parse rules from the given text using regex pattern."""
-    pattern = r'<(CMC|SMP|SMC|CMP)> <([01])> \((.*?)\) \+ <(CMC|SMP|SMC|CMP)> <([01])> \((.*?)\)'
+    pattern = r'<(CLI-MSG-CONST|SRV-MSG-PROC|SRV-MSG-CONST|CLI-MSG-PROC)> <([01])> \((.*?)\) \+ <(CLI-MSG-CONST|SRV-MSG-PROC|SRV-MSG-CONST|CLI-MSG-PROC)> <([01])> \((.*?)\)'
     return re.findall(pattern, text, re.DOTALL)
 
 def read_csv(file_path):
@@ -71,6 +71,8 @@ def extract_rules(rows):
     
     for i, row in enumerate(rows):
         if row['RuleMatch'] == '1':
+            # Combine Section, Title and Content
+            combined_input = f"{row['Section']}\nTitle: {row['Title']}\nContent:\n{row['Content']}"
             # Limit the number of concurrent threads
             while len(threads) >= max_threads:
                 for t in threads:
@@ -78,7 +80,7 @@ def extract_rules(rows):
                         threads.remove(t)
                 time.sleep(1)
 
-            t = threading.Thread(target=message_thread, args=(row['Content'], results, i))
+            t = threading.Thread(target=message_thread, args=(combined_input , results, i))
             t.start()
             threads.append(t)
             time.sleep(2)  # Add a delay to avoid rate limiting
@@ -96,30 +98,6 @@ def extract_rules(rows):
         rows[i]['ExtractedRule'] = result
 
     return rows
-
-# def extract_rules(rows):
-#     """Extract rules from results and add them to rows."""
-#     results = [None] * len(rows)
-#     threads = []
-#     for i, row in enumerate(rows):
-#         if row['RuleMatch'] == '1':
-#             t = threading.Thread(target=message_thread, args=(row['Content'], results, i))
-#             t.start()
-#             threads.append(t)
-#             time.sleep(2)  # Add a delay to avoid rate limiting
-#         elif row['RuleMatch'] == '0':
-#             results[i] = "Skip"
-#             time.sleep(0.5)  # Add a delay to avoid rate limiting
-#         else:
-#             results[i] = "Error: Invalid RuleMatch value"
-
-#     for t in threads:
-#         t.join()
-
-#     for i, result in enumerate(results):
-#         rows[i]['ExtractedRule'] = result
-
-#     return rows
 
 def signal_handler(sig, frame):
     """Handle interrupt signals (e.g., Ctrl+C)."""

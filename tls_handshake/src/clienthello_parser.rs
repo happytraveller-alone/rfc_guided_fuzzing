@@ -217,13 +217,13 @@ pub fn parse_client_hello(data: &[u8]) -> ClientHello{
     let mut parser = ClientHelloParser::new(data);
     parser.parse();
     // 打印解析的字段映射表，格式化输出
-    println!("\nParsed Fields:");
-    let mut keys: Vec<_> = parser.fields.keys().collect();
-    keys.sort();
-    for key in keys {
-        let value = &parser.fields[key];
-        println!("  {}: {}", key, value);
-    }
+    // println!("\nParsed Fields:");
+    // let mut keys: Vec<_> = parser.fields.keys().collect();
+    // keys.sort();
+    // for key in keys {
+    //     let value = &parser.fields[key];
+    //     println!("  {}: {}", key, value);
+    // }
 
     let client_hello = parser.get_client_hello();
     client_hello.print();

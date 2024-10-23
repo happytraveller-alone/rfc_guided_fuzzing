@@ -2,13 +2,14 @@ use std::sync::Arc;
 
 use std::thread::sleep;
 use std::time::Duration;
-use tls_handshake::{clienthello_parser, network_connect, terminal, server_response};
+use tls_handshake::{clienthello_parser, clienthello_mutator, network_connect, terminal, server_response};
 use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
 use rustls::ClientConnection;
 use mio::{Events, Poll, Token};
 use mio::net::TcpStream as MioTcpStream;
 use std::io::{Write, Read};
 use colored::*;
+use std::collections::HashMap;
 // use std::io;
 // use std::fs;
 
@@ -78,7 +79,23 @@ fn parse_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &[u8]
         if easy_read {
             sleep(Duration::from_secs(2));
         }
-        clienthello_parser::parse_client_hello(client_hello);
+        // 解析 ClientHello
+        let parsed_client_hello = clienthello_parser::parse_client_hello(client_hello);
+        
+        // 创建变异配置
+        let mut mutation_config = HashMap::new();
+        // 创建一个32字节的数组，这里示例用全1填充
+        let random_bytes: Vec<u8> = vec![1u8; 31];
+        mutation_config.insert(1, random_bytes);
+        let random_session_id: Vec<u8> = vec![0u8; 34];
+        mutation_config.insert(2, random_session_id);
+        let random_cipher_suites: Vec<u8> = vec![0x13, 0x13];
+        mutation_config.insert(3, random_cipher_suites);
+
+        // 执行变异并获取结果
+        println!("{}", "\nMutated ClientHello:".green());
+        let mutated_client_hello = clienthello_mutator::mutate_client_hello(&parsed_client_hello, &mutation_config);
+        mutated_client_hello.print();
     }
 }
 
@@ -190,7 +207,7 @@ fn wait_for_server_response(poll: &mut Poll, token: Token, stream: &mut MioTcpSt
 
 //     Ok(())
 // }
-
+#[warn(dead_code)]
 fn print_hex_dump(data: &[u8]) {
     println!("Read cursor content (hex):");
     for (i, byte) in data.iter().enumerate() {

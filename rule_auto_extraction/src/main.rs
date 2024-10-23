@@ -272,7 +272,10 @@ fn run_rule_slice_script(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error
     let mut reader = Reader::from_path(rfc_results_path)?;
     let mut headers = reader.headers()?.clone();
     let content_index = headers.iter().position(|h| h == "ExtractedRule").ok_or("Content column not found")?;
-    let re = Regex::new(r"<(SMC|CMC|SMP|CMP)>\s*<([01])>\s*\((.*?)\)\s*\+\s*<(SMC|CMC|SMP|CMP)>\s*<([01])>\s*\((.*?)\)").unwrap();
+    let section_index = headers.iter().position(|h| h == "Section").ok_or("Section column not found")?;
+    let title_index = headers.iter().position(|h| h == "Title").ok_or("Title column not found")?;
+    let content_rule_index = headers.iter().position(|h| h == "Content").ok_or("Content column not found")?;
+    let re = Regex::new(r"<(SRV-MSG-CONST|CLI-MSG-CONST|SRV-MSG-PROC|CLI-MSG-PROC)>\s*<([01])>\s*\((.*?)\)\s*\+\s*<(SRV-MSG-CONST|CLI-MSG-CONST|SRV-MSG-PROC|CLI-MSG-PROC)>\s*<([01])>\s*\((.*?)\)").unwrap();
 
     // 添加新列 "SlicedRule"
     headers.push_field("SlicedRule");
@@ -284,7 +287,10 @@ fn run_rule_slice_script(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error
     for result in reader.records() {
         let mut record = result?;
         let content = record.get(content_index).unwrap_or("");
-        
+        // 获取需要复制的字段值
+        let section = record.get(section_index).unwrap_or("");
+        let title = record.get(title_index).unwrap_or("");
+        let content_rule = record.get(content_rule_index).unwrap_or("");
         if content == "Skip" {
             record.push_field("Skip");
             writer.write_record(&record)?;
@@ -306,10 +312,19 @@ fn run_rule_slice_script(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error
                     } else {
                         // 后续匹配：创建新行，只保留匹配的表达式
                         let mut new_record = csv::StringRecord::new();
-                        for _ in 0..record.len() {
-                            new_record.push_field("");
+                        for (index, _) in record.iter().enumerate() {
+                            match index {
+                                idx if idx == section_index => new_record.push_field(section),
+                                idx if idx == title_index => new_record.push_field(title),
+                                idx if idx == content_rule_index => new_record.push_field(content_rule),
+                                _ => new_record.push_field(""),
+                            }
                         }
                         new_record.push_field(m.as_str());
+                        // for _ in 0..record.len() {
+                        //     new_record.push_field("");
+                        // }
+                        // new_record.push_field(m.as_str());
                         // new_record[content_index + 1] = m.as_str().to_string();
                         // new_record.push_field(m.as_str());
                         writer.write_record(&new_record)?;
@@ -350,38 +365,37 @@ fn run_rule_slice_script(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error
 //         Ok(true)
 //     }
 // }
-fn run_generate_used_violation_script(rfc_results_path: &Path,input_file: &PathBuf) -> Result<(), Box<dyn Error>> {
-    // 构造输入文件的完整路径
-    // let input_file_path = rfc_results_path.join(output_file);
-    
+fn run_generate_update_slice_script(input_file: &PathBuf, output_file: &PathBuf) -> Result<(), Box<dyn Error>> {
     // 创建CSV读取器
     let mut reader = Reader::from_path(&input_file)?;
     
     // 获取并克隆标题
     let headers = reader.headers()?.clone();
     
-    // 构造输出文件路径
-    let output_path = rfc_results_path.join("rfc_results_used_violation_rule.csv");
-    
     // 创建CSV写入器
-    let mut writer = Writer::from_path(output_path)?;
+    let mut writer = Writer::from_path(output_file)?;
     
     // 写入标题
     writer.write_record(&headers)?;
     
-    // 获取Violation列的索引
-    let violation_index = headers.iter().position(|h| h == "Violation")
-        .ok_or("Violation column not found")?;
+    // 获取SlicedRule列的索引
+    let violation_index = headers.iter().position(|h| h == "SlicedRule")
+        .ok_or("SlicedRule column not found")?;
     
+    // 定义需要检查的关键词
+    const KEYWORDS: [&str; 5] = ["MUST", "MUST NOT", "SHALL", "SHALL NOT", "REQUIRED"];
+
     // 遍历每一行
     for result in reader.records() {
         let record = result?;
         
-        // 获取Violation列的值
+        // 获取SlicedRule列的值
         let violation = &record[violation_index];
         
-        // 检查Violation列的值是否满足条件
-        if violation != "Skip" && violation != "Temp Skip" {
+        // 检查是否包含指定的字符串
+        if violation.contains("<CLI-MSG-CONST>") 
+            && violation.contains("<SRV-MSG-PROC>") 
+            && KEYWORDS.iter().any(|&keyword| violation.contains(keyword)) {
             // 写入满足条件的行
             writer.write_record(&record)?;
         }
@@ -392,13 +406,57 @@ fn run_generate_used_violation_script(rfc_results_path: &Path,input_file: &PathB
     
     Ok(())
 }
-fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+
+fn run_rule_classify_script(input_file: &PathBuf, output_file: &PathBuf) -> Result<(), Box<dyn Error>> {
+    // 创建CSV读取器
+    let mut reader = Reader::from_path(&input_file)?;
+    
+    // 获取并克隆标题
+    let headers = reader.headers()?.clone();
+    
+    // 创建CSV写入器
+    let mut writer = Writer::from_path(output_file)?;
+    
+    // 写入标题
+    writer.write_record(&headers)?;
+    
+    // 获取SlicedRule列的索引
+    let violation_index = headers.iter().position(|h| h == "classification_result")
+        .ok_or("classification_result column not found")?;
+    
+    // 定义需要检查的关键词
+    // const KEYWORDS: [&str; 5] = ["MUST", "MUST NOT", "SHALL", "SHALL NOT", "REQUIRED"];
+
+    // 遍历每一行
+    for result in reader.records() {
+        let record = result?;
+        
+        // 获取SlicedRule列的值
+        let violation = &record[violation_index];
+        
+        // 检查是否包含指定的字符串
+        if violation.contains("1") {
+            // 写入满足条件的行
+            writer.write_record(&record)?;
+        }
+    }
+    
+    // 刷新写入器以确保所有数据都被写入
+    writer.flush()?;
+    
+    Ok(())
+}
+
+fn process_rfc_results(agent_input_source_path: &Path) -> Result<(), Box<dyn Error>> {
     let rfc_results_path = agent_input_source_path.join("rfc_results.csv");
     let rfc_results_judge_path = agent_input_source_path.join("rfc_results_update_judge.csv");
     let rfc_results_extracted_path = agent_input_source_path.join("rfc_results_extracted_rule.csv");
     let rfc_results_slice_rule_path = agent_input_source_path.join("rfc_results_slice_rule.csv");
-    let rfc_results_violation_path = agent_input_source_path.join("rfc_results_generate_violation.csv");
-    let rfc_results_used_violation_path = agent_input_source_path.join("rfc_results_used_violation_rule.csv");
+    // let rfc_results_violation_path = agent_input_source_path.join("rfc_results_generate_violation.csv");
+    let rfc_results_update_slice_path = agent_input_source_path.join("rfc_results_update_slice_rule.csv");
+    let rfc_results_classify_path = agent_input_source_path.join("rfc_results_classify_slice_rule.csv");
+    let rfc_results_filter_classify_path = agent_input_source_path.join("rfc_results_filter_classify_rule.csv");
+    
     if !rfc_results_path.exists() {
         println!("rfc_results.csv does not exist. Running slice script...");
         run_slice_script()?;
@@ -417,23 +475,31 @@ fn process_rfc_results(agent_input_source_path: &Path, rfc_output_dir: &PathBuf)
         return Ok(());
     }
 
-    if !rfc_results_slice_rule_path.exists() {
-        println!("rfc_results_slice_rule.csv does not exist. Running rule slice script...");
-        run_rule_slice_script(&rfc_results_extracted_path)?;
-        return Ok(());
-    }
+    
 
-    if !rfc_results_violation_path.exists() {
-        println!("rfc_results_violation_rule.csv does not exist. Running generate violation script...");
-        run_generate_violation_script()?;
-        return Ok(());
-    }
+    // if !rfc_results_violation_path.exists() {
+    //     println!("rfc_results_violation_rule.csv does not exist. Running generate violation script...");
+    //     run_generate_violation_script()?;
+    //     return Ok(());
+    // }
 
-    if !rfc_results_used_violation_path.exists(){
+    if !rfc_results_update_slice_path.exists(){
         println!("rfc_results_used_violation_rule.csv does not exist. Running generate violation script...");
-        run_generate_used_violation_script(agent_input_source_path, &rfc_results_violation_path)?;
+        run_generate_update_slice_script(&rfc_results_slice_rule_path, &rfc_results_update_slice_path)?;
         return Ok(());
     }
+
+    if !rfc_results_filter_classify_path.exists(){
+        println!("rfc_results_used_violation_rule.csv does not exist. Running generate violation script...");
+        run_rule_classify_script(&rfc_results_classify_path, &rfc_results_filter_classify_path)?;
+        return Ok(());
+    }
+
+    // if !rfc_results_slice_rule_path.exists() {
+    //     println!("rfc_results_filter_classify_rule.csv does not exist. Running rule slice script...");
+    //     run_rule_classify_script(&rfc_results_classify_path, &rfc_results_filter_classify_path)?;
+    //     return Ok(());
+    // }
     println!("All files exist. Nothing to do.");
     Ok(())
 }
@@ -459,7 +525,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let agent_input_source_path = Path::new("agent_input_source");
     // 脚本执行
-    process_rfc_results(agent_input_source_path, &rfc_output_dir)?;
+    process_rfc_results(agent_input_source_path)?;
     
     Ok(())
 }

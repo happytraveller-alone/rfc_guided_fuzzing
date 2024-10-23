@@ -1,6 +1,7 @@
-use crate::client_hello::{ClientHello, Extension};
+use crate::clienthello::ClientHello;
 use rand::Rng;
-
+use std::collections::HashMap;
+use colored::*;
 pub struct ClientHelloMutator {
     client_hello: ClientHello,
 }
@@ -15,15 +16,12 @@ impl ClientHelloMutator {
             match key {
                 1 => self.mutate_random(value),
                 2 => self.mutate_session_id(value),
-                // 3 => self.mutate_cipher_suites(value),
+                3 => self.mutate_cipher_suites(value),
                 // 4 => self.mutate_compression_methods(value),
                 // 5 => self.mutate_extensions(value),
                 _ => println!("Unknown mutation key: {}", key),
             }
         }
-
-        // 变异操作完成后，更新所有长度字段
-        self.update_lengths();
     }
 
     fn update_lengths(&mut self) {
@@ -64,39 +62,70 @@ impl ClientHelloMutator {
     }
 
     fn mutate_random(&mut self, value: &[u8]) {
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
         if value.len() == 32 {
             self.client_hello.random.copy_from_slice(value);
         } else {
-            println!("Invalid random value length. Generating a new random value.");
+            println!("{}","Invalid random value length. Generating a new random value.".yellow());
             rng.fill(&mut self.client_hello.random);
         }
     }
 
     fn mutate_session_id(&mut self, value: &[u8]) {
-        let mut rng = thread_rng();
+        let mut rng = rand::thread_rng();
         if value.len() <= 32 {
             self.client_hello.session_id = value.to_vec();
             self.client_hello.session_id_length = value.len() as u8;
         } else {
-            println!("Session ID too long. Generating a new session ID.");
+            println!("{}","Session ID too long. Generating a new session ID.".yellow());
             let new_length = rng.gen_range(0..=32);
             self.client_hello.session_id = (0..new_length).map(|_| rng.gen()).collect();
             self.client_hello.session_id_length = new_length as u8;
         }
     }
 
-    // fn mutate_cipher_suites(&mut self) {
-    //     let mut rng = rand::thread_rng();
-    //     if rng.gen_bool(0.5) {
-    //         // 随机改变 cipher_suites
-    //         let new_length = rng.gen_range(2..=100) * 2; // 确保是偶数
-    //         self.client_hello.cipher_suites_length = new_length as u16;
-    //         self.client_hello.cipher_suites = (0..new_length)
-    //             .map(|_| rng.gen())
-    //             .collect();
-    //     }
-    // }
+    fn mutate_cipher_suites(&mut self, value: &[u8]) {
+        let valid_suites = [0x1301u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];
+        let default_suites = [0x1302u16, 0x1301, 0x1303, 0x00FF];
+        
+        // 确保输入长度是偶数（每个cipher suite是2字节）
+        if value.len() % 2 != 0 {
+            println!("{}", "Invalid cipher suites length. Using default suites.".yellow());
+            self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
+            self.client_hello.cipher_suites = default_suites
+                .iter()
+                .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
+                .collect();
+            return;
+        }
+    
+        let mut valid = true;
+        let mut cipher_suites = Vec::new();
+    
+        // 每次读取2个字节，转换为u16进行比较
+        for chunk in value.chunks(2) {
+            if chunk.len() == 2 {
+                let suite = ((chunk[0] as u16) << 8) | (chunk[1] as u16);
+                if !valid_suites.contains(&suite) {
+                    valid = false;
+                    break;
+                }
+                cipher_suites.extend_from_slice(chunk);
+            }
+        }
+    
+        if valid && !cipher_suites.is_empty() {
+            self.client_hello.cipher_suites_length = cipher_suites.len() as u16;
+            self.client_hello.cipher_suites = cipher_suites;
+        } else {
+            println!("{}", "Invalid cipher suites. Using default suites.".yellow());
+            self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
+            self.client_hello.cipher_suites = default_suites
+                .iter()
+                .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
+                .collect();
+        }
+    }
 
     // fn mutate_compression_methods(&mut self) {
     //     let mut rng = rand::thread_rng();
@@ -113,4 +142,11 @@ impl ClientHelloMutator {
     pub fn get_mutated_client_hello(&self) -> &ClientHello {
         &self.client_hello
     }
+}
+
+pub fn mutate_client_hello(client_hello: &ClientHello, mutation_config: &HashMap<u8, Vec<u8>>) -> ClientHello {
+    let mut mutator = ClientHelloMutator::new(client_hello.clone());
+    mutator.mutate(mutation_config);
+    mutator.update_lengths();
+    mutator.get_mutated_client_hello().clone()
 }
