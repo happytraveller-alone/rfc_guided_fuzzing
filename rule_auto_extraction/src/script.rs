@@ -5,7 +5,11 @@ use regex::Regex;
 use std::path::{Path,PathBuf};
 use std::error::Error;
 use colored::*;
-
+use std::env;
+use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::process::Child;
+// use ctrlc::*;
 pub struct ProcessStep {
     input_file: Option<&'static str>,
     output_file: &'static str,
@@ -37,19 +41,36 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
         ProcessStep {
             input_file: Some("rfc_results_slice_rule.csv"),
             output_file: "rfc_results_update_slice_rule.csv",
-            description: "Running generate violation script",
+            description: "Running update sliced rules script",
             action: |path| run_generate_update_slice_script(
                 &path.join("rfc_results_slice_rule.csv"),
                 &path.join("rfc_results_update_slice_rule.csv")
             ),
         },
         ProcessStep {
-            input_file: Some("rfc_results_classify_rule.csv"),
-            output_file: "rfc_results_filter_classify_rule.csv",
+            input_file: Some("rfc_results_update_slice_rule.csv"),
+            output_file: "rfc_results_classify_slice_rule.csv",
+            description: "Running sliced rule classification script",
+            action: |_| run_generate_classification_script(),
+        },
+        ProcessStep {
+            input_file: Some("rfc_results_classify_slice_rule.csv"),
+            output_file: "rfc_results_filter_classify_rule_simple.csv",
             description: "Running rule classify script",
             action: |path| run_rule_classify_script(
-                &path.join("rfc_results_classify_rule.csv"),
-                &path.join("rfc_results_filter_classify_rule.csv")
+                &path.join("rfc_results_classify_slice_rule.csv"),
+                &path.join("rfc_results_filter_classify_rule_simple.csv"),
+                "1",
+            ),
+        },
+        ProcessStep {
+            input_file: Some("rfc_results_classify_slice_rule.csv"),
+            output_file: "rfc_results_filter_classify_rule_complex.csv",
+            description: "Running rule classify script",
+            action: |path| run_rule_classify_script(
+                &path.join("rfc_results_classify_slice_rule.csv"),
+                &path.join("rfc_results_filter_classify_rule_complex.csv"),
+                "2",
             ),
         },
     ]
@@ -57,17 +78,25 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
 
 /// 找到第一个需要处理的步骤的索引
 pub fn find_first_missing_step(steps: &[ProcessStep], base_path: &Path) -> Option<usize> {
+    let mut last_missing_index = None;
+    let current_dir = env::current_dir().unwrap();
+    let base_path_dir = current_dir.join(base_path);
+    
+    // 从后向前遍历
     let mut i = steps.len() - 1;
-    let mut needs_processing = false;
-
     loop {
         let step = &steps[i];
-        let output_path = base_path.join(step.output_file);
+        let output_path = base_path_dir.join(&step.output_file);
         
         if !output_path.exists() {
-            needs_processing = true;
-            if let Some(input_file) = step.input_file {
-                let input_path = base_path.join(input_file);
+            println!("processing index {}", i);
+            
+            // 更新最后找到的缺失步骤索引
+            last_missing_index = Some(i);
+            
+            // 检查输入文件
+            if let Some(input_file) = &step.input_file {
+                let input_path = base_path_dir.join(input_file);
                 if !input_path.exists() && i > 0 {
                     i -= 1;
                     continue;
@@ -75,17 +104,13 @@ pub fn find_first_missing_step(steps: &[ProcessStep], base_path: &Path) -> Optio
             }
         }
         
-        if i == 0 || !needs_processing {
+        if i == 0 {
             break;
         }
         i -= 1;
     }
 
-    if needs_processing {
-        Some(i)
-    } else {
-        None
-    }
+    last_missing_index
 }
 
 /// 执行从指定索引开始的所有步骤
@@ -94,9 +119,11 @@ pub fn execute_steps_from_index(
     start_index: usize, 
     base_path: &Path
 ) -> Result<(), Box<dyn Error>> {
+    let current_dir = env::current_dir().unwrap();
+    let base_path_dir = current_dir.join(base_path);
     for step in &steps[start_index..] {
         println!("{} does not exist. {}", step.output_file, step.description);
-        (step.action)(base_path)?;
+        (step.action)(&base_path_dir)?;
     }
     Ok(())
 }
@@ -130,43 +157,7 @@ pub fn activate_virtual_env() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn run_slice_script() -> Result<(), Box<dyn Error>> {
-    let slice_script_path = Path::new("python_scripts/slice_rfc.py");
-    if !slice_script_path.exists() {
-        eprintln!("Python script not found at {:?}", slice_script_path);
-        exit(1);
-    }
-    println!("{}","succeed to find slice_rfc.py script".green());
-    // 激活虚拟环境并运行 Python 脚本
-    let activate_command = Command::new("cmd")
-        .creation_flags(0x08000000)
-        .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
-        .arg(slice_script_path.to_str().unwrap())
-        // .arg(rfc_output_dir.join("slice_test").to_str().unwrap())
-        .stdout(std::process::Stdio::piped())
-        .stderr(std::process::Stdio::piped())
-        .spawn() // 非阻塞地启动进程
-        .expect("Failed to execute slice_rfc.py script");
 
-    // 等待脚本执行完毕并获取输出
-    let slice_output = activate_command
-        .wait_with_output()
-        .expect("Failed to wait on slice_rfc.py script");
-
-    // 检查脚本执行结果
-    if !slice_output.status.success() {
-        eprintln!("Failed to run slice_rfc.py script.");
-        let slice_error = String::from_utf8_lossy(&slice_output.stderr);
-        eprintln!("Error: {}", slice_error);
-        exit(1);
-    }
-
-    // 打印脚本的标准输出
-    let slice_stdout = String::from_utf8_lossy(&slice_output.stdout);
-    println!("slice_rfc.py output: {}", slice_stdout);
-    // Ok(())
-    Ok(())
-}
 
 pub fn run_python_script(script_name: &str) -> Result<(), Box<dyn Error>> {
     let script_path = Path::new("python_scripts").join(format!("{}.py", script_name));
@@ -176,8 +167,8 @@ pub fn run_python_script(script_name: &str) -> Result<(), Box<dyn Error>> {
     }
     println!("{}", format!("succeed to find {}.py script", script_name).green());
 
-    // 激活虚拟环境并运行 Python 脚本
-    let activate_command = Command::new("cmd")
+    // 创建子进程
+    let mut child_process = Command::new("cmd")
         .creation_flags(0x08000000)
         .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
         .arg(script_path.to_str().unwrap())
@@ -186,8 +177,11 @@ pub fn run_python_script(script_name: &str) -> Result<(), Box<dyn Error>> {
         .spawn()
         .expect(&format!("Failed to execute {}.py script", script_name));
 
+    // 设置 Ctrl+C 处理
+    setup_ctrlc_handler(&mut child_process)?;
+
     // 等待脚本执行完毕并获取输出
-    let output = activate_command
+    let output = child_process
         .wait_with_output()
         .expect(&format!("Failed to wait on {}.py script", script_name));
 
@@ -206,7 +200,47 @@ pub fn run_python_script(script_name: &str) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+fn setup_ctrlc_handler(child_process: &mut Child) -> Result<(), Box<dyn Error>> {
+    // 创建一个标志来追踪是否已经处理过中断信号
+    let handled = Arc::new(AtomicBool::new(false));
+    let handled_clone = handled.clone();
+
+    // 获取子进程的ID
+    let child_id = child_process.id();
+
+    ctrlc::set_handler(move || {
+        // 确保处理器只执行一次
+        if !handled_clone.swap(true, Ordering::SeqCst) {
+            println!("{}","\nReceived Ctrl+C! Terminating child process...".red());
+            
+            // 在 Windows 上终止进程
+            #[cfg(windows)]
+            {
+                Command::new("taskkill")
+                    .args(&["/F", "/T", "/PID", &child_id.to_string()])
+                    .output()
+                    .expect("Failed to kill child process");
+            }
+
+            // 在 Unix 系统上终止进程
+            #[cfg(unix)]
+            unsafe {
+                libc::kill(child_id as i32, libc::SIGTERM);
+            }
+
+            // 退出主程序
+            exit(0);
+        }
+    })?;
+
+    Ok(())
+}
+
 // 封装具体的脚本调用函数
+pub fn run_slice_script() -> Result<(), Box<dyn Error>> {
+    run_python_script("slice_rfc")
+}
+
 pub fn run_extract_rule_script() -> Result<(), Box<dyn Error>> {
     run_python_script("extract_rule")
 }
@@ -364,7 +398,16 @@ pub fn run_generate_update_slice_script(input_file: &PathBuf, output_file: &Path
     Ok(())
 }
 
-pub fn run_rule_classify_script(input_file: &PathBuf, output_file: &PathBuf) -> Result<(), Box<dyn Error>> {
+pub fn run_rule_classify_script(input_file: &PathBuf, output_file: &PathBuf, filter_value: &str) -> Result<(), Box<dyn Error>> {
+    // 打印路径
+    // 检查输入文件是否存在
+    if !input_file.exists() {
+        eprintln!("Input file not found at: {}", input_file.display());
+        return Err(Box::new(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            "Input file does not exist"
+        )));
+    }
     // 创建CSV读取器
     let mut reader = Reader::from_path(&input_file)?;
     
@@ -392,7 +435,7 @@ pub fn run_rule_classify_script(input_file: &PathBuf, output_file: &PathBuf) -> 
         let violation = &record[violation_index];
         
         // 检查是否包含指定的字符串
-        if violation.contains("1") {
+        if violation.contains(filter_value) {
             // 写入满足条件的行
             writer.write_record(&record)?;
         }
