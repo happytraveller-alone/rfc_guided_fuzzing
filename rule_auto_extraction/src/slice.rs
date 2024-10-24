@@ -1,7 +1,7 @@
 // use crate::{
 //     INSTRUCTION_FOOTER, INSTRUCTION_HEADER, OUTPUT_FORMAT, PROCESSING_INSTRUCTIONS, TARGET_SECTIONS,
 // };
-use crate::TARGET_SECTIONS  ;
+use crate::TARGET_SECTIONS;
 use rayon::prelude::*;
 use regex::Regex;
 use std::cmp::Ordering;

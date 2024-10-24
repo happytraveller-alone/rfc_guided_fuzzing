@@ -2,6 +2,7 @@ pub mod download;
 pub mod process;
 pub mod slice;
 pub mod utils;
+pub mod script;
 
 use lazy_static::lazy_static;
 

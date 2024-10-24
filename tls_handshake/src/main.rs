@@ -207,14 +207,14 @@ fn wait_for_server_response(poll: &mut Poll, token: Token, stream: &mut MioTcpSt
 
 //     Ok(())
 // }
-#[warn(dead_code)]
-fn print_hex_dump(data: &[u8]) {
-    println!("Read cursor content (hex):");
-    for (i, byte) in data.iter().enumerate() {
-        if i % 16 == 0 {
-            print!("\n{:04x}: ", i);
-        }
-        print!("{:02x} ", byte);
-    }
-    println!();
-}
+// #[warn(dead_code)]
+// fn print_hex_dump(data: &[u8]) {
+//     println!("Read cursor content (hex):");
+//     for (i, byte) in data.iter().enumerate() {
+//         if i % 16 == 0 {
+//             print!("\n{:04x}: ", i);
+//         }
+//         print!("{:02x} ", byte);
+//     }
+//     println!();
+// }
