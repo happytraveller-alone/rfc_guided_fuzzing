@@ -21,11 +21,13 @@ pub struct ClientHello {
     pub compression_methods_length: u8,  // 动态值
     pub compression_methods: Vec<u8>,    // 动态值
     pub extensions_length: u16,     // 动态值
+    pub extensions_num: u16,        // 动态值
     pub extensions: Vec<Extension>, // 动态值
 }
 
 #[derive(Debug, Clone)]
 pub struct Extension {
+    pub order_id: usize,
     pub extension_type: [u8; 2],
     pub extension_length: [u8; 2],
     pub extension_content: Vec<u8>,
@@ -48,6 +50,7 @@ impl ClientHello {
             compression_methods_length: 0,
             compression_methods: Vec::new(),
             extensions_length: 0,
+            extensions_num: 0,
             extensions: Vec::new(),
         }
     }
@@ -126,15 +129,16 @@ impl ClientHello {
     }
 
     fn print_extensions(&self) {
-        println!("  Extensions Length: 0x{:04X} ({} bytes)", 
+        println!("  Extensions Length: 0x{:04X} ({} bytes), Extensions Number: {}", 
                  self.extensions_length,
-                 self.extensions_length);
+                 self.extensions_length,
+                 self.extensions_num);
         
         for (i, extension) in self.extensions.iter().enumerate() {
             let extension_type = u16::from_be_bytes(extension.extension_type);
             let extension_name = TLS_EXTENSIONS.get(&extension_type).map_or("Unknown", |&name| name);
             
-            println!("    Extension {}:", i + 1);
+            println!("    Extension {}:", extension.order_id);
             println!("      Type: 0x{:04X} ({})", extension_type, extension_name);
             println!("      Length: 0x{:04X} ({} bytes)", 
                      u16::from_be_bytes(extension.extension_length),

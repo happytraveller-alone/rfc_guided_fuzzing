@@ -11,6 +11,10 @@ SYSTEM_PROMPT = """
 ## Objective
 Create 1-3 rules for constructing malformed TLS 1.3 messages that violate the RFC 8446 specification. These rules should guide the creation of test cases for security analysis tools in a controlled environment.
 
+CLI-MSG-CONST + SRV-MSG-PROC
+   - SRV-MSG-CONST + CLI-MSG-PROC
+   - CLI-MSG-PROC + CLI-MSG-CONST
+   - SRV-MSG-PROC + SRV-MSG-CONST
 ## Input Format
 You will be given a TLS 1.3 rule pair in one of these formats:
 a) {CMC} <0/1> (rule text) + {SMP} <0/1> (rule text)
