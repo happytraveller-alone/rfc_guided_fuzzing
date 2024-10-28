@@ -1,0 +1,52 @@
+ID,Section,Title,Content,RuleMatch,ExtractedRule,SlicedRule,classification_full_result,classification_result,MQD,CRA,violation_input
+,Section: 4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello,ClientHello Transmission Rules,"When a client first connects to a server, it is REQUIRED to send the ClientHello as its first TLS message. The client will also send a ClientHello when the server has responded to its ClientHello with a HelloRetryRequest. In that case, the client MUST send the same ClientHello without modification, except as follows:
+- If a ""key_share"" extension was supplied in the HelloRetryRequest, replacing the list of shares with a list containing a single KeyShareEntry from the indicated group.
+- Removing the ""early_data"" extension if one was present. Early data is not permitted after a HelloRetryRequest.
+- Including a ""cookie"" extension if one was provided in the HelloRetryRequest.
+- Updating the ""pre_shared_key"" extension if present by recomputing the ""obfuscated_ticket_age"" and binder values and (optionally) removing any PSKs which are incompatible with the server's indicated cipher suite.
+- Optionally adding, removing, or changing the length of the ""padding"" extension [RFC7685].
+- Other modifications that may be allowed by an extension defined in the future and present in the HelloRetryRequest.",,,"<CLI-MSG-CONST> <1> (Clients MUST update the ""pre_shared_key"" extension by recalculating the ""obfuscated_ticket_age"" and binder values, and MAY remove incompatible PSKs) + <SRV-MSG-PROC> <0> (Servers MUST verify the updated ""pre_shared_key"" values in the new ClientHello)","{'classification_result': '1', 'MQD': 'No specific message ordering or dependencies required; the instruction does not indicate that this must occur after or in response to another message.', 'CRA': 'Directly relates to ClientHello through the mention of the ""pre_shared_key"" extension and its values.'}",1,No specific message ordering or dependencies required; the instruction does not indicate that this must occur after or in response to another message.,Directly relates to ClientHello through the mention of the "pre_shared_key" extension and its values.,"```json
+{
+  ""description"": ""ClientHello Transmission Rules"",
+  ""base"": {
+    ""first_rule"": ""<CLI-MSG-CONST> <1> (Clients MUST update the \""pre_shared_key\"" extension by recalculating the \""obfuscated_ticket_age\"" and binder values, and MAY remove incompatible PSKs)"",
+    ""second_rule"": ""<SRV-MSG-PROC> <0> (Servers MUST verify the updated \""pre_shared_key\"" values in the new ClientHello)""
+  }
+}
+```"
+20,Section: 4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello,Legacy Version Field,"In previous versions of TLS, this field was used for version negotiation and represented the highest version number supported by the client. Experience has shown that many servers do not properly implement version negotiation, leading to ""version intolerance"" in which the server rejects an otherwise acceptable ClientHello with a version number higher than it supports. In TLS 1.3, the client indicates its version preferences in the ""supported_versions"" extension (Section 4.2.1) and the legacy_version field MUST be set to 0x0303, which is the version number for TLS 1.2. TLS 1.3 ClientHellos are identified as having a legacy_version of 0x0303 and a supported_versions extension present with 0x0304 as the highest version indicated therein. (See Appendix D for details about backward compatibility.)",1,"<CLI-MSG-CONST> <1> (Clients MUST set the legacy_version field to 0x0303 in TLS 1.3 ClientHellos) + <SRV-MSG-PROC> <1> (Servers MUST recognize ClientHellos with a legacy_version of 0x0303 and a supported_versions extension containing 0x0304 as valid)
+<CLI-MSG-CONST> <1> (Clients MUST include the ""supported_versions"" extension in TLS 1.3 ClientHellos) + <SRV-MSG-PROC> <1> (Servers MUST verify the presence of the ""supported_versions"" extension in ClientHellos)",<CLI-MSG-CONST> <1> (Clients MUST set the legacy_version field to 0x0303 in TLS 1.3 ClientHellos) + <SRV-MSG-PROC> <1> (Servers MUST recognize ClientHellos with a legacy_version of 0x0303 and a supported_versions extension containing 0x0304 as valid),"{'classification_result': '1', 'MQD': 'No specific message ordering or dependencies required.', 'CRA': 'Directly relates to ClientHello through the legacy_version field requirement.'}",1,No specific message ordering or dependencies required.,Directly relates to ClientHello through the legacy_version field requirement.,"```json
+{
+  ""description"": ""Legacy Version Field"",
+  ""base"": {
+    ""first_rule"": ""<CLI-MSG-CONST> <1> (Clients MUST set the legacy_version field to 0x0303 in TLS 1.3 ClientHellos)"",
+    ""second_rule"": ""<SRV-MSG-PROC> <1> (Servers MUST recognize ClientHellos with a legacy_version of 0x0303 and a supported_versions extension containing 0x0304 as valid)""
+  }
+}
+```"
+,Section: 4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello,Legacy Version Field,"In previous versions of TLS, this field was used for version negotiation and represented the highest version number supported by the client. Experience has shown that many servers do not properly implement version negotiation, leading to ""version intolerance"" in which the server rejects an otherwise acceptable ClientHello with a version number higher than it supports. In TLS 1.3, the client indicates its version preferences in the ""supported_versions"" extension (Section 4.2.1) and the legacy_version field MUST be set to 0x0303, which is the version number for TLS 1.2. TLS 1.3 ClientHellos are identified as having a legacy_version of 0x0303 and a supported_versions extension present with 0x0304 as the highest version indicated therein. (See Appendix D for details about backward compatibility.)",,,<CLI-MSG-CONST> <1> (Clients MUST include the "supported_versions" extension in TLS 1.3 ClientHellos) + <SRV-MSG-PROC> <1> (Servers MUST verify the presence of the "supported_versions" extension in ClientHellos),"{'classification_result': '1', 'MQD': 'No specific message ordering or dependencies required.', 'CRA': 'Directly relates to ClientHello through the ""supported_versions"" extension.'}",1,No specific message ordering or dependencies required.,Directly relates to ClientHello through the "supported_versions" extension.,"```json
+{
+  ""description"": ""Legacy Version Field"",
+  ""base"": {
+    ""first_rule"": ""<CLI-MSG-CONST> <1> (Clients MUST include the \""supported_versions\"" extension in TLS 1.3 ClientHellos)"",
+    ""second_rule"": ""<SRV-MSG-PROC> <1> (Servers MUST verify the presence of the \""supported_versions\"" extension in ClientHellos)""
+  }
+}
+```"
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

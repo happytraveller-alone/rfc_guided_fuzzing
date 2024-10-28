@@ -9,8 +9,8 @@ import multiprocessing
 import math
 # Initialize API tokens
 tokens = {
-    'p-b': "QiZtBLjGecaQJ4-iJPIPgA%3D%3D", 
-    'p-lat': "GjrFu%2FMp5qLJ5wfDzXIZyCjiDQiPPmYDzqEOxU80kg%3D%3D",
+    'p-b': "02GkoMhE3WwSDbOEQzIKTQ%3D%3D", 
+    'p-lat': "4DQ%2BCxcEqQ%2FeCw762zl4%2F1lKNMQJcJYyfF1TBkXoQg%3D%3D",
 }
 
 client = PoeApi(tokens=tokens, auto_proxy=False)
@@ -26,7 +26,7 @@ def message_thread(prompt, results, index, max_retries=8):
     wait_time = 5  # Initial wait time before retrying
     while retries < max_retries:
         try:
-            message = client.send_message("rfc_rule_violation", prompt, timeout=60)
+            message = client.send_message("generate_mutation", prompt, timeout=80)
             for chunk in message:
                 pass
             results[index] = chunk["text"]
@@ -48,7 +48,7 @@ def read_csv(file_path):
     rows = []
     with open(file_path, 'r', encoding='utf-8') as file:
         csv_reader = csv.DictReader(file)
-        fieldnames = csv_reader.fieldnames + ['Violation']
+        fieldnames = csv_reader.fieldnames + ['mutation_output']
         for row in csv_reader:
             rows.append(row)
     return rows, fieldnames
@@ -60,7 +60,7 @@ def write_csv(file_path, fieldnames, rows):
         csv_writer.writeheader()
         csv_writer.writerows(rows)
 
-def generate_violation(rows):
+def generate_mutation(rows):
     """Extract rules from results and add them to rows."""
     results = [None] * len(rows)
     threads = []
@@ -70,14 +70,8 @@ def generate_violation(rows):
     max_threads = math.floor(total_threads * 0.7)
     
     for i, row in enumerate(rows):
-        if row['SlicedRule'] and row['SlicedRule'].strip():  # Check if SlicedRule is not empty
-            sliced_rule = row['SlicedRule'].strip().lower()
-            if sliced_rule == "skip":
-                results[i] = "Skip"
-                continue  # Skip this iteration and move to the next row
-            elif "<cmc>" not in sliced_rule:  # Check if <CMC> is not present
-                results[i] = "Temp Skip"
-                continue  # Skip further processing for this row
+        if row['violation_input'] and row['violation_input'].strip():  # Check if SlicedRule is not empty
+            sliced_rule = row['violation_input'].strip()
             # Limit the number of concurrent threads
             while len(threads) >= max_threads:
                 for t in threads:
@@ -85,13 +79,13 @@ def generate_violation(rows):
                         threads.remove(t)
                 time.sleep(1)
 
-            t = threading.Thread(target=message_thread, args=(row['SlicedRule'], results, i))
+            t = threading.Thread(target=message_thread, args=(sliced_rule, results, i))
             t.start()
             threads.append(t)
             time.sleep(2)  # Add a delay to avoid rate limiting
         else:
             results[i] = "Skip: Empty SlicedRule"
-            time.sleep(0.5)  # Add a delay to avoid rate limiting
+            time.sleep(1)  # Add a delay to avoid rate limiting
 
     # Join remaining threads
     for t in threads:
@@ -99,7 +93,7 @@ def generate_violation(rows):
 
     # Add new 'Violation' column to rows
     for i, result in enumerate(results):
-        rows[i]['Violation'] = result
+        rows[i]['mutation_output'] = result
 
     return rows
 
@@ -112,9 +106,9 @@ def main():
     """Main function to orchestrate the process."""
     try:
         get_client_settings()
-        rows, fieldnames = read_csv('agent_input_source/rfc_results_slice_rule.csv')
-        updated_rows = generate_violation(rows)
-        write_csv('agent_input_source/rfc_results_generate_violation.csv', fieldnames, updated_rows)
+        rows, fieldnames = read_csv('agent_input_source/rule_simple_violation_input.csv')
+        updated_rows = generate_mutation(rows)
+        write_csv('agent_input_source/rule_simple_mutation.csv', fieldnames, updated_rows)
         print(Fore.GREEN + "SUCCESS" + Style.RESET_ALL)
     except Exception as e:
         # print("error")

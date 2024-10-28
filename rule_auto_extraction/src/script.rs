@@ -9,12 +9,25 @@ use std::env;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::process::Child;
+use serde::{Deserialize, Serialize};
 // use ctrlc::*;
 pub struct ProcessStep {
     input_file: Option<&'static str>,
     output_file: &'static str,
     description: &'static str,
     action: fn(&Path) -> Result<(), Box<dyn Error>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Base {
+    first_rule: String,
+    second_rule: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct RuleStructure {
+    description: String,
+    base: Base,
 }
 
 /// 定义处理步骤
@@ -73,6 +86,21 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
                 "2",
             ),
         },
+        ProcessStep {
+            input_file: Some("rfc_results_filter_classify_rule_simple.csv"),
+            output_file: "rule_simple_violation_input.csv",
+            description: "Running rule violation input generation script",
+            action: |path| run_generate_mutation_descrip_input(
+                &path.join("rfc_results_filter_classify_rule_simple.csv"),
+                &path.join("rule_simple_violation_input.csv"),
+            ),
+        },
+        ProcessStep {
+            input_file: Some("rule_simple_violation_input.csv"),
+            output_file: "rule_simple_mutation.csv",
+            description: "Running rule violation input generation script",
+            action: |_| run_generate_mutation(),
+        }
     ]
 }
 
@@ -89,7 +117,7 @@ pub fn find_first_missing_step(steps: &[ProcessStep], base_path: &Path) -> Optio
         let output_path = base_path_dir.join(&step.output_file);
         
         if !output_path.exists() {
-            println!("processing index {}", i);
+            // println!("processing index {}", i);
             
             // 更新最后找到的缺失步骤索引
             last_missing_index = Some(i);
@@ -253,6 +281,9 @@ pub fn run_generate_classification_script() -> Result<(), Box<dyn Error>> {
     run_python_script("classify_rule")
 }
 
+pub fn run_generate_mutation() -> Result<(), Box<dyn Error>> {
+    run_python_script("mutation_output")
+}
 pub fn judge_rule(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = Reader::from_path(rfc_results_path)?;
     let mut headers = reader.headers()?.clone();
@@ -444,5 +475,126 @@ pub fn run_rule_classify_script(input_file: &PathBuf, output_file: &PathBuf, fil
     // 刷新写入器以确保所有数据都被写入
     writer.flush()?;
     
+    Ok(())
+}
+
+fn parse_slicedrule(input: &str) -> Result<(String, String), Box<dyn Error>> {
+    let parts: Vec<&str> = input.split(" + ").collect();
+    if parts.len() != 2 {
+        return Err("Invalid slicedrule format".into());
+    }
+
+    Ok((parts[0].trim().to_string(), parts[1].trim().to_string()))
+}
+
+fn convert_to_json(title: &str, slicedrule: &str) -> Result<String, Box<dyn Error>> {
+    let (first_rule, second_rule) = parse_slicedrule(slicedrule)?;
+
+    let rule_structure = RuleStructure {
+        description: title.to_string(),
+        base: Base {
+            first_rule,
+            second_rule,
+        },
+    };
+
+    // 添加Markdown代码块标记
+    let json_string = serde_json::to_string_pretty(&rule_structure)?;
+    Ok(format!("```json\n{}\n```", json_string))
+}
+
+pub fn run_generate_mutation_descrip_input(input_file: &PathBuf, output_file: &PathBuf) -> Result<(), Box<dyn Error>> {
+    // 创建CSV读取器
+    let mut reader = Reader::from_path(&input_file)?;
+    
+    // 获取并克隆标题
+    let headers = reader.headers()?.clone();
+    
+    // 创建新的标题，添加violation_input列
+    let mut new_headers = headers.iter().map(|s| s.to_string()).collect::<Vec<String>>();
+    new_headers.push("violation_input".to_string());
+    
+    // 创建CSV写入器
+    let mut writer = Writer::from_path(output_file)?;
+    
+    // 写入新的标题
+    writer.write_record(&new_headers)?;
+    
+    // 获取Title和SlicedRule列的索引
+    let title_index = headers.iter().position(|h| h == "Title")
+        .ok_or("Title column not found")?;
+    let rule_index = headers.iter().position(|h| h == "SlicedRule")
+        .ok_or("SlicedRule column not found")?;
+
+    // 处理每一行数据
+    for result in reader.records() {
+        let record = result?;
+        
+        // 获取Title和SlicedRule的值
+        let title = &record[title_index];
+        let sliced_rule = &record[rule_index];
+
+        // 转换为JSON格式
+        let json_output = convert_to_json(title, sliced_rule)?;
+
+        // 创建新的记录，包含原始数据和JSON输出
+        let mut new_record = record.iter().collect::<Vec<_>>();
+        new_record.push(&json_output);
+
+        // 写入新记录
+        writer.write_record(&new_record)?;
+    }
+
+    // 确保写入完成
+    writer.flush()?;
+
+    Ok(())
+}
+
+pub fn run_generate_mutation(input_file: &PathBuf, output_file: &PathBuf) -> Result<(), Box<dyn Error>> {
+    // 创建CSV读取器
+    let mut reader = Reader::from_path(&input_file)?;
+    
+    // 获取并克隆标题
+    let headers = reader.headers()?.clone();
+    
+    // 创建新的标题，添加violation_input列
+    let mut new_headers = headers.iter().map(|s| s.to_string()).collect::<Vec<String>>();
+    new_headers.push("violation_input".to_string());
+    
+    // 创建CSV写入器
+    let mut writer = Writer::from_path(output_file)?;
+    
+    // 写入新的标题
+    writer.write_record(&new_headers)?;
+    
+    // 获取Title和SlicedRule列的索引
+    let input_index = headers.iter().position(|h| h == "Title")
+        .ok_or("Title column not found")?;
+    let rule_index = headers.iter().position(|h| h == "SlicedRule")
+        .ok_or("SlicedRule column not found")?;
+
+    // 处理每一行数据
+    for result in reader.records() {
+        let record = result?;
+        
+        // 获取Title和SlicedRule的值
+        let title = &record[title_index];
+        let sliced_rule = &record[rule_index];
+
+        // 转换为JSON格式
+        let json_output = convert_to_json(title, sliced_rule)?;
+
+        // 创建新的记录，包含原始数据和JSON输出
+        let mut new_record = record.iter().collect::<Vec<_>>();
+        new_record.push(&json_output);
+
+        // 写入新记录
+        writer.write_record(&new_record)?;
+    }
+
+    // 确保写入完成
+    writer.flush()?;
+
     Ok(())
 }
