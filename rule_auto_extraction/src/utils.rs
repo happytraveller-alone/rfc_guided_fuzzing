@@ -3,6 +3,9 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::error::Error;
 use std::env;
+use std::process::{Command, exit};
+use std::os::windows::process::CommandExt;
+use colored::*;
 /// 获取项目根目录
 ///
 /// 功能说明：
@@ -88,5 +91,36 @@ pub fn save_content(content: &str, file_path: &PathBuf) -> Result<(), Box<dyn Er
     let mut file = File::create(file_path)?;
     file.write_all(content.as_bytes())?;
     println!("info saved to{:?}", file_path);
+    Ok(())
+}
+
+
+
+pub fn check_python_version() -> Result<(), Box<dyn Error>> {
+    let output = Command::new("cmd").creation_flags(0x08000000).stdout(std::process::Stdio::piped()).stderr(std::process::Stdio::piped())
+        .args(&["/C", "python", "--version"])
+        .output()
+        .expect("Failed to execute Python version check");
+
+    let version_output = String::from_utf8_lossy(&output.stdout);
+    let error_output = String::from_utf8_lossy(&output.stderr);
+
+    if !version_output.contains("Python 3.12") {
+        eprintln!("Python 3.12 is required but not found.");
+        eprintln!("Python version output: {}", version_output);
+        eprintln!("Error output: {}", error_output);
+        exit(1);
+    }
+    println!("{}","Python version satisfied".green());
+    Ok(())
+}
+
+pub fn activate_virtual_env() -> Result<(), Box<dyn Error>> {
+    let activate_path = Path::new("python_virtual_env/Scripts/activate");
+    if !activate_path.exists() {
+        eprintln!("Virtual environment activation script not found at {:?}", activate_path);
+        exit(1);
+    }
+    println!("{}","Virtual environment activation script founded".green());
     Ok(())
 }

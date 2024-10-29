@@ -1,9 +1,6 @@
 use colored::*;
-use rule_auto_extraction::{rfc_download, rfc_section_processor, rfc_section_slice, utils, script};
-use std::{env,thread};
-use std::error::Error;
-use std::time::Duration;
-use std::path::{Path,PathBuf};
+use rule_auto_extraction::{rfc_download, rfc_section_processor, rfc_section_slice, utils, processing_script};
+use std::{env,thread,error::Error,time::Duration,path::{Path,PathBuf}};
 
 /// 程序入口点
 ///
@@ -21,10 +18,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     // let rfc_output_dir = run(args)?;
     run(args)?;
     // 检查 Python 版本
-    script::check_python_version()?;
+    utils::check_python_version()?;
 
     // // 检查并激活虚拟环境
-    script::activate_virtual_env()?;
+    utils::activate_virtual_env()?;
 
     let agent_input_source_path = Path::new("agent_input_source");
     // // 脚本执行
@@ -36,10 +33,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 /// 主处理函数
 fn process_rfc_results(agent_input_source_path: &Path) -> Result<(), Box<dyn Error>> {
-    let processing_steps = script::get_processing_steps();
-    match script::find_first_missing_step(&processing_steps, agent_input_source_path) {
+    let processing_steps = processing_script::get_processing_steps();
+    match processing_script::find_first_missing_step(&processing_steps, agent_input_source_path) {
         Some(start_index) => {
-            script::execute_steps_from_index(&processing_steps, start_index, agent_input_source_path)?;
+            processing_script::execute_steps_from_index(&processing_steps, start_index, agent_input_source_path)?;
         },
         None => {
             println!("All files exist. Nothing to do.");

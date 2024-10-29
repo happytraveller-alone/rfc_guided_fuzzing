@@ -60,7 +60,7 @@ def message_thread(prompt, results, index, max_retries=5):
     wait_time = 7  # Initial wait time before retrying
     while retries < max_retries:
         try:
-            message = client.send_message("semantic_analysis", prompt, timeout=60)
+            message = client.send_message(bot="semantic_analysis", message = prompt, timeout=60)
             for chunk in message:
                 pass
             results[index] = chunk["text"]
