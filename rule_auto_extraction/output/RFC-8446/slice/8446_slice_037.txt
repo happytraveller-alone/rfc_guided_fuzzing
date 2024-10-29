@@ -1,8 +1,4 @@
---- Section: 4.2.11.3.. Handshake Protocol_Extensions_Pre-Shared Key Extension_Processing Order ---
-Clients are permitted to "stream" 0-RTT data until they receive the
-   server's Finished, only then sending the EndOfEarlyData message,
-   followed by the rest of the handshake.  In order to avoid deadlocks,
-   when accepting "early_data", servers MUST process the client's
-   ClientHello and then immediately send their flight of messages,
-   rather than waiting for the client's EndOfEarlyData message before
-   sending its ServerHello.
+{
+  "content": "Clients are permitted to \"stream\" 0-RTT data until they receive the\n   server's Finished, only then sending the EndOfEarlyData message,\n   followed by the rest of the handshake.  In order to avoid deadlocks,\n   when accepting \"early_data\", servers MUST process the client's\n   ClientHello and then immediately send their flight of messages,\n   rather than waiting for the client's EndOfEarlyData message before\n   sending its ServerHello.",
+  "section": "4.2.11.3.. Handshake Protocol_Extensions_Pre-Shared Key Extension_Processing Order"
+}

@@ -12,7 +12,7 @@ use std::io::BufWriter;
 use std::io::{Result as IoResult, Write};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
-
+use serde_json::json;
 /// 表示 RFC 章节编号的结构体
 #[derive(PartialEq, Eq, Clone)]
 pub struct SectionNumber(pub String);
@@ -365,13 +365,6 @@ fn generate_file_name(rfc_number: &str, index: usize) -> String {
         index + 1,
     )
 }
-// fn generate_file_name(rfc_number: &str, index: usize, full_title: &str) -> String {
-//     format!(
-//         "{}_slice_{:03}.txt",
-//         rfc_number,
-//         index + 1,
-//     )
-// }
 
 /// 保存章节文件
 ///
@@ -417,29 +410,16 @@ fn save_section_file(file_path: &Path, full_title: &str, content: &str) -> IoRes
 /// 作者：yuanfeng xie
 /// 日期：2024/10/06
 fn write_section<W: Write>(writer: &mut W, full_title: &str, content: &str) -> IoResult<()> {
-    // writeln!(writer, "{}", INSTRUCTION_HEADER)?;
-    writeln!(writer, "--- Section: {} ---", full_title)?;
-    writeln!(writer, "{}", content)?;
-    // writeln!(writer, "{}", INSTRUCTION_FOOTER)?;
+    let json_obj = json!({
+        "section": full_title,
+        "content": content
+    });
+    
+    writeln!(
+        writer, 
+        "{}",
+        serde_json::to_string_pretty(&json_obj).unwrap()
+    )?;
+    
     Ok(())
 }
-
-
-// / 写入指令
-// /
-// / 功能说明：
-// / - 将处理指令和输出格式写入文件
-// /
-// / 参数：
-// / - file: &mut File - 文件句柄
-// /
-// / 返回：
-// / - IoResult<()> - 成功时返回 Ok(()), 失败时返回 IO 错误
-// /
-// / 作者：yuanfeng xie
-// / 日期：2024/10/06
-// fn write_instructions<W: Write>(writer: &mut W) -> IoResult<()> {
-//     writeln!(writer, "{}", PROCESSING_INSTRUCTIONS)?;
-//     writeln!(writer, "{}", OUTPUT_FORMAT)?;
-//     Ok(())
-// }

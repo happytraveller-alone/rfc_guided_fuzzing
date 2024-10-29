@@ -1,39 +1,4 @@
---- Section: 4.2.11.2.. Handshake Protocol_Extensions_Pre-Shared Key Extension_PSK Binder ---
-The PSK binder value forms a binding between a PSK and the current
-   handshake, as well as a binding between the handshake in which the
-   PSK was generated (if via a NewSessionTicket message) and the current
-   handshake.  Each entry in the binders list is computed as an HMAC
-   over a transcript hash (see Section 4.4.1) containing a partial
-   ClientHello up to and including the PreSharedKeyExtension.identities
-   field.  That is, it includes all of the ClientHello but not the
-   binders list itself.  The length fields for the message (including
-   the overall length, the length of the extensions block, and the
-   length of the "pre_shared_key" extension) are all set as if binders
-   of the correct lengths were present.
-
-   The PskBinderEntry is computed in the same way as the Finished
-   message (Section 4.4.4) but with the BaseKey being the binder_key
-   derived via the key schedule from the corresponding PSK which is
-   being offered (see Section 7.1).
-
-   If the handshake includes a HelloRetryRequest, the initial
-   ClientHello and HelloRetryRequest are included in the transcript
-   along with the new ClientHello.  For instance, if the client sends
-   ClientHello1, its binder will be computed over:
-
-      Transcript-Hash(Truncate(ClientHello1))
-
-   Where Truncate() removes the binders list from the ClientHello.
-
-   If the server responds with a HelloRetryRequest and the client then
-   sends ClientHello2, its binder will be computed over:
-
-      Transcript-Hash(ClientHello1,
-                      HelloRetryRequest,
-                      Truncate(ClientHello2))
-
-   The full ClientHello1/ClientHello2 is included in all other handshake
-   hash computations.  Note that in the first flight,
-   Truncate(ClientHello1) is hashed directly, but in the second flight,
-   ClientHello1 is hashed and then reinjected as a "message_hash"
-   message, as described in Section 4.4.1.
+{
+  "content": "The PSK binder value forms a binding between a PSK and the current\n   handshake, as well as a binding between the handshake in which the\n   PSK was generated (if via a NewSessionTicket message) and the current\n   handshake.  Each entry in the binders list is computed as an HMAC\n   over a transcript hash (see Section 4.4.1) containing a partial\n   ClientHello up to and including the PreSharedKeyExtension.identities\n   field.  That is, it includes all of the ClientHello but not the\n   binders list itself.  The length fields for the message (including\n   the overall length, the length of the extensions block, and the\n   length of the \"pre_shared_key\" extension) are all set as if binders\n   of the correct lengths were present.\n\n   The PskBinderEntry is computed in the same way as the Finished\n   message (Section 4.4.4) but with the BaseKey being the binder_key\n   derived via the key schedule from the corresponding PSK which is\n   being offered (see Section 7.1).\n\n   If the handshake includes a HelloRetryRequest, the initial\n   ClientHello and HelloRetryRequest are included in the transcript\n   along with the new ClientHello.  For instance, if the client sends\n   ClientHello1, its binder will be computed over:\n\n      Transcript-Hash(Truncate(ClientHello1))\n\n   Where Truncate() removes the binders list from the ClientHello.\n\n   If the server responds with a HelloRetryRequest and the client then\n   sends ClientHello2, its binder will be computed over:\n\n      Transcript-Hash(ClientHello1,\n                      HelloRetryRequest,\n                      Truncate(ClientHello2))\n\n   The full ClientHello1/ClientHello2 is included in all other handshake\n   hash computations.  Note that in the first flight,\n   Truncate(ClientHello1) is hashed directly, but in the second flight,\n   ClientHello1 is hashed and then reinjected as a \"message_hash\"\n   message, as described in Section 4.4.1.",
+  "section": "4.2.11.2.. Handshake Protocol_Extensions_Pre-Shared Key Extension_PSK Binder"
+}

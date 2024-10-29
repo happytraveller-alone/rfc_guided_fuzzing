@@ -1,5 +1,5 @@
 use colored::*;
-use rule_auto_extraction::{download, process, slice, utils, script};
+use rule_auto_extraction::{rfc_download, rfc_section_processor, rfc_section_slice, utils, script};
 use std::{env,thread};
 use std::error::Error;
 use std::time::Duration;
@@ -23,11 +23,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     // 检查 Python 版本
     script::check_python_version()?;
 
-    // 检查并激活虚拟环境
+    // // 检查并激活虚拟环境
     script::activate_virtual_env()?;
 
     let agent_input_source_path = Path::new("agent_input_source");
-    // 脚本执行
+    // // 脚本执行
     process_rfc_results(agent_input_source_path)?;
     
     Ok(())
@@ -37,18 +37,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 /// 主处理函数
 fn process_rfc_results(agent_input_source_path: &Path) -> Result<(), Box<dyn Error>> {
     let processing_steps = script::get_processing_steps();
-    
     match script::find_first_missing_step(&processing_steps, agent_input_source_path) {
         Some(start_index) => {
             script::execute_steps_from_index(&processing_steps, start_index, agent_input_source_path)?;
-            
-            // return Ok(());
         },
         None => {
             println!("All files exist. Nothing to do.");
         }
     }
-
     Ok(())
 }
 
@@ -123,18 +119,18 @@ impl RfcProcessor {
         // 如果文件不完整，重新处理
         if !input_file.exists() {
             println!("Downloading RFC {}", self.rfc_number);
-            download::download_rfc(&self.rfc_number, &input_file)?;
+            rfc_download::download_rfc(&self.rfc_number, &input_file)?;
         }
 
         // 处理 RFC 内容
         println!("Processing RFC content");
-        let body = process::process_rfc_content(&input_file)?;
+        let body = rfc_section_processor::process_rfc_content(&input_file)?;
         
         // 保存 RFC 信息和预处理内容
-        let rfc_title = download::get_rfc_title(&self.rfc_number)?;
-        utils::save_rfc_info(&self.rfc_number, &rfc_title, &rfc_output_dir)?;
+        let rfc_title = rfc_download::get_rfc_title(&self.rfc_number)?;
+        rfc_download::save_rfc_info(&self.rfc_number, &rfc_title, &rfc_output_dir)?;
 
-        let pre_processed_content = utils::remove_headers_footers(&input_file)?;
+        let pre_processed_content = rfc_section_processor::remove_headers_footers(&input_file)?;
         let pre_processed_file = rfc_output_dir.join("pre_processed.txt");
         utils::save_content(&pre_processed_content, &pre_processed_file)?;
         
@@ -143,7 +139,7 @@ impl RfcProcessor {
         utils::save_content(&body, &body_file)?;
 
         // 切片处理
-        slice::slice_content(&body, &rfc_output_dir, &self.rfc_number)?;
+        rfc_section_slice::slice_content(&body, &rfc_output_dir, &self.rfc_number)?;
 
         println!("Processing complete.");
         Ok(rfc_output_dir)

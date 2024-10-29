@@ -38,10 +38,6 @@ def message_thread(prompt, results, index, max_retries=8):
             wait_time *= 2  # Exponential backoff
     results[index] = f"Error after {max_retries} retries: {str(e)}"
 
-# def parse_rules(text):
-#     """Parse rules from the given text using regex pattern."""
-#     pattern = r'<(CMC|SMP|SMC|CMP)> <([01])> \((.*?)\) \+ <(CMC|SMP|SMC|CMP)> <([01])> \((.*?)\)'
-#     return re.findall(pattern, text, re.DOTALL)
 
 def read_csv(file_path):
     """Read CSV and return rows with fieldnames."""

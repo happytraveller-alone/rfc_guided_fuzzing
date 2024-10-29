@@ -153,10 +153,6 @@ def output_results(files, results):
         sys.exit(1)
 
 def main():
-    # slice_directory = parse_arguments()
-    # files = get_files(slice_directory)
-    # results = process_files(files)
-    # output_results(files, results)
     try:
         # 设置信号处理器
         signal.signal(signal.SIGINT, signal_handler)  # 处理 Ctrl+C

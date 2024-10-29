@@ -3,7 +3,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::error::Error;
 use crate::{BODY_START, BODY_END, FILTER_SECTIONS};
-
+use std::path::PathBuf;
 /// 正则表达式集合结构体
 pub struct Regexes {
     pub header_footer: Regex,
@@ -210,3 +210,46 @@ fn validate_and_finalize_content(
     Ok(content.trim().to_string())
 }
 
+
+/// 移除 RFC 文本中的页眉和页脚
+///
+/// 功能说明：
+/// - 读取输入文件，移除 RFC 格式的页眉和页脚
+/// - 处理空行，最多保留三个连续的空行
+///
+/// 参数：
+/// - input_file: &PathBuf - 输入文件路径
+///
+/// 返回：
+/// - Result<String, Box<dyn Error>> - 成功时返回处理后的文本内容，失败时返回错误
+///
+/// 作者：yuanfeng xie
+/// 日期：2024/07/29
+pub fn remove_headers_footers(input_file: &PathBuf) -> Result<String, Box<dyn Error>> {
+    let reader = BufReader::new(File::open(input_file)?);
+    let header_footer_regex = Regex::new(r"^RFC \d+\s+.*\s+\w+ \d{4}$|^.*\s+\[Page \d+\]$")?;
+    let page_break_regex = Regex::new(r"\f")?;
+
+    let mut content = String::new();
+    let mut empty_line_count = 0;
+
+    for line in reader.lines() {
+        let line = line?;
+        let line = page_break_regex.replace_all(&line, "").to_string();
+
+        if !header_footer_regex.is_match(&line) {
+            if line.trim().is_empty() {
+                empty_line_count += 1;
+                if empty_line_count <= 3 {
+                    content.push('\n');
+                }
+            } else {
+                empty_line_count = 0;
+                content.push_str(&line);
+                content.push('\n');
+            }
+        }
+    }
+
+    Ok(content.trim().to_string())
+}

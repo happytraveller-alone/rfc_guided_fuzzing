@@ -10,13 +10,76 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::process::Child;
 use serde::{Deserialize, Serialize};
-// use ctrlc::*;
+
+// 定义操作类型枚举
+#[derive(Clone)]
+pub enum StepAction {
+    PythonScript(PythonScriptConfig),
+    RustFunction(fn(&Path) -> Result<(), Box<dyn Error>>),
+}
+
+// Python脚本的配置
+#[derive(Clone, Serialize, Deserialize)]
+pub struct PythonScriptConfig {
+    script_name: String,
+    bot_name: String,
+    additional_fields: Vec<String>,
+    input_fields: Vec<String>,
+}
+
 pub struct ProcessStep {
     input_file: Option<&'static str>,
     output_file: &'static str,
     description: &'static str,
-    action: fn(&Path) -> Result<(), Box<dyn Error>>,
+    action: StepAction,
 }
+
+// 创建一个函数来获取Python配置
+fn get_python_config(script_name: &str) -> PythonScriptConfig {
+    match script_name {
+        "slice_rfc" => PythonScriptConfig {
+            script_name: "slice_rfc.py".to_string(),
+            bot_name: "semantic_analysis".to_string(),
+            additional_fields: vec![
+                "ID".to_string(),
+                "Section".to_string(),
+                "Title".to_string(),
+                "Content".to_string()
+            ],
+            input_fields: vec!["content".to_string()],
+        },
+        "extract_rule" => PythonScriptConfig {
+            script_name: "extract_rule.py".to_string(),
+            bot_name: "TLSRFC_EXTRACT".to_string(),
+            additional_fields: vec!["ExtractedRule".to_string()],
+            input_fields: vec![
+                "Section".to_string(),
+                "Title".to_string(),
+                "Content".to_string()
+            ],
+        },
+        "classify_rule" => PythonScriptConfig {
+            script_name: "classify_rule.py".to_string(),
+            bot_name: "rule_classification".to_string(),
+            additional_fields: vec![
+                "classification_full_result".to_string(),
+                "classification_result".to_string(),
+                "MQD".to_string(),
+                "CRA".to_string()
+            ],
+            input_fields: vec!["SlicedRule".to_string()],
+        },
+        "generate_mutation" => PythonScriptConfig {
+            script_name: "generate_mutation.py".to_string(),
+            bot_name: "generate_mutation".to_string(),
+            additional_fields: vec!["mutation_output".to_string()],
+            input_fields: vec!["violation_input".to_string()],
+        },
+        _ => panic!("Unknown script name: {}", script_name),
+    }
+}
+
+
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Base {
@@ -37,69 +100,69 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
             input_file: None,
             output_file: "rfc_results.csv",
             description: "Running slice script",
-            action: |_| run_slice_script(),
+            action: StepAction::PythonScript(get_python_config("slice_rfc")),
         },
         ProcessStep {
             input_file: Some("rfc_results.csv"),
             output_file: "rfc_results_update_judge.csv",
             description: "Running judge rule",
-            action: |path| judge_rule(&path.join("rfc_results.csv")),
+            action: StepAction::RustFunction(|path| judge_rule(&path.join("rfc_results.csv"))),
         },
         ProcessStep {
             input_file: Some("rfc_results_update_judge.csv"),
             output_file: "rfc_results_extracted_rule.csv",
             description: "Running extract rule script",
-            action: |_| run_extract_rule_script(),
+            action: StepAction::PythonScript(get_python_config("extract_rule")),
         },
         ProcessStep {
             input_file: Some("rfc_results_slice_rule.csv"),
             output_file: "rfc_results_update_slice_rule.csv",
             description: "Running update sliced rules script",
-            action: |path| run_generate_update_slice_script(
+            action: StepAction::RustFunction(|path| run_generate_update_slice_script(
                 &path.join("rfc_results_slice_rule.csv"),
                 &path.join("rfc_results_update_slice_rule.csv")
-            ),
+            )),
         },
         ProcessStep {
             input_file: Some("rfc_results_update_slice_rule.csv"),
             output_file: "rfc_results_classify_slice_rule.csv",
             description: "Running sliced rule classification script",
-            action: |_| run_generate_classification_script(),
+            action: StepAction::PythonScript(get_python_config("classify_rule")),
         },
         ProcessStep {
             input_file: Some("rfc_results_classify_slice_rule.csv"),
             output_file: "rfc_results_filter_classify_rule_simple.csv",
             description: "Running rule classify script",
-            action: |path| run_rule_classify_script(
+            action: StepAction::RustFunction(|path| run_rule_classify_script(
                 &path.join("rfc_results_classify_slice_rule.csv"),
                 &path.join("rfc_results_filter_classify_rule_simple.csv"),
                 "1",
-            ),
+            )),
         },
         ProcessStep {
             input_file: Some("rfc_results_classify_slice_rule.csv"),
             output_file: "rfc_results_filter_classify_rule_complex.csv",
             description: "Running rule classify script",
-            action: |path| run_rule_classify_script(
+            action: StepAction::RustFunction(|path| run_rule_classify_script(
                 &path.join("rfc_results_classify_slice_rule.csv"),
                 &path.join("rfc_results_filter_classify_rule_complex.csv"),
                 "2",
-            ),
+            )),
         },
         ProcessStep {
             input_file: Some("rfc_results_filter_classify_rule_simple.csv"),
             output_file: "rule_simple_violation_input.csv",
             description: "Running rule violation input generation script",
-            action: |path| run_generate_mutation_descrip_input(
+            action: StepAction::RustFunction(|path| run_generate_mutation_descrip_input(
                 &path.join("rfc_results_filter_classify_rule_simple.csv"),
                 &path.join("rule_simple_violation_input.csv"),
-            ),
+            )),
         },
         ProcessStep {
             input_file: Some("rule_simple_violation_input.csv"),
             output_file: "rule_simple_mutation.csv",
             description: "Running rule violation input generation script",
-            action: |_| run_generate_mutation(),
+            action: StepAction::PythonScript(get_python_config("generate_mutation")),
         }
     ]
 }
@@ -147,11 +210,29 @@ pub fn execute_steps_from_index(
     start_index: usize, 
     base_path: &Path
 ) -> Result<(), Box<dyn Error>> {
-    let current_dir = env::current_dir().unwrap();
+    let current_dir = env::current_dir()?;
     let base_path_dir = current_dir.join(base_path);
+
     for step in &steps[start_index..] {
-        println!("{} does not exist. {}", step.output_file, step.description);
-        (step.action)(&base_path_dir)?;
+        println!("{}", format!("Executing: {} - {}", step.output_file, step.description).green());
+        
+        match &step.action {
+            StepAction::PythonScript(config) => {
+                // 使用配置信息执行Python脚本
+                run_python_script(
+                    &config.script_name,
+                    &config.bot_name,
+                    step.input_file.map(|f| base_path_dir.join(f)),
+                    &base_path_dir.join(step.output_file),
+                    &config.additional_fields,
+                    &config.input_fields,
+                )?;
+            },
+            StepAction::RustFunction(func) => {
+                // 直接执行Rust函数
+                func(&base_path_dir)?;
+            }
+        }
     }
     Ok(())
 }
@@ -187,7 +268,14 @@ pub fn activate_virtual_env() -> Result<(), Box<dyn Error>> {
 
 
 
-pub fn run_python_script(script_name: &str) -> Result<(), Box<dyn Error>> {
+pub fn run_python_script(
+    script_name: &str,
+    bot_name: &str,
+    input_path: Option<PathBuf>,
+    output_path: &Path,
+    additional_fields: &[String],
+    input_fields: &[String],
+) -> Result<(), Box<dyn Error>> {
     let script_path = Path::new("python_scripts").join(format!("{}.py", script_name));
     if !script_path.exists() {
         eprintln!("Python script not found at {:?}", script_path);
@@ -264,26 +352,6 @@ fn setup_ctrlc_handler(child_process: &mut Child) -> Result<(), Box<dyn Error>> 
     Ok(())
 }
 
-// 封装具体的脚本调用函数
-pub fn run_slice_script() -> Result<(), Box<dyn Error>> {
-    run_python_script("slice_rfc")
-}
-
-pub fn run_extract_rule_script() -> Result<(), Box<dyn Error>> {
-    run_python_script("extract_rule")
-}
-
-pub fn run_generate_violation_script() -> Result<(), Box<dyn Error>> {
-    run_python_script("generate_violation")
-}
-
-pub fn run_generate_classification_script() -> Result<(), Box<dyn Error>> {
-    run_python_script("classify_rule")
-}
-
-pub fn run_generate_mutation() -> Result<(), Box<dyn Error>> {
-    run_python_script("mutation_output")
-}
 pub fn judge_rule(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = Reader::from_path(rfc_results_path)?;
     let mut headers = reader.headers()?.clone();

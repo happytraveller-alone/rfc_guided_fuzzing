@@ -1,21 +1,4 @@
---- Section: 4.3.1.. Handshake Protocol_Server Parameters_Encrypted Extensions ---
-In all handshakes, the server MUST send the EncryptedExtensions
-   message immediately after the ServerHello message.  This is the first
-   message that is encrypted under keys derived from the
-   server_handshake_traffic_secret.
-
-   The EncryptedExtensions message contains extensions that can be
-   protected, i.e., any which are not needed to establish the
-   cryptographic context but which are not associated with individual
-   certificates.  The client MUST check EncryptedExtensions for the
-   presence of any forbidden extensions and if any are found MUST abort
-   the handshake with an "illegal_parameter" alert.
-
-   Structure of this message:
-
-      struct {
-          Extension extensions<0..2^16-1>;
-      } EncryptedExtensions;
-
-   extensions:  A list of extensions.  For more information, see the
-      table in Section 4.2.
+{
+  "content": "In all handshakes, the server MUST send the EncryptedExtensions\n   message immediately after the ServerHello message.  This is the first\n   message that is encrypted under keys derived from the\n   server_handshake_traffic_secret.\n\n   The EncryptedExtensions message contains extensions that can be\n   protected, i.e., any which are not needed to establish the\n   cryptographic context but which are not associated with individual\n   certificates.  The client MUST check EncryptedExtensions for the\n   presence of any forbidden extensions and if any are found MUST abort\n   the handshake with an \"illegal_parameter\" alert.\n\n   Structure of this message:\n\n      struct {\n          Extension extensions<0..2^16-1>;\n      } EncryptedExtensions;\n\n   extensions:  A list of extensions.  For more information, see the\n      table in Section 4.2.",
+  "section": "4.3.1.. Handshake Protocol_Server Parameters_Encrypted Extensions"
+}

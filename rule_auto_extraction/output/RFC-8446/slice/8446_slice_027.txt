@@ -1,11 +1,4 @@
---- Section: 4.2.6.. Handshake Protocol_Extensions_Post-Handshake Client Authentication ---
-The "post_handshake_auth" extension is used to indicate that a client
-   is willing to perform post-handshake authentication (Section 4.6.2).
-   Servers MUST NOT send a post-handshake CertificateRequest to clients
-   which do not offer this extension.  Servers MUST NOT send this
-   extension.
-
-      struct {} PostHandshakeAuth;
-
-   The "extension_data" field of the "post_handshake_auth" extension is
-   zero length.
+{
+  "content": "The \"post_handshake_auth\" extension is used to indicate that a client\n   is willing to perform post-handshake authentication (Section 4.6.2).\n   Servers MUST NOT send a post-handshake CertificateRequest to clients\n   which do not offer this extension.  Servers MUST NOT send this\n   extension.\n\n      struct {} PostHandshakeAuth;\n\n   The \"extension_data\" field of the \"post_handshake_auth\" extension is\n   zero length.",
+  "section": "4.2.6.. Handshake Protocol_Extensions_Post-Handshake Client Authentication"
+}

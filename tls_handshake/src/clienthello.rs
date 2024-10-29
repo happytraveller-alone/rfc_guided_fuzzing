@@ -134,7 +134,7 @@ impl ClientHello {
                  self.extensions_length,
                  self.extensions_num);
         
-        for (i, extension) in self.extensions.iter().enumerate() {
+        for extension in self.extensions.iter() {
             let extension_type = u16::from_be_bytes(extension.extension_type);
             let extension_name = TLS_EXTENSIONS.get(&extension_type).map_or("Unknown", |&name| name);
             

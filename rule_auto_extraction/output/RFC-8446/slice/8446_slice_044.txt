@@ -1,30 +1,4 @@
---- Section: 4.4.2.1.. Handshake Protocol_Authentication Messages_Certificate_OCSP Status and SCT Extensions ---
-[RFC6066] and [RFC6961] provide extensions to negotiate the server
-   sending OCSP responses to the client.  In TLS 1.2 and below, the
-   server replies with an empty extension to indicate negotiation of
-   this extension and the OCSP information is carried in a
-   CertificateStatus message.  In TLS 1.3, the server's OCSP information
-   is carried in an extension in the CertificateEntry containing the
-   associated certificate.  Specifically, the body of the
-   "status_request" extension from the server MUST be a
-   CertificateStatus structure as defined in [RFC6066], which is
-   interpreted as defined in [RFC6960].
-
-   Note: The status_request_v2 extension [RFC6961] is deprecated.
-   TLS 1.3 servers MUST NOT act upon its presence or information in it
-   when processing ClientHello messages; in particular, they MUST NOT
-   send the status_request_v2 extension in the EncryptedExtensions,
-   CertificateRequest, or Certificate messages.  TLS 1.3 servers MUST be
-   able to process ClientHello messages that include it, as it MAY be
-   sent by clients that wish to use it in earlier protocol versions.
-
-   A server MAY request that a client present an OCSP response with its
-   certificate by sending an empty "status_request" extension in its
-   CertificateRequest message.  If the client opts to send an OCSP
-   response, the body of its "status_request" extension MUST be a
-   CertificateStatus structure as defined in [RFC6066].
-
-   Similarly, [RFC6962] provides a mechanism for a server to send a
-   Signed Certificate Timestamp (SCT) as an extension in the ServerHello
-   in TLS 1.2 and below.  In TLS 1.3, the server's SCT information is
-   carried in an extension in the CertificateEntry.
+{
+  "content": "[RFC6066] and [RFC6961] provide extensions to negotiate the server\n   sending OCSP responses to the client.  In TLS 1.2 and below, the\n   server replies with an empty extension to indicate negotiation of\n   this extension and the OCSP information is carried in a\n   CertificateStatus message.  In TLS 1.3, the server's OCSP information\n   is carried in an extension in the CertificateEntry containing the\n   associated certificate.  Specifically, the body of the\n   \"status_request\" extension from the server MUST be a\n   CertificateStatus structure as defined in [RFC6066], which is\n   interpreted as defined in [RFC6960].\n\n   Note: The status_request_v2 extension [RFC6961] is deprecated.\n   TLS 1.3 servers MUST NOT act upon its presence or information in it\n   when processing ClientHello messages; in particular, they MUST NOT\n   send the status_request_v2 extension in the EncryptedExtensions,\n   CertificateRequest, or Certificate messages.  TLS 1.3 servers MUST be\n   able to process ClientHello messages that include it, as it MAY be\n   sent by clients that wish to use it in earlier protocol versions.\n\n   A server MAY request that a client present an OCSP response with its\n   certificate by sending an empty \"status_request\" extension in its\n   CertificateRequest message.  If the client opts to send an OCSP\n   response, the body of its \"status_request\" extension MUST be a\n   CertificateStatus structure as defined in [RFC6066].\n\n   Similarly, [RFC6962] provides a mechanism for a server to send a\n   Signed Certificate Timestamp (SCT) as an extension in the ServerHello\n   in TLS 1.2 and below.  In TLS 1.3, the server's SCT information is\n   carried in an extension in the CertificateEntry.",
+  "section": "4.4.2.1.. Handshake Protocol_Authentication Messages_Certificate_OCSP Status and SCT Extensions"
+}

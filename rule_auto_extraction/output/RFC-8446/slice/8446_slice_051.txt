@@ -1,4 +1,4 @@
---- Section: 4.6.. Handshake Protocol_Post-Handshake Messages ---
-TLS also allows other messages to be sent after the main handshake.
-   These messages use a handshake content type and are encrypted under
-   the appropriate application traffic key.
+{
+  "content": "TLS also allows other messages to be sent after the main handshake.\n   These messages use a handshake content type and are encrypted under\n   the appropriate application traffic key.",
+  "section": "4.6.. Handshake Protocol_Post-Handshake Messages"
+}

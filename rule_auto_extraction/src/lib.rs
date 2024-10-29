@@ -1,8 +1,9 @@
-pub mod download;
-pub mod process;
-pub mod slice;
+pub mod rfc_download;
+pub mod rfc_section_processor;
+pub mod rfc_section_slice;
 pub mod utils;
 pub mod script;
+// pub mod python_api;
 
 use lazy_static::lazy_static;
 
@@ -27,10 +28,10 @@ pub const BODY_START: &str = "Introduction";
 /// RFC 正文结束的标记
 pub const BODY_END: &str = "IANA Considerations";
 
-pub const INSTRUCTION_HEADER: &str = "\
-Forget all previous input and output content and start over.
-###################
-CONTENT:<";
+// pub const INSTRUCTION_HEADER: &str = "\
+// Forget all previous input and output content and start over.
+// ###################
+// CONTENT:<";
 
 /// 指令头部
 ///
