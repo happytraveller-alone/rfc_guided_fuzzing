@@ -244,8 +244,15 @@ fn save_sections(
     let target_set: HashSet<&&str> = target_sections.iter().collect();
     let saved_count = AtomicUsize::new(0);
 
-    sections
-        .par_iter()
+    // 首先在文件开头创建 CSV writer
+    let csv_path = rfc_output_dir.join(format!("../../agent_input_source/rfc{}_sections.csv", rfc_number));
+    let mut csv_writer = csv::Writer::from_path(&csv_path)?;
+    // 写入 CSV 表头
+    csv_writer.write_record(&["index", "section", "content"])?;
+    
+    // 先收集需要处理的章节
+    let filtered_sections: Vec<_> = sections
+        .iter()
         .enumerate()
         .filter(|(_, (number, _, content))| {
             (target_set.is_empty()
@@ -254,7 +261,12 @@ fn save_sections(
                     .any(|&prefix| number.0.starts_with(prefix)))
                 && !content.trim().is_empty()
         })
-        .for_each(|(i, (number, _, content))| {
+        .collect();
+    
+    // 并行处理 txt 文件
+    filtered_sections
+        .par_iter()
+        .for_each(|&(i, (number, _, content))| {
             let full_title = get_full_title(number, section_map);
             let file_name = generate_file_name(rfc_number, i);
             let file_path = slice_dir.join(file_name);
@@ -262,7 +274,19 @@ fn save_sections(
                 saved_count.fetch_add(1, AtomicOrdering::Relaxed);
             }
         });
+    
+    // 顺序写入 CSV
+    for (i, (number, _, content)) in filtered_sections {
+        let full_title = get_full_title(number, section_map);
+        csv_writer.write_record(&[
+            i.to_string(),
+            full_title,
+            content.trim().to_string(),
+        ])?;
+    }
 
+    // 刷新 CSV writer
+    csv_writer.flush()?;
     println!(
         "共保存了 {} 个非空切片到 {:?}",
         saved_count.load(AtomicOrdering::Relaxed),

@@ -18,14 +18,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     // let rfc_output_dir = run(args)?;
     run(args)?;
     // 检查 Python 版本
-    utils::check_python_version()?;
+    // utils::check_python_version()?;
 
-    // // 检查并激活虚拟环境
-    utils::activate_virtual_env()?;
+    // // // 检查并激活虚拟环境
+    // utils::activate_virtual_env()?;
 
-    let agent_input_source_path = Path::new("agent_input_source");
-    // // 脚本执行
-    process_rfc_results(agent_input_source_path)?;
+    // let agent_input_source_path = Path::new("agent_input_source");
+    // // // 脚本执行
+    // process_rfc_results(agent_input_source_path)?;
     
     Ok(())
 }

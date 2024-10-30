@@ -37,6 +37,7 @@ impl<'py> PoeClient<'py> {
     // // 发送消息方法
     fn send_message(&self, bot_name: &str, message: &str) -> PyResult<String> {
         println!("Sending message to {}: {}", bot_name, message);
+        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L664
         let generator = self.client.call_method1("send_message", (bot_name, message))?;
         let py = self.client.py();
         // print!("succeed to get response");
@@ -46,8 +47,15 @@ impl<'py> PoeClient<'py> {
         // print!("succeed to get list");
         let last_chunk = chunks.get_item(-1)?;
         // print!("succeed to get last chunk");
-        let text = last_chunk.get_item("text")?.extract()?;
+        let text = last_chunk.get_item("text")?.extract::<String>()?;
         // print!("succeed to get text");
+        let chat_id  = last_chunk.get_item("chatId")?.extract::<i128>()?;
+        let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
+        println!("Chat ID: {}; Chat Code: {}", chat_id, chat_code);
+        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L897
+        self.client.call_method1("purge_conversation", (bot_name, chat_id, chat_code, 0, true))?;
+        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L940
+        self.client.call_method1("delete_chat", (bot_name, chat_id))?;
         Ok(text)
     }
 
@@ -97,22 +105,15 @@ fn main() -> Result<(), Box<dyn Error>> {
         let sys = py.import_bound("sys")?;
         println!("Python version: {}", sys.getattr("version")?);
         println!("Python executable: {}", sys.getattr("executable")?);
-        // 打印 sys.path
-        let path: Vec<String> = sys.getattr("path")?.extract()?;
-        println!("PyO3 Python path:");
-        for p in path {
-            println!("  {}", p);
-        }
         match get_package_version_pip("poe-api-wrapper") {
             Ok(version) => println!("poe-api-wrapper version: {}", version),
             Err(e) => println!("Error getting version: {}", e),
         }
         let path = sys.getattr("path")?;
-        // let site_packages = "C:\\Users\\xyf20\\Desktop\\RustDataProcess\\python_virtual_env\\Lib\\site-packages";
         path.call_method1("append", ("C:\\Users\\xyf20\\Desktop\\RustDataProcess\\python_virtual_env\\Lib\\site-packages",))?;
-        let path: Vec<String> = sys.getattr("path")?.extract()?;
+        let path_list_store: Vec<String> = path.extract()?;
         println!("PyO3 Python path:");
-        for p in path {
+        for p in path_list_store {
             println!("  {}", p);
         }
 

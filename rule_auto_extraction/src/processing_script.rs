@@ -1,10 +1,10 @@
 use std::process::{Command, Child, exit};
-use std::{env, os::windows::process::CommandExt, error::Error};
-use std::path::{Path,PathBuf};
+use std::{env,error::Error,path::Path};
 use colored::*;
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use serde::{Deserialize, Serialize};
 use crate::{rust_csv_processor,python_csv_processor};
+
 // 定义操作类型枚举
 #[derive(Clone)]
 pub enum StepAction {
@@ -199,13 +199,14 @@ pub fn execute_steps_from_index(
         match &step.action {
             StepAction::PythonScript(config) => {
                 // 使用配置信息执行Python脚本
-                run_python_script(
+                python_csv_processor::run_python_script(
                     &config.script_name,
                     &config.bot_name,
                     step.input_file.map(|f| base_path_dir.join(f)),
                     &base_path_dir.join(step.output_file),
                     &config.additional_fields,
                     &config.input_fields,
+                    "csv",
                 )?;
             },
             StepAction::RustFunction(func) => {
@@ -217,53 +218,29 @@ pub fn execute_steps_from_index(
     Ok(())
 }
 
-pub fn run_python_script(
-    script_name: &str,
-    bot_name: &str,
-    input_path: Option<PathBuf>,
-    output_path: &Path,
-    additional_fields: &[String],
-    input_fields: &[String],
-) -> Result<(), Box<dyn Error>> {
-    let script_path = Path::new("python_scripts").join(format!("{}.py", script_name));
-    if !script_path.exists() {
-        eprintln!("Python script not found at {:?}", script_path);
-        exit(1);
-    }
-    println!("{}", format!("succeed to find {}.py script", script_name).green());
-
-    // 创建子进程
-    let mut child_process = Command::new("cmd")
-        .creation_flags(0x08000000)
-        .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
-        .arg(script_path.to_str().unwrap())
-        .stdout(std::process::Stdio::piped())
-        .stderr(std::process::Stdio::piped())
-        .spawn()
-        .expect(&format!("Failed to execute {}.py script", script_name));
-
-    // 设置 Ctrl+C 处理
-    setup_ctrlc_handler(&mut child_process)?;
-
-    // 等待脚本执行完毕并获取输出
-    let output = child_process
-        .wait_with_output()
-        .expect(&format!("Failed to wait on {}.py script", script_name));
-
-    // 检查脚本执行结果
-    if !output.status.success() {
-        eprintln!("Failed to run {}.py script.", script_name);
-        let error = String::from_utf8_lossy(&output.stderr);
-        eprintln!("Error: {}", error);
-        exit(1);
-    }
-
-    // 打印脚本的标准输出
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    println!("{}.py output: {}", script_name, stdout);
+fn get_package_version_pip(package_name: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let output = Command::new("pip")
+        .args(&["show", package_name])
+        .output()?;
     
-    Ok(())
+    let output_str = String::from_utf8(output.stdout)?;
+    
+    // 解析输出找到版本
+    for line in output_str.lines() {
+        if line.starts_with("Version: ") {
+            return Ok(line["Version: ".len()..].to_string());
+        }
+        if line.starts_with("Location: ") {
+            return Ok(line["Location: ".len()..].to_string());
+        }
+    }
+    
+    Err("Version not found".into())
 }
+
+
+
+
 
 fn setup_ctrlc_handler(child_process: &mut Child) -> Result<(), Box<dyn Error>> {
     // 创建一个标志来追踪是否已经处理过中断信号
