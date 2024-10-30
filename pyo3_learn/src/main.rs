@@ -1,148 +1,257 @@
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
 use std::error::Error;
-use std::process::Command;
-// 假设这是完整的 PoeClient 实现
-struct PoeClient<'py> {
-    client: Bound<'py, PyAny>,
-    // py: Python<'py>,
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::{Duration, Instant};
+use std::collections::HashMap;
+
+#[derive(Debug)]
+enum PoeError {
+    Timeout,
+    ServerDisconnected,
+    Other(String),
 }
 
-impl<'py> PoeClient<'py> {
-    fn new(py: Python<'py>) -> PyResult<Self> {
-        println!("Starting to initialize PoeClient...");
-        
+impl From<PyErr> for PoeError {
+    fn from(err: PyErr) -> Self {
+        let err_str = err.to_string();
+        if err_str.contains("Timed out") {
+            PoeError::Timeout
+        } else if err_str.contains("Server disconnected") {
+            PoeError::ServerDisconnected
+        } else {
+            PoeError::Other(err_str)
+        }
+    }
+}
+struct SharedPoeClient {
+    client: PyObject,  // 等同于 Py<PyAny>，可以安全地在线程间共享
+    last_request_time: Arc<Mutex<Instant>>,
+}
+
+impl SharedPoeClient {
+    fn new(py: Python) -> PyResult<Self> {
         let tokens = PyDict::new_bound(py);
         tokens.set_item("p-b", "QiZtBLjGecaQJ4-iJPIPgA%3D%3D")?;
         tokens.set_item("p-lat", "GjrFu%2FMp5qLJ5wfDzXIZyCjiDQiPPmYDzqEOxU80kg%3D%3D")?;
 
-        // 2. 检查poe_api_wrapper是否可以导入
-        println!("Attempting to import poe_api_wrapper...");
-        let module = match py.import_bound("poe_api_wrapper") {
-            Ok(m) => {
-                println!("Successfully imported poe_api_wrapper");
-                m
-            },
-            Err(e) => {
-                println!("Error importing poe_api_wrapper: {:?}", e);
-                return Err(e);
-            }
-        };
+        let module = py.import_bound("poe_api_wrapper")?;
         let poe_api_class = module.getattr("PoeApi")?;
-        let client = poe_api_class.call1((tokens,))?;
+        // 将Python对象转换为PyObject以便在线程间共享
+        let client = poe_api_class.call1((tokens,))?.into_py(py);
 
-        Ok(Self { client})
+        Ok(Self { 
+            client,
+            last_request_time: Arc::new(Mutex::new(Instant::now()))
+        })
+
     }
 
-    // // 发送消息方法
     fn send_message(&self, bot_name: &str, message: &str) -> PyResult<String> {
-        println!("Sending message to {}: {}", bot_name, message);
-        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L664
-        let generator = self.client.call_method1("send_message", (bot_name, message))?;
-        let py = self.client.py();
-        // print!("succeed to get response");
-        let builtins = py.import_bound("builtins")?;
-        let list_fn = builtins.getattr("list")?;
-        let chunks = list_fn.call1((generator,))?;
-        // print!("succeed to get list");
-        let last_chunk = chunks.get_item(-1)?;
-        // print!("succeed to get last chunk");
-        let text = last_chunk.get_item("text")?.extract::<String>()?;
-        // print!("succeed to get text");
-        let chat_id  = last_chunk.get_item("chatId")?.extract::<i128>()?;
-        let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
-        println!("Chat ID: {}; Chat Code: {}", chat_id, chat_code);
-        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L897
-        self.client.call_method1("purge_conversation", (bot_name, chat_id, chat_code, 0, true))?;
-        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L940
-        self.client.call_method1("delete_chat", (bot_name, chat_id))?;
-        Ok(text)
-    }
-
-    fn print_settings(&self) -> PyResult<()> {
-        let settings = self.client.call_method0("get_settings")?;
-        // let settings_str = settings.repr()?.extract::<String>()?;
-        // println!("Settings content: {}", settings_str);
-        // 尝试将settings转换为PyDict
-        if let Ok(settings_dict) = settings.downcast::<PyDict>() {
-            println!("\nIterating through settings dictionary:");
-            for (key, value) in settings_dict.iter() {
-                println!("Key: {:?}, Value: {:?}", key, value);
+        // 确保请求间隔至少500ms
+        {
+            let mut last_time = self.last_request_time.lock().unwrap();
+            let elapsed = last_time.elapsed();
+            if elapsed < Duration::from_secs(1) {
+                thread::sleep(Duration::from_secs(1) - elapsed);
             }
-        } else {
-            println!("Settings is not a dictionary");
-            // 如果不是字典，尝试获取其类型信息
-            println!("Settings type: {:?}", settings.get_type());
+            *last_time = Instant::now();
         }
 
-        Ok(())
+        Python::with_gil(|py| {
+            // 将PyObject转换为Bound引用
+            let client = self.client.bind(py);
+            let generator = client.call_method1("send_message", (bot_name, message))?;
+            
+            let builtins = py.import_bound("builtins")?;
+            let list_fn = builtins.getattr("list")?;
+            let chunks = list_fn.call1((generator,))?;
+            
+            let last_chunk = chunks.get_item(-1)?;
+            let text = last_chunk.get_item("text")?.extract::<String>()?;
+            let chat_id = last_chunk.get_item("chatId")?.extract::<i128>()?;
+            let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
+            
+            // 清理对话
+            client.call_method1("purge_conversation", (bot_name, chat_id, chat_code, 0, true))?;
+            client.call_method1("delete_chat", (bot_name, chat_id))?;
+            
+            Ok(text)
+        })
     }
-
 }
 
-fn get_package_version_pip(package_name: &str) -> Result<String, Box<dyn std::error::Error>> {
-    let output = Command::new("pip")
-        .args(&["show", package_name])
-        .output()?;
+// 实现线程安全trait
+unsafe impl Send for SharedPoeClient {}
+unsafe impl Sync for SharedPoeClient {}
+
+fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn Error>> {
+    let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
+    let max_threads = (32.0 * 0.7) as usize;
+    let active_threads = Arc::new(Mutex::new(0));
+    let main_active_threads = Arc::clone(&active_threads); // 为主线程创建一个克隆
     
-    let output_str = String::from_utf8(output.stdout)?;
+    // 在主线程中创建共享客户端
+    let client = Python::with_gil(|py| SharedPoeClient::new(py))?;
+    let client = Arc::new(client);
     
-    // 解析输出找到版本
-    for line in output_str.lines() {
-        if line.starts_with("Version: ") {
-            return Ok(line["Version: ".len()..].to_string());
+    println!("Starting message processing with {} maximum concurrent threads...", max_threads);
+    let start_time = std::time::Instant::now();
+
+    // 渐进式启动策略
+    let mut current_max_threads = 1;
+    let success_count = Arc::new(Mutex::new(0));
+    let failure_streak = Arc::new(Mutex::new(0));
+
+    for (index, message) in messages.iter().enumerate() {
+        let message = message.clone();
+        let bot_name = bot_name.to_string();
+        let results = Arc::clone(&results);
+        let client = Arc::clone(&client);
+        let active_threads = Arc::clone(&active_threads);
+        let success_count = Arc::clone(&success_count);
+        let failure_streak = Arc::clone(&failure_streak);
+        
+        // 等待可用线程
+        while *main_active_threads.lock().unwrap() >= current_max_threads {
+            thread::sleep(Duration::from_millis(100));
         }
-        if line.starts_with("Location: ") {
-            return Ok(line["Location: ".len()..].to_string());
+
+        // 增加活跃线程计数 - 这行很重要！
+        {
+            let mut count = main_active_threads.lock().unwrap();
+            *count += 1;
+        }
+
+        // 动态调整线程数
+        {
+            let current_success = *success_count.lock().unwrap();
+            let current_failures = *failure_streak.lock().unwrap();
+            
+            if current_success >= 5 && current_max_threads < max_threads {
+                current_max_threads = (current_max_threads * 2).min(max_threads);
+                *success_count.lock().unwrap() = 0;
+                println!("Increasing max threads to {}", current_max_threads);
+            }
+            if current_failures >= 3 && current_max_threads > 1 {
+                current_max_threads = (current_max_threads / 2).max(1);
+                *failure_streak.lock().unwrap() = 0;
+                println!("Decreasing max threads to {}", current_max_threads);
+            }
+        }
+        
+        // 调整等待策略
+        if index > 0 {
+            let wait_time = if index % 10 == 0 {
+                // 每10个请求后休息较长时间
+                5
+            } else {
+                // 每个请求之间的间隔
+                2
+            };
+            println!("Waiting for {} seconds before next request...", wait_time);
+            thread::sleep(Duration::from_secs(wait_time));
+        }
+
+        thread::spawn(move || {
+            const MAX_RETRIES: u32 = 8;
+            let mut success = false;
+            
+            for retry in 0..MAX_RETRIES {
+                let wait_time = match client.send_message(&bot_name, &message) {
+                    Ok(response) => {
+                        println!("Thread {} succeeded on attempt {}", index, retry + 1);
+                        results.lock().unwrap().insert(index, response);
+                        success = true;
+                        break;
+                    }
+                    Err(e) => {
+                        // 根据错误类型返回不同的等待时间
+                        let base_wait = match PoeError::from(e) {
+                            PoeError::Timeout => {
+                                eprintln!("Thread {}: Timeout on attempt {}", index, retry + 1);
+                                6 // 超时时使用较长的等待时间
+                            }
+                            PoeError::ServerDisconnected => {
+                                eprintln!("Thread {}: Server disconnected on attempt {}", index, retry + 1);
+                                9 // 服务器断开时使用更长的等待时间
+                            }
+                            PoeError::Other(err) => {
+                                eprintln!("Thread {}: Other error on attempt {}: {}", index, retry + 1, err);
+                                3 // 其他错误使用标准等待时间
+                            }
+                        };
+                        
+                        if retry < MAX_RETRIES - 1 {
+                            // 使用指数退避，但基于错误类型的等待时间
+                            base_wait * (2u64.pow(retry))
+                        } else {
+                            0 // 最后一次重试不需要等待
+                        }
+                    }
+                };
+    
+                if wait_time > 0 {
+                    thread::sleep(Duration::from_secs(wait_time));
+                }
+            }
+    
+            // 更新成功/失败计数
+            if success {
+                *success_count.lock().unwrap() += 1;
+                *failure_streak.lock().unwrap() = 0;
+            } else {
+                *failure_streak.lock().unwrap() += 1;
+                *success_count.lock().unwrap() = 0;
+            }
+    
+            let mut count = active_threads.lock().unwrap();
+            *count -= 1;
+            println!("Thread {} completed", index);
+        });
+    
+        // 速率限制
+        // 速率限制，但添加更多日志
+        if index % 10 == 9 {
+            println!("Taking a break after {} messages...", index + 1);
+            thread::sleep(Duration::from_secs(3));
         }
     }
+
+    // 等待所有线程完成
+    println!("Waiting for all threads to complete...");
+    while *main_active_threads.lock().unwrap() > 0 {
+        let current = *main_active_threads.lock().unwrap();
+        println!("Still waiting... {} active threads", current);
+        thread::sleep(Duration::from_secs(5));
+    }
+
+    // 输出结果统计
+    let duration = start_time.elapsed();
+    let results = results.lock().unwrap();
+    println!("\nProcessing completed in {:?}", duration);
+    println!("Successfully processed {} out of {} messages", results.len(), messages.len());
     
-    Err("Version not found".into())
+    // 按序号打印结果
+    let mut sorted_results: Vec<_> = results.iter().collect();
+    sorted_results.sort_by_key(|&(k, _)| k);
+    for (index, response) in sorted_results {
+        println!("\nMessage {}: Response length: {} characters", index, response.len());
+        println!("Response preview: {:.100}...", response);
+    }
+
+    Ok(())
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    Python::with_gil(|py| -> PyResult<()> {
-        let sys = py.import_bound("sys")?;
-        println!("Python version: {}", sys.getattr("version")?);
-        println!("Python executable: {}", sys.getattr("executable")?);
-        match get_package_version_pip("poe-api-wrapper") {
-            Ok(version) => println!("poe-api-wrapper version: {}", version),
-            Err(e) => println!("Error getting version: {}", e),
-        }
-        let path = sys.getattr("path")?;
-        path.call_method1("append", ("C:\\Users\\xyf20\\Desktop\\RustDataProcess\\python_virtual_env\\Lib\\site-packages",))?;
-        let path_list_store: Vec<String> = path.extract()?;
-        println!("PyO3 Python path:");
-        for p in path_list_store {
-            println!("  {}", p);
-        }
-
-        
-        match py.import_bound("poe_api_wrapper") {
-            Ok(_) => println!("Successfully imported poe-api-wrapper after path addition"),
-            Err(e) => println!("Still failed to import: {:?}", e),
-        }
-       
-        // // 1. 创建客户端实例
-        let client = PoeClient::new(py)?;
-        client.print_settings()?;
-
-        // // 3. 发送消息给指定的bot（这里用"Claude-instant"作为例子）
-        let bot_name = "gpt4_o_mini";
-        
-        // // 4. 发送一条消息并获取响应
-        let response = client.send_message(bot_name, "你好，请介绍一下你自己")?;
-        println!("Bot response: {}", response);
-
-        // // 5. 继续对话
-        // let follow_up_response = client.send_message(bot_name, "你能做些什么？")?;
-        // println!("Follow-up response: {}", follow_up_response);
-
-        // // 6. 如果需要清除对话上下文
-        // client.clear_context(bot_name)?;
-
-        Ok(())
-    })?;
-
+    // 生成50条测试消息
+    let test_messages: Vec<String> = (0..20)
+        .map(|i| format!("Test message {}: Please provide a brief explanation of Rust programming language", i))
+        .collect();
+    
+    println!("Starting to process {} messages...", test_messages.len());
+    process_messages(test_messages, "gpt4_o_mini")?;
+    
     Ok(())
 }
