@@ -1,4 +1,0 @@
-{
-  "content": "struct {} EndOfEarlyData;\n\n   If the server sent an \"early_data\" extension in EncryptedExtensions,\n   the client MUST send an EndOfEarlyData message after receiving the\n   server Finished.  If the server does not send an \"early_data\"\n   extension in EncryptedExtensions, then the client MUST NOT send an\n   EndOfEarlyData message.  This message indicates that all 0-RTT\n   application_data messages, if any, have been transmitted and that the\n\n   following records are protected under handshake traffic keys.\n   Servers MUST NOT send this message, and clients receiving it MUST\n   terminate the connection with an \"unexpected_message\" alert.  This\n   message is encrypted under keys derived from the\n   client_early_traffic_secret.",
-  "section": "4.5.. Handshake Protocol_End of Early Data"
-}

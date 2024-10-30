@@ -1,4 +1,0 @@
-{
-  "content": "The key exchange messages are used to determine the security\n   capabilities of the client and the server and to establish shared\n   secrets, including the traffic keys used to protect the rest of the\n   handshake and the data.",
-  "section": "4.1.. Handshake Protocol_Key Exchange Messages"
-}
