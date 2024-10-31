@@ -9,6 +9,11 @@ use num_cpus;
 use std::process::Command;
 use tokio::sync::Semaphore;
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::fs::File;
+use csv::{Reader,Writer};
+use serde_json::Value;
+use serde_json::json;
+use csv::StringRecord;
 #[derive(Debug)]
 enum PoeError {
     Timeout,
@@ -77,8 +82,8 @@ impl SharedPoeClient {
         {
             let mut last_time = self.last_request_time.lock().unwrap();
             let elapsed = last_time.elapsed();
-            if elapsed < Duration::from_secs(2) {
-                thread::sleep(Duration::from_secs(2) - elapsed);
+            if elapsed < Duration::from_secs(5) {
+                thread::sleep(Duration::from_secs(5) - elapsed);
             }
             *last_time = Instant::now();
         }
@@ -112,8 +117,8 @@ impl SharedPoeClient {
 unsafe impl Send for SharedPoeClient {}
 unsafe impl Sync for SharedPoeClient {}
 
-async fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn Error>> {
-    let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
+async fn process_messages(messages: Vec<String>, bot_name: &str, results: Arc<Mutex<HashMap<usize, String>>>) -> Result<(), Box<dyn Error>> {
+    // let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
     
     let cpu_count = num_cpus::get();
     let cpu_count_physical = num_cpus::get_physical();
@@ -229,7 +234,7 @@ async fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), B
                     match client.send_message(&bot_name, &message).await {
                         Ok(response) => {
                             println!("Message {} succeeded on attempt {}", absolute_index, retry + 1);
-                            results.lock().unwrap().insert(absolute_index, response);
+                            results.lock().unwrap().insert(absolute_index, response.clone());
                             success = true;
                             completed.fetch_add(1, Ordering::SeqCst);
                             println!("Progress: {}/{}", completed.load(Ordering::SeqCst), message_len);
@@ -298,18 +303,136 @@ async fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), B
     println!("\nProcessing completed in {:?}", duration);
     println!("Successfully processed {} out of {} messages", results.len(), message_len);
     
+    // 按序号打印结果
+    let mut sorted_results: Vec<_> = results.iter().collect();
+    sorted_results.sort_by_key(|&(k, _)| k);
+    for (index, response) in sorted_results {
+        println!("\nMessage {}: Response length: {} characters", index, response.len());
+        // println!("Response preview: {:.100}...", response);
+    }
     Ok(())
 }
 
+fn build_json_input(record: &csv::StringRecord, field_indices: &[usize], headers: &[String]) -> Value {
+    let mut json_input = json!({});
+    for &idx in field_indices {
+        if idx < headers.len() {
+            json_input[&headers[idx]] = Value::String(record[idx].to_string());
+        }
+    }
+    json_input
+}
+
+fn build_field_indices(headers: &[String], input_fields: &[String]) -> Vec<usize> {
+    input_fields
+        .iter()
+        .filter_map(|field| headers.iter().position(|h| h == field))
+        .collect()
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let test_messages: Vec<String> = (0..20)
-        .map(|i| format!("Test message {}: Please provide a brief explanation of Rust programming language", i))
+    let mut formatted_messages: Vec<String> = Vec::new();
+    let input_path = "agent_input_source/rfc8446_sections_test.csv";
+    let output_path = "agent_input_source/result_wait_check.csv";
+
+    // 复制原始文件并添加新列
+    let file = File::open(input_path)?;
+    let mut rdr = Reader::from_reader(file);
+    let output_file = File::create(&output_path)?;
+    let mut wtr = Writer::from_writer(&output_file);
+
+    // 处理头部
+    let mut headers: Vec<String> = rdr.headers()?
+        .iter()
+        .map(|h| h.to_string())
         .collect();
+    headers.push("semantic".to_string());
+    wtr.write_record(&headers)?;
+
+    // 复制所有行
+    for result in rdr.records() {
+        let record = result?;
+        let mut row_data: Vec<String> = record.iter().map(|s| s.to_string()).collect();
+        row_data.push("default_value".to_string());
+        wtr.write_record(&row_data)?;
+    }
+
+    wtr.flush()?;
+
+    // 读取文件处理消息
+    let file = File::open(input_path)?;
+    let mut rdr = Reader::from_reader(file);
+
+    let headers: Vec<String> = rdr.headers()?
+        .iter()
+        .map(|h| h.to_string())
+        .collect();
+
+    let input_fields = vec!["section".to_string(), "content".to_string()];
+    let field_indices = build_field_indices(&headers, &input_fields);
+
+    // 处理每条记录
+    for (_, result) in rdr.records().enumerate() {
+        let record = result?;
+        let json_data = build_json_input(&record, &field_indices, &headers);
+        formatted_messages.push(json_data.to_string());
+    }
+
+    println!("Starting to process {} messages...", formatted_messages.len());
+
+    // 打印样本
+    for (i, msg) in formatted_messages.iter().take(2).enumerate() {
+        println!("Sample message {}: {}", i, msg);
+    }
+
+    // 处理消息
+    let results = Arc::new(Mutex::new(HashMap::new()));
+    process_messages(formatted_messages, "semantic_analysis", Arc::clone(&results)).await?;
+
+    // 读取所有记录到内存
+    let file = File::open(&output_path)?;
+    let mut rdr = Reader::from_reader(file);
+    let mut records: Vec<StringRecord> = Vec::new();
+    for result in rdr.records() {
+        records.push(result?);
+    }
+
+    // 获取 index 和 semantic 列的索引
+    let headers = rdr.headers()?;
+    let index_idx = headers.iter().position(|h| h == "index")
+        .ok_or("Index column not found")?;
+    let semantic_idx = headers.iter().position(|h| h == "semantic")
+        .ok_or("Semantic column not found")?;
+
+    // 创建新的写入器
+    let output_file = File::create(&output_path)?;
+    let mut wtr = Writer::from_writer(output_file);
     
-    println!("Starting to process {} messages...", test_messages.len());
-    process_messages(test_messages, "Gemini-1.5-Flash").await?;
-    
+    // 写入表头
+    wtr.write_record(headers)?;
+
+    // 获取结果的锁
+    let results = results.lock().unwrap();
+
+    // 更新记录并写入
+    // 更新记录并写入
+    for record in records {
+        let mut new_row: Vec<String> = record.iter().map(|field| field.to_string()).collect();
+        if let Some(index_value) = record.get(index_idx) {
+            if let Ok(index_num) = index_value.parse::<usize>() {
+                if let Some(semantic_value) = results.get(&index_num) {  // 使用解析后的数字作为 key
+                    new_row[semantic_idx] = semantic_value.clone();
+                }
+            }
+        }
+        wtr.write_record(&new_row)?;
+    }
+
+
+    wtr.flush()?;
+
+    println!("Results have been written to {}", output_path);
+
     Ok(())
 }
