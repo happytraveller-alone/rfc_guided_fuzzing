@@ -5,6 +5,7 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::{Duration, Instant};
 use std::collections::HashMap;
+use num_cpus;
 
 #[derive(Debug)]
 enum PoeError {
@@ -88,7 +89,23 @@ unsafe impl Sync for SharedPoeClient {}
 
 fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn Error>> {
     let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
-    let max_threads = (32.0 * 0.7) as usize;
+    
+    // 使用num_cpus智能计算线程数
+    let cpu_count = num_cpus::get();
+    let cpu_count_physical = num_cpus::get_physical();
+    println!("System has {} logical cores ({} physical cores)", cpu_count, cpu_count_physical);
+
+    // 根据CPU核心数智能计算最大线程数
+    // 对于超线程CPU，我们使用物理核心数的2倍，但不超过逻辑核心数
+    let max_threads = (cpu_count_physical as f64 * 2.0)
+        .min(cpu_count as f64)
+        .min(32.0) // 设置绝对上限
+        .max(4.0)  // 设置绝对下限
+        as usize;
+    // 初始线程数设置为最大线程数的25%
+    let initial_threads = (max_threads as f64 * 0.25).ceil() as usize;
+    let mut current_max_threads = initial_threads;
+    
     let active_threads = Arc::new(Mutex::new(0));
     let main_active_threads = Arc::clone(&active_threads); // 为主线程创建一个克隆
     
@@ -99,10 +116,14 @@ fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn
     println!("Starting message processing with {} maximum concurrent threads...", max_threads);
     let start_time = std::time::Instant::now();
 
-    // 渐进式启动策略
-    let mut current_max_threads = 1;
+    // 性能监控
     let success_count = Arc::new(Mutex::new(0));
     let failure_streak = Arc::new(Mutex::new(0));
+    let total_processed = Arc::new(Mutex::new(0));
+    
+    // 添加吞吐量计算
+    let last_check_time = Arc::new(Mutex::new(Instant::now()));
+    let messages_since_last_check = Arc::new(Mutex::new(0));
 
     for (index, message) in messages.iter().enumerate() {
         let message = message.clone();
@@ -112,11 +133,27 @@ fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn
         let active_threads = Arc::clone(&active_threads);
         let success_count = Arc::clone(&success_count);
         let failure_streak = Arc::clone(&failure_streak);
+        let total_processed = Arc::clone(&total_processed);
+        let last_check_time = Arc::clone(&last_check_time);
+        let messages_since_last_check = Arc::clone(&messages_since_last_check);
         
-        // 等待可用线程
+        // 智能等待策略
         while *main_active_threads.lock().unwrap() >= current_max_threads {
+            // 计算当前吞吐量
+            let mut last_time = last_check_time.lock().unwrap();
+            let mut msgs_count = messages_since_last_check.lock().unwrap();
+            let elapsed = last_time.elapsed();
+            
+            if elapsed >= Duration::from_secs(30) {
+                let throughput = *msgs_count as f64 / elapsed.as_secs_f64();
+                println!("Current throughput: {:.2} messages/second", throughput);
+                *last_time = Instant::now();
+                *msgs_count = 0;
+            }
+            
             thread::sleep(Duration::from_millis(100));
         }
+
 
         // 增加活跃线程计数 - 这行很重要！
         {
@@ -124,35 +161,51 @@ fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn
             *count += 1;
         }
 
-        // 动态调整线程数
+        // 动态线程数调整
         {
             let current_success = *success_count.lock().unwrap();
             let current_failures = *failure_streak.lock().unwrap();
+            let total = *total_processed.lock().unwrap();
             
-            if current_success >= 5 && current_max_threads < max_threads {
-                current_max_threads = (current_max_threads * 2).min(max_threads);
-                *success_count.lock().unwrap() = 0;
-                println!("Increasing max threads to {}", current_max_threads);
+            if total > 0 && total % 10 == 0 {
+                // 计算成功率
+                let success_rate = current_success as f64 / total as f64;
+                println!("Current success rate: {:.2}%", success_rate * 100.0);
+                
+                // 基于成功率调整线程数
+                if success_rate > 0.8 && current_max_threads < max_threads {
+                    current_max_threads = (current_max_threads * 3 / 2).min(max_threads);
+                    println!("Increasing threads to {} based on good performance", current_max_threads);
+                } else if success_rate < 0.5 && current_max_threads > initial_threads {
+                    current_max_threads = (current_max_threads * 2 / 3).max(initial_threads);
+                    println!("Decreasing threads to {} based on poor performance", current_max_threads);
+                }
             }
-            if current_failures >= 3 && current_max_threads > 1 {
-                current_max_threads = (current_max_threads / 2).max(1);
+            
+            // 连续失败保护
+            if current_failures >= 3 {
+                current_max_threads = (current_max_threads / 2).max(initial_threads);
                 *failure_streak.lock().unwrap() = 0;
-                println!("Decreasing max threads to {}", current_max_threads);
+                println!("Reducing threads to {} due to failures", current_max_threads);
             }
         }
         
-        // 调整等待策略
-        if index > 0 {
-            let wait_time = if index % 10 == 0 {
-                // 每10个请求后休息较长时间
-                5
-            } else {
-                // 每个请求之间的间隔
-                2
-            };
-            println!("Waiting for {} seconds before next request...", wait_time);
+        // 智能等待时间计算
+        let wait_time = if index == 0 {
+            0 // 第一个请求不等待
+        } else if index < 5 {
+            3 // 前5个请求使用较短等待时间
+        } else if index % 10 == 0 {
+            5 // 每10个请求的间隔
+        } else {
+            2 // 普通间隔
+        };
+
+        if wait_time > 0 {
+            println!("Waiting for {} seconds before request {}...", wait_time, index);
             thread::sleep(Duration::from_secs(wait_time));
         }
+
 
         thread::spawn(move || {
             const MAX_RETRIES: u32 = 8;
@@ -217,11 +270,23 @@ fn process_messages(messages: Vec<String>, bot_name: &str) -> Result<(), Box<dyn
             println!("Taking a break after {} messages...", index + 1);
             thread::sleep(Duration::from_secs(3));
         }
+
+        // 在线程完成时更新计数
+        *total_processed.lock().unwrap() += 1;
+        *messages_since_last_check.lock().unwrap() += 1;
     }
 
-    // 等待所有线程完成
+    // 添加超时机制的等待
+    let timeout = Duration::from_secs(10); // 10 min
+    let wait_start = Instant::now();
+    
     println!("Waiting for all threads to complete...");
     while *main_active_threads.lock().unwrap() > 0 {
+        if wait_start.elapsed() > timeout {
+            println!("Timeout reached after {:?}", timeout);
+            break;
+        }
+        
         let current = *main_active_threads.lock().unwrap();
         println!("Still waiting... {} active threads", current);
         thread::sleep(Duration::from_secs(5));
