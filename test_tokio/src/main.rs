@@ -30,3 +30,20 @@ fn test_arc_mutex_persistence() -> Result<(), Box<dyn Error>> {
     
     Ok(())
 }
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    // 创建共享状态
+    let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
+    
+    // 调用异步函数
+    modify_hashmap(results.clone()).await?;
+    
+    // 验证修改是否保持
+    let guard = results.lock().map_err(|e| format!("Failed to lock mutex for verification: {}", e))?;
+    assert_eq!(guard.get(&1), Some(&"test".to_string()));
+    
+    println!("Test passed!");
+    
+    Ok(())
+}

@@ -1,111 +1,401 @@
-use csv::{Reader, Writer};
-use pyo3::exceptions::PyIOError;
-use pyo3::prelude::*;
+use csv::{StringRecord,Reader, Writer};
 use pyo3::types::PyDict;
-use std::fs::File;
-use std::process::exit;
-use std::{error::Error, process::Command};
+// use pyo3::exceptions::PyIOError;
+use pyo3::prelude::*;
+use std::{thread,collections::HashMap,error::Error,fs::File,process::{Command,exit}};
 use std::path::{Path,PathBuf};
 use std::io::{self, Error as io_Error, ErrorKind};
 use colored::*;
 use serde_json::{Value, json};
+use serde::{Deserialize, Serialize};
+use std::sync::{atomic::{AtomicUsize, Ordering},Arc, Mutex};
+use std::time::{Duration, Instant};
+use tokio::sync::Semaphore;
 // 假设这是完整的 PoeClient 实现
-struct PoeClient<'py> {
-    client: Bound<'py, PyAny>,
-    // py: Python<'py>,
+#[derive(Debug)]
+enum PoeError {
+    Timeout,
+    ServerDisconnected,
+    Other(String),
 }
 
-impl<'py> PoeClient<'py> {
-    fn new(py: Python<'py>) -> PyResult<Self> {
-        println!("Starting to initialize PoeClient...");
-        
+impl From<PyErr> for PoeError {
+    fn from(err: PyErr) -> Self {
+        let err_str = err.to_string();
+        if err_str.contains("Timed out") {
+            PoeError::Timeout
+        } else if err_str.contains("Server disconnected") {
+            PoeError::ServerDisconnected
+        } else {
+            PoeError::Other(err_str)
+        }
+    }
+}
+struct SharedPoeClient {
+    client: PyObject, // 等同于 Py<PyAny>，可以安全地在线程间共享
+    last_request_time: Arc<Mutex<Instant>>,
+    request_semaphore: Arc<Semaphore>, // 新增信号量
+}
+
+impl SharedPoeClient {
+    fn new(py: Python) -> PyResult<Self> {
         let tokens = PyDict::new_bound(py);
         tokens.set_item("p-b", "QiZtBLjGecaQJ4-iJPIPgA%3D%3D")?;
-        tokens.set_item("p-lat", "GjrFu%2FMp5qLJ5wfDzXIZyCjiDQiPPmYDzqEOxU80kg%3D%3D")?;
+        tokens.set_item(
+            "p-lat",
+            "GjrFu%2FMp5qLJ5wfDzXIZyCjiDQiPPmYDzqEOxU80kg%3D%3D",
+        )?;
 
-        // 2. 检查poe_api_wrapper是否可以导入
-        println!("Attempting to import poe_api_wrapper...");
-        let module = match py.import_bound("poe_api_wrapper") {
-            Ok(m) => {
-                println!("Successfully imported poe_api_wrapper");
-                m
-            },
-            Err(e) => {
-                println!("Error importing poe_api_wrapper: {:?}", e);
-                return Err(e);
-            }
-        };
+        let output = Command::new("pip")
+            .args(&["show", "poe_api_wrapper"])
+            .output()?;
+
+        let output_str = String::from_utf8(output.stdout)?;
+
+        // 解析输出找到版本
+        let location = output_str
+            .lines()
+            .find(|line| line.starts_with("Location: "))
+            .map(|line| line["Location: ".len()..].trim().to_string());
+        match &location {
+            Some(loc) => println!("location: {}", loc),
+            None => println!("No location found"),
+        }
+        let path = py.import_bound("sys")?.getattr("path")?;
+        path.call_method1("append", (location.unwrap_or_default(),))?;
+        let module = py.import_bound("poe_api_wrapper")?;
         let poe_api_class = module.getattr("PoeApi")?;
-        let client = poe_api_class.call1((tokens,))?;
+        // 将Python对象转换为PyObject以便在线程间共享
+        let client = poe_api_class.call1((tokens,))?.into_py(py);
 
-        Ok(Self { client})
+        Ok(Self {
+            client,
+            last_request_time: Arc::new(Mutex::new(Instant::now())),
+            request_semaphore: Arc::new(Semaphore::new(5)), // 初始化为5个并发许可
+        })
     }
 
-    // // 发送消息方法
-    fn send_message(&self, bot_name: &str, message: &str) -> PyResult<String> {
-        println!("Sending message to {}: {}", bot_name, message);
-        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L664
-        let generator = self.client.call_method1("send_message", (bot_name, message))?;
-        let py = self.client.py();
-        // print!("succeed to get response");
-        let builtins = py.import_bound("builtins")?;
-        let list_fn = builtins.getattr("list")?;
-        let chunks = list_fn.call1((generator,))?;
-        // print!("succeed to get list");
-        let last_chunk = chunks.get_item(-1)?;
-        // print!("succeed to get last chunk");
-        let text = last_chunk.get_item("text")?.extract::<String>()?;
-        // print!("succeed to get text");
-        let chat_id  = last_chunk.get_item("chatId")?.extract::<i128>()?;
-        let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
-        println!("Chat ID: {}; Chat Code: {}", chat_id, chat_code);
-        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L897
-        self.client.call_method1("purge_conversation", (bot_name, chat_id, chat_code, 0, true))?;
-        // https://github.com/snowby666/poe-api-wrapper/blob/58aa4aaff1734f6dce7fb21b234393cdb0f54bf0/poe_api_wrapper/api.py#L940
-        self.client.call_method1("delete_chat", (bot_name, chat_id))?;
-        Ok(text)
-    }
-
-    fn print_settings(&self) -> PyResult<()> {
-        let settings = self.client.call_method0("get_settings")?;
-        // let settings_str = settings.repr()?.extract::<String>()?;
-        // println!("Settings content: {}", settings_str);
-        // 尝试将settings转换为PyDict
-        if let Ok(settings_dict) = settings.downcast::<PyDict>() {
-            println!("\nIterating through settings dictionary:");
-            for (key, value) in settings_dict.iter() {
-                println!("Key: {:?}, Value: {:?}", key, value);
+    fn print_settings(&self) {
+        let result = Python::with_gil(|py| -> PyResult<()> {
+            let client = self.client.bind(py);
+            let settings = client.call_method0("get_settings")?;
+            
+            // 尝试将settings转换为PyDict
+            if let Ok(settings_dict) = settings.downcast::<PyDict>() {
+                println!("\nIterating through settings dictionary:");
+                for (key, value) in settings_dict.iter() {
+                    println!("Key: {:?}, Value: {:?}", key, value);
+                }
+            } else {
+                println!("Settings is not a dictionary");
+                // 如果不是字典，尝试获取其类型信息
+                println!("Settings type: {:?}", settings.get_type());
             }
-        } else {
-            println!("Settings is not a dictionary");
-            // 如果不是字典，尝试获取其类型信息
-            println!("Settings type: {:?}", settings.get_type());
-        }
-
-        Ok(())
-    }
-
-}
-
-fn get_package_version_pip(package_name: &str) -> Result<String, Box<dyn std::error::Error>> {
-    let output = Command::new("pip")
-        .args(&["show", package_name])
-        .output()?;
+            Ok(())
+        });
     
-    let output_str = String::from_utf8(output.stdout)?;
-    
-    // 解析输出找到版本
-    for line in output_str.lines() {
-        if line.starts_with("Version: ") {
-            return Ok(line["Version: ".len()..].to_string());
-        }
-        if line.starts_with("Location: ") {
-            return Ok(line["Location: ".len()..].to_string());
+        // 处理可能的错误
+        if let Err(e) = result {
+            eprintln!("Error getting settings: {}", e);
         }
     }
-    
-    Err("Version not found".into())
+
+    async fn send_message(&self, bot_name: &str, message: &str) -> PyResult<String> {
+        // 获取信号量许可
+        let _permit = self.request_semaphore.acquire().await.unwrap();
+        // 确保请求间隔至少2s
+        {
+            let mut last_time = self.last_request_time.lock().unwrap();
+            let elapsed = last_time.elapsed();
+            if elapsed < Duration::from_secs(5) {
+                thread::sleep(Duration::from_secs(5) - elapsed);
+            }
+            *last_time = Instant::now();
+        }
+
+        let result = Python::with_gil(|py| {
+            // let sys = py.import_bound("sys")?;
+            // 将PyObject转换为Bound引用
+            let client = self.client.bind(py);
+            let generator = client.call_method1("send_message", (bot_name, message))?;
+            let builtins = py.import_bound("builtins")?;
+            let list_fn = builtins.getattr("list")?;
+            let chunks = list_fn.call1((generator,))?;
+
+            let last_chunk = chunks.get_item(-1)?;
+            let text = last_chunk.get_item("text")?.extract::<String>()?;
+            let chat_id = last_chunk.get_item("chatId")?.extract::<i128>()?;
+            let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
+            // 清理对话
+            client.call_method1(
+                "purge_conversation",
+                (bot_name, chat_id, chat_code, 0, true),
+            )?;
+            client.call_method1("delete_chat", (bot_name, chat_id))?;
+
+            Ok(text)
+        });
+
+        // permit在作用域结束时自动释放
+        result
+    }
 }
+
+// 实现线程安全trait
+unsafe impl Send for SharedPoeClient {}
+unsafe impl Sync for SharedPoeClient {}
+
+async fn process_messages(
+    messages: Vec<String>,
+    bot_name: &str,
+    results: Arc<Mutex<HashMap<usize, String>>>,
+) -> Result<(), Box<dyn Error>> {
+    // let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
+
+    let cpu_count = num_cpus::get();
+    let cpu_count_physical = num_cpus::get_physical();
+    println!(
+        "System has {} logical cores ({} physical cores)",
+        cpu_count, cpu_count_physical
+    );
+
+    let max_threads = (cpu_count_physical as f64 * 1.5)
+        .min(cpu_count as f64)
+        .min(20.0)
+        .max(4.0) as usize;
+    let initial_threads = (max_threads as f64 * 0.5).ceil() as usize;
+    let mut current_max_threads = initial_threads;
+
+    let active_threads = Arc::new(Mutex::new(0));
+    let main_active_threads = Arc::clone(&active_threads);
+
+    let client = Python::with_gil(|py| SharedPoeClient::new(py))?;
+    let client = Arc::new(client);
+
+    println!(
+        "Starting message processing with {} maximum concurrent threads...",
+        max_threads
+    );
+    let start_time = std::time::Instant::now();
+
+    let success_count = Arc::new(Mutex::new(0));
+    let failure_streak = Arc::new(Mutex::new(0));
+    let total_processed = Arc::new(Mutex::new(0));
+    let completed = Arc::new(AtomicUsize::new(0));
+
+    let last_check_time = Arc::new(Mutex::new(Instant::now()));
+    let messages_since_last_check = Arc::new(Mutex::new(0));
+
+    let message_len = messages.len();
+    let chunk_size = 5;
+
+    // 计算总超时时间
+    let calculate_timeout = |chunk_size: usize| {
+        let base_time = chunk_size as u64 * 5;
+        let buffer_time = (chunk_size as f64).sqrt() as u64 * 10;
+        let retry_buffer = (chunk_size as u64 * 10 / 100) * 10;
+        let total_timeout = base_time + buffer_time + retry_buffer;
+        Duration::from_secs(total_timeout.clamp(120, 600)) // 2-10分钟之间
+    };
+
+    println!("Processing messages in chunks of {}", chunk_size);
+
+    for (chunk_index, chunk) in messages.chunks(chunk_size).enumerate() {
+        let mut chunk_handles = Vec::new();
+        let chunk_start_index = chunk_index * chunk_size;
+        let timeout = calculate_timeout(chunk.len());
+
+        println!(
+            "\nProcessing chunk {} with {} messages",
+            chunk_index + 1,
+            chunk.len()
+        );
+        println!("Chunk timeout set to {:?}", timeout);
+
+        for (offset, message) in chunk.iter().enumerate() {
+            let message = message.clone();
+            let bot_name = bot_name.to_string();
+            let results = Arc::clone(&results);
+            let client = Arc::clone(&client);
+            let active_threads = Arc::clone(&active_threads);
+            let success_count = Arc::clone(&success_count);
+            let failure_streak = Arc::clone(&failure_streak);
+            let total_processed = Arc::clone(&total_processed);
+            let completed = Arc::clone(&completed);
+            let last_check_time = Arc::clone(&last_check_time);
+            let messages_since_last_check = Arc::clone(&messages_since_last_check);
+
+            let absolute_index = chunk_start_index + offset;
+
+            while *main_active_threads.lock().unwrap() >= current_max_threads {
+                let mut last_time = last_check_time.lock().unwrap();
+                let mut msgs_count = messages_since_last_check.lock().unwrap();
+                let elapsed = last_time.elapsed();
+
+                if elapsed >= Duration::from_secs(30) {
+                    let throughput = *msgs_count as f64 / elapsed.as_secs_f64();
+                    println!("Current throughput: {:.2} messages/second", throughput);
+                    *last_time = Instant::now();
+                    *msgs_count = 0;
+                }
+
+                tokio::time::sleep(Duration::from_millis(100)).await;
+            }
+
+            {
+                let mut count = main_active_threads.lock().unwrap();
+                *count += 1;
+            }
+
+            // 性能自适应
+            {
+                let current_success = *success_count.lock().unwrap();
+                // let current_failures = *failure_streak.lock().unwrap();
+                let total = *total_processed.lock().unwrap();
+
+                if total > 0 && total % 5 == 0 {
+                    let success_rate = current_success as f64 / total as f64;
+                    println!("Current success rate: {:.2}%", success_rate * 100.0);
+
+                    if success_rate > 0.8 && current_max_threads < max_threads {
+                        current_max_threads = (current_max_threads * 3 / 2).min(max_threads);
+                        println!(
+                            "Increasing threads to {} based on good performance",
+                            current_max_threads
+                        );
+                    } else if success_rate < 0.5 && current_max_threads > initial_threads {
+                        current_max_threads = (current_max_threads * 2 / 3).max(initial_threads);
+                        println!(
+                            "Decreasing threads to {} based on poor performance",
+                            current_max_threads
+                        );
+                    }
+                }
+            }
+
+            let handle = tokio::spawn(async move {
+                const MAX_RETRIES: u32 = 8;
+                let mut success = false;
+
+                for retry in 0..MAX_RETRIES {
+                    match client.send_message(&bot_name, &message).await {
+                        Ok(response) => {
+                            println!(
+                                "Message {} succeeded on attempt {}",
+                                absolute_index + 1,
+                                retry + 1
+                            );
+                            results
+                                .lock()
+                                .unwrap()
+                                .insert(absolute_index + 1, response.clone());
+                            success = true;
+                            completed.fetch_add(1, Ordering::SeqCst);
+                            println!(
+                                "Progress: {}/{}",
+                                completed.load(Ordering::SeqCst),
+                                message_len
+                            );
+                            break;
+                        }
+                        Err(e) => {
+                            let wait_time = match PoeError::from(e) {
+                                PoeError::Timeout => {
+                                    eprintln!(
+                                        "Message {}: Timeout on attempt {}",
+                                        absolute_index,
+                                        retry + 1
+                                    );
+                                    4
+                                }
+                                PoeError::ServerDisconnected => {
+                                    eprintln!(
+                                        "Message {}: Server disconnected on attempt {}",
+                                        absolute_index,
+                                        retry + 1
+                                    );
+                                    5
+                                }
+                                PoeError::Other(err) => {
+                                    eprintln!(
+                                        "Message {}: Other error on attempt {}: {}",
+                                        absolute_index,
+                                        retry + 1,
+                                        err
+                                    );
+                                    3
+                                }
+                            };
+
+                            if retry < MAX_RETRIES - 1 {
+                                let wait = wait_time * (2u64.pow(retry));
+                                tokio::time::sleep(Duration::from_secs(wait)).await;
+                            }
+                        }
+                    }
+                }
+
+                if success {
+                    *success_count.lock().unwrap() += 1;
+                    *failure_streak.lock().unwrap() = 0;
+                } else {
+                    *failure_streak.lock().unwrap() += 1;
+                    *success_count.lock().unwrap() = 0;
+                }
+
+                let mut count = active_threads.lock().unwrap();
+                *count -= 1;
+                println!(
+                    "Message {} in chunk {} completed",
+                    absolute_index,
+                    chunk_index + 1
+                );
+            });
+
+            chunk_handles.push(handle);
+            *total_processed.lock().unwrap() += 1;
+            *messages_since_last_check.lock().unwrap() += 1;
+        }
+
+        // 等待当前chunk完成或超时
+        println!("Waiting for chunk {} to complete...", chunk_index + 1);
+        tokio::select! {
+            _ = futures::future::join_all(chunk_handles) => {
+                println!("Chunk {} completed successfully", chunk_index + 1);
+                // 给一些额外时间让最后的结果写入
+                tokio::time::sleep(Duration::from_secs(2)).await;
+            }
+            _ = tokio::time::sleep(timeout) => {
+                println!("Chunk {} timeout reached after {:?}", chunk_index + 1, timeout);
+                // 给正在完成的任务一些额外时间
+                tokio::time::sleep(Duration::from_secs(5)).await;
+            }
+        }
+    }
+
+    let duration = start_time.elapsed();
+    let results = results.lock().unwrap();
+    println!("\nProcessing completed in {:?}", duration);
+    println!(
+        "Successfully processed {} out of {} messages",
+        results.len(),
+        message_len
+    );
+
+    // 按序号打印结果
+    let mut sorted_results: Vec<_> = results.iter().collect();
+    sorted_results.sort_by_key(|&(k, _)| k);
+    for (index, response) in sorted_results {
+        println!(
+            "Message {}: Response length: {} characters",
+            index,
+            response.len()
+        );
+        // println!("Response preview: {:.100}...", response);
+    }
+    Ok(())
+}
+
 
 fn read_input_file(input_path: Option<PathBuf>, format: &str) -> io::Result<Reader<File>> {
     // 获取输入路径，如果为 None 则返回错误
@@ -175,10 +465,10 @@ pub fn setup_python_environment(py: Python) -> PyResult<()> {
     println!("Python executable: {}", sys.getattr("executable")?);
     
     // 检查包版本
-    match get_package_version_pip("poe-api-wrapper") {
-        Ok(version) => println!("poe-api-wrapper version: {}", version),
-        Err(e) => println!("Error getting version: {}", e),
-    }
+    // match get_package_version_pip("poe-api-wrapper") {
+    //     Ok(version) => println!("poe-api-wrapper version: {}", version),
+    //     Err(e) => println!("Error getting version: {}", e),
+    // }
     
     // 设置Python路径
     let path = sys.getattr("path")?;
@@ -205,22 +495,23 @@ pub fn initialize_csv(
     input_path: Option<PathBuf>,
     output_path: &Path,
     format: &str,
-    additional_fields: &[String],
-) -> Result<(csv::Reader<File>, csv::Writer<File>, Vec<String>), Box<dyn Error>> {
+    // additional_fields: &[String],
+) -> Result<(csv::Reader<File>, csv::Writer<File>, Vec<String>, StringRecord), Box<dyn Error>> {
     let mut reader = read_input_file(input_path, format)?;
     let output_file = File::create(output_path)?;
     let mut writer = csv::Writer::from_writer(output_file);
     
+    // 源文件表头
     let headers: Vec<String> = reader.headers()?
         .iter()
         .map(|h| h.to_string())
         .collect();
         
     let mut new_headers = headers.clone();
-    new_headers.extend(additional_fields.iter().cloned());
+    new_headers.extend(["result"].iter().map(|&s| s.to_string()));
     writer.write_record(&new_headers)?;
     
-    Ok((reader, writer, headers))
+    Ok((reader, writer, headers, new_headers.into()))
 }
 
 // 4. 构建输入字段索引
@@ -269,6 +560,14 @@ pub fn process_response(
     values
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct SemanticEntry {
+    section_name: String,
+    title: String,
+    content: String,
+}
+
+
 // 主函数
 pub fn run_python_script(
     script_name: &str,
@@ -280,249 +579,210 @@ pub fn run_python_script(
     format: &str,
 ) -> Result<(), Box<dyn Error>> {
     // 验证脚本路径
-    verify_script_path(script_name)?;
+    // verify_script_path(script_name)?;
 
+    let mut temp_file_name = output_path.file_stem().unwrap().to_os_string(); 
+    temp_file_name.push("_tmp."); 
+    temp_file_name.push(output_path.extension().unwrap()); 
+    let temp_file_path = output_path.with_file_name(temp_file_name);
     // 初始化CSV读写器和表头
-    let (mut reader, mut writer, headers) = initialize_csv(
+    // 获取源文件reader
+    // 获取tmp文件的writer
+    // 获取源文件表头
+    // 获取新文件表头
+    let (mut reader, mut writer, original_headers, new_headers) = initialize_csv(
         input_path,
-        output_path,
+        temp_file_path.as_path(),
         format,
-        additional_fields,
     )?;
 
-    // 构建字段索引
-    let field_indices = build_field_indices(&headers, input_fields);
-
-    Python::with_gil(|py| -> PyResult<()> {
-        // 设置Python环境
-        setup_python_environment(py)?;
-        
-        // 初始化客户端
-        let client = PoeClient::new(py)?;
-        client.print_settings()?;
-        
-        // 处理记录
-        loop {
-            let mut record = csv::StringRecord::new();
-            match reader.read_record(&mut record) {
-                Ok(has_record) => {
-                    if !has_record {
-                        break;
-                    }
-                    
-                    // 准备新记录
-                    let mut new_record: Vec<String> = record.iter()
-                        .map(|field| field.to_string())
-                        .collect();
-                    
-                    // 构建JSON输入并发送消息
-                    let json_input = build_json_input(&record, &field_indices, &headers);
-                    let prompt = json_input.to_string();
-                    
-                    let response = match client.send_message(bot_name, &prompt) {
-                        Ok(resp) => resp,
-                        Err(e) => {
-                            eprintln!("Error sending message: {}", e);
-                            String::from("{}")
-                        }
-                    };
-                    
-                    // 处理响应
-                    let additional_values = process_response(&response, additional_fields);
-                    new_record.extend(additional_values);
-                    
-                    // 写入记录
-                    match writer.write_record(&new_record) {
-                        Ok(_) => continue,
-                        Err(e) => {
-                            return Err(PyIOError::new_err(format!("Failed to write record: {}", e)));
-                        }
-                    }
-                }
-                Err(e) => {
-                    return Err(PyIOError::new_err(format!("Failed to read record: {}", e)));
-                }
-            }
+    // 利用源文件表头构建字段搜索索引
+    let field_indices = build_field_indices(&original_headers, input_fields);
+    // 利用搜索索引,遍历源文件每一行,构建LLM JSON格式化输入
+    // 同时对tmp文件新添加列(result)填入默认值
+    let mut formatted_messages = Vec::new();
+    for result in reader.records() {
+        let record = result?;
+        // 为输出文件准备行数据
+        let mut row_data: Vec<String> = record.iter().map(|s| s.to_string()).collect();
+        while row_data.len() < record.len(){
+            row_data.push("waiting fill".to_string());
         }
-        
-        writer.flush()?;
-        Ok(())
-    })?;
+        writer.write_record(&row_data)?;
+        // 准备消息数据
+        let json_data = build_json_input(&record, &field_indices, input_fields);
+        formatted_messages.push(json_data.to_string());
+    }
+    // 写入缓冲区刷新
+    writer.flush()?;
 
+    println!(
+        "Starting to process {} messages...",
+        formatted_messages.len()
+    );
+    // 构建tokio的异步运行时,调用POE LLM,获取结果
+    let results = Arc::new(Mutex::new(HashMap::new()));
+    let runtime = tokio::runtime::Runtime::new()?;
+    runtime.block_on(async {
+        if let Err(e) = process_messages(
+            formatted_messages,
+            bot_name,
+            Arc::clone(&results),
+        )
+        .await {
+            eprintln!("Error processing messages: {}", e);
+        }
+    });
+    // 将结果按照index索引写入到tmp文件中,默认是result列的更新
+    update_output_file(temp_file_path.as_path(), &new_headers, &results)?;
+    // 读取tmp文件,逐行读取result列,根据additional_fields参数进行构建
+    // 1. 首先在additional_fields vec前添加index参数,赋值为new_header 
+    // 2. 将new_header作为output_path新文件的表头
+    // 3. 遍历tmp文件的一行,将result列对应的单元格内容按照additional_fields进行解析,
+    // 4. 将解析后的结果,按照表头对应的位置填入.
+    // 5. 执行第3步
+    // 6. 到达tmp文件尾,结束执行.flush写缓冲区
+
+    // 构建新表头
+    let mut new_fields: Vec<String> = vec!["index".to_string()];
+    new_fields.extend_from_slice(additional_fields);
+
+    // 将解析结果写到最终的输出文件中
+    parse_results::<SemanticEntry>(temp_file_path.as_path(), output_path, new_fields, additional_fields)?;
+
+    
     Ok(())
 }
 
-// pub fn run_python_script(
-//     script_name: &str,
-//     bot_name: &str,
-//     input_path: Option<PathBuf>,
-//     output_path: &Path,
-//     additional_fields: &[String],
-//     input_fields: &[String],
-//     format: &str,
-// ) -> Result<(), Box<dyn Error>> {
-//     let script_path = Path::new("python_scripts").join(format!("{}.py", script_name));
-//     if !script_path.exists() {
-//         eprintln!("Python script not found at {:?}", script_path);
-//         exit(1);
-//     }
-//     println!("{}", format!("succeed to find {}.py script", script_name).green());
 
-//     // 读取输入文件
-//     let mut reader = read_input_file(input_path, format)?;
-//     // 创建输出文件的writer
-//     let output_file = File::create(output_path)?;
-//     let mut writer = csv::Writer::from_writer(output_file);
-    
-//     // 1. 读取并处理表头
-//     let headers: Vec<String> = reader.headers()?
-//         .iter()
-//         .map(|h| h.to_string())
-//         .collect();
-    
-//     // 2. 创建新的表头（原表头 + additional_fields）
-//     let mut new_headers = headers.clone();
-//     new_headers.extend(additional_fields.iter().cloned());
-    
-//     // 写入新表头
-//     writer.write_record(&new_headers)?;
-    
-//     // 创建字段索引映射
-//     let field_indices: Vec<usize> = input_fields
-//         .iter()
-//         .filter_map(|field| headers.iter().position(|h| h == field))
-//         .collect();
-//     // let mut record = csv::StringRecord::new();
-//     Python::with_gil(|py| -> PyResult<()> {
-//         let sys = py.import_bound("sys")?;
-//         println!("Python version: {}", sys.getattr("version")?);
-//         println!("Python executable: {}", sys.getattr("executable")?);
-//         match get_package_version_pip("poe-api-wrapper") {
-//             Ok(version) => println!("poe-api-wrapper version: {}", version),
-//             Err(e) => println!("Error getting version: {}", e),
-//         }
-//         let path = sys.getattr("path")?;
-//         path.call_method1("append", ("C:\\Users\\xyf20\\Desktop\\RustDataProcess\\python_virtual_env\\Lib\\site-packages",))?;
-//         let path_list_store: Vec<String> = path.extract()?;
-//         println!("PyO3 Python path:");
-//         for p in path_list_store {
-//             println!("  {}", p);
-//         }
+fn update_output_file(
+    output_path: &Path,
+    headers: &StringRecord,
+    results: &Arc<Mutex<HashMap<usize, String>>>,
+) -> Result<(), Box<dyn Error>> {
+    // 读取当前输出文件的所有记录
+    let file = File::open(output_path)?;
+    let mut rdr = Reader::from_reader(file);
+    let records: Vec<StringRecord> = rdr.records().collect::<Result<Vec<_>, _>>()?;
 
+    // 获取列索引
+    let index_idx = headers
+        .iter()
+        .position(|h| h == "index")
+        .ok_or("Index column not found")?;
+    let result_idx = headers
+        .iter()
+        .position(|h| h == "result")
+        .ok_or("result column not found")?;
+
+    // 创建新的写入器
+    let output_file = File::create(output_path)?;
+    let mut wtr = Writer::from_writer(output_file);
+
+    // 写入表头
+    wtr.write_record(headers)?;
+
+    // 获取结果并更新记录
+    let results_guard = results.lock().map_err(|e| format!("Failed to lock results: {}", e))?;
+    
+    // 更新记录并写入
+    for record in records {
+        let mut new_row: Vec<String> = record.iter().map(|field| field.to_string()).collect();
+        if let Some(index_value) = record.get(index_idx) {
+            if let Ok(index_num) = index_value.parse::<usize>() {
+                if let Some(semantic_value) = results_guard.get(&index_num) {
+                    new_row[result_idx] = semantic_value.clone();
+                }
+            }
+        }
+        wtr.write_record(&new_row)?;
+    }
+
+    wtr.flush()?;
+    Ok(())
+}
+
+
+fn parse_results<T: for<'de> Deserialize<'de> + Serialize>(
+    input_path: &Path, 
+    output_path: &Path, 
+    new_headers: Vec<String>,
+    fields: &[String],
+) -> Result<(), Box<dyn Error>> {
+    // 读取输入文件
+    let file = File::open(input_path)?;
+    let mut rdr = Reader::from_reader(file);
+    
+    // 获取 semantic 列的索引
+    let headers = rdr.headers()?;
+    let result_idx = headers
+        .iter()
+        .position(|h| h == "result")
+        .ok_or("Semantic column not found")?;
+
+    // 创建输出文件
+    let output_file = File::create(output_path)?;
+    let mut wtr = Writer::from_writer(output_file);
+
+    // 写入新的表头
+    wtr.write_record(&new_headers)?;
+
+    // 用于跟踪全局索引
+    let mut global_index = 1;
+
+    // 处理每一行
+    for (row_num, result) in rdr.records().enumerate() {
+        let record = result?;
+        let result_value = record.get(result_idx).unwrap_or("").trim();
         
-//         match py.import_bound("poe_api_wrapper") {
-//             Ok(_) => println!("Successfully imported poe-api-wrapper after path addition"),
-//             Err(e) => println!("Still failed to import: {:?}", e),
-//         }
-       
-//         // // 1. 创建客户端实例
-//         let client = PoeClient::new(py)?;
-//         client.print_settings()?;
-        
-//         loop {
-//             let mut record = csv::StringRecord::new();
-//             match reader.read_record(&mut record) {
-//                 Ok(has_record) => {
-//                     if !has_record {
-//                         break;
-//                     }
-                    
-//                     // 3. 准备写入的新记录
-//                     let mut new_record = Vec::new();
-                    
-//                     // 复制原有数据
-//                     for field in record.iter() {
-//                         new_record.push(field.to_string());
-//                     }
-                    
-//                     // 4. 构建JSON输入数据
-//                     let mut json_input = json!({});
-//                     for &idx in &field_indices {
-//                         if idx < headers.len() {
-//                             json_input[&headers[idx]] = Value::String(record[idx].to_string());
-//                         }
-//                     }
-        
-//                     // 5. 调用send_message
-//                     let prompt = json_input.to_string();
-//                     let response = match client.send_message(bot_name, &prompt) {
-//                         Ok(resp) => resp,
-//                         Err(e) => {
-//                             eprintln!("Error sending message: {}", e);
-//                             String::from("{}")  // 返回空JSON对象
-//                         }
-//                     };
-        
-//                     // 6. 解析响应并填充additional_fields
-//                     match serde_json::from_str::<Value>(&response) {
-//                         Ok(response_json) => {
-//                             for field in additional_fields {
-//                                 let value = response_json
-//                                     .get(field)
-//                                     .and_then(|v| v.as_str())
-//                                     .unwrap_or("")
-//                                     .to_string();
-//                                 new_record.push(value);
-//                             }
-//                         }
-//                         Err(e) => {
-//                             for _ in additional_fields {
-//                                 new_record.push(String::from(""));
-//                             }
-//                             eprintln!("Error parsing response JSON: {}", e);
-//                         }
-//                     }
-                
-//                     // 写入该行数据
-//                     match writer.write_record(&new_record) {
-//                         Ok(_) => continue,
-//                         Err(e) => {
-//                             return Err(PyIOError::new_err(format!("Failed to write record: {}", e)));
-//                         }
-//                     }
-//                 }
-//                 Err(e) => {
-//                     return Err(PyIOError::new_err(format!("Failed to read record: {}", e)));
-//                 }
-//             }
-//         }
-//         // 确保所有数据都写入文件
-//         writer.flush()?;
-//         Ok(())
-//     })?;
+        // 跳过空值和默认值
+        if result_value.is_empty() || result_value == "default_value" {
+            continue;
+        }
+        // 清理和解析 JSON
+        let cleaned_json = result_value
+                                        .replace("```json", "")  // 移除开始标记
+                                        .replace("```", "")      // 移除结束标记
+                                        .trim()                  // 移除首尾空白
+                                        .to_string();
+        // 调试输出
+        println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
 
-    
-//     Ok(())
-// }
+        // 尝试解析 JSON 数组
+        match serde_json::from_str::<Vec<T>>(&cleaned_json) {
+            Ok(entries) => {
+                // 为每个解析出的条目写入一行
+                for entry in entries {
+                    // wtr.write_record(&[
+                    //     &global_index.to_string(),
+                    //     &entry.section_name.replace("\"\"", "\""),
+                    //     &entry.title.replace("\"\"", "\""),
+                    //     &entry.content.replace("\"\"", "\""),
+                    // ])?;
+                    let mut record = vec![global_index.to_string()]; 
+                    let entry_value = serde_json::to_value(&entry)?; 
+                    for field in fields { 
+                        let value = entry_value.get(field)
+                                                       .and_then(Value::as_str)
+                                                       .unwrap_or("")
+                                                       .replace("\"\"", "\""); 
+                        record.push(value); 
+                    } 
+                    wtr.write_record(&record)?;
+                    global_index += 1;
+                }
+            },
+            Err(e) => {
+                eprintln!("Error parsing JSON at row {}: {}", row_num + 1, e);
+                eprintln!("Problematic JSON: {}", result_value);
+                // 可以选择继续处理或者返回错误
+                // return Err(Box::new(e));
+                continue;
+            }
+        }
+    }
 
-
-    
-    // // 创建子进程
-    // let mut child_process = Command::new("cmd")
-    //     .creation_flags(0x08000000)
-    //     .args(&["/C", "python_virtual_env\\Scripts\\activate && python"])
-    //     .arg(script_path.to_str().unwrap())
-    //     .stdout(std::process::Stdio::piped())
-    //     .stderr(std::process::Stdio::piped())
-    //     .spawn()
-    //     .expect(&format!("Failed to execute {}.py script", script_name));
-
-    // // 设置 Ctrl+C 处理
-    // setup_ctrlc_handler(&mut child_process)?;
-
-    // // 等待脚本执行完毕并获取输出
-    // let output = child_process
-    //     .wait_with_output()
-    //     .expect(&format!("Failed to wait on {}.py script", script_name));
-
-    // // 检查脚本执行结果
-    // if !output.status.success() {
-    //     eprintln!("Failed to run {}.py script.", script_name);
-    //     let error = String::from_utf8_lossy(&output.stderr);
-    //     eprintln!("Error: {}", error);
-    //     exit(1);
-    // }
-
-    // // 打印脚本的标准输出
-    // let stdout = String::from_utf8_lossy(&output.stdout);
-    // println!("{}.py output: {}", script_name, stdout);
+    wtr.flush()?;
+    println!("Total parsed entries: {}", global_index - 1);
+    Ok(())
+}

@@ -389,157 +389,40 @@ fn build_field_indices(headers: &[String], input_fields: &[String]) -> Vec<usize
         .collect()
 }
 
-// #[tokio::main]
-// fn main() -> Result<(), Box<dyn Error>> {
-//     let mut formatted_messages: Vec<String> = Vec::new();
-//     let input_path = "agent_input_source/rfc8446_sections_test.csv";
-//     let output_path = "agent_input_source/result_wait_check.csv";
-
-//     // 复制原始文件并添加新列
-//     let file = File::open(input_path)?;
-//     let mut rdr = Reader::from_reader(file);
-//     let output_file = File::create(&output_path)?;
-//     let mut wtr = Writer::from_writer(&output_file);
-
-//     // 处理头部
-//     let mut headers: Vec<String> = rdr.headers()?.iter().map(|h| h.to_string()).collect();
-//     headers.push("semantic".to_string());
-//     wtr.write_record(&headers)?;
-
-//     // 复制所有行
-//     for result in rdr.records() {
-//         let record = result?;
-//         let mut row_data: Vec<String> = record.iter().map(|s| s.to_string()).collect();
-//         row_data.push("default_value".to_string());
-//         wtr.write_record(&row_data)?;
-//     }
-
-//     wtr.flush()?;
-
-//     // 读取文件处理消息
-//     let file = File::open(input_path)?;
-//     let mut rdr = Reader::from_reader(file);
-
-//     let headers: Vec<String> = rdr.headers()?.iter().map(|h| h.to_string()).collect();
-
-//     let input_fields = vec!["section".to_string(), "content".to_string()];
-//     let field_indices = build_field_indices(&headers, &input_fields);
-
-//     // 处理每条记录
-//     for (_, result) in rdr.records().enumerate() {
-//         let record = result?;
-//         let json_data = build_json_input(&record, &field_indices, &headers);
-//         formatted_messages.push(json_data.to_string());
-//     }
-
-//     println!(
-//         "Starting to process {} messages...",
-//         formatted_messages.len()
-//     );
-
-//     // 打印样本
-//     for (i, msg) in formatted_messages.iter().take(2).enumerate() {
-//         println!("Sample message {}: {}", i, msg);
-//     }
-
-//     // 处理消息
-//     let results = Arc::new(Mutex::new(HashMap::new()));
-//     let runtime = tokio::runtime::Runtime::new()?;
-//     runtime.block_on(async {
-//         if let Err(e) = process_messages(
-//             formatted_messages,
-//             "semantic_analysis",
-//             Arc::clone(&results),
-//         )
-//         .await {
-//             eprintln!("Error processing messages: {}", e);
-//         }
-//     });
-//     // 读取所有记录到内存
-//     let file = File::open(&output_path)?;
-//     let mut rdr = Reader::from_reader(file);
-//     let mut records: Vec<StringRecord> = Vec::new();
-//     for result in rdr.records() {
-//         records.push(result?);
-//     }
-
-//     // 获取 index 和 semantic 列的索引
-//     let headers = rdr.headers()?;
-//     let index_idx = headers
-//         .iter()
-//         .position(|h| h == "index")
-//         .ok_or("Index column not found")?;
-//     let semantic_idx = headers
-//         .iter()
-//         .position(|h| h == "semantic")
-//         .ok_or("Semantic column not found")?;
-
-//     // 创建新的写入器
-//     let output_file = File::create(&output_path)?;
-//     let mut wtr = Writer::from_writer(output_file);
-
-//     // 写入表头
-//     wtr.write_record(headers)?;
-
-//     // 获取结果的锁
-//     let results = results.lock().unwrap();
-
-//     // 更新记录并写入
-//     // 更新记录并写入
-//     for record in records {
-//         let mut new_row: Vec<String> = record.iter().map(|field| field.to_string()).collect();
-//         if let Some(index_value) = record.get(index_idx) {
-//             if let Ok(index_num) = index_value.parse::<usize>() {
-//                 if let Some(semantic_value) = results.get(&index_num) {
-//                     // 使用解析后的数字作为 key
-//                     new_row[semantic_idx] = semantic_value.clone();
-//                 }
-//             }
-//         }
-//         wtr.write_record(&new_row)?;
-//     }
-
-//     wtr.flush()?;
-
-//     println!("Results have been written to {}", output_path);
-
-//     Ok(())
-// }
-
 fn main() -> Result<(), Box<dyn Error>> {
     let input_path = "agent_input_source/rfc_sections_test.csv";
     let output_path = "agent_input_source/result_wait_check.csv";
     let input_fields = vec!["section".to_string(), "content".to_string()];
 
     // 1. 准备阶段：读取输入文件并创建带新列的输出文件
-    // let (formatted_messages, headers) = prepare_files(input_path, output_path, &input_fields)?;
+    let (formatted_messages, headers) = prepare_files(input_path, output_path, &input_fields)?;
 
-    // println!(
-    //     "Starting to process {} messages...",
-    //     formatted_messages.len()
-    // );
+    println!(
+        "Starting to process {} messages...",
+        formatted_messages.len()
+    );
 
-    // // 打印样本消息
-    // // for (i, msg) in formatted_messages.iter().take(2).enumerate() {
-    // //     println!("Sample message {}: {}", i, msg);
-    // // }
+    // 打印样本消息
+    // for (i, msg) in formatted_messages.iter().take(2).enumerate() {
+    //     println!("Sample message {}: {}", i, msg);
+    // }
 
-    // // 2. 处理消息
-    // let results = Arc::new(Mutex::new(HashMap::new()));
-    // let runtime = tokio::runtime::Runtime::new()?;
-    // runtime.block_on(async {
-    //     if let Err(e) = process_messages(
-    //         formatted_messages,
-    //         "semantic_analysis",
-    //         Arc::clone(&results),
-    //     )
-    //     .await {
-    //         eprintln!("Error processing messages: {}", e);
-    //     }
-    // });
+    // 2. 处理消息
+    let results = Arc::new(Mutex::new(HashMap::new()));
+    let runtime = tokio::runtime::Runtime::new()?;
+    runtime.block_on(async {
+        if let Err(e) = process_messages(
+            formatted_messages,
+            "semantic_analysis",
+            Arc::clone(&results),
+        )
+        .await {
+            eprintln!("Error processing messages: {}", e);
+        }
+    });
 
-    // // 3. 更新输出文件
-    // update_output_file(output_path, &headers, &results)?;
+    // 3. 更新输出文件
+    update_output_file(output_path, &headers, &results)?;
 
     let final_output_path = "agent_input_source/parsed_results.csv";
     // 4. 解析 semantic 列并创建新的 CSV 文件

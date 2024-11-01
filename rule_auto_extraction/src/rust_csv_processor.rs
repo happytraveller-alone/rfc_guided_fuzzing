@@ -16,8 +16,8 @@ struct RuleStructure {
     base: Base,
 }
 
-pub fn judge_rule(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
-    let mut reader = Reader::from_path(rfc_results_path)?;
+pub fn judge_rule(input: &PathBuf, output: &PathBuf) -> Result<(), Box<dyn Error>> {
+    let mut reader = Reader::from_path(input)?;
     let mut headers = reader.headers()?.clone();
     let content_index = headers.iter().position(|h| h == "Content").ok_or("Content column not found")?;
     let re = Regex::new(r"(?i)\b(MUST|MUST NOT|SHALL|REQUIRED|SHALL NOT)\b")?;
@@ -25,8 +25,8 @@ pub fn judge_rule(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
     // 增加新列 "RuleMatch"
     headers.push_field("RuleMatch");
 
-    let output_path = rfc_results_path.with_file_name("rfc_results_update_judge.csv");
-    let mut writer = WriterBuilder::new().from_path(&output_path)?;
+    // let output_path = rfc_results_path.with_file_name("rfc_results_update_judge.csv");
+    let mut writer = WriterBuilder::new().from_path(&output)?;
     writer.write_record(&headers)?;
 
     let mut total_rules = 0;
@@ -49,7 +49,7 @@ pub fn judge_rule(rfc_results_path: &PathBuf) -> Result<(), Box<dyn Error>> {
     }
 
     writer.flush()?;
-    println!("Updated CSV saved to {:?}", output_path);
+    println!("Updated CSV saved to {:?}", output);
     println!("Total rules: {}, Number of 1s: {}, Number of 0s: {}", total_rules, count_ones, count_zeros);
     Ok(())
 }

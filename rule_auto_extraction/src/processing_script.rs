@@ -1,7 +1,7 @@
-use std::process::{Command, Child, exit};
+// use std::process::{Command, Child, exit};
 use std::{env,error::Error,path::Path};
 use colored::*;
-use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
+// use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use serde::{Deserialize, Serialize};
 use crate::{rust_csv_processor,python_csv_processor};
 
@@ -35,12 +35,14 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
             script_name: "slice_rfc.py".to_string(),
             bot_name: "semantic_analysis".to_string(),
             additional_fields: vec![
-                "ID".to_string(),
                 "Section".to_string(),
                 "Title".to_string(),
                 "Content".to_string()
             ],
-            input_fields: vec!["content".to_string()],
+            input_fields: vec![
+                "section".to_string(),
+                "content".to_string()
+            ],
         },
         "extract_rule" => PythonScriptConfig {
             script_name: "extract_rule.py".to_string(),
@@ -77,73 +79,76 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
 pub fn get_processing_steps() -> Vec<ProcessStep> {
     vec![
         ProcessStep {
-            input_file: None,
-            output_file: "rfc_results.csv",
-            description: "Running slice script",
+            input_file: Some("rfc_original_description_1.csv"),
+            output_file: "rfc_sliced_description_2.csv",
+            description: "Get Summary Title and Slice RFC description based on Title",
             action: StepAction::PythonScript(get_python_config("slice_rfc")),
         },
         ProcessStep {
-            input_file: Some("rfc_results.csv"),
-            output_file: "rfc_results_update_judge.csv",
-            description: "Running judge rule",
-            action: StepAction::RustFunction(|path| rust_csv_processor::judge_rule(&path.join("rfc_results.csv"))),
-        },
-        ProcessStep {
-            input_file: Some("rfc_results_update_judge.csv"),
-            output_file: "rfc_results_extracted_rule.csv",
-            description: "Running extract rule script",
-            action: StepAction::PythonScript(get_python_config("extract_rule")),
-        },
-        ProcessStep {
-            input_file: Some("rfc_results_slice_rule.csv"),
-            output_file: "rfc_results_update_slice_rule.csv",
-            description: "Running update sliced rules script",
-            action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_update_slice_script(
-                &path.join("rfc_results_slice_rule.csv"),
-                &path.join("rfc_results_update_slice_rule.csv")
+            input_file: Some("rfc_sliced_description_2.csv"),
+            output_file: "rfc_sliced_description_filter_3.csv",
+            description: "Filter Description with Sentiment Rule(MUST,MUST NOT...)",
+            action: StepAction::RustFunction(|path| rust_csv_processor::judge_rule(
+                &path.join("rfc_sliced_description_2.csv"),
+                &path.join("rfc_sliced_description_filter_3.csv")
             )),
         },
-        ProcessStep {
-            input_file: Some("rfc_results_update_slice_rule.csv"),
-            output_file: "rfc_results_classify_slice_rule.csv",
-            description: "Running sliced rule classification script",
-            action: StepAction::PythonScript(get_python_config("classify_rule")),
-        },
-        ProcessStep {
-            input_file: Some("rfc_results_classify_slice_rule.csv"),
-            output_file: "rfc_results_filter_classify_rule_simple.csv",
-            description: "Running rule classify script",
-            action: StepAction::RustFunction(|path| rust_csv_processor::run_rule_classify_script(
-                &path.join("rfc_results_classify_slice_rule.csv"),
-                &path.join("rfc_results_filter_classify_rule_simple.csv"),
-                "1",
-            )),
-        },
-        ProcessStep {
-            input_file: Some("rfc_results_classify_slice_rule.csv"),
-            output_file: "rfc_results_filter_classify_rule_complex.csv",
-            description: "Running rule classify script",
-            action: StepAction::RustFunction(|path| rust_csv_processor::run_rule_classify_script(
-                &path.join("rfc_results_classify_slice_rule.csv"),
-                &path.join("rfc_results_filter_classify_rule_complex.csv"),
-                "2",
-            )),
-        },
-        ProcessStep {
-            input_file: Some("rfc_results_filter_classify_rule_simple.csv"),
-            output_file: "rule_simple_violation_input.csv",
-            description: "Running rule violation input generation script",
-            action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_mutation_descrip_input(
-                &path.join("rfc_results_filter_classify_rule_simple.csv"),
-                &path.join("rule_simple_violation_input.csv"),
-            )),
-        },
-        ProcessStep {
-            input_file: Some("rule_simple_violation_input.csv"),
-            output_file: "rule_simple_mutation.csv",
-            description: "Running rule violation input generation script",
-            action: StepAction::PythonScript(get_python_config("generate_mutation")),
-        }
+        // ProcessStep {
+        //     input_file: Some("rfc_sliced_description_filter_3.csv"),
+        //     output_file: "rfc_description_extract_rule_4.csv",
+        //     description: "Running extract rule script",
+        //     action: StepAction::PythonScript(get_python_config("extract_rule")),
+        // },
+        // ProcessStep {
+        //     input_file: Some("rfc_description_extract_rule_4.csv"),
+        //     output_file: "rfc_results_update_slice_rule.csv",
+        //     description: "Running update sliced rules script",
+        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_update_slice_script(
+        //         &path.join("rfc_results_slice_rule.csv"),
+        //         &path.join("rfc_results_update_slice_rule.csv")
+        //     )),
+        // },
+        // ProcessStep {
+        //     input_file: Some("rfc_results_update_slice_rule.csv"),
+        //     output_file: "rfc_results_classify_slice_rule.csv",
+        //     description: "Running sliced rule classification script",
+        //     action: StepAction::PythonScript(get_python_config("classify_rule")),
+        // },
+        // ProcessStep {
+        //     input_file: Some("rfc_results_classify_slice_rule.csv"),
+        //     output_file: "rfc_results_filter_classify_rule_simple.csv",
+        //     description: "Running rule classify script",
+        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_rule_classify_script(
+        //         &path.join("rfc_results_classify_slice_rule.csv"),
+        //         &path.join("rfc_results_filter_classify_rule_simple.csv"),
+        //         "1",
+        //     )),
+        // },
+        // ProcessStep {
+        //     input_file: Some("rfc_results_classify_slice_rule.csv"),
+        //     output_file: "rfc_results_filter_classify_rule_complex.csv",
+        //     description: "Running rule classify script",
+        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_rule_classify_script(
+        //         &path.join("rfc_results_classify_slice_rule.csv"),
+        //         &path.join("rfc_results_filter_classify_rule_complex.csv"),
+        //         "2",
+        //     )),
+        // },
+        // ProcessStep {
+        //     input_file: Some("rfc_results_filter_classify_rule_simple.csv"),
+        //     output_file: "rule_simple_violation_input.csv",
+        //     description: "Running rule violation input generation script",
+        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_mutation_descrip_input(
+        //         &path.join("rfc_results_filter_classify_rule_simple.csv"),
+        //         &path.join("rule_simple_violation_input.csv"),
+        //     )),
+        // },
+        // ProcessStep {
+        //     input_file: Some("rule_simple_violation_input.csv"),
+        //     output_file: "rule_simple_mutation.csv",
+        //     description: "Running rule violation input generation script",
+        //     action: StepAction::PythonScript(get_python_config("generate_mutation")),
+        // }
     ]
 }
 
@@ -218,65 +223,65 @@ pub fn execute_steps_from_index(
     Ok(())
 }
 
-fn get_package_version_pip(package_name: &str) -> Result<String, Box<dyn std::error::Error>> {
-    let output = Command::new("pip")
-        .args(&["show", package_name])
-        .output()?;
+// fn get_package_version_pip(package_name: &str) -> Result<String, Box<dyn std::error::Error>> {
+//     let output = Command::new("pip")
+//         .args(&["show", package_name])
+//         .output()?;
     
-    let output_str = String::from_utf8(output.stdout)?;
+//     let output_str = String::from_utf8(output.stdout)?;
     
-    // 解析输出找到版本
-    for line in output_str.lines() {
-        if line.starts_with("Version: ") {
-            return Ok(line["Version: ".len()..].to_string());
-        }
-        if line.starts_with("Location: ") {
-            return Ok(line["Location: ".len()..].to_string());
-        }
-    }
+//     // 解析输出找到版本
+//     for line in output_str.lines() {
+//         if line.starts_with("Version: ") {
+//             return Ok(line["Version: ".len()..].to_string());
+//         }
+//         if line.starts_with("Location: ") {
+//             return Ok(line["Location: ".len()..].to_string());
+//         }
+//     }
     
-    Err("Version not found".into())
-}
+//     Err("Version not found".into())
+// }
 
 
 
 
 
-fn setup_ctrlc_handler(child_process: &mut Child) -> Result<(), Box<dyn Error>> {
-    // 创建一个标志来追踪是否已经处理过中断信号
-    let handled = Arc::new(AtomicBool::new(false));
-    let handled_clone = handled.clone();
+// fn setup_ctrlc_handler(child_process: &mut Child) -> Result<(), Box<dyn Error>> {
+//     // 创建一个标志来追踪是否已经处理过中断信号
+//     let handled = Arc::new(AtomicBool::new(false));
+//     let handled_clone = handled.clone();
 
-    // 获取子进程的ID
-    let child_id = child_process.id();
+//     // 获取子进程的ID
+//     let child_id = child_process.id();
 
-    ctrlc::set_handler(move || {
-        // 确保处理器只执行一次
-        if !handled_clone.swap(true, Ordering::SeqCst) {
-            println!("{}","\nReceived Ctrl+C! Terminating child process...".red());
+//     ctrlc::set_handler(move || {
+//         // 确保处理器只执行一次
+//         if !handled_clone.swap(true, Ordering::SeqCst) {
+//             println!("{}","\nReceived Ctrl+C! Terminating child process...".red());
             
-            // 在 Windows 上终止进程
-            #[cfg(windows)]
-            {
-                Command::new("taskkill")
-                    .args(&["/F", "/T", "/PID", &child_id.to_string()])
-                    .output()
-                    .expect("Failed to kill child process");
-            }
+//             // 在 Windows 上终止进程
+//             #[cfg(windows)]
+//             {
+//                 Command::new("taskkill")
+//                     .args(&["/F", "/T", "/PID", &child_id.to_string()])
+//                     .output()
+//                     .expect("Failed to kill child process");
+//             }
 
-            // 在 Unix 系统上终止进程
-            #[cfg(unix)]
-            unsafe {
-                libc::kill(child_id as i32, libc::SIGTERM);
-            }
+//             // 在 Unix 系统上终止进程
+//             #[cfg(unix)]
+//             unsafe {
+//                 libc::kill(child_id as i32, libc::SIGTERM);
+//             }
 
-            // 退出主程序
-            exit(0);
-        }
-    })?;
+//             // 退出主程序
+//             exit(0);
+//         }
+//     })?;
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 
 

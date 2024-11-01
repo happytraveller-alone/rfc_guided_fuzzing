@@ -115,12 +115,12 @@ pub fn check_python_version() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn activate_virtual_env() -> Result<(), Box<dyn Error>> {
-    let activate_path = Path::new("python_virtual_env/Scripts/activate");
-    if !activate_path.exists() {
-        eprintln!("Virtual environment activation script not found at {:?}", activate_path);
-        exit(1);
-    }
-    println!("{}","Virtual environment activation script founded".green());
-    Ok(())
-}
+// pub fn activate_virtual_env() -> Result<(), Box<dyn Error>> {
+//     let activate_path = Path::new("python_virtual_env/Scripts/activate");
+//     if !activate_path.exists() {
+//         eprintln!("Virtual environment activation script not found at {:?}", activate_path);
+//         exit(1);
+//     }
+//     println!("{}","Virtual environment activation script founded".green());
+//     Ok(())
+// }

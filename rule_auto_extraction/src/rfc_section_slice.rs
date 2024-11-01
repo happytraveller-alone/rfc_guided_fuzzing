@@ -246,8 +246,7 @@ fn save_sections(
 
     // 首先在文件开头创建 CSV writer
     let csv_path = rfc_output_dir.join(format!(
-        "../../agent_input_source/rfc{}_sections.csv",
-        rfc_number
+        "../../agent_input_source/rfc_original_description_1.csv",
     ));
     let mut csv_writer = csv::Writer::from_path(&csv_path)?;
     // 写入 CSV 表头
