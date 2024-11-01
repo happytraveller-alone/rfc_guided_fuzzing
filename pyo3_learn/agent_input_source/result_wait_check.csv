@@ -1,5 +1,5 @@
 index,section,content,semantic
-14,4.. Handshake Protocol,"The handshake protocol is used to negotiate the security parameters
+1,4.. Handshake Protocol,"The handshake protocol is used to negotiate the security parameters
    of a connection.  Handshake messages are supplied to the TLS record
    layer, where they are encapsulated within one or more TLSPlaintext or
    TLSCiphertext structures which are processed and transmitted as
@@ -43,12 +43,17 @@ index,section,content,semantic
    with an ""unexpected_message"" alert.
 
    New handshake message types are assigned by IANA as described in
-   Section 11.",default_value
-15,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
+   Section 11.","```markdown
+{Section: 4.. Handshake Protocol}[Protocol Overview]{The handshake protocol is used to negotiate the security parameters of a connection. Handshake messages are supplied to the TLS record layer, where they are encapsulated within one or more TLSPlaintext or TLSCiphertext structures which are processed and transmitted as specified by the current active connection state.}
+{Section: 4.. Handshake Protocol}[Handshake Message Types Enum]{enum {\n    client_hello(1),\n    server_hello(2),\n    new_session_ticket(4),\n    end_of_early_data(5),\n    encrypted_extensions(8),\n    certificate(11),\n    certificate_request(13),\n    certificate_verify(15),\n    finished(20),\n    key_update(24),\n    message_hash(254),\n    (255)\n} HandshakeType;}
+{Section: 4.. Handshake Protocol}[Handshake Message Structure]{struct {\n    HandshakeType msg_type;    /* handshake type */\n    uint24 length;             /* remaining bytes in message */\n    select (Handshake.msg_type) {\n        case client_hello:          ClientHello;\n        case server_hello:          ServerHello;\n        case end_of_early_data:     EndOfEarlyData;\n        case encrypted_extensions:  EncryptedExtensions;\n        case certificate_request:   CertificateRequest;\n        case certificate:           Certificate;\n        case certificate_verify:    CertificateVerify;\n        case finished:              Finished;\n        case new_session_ticket:    NewSessionTicket;\n        case key_update:            KeyUpdate;\n    };\n} Handshake;}
+{Section: 4.. Handshake Protocol}[Message Order Requirements]{Protocol messages MUST be sent in the order defined in Section 4.4.1 and shown in the diagrams in Section 2. A peer which receives a handshake message in an unexpected order MUST abort the handshake with an ""unexpected_message"" alert. New handshake message types are assigned by IANA as described in Section 11.}
+```"
+2,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
    capabilities of the client and the server and to establish shared
    secrets, including the traffic keys used to protect the rest of the
-   handshake and the data.",default_value
-16,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,"In TLS, the cryptographic negotiation proceeds by the client offering
+   handshake and the data.","{Section: 4.1.. Handshake Protocol_Key Exchange Messages}[Key Exchange Messages Purpose]{The key exchange messages are used to determine the security capabilities of the client and the server and to establish shared secrets, including the traffic keys used to protect the rest of the handshake and the data.}"
+3,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,"In TLS, the cryptographic negotiation proceeds by the client offering
    the following four sets of options in its ClientHello:
 
    -  A list of cipher suites which indicates the AEAD algorithm/HKDF
@@ -109,4 +114,28 @@ index,section,content,semantic
    If the server is unable to negotiate a supported set of parameters
    (i.e., there is no overlap between the client and server parameters),
    it MUST abort the handshake with either a ""handshake_failure"" or
-   ""insufficient_security"" fatal alert (see Section 6).",default_value
+   ""insufficient_security"" fatal alert (see Section 6).","{Section: 4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation}[ClientHello Options]{In TLS, the cryptographic negotiation proceeds by the client offering the following four sets of options in its ClientHello:
+
+- **Cipher Suites**: A list indicating the AEAD algorithm/HKDF hash pairs supported by the client.
+
+- **Supported Groups**: A ""supported_groups"" extension (Section 4.2.7) indicating the (EC)DHE groups supported and a ""key_share"" extension (Section 4.2.8) containing (EC)DHE shares for some or all of these groups.
+
+- **Signature Algorithms**: A ""signature_algorithms"" extension (Section 4.2.3) indicating the signature algorithms the client can accept. A ""signature_algorithms_cert"" extension (Section 4.2.3) may also be included for certificate-specific signature algorithms.
+
+- **Pre-Shared Key Options**: A ""pre_shared_key"" extension (Section 4.2.11) containing a list of symmetric key identities known to the client and a ""psk_key_exchange_modes"" extension (Section 4.2.9) indicating key exchange modes that may be used with PSKs.}
+
+{Section: 4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation}[Server Parameter Selection Rules]{If the server does not select a PSK, it independently selects a cipher suite, an (EC)DHE group and key share for key establishment, and a signature algorithm/certificate pair for authentication. If there is no overlap between the received ""supported_groups"" and the server's groups, the server MUST abort the handshake with a ""handshake_failure"" or ""insufficient_security"" alert.
+
+If the server selects a PSK, it MUST choose a key establishment mode from the client's ""psk_key_exchange_modes"" extension. If the PSK can be used without (EC)DHE, non-overlap in ""supported_groups"" need not be fatal.}
+
+{Section: 4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation}[HelloRetryRequest Requirement]{If the server selects an (EC)DHE group and the client did not offer a compatible ""key_share"" extension, the server MUST respond with a HelloRetryRequest (Section 4.1.4) message.}
+
+{Section: 4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation}[ServerHello Parameter Indication]{If the server successfully selects parameters without requiring a HelloRetryRequest, it indicates the selected parameters in the ServerHello as follows:
+
+- **PSK Indication**: If PSK is in use, the server sends a ""pre_shared_key"" extension indicating the selected key.
+
+- **Key Share**: When (EC)DHE is in use, the server provides a ""key_share"" extension. If PSK is not used, then (EC)DHE and certificate-based authentication are always utilized.
+
+- **Authentication**: When authenticating via a certificate, the server sends the Certificate (Section 4.4.2) and CertificateVerify (Section 4.4.3) messages. In TLS 1.3, either a PSK or a certificate is always used, but not both. Future documents may define their combined use.}
+
+{Section: 4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation}[Parameter Negotiation Failure]{If the server cannot negotiate a supported set of parameters (i.e., no overlap between client and server parameters), it MUST abort the handshake with a ""handshake_failure"" or ""insufficient_security"" fatal alert (see Section 6).}"

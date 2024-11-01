@@ -4,6 +4,7 @@
 use crate::TARGET_SECTIONS;
 use rayon::prelude::*;
 use regex::Regex;
+use serde_json::json;
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, HashSet};
 use std::error::Error;
@@ -12,7 +13,6 @@ use std::io::BufWriter;
 use std::io::{Result as IoResult, Write};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
-use serde_json::json;
 /// 表示 RFC 章节编号的结构体
 #[derive(PartialEq, Eq, Clone)]
 pub struct SectionNumber(pub String);
@@ -245,11 +245,14 @@ fn save_sections(
     let saved_count = AtomicUsize::new(0);
 
     // 首先在文件开头创建 CSV writer
-    let csv_path = rfc_output_dir.join(format!("../../agent_input_source/rfc{}_sections.csv", rfc_number));
+    let csv_path = rfc_output_dir.join(format!(
+        "../../agent_input_source/rfc{}_sections.csv",
+        rfc_number
+    ));
     let mut csv_writer = csv::Writer::from_path(&csv_path)?;
     // 写入 CSV 表头
     csv_writer.write_record(&["index", "section", "content"])?;
-    
+
     // 先收集需要处理的章节
     let filtered_sections: Vec<_> = sections
         .iter()
@@ -262,7 +265,7 @@ fn save_sections(
                 && !content.trim().is_empty()
         })
         .collect();
-    
+
     // 并行处理 txt 文件
     filtered_sections
         .par_iter()
@@ -274,15 +277,17 @@ fn save_sections(
                 saved_count.fetch_add(1, AtomicOrdering::Relaxed);
             }
         });
-    
+
     // 顺序写入 CSV
-    for (i, (number, _, content)) in filtered_sections {
+    let mut reorder_num = 1;
+    for (_, (number, _, content)) in filtered_sections {
         let full_title = get_full_title(number, section_map);
         csv_writer.write_record(&[
-            i.to_string(),
+            reorder_num.to_string(),
             full_title,
             content.trim().to_string(),
         ])?;
+        reorder_num += 1;
     }
 
     // 刷新 CSV writer
@@ -383,11 +388,7 @@ fn get_full_title(number: &SectionNumber, section_map: &BTreeMap<SectionNumber, 
 /// 作者：yuanfeng xie
 /// 日期：2024/07/29
 fn generate_file_name(rfc_number: &str, index: usize) -> String {
-    format!(
-        "{}_slice_{:03}.txt",
-        rfc_number,
-        index + 1,
-    )
+    format!("{}_slice_{:03}.txt", rfc_number, index + 1,)
 }
 
 /// 保存章节文件
@@ -438,12 +439,12 @@ fn write_section<W: Write>(writer: &mut W, full_title: &str, content: &str) -> I
         "section": full_title,
         "content": content
     });
-    
+
     writeln!(
-        writer, 
+        writer,
         "{}",
         serde_json::to_string_pretty(&json_obj).unwrap()
     )?;
-    
+
     Ok(())
 }

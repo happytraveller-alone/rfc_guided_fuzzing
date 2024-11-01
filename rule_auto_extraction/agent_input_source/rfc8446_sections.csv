@@ -1,5 +1,5 @@
 index,section,content
-14,4.. Handshake Protocol,"The handshake protocol is used to negotiate the security parameters
+1,4.. Handshake Protocol,"The handshake protocol is used to negotiate the security parameters
    of a connection.  Handshake messages are supplied to the TLS record
    layer, where they are encapsulated within one or more TLSPlaintext or
    TLSCiphertext structures which are processed and transmitted as
@@ -44,11 +44,11 @@ index,section,content
 
    New handshake message types are assigned by IANA as described in
    Section 11."
-15,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
+2,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
    capabilities of the client and the server and to establish shared
    secrets, including the traffic keys used to protect the rest of the
    handshake and the data."
-16,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,"In TLS, the cryptographic negotiation proceeds by the client offering
+3,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,"In TLS, the cryptographic negotiation proceeds by the client offering
    the following four sets of options in its ClientHello:
 
    -  A list of cipher suites which indicates the AEAD algorithm/HKDF
@@ -110,7 +110,7 @@ index,section,content
    (i.e., there is no overlap between the client and server parameters),
    it MUST abort the handshake with either a ""handshake_failure"" or
    ""insufficient_security"" fatal alert (see Section 6)."
-17,4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello,"When a client first connects to a server, it is REQUIRED to send the
+4,4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello,"When a client first connects to a server, it is REQUIRED to send the
    ClientHello as its first TLS message.  The client will also send a
    ClientHello when the server has responded to its ClientHello with a
    HelloRetryRequest.  In that case, the client MUST send the same
@@ -248,7 +248,7 @@ index,section,content
    ServerHello or HelloRetryRequest message.  If early data is in use,
    the client may transmit early Application Data (Section 2.3) while
    waiting for the next handshake message."
-18,4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello,"The server will send this message in response to a ClientHello
+5,4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello,"The server will send this message in response to a ClientHello
    message to proceed with the handshake if it is able to negotiate an
    acceptable set of handshake parameters based on the ClientHello.
 
@@ -355,7 +355,7 @@ index,section,content
    and which receives a TLS 1.3 ServerHello during renegotiation MUST
    abort the handshake with a ""protocol_version"" alert.  Note that
    renegotiation is not possible when TLS 1.3 has been negotiated."
-19,4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request,"The server will send this message in response to a ClientHello
+6,4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request,"The server will send this message in response to a ClientHello
    message if it is able to find an acceptable set of parameters but the
    ClientHello does not contain sufficient information to proceed with
    the handshake.  As discussed in Section 4.1.3, the HelloRetryRequest
@@ -413,7 +413,7 @@ index,section,content
    ""supported_versions"" extension MUST be retained in the ServerHello,
    and a client MUST abort the handshake with an ""illegal_parameter""
    alert if the value changes."
-20,4.2.. Handshake Protocol_Extensions,"A number of TLS messages contain tag-length-value encoded extensions
+7,4.2.. Handshake Protocol_Extensions,"A number of TLS messages contain tag-length-value encoded extensions
    structures.
 
     struct {
@@ -566,7 +566,7 @@ index,section,content
       and implementors should be aware of the fact that until the
       handshake has been authenticated, active attackers can modify
       messages and insert, remove, or replace extensions."
-21,4.2.1.. Handshake Protocol_Extensions_Supported Versions,"struct {
+8,4.2.1.. Handshake Protocol_Extensions_Supported Versions,"struct {
           select (Handshake.msg_type) {
               case client_hello:
                    ProtocolVersion versions<2..254>;
@@ -621,7 +621,7 @@ index,section,content
    version not offered by the client or contains a version prior to
    TLS 1.3, the client MUST abort the handshake with an
    ""illegal_parameter"" alert."
-22,4.2.2.. Handshake Protocol_Extensions_Cookie,"struct {
+9,4.2.2.. Handshake Protocol_Extensions_Cookie,"struct {
           opaque cookie<1..2^16-1>;
       } Cookie;
 
@@ -652,7 +652,7 @@ index,section,content
    ClientHello (see Section 5).  Since the server is not storing any
    state, this will appear as if it were the first message to be
    received.  Servers operating statelessly MUST ignore these records."
-23,4.2.3.. Handshake Protocol_Extensions_Signature Algorithms,"TLS 1.3 provides two extensions for indicating which signature
+10,4.2.3.. Handshake Protocol_Extensions_Signature Algorithms,"TLS 1.3 provides two extensions for indicating which signature
    algorithms may be used in digital signatures.  The
    ""signature_algorithms_cert"" extension applies to signatures in
    certificates, and the ""signature_algorithms"" extension, which
@@ -818,7 +818,7 @@ index,section,content
       mandatory in TLS 1.3) MUST be prepared to accept a signature using
       that scheme even when TLS 1.2 is negotiated.  In TLS 1.2,
       RSASSA-PSS is used with RSA cipher suites."
-24,4.2.4.. Handshake Protocol_Extensions_Certificate Authorities,"The ""certificate_authorities"" extension is used to indicate the
+11,4.2.4.. Handshake Protocol_Extensions_Certificate Authorities,"The ""certificate_authorities"" extension is used to indicate the
    certificate authorities (CAs) which an endpoint supports and which
    SHOULD be used by the receiving endpoint to guide certificate
    selection.
@@ -847,7 +847,7 @@ index,section,content
    purpose but is more complicated, is not used in TLS 1.3 (although it
    may appear in ClientHello messages from clients which are offering
    prior versions of TLS)."
-25,4.2.5.. Handshake Protocol_Extensions_OID Filters,"The ""oid_filters"" extension allows servers to provide a set of
+12,4.2.5.. Handshake Protocol_Extensions_OID Filters,"The ""oid_filters"" extension allows servers to provide a set of
    OID/value pairs which it would like the client's certificate to
    match.  This extension, if provided by the server, MUST only be sent
    in the CertificateRequest message.
@@ -898,7 +898,7 @@ index,section,content
 
    Separate specifications may define matching rules for other
    certificate extensions."
-26,4.2.6.. Handshake Protocol_Extensions_Post-Handshake Client Authentication,"The ""post_handshake_auth"" extension is used to indicate that a client
+13,4.2.6.. Handshake Protocol_Extensions_Post-Handshake Client Authentication,"The ""post_handshake_auth"" extension is used to indicate that a client
    is willing to perform post-handshake authentication (Section 4.6.2).
    Servers MUST NOT send a post-handshake CertificateRequest to clients
    which do not offer this extension.  Servers MUST NOT send this
@@ -908,7 +908,7 @@ index,section,content
 
    The ""extension_data"" field of the ""post_handshake_auth"" extension is
    zero length."
-27,4.2.7.. Handshake Protocol_Extensions_Supported Groups,"When sent by the client, the ""supported_groups"" extension indicates
+14,4.2.7.. Handshake Protocol_Extensions_Supported Groups,"When sent by the client, the ""supported_groups"" extension indicates
    the named groups which the client supports for key exchange, ordered
    from most preferred to least preferred.
 
@@ -964,7 +964,7 @@ index,section,content
    ""supported_groups"" to update the client's view of its preferences;
    this extension SHOULD contain all groups the server supports,
    regardless of whether they are currently supported by the client."
-28,4.2.8.. Handshake Protocol_Extensions_Key Share,"The ""key_share"" extension contains the endpoint's cryptographic
+15,4.2.8.. Handshake Protocol_Extensions_Key Share,"The ""key_share"" extension contains the endpoint's cryptographic
    parameters.
 
    Clients MAY send an empty client_shares vector in order to request
@@ -1059,7 +1059,7 @@ index,section,content
    verify that the selected NamedGroup in the ServerHello is the same as
    that in the HelloRetryRequest.  If this check fails, the client MUST
    abort the handshake with an ""illegal_parameter"" alert."
-29,4.2.8.1.. Handshake Protocol_Extensions_Key Share_Diffie-Hellman Parameters,"Diffie-Hellman [DH76] parameters for both clients and servers are
+16,4.2.8.1.. Handshake Protocol_Extensions_Key Share_Diffie-Hellman Parameters,"Diffie-Hellman [DH76] parameters for both clients and servers are
    encoded in the opaque key_exchange field of a KeyShareEntry in a
    KeyShare structure.  The opaque value contains the Diffie-Hellman
    public value (Y = g^X mod p) for the specified group (see [RFC7919]
@@ -1072,7 +1072,7 @@ index,section,content
    Peers MUST validate each other's public key Y by ensuring that 1 < Y
    < p-1.  This check ensures that the remote peer is properly behaved
    and isn't forcing the local system into a small subgroup."
-30,4.2.8.2.. Handshake Protocol_Extensions_Key Share_ECDHE Parameters,"ECDHE parameters for both clients and servers are encoded in the
+17,4.2.8.2.. Handshake Protocol_Extensions_Key Share_ECDHE Parameters,"ECDHE parameters for both clients and servers are encoded in the
    opaque key_exchange field of a KeyShareEntry in a KeyShare structure.
 
    For secp256r1, secp384r1, and secp521r1, the contents are the
@@ -1109,7 +1109,7 @@ index,section,content
    Note: Versions of TLS prior to 1.3 permitted point format
    negotiation; TLS 1.3 removes this feature in favor of a single point
    format for each curve."
-31,4.2.9.. Handshake Protocol_Extensions_Pre-Shared Key Exchange Modes,"In order to use PSKs, clients MUST also send a
+18,4.2.9.. Handshake Protocol_Extensions_Pre-Shared Key Exchange Modes,"In order to use PSKs, clients MUST also send a
    ""psk_key_exchange_modes"" extension.  The semantics of this extension
    are that the client only supports the use of PSKs with these modes,
    which restricts both the use of PSKs offered in this ClientHello and
@@ -1144,7 +1144,7 @@ index,section,content
    protocol messages unambiguously identify which mode was selected by
    the server; at present, this is indicated by the presence of the
    ""key_share"" in the ServerHello."
-32,4.2.10.. Handshake Protocol_Extensions_Early Data Indication,"When a PSK is used and early data is allowed for that PSK, the client
+19,4.2.10.. Handshake Protocol_Extensions_Early Data Indication,"When a PSK is used and early data is allowed for that PSK, the client
    can send Application Data in its first flight of messages.  If the
    client opts to do so, it MUST supply both the ""pre_shared_key"" and
    ""early_data"" extensions.
@@ -1269,7 +1269,7 @@ index,section,content
    is appropriate.  A TLS implementation MUST NOT automatically resend
    early data unless the negotiated connection selects the same ALPN
    protocol."
-33,4.2.11.. Handshake Protocol_Extensions_Pre-Shared Key Extension,"The ""pre_shared_key"" extension is used to negotiate the identity of
+20,4.2.11.. Handshake Protocol_Extensions_Pre-Shared Key Extension,"The ""pre_shared_key"" extension is used to negotiate the identity of
    the pre-shared key to be used with a given handshake in association
    with PSK key establishment.
 
@@ -1376,7 +1376,7 @@ index,section,content
    ClientHello (this facilitates implementation as described below).
    Servers MUST check that it is the last extension and otherwise fail
    the handshake with an ""illegal_parameter"" alert."
-34,4.2.11.1.. Handshake Protocol_Extensions_Pre-Shared Key Extension_Ticket Age,"The client's view of the age of a ticket is the time since the
+21,4.2.11.1.. Handshake Protocol_Extensions_Pre-Shared Key Extension_Ticket Age,"The client's view of the age of a ticket is the time since the
    receipt of the NewSessionTicket message.  Clients MUST NOT attempt to
    use tickets which have ages greater than the ""ticket_lifetime"" value
    which was provided with the ticket.  The ""obfuscated_ticket_age""
@@ -1389,7 +1389,7 @@ index,section,content
    is in seconds but the ""obfuscated_ticket_age"" is in milliseconds.
    Because ticket lifetimes are restricted to a week, 32 bits is enough
    to represent any plausible age, even in milliseconds."
-35,4.2.11.2.. Handshake Protocol_Extensions_Pre-Shared Key Extension_PSK Binder,"The PSK binder value forms a binding between a PSK and the current
+22,4.2.11.2.. Handshake Protocol_Extensions_Pre-Shared Key Extension_PSK Binder,"The PSK binder value forms a binding between a PSK and the current
    handshake, as well as a binding between the handshake in which the
    PSK was generated (if via a NewSessionTicket message) and the current
    handshake.  Each entry in the binders list is computed as an HMAC
@@ -1427,18 +1427,18 @@ index,section,content
    Truncate(ClientHello1) is hashed directly, but in the second flight,
    ClientHello1 is hashed and then reinjected as a ""message_hash""
    message, as described in Section 4.4.1."
-36,4.2.11.3.. Handshake Protocol_Extensions_Pre-Shared Key Extension_Processing Order,"Clients are permitted to ""stream"" 0-RTT data until they receive the
+23,4.2.11.3.. Handshake Protocol_Extensions_Pre-Shared Key Extension_Processing Order,"Clients are permitted to ""stream"" 0-RTT data until they receive the
    server's Finished, only then sending the EndOfEarlyData message,
    followed by the rest of the handshake.  In order to avoid deadlocks,
    when accepting ""early_data"", servers MUST process the client's
    ClientHello and then immediately send their flight of messages,
    rather than waiting for the client's EndOfEarlyData message before
    sending its ServerHello."
-37,4.3.. Handshake Protocol_Server Parameters,"The next two messages from the server, EncryptedExtensions and
+24,4.3.. Handshake Protocol_Server Parameters,"The next two messages from the server, EncryptedExtensions and
    CertificateRequest, contain information from the server that
    determines the rest of the handshake.  These messages are encrypted
    with keys derived from the server_handshake_traffic_secret."
-38,4.3.1.. Handshake Protocol_Server Parameters_Encrypted Extensions,"In all handshakes, the server MUST send the EncryptedExtensions
+25,4.3.1.. Handshake Protocol_Server Parameters_Encrypted Extensions,"In all handshakes, the server MUST send the EncryptedExtensions
    message immediately after the ServerHello message.  This is the first
    message that is encrypted under keys derived from the
    server_handshake_traffic_secret.
@@ -1458,7 +1458,7 @@ index,section,content
 
    extensions:  A list of extensions.  For more information, see the
       table in Section 4.2."
-39,4.3.2.. Handshake Protocol_Server Parameters_Certificate Request,"A server which is authenticating with a certificate MAY optionally
+26,4.3.2.. Handshake Protocol_Server Parameters_Certificate Request,"A server which is authenticating with a certificate MAY optionally
    request a certificate from the client.  This message, if sent, MUST
    follow EncryptedExtensions.
 
@@ -1499,7 +1499,7 @@ index,section,content
    send it in post-handshake authentication (see Section 4.6.2) provided
    that the client has sent the ""post_handshake_auth"" extension (see
    Section 4.2.6)."
-40,4.4.. Handshake Protocol_Authentication Messages,"As discussed in Section 2, TLS generally uses a common set of
+27,4.4.. Handshake Protocol_Authentication Messages,"As discussed in Section 2, TLS generally uses a common set of
    messages for authentication, key confirmation, and handshake
    integrity: Certificate, CertificateVerify, and Finished.  (The PSK
    binders also perform key confirmation, in a similar fashion.)  These
@@ -1552,7 +1552,7 @@ index,section,content
    | Handshake | Finished +              | secret_N                    |
    |           | CertificateRequest      |                             |
    +-----------+-------------------------+-----------------------------+"
-41,4.4.1.. Handshake Protocol_Authentication Messages_The Transcript Hash,"Many of the cryptographic computations in TLS make use of a
+28,4.4.1.. Handshake Protocol_Authentication Messages_The Transcript Hash,"Many of the cryptographic computations in TLS make use of a
    transcript hash.  This value is computed by hashing the concatenation
    of each included handshake message, including the handshake message
    header carrying the handshake message type and length fields, but not
@@ -1589,7 +1589,7 @@ index,section,content
    however, that subsequent post-handshake authentications do not
    include each other, just the messages through the end of the main
    handshake."
-42,4.4.2.. Handshake Protocol_Authentication Messages_Certificate,"This message conveys the endpoint's certificate chain to the peer.
+29,4.4.2.. Handshake Protocol_Authentication Messages_Certificate,"This message conveys the endpoint's certificate chain to the peer.
 
    The server MUST send a Certificate message whenever the agreed-upon
    key exchange method uses certificates for authentication (this
@@ -1683,7 +1683,7 @@ index,section,content
    will send an empty certificate_list if it does not have an
    appropriate certificate to send in response to the server's
    authentication request."
-43,4.4.2.1.. Handshake Protocol_Authentication Messages_Certificate_OCSP Status and SCT Extensions,"[RFC6066] and [RFC6961] provide extensions to negotiate the server
+30,4.4.2.1.. Handshake Protocol_Authentication Messages_Certificate_OCSP Status and SCT Extensions,"[RFC6066] and [RFC6961] provide extensions to negotiate the server
    sending OCSP responses to the client.  In TLS 1.2 and below, the
    server replies with an empty extension to indicate negotiation of
    this extension and the OCSP information is carried in a
@@ -1712,7 +1712,7 @@ index,section,content
    Signed Certificate Timestamp (SCT) as an extension in the ServerHello
    in TLS 1.2 and below.  In TLS 1.3, the server's SCT information is
    carried in an extension in the CertificateEntry."
-44,4.4.2.2.. Handshake Protocol_Authentication Messages_Certificate_Server Certificate Selection,"The following rules apply to the certificates sent by the server:
+31,4.4.2.2.. Handshake Protocol_Authentication Messages_Certificate_Server Certificate Selection,"The following rules apply to the certificates sent by the server:
 
    -  The certificate type MUST be X.509v3 [RFC5280], unless explicitly
       negotiated otherwise (e.g., [RFC7250]).
@@ -1756,7 +1756,7 @@ index,section,content
    If the server has multiple certificates, it chooses one of them based
    on the above-mentioned criteria (in addition to other criteria, such
    as transport-layer endpoint, local configuration, and preferences)."
-45,4.4.2.3.. Handshake Protocol_Authentication Messages_Certificate_Client Certificate Selection,"The following rules apply to certificates sent by the client:
+32,4.4.2.3.. Handshake Protocol_Authentication Messages_Certificate_Client Certificate Selection,"The following rules apply to certificates sent by the client:
 
    -  The certificate type MUST be X.509v3 [RFC5280], unless explicitly
       negotiated otherwise (e.g., [RFC7250]).
@@ -1775,7 +1775,7 @@ index,section,content
       ""oid_filters"" extension, the end-entity certificate MUST match the
       extension OIDs that are recognized by the client, as described in
       Section 4.2.5."
-46,4.4.2.4.. Handshake Protocol_Authentication Messages_Certificate_Receiving a Certificate Message,"In general, detailed certificate validation procedures are out of
+33,4.4.2.4.. Handshake Protocol_Authentication Messages_Certificate_Receiving a Certificate Message,"In general, detailed certificate validation procedures are out of
    scope for TLS (see [RFC5280]).  This section provides TLS-specific
    requirements.
 
@@ -1807,7 +1807,7 @@ index,section,content
    Note that a certificate containing a key for one signature algorithm
    MAY be signed using a different signature algorithm (for instance, an
    RSA key signed with an ECDSA key)."
-47,4.4.3.. Handshake Protocol_Authentication Messages_Certificate Verify,"This message is used to provide explicit proof that an endpoint
+34,4.4.3.. Handshake Protocol_Authentication Messages_Certificate Verify,"This message is used to provide explicit proof that an endpoint
    possesses the private key corresponding to its certificate.  The
    CertificateVerify message also provides integrity for the handshake
    up to this point.  Servers MUST send this message when authenticating
@@ -1906,7 +1906,7 @@ index,section,content
 
    If the verification fails, the receiver MUST terminate the handshake
    with a ""decrypt_error"" alert."
-48,4.4.4.. Handshake Protocol_Authentication Messages_Finished,"The Finished message is the final message in the Authentication
+35,4.4.4.. Handshake Protocol_Authentication Messages_Finished,"The Finished message is the final message in the Authentication
    Block.  It is essential for providing authentication of the handshake
    and of the computed keys.
 
@@ -1964,7 +1964,7 @@ index,section,content
    appropriate application traffic key as described in Section 7.2.  In
    particular, this includes any alerts sent by the server in response
    to client Certificate and CertificateVerify messages."
-49,4.5.. Handshake Protocol_End of Early Data,"struct {} EndOfEarlyData;
+36,4.5.. Handshake Protocol_End of Early Data,"struct {} EndOfEarlyData;
 
    If the server sent an ""early_data"" extension in EncryptedExtensions,
    the client MUST send an EndOfEarlyData message after receiving the
@@ -1978,10 +1978,10 @@ index,section,content
    terminate the connection with an ""unexpected_message"" alert.  This
    message is encrypted under keys derived from the
    client_early_traffic_secret."
-50,4.6.. Handshake Protocol_Post-Handshake Messages,"TLS also allows other messages to be sent after the main handshake.
+37,4.6.. Handshake Protocol_Post-Handshake Messages,"TLS also allows other messages to be sent after the main handshake.
    These messages use a handshake content type and are encrypted under
    the appropriate application traffic key."
-51,4.6.1.. Handshake Protocol_Post-Handshake Messages_New Session Ticket Message,"At any time after the server has received the client Finished
+38,4.6.1.. Handshake Protocol_Post-Handshake Messages_New Session Ticket Message,"At any time after the server has received the client Finished
    message, it MAY send a NewSessionTicket message.  This message
    creates a unique association between the ticket value and a secret
    PSK derived from the resumption master secret (see Section 7).
@@ -2096,7 +2096,7 @@ index,section,content
    material; these limits should take into account the lifetime of the
    peer's certificate, the likelihood of intervening revocation, and the
    time since the peer's online CertificateVerify signature."
-52,4.6.2.. Handshake Protocol_Post-Handshake Messages_Post-Handshake Authentication,"When the client has sent the ""post_handshake_auth"" extension (see
+39,4.6.2.. Handshake Protocol_Post-Handshake Messages_Post-Handshake Authentication,"When the client has sent the ""post_handshake_auth"" extension (see
    Section 4.2.6), a server MAY request client authentication at any
    time after the handshake has completed by sending a
    CertificateRequest message.  The client MUST respond with the
@@ -2120,7 +2120,7 @@ index,section,content
    respond to them in a different order than they were received (the
    certificate_request_context value allows the server to disambiguate
    the responses)."
-53,4.6.3.. Handshake Protocol_Post-Handshake Messages_Key and Initialization Vector Update,"The KeyUpdate handshake message is used to indicate that the sender
+40,4.6.3.. Handshake Protocol_Post-Handshake Messages_Key and Initialization Vector Update,"The KeyUpdate handshake message is used to indicate that the sender
    is updating its sending cryptographic keys.  This message can be sent
    by either peer after it has sent a Finished message.  Implementations
    that receive a KeyUpdate message prior to receiving a Finished

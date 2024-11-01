@@ -1,5 +1,5 @@
 index,section,content
-14,4.. Handshake Protocol,"The handshake protocol is used to negotiate the security parameters
+1,4.. Handshake Protocol,"The handshake protocol is used to negotiate the security parameters
    of a connection.  Handshake messages are supplied to the TLS record
    layer, where they are encapsulated within one or more TLSPlaintext or
    TLSCiphertext structures which are processed and transmitted as
@@ -44,11 +44,11 @@ index,section,content
 
    New handshake message types are assigned by IANA as described in
    Section 11."
-15,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
+2,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
    capabilities of the client and the server and to establish shared
    secrets, including the traffic keys used to protect the rest of the
    handshake and the data."
-16,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,"In TLS, the cryptographic negotiation proceeds by the client offering
+3,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,"In TLS, the cryptographic negotiation proceeds by the client offering
    the following four sets of options in its ClientHello:
 
    -  A list of cipher suites which indicates the AEAD algorithm/HKDF

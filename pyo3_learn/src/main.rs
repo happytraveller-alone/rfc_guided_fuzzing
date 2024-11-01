@@ -233,8 +233,8 @@ async fn process_messages(messages: Vec<String>, bot_name: &str, results: Arc<Mu
                 for retry in 0..MAX_RETRIES {
                     match client.send_message(&bot_name, &message).await {
                         Ok(response) => {
-                            println!("Message {} succeeded on attempt {}", absolute_index, retry + 1);
-                            results.lock().unwrap().insert(absolute_index, response.clone());
+                            println!("Message {} succeeded on attempt {}", absolute_index + 1, retry + 1);
+                            results.lock().unwrap().insert(absolute_index + 1, response.clone());
                             success = true;
                             completed.fetch_add(1, Ordering::SeqCst);
                             println!("Progress: {}/{}", completed.load(Ordering::SeqCst), message_len);
