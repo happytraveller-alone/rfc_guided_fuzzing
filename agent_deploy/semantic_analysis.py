@@ -180,7 +180,19 @@ MUST maintain:
 ### 4. Output Format
 
 #### Structure Template
-{<rfc8446_section>}[<tls13_topic>]{<content_block>}
+{
+  {
+    "section_name": <rfc8446_section>,
+    "title": <tls13_topic>,
+    "content": <content_block>
+  },
+  {
+    "section_name": <rfc8446_section>,
+    "title": <tls13_topic>,
+    "content": <content_block>
+  },
+  ...
+}
 
 Where:
 - rfc8446_section = Original RFC section number
