@@ -176,36 +176,114 @@ Output only the intersection of all iterations.
 ## FEW-SHOT
 ### EXAMPLE ONE
 #### INPUT
-Section: 4.2.. Handshake Protocol_Extensions
-Title: Extension Order and Duplication
-Content:
-When multiple extensions of different types are present, the extensions MAY appear in any order, with the exception of "pre_shared_key" which MUST be the last extension in the ClientHello (but can appear anywhere in the ServerHello extensions block). There MUST NOT be more than one extension of the same type in a given extension block.
+{
+  "Section": "4.2.. Handshake Protocol_Extensions",
+  "Title": "Extension Order and Duplication",
+  "Content": "When multiple extensions of different types are present, the extensions MAY appear in any order, with the exception of \"pre_shared_key\" which MUST be the last extension in the ClientHello (but can appear anywhere in the ServerHello extensions block). There MUST NOT be more than one extension of the same type in a given extension block."
+}
 #### OUTPUT
-<CLI-MSG-CONST> <1> (Clients MUST place the "pre_shared_key" extension last in ClientHello, while other extensions MAY appear in any order) + <SRV-MSG-PROC> <1> (Servers MUST verify the "pre_shared_key" is the last extension in ClientHello)
-<CLI-MSG-CONST> <1> (Clients MUST NOT include multiple extensions of the same type in any extension block) + <SRV-MSG-PROC> <1> (Servers MUST reject ClientHello messages containing duplicate extension types)
+[
+  {
+    "message_construction": {
+      "Type": "CLI-MSG-CONST",
+      "Explicitness": 1,
+      "Description": "Clients MUST place the \"pre_shared_key\" extension last in ClientHello, while other extensions MAY appear in any order"
+    },
+    "message_processing": { 
+      "Type": "SRV-MSG-PROC",
+      "Explicitness": 1, 
+      "Description": "Servers MUST verify the \"pre_shared_key\" is the last extension in ClientHello"
+    }
+  },
+  {
+    "message_construction": {
+      "Type": "CLI-MSG-CONST",
+      "Explicitness": 1,
+      "Description": "Clients MUST NOT include multiple extensions of the same type in any extension block"
+    },
+    "message_processing": { 
+      "Type": "SRV-MSG-PROC",
+      "Explicitness": 1, 
+      "Description": "Servers MUST reject ClientHello messages containing duplicate extension types"
+    }
+  }
+]
 ### EXAMPLE TWO
 #### INPUT
-Section: 4.2.8.. Handshake Protocol_Extensions_Key Share
-Title: HelloRetryRequest KeyShare Data
-Content:
-In a HelloRetryRequest message, the "extension_data" field of this extension contains a KeyShareHelloRetryRequest value: selected_group: The mutually supported group the server intends to negotiate and is requesting a retried ClientHello/KeyShare for. Upon receipt of this extension in a HelloRetryRequest, the client MUST verify that (1) the selected_group field corresponds to a group which was provided in the "supported_groups" extension in the original ClientHello and (2) the selected_group field does not correspond to a group which was provided in the "key_share" extension in the original ClientHello. If either of these checks fails, then the client MUST abort the handshake with an "illegal_parameter" alert. Otherwise, when sending the new ClientHello, the client MUST replace the original "key_share" extension with one containing only a new KeyShareEntry for the group indicated in the selected_group field of the triggering HelloRetryRequest.'''
+{
+  "Section": "4.2.8.. Handshake Protocol_Extensions_Key Share",
+  "Title": "HelloRetryRequest KeyShare Data",
+  "Content": "In a HelloRetryRequest message, the \"extension_data\" field of this extension contains a KeyShareHelloRetryRequest value: selected_group: The mutually supported group the server intends to negotiate and is requesting a retried ClientHello/KeyShare for. Upon receipt of this extension in a HelloRetryRequest, the client MUST verify that (1) the selected_group field corresponds to a group which was provided in the \"supported_groups\" extension in the original ClientHello and (2) the selected_group field does not correspond to a group which was provided in the \"key_share\" extension in the original ClientHello. If either of these checks fails, then the client MUST abort the handshake with an \"illegal_parameter\" alert. Otherwise, when sending the new ClientHello, the client MUST replace the original \"key_share\" extension with one containing only a new KeyShareEntry for the group indicated in the selected_group field of the triggering HelloRetryRequest."
+}
 #### OUTPUT
-<CLI-MSG-PROC> <1> (Upon receipt of HelloRetryRequest, clients MUST perform two verifications: (1) selected_group exists in original "supported_groups" extension (2) selected_group not in original "key_share" extension) + <CLI-MSG-CONST> <1> (After successful verification, clients MUST send new ClientHello with single KeyShareEntry for the selected_group)
-<CLI-MSG-PROC> <1> (If either verification fails, clients MUST abort the handshake) + <CLI-MSG-CONST> <1> (Clients MUST send "illegal_parameter" alert when verification fails)
+[
+  {
+    "message_processing": {
+      "Type": "CLI-MSG-PROC",
+      "Explicitness": 1,
+      "Description": "Upon receipt of HelloRetryRequest, clients MUST perform two verifications: (1) selected_group exists in original \"supported_groups\" extension (2) selected_group not in original \"key_share\" extension"
+    },
+    "message_construction": {
+      "Type": "CLI-MSG-CONST",
+      "Explicitness": 1,
+      "Description": "After successful verification, clients MUST send new ClientHello with single KeyShareEntry for the selected_group"
+    }
+  },
+  {
+    "message_processing": {
+      "Type": "CLI-MSG-PROC",
+      "Explicitness": 1,
+      "Description": "If either verification fails, clients MUST abort the handshake"
+    },
+    "message_construction": {
+      "Type": "CLI-MSG-CONST",
+      "Explicitness": 1,
+      "Description": "Clients MUST send \"illegal_parameter\" alert when verification fails"
+    }
+  }
+]
 
 ### EXAMPLE THREE
 #### INPUT
-Section: 4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello
-Title: ClientHello Requirements
-Content:
-When a client first connects to a server, it is REQUIRED to send the ClientHello as its first TLS message. The client will also send a ClientHello when the server has responded to its ClientHello with a HelloRetryRequest. In that case, the client MUST send the same ClientHello without modification, except as follows: If a "key_share" extension was supplied in the HelloRetryRequest, replacing the list of shares with a list containing a single KeyShareEntry from the indicated group. Removing the "early_data" extension (Section 4.2.10) if one was present. Early data is not permitted after a HelloRetryRequest. Including a "cookie" extension if one was provided in the HelloRetryRequest. Updating the "pre_shared_key" extension if present by recomputing the "obfuscated_ticket_age" and binder values and (optionally) removing any PSKs which are incompatible with the server's indicated cipher suite. Optionally adding, removing, or changing the length of the "padding" extension [RFC7685]. Other modifications that may be allowed by an extension defined in the future and present in the HelloRetryRequest.
+{
+  "Section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+  "Title": "ClientHello Requirements",
+  "Content": "When a client first connects to a server, it is REQUIRED to send the ClientHello as its first TLS message. The client will also send a ClientHello when the server has responded to its ClientHello with a HelloRetryRequest. In that case, the client MUST send the same ClientHello without modification, except as follows: If a \"key_share\" extension was supplied in the HelloRetryRequest, replacing the list of shares with a list containing a single KeyShareEntry from the indicated group. Removing the \"early_data\" extension (Section 4.2.10) if one was present. Early data is not permitted after a HelloRetryRequest. Including a \"cookie\" extension if one was provided in the HelloRetryRequest. Updating the \"pre_shared_key\" extension if present by recomputing the \"obfuscated_ticket_age\" and binder values and (optionally) removing any PSKs which are incompatible with the server's indicated cipher suite. Optionally adding, removing, or changing the length of the \"padding\" extension [RFC7685]. Other modifications that may be allowed by an extension defined in the future and present in the HelloRetryRequest."
+}
 #### OUTPUT
-<CLI-MSG-CONST> <1> (After HelloRetryRequest, clients MUST send modified ClientHello with: (1) mandatory "key_share" changes if requested (2) removed "early_data" extension if present (3) included "cookie" extension if provided) + <SRV-MSG-PROC> <0> (Servers MUST verify these mandatory modifications in the new ClientHello)
-<CLI-MSG-CONST> <1> (Clients MUST update "pre_shared_key" values and MAY modify "padding" extension) + <SRV-MSG-PROC> <0> (Servers MUST verify updated "pre_shared_key" values and accept optional "padding" modifications)
+[
+  {
+    "message_construction": {
+      "Type": "CLI-MSG-CONST",
+      "Explicitness": 1,
+      "Description": "After HelloRetryRequest, clients MUST send modified ClientHello with: (1) mandatory \"key_share\" changes if requested (2) removed \"early_data\" extension if present (3) included \"cookie\" extension if provided"
+    },
+    "message_processing": {
+      "Type": "SRV-MSG-PROC",
+      "Explicitness": 0,
+      "Description": "Servers MUST verify these mandatory modifications in the new ClientHello"
+    }
+  },
+  {
+    "message_construction": {
+      "Type": "CLI-MSG-CONST",
+      "Explicitness": 1,
+      "Description": "Clients MUST update \"pre_shared_key\" values and MAY modify \"padding\" extension"
+    },
+    "message_processing": {
+      "Type": "SRV-MSG-PROC",
+      "Explicitness": 0,
+      "Description": "Servers MUST verify updated \"pre_shared_key\" values and accept optional \"padding\" modifications"
+    }
+  }
+]
 ## Real Input Processing
-Section: [Input section name]
-Title: [Input title]
-Content: [Input content]
+{
+   "Section": [Input section name]
+   "Title": [Input title]
+   "Content": [Input content]
+}
+
 """.strip()
 
 

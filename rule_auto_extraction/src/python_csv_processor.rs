@@ -107,8 +107,8 @@ impl SharedPoeClient {
         {
             let mut last_time = self.last_request_time.lock().unwrap();
             let elapsed = last_time.elapsed();
-            if elapsed < Duration::from_secs(5) {
-                thread::sleep(Duration::from_secs(5) - elapsed);
+            if elapsed < Duration::from_secs(8) {
+                thread::sleep(Duration::from_secs(8) - elapsed);
             }
             *last_time = Instant::now();
         }
@@ -195,7 +195,7 @@ async fn process_messages(
         let buffer_time = (chunk_size as f64).sqrt() as u64 * 10;
         let retry_buffer = (chunk_size as u64 * 10 / 100) * 10;
         let total_timeout = base_time + buffer_time + retry_buffer;
-        Duration::from_secs(total_timeout.clamp(120, 600)) // 2-10分钟之间
+        Duration::from_secs(total_timeout.clamp(150, 600)) // 2-10分钟之间
     };
 
     println!("Processing messages in chunks of {}", chunk_size);
@@ -256,17 +256,15 @@ async fn process_messages(
                 if total > 0 && total % 5 == 0 {
                     let success_rate = current_success as f64 / total as f64;
                     println!("Current success rate: {:.2}%", success_rate * 100.0);
-
-                    if success_rate > 0.8 && current_max_threads < max_threads {
+                    
+                    if success_rate < 1.0 {
+                        eprintln!("Success rate is below 100%. Exiting program.");
+                        std::process::exit(1);
+                    }
+                    if success_rate == 1.0 && current_max_threads < max_threads {
                         current_max_threads = (current_max_threads * 3 / 2).min(max_threads);
                         println!(
                             "Increasing threads to {} based on good performance",
-                            current_max_threads
-                        );
-                    } else if success_rate < 0.5 && current_max_threads > initial_threads {
-                        current_max_threads = (current_max_threads * 2 / 3).max(initial_threads);
-                        println!(
-                            "Decreasing threads to {} based on poor performance",
                             current_max_threads
                         );
                     }
@@ -347,7 +345,7 @@ async fn process_messages(
                 *count -= 1;
                 println!(
                     "Message {} in chunk {} completed",
-                    absolute_index,
+                    absolute_index + 1,
                     chunk_index + 1
                 );
             });
@@ -383,16 +381,16 @@ async fn process_messages(
     );
 
     // 按序号打印结果
-    let mut sorted_results: Vec<_> = results.iter().collect();
-    sorted_results.sort_by_key(|&(k, _)| k);
-    for (index, response) in sorted_results {
-        println!(
-            "Message {}: Response length: {} characters",
-            index,
-            response.len()
-        );
-        // println!("Response preview: {:.100}...", response);
-    }
+    // let mut sorted_results: Vec<_> = results.iter().collect();
+    // sorted_results.sort_by_key(|&(k, _)| k);
+    // for (index, response) in sorted_results {
+    //     println!(
+    //         "Message {}: Response length: {} characters",
+    //         index,
+    //         response.len()
+    //     );
+    //     // println!("Response preview: {:.100}...", response);
+    // }
     Ok(())
 }
 
@@ -500,17 +498,17 @@ pub fn initialize_csv(
     let mut reader = read_input_file(input_path, format)?;
     let output_file = File::create(output_path)?;
     let mut writer = csv::Writer::from_writer(output_file);
-    
+    println!("Processing file: {:?}", output_path);
     // 源文件表头
     let headers: Vec<String> = reader.headers()?
         .iter()
         .map(|h| h.to_string())
         .collect();
-        
+    println!("Headers: {:?}", headers);
     let mut new_headers = headers.clone();
     new_headers.extend(["result"].iter().map(|&s| s.to_string()));
     writer.write_record(&new_headers)?;
-    
+    println!("New headers: {:?}", new_headers);
     Ok((reader, writer, headers, new_headers.into()))
 }
 
@@ -595,9 +593,10 @@ pub fn run_python_script(
         temp_file_path.as_path(),
         format,
     )?;
-
+    println!("Starting to process input fields indices: {:?}", input_fields);
     // 利用源文件表头构建字段搜索索引
     let field_indices = build_field_indices(&original_headers, input_fields);
+    println!("Field indices: {:?}", field_indices);
     // 利用搜索索引,遍历源文件每一行,构建LLM JSON格式化输入
     // 同时对tmp文件新添加列(result)填入默认值
     let mut formatted_messages = Vec::new();
@@ -605,7 +604,7 @@ pub fn run_python_script(
         let record = result?;
         // 为输出文件准备行数据
         let mut row_data: Vec<String> = record.iter().map(|s| s.to_string()).collect();
-        while row_data.len() < record.len(){
+        while row_data.len() < new_headers.len(){
             row_data.push("waiting fill".to_string());
         }
         writer.write_record(&row_data)?;
@@ -613,6 +612,7 @@ pub fn run_python_script(
         let json_data = build_json_input(&record, &field_indices, input_fields);
         formatted_messages.push(json_data.to_string());
     }
+    println!("Formatted messages len: {:?}", formatted_messages.len());
     // 写入缓冲区刷新
     writer.flush()?;
 
@@ -647,8 +647,20 @@ pub fn run_python_script(
     let mut new_fields: Vec<String> = vec!["index".to_string()];
     new_fields.extend_from_slice(additional_fields);
 
+    // 直接写对应函数，用if判断调用哪个函数，用bot_name判断调用哪个写入函数
+    match bot_name {
+        "semantic_analysis" => {
+            parse_results_semantic_analysis(temp_file_path.as_path(), output_path, new_fields)?;
+        },
+        "TLSRFC_EXTRACT" => {
+            parse_results_rule_extract(temp_file_path.as_path(), output_path, new_fields)?;
+        },
+        _ => {
+            eprintln!("Invalid bot name: {}", bot_name);
+        }
+    }
     // 将解析结果写到最终的输出文件中
-    parse_results::<SemanticEntry>(temp_file_path.as_path(), output_path, new_fields, additional_fields)?;
+    // parse_results::<SemanticEntry>(temp_file_path.as_path(), output_path, new_fields, additional_fields)?;
 
     
     Ok(())
@@ -699,6 +711,174 @@ fn update_output_file(
     }
 
     wtr.flush()?;
+    Ok(())
+}
+
+fn parse_results_semantic_analysis(
+    input_path: &Path, 
+    output_path: &Path, 
+    new_headers: Vec<String>,
+    // fields: &[String],
+) -> Result<(), Box<dyn Error>> {
+    // 读取输入文件
+    let file = File::open(input_path)?;
+    let mut rdr = Reader::from_reader(file);
+    
+    // 获取 semantic 列的索引
+    let headers = rdr.headers()?;
+    let result_idx = headers
+        .iter()
+        .position(|h| h == "result")
+        .ok_or("Semantic column not found")?;
+
+    // 创建输出文件
+    let output_file = File::create(output_path)?;
+    let mut wtr = Writer::from_writer(output_file);
+
+    // 写入新的表头
+    wtr.write_record(&new_headers)?;
+
+    // 用于跟踪全局索引
+    let mut global_index = 1;
+
+    // 处理每一行
+    for (row_num, result) in rdr.records().enumerate() {
+        let record = result?;
+        let result_value = record.get(result_idx).unwrap_or("").trim();
+        
+        // 跳过空值和默认值
+        if result_value.is_empty() || result_value == "default_value" {
+            continue;
+        }
+        // 清理和解析 JSON
+        let cleaned_json = result_value
+                                        .replace("```json", "")  // 移除开始标记
+                                        .replace("```", "")      // 移除结束标记
+                                        .trim()                  // 移除首尾空白
+                                        .to_string();
+        // 调试输出
+        // println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
+
+        // 尝试解析 JSON 数组
+        match serde_json::from_str::<Vec<SemanticEntry>>(&cleaned_json) {
+            Ok(entries) => {
+                // 为每个解析出的条目写入一行
+                for entry in entries {
+                    wtr.write_record(&[
+                        &global_index.to_string(),
+                        &entry.section_name.replace("\"\"", "\""),
+                        &entry.title.replace("\"\"", "\""),
+                        &entry.content.replace("\"\"", "\""),
+                    ])?;
+                    // let mut record = vec![global_index.to_string()]; 
+                    // let entry_value = serde_json::to_value(&entry)?; 
+                    // for field in fields { 
+                    //     let value = entry_value.get(field)
+                    //                                    .and_then(Value::as_str)
+                    //                                    .unwrap_or("")
+                    //                                    .replace("\"\"", "\""); 
+                    //     record.push(value); 
+                    // } 
+                    // wtr.write_record(&record)?;
+                    global_index += 1;
+                }
+            },
+            Err(e) => {
+                eprintln!("Error parsing JSON at row {}: {}", row_num + 1, e);
+                eprintln!("Problematic JSON: {}", result_value);
+                // 可以选择继续处理或者返回错误
+                // return Err(Box::new(e));
+                continue;
+            }
+        }
+    }
+
+    wtr.flush()?;
+    println!("Total parsed entries: {}", global_index - 1);
+    Ok(())
+}
+
+fn parse_results_rule_extract(
+    input_path: &Path, 
+    output_path: &Path, 
+    new_headers: Vec<String>,
+    // fields: &[String],
+) -> Result<(), Box<dyn Error>> {
+    // 读取输入文件
+    let file = File::open(input_path)?;
+    let mut rdr = Reader::from_reader(file);
+    
+    // 获取 semantic 列的索引
+    let headers = rdr.headers()?;
+    let result_idx = headers
+        .iter()
+        .position(|h| h == "result")
+        .ok_or("Semantic column not found")?;
+
+    // 创建输出文件
+    let output_file = File::create(output_path)?;
+    let mut wtr = Writer::from_writer(output_file);
+
+    // 写入新的表头
+    wtr.write_record(&new_headers)?;
+
+    // 用于跟踪全局索引
+    let mut global_index = 1;
+
+    // 处理每一行
+    for (row_num, result) in rdr.records().enumerate() {
+        let record = result?;
+        let result_value = record.get(result_idx).unwrap_or("").trim();
+        
+        // 跳过空值和默认值
+        if result_value.is_empty() || result_value == "default_value" {
+            continue;
+        }
+        // 清理和解析 JSON
+        let cleaned_json = result_value
+                                        .replace("```json", "")  // 移除开始标记
+                                        .replace("```", "")      // 移除结束标记
+                                        .trim()                  // 移除首尾空白
+                                        .to_string();
+        // 调试输出
+        // println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
+
+        // 尝试解析 JSON 数组
+        match serde_json::from_str::<Vec<SemanticEntry>>(&cleaned_json) {
+            Ok(entries) => {
+                // 为每个解析出的条目写入一行
+                for entry in entries {
+                    wtr.write_record(&[
+                        &global_index.to_string(),
+                        &entry.section_name.replace("\"\"", "\""),
+                        &entry.title.replace("\"\"", "\""),
+                        &entry.content.replace("\"\"", "\""),
+                    ])?;
+                    // let mut record = vec![global_index.to_string()]; 
+                    // let entry_value = serde_json::to_value(&entry)?; 
+                    // for field in fields { 
+                    //     let value = entry_value.get(field)
+                    //                                    .and_then(Value::as_str)
+                    //                                    .unwrap_or("")
+                    //                                    .replace("\"\"", "\""); 
+                    //     record.push(value); 
+                    // } 
+                    // wtr.write_record(&record)?;
+                    global_index += 1;
+                }
+            },
+            Err(e) => {
+                eprintln!("Error parsing JSON at row {}: {}", row_num + 1, e);
+                eprintln!("Problematic JSON: {}", result_value);
+                // 可以选择继续处理或者返回错误
+                // return Err(Box::new(e));
+                continue;
+            }
+        }
+    }
+
+    wtr.flush()?;
+    println!("Total parsed entries: {}", global_index - 1);
     Ok(())
 }
 
