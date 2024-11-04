@@ -298,12 +298,12 @@ class PromptBot(fp.PoeBot):
             fp.ProtocolMessage(role="system", content=SYSTEM_PROMPT_TEST, content_type="text/plain")
         ] + request.query
         async for msg in fp.stream_request(
-            request, "GPT-4o-Mini", request.access_key
+            request, "gpt4_o_mini_128k", request.access_key
         ):
             yield msg
 
     async def get_settings(self, setting: fp.SettingsRequest) -> fp.SettingsResponse:
-        return fp.SettingsResponse(server_bot_dependencies={"GPT-4o-Mini": 1})
+        return fp.SettingsResponse(server_bot_dependencies={"gpt4_o_mini_128k": 1})
 
 
 REQUIREMENTS = ["fastapi-poe==0.0.48"]

@@ -6,6 +6,7 @@ use std::{thread,collections::HashMap,error::Error,fs::File,process::{Command,ex
 use std::path::{Path,PathBuf};
 use std::io::{self, Error as io_Error, ErrorKind};
 use colored::*;
+use tokio::signal;
 use serde_json::{Value, json};
 use serde::{Deserialize, Serialize};
 use std::sync::{atomic::{AtomicUsize, Ordering},Arc, Mutex};
@@ -368,6 +369,10 @@ async fn process_messages(
                 // 给正在完成的任务一些额外时间
                 tokio::time::sleep(Duration::from_secs(5)).await;
             }
+            _ = signal::ctrl_c() => {
+                println!("Ctrl+C received, exiting...");
+                return Ok(());
+            }
         }
     }
 
@@ -525,11 +530,12 @@ pub fn build_json_input(record: &csv::StringRecord, field_indices: &[usize], hea
     let mut json_input = json!({});
     for &idx in field_indices {
         if idx < headers.len() {
-            json_input[&headers[idx]] = Value::String(record[idx].to_string());
+            json_input[&headers[idx]] = Value::String(format!("\"{}\"", record[idx].to_string()));
         }
     }
     json_input
 }
+
 
 // 6. 处理消息响应
 pub fn process_response(
@@ -645,13 +651,14 @@ pub fn run_python_script(
             }
             writer.write_record(&row_data)?;
             // 准备消息数据
-            let json_data = build_json_input(&record, &field_indices, input_fields);
+            let json_data = build_json_input(&record, &field_indices, &original_headers[..]);
+            // println!("{}", json_data);
             formatted_messages.push(json_data.to_string());
         }
         println!("Formatted messages len: {:?}", formatted_messages.len());
         // 写入缓冲区刷新
         writer.flush()?;
-    
+
         println!(
             "Starting to process {} messages...",
             formatted_messages.len()
@@ -743,7 +750,7 @@ fn update_output_file(
         if let Some(index_value) = record.get(index_idx) {
             if let Ok(index_num) = index_value.parse::<usize>() {
                 if let Some(semantic_value) = results_guard.get(&index_num) {
-                    new_row[result_idx] = semantic_value.clone();
+                    new_row[result_idx] = format!("\"{}\"", semantic_value.clone());
                 }
             }
         }
@@ -824,7 +831,7 @@ fn parse_results_semantic_analysis(
     }
 
     wtr.flush()?;
-    println!("Total parsed entries: {}", global_index - 1);
+    println!("Total parsed entries: {}", global_index);
     Ok(())
 }
 
@@ -855,7 +862,7 @@ fn parse_results_rule_extract(
     let result_idx = headers
         .iter()
         .position(|h| h == "result")
-        .ok_or("Semantic column not found")?;
+        .ok_or("result column not found")?;
 
     // 创建输出文件
     let output_file = File::create(output_path)?;
@@ -933,7 +940,7 @@ fn parse_results_rule_extract(
     }
 
     wtr.flush()?;
-    println!("Total parsed entries: {}", global_index - 1);
+    println!("Total parsed entries: {}", global_index);
     Ok(())
 }
 

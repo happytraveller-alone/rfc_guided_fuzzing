@@ -1,2 +1,1 @@
 index,section,title,construction_rule_type,construction_explicitness,construction_base,processing_rule_type,processing_explicitness,processing_base
-1,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,Error Handling in Negotiation,SRV-MSG-CONST,1,"""Servers MUST respond to negotiation errors with an error alert indicating the type of failure.""",CLI-MSG-PROC,1,"""Clients MUST handle negotiation errors by sending an appropriate alert message if an error occurs during the cryptographic negotiation."""
