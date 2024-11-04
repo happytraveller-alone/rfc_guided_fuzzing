@@ -43,7 +43,8 @@ index,section,content,semantic
    with an ""unexpected_message"" alert.
 
    New handshake message types are assigned by IANA as described in
-   Section 11.","[
+   Section 11.","```json
+[
   {
     ""section_name"": ""4.. Handshake Protocol"",
     ""title"": ""Handshake Protocol Overview"",
@@ -61,7 +62,7 @@ index,section,content,semantic
   },
   {
     ""section_name"": ""4.. Handshake Protocol"",
-    ""title"": ""Message Order Requirements"",
+    ""title"": ""Message Order and Error Handling"",
     ""content"": ""Protocol messages MUST be sent in the order defined in Section 4.4.1 and shown in the diagrams in Section 2. A peer which receives a handshake message in an unexpected order MUST abort the handshake with an \""unexpected_message\"" alert.""
   },
   {
@@ -69,14 +70,15 @@ index,section,content,semantic
     ""title"": ""IANA Message Type Assignments"",
     ""content"": ""New handshake message types are assigned by IANA as described in Section 11.""
   }
-]"
+]
+```"
 2,4.1.. Handshake Protocol_Key Exchange Messages,"The key exchange messages are used to determine the security
    capabilities of the client and the server and to establish shared
    secrets, including the traffic keys used to protect the rest of the
    handshake and the data.","[
   {
     ""section_name"": ""4.1.. Handshake Protocol_Key Exchange Messages"",
-    ""title"": ""Key Exchange Messages Overview"",
+    ""title"": ""Purpose of Key Exchange Messages"",
     ""content"": ""The key exchange messages are used to determine the security capabilities of the client and the server and to establish shared secrets, including the traffic keys used to protect the rest of the handshake and the data.""
   }
 ]"
@@ -145,31 +147,66 @@ index,section,content,semantic
   {
     ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
     ""title"": ""Cryptographic Negotiation Overview"",
-    ""content"": ""In TLS, the cryptographic negotiation proceeds by the client offering the following four sets of options in its ClientHello:\n\n- A list of cipher suites which indicates the AEAD algorithm/HKDF hash pairs which the client supports.\n\n- A \""supported_groups\"" (Section 4.2.7) extension which indicates the (EC)DHE groups which the client supports and a \""key_share\"" (Section 4.2.8) extension which contains (EC)DHE shares for some or all of these groups.\n\n- A \""signature_algorithms\"" (Section 4.2.3) extension which indicates the signature algorithms which the client can accept. A \""signature_algorithms_cert\"" extension (Section 4.2.3) may also be added to indicate certificate-specific signature algorithms.\n\n- A \""pre_shared_key\"" (Section 4.2.11) extension which contains a list of symmetric key identities known to the client and a \""psk_key_exchange_modes\"" (Section 4.2.9) extension which indicates the key exchange modes that may be used with PSKs.""
+    ""content"": ""In TLS, the cryptographic negotiation proceeds by the client offering the following four sets of options in its ClientHello:""
   },
   {
     ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
-    ""title"": ""Server Parameter Selection"",
+    ""title"": ""Cipher Suites"",
+    ""content"": ""- A list of cipher suites which indicates the AEAD algorithm/HKDF hash pairs which the client supports.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Supported Groups and Key Share"",
+    ""content"": ""- A \""supported_groups\"" (Section 4.2.7) extension which indicates the (EC)DHE groups which the client supports and a \""key_share\"" (Section 4.2.8) extension which contains (EC)DHE shares for some or all of these groups.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Signature Algorithms"",
+    ""content"": ""- A \""signature_algorithms\"" (Section 4.2.3) extension which indicates the signature algorithms which the client can accept. A \""signature_algorithms_cert\"" extension (Section 4.2.3) may also be added to indicate certificate-specific signature algorithms.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Pre-Shared Key Extensions"",
+    ""content"": ""- A \""pre_shared_key\"" (Section 4.2.11) extension which contains a list of symmetric key identities known to the client and a \""psk_key_exchange_modes\"" (Section 4.2.9) extension which indicates the key exchange modes that may be used with PSKs.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Non-PSK Negotiation"",
     ""content"": ""If the server does not select a PSK, then the first three of these options are entirely orthogonal: the server independently selects a cipher suite, an (EC)DHE group and key share for key establishment, and a signature algorithm/certificate pair to authenticate itself to the client. If there is no overlap between the received \""supported_groups\"" and the groups supported by the server, then the server MUST abort the handshake with a \""handshake_failure\"" or an \""insufficient_security\"" alert.""
   },
   {
     ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
-    ""title"": ""PSK Selection and Key Establishment Modes"",
+    ""title"": ""PSK Negotiation"",
     ""content"": ""If the server selects a PSK, then it MUST also select a key establishment mode from the set indicated by the client's \""psk_key_exchange_modes\"" extension (at present, PSK alone or with (EC)DHE). Note that if the PSK can be used without (EC)DHE, then non-overlap in the \""supported_groups\"" parameters need not be fatal, as it is in the non-PSK case discussed in the previous paragraph.""
   },
   {
     ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
-    ""title"": ""HelloRetryRequest Requirement"",
+    ""title"": ""HelloRetryRequest Response"",
     ""content"": ""If the server selects an (EC)DHE group and the client did not offer a compatible \""key_share\"" extension in the initial ClientHello, the server MUST respond with a HelloRetryRequest (Section 4.1.4) message.""
   },
   {
     ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
-    ""title"": ""Parameters Indication in ServerHello"",
-    ""content"": ""If the server successfully selects parameters and does not require a HelloRetryRequest, it indicates the selected parameters in the ServerHello as follows:\n\n- If PSK is being used, then the server will send a \""pre_shared_key\"" extension indicating the selected key.\n\n- When (EC)DHE is in use, the server will also provide a \""key_share\"" extension. If PSK is not being used, then (EC)DHE and certificate-based authentication are always used.\n\n- When authenticating via a certificate, the server will send the Certificate (Section 4.4.2) and CertificateVerify (Section 4.4.3) messages. In TLS 1.3 as defined by this document, either a PSK or a certificate is always used, but not both. Future documents may define how to use them together.""
+    ""title"": ""ServerHello Parameter Indication"",
+    ""content"": ""If the server successfully selects parameters and does not require a HelloRetryRequest, it indicates the selected parameters in the ServerHello as follows:""
   },
   {
     ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
-    ""title"": ""Abort Conditions"",
+    ""title"": ""PSK Selection in ServerHello"",
+    ""content"": ""- If PSK is being used, then the server will send a \""pre_shared_key\"" extension indicating the selected key.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Key Share in ServerHello"",
+    ""content"": ""- When (EC)DHE is in use, the server will also provide a \""key_share\"" extension. If PSK is not being used, then (EC)DHE and certificate-based authentication are always used.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Certificate Authentication"",
+    ""content"": ""- When authenticating via a certificate, the server will send the Certificate (Section 4.4.2) and CertificateVerify (Section 4.4.3) messages. In TLS 1.3 as defined by this document, either a PSK or a certificate is always used, but not both. Future documents may define how to use them together.""
+  },
+  {
+    ""section_name"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Handshake Failure Conditions"",
     ""content"": ""If the server is unable to negotiate a supported set of parameters (i.e., there is no overlap between the client and server parameters), it MUST abort the handshake with either a \""handshake_failure\"" or \""insufficient_security\"" fatal alert (see Section 6).""
   }
 ]"
@@ -319,52 +356,67 @@ index,section,content,semantic
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
     ""title"": ""ClientHello Modifications After HelloRetryRequest"",
-    ""content"": ""In case of a HelloRetryRequest, the client MUST send the same ClientHello without modification, except as follows: - If a 'key_share' extension was supplied in the HelloRetryRequest, replace the list of shares with a single KeyShareEntry from the indicated group. - Remove the 'early_data' extension if present. Early data is not permitted after a HelloRetryRequest. - Include a 'cookie' extension if provided in the HelloRetryRequest. - Update the 'pre_shared_key' extension by recomputing the 'obfuscated_ticket_age' and binder values, and optionally remove incompatible PSKs. - Optionally add, remove, or change the length of the 'padding' extension. - Other modifications allowed by future extensions present in the HelloRetryRequest.""
+    ""content"": ""In the case of a HelloRetryRequest, the client MUST send the same ClientHello without modification, except as follows: - If a \""key_share\"" extension was supplied in the HelloRetryRequest, replacing the list of shares with a list containing a single KeyShareEntry from the indicated group. - Removing the \""early_data\"" extension if one was present. Early data is not permitted after a HelloRetryRequest. - Including a \""cookie\"" extension if one was provided in the HelloRetryRequest. - Updating the \""pre_shared_key\"" extension if present by recomputing the \""obfuscated_ticket_age\"" and binder values and (optionally) removing any PSKs which are incompatible with the server's indicated cipher suite. - Optionally adding, removing, or changing the length of the \""padding\"" extension. - Other modifications that may be allowed by an extension defined in the future and present in the HelloRetryRequest.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
-    ""title"": ""Connection Termination Conditions"",
-    ""content"": ""Because TLS 1.3 forbids renegotiation, if a server has negotiated TLS 1.3 and receives a ClientHello at any other time, it MUST terminate the connection with an 'unexpected_message' alert. If a server established a TLS connection with a previous version of TLS and receives a TLS 1.3 ClientHello in a renegotiation, it MUST retain the previous protocol version and MUST NOT negotiate TLS 1.3.""
+    ""title"": ""Connection Termination Requirements"",
+    ""content"": ""Because TLS 1.3 forbids renegotiation, if a server has negotiated TLS 1.3 and receives a ClientHello at any other time, it MUST terminate the connection with an \""unexpected_message\"" alert.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
-    ""title"": ""Structure Definition"",
+    ""title"": ""Legacy TLS Version Retention"",
+    ""content"": ""If a server established a TLS connection with a previous version of TLS and receives a TLS 1.3 ClientHello in a renegotiation, it MUST retain the previous protocol version. In particular, it MUST NOT negotiate TLS 1.3.""
+  },
+  {
+    ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
+    ""title"": ""ClientHello Message Structure"",
     ""content"": ""Structure of this message: uint16 ProtocolVersion; opaque Random[32]; uint8 CipherSuite[2]; struct { ProtocolVersion legacy_version = 0x0303; /* TLS v1.2 */ Random random; opaque legacy_session_id<0..32>; CipherSuite cipher_suites<2..2^16-2>; opaque legacy_compression_methods<1..2^8-1>; Extension extensions<8..2^16-1>; } ClientHello;""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
     ""title"": ""Legacy Version Field"",
-    ""content"": ""In previous versions of TLS, this field was used for version negotiation and represented the highest version number supported by the client. In TLS 1.3, the legacy_version field MUST be set to 0x0303, which is the version number for TLS 1.2.""
+    ""content"": ""In previous versions of TLS, this field was used for version negotiation and represented the highest version number supported by the client. In TLS 1.3, the client indicates its version preferences in the \""supported_versions\"" extension, and the legacy_version field MUST be set to 0x0303, which is the version number for TLS 1.2.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
     ""title"": ""Random Field Requirements"",
-    ""content"": ""The random field consists of 32 bytes generated by a secure random number generator. See Appendix C for additional information.""
+    ""content"": ""random: 32 bytes generated by a secure random number generator. See Appendix C for additional information.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
     ""title"": ""Legacy Session ID"",
-    ""content"": ""A client which has a cached session ID set by a pre-TLS 1.3 server SHOULD set this field to that value. In compatibility mode, this field MUST be non-empty, so a client not offering a pre-TLS 1.3 session MUST generate a new 32-byte value.""
+    ""content"": ""legacy_session_id: Versions of TLS before TLS 1.3 supported a \""session resumption\"" feature which has been merged with pre-shared keys in this version. A client with a cached session ID set by a pre-TLS 1.3 server SHOULD set this field to that value.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
     ""title"": ""Cipher Suites"",
-    ""content"": ""The cipher_suites field lists the symmetric cipher options supported by the client. If the list contains cipher suites that the server does not recognize, support, or wish to use, the server MUST ignore those cipher suites.""
+    ""content"": ""cipher_suites: A list of the symmetric cipher options supported by the client. If the list contains cipher suites that the server does not recognize or wish to use, the server MUST ignore those cipher suites and process the remaining ones as usual.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
     ""title"": ""Legacy Compression Methods"",
-    ""content"": ""For every TLS 1.3 ClientHello, this vector MUST contain exactly one byte, set to zero, which corresponds to the 'null' compression method. If a TLS 1.3 ClientHello is received with any other value, the server MUST abort the handshake with an 'illegal_parameter' alert.""
+    ""content"": ""legacy_compression_methods: This vector MUST contain exactly one byte, set to zero, which corresponds to the \""null\"" compression method in prior versions of TLS. If a TLS 1.3 ClientHello is received with any other value, the server MUST abort the handshake with an \""illegal_parameter\"" alert.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
-    ""title"": ""Extensions Field"",
-    ""content"": ""Clients request extended functionality from servers by sending data in the extensions field. In TLS 1.3, the use of certain extensions is mandatory, as functionality has moved into extensions.""
+    ""title"": ""Extensions"",
+    ""content"": ""extensions: Clients request extended functionality from servers by sending data in the extensions field. TLS 1.3 ClientHello messages always contain extensions, minimally the \""supported_versions\"" extension.""
   },
   {
     ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
-    ""title"": ""Client Behavior After ClientHello"",
-    ""content"": ""After sending the ClientHello message, the client waits for a ServerHello or HelloRetryRequest message. If early data is in use, the client may transmit early Application Data while waiting for the next handshake message.""
+    ""title"": ""Handling ClientHello and Extensions"",
+    ""content"": ""TLS 1.3 servers will check for the presence of the \""supported_versions\"" extension to negotiate TLS 1.3. If negotiating a version prior to 1.3, a server MUST check that the message either contains no data after legacy_compression_methods or that it contains a valid extensions block.""
+  },
+  {
+    ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
+    ""title"": ""Client Response to Unsupported Extensions"",
+    ""content"": ""In the event that a client requests additional functionality using extensions and this functionality is not supplied by the server, the client MAY abort the handshake.""
+  },
+  {
+    ""section_name"": ""4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello"",
+    ""title"": ""Waiting for Server Response"",
+    ""content"": ""After sending the ClientHello message, the client waits for a ServerHello or HelloRetryRequest message.""
   }
 ]"
 5,4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello,"The server will send this message in response to a ClientHello
@@ -492,7 +544,7 @@ index,section,content,semantic
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
     ""title"": ""Random Field Requirements"",
-    ""content"": ""32 bytes generated by a secure random number generator. The last 8 bytes MUST be overwritten as described below if negotiating TLS 1.2 or TLS 1.1, but the remaining bytes MUST be random. This structure is generated by the server and MUST be generated independently of the ClientHello.random.""
+    ""content"": ""32 bytes generated by a secure random number generator. See Appendix C for additional information. The last 8 bytes MUST be overwritten as described below if negotiating TLS 1.2 or TLS 1.1, but the remaining bytes MUST be random. This structure is generated by the server and MUST be generated independently of the ClientHello.random.""
   },
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
@@ -512,7 +564,7 @@ index,section,content,semantic
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
     ""title"": ""HelloRetryRequest Special Case"",
-    ""content"": ""For reasons of backward compatibility with middleboxes, the HelloRetryRequest message uses the same structure as the ServerHello, but with Random set to the special value of the SHA-256 of \""HelloRetryRequest\"": CF 21 AD 74 E5 9A 61 11 BE 1D 8C 02 1E 65 B8 91 C2 A2 11 16 7A BB 8C 5E 07 9E 09 E2 C8 A8 33 9C. Upon receiving a message with type server_hello, implementations MUST first examine the Random value and, if it matches this value, process it as described in Section 4.1.4.""
+    ""content"": ""For reasons of backward compatibility with middleboxes (see Appendix D.4), the HelloRetryRequest message uses the same structure as the ServerHello, but with Random set to the special value of the SHA-256 of \""HelloRetryRequest\"":\n\n    CF 21 AD 74 E5 9A 61 11 BE 1D 8C 02 1E 65 B8 91\n    C2 A2 11 16 7A BB 8C 5E 07 9E 09 E2 C8 A8 33 9C\n\nUpon receiving a message with type server_hello, implementations MUST first examine the Random value and, if it matches this value, process it as described in Section 4.1.4.""
   },
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
@@ -522,12 +574,12 @@ index,section,content,semantic
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
     ""title"": ""Downgrade Values Specifics"",
-    ""content"": ""If negotiating TLS 1.2, TLS 1.3 servers MUST set the last 8 bytes of their Random value to the bytes: 44 4F 57 4E 47 52 44 01. If negotiating TLS 1.1 or below, TLS 1.3 servers MUST, and TLS 1.2 servers SHOULD, set the last 8 bytes of their ServerHello.Random value to the bytes: 44 4F 57 4E 47 52 44 00.""
+    ""content"": ""If negotiating TLS 1.2, TLS 1.3 servers MUST set the last 8 bytes of their Random value to the bytes:\n\n    44 4F 57 4E 47 52 44 01\n\nIf negotiating TLS 1.1 or below, TLS 1.3 servers MUST, and TLS 1.2 servers SHOULD, set the last 8 bytes of their ServerHello.Random value to the bytes:\n\n    44 4F 57 4E 47 52 44 00.""
   },
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
     ""title"": ""Client Verification Responsibilities"",
-    ""content"": ""TLS 1.3 clients receiving a ServerHello indicating TLS 1.2 or below MUST check that the last 8 bytes are not equal to either of these values. If a match is found, the client MUST abort the handshake with an \""illegal_parameter\"" alert. This mechanism provides limited protection against downgrade attacks over and above what is provided by the Finished exchange.""
+    ""content"": ""TLS 1.3 clients receiving a ServerHello indicating TLS 1.2 or below MUST check that the last 8 bytes are not equal to either of these values. TLS 1.2 clients SHOULD also check that the last 8 bytes are not equal to the second value if the ServerHello indicates TLS 1.1 or below. If a match is found, the client MUST abort the handshake with an \""illegal_parameter\"" alert.""
   },
   {
     ""section_name"": ""4.1.3.. Handshake Protocol_Key Exchange Messages_Server Hello"",
@@ -596,42 +648,32 @@ index,section,content,semantic
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
     ""title"": ""HelloRetryRequest Purpose"",
-    ""content"": ""The server will send this message in response to a ClientHello message if it is able to find an acceptable set of parameters but the ClientHello does not contain sufficient information to proceed with the handshake.""
+    ""content"": ""The server will send this message in response to a ClientHello message if it is able to find an acceptable set of parameters but the ClientHello does not contain sufficient information to proceed with the handshake. As discussed in Section 4.1.3, the HelloRetryRequest has the same format as a ServerHello message, and the legacy_version, legacy_session_id_echo, cipher_suite, and legacy_compression_method fields have the same meaning. However, for convenience, we discuss 'HelloRetryRequest' throughout this document as if it were a distinct message.""
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Message Structure Similarity"",
-    ""content"": ""As discussed in Section 4.1.3, the HelloRetryRequest has the same format as a ServerHello message, and the legacy_version, legacy_session_id_echo, cipher_suite, and legacy_compression_method fields have the same meaning. However, for convenience, \""HelloRetryRequest\"" is discussed throughout this document as if it were a distinct message.""
+    ""title"": ""Extension Requirements"",
+    ""content"": ""The server's extensions MUST contain 'supported_versions'. Additionally, it SHOULD contain the minimal set of extensions necessary for the client to generate a correct ClientHello pair. A HelloRetryRequest MUST NOT contain any extensions that were not first offered by the client in its ClientHello, with the exception of optionally the 'cookie' extension.""
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Required Extensions"",
-    ""content"": ""The server's extensions MUST contain \""supported_versions\"". Additionally, it SHOULD contain the minimal set of extensions necessary for the client to generate a correct ClientHello pair. A HelloRetryRequest MUST NOT contain any extensions that were not first offered by the client in its ClientHello, with the exception of optionally the \""cookie\"" extension.""
+    ""title"": ""Client Processing of HelloRetryRequest"",
+    ""content"": ""Upon receipt of a HelloRetryRequest, the client MUST check the legacy_version, legacy_session_id_echo, cipher_suite, and legacy_compression_method as specified in Section 4.1.3 and then process the extensions, starting with determining the version using 'supported_versions'. Clients MUST abort the handshake with an 'illegal_parameter' alert if the HelloRetryRequest would not result in any change in the ClientHello.""
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Client Response Requirements"",
-    ""content"": ""Upon receipt of a HelloRetryRequest, the client MUST check the legacy_version, legacy_session_id_echo, cipher_suite, and legacy_compression_method as specified in Section 4.1.3 and then process the extensions, starting with determining the version using \""supported_versions\"".""
+    ""title"": ""Handling Multiple HelloRetryRequests"",
+    ""content"": ""If a client receives a second HelloRetryRequest in the same connection (i.e., where the ClientHello was itself in response to a HelloRetryRequest), it MUST abort the handshake with an 'unexpected_message' alert.""
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Handshake Abort Conditions"",
-    ""content"": ""Clients MUST abort the handshake with an \""illegal_parameter\"" alert if the HelloRetryRequest would not result in any change in the ClientHello. If a client receives a second HelloRetryRequest in the same connection, it MUST abort the handshake with an \""unexpected_message\"" alert.""
+    ""title"": ""Required Extensions in HelloRetryRequest"",
+    ""content"": ""The HelloRetryRequest extensions defined in this specification are:\n\n- supported_versions (see Section 4.2.1)\n- cookie (see Section 4.2.2)\n- key_share (see Section 4.2.8)""
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Extension Processing"",
-    ""content"": ""Otherwise, the client MUST process all extensions in the HelloRetryRequest and send a second updated ClientHello. The HelloRetryRequest extensions defined in this specification are: - supported_versions (see Section 4.2.1) - cookie (see Section 4.2.2) - key_share (see Section 4.2.8).""
-  },
-  {
-    ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Cipher Suite Negotiation"",
-    ""content"": ""A client which receives a cipher suite that was not offered MUST abort the handshake. Servers MUST ensure that they negotiate the same cipher suite when receiving a conformant updated ClientHello.""
-  },
-  {
-    ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""ClientHello Update Requirements"",
-    ""content"": ""Upon receiving the ServerHello, clients MUST check that the cipher suite supplied in the ServerHello is the same as that in the HelloRetryRequest and otherwise abort the handshake with an \""illegal_parameter\"" alert.""
+    ""title"": ""Cipher Suite Verification"",
+    ""content"": ""A client which receives a cipher suite that was not offered MUST abort the handshake. Servers MUST ensure that they negotiate the same cipher suite when receiving a conformant updated ClientHello. Upon receiving the ServerHello, clients MUST check that the cipher suite supplied in the ServerHello is the same as that in the HelloRetryRequest and otherwise abort the handshake with an 'illegal_parameter' alert.""
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
@@ -640,8 +682,8 @@ index,section,content,semantic
   },
   {
     ""section_name"": ""4.1.4.. Handshake Protocol_Key Exchange Messages_Hello Retry Request"",
-    ""title"": ""Version Retention"",
-    ""content"": ""The value of selected_version in the HelloRetryRequest \""supported_versions\"" extension MUST be retained in the ServerHello, and a client MUST abort the handshake with an \""illegal_parameter\"" alert if the value changes.""
+    ""title"": ""Version Retention Requirement"",
+    ""content"": ""The value of selected_version in the HelloRetryRequest 'supported_versions' extension MUST be retained in the ServerHello, and a client MUST abort the handshake with an 'illegal_parameter' alert if the value changes.""
   }
 ]"
 7,4.2.. Handshake Protocol_Extensions,"A number of TLS messages contain tag-length-value encoded extensions
@@ -799,73 +841,48 @@ index,section,content,semantic
       messages and insert, remove, or replace extensions.","[
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Overview"",
-    ""content"": ""A number of TLS messages contain tag-length-value encoded extensions structures.""
-  },
-  {
-    ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Structure Definition"",
-    ""content"": ""struct {\n    ExtensionType extension_type;\n    opaque extension_data<0..2^16-1>;\n} Extension;""
-  },
-  {
-    ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Types Enumeration"",
-    ""content"": ""enum {\n    server_name(0),                             /* RFC 6066 */\n    max_fragment_length(1),                     /* RFC 6066 */\n    status_request(5),                          /* RFC 6066 */\n    supported_groups(10),                       /* RFC 8422, 7919 */\n    signature_algorithms(13),                   /* RFC 8446 */\n    use_srtp(14),                               /* RFC 5764 */\n    heartbeat(15),                              /* RFC 6520 */\n    application_layer_protocol_negotiation(16), /* RFC 7301 */\n    signed_certificate_timestamp(18),           /* RFC 6962 */\n    client_certificate_type(19),                /* RFC 7250 */\n    server_certificate_type(20),                /* RFC 7250 */\n    padding(21),                                /* RFC 7685 */\n    pre_shared_key(41),                         /* RFC 8446 */\n    early_data(42),                             /* RFC 8446 */\n    supported_versions(43),                     /* RFC 8446 */\n    cookie(44),                                 /* RFC 8446 */\n    psk_key_exchange_modes(45),                 /* RFC 8446 */\n    certificate_authorities(47),                /* RFC 8446 */\n    oid_filters(48),                            /* RFC 8446 */\n    post_handshake_auth(49),                    /* RFC 8446 */\n    signature_algorithms_cert(50),              /* RFC 8446 */\n    key_share(51),                              /* RFC 8446 */\n    (65535)\n} ExtensionType;""
+    ""title"": ""Extension Structure"",
+    ""content"": ""A number of TLS messages contain tag-length-value encoded extensions structures.\n\n    struct {\n        ExtensionType extension_type;\n        opaque extension_data<0..2^16-1>;\n    } Extension;\n\n    enum {\n        server_name(0),                             /* RFC 6066 */\n        max_fragment_length(1),                     /* RFC 6066 */\n        status_request(5),                          /* RFC 6066 */\n        supported_groups(10),                       /* RFC 8422, 7919 */\n        signature_algorithms(13),                   /* RFC 8446 */\n        use_srtp(14),                               /* RFC 5764 */\n        heartbeat(15),                              /* RFC 6520 */\n        application_layer_protocol_negotiation(16), /* RFC 7301 */\n        signed_certificate_timestamp(18),           /* RFC 6962 */\n        client_certificate_type(19),                /* RFC 7250 */\n        server_certificate_type(20),                /* RFC 7250 */\n        padding(21),                                /* RFC 7685 */\n        pre_shared_key(41),                         /* RFC 8446 */\n        early_data(42),                             /* RFC 8446 */\n        supported_versions(43),                     /* RFC 8446 */\n        cookie(44),                                 /* RFC 8446 */\n        psk_key_exchange_modes(45),                 /* RFC 8446 */\n        certificate_authorities(47),                /* RFC 8446 */\n        oid_filters(48),                            /* RFC 8446 */\n        post_handshake_auth(49),                    /* RFC 8446 */\n        signature_algorithms_cert(50),              /* RFC 8446 */\n        key_share(51),                              /* RFC 8446 */\n        (65535)\n    } ExtensionType;""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
     ""title"": ""Extension Fields"",
-    ""content"": ""- \""extension_type\"" identifies the particular extension type.\n- \""extension_data\"" contains information specific to the particular extension type.""
-  },
-  {
-    ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""IANA Extension Management"",
-    ""content"": ""The list of extension types is maintained by IANA as described in Section 11.""
+    ""content"": ""-  \""extension_type\"" identifies the particular extension type.\n\n-  \""extension_data\"" contains information specific to the particular extension type.""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
     ""title"": ""Extension Request/Response Structure"",
-    ""content"": ""Extensions are generally structured in a request/response fashion, though some extensions are just indications with no corresponding response. The client sends its extension requests in the ClientHello message, and the server sends its extension responses in the ServerHello, EncryptedExtensions, HelloRetryRequest, and Certificate messages.""
+    ""content"": ""Extensions are generally structured in a request/response fashion, though some extensions are just indications with no corresponding response. The client sends its extension requests in the ClientHello message, and the server sends its extension responses in the ServerHello, EncryptedExtensions, HelloRetryRequest, and Certificate messages. The server sends extension requests in the CertificateRequest message which a client MAY respond to with a Certificate message. The server MAY also send unsolicited extensions in the NewSessionTicket, though the client does not respond directly to these.""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Server Extension Requests"",
-    ""content"": ""The server sends extension requests in the CertificateRequest message which a client MAY respond to with a Certificate message. The server MAY also send unsolicited extensions in the NewSessionTicket, though the client does not respond directly to these.""
-  },
-  {
-    ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Response Restrictions"",
+    ""title"": ""Extension Response Constraints"",
     ""content"": ""Implementations MUST NOT send extension responses if the remote endpoint did not send the corresponding extension requests, with the exception of the \""cookie\"" extension in the HelloRetryRequest. Upon receiving such an extension, an endpoint MUST abort the handshake with an \""unsupported_extension\"" alert.""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Placement in Messages"",
+    ""title"": ""Extension Message Compatibility"",
     ""content"": ""If an implementation receives an extension which it recognizes and which is not specified for the message in which it appears, it MUST abort the handshake with an \""illegal_parameter\"" alert.""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Message Compatibility Table"",
-    ""content"": ""The table below indicates the messages where a given extension may appear:\n\n+--------------------------------------------------+-------------+\n| Extension                                        |     TLS 1.3 |\n+--------------------------------------------------+-------------+\n| server_name [RFC6066]                            |      CH, EE |\n| max_fragment_length [RFC6066]                    |      CH, EE |\n| status_request [RFC6066]                         |  CH, CR, CT |\n| supported_groups [RFC7919]                       |      CH, EE |\n| signature_algorithms (RFC 8446)                  |      CH, CR |\n| use_srtp [RFC5764]                               |      CH, EE |\n| heartbeat [RFC6520]                              |      CH, EE |\n| application_layer_protocol_negotiation [RFC7301] |      CH, EE |\n| signed_certificate_timestamp [RFC6962]           |  CH, CR, CT |\n| client_certificate_type [RFC7250]                |      CH, EE |\n| server_certificate_type [RFC7250]                |      CH, EE |\n| padding [RFC7685]                                |          CH |\n| key_share (RFC 8446)                             | CH, SH, HRR |\n| pre_shared_key (RFC 8446)                        |      CH, SH |\n| psk_key_exchange_modes (RFC 8446)                |          CH |\n| early_data (RFC 8446)                            | CH, EE, NST |\n| cookie (RFC 8446)                                |     CH, HRR |\n| supported_versions (RFC 8446)                    | CH, SH, HRR |\n| certificate_authorities (RFC 8446)               |      CH, CR |\n| oid_filters (RFC 8446)                           |          CR |\n| post_handshake_auth (RFC 8446)                   |          CH |\n| signature_algorithms_cert (RFC 8446)             |      CH, CR |\n+--------------------------------------------------+-------------+""
+    ""title"": ""Extension Appearances Table"",
+    ""content"": ""+--------------------------------------------------+-------------+\n| Extension                                        |     TLS 1.3 |\n+--------------------------------------------------+-------------+\n| server_name [RFC6066]                            |      CH, EE |\n| max_fragment_length [RFC6066]                    |      CH, EE |\n| status_request [RFC6066]                         |  CH, CR, CT |\n| supported_groups [RFC7919]                       |      CH, EE |\n| signature_algorithms (RFC 8446)                  |      CH, CR |\n| use_srtp [RFC5764]                               |      CH, EE |\n| heartbeat [RFC6520]                              |      CH, EE |\n| application_layer_protocol_negotiation [RFC7301] |      CH, EE |\n| signed_certificate_timestamp [RFC6962]           |  CH, CR, CT |\n| client_certificate_type [RFC7250]                |      CH, EE |\n| server_certificate_type [RFC7250]                |      CH, EE |\n| padding [RFC7685]                                |          CH |\n| key_share (RFC 8446)                             | CH, SH, HRR |\n| pre_shared_key (RFC 8446)                        |      CH, SH |\n| psk_key_exchange_modes (RFC 8446)                |          CH |\n| early_data (RFC 8446)                            | CH, EE, NST |\n| cookie (RFC 8446)                                |     CH, HRR |\n| supported_versions (RFC 8446)                    | CH, SH, HRR |\n| certificate_authorities (RFC 8446)               |      CH, CR |\n| oid_filters (RFC 8446)                           |          CR |\n| post_handshake_auth (RFC 8446)                   |          CH |\n| signature_algorithms_cert (RFC 8446)             |      CH, CR |\n+--------------------------------------------------+-------------+""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Ordering Rules"",
+    ""title"": ""Extension Order and Uniqueness"",
     ""content"": ""When multiple extensions of different types are present, the extensions MAY appear in any order, with the exception of \""pre_shared_key\"" which MUST be the last extension in the ClientHello (but can appear anywhere in the ServerHello extensions block). There MUST NOT be more than one extension of the same type in a given extension block.""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Negotiation and Resumption"",
-    ""content"": ""In TLS 1.3, unlike TLS 1.2, extensions are negotiated for each handshake even when in resumption-PSK mode. However, 0-RTT parameters are those negotiated in the previous handshake; mismatches may require rejecting 0-RTT (see Section 4.2.10).""
+    ""title"": ""Extension Negotiation in Resumption"",
+    ""content"": ""In TLS 1.3, unlike TLS 1.2, extensions are negotiated for each handshake even when in resumption-PSK mode. However, 0-RTT parameters are those negotiated in the previous handshake; mismatches may require rejecting 0-RTT.""
   },
   {
     ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Security Considerations for Extensions"",
-    ""content"": ""There are subtle (and not so subtle) interactions that may occur in this protocol between new features and existing features which may result in a significant reduction in overall security. The following considerations should be taken into account when designing new extensions:\n\n- Some cases where a server does not agree to an extension are error conditions, and some are simply refusals to support particular features. In general, error alerts should be used for the former and a field in the server extension response for the latter.\n\n- Extensions should, as far as possible, be designed to prevent any attack that forces use (or non-use) of a particular feature by manipulation of handshake messages. This principle should be followed regardless of whether the feature is believed to cause a security problem.""
-  },
-  {
-    ""section_name"": ""4.2.. Handshake Protocol_Extensions"",
-    ""title"": ""Extension Design Considerations"",
-    ""content"": ""Often the fact that the extension fields are included in the inputs to the Finished message hashes will be sufficient, but extreme care is needed when the extension changes the meaning of messages sent in the handshake phase. Designers and implementors should be aware of the fact that until the handshake has been authenticated, active attackers can modify messages and insert, remove, or replace extensions.""
+    ""title"": ""Extension Security Considerations"",
+    ""content"": ""There are subtle (and not so subtle) interactions that may occur in this protocol between new features and existing features which may result in a significant reduction in overall security. The following considerations should be taken into account when designing new extensions:\n\n-  Some cases where a server does not agree to an extension are error conditions (e.g., the handshake cannot continue), and some are simply refusals to support particular features. In general, error alerts should be used for the former and a field in the server extension response for the latter.\n\n-  Extensions should, as far as possible, be designed to prevent any attack that forces use (or non-use) of a particular feature by manipulation of handshake messages. This principle should be followed regardless of whether the feature is believed to cause a security problem.""
   }
 ]"
 8,4.2.1.. Handshake Protocol_Extensions_Supported Versions,"struct {
@@ -926,7 +943,7 @@ index,section,content,semantic
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
     ""title"": ""SupportedVersions Structure"",
-    ""content"": ""struct {\r\n    select (Handshake.msg_type) {\r\n        case client_hello:\r\n            ProtocolVersion versions<2..254>;\r\n        case server_hello: /* and HelloRetryRequest */\r\n            ProtocolVersion selected_version;\r\n    };\r\n} SupportedVersions;""
+    ""content"": ""struct {\r\n    select (Handshake.msg_type) {\r\n        case client_hello:\r\n            ProtocolVersion versions<2..254>;\r\n\r\n        case server_hello: /* and HelloRetryRequest */\r\n            ProtocolVersion selected_version;\r\n    };\r\n} SupportedVersions;""
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
@@ -940,32 +957,32 @@ index,section,content,semantic
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
-    ""title"": ""Server Negotiation Behavior"",
+    ""title"": ""Server Behavior Without the Extension"",
     ""content"": ""If this extension is not present, servers which are compliant with this specification and which also support TLS 1.2 MUST negotiate TLS 1.2 or prior as specified in [RFC5246], even if ClientHello.legacy_version is 0x0304 or later. Servers MAY abort the handshake upon receiving a ClientHello with legacy_version 0x0304 or later.""
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
-    ""title"": ""Version Negotiation with Supported Versions"",
+    ""title"": ""Server Behavior With the Extension"",
     ""content"": ""If this extension is present in the ClientHello, servers MUST NOT use the ClientHello.legacy_version value for version negotiation and MUST use only the \""supported_versions\"" extension to determine client preferences. Servers MUST only select a version of TLS present in that extension and MUST ignore any unknown versions that are present in that extension.""
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
-    ""title"": ""Compatibility with TLS Versions"",
-    ""content"": ""Note that this mechanism makes it possible to negotiate a version prior to TLS 1.2 if one side supports a sparse range. Implementations of TLS 1.3 which choose to support prior versions of TLS SHOULD support TLS 1.2. Servers MUST be prepared to receive ClientHellos that include this extension but do not include 0x0304 in the list of versions.""
+    ""title"": ""Version Negotiation Flexibility"",
+    ""content"": ""This mechanism makes it possible to negotiate a version prior to TLS 1.2 if one side supports a sparse range. Implementations of TLS 1.3 which choose to support prior versions of TLS SHOULD support TLS 1.2. Servers MUST be prepared to receive ClientHellos that include this extension but do not include 0x0304 in the list of versions.""
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
-    ""title"": ""ServerHello Behavior for Version Negotiation"",
+    ""title"": ""ServerHello Version Negotiation"",
     ""content"": ""A server which negotiates a version of TLS prior to TLS 1.3 MUST set ServerHello.version and MUST NOT send the \""supported_versions\"" extension. A server which negotiates TLS 1.3 MUST respond by sending a \""supported_versions\"" extension containing the selected version value (0x0304). It MUST set the ServerHello.legacy_version field to 0x0303 (TLS 1.2).""
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
-    ""title"": ""Client Processing of ServerHello"",
+    ""title"": ""Client Processing Requirements"",
     ""content"": ""Clients MUST check for this extension prior to processing the rest of the ServerHello. If this extension is present, clients MUST ignore the ServerHello.legacy_version value and MUST use only the \""supported_versions\"" extension to determine the selected version.""
   },
   {
     ""section_name"": ""4.2.1.. Handshake Protocol_Extensions_Supported Versions"",
-    ""title"": ""Abort Conditions for Clients"",
+    ""title"": ""Error Handling for Version Mismatches"",
     ""content"": ""If the \""supported_versions\"" extension in the ServerHello contains a version not offered by the client or contains a version prior to TLS 1.3, the client MUST abort the handshake with an \""illegal_parameter\"" alert.""
   }
 ]"
@@ -1008,17 +1025,17 @@ index,section,content,semantic
   {
     ""section_name"": ""4.2.2.. Handshake Protocol_Extensions_Cookie"",
     ""title"": ""Purpose of Cookies"",
-    ""content"": ""Cookies serve two primary purposes:\r\n- Allowing the server to force the client to demonstrate reachability at their apparent network address, thus providing a measure of DoS protection. This is primarily useful for non-connection-oriented transports (see [RFC6347] for an example of this).\r\n- Allowing the server to offload state to the client, allowing it to send a HelloRetryRequest without storing any state. The server can do this by storing the hash of the ClientHello in the HelloRetryRequest cookie, protected with some suitable integrity protection algorithm.""
+    ""content"": ""Cookies serve two primary purposes:\r\n\r\n- Allowing the server to force the client to demonstrate reachability at their apparent network address (thus providing a measure of DoS protection). This is primarily useful for non-connection-oriented transports (see [RFC6347] for an example of this).\r\n\r\n- Allowing the server to offload state to the client, thus allowing it to send a HelloRetryRequest without storing any state. The server can do this by storing the hash of the ClientHello in the HelloRetryRequest cookie (protected with some suitable integrity protection algorithm).""
   },
   {
     ""section_name"": ""4.2.2.. Handshake Protocol_Extensions_Cookie"",
     ""title"": ""HelloRetryRequest Cookie Extension"",
-    ""content"": ""When sending a HelloRetryRequest, the server MAY provide a \""cookie\"" extension to the client. This is an exception to the usual rule that only extensions appearing in the ClientHello may be sent. When sending the new ClientHello, the client MUST copy the contents of the extension received in the HelloRetryRequest into a \""cookie\"" extension in the new ClientHello. Clients MUST NOT use cookies in their initial ClientHello in subsequent connections.""
+    ""content"": ""When sending a HelloRetryRequest, the server MAY provide a \""cookie\"" extension to the client (this is an exception to the usual rule that the only extensions that may be sent are those that appear in the ClientHello). When sending the new ClientHello, the client MUST copy the contents of the extension received in the HelloRetryRequest into a \""cookie\"" extension in the new ClientHello. Clients MUST NOT use cookies in their initial ClientHello in subsequent connections.""
   },
   {
     ""section_name"": ""4.2.2.. Handshake Protocol_Extensions_Cookie"",
     ""title"": ""Stateless Server Behavior"",
-    ""content"": ""When a server is operating statelessly, it may receive an unprotected record of type change_cipher_spec between the first and second ClientHello (see Section 5). Since the server is not storing any state, this will appear as if it were the first message received. Servers operating statelessly MUST ignore these records.""
+    ""content"": ""When a server is operating statelessly, it may receive an unprotected record of type change_cipher_spec between the first and second ClientHello (see Section 5). Since the server is not storing any state, this will appear as if it were the first message to be received. Servers operating statelessly MUST ignore these records.""
   }
 ]"
 10,4.2.3.. Handshake Protocol_Extensions_Signature Algorithms,"TLS 1.3 provides two extensions for indicating which signature
@@ -1190,37 +1207,32 @@ index,section,content,semantic
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
     ""title"": ""Signature Algorithms Overview"",
-    ""content"": ""TLS 1.3 provides two extensions for indicating which signature algorithms may be used in digital signatures. The \""signature_algorithms_cert\"" extension applies to signatures in certificates, and the \""signature_algorithms\"" extension applies to signatures in CertificateVerify messages. The keys found in certificates MUST also be of appropriate type for the signature algorithms they are used with, particularly for RSA keys and PSS signatures. If no \""signature_algorithms_cert\"" extension is present, then the \""signature_algorithms\"" extension also applies to signatures appearing in certificates.""
+    ""content"": ""TLS 1.3 provides two extensions for indicating which signature algorithms may be used in digital signatures. The \""signature_algorithms_cert\"" extension applies to signatures in certificates, and the \""signature_algorithms\"" extension, which originally appeared in TLS 1.2, applies to signatures in CertificateVerify messages. The keys found in certificates MUST also be of appropriate type for the signature algorithms they are used with.""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""Client Requirements for Signature Algorithms"",
-    ""content"": ""Clients which desire the server to authenticate itself via a certificate MUST send the \""signature_algorithms\"" extension. If a server is authenticating via a certificate and the client has not sent a \""signature_algorithms\"" extension, then the server MUST abort the handshake with a \""missing_extension\"" alert (see Section 9.2).""
+    ""title"": ""Extension Requirements"",
+    ""content"": ""If no \""signature_algorithms_cert\"" extension is present, then the \""signature_algorithms\"" extension also applies to signatures appearing in certificates. Clients which desire the server to authenticate itself via a certificate MUST send the \""signature_algorithms\"" extension. If a server is authenticating via a certificate and the client has not sent a \""signature_algorithms\"" extension, then the server MUST abort the handshake with a \""missing_extension\"" alert (see Section 9.2).""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""Purpose of the Signature Algorithms Extensions"",
+    ""title"": ""Purpose of Signature Algorithms Cert Extension"",
     ""content"": ""The \""signature_algorithms_cert\"" extension was added to allow implementations which supported different sets of algorithms for certificates and in TLS itself to clearly signal their capabilities. TLS 1.2 implementations SHOULD also process this extension. Implementations which have the same policy in both cases MAY omit the \""signature_algorithms_cert\"" extension.""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""SignatureScheme Enumeration Definition"",
-    ""content"": ""enum { /* RSASSA-PKCS1-v1_5 algorithms */ rsa_pkcs1_sha256(0x0401), rsa_pkcs1_sha384(0x0501), rsa_pkcs1_sha512(0x0601), /* ECDSA algorithms */ ecdsa_secp256r1_sha256(0x0403), ecdsa_secp384r1_sha384(0x0503), ecdsa_secp521r1_sha512(0x0603), /* RSASSA-PSS algorithms with public key OID rsaEncryption */ rsa_pss_rsae_sha256(0x0804), rsa_pss_rsae_sha384(0x0805), rsa_pss_rsae_sha512(0x0806), /* EdDSA algorithms */ ed25519(0x0807), ed448(0x0808), /* RSASSA-PSS algorithms with public key OID RSASSA-PSS */ rsa_pss_pss_sha256(0x0809), rsa_pss_pss_sha384(0x080a), rsa_pss_pss_sha512(0x080b), /* Legacy algorithms */ rsa_pkcs1_sha1(0x0201), ecdsa_sha1(0x0203), /* Reserved Code Points */ private_use(0xFE00..0xFFFF), (0xFFFF) } SignatureScheme;""
+    ""title"": ""Signature Scheme Enumeration"",
+    ""content"": ""The \""extension_data\"" field of these extensions contains a SignatureSchemeList value:\n\n```plaintext\nenum {\n    /* RSASSA-PKCS1-v1_5 algorithms */\n    rsa_pkcs1_sha256(0x0401),\n    rsa_pkcs1_sha384(0x0501),\n    rsa_pkcs1_sha512(0x0601),\n\n    /* ECDSA algorithms */\n    ecdsa_secp256r1_sha256(0x0403),\n    ecdsa_secp384r1_sha384(0x0503),\n    ecdsa_secp521r1_sha512(0x0603),\n\n    /* RSASSA-PSS algorithms with public key OID rsaEncryption */\n    rsa_pss_rsae_sha256(0x0804),\n    rsa_pss_rsae_sha384(0x0805),\n    rsa_pss_rsae_sha512(0x0806),\n\n    /* EdDSA algorithms */\n    ed25519(0x0807),\n    ed448(0x0808),\n\n    /* RSASSA-PSS algorithms with public key OID RSASSA-PSS */\n    rsa_pss_pss_sha256(0x0809),\n    rsa_pss_pss_sha384(0x080a),\n    rsa_pss_pss_sha512(0x080b),\n\n    /* Legacy algorithms */\n    rsa_pkcs1_sha1(0x0201),\n    ecdsa_sha1(0x0203),\n\n    /* Reserved Code Points */\n    private_use(0xFE00..0xFFFF),\n    (0xFFFF)\n} SignatureScheme;\n```\n""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""SignatureSchemeList Structure Definition"",
-    ""content"": ""struct { SignatureScheme supported_signature_algorithms<2..2^16-2>; } SignatureSchemeList;""
-  },
-  {
-    ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""Signature Scheme Preferences"",
-    ""content"": ""Each SignatureScheme value lists a single signature algorithm that the client is willing to verify, indicated in descending order of preference. A signature algorithm takes as input an arbitrary-length message, rather than a digest. Algorithms which traditionally act on a digest should be defined in TLS to first hash the input with a specified hash algorithm and then proceed as usual.""
+    ""title"": ""Algorithm Definitions"",
+    ""content"": ""Each SignatureScheme value lists a single signature algorithm that the client is willing to verify. The values are indicated in descending order of preference. Note that a signature algorithm takes as input an arbitrary-length message, rather than a digest. Algorithms which traditionally act on a digest should be defined in TLS to first hash the input with a specified hash algorithm and then proceed as usual.""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
     ""title"": ""RSASSA-PKCS1-v1_5 Algorithms"",
-    ""content"": ""Indicates a signature algorithm using RSASSA-PKCS1-v1_5 [RFC8017] with the corresponding hash algorithm as defined in [SHS]. These values refer solely to signatures which appear in certificates (see Section 4.4.2.2) and are not defined for use in signed TLS handshake messages, although they MAY appear in \""signature_algorithms\"" and \""signature_algorithms_cert\"" for backward compatibility with TLS 1.2.""
+    ""content"": ""Indicates a signature algorithm using RSASSA-PKCS1-v1_5 [RFC8017] with the corresponding hash algorithm as defined in [SHS]. These values refer solely to signatures which appear in certificates and are not defined for use in signed TLS handshake messages, although they MAY appear in \""signature_algorithms\"" and \""signature_algorithms_cert\"" for backward compatibility with TLS 1.2.""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
@@ -1229,7 +1241,7 @@ index,section,content,semantic
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""RSASSA-PSS RSAE Algorithms"",
+    ""title"": ""RSASSA-PSS Algorithms"",
     ""content"": ""Indicates a signature algorithm using RSASSA-PSS [RFC8017] with mask generation function 1. The digest used in the mask generation function and the digest being signed are both the corresponding hash algorithm as defined in [SHS]. The length of the Salt MUST be equal to the length of the output of the digest algorithm.""
   },
   {
@@ -1239,37 +1251,17 @@ index,section,content,semantic
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""RSASSA-PSS PSS Algorithms"",
-    ""content"": ""Indicates a signature algorithm using RSASSA-PSS [RFC8017] with mask generation function 1. The digest used in the mask generation function and the digest being signed are both the corresponding hash algorithm as defined in [SHS]. The length of the Salt MUST be equal to the length of the digest algorithm.""
-  },
-  {
-    ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
     ""title"": ""Legacy Algorithms"",
-    ""content"": ""Indicates algorithms which are being deprecated due to known weaknesses, specifically SHA-1 which is used in this context with either RSA using RSASSA-PKCS1-v1_5 or ECDSA. These values refer solely to signatures which appear in certificates and are not defined for use in signed TLS handshake messages, although they MAY appear in \""signature_algorithms\"" and \""signature_algorithms_cert\"" for backward compatibility with TLS 1.2.""
+    ""content"": ""Indicates algorithms which are being deprecated because they use algorithms with known weaknesses, specifically SHA-1 which is used in this context with either (1) RSA using RSASSA-PKCS1-v1_5 or (2) ECDSA. These values refer solely to signatures which appear in certificates and are not defined for use in signed TLS handshake messages, although they MAY appear in \""signature_algorithms\"" and \""signature_algorithms_cert\"" for backward compatibility with TLS 1.2.""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""Self-Signed Certificates and Trust Anchors"",
+    ""title"": ""Signature Validation Notes"",
     ""content"": ""The signatures on certificates that are self-signed or certificates that are trust anchors are not validated, since they begin a certification path. A certificate that begins a certification path MAY use a signature algorithm that is not advertised as being supported in the \""signature_algorithms\"" extension.""
   },
   {
     ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""Backward Compatibility with TLS 1.2"",
-    ""content"": ""Note that TLS 1.2 defines this extension differently. TLS 1.3 implementations willing to negotiate TLS 1.2 MUST behave in accordance with the requirements of [RFC5246] when negotiating that version. In particular, TLS 1.2 ClientHellos MAY omit this extension.""
-  },
-  {
-    ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""Deprecated Signature Algorithms in TLS 1.2"",
-    ""content"": ""In TLS 1.2, the extension contained hash/signature pairs. These pairs are encoded in two octets, so SignatureScheme values have been allocated to align with TLS 1.2's encoding. Some legacy pairs are left unallocated. These algorithms are deprecated as of TLS 1.3 and MUST NOT be offered or negotiated by any implementation.""
-  },
-  {
-    ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""ECDSA Signature Schemes Compatibility"",
-    ""content"": ""ECDSA signature schemes align with TLS 1.2's ECDSA hash/signature pairs. However, the old semantics did not constrain the signing curve. If TLS 1.2 is negotiated, implementations MUST be prepared to accept a signature that uses any curve that they advertised in the \""supported_groups\"" extension.""
-  },
-  {
-    ""section_name"": ""4.2.3.. Handshake Protocol_Extensions_Signature Algorithms"",
-    ""title"": ""RSASSA-PSS Support in TLS 1.2"",
-    ""content"": ""Implementations that advertise support for RSASSA-PSS (which is mandatory in TLS 1.3) MUST be prepared to accept a signature using that scheme even when TLS 1.2 is negotiated.""
+    ""title"": ""TLS 1.2 Compatibility"",
+    ""content"": ""Note that TLS 1.2 defines this extension differently. TLS 1.3 implementations willing to negotiate TLS 1.2 MUST behave in accordance with the requirements of [RFC5246] when negotiating that version.""
   }
 ]"

@@ -617,58 +617,64 @@ pub fn run_python_script(
     temp_file_name.push("_tmp."); 
     temp_file_name.push(output_path.extension().unwrap()); 
     let temp_file_path = output_path.with_file_name(temp_file_name);
-    // 初始化CSV读写器和表头
-    // 获取源文件reader
-    // 获取tmp文件的writer
-    // 获取源文件表头
-    // 获取新文件表头
-    let (mut reader, mut writer, original_headers, new_headers) = initialize_csv(
-        input_path,
-        temp_file_path.as_path(),
-        format,
-    )?;
-    println!("Starting to process input fields indices: {:?}", input_fields);
-    // 利用源文件表头构建字段搜索索引
-    let field_indices = build_field_indices(&original_headers, input_fields);
-    println!("Field indices: {:?}", field_indices);
-    // 利用搜索索引,遍历源文件每一行,构建LLM JSON格式化输入
-    // 同时对tmp文件新添加列(result)填入默认值
-    let mut formatted_messages = Vec::new();
-    for result in reader.records() {
-        let record = result?;
-        // 为输出文件准备行数据
-        let mut row_data: Vec<String> = record.iter().map(|s| s.to_string()).collect();
-        while row_data.len() < new_headers.len(){
-            row_data.push("waiting fill".to_string());
+    
+    if !temp_file_path.exists() {
+        // 初始化CSV读写器和表头
+        // 获取源文件reader
+        // 获取tmp文件的writer
+        // 获取源文件表头
+        // 获取新文件表头
+        let (mut reader, mut writer, original_headers, new_headers) = initialize_csv(
+            input_path,
+            temp_file_path.as_path(),
+            format,
+        )?;
+        println!("Starting to process input fields indices: {:?}", input_fields);
+        // 利用源文件表头构建字段搜索索引
+        let field_indices = build_field_indices(&original_headers, input_fields);
+        println!("Field indices: {:?}", field_indices);
+        // 利用搜索索引,遍历源文件每一行,构建LLM JSON格式化输入
+        // 同时对tmp文件新添加列(result)填入默认值
+        let mut formatted_messages = Vec::new();
+        for result in reader.records() {
+            let record = result?;
+            // 为输出文件准备行数据
+            let mut row_data: Vec<String> = record.iter().map(|s| s.to_string()).collect();
+            while row_data.len() < new_headers.len(){
+                row_data.push("waiting fill".to_string());
+            }
+            writer.write_record(&row_data)?;
+            // 准备消息数据
+            let json_data = build_json_input(&record, &field_indices, input_fields);
+            formatted_messages.push(json_data.to_string());
         }
-        writer.write_record(&row_data)?;
-        // 准备消息数据
-        let json_data = build_json_input(&record, &field_indices, input_fields);
-        formatted_messages.push(json_data.to_string());
+        println!("Formatted messages len: {:?}", formatted_messages.len());
+        // 写入缓冲区刷新
+        writer.flush()?;
+    
+        println!(
+            "Starting to process {} messages...",
+            formatted_messages.len()
+        );
+        // 构建tokio的异步运行时,调用POE LLM,获取结果
+        let results = Arc::new(Mutex::new(HashMap::new()));
+        let runtime = tokio::runtime::Runtime::new()?;
+        runtime.block_on(async {
+            if let Err(e) = process_messages(
+                formatted_messages,
+                bot_name,
+                Arc::clone(&results),
+            )
+            .await {
+                eprintln!("Error processing messages: {}", e);
+            }
+        });
+        // 将结果按照index索引写入到tmp文件中,默认是result列的更新
+        update_output_file(temp_file_path.as_path(), &new_headers, &results)?;
+    } else {
+        println!("Temp file already exists, skipping to construct new header part.");
     }
-    println!("Formatted messages len: {:?}", formatted_messages.len());
-    // 写入缓冲区刷新
-    writer.flush()?;
 
-    println!(
-        "Starting to process {} messages...",
-        formatted_messages.len()
-    );
-    // 构建tokio的异步运行时,调用POE LLM,获取结果
-    let results = Arc::new(Mutex::new(HashMap::new()));
-    let runtime = tokio::runtime::Runtime::new()?;
-    runtime.block_on(async {
-        if let Err(e) = process_messages(
-            formatted_messages,
-            bot_name,
-            Arc::clone(&results),
-        )
-        .await {
-            eprintln!("Error processing messages: {}", e);
-        }
-    });
-    // 将结果按照index索引写入到tmp文件中,默认是result列的更新
-    update_output_file(temp_file_path.as_path(), &new_headers, &results)?;
     // 读取tmp文件,逐行读取result列,根据additional_fields参数进行构建
     // 1. 首先在additional_fields vec前添加index参数,赋值为new_header 
     // 2. 将new_header作为output_path新文件的表头
@@ -934,7 +940,7 @@ fn parse_results_rule_extract(
 
 // fn parse_results<T: for<'de> Deserialize<'de> + Serialize>(
 //     input_path: &Path, 
-//     output_path: &Path, 
+//     output_path: &Path,                                                                                                                                                                                                 
 //     new_headers: Vec<String>,
 //     fields: &[String],
 // ) -> Result<(), Box<dyn Error>> {
