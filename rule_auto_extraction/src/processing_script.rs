@@ -44,10 +44,21 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
                 "content".to_string()
             ],
         },
+        // construction_rule_type, construction_explicitness, construction_base, 
+        // processing_rule_type, processing_explicitness, processing_base
         "extract_rule" => PythonScriptConfig {
             script_name: "extract_rule.py".to_string(),
             bot_name: "TLSRFC_EXTRACT".to_string(),
-            additional_fields: vec!["ExtractedRule".to_string()],
+            additional_fields: vec![
+                "section".to_string(),
+                "title".to_string(),
+                "construction_rule_type".to_string(),
+                "construction_explicitness".to_string(),
+                "construction_base".to_string(),
+                "processing_rule_type".to_string(),
+                "processing_explicitness".to_string(),
+                "processing_base".to_string(),
+            ],
             input_fields: vec![
                 "Section".to_string(),
                 "Title".to_string(),
@@ -78,6 +89,10 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
 /// 定义处理步骤
 pub fn get_processing_steps() -> Vec<ProcessStep> {
     vec![
+        // 源文件的section+content作为输入
+        // tmp文件：index+section+content+result(包含多个解析后的content)
+        // output文件: 解析content, 解析后的内容，按照所属section, 解析为index+<section>+(title+content)
+        // 用的struct, semantic_entry, section_name, title, content
         ProcessStep {
             input_file: Some("rfc_original_description_1.csv"),
             output_file: "rfc_sliced_description_2.csv",
@@ -93,12 +108,19 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
                 &path.join("rfc_sliced_description_filter_3.csv")
             )),
         },
-        // ProcessStep {
-        //     input_file: Some("rfc_sliced_description_filter_3.csv"),
-        //     output_file: "rfc_description_extract_rule_4.csv",
-        //     description: "Running extract rule script",
-        //     action: StepAction::PythonScript(get_python_config("extract_rule")),
-        // },
+        // section+title+content 作为输入
+        // tmp文件：index+section+title+content+result(包含多个解析rule)
+        // output文件: index+<section+title>+(rule)
+        // 用的struct, rule_entry, 
+        // section, title, 
+        // construction_rule_type, construction_explicitness, construction_base, 
+        // processing_rule_type, processing_explicitness, processing_base
+        ProcessStep {
+            input_file: Some("rfc_sliced_description_filter_3.csv"),
+            output_file: "rfc_description_extract_rule_4.csv",
+            description: "Running extract rule script",
+            action: StepAction::PythonScript(get_python_config("extract_rule")),
+        },
         // ProcessStep {
         //     input_file: Some("rfc_description_extract_rule_4.csv"),
         //     output_file: "rfc_results_update_slice_rule.csv",
@@ -242,52 +264,3 @@ pub fn execute_steps_from_index(
     
 //     Err("Version not found".into())
 // }
-
-
-
-
-
-// fn setup_ctrlc_handler(child_process: &mut Child) -> Result<(), Box<dyn Error>> {
-//     // 创建一个标志来追踪是否已经处理过中断信号
-//     let handled = Arc::new(AtomicBool::new(false));
-//     let handled_clone = handled.clone();
-
-//     // 获取子进程的ID
-//     let child_id = child_process.id();
-
-//     ctrlc::set_handler(move || {
-//         // 确保处理器只执行一次
-//         if !handled_clone.swap(true, Ordering::SeqCst) {
-//             println!("{}","\nReceived Ctrl+C! Terminating child process...".red());
-            
-//             // 在 Windows 上终止进程
-//             #[cfg(windows)]
-//             {
-//                 Command::new("taskkill")
-//                     .args(&["/F", "/T", "/PID", &child_id.to_string()])
-//                     .output()
-//                     .expect("Failed to kill child process");
-//             }
-
-//             // 在 Unix 系统上终止进程
-//             #[cfg(unix)]
-//             unsafe {
-//                 libc::kill(child_id as i32, libc::SIGTERM);
-//             }
-
-//             // 退出主程序
-//             exit(0);
-//         }
-//     })?;
-
-//     Ok(())
-// }
-
-
-
-
-
-
-
-
-

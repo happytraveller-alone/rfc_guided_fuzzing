@@ -22,8 +22,9 @@ pub fn judge_rule(input: &PathBuf, output: &PathBuf) -> Result<(), Box<dyn Error
     let content_index = headers.iter().position(|h| h == "Content").ok_or("Content column not found")?;
     let re = Regex::new(r"(?i)\b(MUST|MUST NOT|SHALL|REQUIRED|SHALL NOT)\b")?;
 
+    
     // 增加新列 "RuleMatch"
-    headers.push_field("RuleMatch");
+    // headers.push_field("RuleMatch");
 
     // let output_path = rfc_results_path.with_file_name("rfc_results_update_judge.csv");
     let mut writer = WriterBuilder::new().from_path(&output)?;
@@ -32,13 +33,21 @@ pub fn judge_rule(input: &PathBuf, output: &PathBuf) -> Result<(), Box<dyn Error
     let mut total_rules = 0;
     let mut count_ones = 0;
     let mut count_zeros = 0;
+    let mut index = 1;
 
     for result in reader.records() {
-        let mut record = result?;
+        let record = result?;
         let content = record.get(content_index).unwrap_or("");
         let value = if re.is_match(content) { 1 } else { 0 };
-        record.push_field(&value.to_string());
-        writer.write_record(&record)?;
+        if value != 0 {
+            // record.push_field(&value.to_string());
+            // writer.write_record(&record)?;
+            let record_with_index: Vec<String> = record.iter().enumerate().map(|(i, field)| {
+                if i == 0 { index.to_string() } else { field.to_string() }
+            }).collect();
+            writer.write_record(&record_with_index)?;
+            index += 1;
+        }
 
         total_rules += 1;
         if value == 1 {

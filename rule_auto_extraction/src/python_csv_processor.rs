@@ -103,12 +103,12 @@ impl SharedPoeClient {
     async fn send_message(&self, bot_name: &str, message: &str) -> PyResult<String> {
         // 获取信号量许可
         let _permit = self.request_semaphore.acquire().await.unwrap();
-        // 确保请求间隔至少2s
+        // 确保请求间隔至少10s
         {
             let mut last_time = self.last_request_time.lock().unwrap();
             let elapsed = last_time.elapsed();
-            if elapsed < Duration::from_secs(8) {
-                thread::sleep(Duration::from_secs(8) - elapsed);
+            if elapsed < Duration::from_secs(10) {
+                thread::sleep(Duration::from_secs(10) - elapsed);
             }
             *last_time = Instant::now();
         }
@@ -195,7 +195,7 @@ async fn process_messages(
         let buffer_time = (chunk_size as f64).sqrt() as u64 * 10;
         let retry_buffer = (chunk_size as u64 * 10 / 100) * 10;
         let total_timeout = base_time + buffer_time + retry_buffer;
-        Duration::from_secs(total_timeout.clamp(150, 600)) // 2-10分钟之间
+        Duration::from_secs(total_timeout.clamp(180, 600)) // 2-10分钟之间
     };
 
     println!("Processing messages in chunks of {}", chunk_size);
@@ -565,6 +565,40 @@ struct SemanticEntry {
     content: String,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct Message {
+    section: String,
+    title: String,
+    message_construction: Construction,
+    message_processing: Processing,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Construction {
+    construction_rule_type: String,
+    construction_explicitness: u8,
+    construction_base: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Processing {
+    processing_rule_type: String,
+    processing_explicitness: u8,
+    processing_base: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Rule {
+    section: String,
+    title: String,
+    construction_rule_type: String,
+    construction_explicitness: u8,
+    construction_base: String,
+    processing_rule_type: String,
+    processing_explicitness: u8,
+    processing_base: String,
+}
+
 
 // 主函数
 pub fn run_python_script(
@@ -770,16 +804,6 @@ fn parse_results_semantic_analysis(
                         &entry.title.replace("\"\"", "\""),
                         &entry.content.replace("\"\"", "\""),
                     ])?;
-                    // let mut record = vec![global_index.to_string()]; 
-                    // let entry_value = serde_json::to_value(&entry)?; 
-                    // for field in fields { 
-                    //     let value = entry_value.get(field)
-                    //                                    .and_then(Value::as_str)
-                    //                                    .unwrap_or("")
-                    //                                    .replace("\"\"", "\""); 
-                    //     record.push(value); 
-                    // } 
-                    // wtr.write_record(&record)?;
                     global_index += 1;
                 }
             },
@@ -796,6 +820,18 @@ fn parse_results_semantic_analysis(
     wtr.flush()?;
     println!("Total parsed entries: {}", global_index - 1);
     Ok(())
+}
+
+fn escape_csv_field(field: &str) -> String {
+    let mut escaped = String::from("\"");
+    for c in field.chars() {
+        if c == '"' {
+            escaped.push('"');
+        }
+        escaped.push(c);
+    }
+    escaped.push('"');
+    escaped
 }
 
 fn parse_results_rule_extract(
@@ -831,124 +867,52 @@ fn parse_results_rule_extract(
         let result_value = record.get(result_idx).unwrap_or("").trim();
         
         // 跳过空值和默认值
-        if result_value.is_empty() || result_value == "default_value" {
+        if result_value.is_empty() || result_value == "waiting fill" {
             continue;
         }
         // 清理和解析 JSON
         let cleaned_json = result_value
                                         .replace("```json", "")  // 移除开始标记
                                         .replace("```", "")      // 移除结束标记
+                                        .replace("[]", "")      // 移除结束标记
                                         .trim()                  // 移除首尾空白
                                         .to_string();
-        // 调试输出
-        // println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
-
-        // 尝试解析 JSON 数组
-        match serde_json::from_str::<Vec<SemanticEntry>>(&cleaned_json) {
-            Ok(entries) => {
-                // 为每个解析出的条目写入一行
-                for entry in entries {
-                    wtr.write_record(&[
-                        &global_index.to_string(),
-                        &entry.section_name.replace("\"\"", "\""),
-                        &entry.title.replace("\"\"", "\""),
-                        &entry.content.replace("\"\"", "\""),
-                    ])?;
-                    // let mut record = vec![global_index.to_string()]; 
-                    // let entry_value = serde_json::to_value(&entry)?; 
-                    // for field in fields { 
-                    //     let value = entry_value.get(field)
-                    //                                    .and_then(Value::as_str)
-                    //                                    .unwrap_or("")
-                    //                                    .replace("\"\"", "\""); 
-                    //     record.push(value); 
-                    // } 
-                    // wtr.write_record(&record)?;
-                    global_index += 1;
-                }
-            },
-            Err(e) => {
-                eprintln!("Error parsing JSON at row {}: {}", row_num + 1, e);
-                eprintln!("Problematic JSON: {}", result_value);
-                // 可以选择继续处理或者返回错误
-                // return Err(Box::new(e));
-                continue;
-            }
-        }
-    }
-
-    wtr.flush()?;
-    println!("Total parsed entries: {}", global_index - 1);
-    Ok(())
-}
-
-
-fn parse_results<T: for<'de> Deserialize<'de> + Serialize>(
-    input_path: &Path, 
-    output_path: &Path, 
-    new_headers: Vec<String>,
-    fields: &[String],
-) -> Result<(), Box<dyn Error>> {
-    // 读取输入文件
-    let file = File::open(input_path)?;
-    let mut rdr = Reader::from_reader(file);
-    
-    // 获取 semantic 列的索引
-    let headers = rdr.headers()?;
-    let result_idx = headers
-        .iter()
-        .position(|h| h == "result")
-        .ok_or("Semantic column not found")?;
-
-    // 创建输出文件
-    let output_file = File::create(output_path)?;
-    let mut wtr = Writer::from_writer(output_file);
-
-    // 写入新的表头
-    wtr.write_record(&new_headers)?;
-
-    // 用于跟踪全局索引
-    let mut global_index = 1;
-
-    // 处理每一行
-    for (row_num, result) in rdr.records().enumerate() {
-        let record = result?;
-        let result_value = record.get(result_idx).unwrap_or("").trim();
         
         // 跳过空值和默认值
-        if result_value.is_empty() || result_value == "default_value" {
+        if cleaned_json.is_empty() || cleaned_json == "waiting fill" {
             continue;
         }
-        // 清理和解析 JSON
-        let cleaned_json = result_value
-                                        .replace("```json", "")  // 移除开始标记
-                                        .replace("```", "")      // 移除结束标记
-                                        .trim()                  // 移除首尾空白
-                                        .to_string();
         // 调试输出
         println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
 
         // 尝试解析 JSON 数组
-        match serde_json::from_str::<Vec<T>>(&cleaned_json) {
-            Ok(entries) => {
+        // 尝试解析 JSON 数组
+        match serde_json::from_str::<Vec<Message>>(&cleaned_json) {
+            Ok(messages) => {
                 // 为每个解析出的条目写入一行
-                for entry in entries {
-                    // wtr.write_record(&[
-                    //     &global_index.to_string(),
-                    //     &entry.section_name.replace("\"\"", "\""),
-                    //     &entry.title.replace("\"\"", "\""),
-                    //     &entry.content.replace("\"\"", "\""),
-                    // ])?;
-                    let mut record = vec![global_index.to_string()]; 
-                    let entry_value = serde_json::to_value(&entry)?; 
-                    for field in fields { 
-                        let value = entry_value.get(field)
-                                                       .and_then(Value::as_str)
-                                                       .unwrap_or("")
-                                                       .replace("\"\"", "\""); 
-                        record.push(value); 
-                    } 
-                    wtr.write_record(&record)?;
+                for (index, message) in messages.iter().enumerate() {
+                    let rule = Rule {
+                        section: message.section.clone(),
+                        title: message.title.clone(),
+                        construction_rule_type: message.message_construction.construction_rule_type.clone(),
+                        construction_explicitness: message.message_construction.construction_explicitness,
+                        construction_base: message.message_construction.construction_base.clone(),
+                        processing_rule_type: message.message_processing.processing_rule_type.clone(),
+                        processing_explicitness: message.message_processing.processing_explicitness,
+                        processing_base: message.message_processing.processing_base.clone(),
+                    };
+
+                    wtr.write_record(&[
+                        &global_index.to_string(),
+                        &rule.section,
+                        &rule.title,
+                        &rule.construction_rule_type,
+                        &rule.construction_explicitness.to_string(),
+                        &escape_csv_field(&rule.construction_base),
+                        &rule.processing_rule_type,
+                        &rule.processing_explicitness.to_string(),
+                        &escape_csv_field(&rule.processing_base),
+                    ])?;
                     global_index += 1;
                 }
             },
@@ -966,3 +930,88 @@ fn parse_results<T: for<'de> Deserialize<'de> + Serialize>(
     println!("Total parsed entries: {}", global_index - 1);
     Ok(())
 }
+
+
+// fn parse_results<T: for<'de> Deserialize<'de> + Serialize>(
+//     input_path: &Path, 
+//     output_path: &Path, 
+//     new_headers: Vec<String>,
+//     fields: &[String],
+// ) -> Result<(), Box<dyn Error>> {
+//     // 读取输入文件
+//     let file = File::open(input_path)?;
+//     let mut rdr = Reader::from_reader(file);
+    
+//     // 获取 semantic 列的索引
+//     let headers = rdr.headers()?;
+//     let result_idx = headers
+//         .iter()
+//         .position(|h| h == "result")
+//         .ok_or("Semantic column not found")?;
+
+//     // 创建输出文件
+//     let output_file = File::create(output_path)?;
+//     let mut wtr = Writer::from_writer(output_file);
+
+//     // 写入新的表头
+//     wtr.write_record(&new_headers)?;
+
+//     // 用于跟踪全局索引
+//     let mut global_index = 1;
+
+//     // 处理每一行
+//     for (row_num, result) in rdr.records().enumerate() {
+//         let record = result?;
+//         let result_value = record.get(result_idx).unwrap_or("").trim();
+        
+//         // 跳过空值和默认值
+//         if result_value.is_empty() || result_value == "default_value" {
+//             continue;
+//         }
+//         // 清理和解析 JSON
+//         let cleaned_json = result_value
+//                                         .replace("```json", "")  // 移除开始标记
+//                                         .replace("```", "")      // 移除结束标记
+//                                         .trim()                  // 移除首尾空白
+//                                         .to_string();
+//         // 调试输出
+//         println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
+
+//         // 尝试解析 JSON 数组
+//         match serde_json::from_str::<Vec<T>>(&cleaned_json) {
+//             Ok(entries) => {
+//                 // 为每个解析出的条目写入一行
+//                 for entry in entries {
+//                     // wtr.write_record(&[
+//                     //     &global_index.to_string(),
+//                     //     &entry.section_name.replace("\"\"", "\""),
+//                     //     &entry.title.replace("\"\"", "\""),
+//                     //     &entry.content.replace("\"\"", "\""),
+//                     // ])?;
+//                     let mut record = vec![global_index.to_string()]; 
+//                     let entry_value = serde_json::to_value(&entry)?; 
+//                     for field in fields { 
+//                         let value = entry_value.get(field)
+//                                                        .and_then(Value::as_str)
+//                                                        .unwrap_or("")
+//                                                        .replace("\"\"", "\""); 
+//                         record.push(value); 
+//                     } 
+//                     wtr.write_record(&record)?;
+//                     global_index += 1;
+//                 }
+//             },
+//             Err(e) => {
+//                 eprintln!("Error parsing JSON at row {}: {}", row_num + 1, e);
+//                 eprintln!("Problematic JSON: {}", result_value);
+//                 // 可以选择继续处理或者返回错误
+//                 // return Err(Box::new(e));
+//                 continue;
+//             }
+//         }
+//     }
+
+//     wtr.flush()?;
+//     println!("Total parsed entries: {}", global_index - 1);
+//     Ok(())
+// }

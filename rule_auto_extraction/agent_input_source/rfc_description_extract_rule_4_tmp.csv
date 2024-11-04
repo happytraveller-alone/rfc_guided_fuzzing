@@ -1,0 +1,25 @@
+index,Section,Title,Content,result
+1,4.1.. Handshake Protocol_Key Exchange Messages,Message Handling and Order,"Key exchange messages must be processed in the order defined by the TLS protocol. Incorrect ordering can lead to handshake failure, requiring the party that receives a message out of order to abort the handshake.","```json
+[]
+```"
+2,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,Key Exchange Methods,"TLS 1.3 supports various key exchange methods, including (EC)DHE and pre-shared keys (PSK). The choice of key exchange impacts the security level and efficiency of the connection. Each party must ensure the selected method is compatible with their capabilities.","```json
+[]
+```"
+3,4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation,Error Handling in Negotiation,"If the server cannot agree on a cipher suite or key exchange method, it must abort the handshake with an appropriate alert message, such as 'handshake_failure'. This ensures that both parties only proceed with secure and compatible parameters.","```json
+[
+  {
+    ""section"": ""4.1.1.. Handshake Protocol_Key Exchange Messages_Cryptographic Negotiation"",
+    ""title"": ""Error Handling in Negotiation"",
+    ""message_processing"": {
+      ""processing_rule_type"": ""CLI-MSG-PROC"",
+      ""processing_explicitness"": 1,
+      ""processing_base"": ""Clients MUST handle negotiation errors by sending an appropriate alert message if an error occurs during the cryptographic negotiation.""
+    },
+    ""message_construction"": {
+      ""construction_rule_type"": ""SRV-MSG-CONST"",
+      ""construction_explicitness"": 1,
+      ""construction_base"": ""Servers MUST respond to negotiation errors with an error alert indicating the type of failure.""
+    }
+  }
+]
+```"

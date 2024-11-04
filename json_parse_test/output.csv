@@ -1,0 +1,4 @@
+index,construction_rule_type,construction_explicitness,construction_base,processing_rule_type,processing_explicitness,processing_base
+1,CLI-MSG-CONST,1,"Clients MUST send the ClientHello as their first TLS message when connecting to a server.",SRV-MSG-PROC,0,"Servers MUST expect a ClientHello message as the first TLS message."
+2,CLI-MSG-CONST,1,"After receiving a HelloRetryRequest, clients MUST send a modified ClientHello with: (1) a new ""key_share"" extension with a single KeyShareEntry if requested, (2) removal of the ""early_data"" extension if present, and (3) inclusion of a ""cookie"" extension if provided.",SRV-MSG-PROC,0,"Servers MUST verify these mandatory modifications in the new ClientHello."
+3,CLI-MSG-CONST,1,"Clients MUST update the ""pre_shared_key"" values and MAY modify the ""padding"" extension as needed.",SRV-MSG-PROC,0,"Servers MUST verify updated ""pre_shared_key"" values and accept optional ""padding"" modifications."
