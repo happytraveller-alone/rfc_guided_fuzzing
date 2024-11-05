@@ -18,7 +18,7 @@ struct RuleStructure {
 
 pub fn judge_rule(input: &PathBuf, output: &PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = Reader::from_path(input)?;
-    let mut headers = reader.headers()?.clone();
+    let headers = reader.headers()?.clone();
     let content_index = headers.iter().position(|h| h == "Content").ok_or("Content column not found")?;
     let re = Regex::new(r"(?i)\b(MUST|must|MUST NOT|must not|SHALL|shall|REQUIRED|required|SHALL NOT|shall not)\b")?;
 

@@ -2,16 +2,18 @@ use csv::{StringRecord,Reader, Writer};
 use pyo3::types::{PyDict,IntoPyDict};
 // use pyo3::exceptions::PyIOError;
 use pyo3::prelude::*;
-use std::{thread,collections::HashMap,error::Error,fs::File,process::{Command,exit}};
+use std::{collections::HashMap,error::Error,fs::File,process::{Command,exit}, sync::Mutex as SyncMutex};
 use std::path::{Path,PathBuf};
 use std::io::{self, Error as io_Error, ErrorKind};
 use colored::*;
 use tokio::signal;
 use serde_json::{Value, json};
 use serde::{Deserialize, Serialize};
-use std::sync::{atomic::{AtomicUsize, Ordering},Arc, Mutex};
+use std::sync::{atomic::{AtomicUsize, Ordering},Arc};
 use std::time::{Duration, Instant};
 use tokio::sync::Semaphore;
+use tokio::time::Duration as tokio_Duration;
+use tokio::sync::Mutex;
 // 假设这是完整的 PoeClient 实现
 #[derive(Debug)]
 enum PoeError {
@@ -131,11 +133,13 @@ impl SharedPoeClient {
 
             // 确保请求间隔至少8秒
             {
-                let mut last_time = self.last_request_time.lock().unwrap();
+                let mut last_time = self.last_request_time.lock().await;
                 let elapsed = last_time.elapsed();
-                if elapsed < Duration::from_secs(8) {
+                if elapsed < tokio_Duration::from_secs(5) {
                     // 如果请求间隔不足8秒，等待剩余的时间
-                    thread::sleep(Duration::from_secs(8) - elapsed);
+                    // 使用异步等待而不是线程阻塞
+                    tokio::time::sleep(tokio_Duration::from_secs(5) - elapsed).await;
+
                 }
                 // 更新请求时间
                 *last_time = Instant::now();
@@ -143,9 +147,11 @@ impl SharedPoeClient {
 
             // 执行请求
             match Python::with_gil(|py| {
-                let kwargs = [("timeout", 40)].into_py_dict_bound(py);
+                let kwargs = [("timeout", 60)].into_py_dict_bound(py);
                 let client = self.client.bind(py);
                 let generator = client.call_method("send_message", (bot_name, message), Some(&kwargs))?;
+                // sleep(Duration::from_secs(3)).await; // 异步等待2秒
+                // generator.await // 等待 Python 协程执行完成
                 let builtins = py.import_bound("builtins")?;
                 let list_fn = builtins.getattr("list")?;
                 let chunks = list_fn.call1((generator,))?;
@@ -184,7 +190,7 @@ impl SharedPoeClient {
                                 index,
                                 retry + 1
                             );
-                            4
+                            3
                         }
                         PoeError::ServerDisconnected => {
                             eprintln!(
@@ -230,13 +236,12 @@ impl SharedPoeClient {
 unsafe impl Send for SharedPoeClient {}
 unsafe impl Sync for SharedPoeClient {}
 
+
 async fn process_messages(
     messages: Vec<String>,
     bot_name: &str,
     results: Arc<Mutex<HashMap<usize, String>>>,
 ) -> Result<(), Box<dyn Error>> {
-    // let results: Arc<Mutex<HashMap<usize, String>>> = Arc::new(Mutex::new(HashMap::new()));
-
     let cpu_count = num_cpus::get();
     let cpu_count_physical = num_cpus::get_physical();
     println!(
@@ -248,7 +253,7 @@ async fn process_messages(
         .min(cpu_count as f64)
         .min(20.0)
         .max(4.0) as usize;
-    let initial_threads = (max_threads as f64 * 0.3).ceil() as usize;
+    let initial_threads = (max_threads as f64 * 0.2).ceil() as usize;
     let mut current_max_threads = initial_threads;
 
     let active_threads = Arc::new(Mutex::new(0));
@@ -281,7 +286,7 @@ async fn process_messages(
         let buffer_time = (chunk_size as f64).sqrt() as u64 * 10;
         let retry_buffer = (chunk_size as u64 * 10 / 100) * 10;
         let total_timeout = base_time + buffer_time + retry_buffer;
-        Duration::from_secs(total_timeout.clamp(150, 600)) // 2-10分钟之间
+        Duration::from_secs(total_timeout.clamp(350, 600)) // 5-10分钟之间
     };
 
     println!("Processing messages in chunks of {}", chunk_size);
@@ -312,10 +317,10 @@ async fn process_messages(
             let messages_since_last_check = Arc::clone(&messages_since_last_check);
 
             let absolute_index = chunk_start_index + offset;
-            println!("active_threads: {}", *main_active_threads.lock().unwrap());
-            while *main_active_threads.lock().unwrap() >= current_max_threads {
-                let mut last_time = last_check_time.lock().unwrap();
-                let mut msgs_count = messages_since_last_check.lock().unwrap();
+            // println!("active_threads: {}", *main_active_threads.lock().await);
+            while *main_active_threads.lock().await >= current_max_threads {
+                let mut last_time = last_check_time.lock().await;
+                let mut msgs_count = messages_since_last_check.lock().await;
                 let elapsed = last_time.elapsed();
 
                 if elapsed >= Duration::from_secs(30) {
@@ -329,15 +334,14 @@ async fn process_messages(
             }
 
             {
-                let mut count = main_active_threads.lock().unwrap();
+                let mut count = main_active_threads.lock().await;
                 *count += 1;
             }
 
             // 性能自适应
             {
-                let current_success = *success_count.lock().unwrap();
-                // let current_failures = *failure_streak.lock().unwrap();
-                let total = *total_processed.lock().unwrap();
+                let current_success = *success_count.lock().await;
+                let total = *total_processed.lock().await;
 
                 if total > 0 && total % 5 == 0 {
                     let success_rate = current_success as f64 / total as f64;
@@ -363,7 +367,7 @@ async fn process_messages(
 
                 match client.send_message(absolute_index + 1, &bot_name, &message, MAX_RETRIES).await {
                     Ok(response) => {
-                        results.lock().unwrap().insert(absolute_index + 1, response.clone());
+                        results.lock().await.insert(absolute_index + 1, response.clone());
                         success = true;
                         completed.fetch_add(1, Ordering::SeqCst);
                         println!(
@@ -378,14 +382,14 @@ async fn process_messages(
                 }
 
                 if success {
-                    *success_count.lock().unwrap() += 1;
-                    *failure_streak.lock().unwrap() = 0;
+                    *success_count.lock().await += 1;
+                    *failure_streak.lock().await = 0;
                 } else {
-                    *failure_streak.lock().unwrap() += 1;
-                    *success_count.lock().unwrap() = 0;
+                    *failure_streak.lock().await += 1;
+                    *success_count.lock().await = 0;
                 }
 
-                let mut count = active_threads.lock().unwrap();
+                let mut count = active_threads.lock().await;
                 *count -= 1;
                 println!(
                     "Message {} in chunk {} completed",
@@ -395,17 +399,17 @@ async fn process_messages(
             });
 
             chunk_handles.push(handle);
-            *total_processed.lock().unwrap() += 1;
-            *messages_since_last_check.lock().unwrap() += 1;
+            *total_processed.lock().await += 1;
+            *messages_since_last_check.lock().await += 1;
         }
 
-        // 等待当前chunk完成或超时
+        // 等待当前 chunk 完成或超时
         println!("Waiting for chunk {} to complete...", chunk_index + 1);
         tokio::select! {
             _ = futures::future::join_all(chunk_handles) => {
                 println!("Chunk {} completed successfully", chunk_index + 1);
                 // 给一些额外时间让最后的结果写入
-                tokio::time::sleep(Duration::from_secs(2)).await;
+                tokio::time::sleep(Duration::from_secs(10)).await;
             }
             _ = tokio::time::sleep(timeout) => {
                 println!("Chunk {} timeout reached after {:?}", chunk_index + 1, timeout);
@@ -420,7 +424,7 @@ async fn process_messages(
     }
 
     let duration = start_time.elapsed();
-    let results = results.lock().unwrap();
+    let results = results.lock().await;
     println!("\nProcessing completed in {:?}", duration);
     println!(
         "Successfully processed {} out of {} messages",
@@ -428,19 +432,9 @@ async fn process_messages(
         message_len
     );
     client.clean_message(bot_name, true);
-    // 按序号打印结果
-    // let mut sorted_results: Vec<_> = results.iter().collect();
-    // sorted_results.sort_by_key(|&(k, _)| k);
-    // for (index, response) in sorted_results {
-    //     println!(
-    //         "Message {}: Response length: {} characters",
-    //         index,
-    //         response.len()
-    //     );
-    //     // println!("Response preview: {:.100}...", response);
-    // }
     Ok(())
 }
+
 
 
 fn read_input_file(input_path: Option<PathBuf>, format: &str) -> io::Result<Reader<File>> {
@@ -649,9 +643,10 @@ struct Rule {
 }
 
 
+
 // 主函数
 pub fn run_python_script(
-    script_name: &str,
+    _script_name: &str,
     bot_name: &str,
     input_path: Option<PathBuf>,
     output_path: &Path,
@@ -720,6 +715,10 @@ pub fn run_python_script(
             }
         });
         // 将结果按照index索引写入到tmp文件中,默认是result列的更新
+        // let async_guard = results.lock().await;
+        // let results_copy = results.clone(); // 创建数据的拷贝
+        // let sync_results = convert_results_for_sync(Arc::clone(&results)).await;
+        // 转换为同步锁保护的数据
         update_output_file(temp_file_path.as_path(), &new_headers, &results)?;
     } else {
         println!("Temp file already exists, skipping to construct new header part.");
@@ -760,8 +759,21 @@ pub fn run_python_script(
 fn update_output_file(
     output_path: &Path,
     headers: &StringRecord,
-    results: &Arc<Mutex<HashMap<usize, String>>>,
+    results: &Arc<Mutex<HashMap<usize, String>>>,  // 使用异步锁类型
 ) -> Result<(), Box<dyn Error>> {
+    // 创建一个运行时
+    let rt = tokio::runtime::Runtime::new()?;
+
+    // 使用运行时同步地获取异步锁中的数据
+    let results_guard = rt.block_on(results.lock());
+
+    // 将异步锁的数据复制到一个同步的 HashMap 中
+    let results_copy = results_guard.clone();
+    drop(results_guard);  // 释放异步锁
+
+    // 创建一个同步的 Mutex 保护结果
+    let sync_results = Arc::new(SyncMutex::new(results_copy));
+
     // 读取当前输出文件的所有记录
     let file = File::open(output_path)?;
     let mut rdr = Reader::from_reader(file);
@@ -775,7 +787,7 @@ fn update_output_file(
     let result_idx = headers
         .iter()
         .position(|h| h == "result")
-        .ok_or("result column not found")?;
+        .ok_or("Result column not found")?;
 
     // 创建新的写入器
     let output_file = File::create(output_path)?;
@@ -784,15 +796,15 @@ fn update_output_file(
     // 写入表头
     wtr.write_record(headers)?;
 
-    // 获取结果并更新记录
-    let results_guard = results.lock().map_err(|e| format!("Failed to lock results: {}", e))?;
-    
+    // 获取同步的结果锁
+    let sync_results_guard = sync_results.lock().map_err(|e| format!("Failed to lock results: {}", e))?;
+
     // 更新记录并写入
     for record in records {
         let mut new_row: Vec<String> = record.iter().map(|field| field.to_string()).collect();
         if let Some(index_value) = record.get(index_idx) {
             if let Ok(index_num) = index_value.parse::<usize>() {
-                if let Some(semantic_value) = results_guard.get(&index_num) {
+                if let Some(semantic_value) = sync_results_guard.get(&index_num) {
                     new_row[result_idx] = format!("\"{}\"", semantic_value.clone());
                 }
             }
@@ -946,7 +958,7 @@ fn parse_results_rule_extract(
         match serde_json::from_str::<Vec<Message>>(&cleaned_json) {
             Ok(messages) => {
                 // 为每个解析出的条目写入一行
-                for (index, message) in messages.iter().enumerate() {
+                for (_index, message) in messages.iter().enumerate() {
                     let rule = Rule {
                         section: message.section.clone(),
                         title: message.title.clone(),
