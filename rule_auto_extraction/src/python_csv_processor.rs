@@ -150,6 +150,14 @@ impl SharedPoeClient {
                 let list_fn = builtins.getattr("list")?;
                 let chunks = list_fn.call1((generator,))?;
                 let last_chunk = chunks.get_item(-1)?;
+                // let chat_id = last_chunk.get_item("chatId")?.extract::<i128>()?;
+                // let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
+                // 清理对话
+                // client.call_method1(
+                // "purge_conversation",
+                // (bot_name, chat_id, chat_code, 0, true),
+                // )?;
+                // client.call_method1("delete_chat", (bot_name, chat_id))?;
                 // let text = last_chunk.get_item("text")?.extract::<String>()?;
                 match last_chunk.get_item("text")?.extract::<String>() {
                     Ok(text) => Ok(text),
@@ -236,11 +244,11 @@ async fn process_messages(
         cpu_count, cpu_count_physical
     );
 
-    let max_threads = (cpu_count_physical as f64 * 1.5)
+    let max_threads = (cpu_count_physical as f64 * 1.2)
         .min(cpu_count as f64)
         .min(20.0)
         .max(4.0) as usize;
-    let initial_threads = (max_threads as f64 * 0.5).ceil() as usize;
+    let initial_threads = (max_threads as f64 * 0.3).ceil() as usize;
     let mut current_max_threads = initial_threads;
 
     let active_threads = Arc::new(Mutex::new(0));
@@ -248,7 +256,7 @@ async fn process_messages(
 
     let client = Python::with_gil(|py| SharedPoeClient::new(py))?;
     let client = Arc::new(client);
-
+    client.print_settings(bot_name);
     println!(
         "Starting processing with {} maximum concurrent threads, initial {} concurrent threads",
         max_threads,
@@ -340,7 +348,7 @@ async fn process_messages(
                         std::process::exit(1);
                     }
                     if success_rate == 1.0 && current_max_threads < max_threads {
-                        current_max_threads = (current_max_threads + 3).min(max_threads);
+                        current_max_threads = (current_max_threads + 1).min(max_threads);
                         println!(
                             "Increasing threads to {} based on good performance",
                             current_max_threads
@@ -419,7 +427,7 @@ async fn process_messages(
         results.len(),
         message_len
     );
-
+    client.clean_message(bot_name, true);
     // 按序号打印结果
     // let mut sorted_results: Vec<_> = results.iter().collect();
     // sorted_results.sort_by_key(|&(k, _)| k);
