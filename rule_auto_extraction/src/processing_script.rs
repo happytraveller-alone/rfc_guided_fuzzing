@@ -115,12 +115,12 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
         // section, title, 
         // construction_rule_type, construction_explicitness, construction_base, 
         // processing_rule_type, processing_explicitness, processing_base
-        ProcessStep {
-            input_file: Some("rfc_sliced_description_filter_3.csv"),
-            output_file: "rfc_description_extract_rule_4.csv",
-            description: "Running extract rule script",
-            action: StepAction::PythonScript(get_python_config("extract_rule")),
-        },
+        // ProcessStep {
+        //     input_file: Some("rfc_sliced_description_filter_3.csv"),
+        //     output_file: "rfc_description_extract_rule_4.csv",
+        //     description: "Running extract rule script",
+        //     action: StepAction::PythonScript(get_python_config("extract_rule")),
+        // },
         // ProcessStep {
         //     input_file: Some("rfc_description_extract_rule_4.csv"),
         //     output_file: "rfc_results_update_slice_rule.csv",

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json;
 use std::error::Error;
 use std::fs::File;
-use std::io::{self, Write};
+use std::io::Write;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Message {

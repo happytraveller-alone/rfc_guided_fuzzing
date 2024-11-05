@@ -1,5 +1,5 @@
 use csv::{StringRecord,Reader, Writer};
-use pyo3::types::PyDict;
+use pyo3::types::{PyDict,IntoPyDict};
 // use pyo3::exceptions::PyIOError;
 use pyo3::prelude::*;
 use std::{thread,collections::HashMap,error::Error,fs::File,process::{Command,exit}};
@@ -41,12 +41,11 @@ struct SharedPoeClient {
 impl SharedPoeClient {
     fn new(py: Python) -> PyResult<Self> {
         let tokens = PyDict::new_bound(py);
-        tokens.set_item("p-b", "QiZtBLjGecaQJ4-iJPIPgA%3D%3D")?;
+        tokens.set_item("p-b", "CU8sNFOTH-2VDpKOVnfG2w%3D%3D")?;
         tokens.set_item(
-            "p-lat",
-            "GjrFu%2FMp5qLJ5wfDzXIZyCjiDQiPPmYDzqEOxU80kg%3D%3D",
+            "p-lat","wL76wYPSXyCcfQQIO1HGxZNJjNG7pA1AFZn2li%2BFhw%3D%3D",
         )?;
-
+        tokens.set_item("gql_POST", "989de63b517ec9f2a4d53fba838edd0b")?;
         let output = Command::new("pip")
             .args(&["show", "poe_api_wrapper"])
             .output()?;
@@ -72,11 +71,20 @@ impl SharedPoeClient {
         Ok(Self {
             client,
             last_request_time: Arc::new(Mutex::new(Instant::now())),
-            request_semaphore: Arc::new(Semaphore::new(5)), // 初始化为5个并发许可
+            request_semaphore: Arc::new(Semaphore::new(3)), // 初始化为3个并发许可
         })
     }
 
-    fn print_settings(&self) {
+    fn clean_message(&self, bot_name: &str, del_all: bool){
+        Python::with_gil(|py| {
+            // let sys = py.import_bound("sys")?;
+            // 将PyObject转换为Bound引用
+            let client = self.client.bind(py);
+            let _ = client.call_method1("delete_chat", (bot_name, del_all));
+        });
+    }
+
+    fn print_settings(&self, bot_name: &str,) {
         let result = Python::with_gil(|py| -> PyResult<()> {
             let client = self.client.bind(py);
             let settings = client.call_method0("get_settings")?;
@@ -92,6 +100,18 @@ impl SharedPoeClient {
                 // 如果不是字典，尝试获取其类型信息
                 println!("Settings type: {:?}", settings.get_type());
             }
+            let bot_info =client.call_method1("get_botInfo",(bot_name,))?;
+            // 尝试将settings转换为PyDict
+            if let Ok(bot_info_dict) = bot_info.downcast::<PyDict>() {
+                println!("\nIterating through settings dictionary:");
+                for (key, value) in bot_info_dict.iter() {
+                    println!("Key: {:?}, Value: {:?}", key, value);
+                }
+            } else {
+                println!("Settings is not a dictionary");
+                // 如果不是字典，尝试获取其类型信息
+                println!("Settings type: {:?}", bot_info.get_type());
+            }
             Ok(())
         });
     
@@ -101,44 +121,100 @@ impl SharedPoeClient {
         }
     }
 
-    async fn send_message(&self, bot_name: &str, message: &str) -> PyResult<String> {
-        // 获取信号量许可
-        let _permit = self.request_semaphore.acquire().await.unwrap();
-        // 确保请求间隔至少10s
-        {
-            let mut last_time = self.last_request_time.lock().unwrap();
-            let elapsed = last_time.elapsed();
-            if elapsed < Duration::from_secs(10) {
-                thread::sleep(Duration::from_secs(10) - elapsed);
+    async fn send_message(&self, index: usize, bot_name: &str, message: &str, max_retry: usize) -> PyResult<String> {
+        let mut final_response = String::new();
+        let mut success = false;
+        let mut retry = 0_usize;
+        while retry < max_retry {
+            // 获取信号量许可，确保请求间隔
+            let _permit = self.request_semaphore.acquire().await.unwrap();
+
+            // 确保请求间隔至少8秒
+            {
+                let mut last_time = self.last_request_time.lock().unwrap();
+                let elapsed = last_time.elapsed();
+                if elapsed < Duration::from_secs(8) {
+                    // 如果请求间隔不足8秒，等待剩余的时间
+                    thread::sleep(Duration::from_secs(8) - elapsed);
+                }
+                // 更新请求时间
+                *last_time = Instant::now();
             }
-            *last_time = Instant::now();
+
+            // 执行请求
+            match Python::with_gil(|py| {
+                let kwargs = [("timeout", 40)].into_py_dict_bound(py);
+                let client = self.client.bind(py);
+                let generator = client.call_method("send_message", (bot_name, message), Some(&kwargs))?;
+                let builtins = py.import_bound("builtins")?;
+                let list_fn = builtins.getattr("list")?;
+                let chunks = list_fn.call1((generator,))?;
+                let last_chunk = chunks.get_item(-1)?;
+                // let text = last_chunk.get_item("text")?.extract::<String>()?;
+                match last_chunk.get_item("text")?.extract::<String>() {
+                    Ok(text) => Ok(text),
+                    Err(e) => Err(e),
+                }
+            }) {
+                Ok(response) => {
+                    // 请求成功
+                    success = true;
+                    final_response = response.clone();
+                    println!(
+                        "Message {} succeeded on attempt {}",
+                        index,
+                        retry + 1
+                    );
+                    break; // 成功后跳出循环
+                }
+                Err(e) => {
+                    // 请求失败，根据不同错误类型设置等待时间
+                    let wait_time = match PoeError::from(e) {
+                        PoeError::Timeout => {
+                            eprintln!(
+                                "Message {}: Timeout on attempt {}",
+                                index,
+                                retry + 1
+                            );
+                            4
+                        }
+                        PoeError::ServerDisconnected => {
+                            eprintln!(
+                                "Message {}: Server disconnected on attempt {}",
+                                index,
+                                retry + 1
+                            );
+                            5
+                        }
+                        PoeError::Other(err) => {
+                            eprintln!(
+                                "Message {}: Other error on attempt {}: {}",
+                                index,
+                                retry + 1,
+                                err
+                            );
+                            3
+                        }
+                    };
+
+                    if retry < max_retry - 1 {
+                        // 在允许的最大重试次数内等待指定时间并重试
+                        let wait = wait_time * (2u64.pow(retry as u32));
+                        tokio::time::sleep(Duration::from_secs(wait)).await;
+                    }
+                }
+            }
+
+            retry += 1;
         }
 
-        let result = Python::with_gil(|py| {
-            // let sys = py.import_bound("sys")?;
-            // 将PyObject转换为Bound引用
-            let client = self.client.bind(py);
-            let generator = client.call_method1("send_message", (bot_name, message))?;
-            let builtins = py.import_bound("builtins")?;
-            let list_fn = builtins.getattr("list")?;
-            let chunks = list_fn.call1((generator,))?;
-
-            let last_chunk = chunks.get_item(-1)?;
-            let text = last_chunk.get_item("text")?.extract::<String>()?;
-            let chat_id = last_chunk.get_item("chatId")?.extract::<i128>()?;
-            let chat_code = last_chunk.get_item("chatCode")?.extract::<String>()?;
-            // 清理对话
-            client.call_method1(
-                "purge_conversation",
-                (bot_name, chat_id, chat_code, 0, true),
-            )?;
-            client.call_method1("delete_chat", (bot_name, chat_id))?;
-
-            Ok(text)
-        });
-
-        // permit在作用域结束时自动释放
-        result
+        // 如果成功，返回结果；否则返回错误
+        if success {
+            Ok(final_response)
+        } else {
+            eprintln!("Message {}: Failed after {} attempts", index, retry + 1);
+            Err(PyErr::new::<pyo3::exceptions::PyRuntimeError, _>("Failed to send message after retries"))
+        }
     }
 }
 
@@ -174,8 +250,9 @@ async fn process_messages(
     let client = Arc::new(client);
 
     println!(
-        "Starting message processing with {} maximum concurrent threads...",
-        max_threads
+        "Starting processing with {} maximum concurrent threads, initial {} concurrent threads",
+        max_threads,
+        initial_threads,
     );
     let start_time = std::time::Instant::now();
 
@@ -196,7 +273,7 @@ async fn process_messages(
         let buffer_time = (chunk_size as f64).sqrt() as u64 * 10;
         let retry_buffer = (chunk_size as u64 * 10 / 100) * 10;
         let total_timeout = base_time + buffer_time + retry_buffer;
-        Duration::from_secs(total_timeout.clamp(180, 600)) // 2-10分钟之间
+        Duration::from_secs(total_timeout.clamp(150, 600)) // 2-10分钟之间
     };
 
     println!("Processing messages in chunks of {}", chunk_size);
@@ -227,7 +304,7 @@ async fn process_messages(
             let messages_since_last_check = Arc::clone(&messages_since_last_check);
 
             let absolute_index = chunk_start_index + offset;
-
+            println!("active_threads: {}", *main_active_threads.lock().unwrap());
             while *main_active_threads.lock().unwrap() >= current_max_threads {
                 let mut last_time = last_check_time.lock().unwrap();
                 let mut msgs_count = messages_since_last_check.lock().unwrap();
@@ -263,7 +340,7 @@ async fn process_messages(
                         std::process::exit(1);
                     }
                     if success_rate == 1.0 && current_max_threads < max_threads {
-                        current_max_threads = (current_max_threads * 3 / 2).min(max_threads);
+                        current_max_threads = (current_max_threads + 3).min(max_threads);
                         println!(
                             "Increasing threads to {} based on good performance",
                             current_max_threads
@@ -273,64 +350,22 @@ async fn process_messages(
             }
 
             let handle = tokio::spawn(async move {
-                const MAX_RETRIES: u32 = 8;
+                const MAX_RETRIES: usize = 8;
                 let mut success = false;
 
-                for retry in 0..MAX_RETRIES {
-                    match client.send_message(&bot_name, &message).await {
-                        Ok(response) => {
-                            println!(
-                                "Message {} succeeded on attempt {}",
-                                absolute_index + 1,
-                                retry + 1
-                            );
-                            results
-                                .lock()
-                                .unwrap()
-                                .insert(absolute_index + 1, response.clone());
-                            success = true;
-                            completed.fetch_add(1, Ordering::SeqCst);
-                            println!(
-                                "Progress: {}/{}",
-                                completed.load(Ordering::SeqCst),
-                                message_len
-                            );
-                            break;
-                        }
-                        Err(e) => {
-                            let wait_time = match PoeError::from(e) {
-                                PoeError::Timeout => {
-                                    eprintln!(
-                                        "Message {}: Timeout on attempt {}",
-                                        absolute_index,
-                                        retry + 1
-                                    );
-                                    4
-                                }
-                                PoeError::ServerDisconnected => {
-                                    eprintln!(
-                                        "Message {}: Server disconnected on attempt {}",
-                                        absolute_index,
-                                        retry + 1
-                                    );
-                                    5
-                                }
-                                PoeError::Other(err) => {
-                                    eprintln!(
-                                        "Message {}: Other error on attempt {}: {}",
-                                        absolute_index,
-                                        retry + 1,
-                                        err
-                                    );
-                                    3
-                                }
-                            };
-
-                            if retry < MAX_RETRIES - 1 {
-                                let wait = wait_time * (2u64.pow(retry));
-                                tokio::time::sleep(Duration::from_secs(wait)).await;
-                            }
-                        }
+                match client.send_message(absolute_index + 1, &bot_name, &message, MAX_RETRIES).await {
+                    Ok(response) => {
+                        results.lock().unwrap().insert(absolute_index + 1, response.clone());
+                        success = true;
+                        completed.fetch_add(1, Ordering::SeqCst);
+                        println!(
+                            "Progress: {}/{}",
+                            completed.load(Ordering::SeqCst),
+                            message_len
+                        );
+                    }
+                    Err(_) => {
+                        eprintln!("Message {}: Failed after retries", absolute_index);
                     }
                 }
 
@@ -530,7 +565,7 @@ pub fn build_json_input(record: &csv::StringRecord, field_indices: &[usize], hea
     let mut json_input = json!({});
     for &idx in field_indices {
         if idx < headers.len() {
-            json_input[&headers[idx]] = Value::String(format!("\"{}\"", record[idx].to_string()));
+            json_input[&headers[idx]] = Value::String(record[idx].to_string());
         }
     }
     json_input
