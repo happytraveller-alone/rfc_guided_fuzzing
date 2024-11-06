@@ -14,6 +14,9 @@ use std::time::{Duration, Instant};
 use tokio::sync::Semaphore;
 use tokio::time::Duration as tokio_Duration;
 use tokio::sync::Mutex;
+// use rand::Rng;
+use rand::{Rng, SeedableRng};
+use rand::rngs::StdRng;
 // 假设这是完整的 PoeClient 实现
 #[derive(Debug)]
 enum PoeError {
@@ -127,24 +130,28 @@ impl SharedPoeClient {
         let mut final_response = String::new();
         let mut success = false;
         let mut retry = 0_usize;
+        // let mut rng = rand::thread_rng();
+        // 使用 StdRng 而不是 ThreadRng
+        let mut rng = StdRng::from_entropy();
         while retry < max_retry {
             // 获取信号量许可，确保请求间隔
             let _permit = self.request_semaphore.acquire().await.unwrap();
-
+            // let random_wait_secs = rng.gen_range(8..=15); // 生成 8 到 15 之间的随机数
             // 确保请求间隔至少8秒
-            {
-                let mut last_time = self.last_request_time.lock().await;
-                let elapsed = last_time.elapsed();
-                if elapsed < tokio_Duration::from_secs(5) {
-                    // 如果请求间隔不足8秒，等待剩余的时间
-                    // 使用异步等待而不是线程阻塞
-                    tokio::time::sleep(tokio_Duration::from_secs(5) - elapsed).await;
 
-                }
-                // 更新请求时间
-                *last_time = Instant::now();
+            let mut last_time = self.last_request_time.lock().await;
+            let elapsed = last_time.elapsed();
+            if elapsed < tokio_Duration::from_secs(5) {
+                // 如果请求间隔不足8秒，等待剩余的时间
+                // 使用异步等待而不是线程阻塞
+                let random_wait_secs = rng.gen_range(5..=110);
+                let wait_duration = tokio_Duration::from_secs(random_wait_secs) - elapsed;
+                // sleep(wait_duration).await;
+                tokio::time::sleep(wait_duration).await;
             }
-
+            // 更新请求时间
+            *last_time = Instant::now();
+            
             // 执行请求
             match Python::with_gil(|py| {
                 let kwargs = [("timeout", 60)].into_py_dict_bound(py);

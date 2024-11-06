@@ -1,0 +1,38 @@
+[
+    "section": "4.2.11.. Handshake Protocol_Extensions_Pre-Shared Key Extension",
+    "title": "Extension Positioning",
+    "content": "The "pre_shared_key" extension MUST be the last extension in the ClientHello. Servers MUST check that it is the last extension and otherwise fail the handshake with an "illegal_parameter" alert."
+]
+
+[
+  "section": "4.2.11. Handshake Protocol Extensions - Pre-Shared Key Extension",
+  "title": "Extension Positioning",
+  "construction_rule_type": "CLI-MSG-CONST",
+  "construction_explicitness": "1",  // Explicit rule
+  "construction_base": "Clients MUST place the \"pre_shared_key\" extension last in the ClientHello.",
+  "processing_rule_type": "SRV-MSG-PROC",
+  "processing_explicitness": "1",  // Explicit rule
+  "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not.",
+]
+
+[
+  "section": "4.2.11. Handshake Protocol Extensions - Pre-Shared Key Extension",
+  "title": "Extension Positioning",
+  "construction_rule_type": "CLI-MSG-CONST",
+  "construction_explicitness": "1",  // Explicit rule
+  "construction_base": "Clients MUST place the \"pre_shared_key\" extension last in the ClientHello.",
+  "processing_rule_type": "SRV-MSG-PROC",
+  "processing_explicitness": "1",  // Explicit rule
+  "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not.",
+  "test_strategy": "Swap the position of the pre_shared_key extension to a non-last position to test server enforcement.",
+  "message": "ClientHello",
+  "fields": [
+    {
+      "field": "pre_shared_key",
+      "action": "SWAP",
+      "relative_to": "supported_versions",
+      "position": "BEFORE"
+    }
+  ],
+  "expected_result": "Server aborts the handshake with an illegal_parameter alert.",
+]

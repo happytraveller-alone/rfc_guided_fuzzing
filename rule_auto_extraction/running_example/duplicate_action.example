@@ -1,0 +1,42 @@
+[
+    "section": "4.2.. Handshake Protocol_Extensions",
+    "title": "Extension Order and Uniqueness",
+    "content": "When multiple extensions of different types are present, the extensions MAY appear in any order, with the exception of "pre_shared_key" which MUST be the last extension in the ClientHello. There MUST NOT be more than one extension of the same type in a given extension block."
+]
+
+[
+    "section": "4.2.. Handshake Protocol_Extensions",
+    "title": "Extension Order and Uniqueness",
+    "message_construction": {
+      "construction_rule_type": "CLI-MSG-CONST",
+      "construction_explicitness": 1,
+      "construction_base": "Clients MUST NOT include more than one extension of the same type in any extension block."
+    },
+    "message_processing": {
+      "processing_rule_type": "SRV-MSG-PROC",
+      "processing_explicitness": 1,
+      "processing_base": "Servers MUST reject ClientHello messages with duplicate extension types."
+    }
+]
+
+[
+  "section": "4.2.. Handshake Protocol Extensions",
+  "title": "Extension Order and Uniqueness",
+  "construction_rule_type": "CLI-MSG-CONST",
+  "construction_explicitness": 1,
+  "construction_base": "Clients MUST NOT include more than one extension of the same type in any extension block.",
+  "processing_rule_type": "SRV-MSG-PROC",
+  "processing_explicitness": 1,
+  "processing_base": "Servers MUST reject ClientHello messages with duplicate extension types.",
+  "test_strategy": "Duplicate an extension in the ClientHello to test the server's handling of duplicate extensions.",
+  "message": "ClientHello",
+  "fields": [
+    {
+      "field": "supported_versions",
+      "action": "DUPLICATE",
+      "relative_to": "supported_versions",
+      "position": "AFTER"
+    }
+  ],
+  "expected_result": "Server aborts the handshake with an illegal_parameter alert.",
+]
