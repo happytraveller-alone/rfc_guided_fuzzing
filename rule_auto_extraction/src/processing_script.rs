@@ -121,50 +121,15 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
             description: "Running extract rule script",
             action: StepAction::PythonScript(get_python_config("extract_rule")),
         },
-        // ProcessStep {
-        //     input_file: Some("rfc_description_extract_rule_4.csv"),
-        //     output_file: "rfc_results_update_slice_rule.csv",
-        //     description: "Running update sliced rules script",
-        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_update_slice_script(
-        //         &path.join("rfc_results_slice_rule.csv"),
-        //         &path.join("rfc_results_update_slice_rule.csv")
-        //     )),
-        // },
-        // ProcessStep {
-        //     input_file: Some("rfc_results_update_slice_rule.csv"),
-        //     output_file: "rfc_results_classify_slice_rule.csv",
-        //     description: "Running sliced rule classification script",
-        //     action: StepAction::PythonScript(get_python_config("classify_rule")),
-        // },
-        // ProcessStep {
-        //     input_file: Some("rfc_results_classify_slice_rule.csv"),
-        //     output_file: "rfc_results_filter_classify_rule_simple.csv",
-        //     description: "Running rule classify script",
-        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_rule_classify_script(
-        //         &path.join("rfc_results_classify_slice_rule.csv"),
-        //         &path.join("rfc_results_filter_classify_rule_simple.csv"),
-        //         "1",
-        //     )),
-        // },
-        // ProcessStep {
-        //     input_file: Some("rfc_results_classify_slice_rule.csv"),
-        //     output_file: "rfc_results_filter_classify_rule_complex.csv",
-        //     description: "Running rule classify script",
-        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_rule_classify_script(
-        //         &path.join("rfc_results_classify_slice_rule.csv"),
-        //         &path.join("rfc_results_filter_classify_rule_complex.csv"),
-        //         "2",
-        //     )),
-        // },
-        // ProcessStep {
-        //     input_file: Some("rfc_results_filter_classify_rule_simple.csv"),
-        //     output_file: "rule_simple_violation_input.csv",
-        //     description: "Running rule violation input generation script",
-        //     action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_mutation_descrip_input(
-        //         &path.join("rfc_results_filter_classify_rule_simple.csv"),
-        //         &path.join("rule_simple_violation_input.csv"),
-        //     )),
-        // },
+        ProcessStep {
+            input_file: Some("rfc_description_extract_rule_4.csv"),
+            output_file: "rfc_violation_generation_filter_rule_5.csv",
+            description: "Running update sliced rules script",
+            action: StepAction::RustFunction(|path| rust_csv_processor::run_generate_update_slice_script(
+                &path.join("rfc_description_extract_rule_4.csv"),
+                &path.join("rfc_violation_generation_filter_rule_5.csv")
+            )),
+        },
         // ProcessStep {
         //     input_file: Some("rule_simple_violation_input.csv"),
         //     output_file: "rule_simple_mutation.csv",

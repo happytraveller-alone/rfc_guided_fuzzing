@@ -65,7 +65,7 @@ pub fn judge_rule(input: &PathBuf, output: &PathBuf) -> Result<(), Box<dyn Error
 
 pub fn run_generate_update_slice_script(input_file: &PathBuf, output_file: &PathBuf) -> Result<(), Box<dyn Error>> {
     // 创建CSV读取器
-    let mut reader = Reader::from_path(&input_file)?;
+    let mut reader = Reader::from_path(input_file)?;
     
     // 获取并克隆标题
     let headers = reader.headers()?.clone();
@@ -76,26 +76,35 @@ pub fn run_generate_update_slice_script(input_file: &PathBuf, output_file: &Path
     // 写入标题
     writer.write_record(&headers)?;
     
-    // 获取SlicedRule列的索引
-    let violation_index = headers.iter().position(|h| h == "SlicedRule")
-        .ok_or("SlicedRule column not found")?;
-    
-    // 定义需要检查的关键词
-    const KEYWORDS: [&str; 5] = ["MUST", "MUST NOT", "SHALL", "SHALL NOT", "REQUIRED"];
+    // 获取 construction_rule_type 和 processing_rule_type 列的索引
+    let construction_rule_index = headers.iter().position(|h| h == "construction_rule_type")
+        .ok_or("construction_rule_type column not found")?;
+    let processing_rule_index = headers.iter().position(|h| h == "processing_rule_type")
+        .ok_or("processing_rule_type column not found")?;
+    let index_column_index = headers.iter().position(|h| h == "index")
+        .ok_or("index column not found")?;
+
+    // 重新编号的计数器
+    let mut index_counter = 1_i32;
 
     // 遍历每一行
     for result in reader.records() {
         let record = result?;
         
-        // 获取SlicedRule列的值
-        let violation = &record[violation_index];
+        // 获取相关列的值
+        let construction_rule_type = &record[construction_rule_index];
+        let processing_rule_type = &record[processing_rule_index];
         
-        // 检查是否包含指定的字符串
-        if violation.contains("<CLI-MSG-CONST>") 
-            && violation.contains("<SRV-MSG-PROC>") 
-            && KEYWORDS.iter().any(|&keyword| violation.contains(keyword)) {
+        // 检查是否满足两个条件
+        if construction_rule_type == "CLI-MSG-CONST" 
+            && processing_rule_type == "SRV-MSG-PROC" {
+            // 将记录转换为 Vec<String>，以便进行修改
+            let mut new_row: Vec<String> = record.iter().map(|field| field.to_string()).collect();
+            // 更新 index 列的值
+            new_row[index_column_index] = index_counter.to_string();
+            index_counter += 1;
             // 写入满足条件的行
-            writer.write_record(&record)?;
+            writer.write_record(&new_row)?;
         }
     }
     
@@ -104,6 +113,7 @@ pub fn run_generate_update_slice_script(input_file: &PathBuf, output_file: &Path
     
     Ok(())
 }
+
 
 fn parse_slicedrule(input: &str) -> Result<(String, String), Box<dyn Error>> {
     let parts: Vec<&str> = input.split(" + ").collect();
