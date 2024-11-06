@@ -891,16 +891,28 @@ fn parse_results_semantic_analysis(
 }
 
 fn escape_csv_field(field: &str) -> String {
-    let mut escaped = String::from("\"");
+    let mut escaped = String::new();
+
+    // 检查并添加首部引号
+    if !field.starts_with('"') {
+        escaped.push('"');
+    }
+
     for c in field.chars() {
-        if c == '"' {
-            escaped.push('"');
-        }
+        // if c == '"' {
+        //     escaped.push('"');
+        // }
         escaped.push(c);
     }
-    escaped.push('"');
+
+    // 检查并添加尾部引号
+    if !field.ends_with('"') {
+        escaped.push('"');
+    }
+
     escaped
 }
+
 
 fn parse_results_rule_extract(
     input_path: &Path, 
@@ -943,6 +955,8 @@ fn parse_results_rule_extract(
                                         .replace("```json", "")  // 移除开始标记
                                         .replace("```", "")      // 移除结束标记
                                         .replace("[]", "")      // 移除结束标记
+                                        .replace("\"[", "[")      // 移除结束标记
+                                        .replace("]\"", "]")      // 移除结束标记
                                         .trim()                  // 移除首尾空白
                                         .to_string();
         
