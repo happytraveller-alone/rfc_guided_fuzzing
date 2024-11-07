@@ -12,39 +12,39 @@ As a LEADING security researcher and prompt engineering specialist, you MUST gen
 ## Critical Input/Output Specifications
 ### Input Format
 [
-  "section": "<protocol_section>",  // Section of the protocol specification where the rule is defined.
-  "title": "<rule_title>",  // Title summarizing the rule.
-  "construction_rule_type": "CLI-MSG-CONST/SRV-MSG-CONST",  // Type of construction rule: client or server message construction.
-  "construction_explicitness": <0|1>,  // Indicates if the construction rule is explicit (1) or implicit (0).
-  "construction_base": "<rule_text>",  // Text of the construction rule.
-  "processing_rule_type": "SRV-MSG-PROC/CLI-MSG-PROC",  // Type of processing rule: server or client message processing.
-  "processing_explicitness": <0|1>,  // Indicates if the processing rule is explicit (1) or implicit (0).
-  "processing_base": "<rule_text>"  // Text of the processing rule.
+  {
+    "section": "<protocol_section>",  // Section of the protocol specification where the rule is defined.
+    "title": "<rule_title>",  // Title summarizing the rule.
+    "construction_rule_type": "CLI-MSG-CONST/SRV-MSG-CONST",  // Type of construction rule: client or server message construction.
+    "construction_explicitness": <0|1>,  // Indicates if the construction rule is explicit (1) or implicit (0).
+    "construction_base": "<rule_text>",  // Text of the construction rule.
+    "processing_rule_type": "SRV-MSG-PROC/CLI-MSG-PROC",  // Type of processing rule: server or client message processing.
+    "processing_explicitness": <0|1>,  // Indicates if the processing rule is explicit (1) or implicit (0).
+    "processing_base": "<rule_text>"  // Text of the processing rule.
+  }
 ]
 
 
 ### MANDATORY Output Format - NO DEVIATIONS ALLOWED
 [
-  "section": "<protocol_section>",  // Section of the protocol specification where the rule is defined.
-  "title": "<rule_title>",  // Title summarizing the rule.
-  "construction_rule_type": "CLI-MSG-CONST/SRV-MSG-CONST",  // Type of construction rule: client or server message construction.
-  "construction_explicitness": <0|1>,  // Indicates if the construction rule is explicit (1) or implicit (0).
-  "construction_base": "<rule_text>",  // Text of the construction rule.
-  "processing_rule_type": "SRV-MSG-PROC/CLI-MSG-PROC",  // Type of processing rule: server or client message processing.
-  "processing_explicitness": <0|1>,  // Indicates if the processing rule is explicit (1) or implicit (0).
-  "processing_base": "<rule_text>",  // Text of the processing rule.
-  "test_strategy": "<test_strategy>",  // Detailed description of the test strategy used to verify behavior.
-  "message": "<TLS_message_type>",  // Specifies the type of TLS message (e.g., "ClientHello").
-  "fields": [
-    {
-      "field": "<field_name>",  // Name of the field to be operated on.
-      "action": "SWAP|SET|INSERT|REMOVE|DUPLICATE",  // Action to perform on the field.
-      "relative_to": "<related_field>",  // Field to which the action is relative (if applicable).
-      "position": "START|END|AFTER|BEFORE",  // Position of the field in the message (if applicable).
-      "value": "<optional_value_if_applicable>"  // New value for SET or INSERT actions.
-    }
-  ],
-  "expected_result": "<expected_server_response>"  // Expected server response to evaluate test success.
+  {
+    "section": "<protocol_section>",  // Section of the protocol specification where the rule is defined.
+    "title": "<rule_title>",  // Title summarizing the rule.
+    "construction_rule_type": "CLI-MSG-CONST/SRV-MSG-CONST",  // Type of construction rule: client or server message construction.
+    "construction_explicitness": <0|1>,  // Indicates if the construction rule is explicit (1) or implicit (0).
+    "construction_base": "<rule_text>",  // Text of the construction rule.
+    "processing_rule_type": "SRV-MSG-PROC/CLI-MSG-PROC",  // Type of processing rule: server or client message processing.
+    "processing_explicitness": <0|1>,  // Indicates if the processing rule is explicit (1) or implicit (0).
+    "processing_base": "<rule_text>",  // Text of the processing rule.
+    "test_strategy": "<test_strategy>",  // Detailed description of the test strategy used to verify behavior.
+    "message": "<TLS_message_type>",  // Specifies the type of TLS message (e.g., "ClientHello").
+    "field": "<field_name>",  // Name of the field to be operated on.
+    "action": "SWAP|SET|INSERT|REMOVE|DUPLICATE",  // Action to perform on the field.
+    "relative_to": "<related_field>",  // Field to which the action is relative (if applicable).
+    "position": "START|END|AFTER|BEFORE",  // Position of the field in the message (if applicable).
+    "value": "<optional_value_if_applicable>"  // New value for SET or INSERT actions.
+    "expected_result": "<expected_server_response>"  // Expected server response to evaluate test success.
+  }
 ]
 
 ## CRITICAL: Systematic Analysis and Generation Process
@@ -90,17 +90,17 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
   - Maintain field relationships.
   - Preserve protocol state.
 
-3. DUPLICATE (Tertiary)
-  - Test handling mechanisms for duplicate fields.
-  - Verify conflict resolution procedures.
-  - Evaluate resource consumption.
-  - Maintain uniqueness of identifiers.
-
-4. INSERT (Fourth)
+3. INSERT (Tertiary)
   - Test handling of message expansion.
   - Verify processing of unknown fields.
   - Evaluate buffer management.
   - Preserve format consistency.
+
+4. DUPLICATE (Fourth)
+  - Test handling mechanisms for duplicate fields.
+  - Verify conflict resolution procedures.
+  - Evaluate resource consumption.
+  - Maintain uniqueness of identifiers.
 
 5. REMOVE (Last Resort)
   - Prefer setting invalid values over removing fields.
@@ -168,18 +168,16 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 ## Set Example
 ### INPUT
 [
+  {
     "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
     "title": "Field Descriptions",
-    "message_construction": {
-      "construction_rule_type": "CLI-MSG-CONST",
-      "construction_explicitness": 1,
-      "construction_base": "The 'legacy_version' field MUST be set to 0x0303 for compatibility with middleboxes; the actual version is indicated using the 'supported_versions' extension."
-    },
-    "message_processing": { 
-      "processing_rule_type": "SRV-MSG-PROC",
-      "processing_explicitness": 1, 
-      "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version."
-    }
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "The 'legacy_version' field MUST be set to 0x0303 for compatibility with middleboxes; the actual version is indicated using the 'supported_versions' extension.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1, 
+    "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version.",
+  }
 ]
 
 ---
@@ -217,24 +215,24 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 
 ### OUTPUT
 [
-  "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
-  "title": "Field Descriptions",
-  "construction_rule_type": "CLI-MSG-CONST",
-  "construction_explicitness": 1,
-  "construction_base": "The 'legacy_version' field MUST be set to 0x0303 for compatibility with middleboxes; the actual version is indicated using the 'supported_versions' extension.",
-  "processing_rule_type": "SRV-MSG-PROC",
-  "processing_explicitness": 1,
-  "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version.",
-  "test_strategy": "Set the 'legacy_version' field to a value other than 0x0303 to test server's rejection of invalid versions.",
-  "message": "ClientHello",
-  "fields": [
-    {
-      "field": "legacy_version",
-      "action": "SET",
-      "value": "0x0200"
-    }
-  ],
-  "expected_result": "Server rejects the ClientHello with a protocol_version alert."
+  {
+    "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+    "title": "Field Descriptions",
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "The 'legacy_version' field MUST be set to 0x0303 for compatibility with middleboxes; the actual version is indicated using the 'supported_versions' extension.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version.",
+    "test_strategy": "Set the 'legacy_version' field to a value other than 0x0303 to test server's rejection of invalid versions.",
+    "message": "ClientHello",
+    "field": "legacy_version",
+    "action": "SET",
+    "relative_to": "None",
+    "position": "None",
+    "value": "0x0200",
+    "expected_result": "Server rejects the ClientHello with a protocol_version alert."
+  }
 ]
 
 ---
@@ -242,14 +240,16 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 ## Swap Example
 ### INPUT
 [
-  "section": "4.2.11. Handshake Protocol Extensions - Pre-Shared Key Extension",
-  "title": "Extension Positioning",
-  "construction_rule_type": "CLI-MSG-CONST",
-  "construction_explicitness": "1",  // Explicit rule
-  "construction_base": "Clients MUST place the \"pre_shared_key\" extension last in the ClientHello.",
-  "processing_rule_type": "SRV-MSG-PROC",
-  "processing_explicitness": "1",  // Explicit rule
-  "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not."
+  {
+    "section": "4.2.11. Handshake Protocol Extensions - Pre-Shared Key Extension",
+    "title": "Extension Positioning",
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "Clients MUST place the \"pre_shared_key\" extension last in the ClientHello.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not."
+  }
 ]
 
 ---
@@ -286,25 +286,24 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 
 ### OUTPUT
 [
-  "section": "4.2.11. Handshake Protocol Extensions - Pre-Shared Key Extension",
-  "title": "Extension Positioning",
-  "construction_rule_type": "CLI-MSG-CONST",
-  "construction_explicitness": "1",  // Explicit rule
-  "construction_base": "Clients MUST place the \"pre_shared_key\" extension last in the ClientHello.",
-  "processing_rule_type": "SRV-MSG-PROC",
-  "processing_explicitness": "1",  // Explicit rule
-  "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not.",
-  "test_strategy": "Swap the position of the pre_shared_key extension to a non-last position to test server enforcement.",
-  "message": "ClientHello",
-  "fields": [
-    {
-      "field": "pre_shared_key",
-      "action": "SWAP",
-      "relative_to": "supported_versions",
-      "position": "BEFORE"
-    }
-  ],
-  "expected_result": "Server aborts the handshake with an illegal_parameter alert."
+  {
+    "section": "4.2.11. Handshake Protocol Extensions - Pre-Shared Key Extension",
+    "title": "Extension Positioning",
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "Clients MUST place the \"pre_shared_key\" extension last in the ClientHello.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not.",
+    "test_strategy": "Swap the position of the pre_shared_key extension to a non-last position to test server enforcement.",
+    "message": "ClientHello",
+    "field": "pre_shared_key",
+    "action": "SWAP",
+    "relative_to": "supported_versions",
+    "position": "BEFORE",
+    "value": "None",
+    "expected_result": "Server aborts the handshake with an illegal_parameter alert."
+  }
 ]
 
 ---
@@ -312,18 +311,16 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 ## Duplication Example
 ### INPUT
 [
+  {
     "section": "4.2.. Handshake Protocol_Extensions",
     "title": "Extension Order and Uniqueness",
-    "message_construction": {
-      "construction_rule_type": "CLI-MSG-CONST",
-      "construction_explicitness": 1,
-      "construction_base": "Clients MUST NOT include more than one extension of the same type in any extension block."
-    },
-    "message_processing": {
-      "processing_rule_type": "SRV-MSG-PROC",
-      "processing_explicitness": 1,
-      "processing_base": "Servers MUST reject ClientHello messages with duplicate extension types."
-    }
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "Clients MUST NOT include more than one extension of the same type in any extension block.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST reject ClientHello messages with duplicate extension types.",
+  }
 ]
 
 ---
@@ -358,25 +355,24 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 
 ### OUTPUT
 [
-  "section": "4.2.. Handshake Protocol Extensions",
-  "title": "Extension Order and Uniqueness",
-  "construction_rule_type": "CLI-MSG-CONST",
-  "construction_explicitness": 1,
-  "construction_base": "Clients MUST NOT include more than one extension of the same type in any extension block.",
-  "processing_rule_type": "SRV-MSG-PROC",
-  "processing_explicitness": 1,
-  "processing_base": "Servers MUST reject ClientHello messages with duplicate extension types.",
-  "test_strategy": "Duplicate an extension in the ClientHello to test the server's handling of duplicate extensions.",
-  "message": "ClientHello",
-  "fields": [
-    {
-      "field": "supported_versions",
-      "action": "DUPLICATE",
-      "relative_to": "supported_versions",
-      "position": "AFTER"
-    }
-  ],
-  "expected_result": "Server aborts the handshake with an illegal_parameter alert."
+  {
+    "section": "4.2.. Handshake Protocol Extensions",
+    "title": "Extension Order and Uniqueness",
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "Clients MUST NOT include more than one extension of the same type in any extension block.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST reject ClientHello messages with duplicate extension types.",
+    "test_strategy": "Duplicate an extension in the ClientHello to test the server's handling of duplicate extensions.",
+    "message": "ClientHello",
+    "field": "supported_versions",
+    "action": "DUPLICATE",
+    "relative_to": "supported_versions",
+    "position": "AFTER",
+    "value": "None",
+    "expected_result": "Server aborts the handshake with an illegal_parameter alert."
+  }
 ]
 
 ---
@@ -384,17 +380,15 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 ## Insert Example
 ### INPUT
 [
-  "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
-  "title": "Extension Handling",
-  "message_construction": {
+  {
+    "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+    "title": "Extension Handling",
     "construction_rule_type": "CLI-MSG-CONST",
     "construction_explicitness": 1,
-    "construction_base": "Clients MUST include extensions in ClientHello messages, with at least the 'supported_versions' extension."
-  },
-  "message_processing": { 
+    "construction_base": "Clients MUST include extensions in ClientHello messages, with at least the 'supported_versions' extension.",
     "processing_rule_type": "SRV-MSG-PROC",
-    "processing_explicitness": 1, 
-    "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages."
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages.",
   }
 ]
 
@@ -428,26 +422,24 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 
 ### OUTPUT
 [
-  "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
-  "title": "Extension Handling",
-  "construction_rule_type": "CLI-MSG-CONST",
-  "construction_explicitness": 1,
-  "construction_base": "Clients MUST include extensions in ClientHello messages, with at least the 'supported_versions' extension.",
-  "processing_rule_type": "SRV-MSG-PROC",
-  "processing_explicitness": 1,
-  "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages.",
-  "test_strategy": "Insert an unrecognized extension to test the server's handling of unknown extensions.",
-  "message": "ClientHello",
-  "fields": [
-    {
-      "field": "unknown_extension",
-      "action": "INSERT",
-      "value": "0xFFFF",
-      "relative_to": "supported_versions",
-      "position": "AFTER"
-    }
-  ],
-  "expected_result": "Server ignores the unknown extension and proceeds with the handshake."
+  {
+    "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+    "title": "Extension Handling",
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "Clients MUST include extensions in ClientHello messages, with at least the 'supported_versions' extension.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages.",
+    "test_strategy": "Insert an unrecognized extension to test the server's handling of unknown extensions.",
+    "message": "ClientHello",
+    "field": "unknown_extension",
+    "action": "INSERT",
+    "relative_to": "supported_versions",
+    "position": "AFTER",
+    "value": "0xFFFF",
+    "expected_result": "Server ignores the unknown extension and proceeds with the handshake."
+  }
 ]
 
 ---
@@ -455,17 +447,15 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 ## Remove Example
 ### INPUT
 [
-  "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
-  "title": "Extension Handling",
-  "message_construction": {
+  {
+    "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+    "title": "Extension Handling",
     "construction_rule_type": "CLI-MSG-CONST",
     "construction_explicitness": 1,
-    "construction_base": "Clients MUST include mandatory extensions as specified in the TLS 1.3 protocol."
-  },
-  "message_processing": { 
+    "construction_base": "Clients MUST include mandatory extensions as specified in the TLS 1.3 protocol.",
     "processing_rule_type": "SRV-MSG-PROC",
-    "processing_explicitness": 1, 
-    "processing_base": "Servers MUST process ClientHello messages while adhering to the mandatory extension requirements."
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST process ClientHello messages while adhering to the mandatory extension requirements.",
   }
 ]
 
@@ -501,23 +491,24 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 
 ### OUTPUT
 [
-  "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
-  "title": "Extension Handling",
-  "construction_rule_type": "CLI-MSG-CONST",
-  "construction_explicitness": 1,
-  "construction_base": "Clients MUST include mandatory extensions as specified in the TLS 1.3 protocol.",
-  "processing_rule_type": "SRV-MSG-PROC",
-  "processing_explicitness": 1,
-  "processing_base": "Servers MUST process ClientHello messages while adhering to the mandatory extension requirements.",
-  "test_strategy": "Remove the mandatory 'key_share' extension to test the server's handling of missing mandatory extensions.",
-  "message": "ClientHello",
-  "fields": [
-    {
-      "field": "key_share",
-      "action": "REMOVE"
-    }
-  ],
-  "expected_result": "Server aborts the handshake with a missing_extension or illegal_parameter alert."
+  {
+    "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+    "title": "Extension Handling",
+    "construction_rule_type": "CLI-MSG-CONST",
+    "construction_explicitness": 1,
+    "construction_base": "Clients MUST include mandatory extensions as specified in the TLS 1.3 protocol.",
+    "processing_rule_type": "SRV-MSG-PROC",
+    "processing_explicitness": 1,
+    "processing_base": "Servers MUST process ClientHello messages while adhering to the mandatory extension requirements.",
+    "test_strategy": "Remove the mandatory 'key_share' extension to test the server's handling of missing mandatory extensions.",
+    "message": "ClientHello",
+    "field": "key_share",
+    "action": "REMOVE",
+    "relative_to": "None",
+    "position": "None",
+    "value": "None",
+    "expected_result": "Server aborts the handshake with a missing_extension or illegal_parameter alert."
+  }
 ]
 
 ---
@@ -526,7 +517,7 @@ You MUST follow this EXACT operation hierarchy, corresponding to the action fiel
 ## EXECUTION REMINDER [CRITICAL]
 
 YOU MUST:
-1. NEVER output anything except the required JSON
+1. NEVER output anything except the required JSON source code without including markdown code block wrappers such as "```json" and "```".
 2. ALWAYS follow the exact template structure
 3. NEVER include explanations or additional text
 4. MAINTAIN strict operation priority
@@ -558,7 +549,7 @@ class PromptBot(fp.PoeBot):
 
 REQUIREMENTS = ["fastapi-poe==0.0.48"]
 image = Image.debian_slim().pip_install(*REQUIREMENTS)
-app = App("violation_generate_claude")
+app = App("violation_generate")
 
 
 @app.function(image=image)

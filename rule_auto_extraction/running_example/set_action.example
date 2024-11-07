@@ -5,18 +5,14 @@
 ]
 
 [
-    "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
-    "title": "Field Descriptions",
-    "message_construction": {
-      "construction_rule_type": "CLI-MSG-CONST",
-      "construction_explicitness": 1,
-      "construction_base": "The 'legacy_version' field MUST be set to 0x0303 for compatibility with middleboxes; the actual version is indicated using the 'supported_versions' extension."
-    },
-    "message_processing": { 
-      "processing_rule_type": "SRV-MSG-PROC",
-      "processing_explicitness": 1, 
-      "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version."
-    }
+  "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
+  "title": "Field Descriptions",
+  "construction_rule_type": "CLI-MSG-CONST",
+  "construction_explicitness": 1,
+  "construction_base": "The 'legacy_version' field MUST be set to 0x0303 for compatibility with middleboxes; the actual version is indicated using the 'supported_versions' extension.",
+  "processing_rule_type": "SRV-MSG-PROC",
+  "processing_explicitness": 1,
+  "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version.",
 ]
 
 [
@@ -30,12 +26,10 @@
   "processing_base": "Servers MUST accept 'legacy_version' set to 0x0303 and refer to the 'supported_versions' extension for the actual version.",
   "test_strategy": "Set the 'legacy_version' field to a value other than 0x0303 to test server's rejection of invalid versions.",
   "message": "ClientHello",
-  "fields": [
-    {
-      "field": "legacy_version",
-      "action": "SET",
-      "value": "0x0200"
-    }
-  ],
+  "field": "legacy_version",
+  "action": "SET",
+  "relative_to": "None",
+  "position": "None",
+  "value": "0x0200",
   "expected_result": "Server rejects the ClientHello with a protocol_version alert."
 ]

@@ -15,7 +15,7 @@ pub enum StepAction {
 // Python脚本的配置
 #[derive(Clone, Serialize, Deserialize)]
 pub struct PythonScriptConfig {
-    script_name: String,
+    // script_name: String,
     bot_name: String,
     additional_fields: Vec<String>,
     input_fields: Vec<String>,
@@ -32,7 +32,7 @@ pub struct ProcessStep {
 fn get_python_config(script_name: &str) -> PythonScriptConfig {
     match script_name {
         "slice_rfc" => PythonScriptConfig {
-            script_name: "slice_rfc.py".to_string(),
+            // script_name: "slice_rfc.py".to_string(),
             bot_name: "semantic_analysis".to_string(),
             additional_fields: vec![
                 "Section".to_string(),
@@ -47,7 +47,7 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
         // construction_rule_type, construction_explicitness, construction_base, 
         // processing_rule_type, processing_explicitness, processing_base
         "extract_rule" => PythonScriptConfig {
-            script_name: "extract_rule.py".to_string(),
+            // script_name: "extract_rule.py".to_string(),
             bot_name: "TLSRFC_EXTRACT".to_string(),
             additional_fields: vec![
                 "section".to_string(),
@@ -76,10 +76,27 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
         //     ],
         //     input_fields: vec!["SlicedRule".to_string()],
         // },
-        "generate_mutation" => PythonScriptConfig {
-            script_name: "generate_mutation.py".to_string(),
+        "violation_generate" => PythonScriptConfig {
+            // script_name: "generate_mutation.py".to_string(),
             bot_name: "generate_mutation".to_string(),
-            additional_fields: vec!["mutation_output".to_string()],
+            additional_fields: vec![
+                "section".to_string(),
+                "title".to_string(),
+                "construction_rule_type".to_string(),
+                "construction_explicitness".to_string(),
+                "construction_base".to_string(),
+                "processing_rule_type".to_string(),
+                "processing_explicitness".to_string(),
+                "processing_base".to_string(),
+                "test_strategy".to_string(),
+                "message".to_string(),
+                "field".to_string(),
+                "action".to_string(),
+                "relative_to".to_string(),
+                "position".to_string(),
+                "value".to_string(),
+                "expected_result".to_string(),
+            ],
             input_fields: vec![
                 "section".to_string(),
                 "title".to_string(),
@@ -139,12 +156,12 @@ pub fn get_processing_steps() -> Vec<ProcessStep> {
                 &path.join("rfc_violation_generation_filter_rule_5.csv")
             )),
         },
-        // ProcessStep {
-        //     input_file: Some("rule_simple_violation_input.csv"),
-        //     output_file: "rule_simple_mutation.csv",
-        //     description: "Running rule violation input generation script",
-        //     action: StepAction::PythonScript(get_python_config("generate_mutation")),
-        // }
+        ProcessStep {
+            input_file: Some("rfc_violation_generation_filter_rule_5.csv"),
+            output_file: "rfc_test_mutation_guideline_6.csv",
+            description: "Running rule violation input generation script",
+            action: StepAction::PythonScript(get_python_config("violation_generate")),
+        }
     ]
 }
 
@@ -201,7 +218,7 @@ pub fn execute_steps_from_index(
             StepAction::PythonScript(config) => {
                 // 使用配置信息执行Python脚本
                 python_csv_processor::run_python_script(
-                    &config.script_name,
+                    // &config.script_name,
                     &config.bot_name,
                     step.input_file.map(|f| base_path_dir.join(f)),
                     &base_path_dir.join(step.output_file),

@@ -15,6 +15,7 @@ use tokio::sync::Semaphore;
 use tokio::time::Duration as tokio_Duration;
 use tokio::sync::Mutex;
 // use rand::Rng;
+use regex::Regex;
 use rand::{Rng, SeedableRng};
 use rand::rngs::StdRng;
 // 假设这是完整的 PoeClient 实现
@@ -258,7 +259,7 @@ async fn process_messages(
 
     let max_threads = (cpu_count_physical as f64 * 1.2)
         .min(cpu_count as f64)
-        .min(20.0)
+        .min(18.0)
         .max(4.0) as usize;
     let initial_threads = (max_threads as f64 * 0.2).ceil() as usize;
     let mut current_max_threads = initial_threads;
@@ -649,11 +650,30 @@ struct Rule {
     processing_base: String,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct Mutation {
+    section: String,
+    title: String,
+    construction_rule_type: String,
+    construction_explicitness: u8,
+    construction_base: String,
+    processing_rule_type: String,
+    processing_explicitness: u8,
+    processing_base: String,
+    test_strategy: String,
+    message: String,
+    field: String,
+    action: String,
+    relative_to: String,
+    position: String,
+    value: String,
+    expected_result: String,
+}
 
 
 // 主函数
 pub fn run_python_script(
-    _script_name: &str,
+    // _script_name: &str,
     bot_name: &str,
     input_path: Option<PathBuf>,
     output_path: &Path,
@@ -751,6 +771,9 @@ pub fn run_python_script(
         "TLSRFC_EXTRACT" => {
             parse_results_rule_extract(temp_file_path.as_path(), output_path, new_fields)?;
         },
+        "generate_mutation" => {
+            parse_results_mutation_extract(temp_file_path.as_path(), output_path, new_fields)?;
+        }
         _ => {
             eprintln!("Invalid bot name: {}", bot_name);
         }
@@ -906,9 +929,7 @@ fn escape_csv_field(field: &str) -> String {
     }
 
     for c in field.chars() {
-        // if c == '"' {
-        //     escaped.push('"');
-        // }
+
         escaped.push(c);
     }
 
@@ -920,6 +941,67 @@ fn escape_csv_field(field: &str) -> String {
     escaped
 }
 
+
+
+fn clean_json(result_value: &str) -> String {
+    // 移除控制字符
+    let re = Regex::new(r"[\u0000-\u001F]").unwrap();
+    let mut cleaned_json = re.replace_all(result_value, "").to_string();
+
+    // 清理特定标记
+    let mut changed = true;
+    while changed {
+        let prev_json = cleaned_json.clone();
+        cleaned_json = cleaned_json
+            .replace("```json", "")
+            .replace("```", "")
+            .replace("[]", "") 
+
+            // .replace(r#"\"\[  \{"#, "[{") 
+            // .replace(r#"\}\]\""#, "}]")
+            // .replace(r#"\"{"#, "[{")
+            // .replace(r#"\"}"#, "}]")
+            .trim()
+            .to_string();
+        
+        // 如果没有更多变化，则退出循环
+        if cleaned_json == prev_json {
+            changed = false;
+        }
+    }
+    // 确保字符串以 `[` 开始和 `]` 结束 
+    let re_start = Regex::new(r#"\"\[  \{"#).unwrap();
+    cleaned_json = re_start.replace(&cleaned_json, "[{").to_string();
+
+    let re_end = Regex::new(r#"\}\]\""#).unwrap();
+    cleaned_json = re_end.replace(&cleaned_json, "}]").to_string();
+
+    let re_end = Regex::new(r#"\"\[\{"#).unwrap();
+    cleaned_json = re_end.replace(&cleaned_json, "[{").to_string();
+
+    // let re_end = Regex::new(r#"\"\}"#).unwrap();
+    // cleaned_json = re_end.replace(&cleaned_json, "}]").to_string();
+
+
+    if cleaned_json.starts_with('{') { 
+        cleaned_json.insert(0, '['); 
+    } 
+    if cleaned_json.ends_with('}') { 
+        cleaned_json.push(']'); 
+    }
+
+    // 如果字符串以 \"{ 开头，则替换为 {[
+    if cleaned_json.starts_with("\"{") {
+        cleaned_json = cleaned_json.replacen("\"{", "[{", 1);
+    }
+    if cleaned_json.ends_with("}\"") {
+        cleaned_json = cleaned_json.replacen("}\"", "}]", 1);
+    }
+    // if cleaned_json.ends_with("}]\"") {
+        // cleaned_json = cleaned_json.replacen("\"}", "}]", 1);
+    // }
+    cleaned_json
+}
 
 fn parse_results_rule_extract(
     input_path: &Path, 
@@ -974,7 +1056,7 @@ fn parse_results_rule_extract(
         // 调试输出
         println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
 
-        // 尝试解析 JSON 数组
+        // 尝试解析 JSON 为单个 Mutation 对象
         // 尝试解析 JSON 数组
         match serde_json::from_str::<Vec<Message>>(&cleaned_json) {
             Ok(messages) => {
@@ -1013,9 +1095,119 @@ fn parse_results_rule_extract(
                 continue;
             }
         }
+
     }
 
     wtr.flush()?;
     println!("Total parsed entries: {}", global_index);
+    Ok(())
+}
+
+
+fn parse_results_mutation_extract(
+    input_path: &Path, 
+    output_path: &Path, 
+    new_headers: Vec<String>,
+    // fields: &[String],
+) -> Result<(), Box<dyn Error>> {
+    // 读取输入文件
+    let file = File::open(input_path)?;
+    let mut rdr = Reader::from_reader(file);
+    
+    // 获取 semantic 列的索引
+    let headers = rdr.headers()?;
+    let result_idx = headers
+        .iter()
+        .position(|h| h == "result")
+        .ok_or("result column not found")?;
+
+    // 创建输出文件
+    let output_file = File::create(output_path)?;
+    let mut wtr = Writer::from_writer(output_file);
+
+    // 写入新的表头
+    wtr.write_record(&new_headers)?;
+
+    // 用于跟踪全局索引
+    let mut global_index = 1;
+
+    // 处理每一行
+    for (row_num, result) in rdr.records().enumerate() {
+        let record = result?;
+        let result_value = record.get(result_idx).unwrap_or("").trim();
+        
+        // 跳过空值和默认值
+        if result_value.is_empty() || result_value == "waiting fill" {
+            continue;
+        }
+        // 清理和解析 JSON
+        let cleaned_json = clean_json(result_value);
+        
+        
+        // 跳过空值和默认值
+        if cleaned_json.is_empty() || cleaned_json == "waiting fill" {
+            continue;
+        }
+        // 调试输出
+        // println!("Processing row {}, value: {}", row_num + 1, cleaned_json);
+
+        // 尝试解析 JSON 数组
+        match serde_json::from_str::<Vec<Mutation>>(&cleaned_json) {
+            Ok(messages) => {
+                // 为每个解析出的条目写入一行
+                for (_index, message) in messages.iter().enumerate() {
+                    let mutation = Mutation {
+                        section: message.section.clone(),
+                        title: message.title.clone(),
+                        construction_rule_type: message.construction_rule_type.clone(),
+                        construction_explicitness: message.construction_explicitness,
+                        construction_base: message.construction_base.clone(),
+                        processing_rule_type: message.processing_rule_type.clone(),
+                        processing_explicitness: message.processing_explicitness,
+                        processing_base: message.processing_base.clone(),
+                        test_strategy: message.test_strategy.clone(),
+                        message: message.message.clone(),
+                        field: message.field.clone(),
+                        action: message.action.clone(),
+                        relative_to: message.relative_to.clone(),
+                        position: message.position.clone(),
+                        value: message.value.clone(),
+                        expected_result: message.expected_result.clone(),
+                    };
+
+                    wtr.write_record(&[
+                        &global_index.to_string(),
+                        &mutation.section,
+                        &mutation.title,
+                        &mutation.construction_rule_type,
+                        &mutation.construction_explicitness.to_string(),
+                        &escape_csv_field(&mutation.construction_base),
+                        &mutation.processing_rule_type,
+                        &mutation.processing_explicitness.to_string(),
+                        &escape_csv_field(&mutation.processing_base),
+                        &escape_csv_field(&message.test_strategy),
+                        &message.message,
+                        &message.field,
+                        &message.action,
+                        &message.relative_to,
+                        &message.position,
+                        &escape_csv_field(&message.value),
+                        &escape_csv_field(&message.expected_result),
+                    ])?;
+                    global_index += 1;
+                }
+            },
+            Err(e) => {
+                eprintln!("Error parsing JSON at row {}: {}", row_num + 1, e);
+                eprintln!("Problematic JSON: {}", cleaned_json);
+                // 可以选择继续处理或者返回错误
+                // return Err(Box::new(e));
+                continue;
+            }
+        }
+    }
+
+    wtr.flush()?;
+    println!("Total parsed entries: {}", global_index - 1);
     Ok(())
 }

@@ -7,16 +7,12 @@
 [
   "section": "4.1.2.. Handshake Protocol_Key Exchange Messages_Client Hello",
   "title": "Extension Handling",
-  "message_construction": {
-    "construction_rule_type": "CLI-MSG-CONST",
-    "construction_explicitness": 1,
-    "construction_base": "Clients MUST include extensions in ClientHello messages, with at least the 'supported_versions' extension."
-  },
-  "message_processing": { 
-    "processing_rule_type": "SRV-MSG-PROC",
-    "processing_explicitness": 1, 
-    "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages."
-  }
+  "construction_rule_type": "CLI-MSG-CONST",
+  "construction_explicitness": 1,
+  "construction_base": "Clients MUST include extensions in ClientHello messages, with at least the 'supported_versions' extension.",
+  "processing_rule_type": "SRV-MSG-PROC",
+  "processing_explicitness": 1,
+  "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages.",
 ]
 
 [
@@ -30,14 +26,10 @@
   "processing_base": "Servers MUST ignore any unrecognized extensions in ClientHello messages.",
   "test_strategy": "Insert an unrecognized extension to test the server's handling of unknown extensions.",
   "message": "ClientHello",
-  "fields": [
-    {
-      "field": "unknown_extension",
-      "action": "INSERT",
-      "value": "0xFFFF",
-      "relative_to": "supported_versions",
-      "position": "AFTER"
-    }
-  ],
+  "field": "unknown_extension",
+  "action": "INSERT",
+  "relative_to": "supported_versions",
+  "position": "AFTER",
+  "value": "0xFFFF",
   "expected_result": "Server ignores the unknown extension and proceeds with the handshake."
 ]

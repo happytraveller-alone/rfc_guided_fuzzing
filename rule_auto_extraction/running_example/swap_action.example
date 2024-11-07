@@ -26,13 +26,10 @@
   "processing_base": "Servers MUST check that the \"pre_shared_key\" extension is the last extension in ClientHello and fail the handshake with an \"illegal_parameter\" alert if it is not.",
   "test_strategy": "Swap the position of the pre_shared_key extension to a non-last position to test server enforcement.",
   "message": "ClientHello",
-  "fields": [
-    {
-      "field": "pre_shared_key",
-      "action": "SWAP",
-      "relative_to": "supported_versions",
-      "position": "BEFORE"
-    }
-  ],
-  "expected_result": "Server aborts the handshake with an illegal_parameter alert.",
+  "field": "pre_shared_key",
+  "action": "SWAP",
+  "relative_to": "supported_versions",
+  "position": "BEFORE",
+  "value": "None",
+  "expected_result": "Server aborts the handshake with an illegal_parameter alert."
 ]
