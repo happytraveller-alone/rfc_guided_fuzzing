@@ -33,3 +33,7 @@
   "value": "None",
   "expected_result": "Server aborts the handshake with a missing_extension or illegal_parameter alert."
 ]
+
+// parser的作用，知道key_share扩展在报文的什么位置，长度是多少
+// mutator的作用，删除key_share扩展
+// checker的作用，将扩展总长度，handshake报文总长度，报文总长度进行更新

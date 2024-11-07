@@ -33,3 +33,7 @@
   "value": "0x0200",
   "expected_result": "Server rejects the ClientHello with a protocol_version alert."
 ]
+
+// parser的作用，知道legacy_version扩展在报文的什么位置，长度是多少
+// mutator的作用，更改legacy_version扩展的值(不合法)，0x0304，0x0302等有实际含义的变量
+// checker的作用（通过报文语法检查），将扩展总长度，handshake报文总长度，报文总长度进行更新

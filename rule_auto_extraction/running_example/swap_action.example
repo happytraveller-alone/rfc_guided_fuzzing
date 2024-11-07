@@ -33,3 +33,7 @@
   "value": "None",
   "expected_result": "Server aborts the handshake with an illegal_parameter alert."
 ]
+
+// parser的作用，知道pre_shared_key扩展在报文的什么位置，长度是多少
+// mutator的作用，更改pre_shared_key扩展的位置，但是pre_shared_key内部的内容要有变化，需要重新计算
+// checker的作用（通过报文语法检查），将扩展总长度，handshake报文总长度，报文总长度进行更新，psk的内容也要更新。
