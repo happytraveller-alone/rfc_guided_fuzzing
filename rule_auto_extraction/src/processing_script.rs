@@ -65,22 +65,31 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
                 "Content".to_string()
             ],
         },
-        "classify_rule" => PythonScriptConfig {
-            script_name: "classify_rule.py".to_string(),
-            bot_name: "rule_classification".to_string(),
-            additional_fields: vec![
-                "classification_full_result".to_string(),
-                "classification_result".to_string(),
-                "MQD".to_string(),
-                "CRA".to_string()
-            ],
-            input_fields: vec!["SlicedRule".to_string()],
-        },
+        // "classify_rule" => PythonScriptConfig {
+        //     script_name: "classify_rule.py".to_string(),
+        //     bot_name: "rule_classification".to_string(),
+        //     additional_fields: vec![
+        //         "classification_full_result".to_string(),
+        //         "classification_result".to_string(),
+        //         "MQD".to_string(),
+        //         "CRA".to_string()
+        //     ],
+        //     input_fields: vec!["SlicedRule".to_string()],
+        // },
         "generate_mutation" => PythonScriptConfig {
             script_name: "generate_mutation.py".to_string(),
             bot_name: "generate_mutation".to_string(),
             additional_fields: vec!["mutation_output".to_string()],
-            input_fields: vec!["violation_input".to_string()],
+            input_fields: vec![
+                "section".to_string(),
+                "title".to_string(),
+                "construction_rule_type".to_string(),
+                "construction_explicitness".to_string(),
+                "construction_base".to_string(),
+                "processing_rule_type".to_string(),
+                "processing_explicitness".to_string(),
+                "processing_base".to_string(),
+            ],
         },
         _ => panic!("Unknown script name: {}", script_name),
     }
