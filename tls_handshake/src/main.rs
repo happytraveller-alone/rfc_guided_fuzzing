@@ -1,17 +1,23 @@
 use std::sync::Arc;
-
+use base64::{engine::general_purpose::STANDARD, Engine as _};
+// use rand::Rng;
 use std::thread::sleep;
 use std::time::Duration;
 use tls_handshake::{clienthello_parser, clienthello_mutator, network_connect, terminal, server_response};
 use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
-use rustls::ClientConnection;
+use rustls::{ClientConnection,Stream};
 use mio::{Events, Poll, Token};
 use mio::net::TcpStream as MioTcpStream;
 use std::io::{Write, Read};
 use colored::*;
 use std::collections::HashMap;
-// use std::io;
+use std::io::ErrorKind;
+use std::net::TcpStream;
 // use std::fs;
+// fn generate_temporary_psk() -> Vec<u8> {
+//     let mut rng = rand::thread_rng();
+//     (0..32).map(|_| rng.gen::<u8>()).collect()  // 32字节随机PSK
+// }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     perform_local_network_test()?;
@@ -32,14 +38,76 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     perform_server_environment_test(&server_ip, port)?;
 
+    // let psk_identity = b"temporary_identity".to_vec();
+    // let psk_secret = generate_temporary_psk();
+    let addr = format!("{}:{}", server_ip, port);
+    let mut sock = TcpStream::connect(&addr)?;
     let config = Arc::new(network_connect::create_tls_config());
-    let mut conn = network_connect::create_client_connection(config, server_name.clone())?;
+    let mut conn = rustls::ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
+    // Create a Rustls stream
+    let mut tls = Stream::new(&mut conn, &mut sock);
+    
+    let username = "Administrator";
+    let password = "gxxyf3312!";
+    let credentials = format!("{}:{}", username, password);
+    let encoded_credentials = STANDARD.encode(credentials);
+    // Send an HTTP GET request
+    let request = format!(
+        "GET / HTTP/1.1\r\n\
+         Host: www.example.com\r\n\
+         Authorization: Basic {}\r\n\
+         Connection: close\r\n\
+         Accept-Encoding: identity\r\n\
+         \r\n",
+        encoded_credentials
+    );
+    
+    tls.write_all(request.as_bytes())?;
 
+    // Retrieve and print the negotiated cipher suite
+    if let Some(ciphersuite) = tls.conn.negotiated_cipher_suite() {
+        eprintln!("Current ciphersuite: {:?}", ciphersuite.suite());
+    }
+    
+    // Read the response and print it to stdout
+    let mut plaintext = Vec::new();
+    // Send close_notify to properly terminate the TLS session
+    tls.conn.send_close_notify();
+    match tls.read_to_end(&mut plaintext) {
+        Ok(_) => {
+            // 将字节序列转换为 UTF-8 字符串
+            let response = String::from_utf8_lossy(&plaintext);
+            // 输出到控制台
+            println!("{}", response);
+        }
+        Err(ref err) if err.kind() == ErrorKind::UnexpectedEof => {
+            // 处理 UnexpectedEof 错误，视为正常的 EOF
+            let response = String::from_utf8_lossy(&plaintext);
+            println!("{}", response);
+        }
+        Err(err) => return Err(Box::new(err)),
+    }
+
+
+    
+    
+    // 模拟第一次握手完成后断开连接
+    println!("\n\nFirst handshake completed, disconnecting...");
+
+    // 执行第二次握手
+    println!("Starting second handshake...\n\n");
+    let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
     let mut client_hello = Vec::new();
     conn.write_tls(&mut client_hello)?;
 
     parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
     send_client_hello_if_test_env(&matches, &server_ip, port,&mut conn, &client_hello, easy_read)?;
+    // let mut conn2 = network_connect::create_client_connection(config, server_name)?;
+    // let mut client_hello2 = Vec::new();
+    // conn2.write_tls(&mut client_hello2)?;
+    // parse_client_hello_if_enabled(&matches, &client_hello2, easy_read);
+    // send_client_hello_if_test_env(&matches, &server_ip, port, &mut conn2, &client_hello2, easy_read)?;
+
     terminal::print_help();
     Ok(())
 }

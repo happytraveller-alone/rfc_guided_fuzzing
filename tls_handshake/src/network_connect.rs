@@ -1,9 +1,11 @@
 use std::sync::Arc;
 use std::net::TcpStream;
-use rustls::{ClientConfig, ClientConnection, RootCertStore};
+use rustls::{ClientConfig, ClientConnection, RootCertStore, client::Resumption};
+
 use std::io::{Write, Read};
 use colored::*;
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
+use rustls::crypto::aws_lc_rs::DEFAULT_CIPHER_SUITES;
 use std::net::SocketAddr;
 use mio::net::TcpStream as MioTcpStream;
 use mio::{Events, Interest, Poll, Token};
@@ -90,19 +92,11 @@ pub fn get_port(matches: &clap::ArgMatches) -> u16 {
 pub fn create_tls_config() -> ClientConfig {
     let root_store = RootCertStore::empty();
     let versions = vec![&rustls::version::TLS13];
-    // let mut config = ClientConfig::builder()
-    //     .with_root_certificates(root_store)
-    //     .with_protocol_versions(&versions)
-    //     .with_no_client_auth();
     // 指定 TLS 1.3 支持的密码套件
-    let ciphersuites = vec![
-        provider::cipher_suite::TLS13_AES_256_GCM_SHA384,
-        provider::cipher_suite::TLS13_AES_128_GCM_SHA256,
-        provider::cipher_suite::TLS13_CHACHA20_POLY1305_SHA256,
-    ];
+    let ciphersuites = DEFAULT_CIPHER_SUITES;
 
     let provider = CryptoProvider {
-        cipher_suites: ciphersuites,
+        cipher_suites: ciphersuites.to_vec(),
         ..provider::default_provider()
     };
 
@@ -111,9 +105,15 @@ pub fn create_tls_config() -> ClientConfig {
         .expect("Inconsistent cipher-suite/versions selected")
         .with_root_certificates(root_store)
         .with_no_client_auth();
+    
     config.dangerous().set_certificate_verifier(Arc::new(danger::NoCertificateVerification::new(
         provider::default_provider(),
     )));
+    // 配置 PSK 回调
+    config.resumption = Resumption::in_memory_sessions(256)
+            .tls12_resumption(rustls::client::Tls12Resumption::SessionIdOnly);
+
+    // config.enable_tickets = true;
     config
 }
 

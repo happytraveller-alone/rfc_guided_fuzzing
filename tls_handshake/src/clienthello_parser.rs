@@ -179,7 +179,7 @@ impl<'a> ClientHelloParser<'a> {
                 let extension_type = u16::from_be_bytes([self.data[self.offset], self.data[self.offset + 1]]);
                 let extension_length = u16::from_be_bytes([self.data[self.offset + 2], self.data[self.offset + 3]]);
                 let extension_name = TLS_EXTENSIONS.get(&extension_type).map_or("Unknown", |&name| name);
-                let extension_content = self.data[self.offset..self.offset + extension_length as usize].to_vec();
+                let extension_content = self.data[self.offset + 4..self.offset + extension_length as usize + 4].to_vec();
                 // let extension_order = extension_content as usize;
                 // 存储扩展类型和长度信息
                 let extension_info = format!("Type: {:04X}, Length: {:04X} ({} bytes)", extension_type, extension_length, extension_length);

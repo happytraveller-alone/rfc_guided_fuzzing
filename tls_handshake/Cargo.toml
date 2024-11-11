@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-rustls = "0.23.15"
+rustls = "0.23.16"
 webpki-roots = "0.26"
 phf = { version = "0.11", features = ["macros"] }
 clap = "4.5.20"
@@ -13,3 +13,4 @@ colored = "2.1.0"
 mio = { version = "1.0.2", features = ["net", "os-poll"] }
 pki-types = { package = "rustls-pki-types", version = "1.10.0", features = ["std"] }
 rand = "0.8.5"
+base64 = "0.22.1"
