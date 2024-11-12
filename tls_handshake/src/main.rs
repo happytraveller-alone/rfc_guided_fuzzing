@@ -67,12 +67,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Retrieve and print the negotiated cipher suite
     if let Some(ciphersuite) = tls.conn.negotiated_cipher_suite() {
         eprintln!("Current ciphersuite: {:?}", ciphersuite.suite());
+
+    }
+    if let Some(key_exchange_group) = tls.conn.negotiated_key_exchange_group(){
+        eprintln!("Current key exchange group: {:?}\n\n", key_exchange_group.name());
     }
     
-    // Read the response and print it to stdout
+    
+    
     let mut plaintext = Vec::new();
-    // Send close_notify to properly terminate the TLS session
-    tls.conn.send_close_notify();
     match tls.read_to_end(&mut plaintext) {
         Ok(_) => {
             // 将字节序列转换为 UTF-8 字符串
@@ -81,32 +84,34 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("{}", response);
         }
         Err(ref err) if err.kind() == ErrorKind::UnexpectedEof => {
-            // 处理 UnexpectedEof 错误，视为正常的 EOF
+            // 将字节序列转换为 UTF-8 字符串
             let response = String::from_utf8_lossy(&plaintext);
-            println!("{}", response);
+
+            // 分割响应头和主体，以双换行（\r\n\r\n 或 \n\n）为界
+            if let Some((headers, _)) = response.split_once("\r\n\r\n").or_else(|| response.split_once("\n\n")) {
+                println!("{}", headers);
+            } else {
+                // 如果没有找到双换行，直接打印整个响应（可能不完整）
+                println!("{}", response);
+            }
         }
         Err(err) => return Err(Box::new(err)),
     }
-
-
-    
-    
+    // Send close_notify to properly terminate the TLS session
+    tls.conn.send_close_notify();
     // 模拟第一次握手完成后断开连接
-    println!("\n\nFirst handshake completed, disconnecting...");
-
+    println!("{}", "\n\nFirst handshake completed, disconnecting...".green());
+    
+    
+    
     // 执行第二次握手
-    println!("Starting second handshake...\n\n");
+    println!("{}","Starting second handshake...\n\n".green());
     let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
     let mut client_hello = Vec::new();
     conn.write_tls(&mut client_hello)?;
 
     parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
     send_client_hello_if_test_env(&matches, &server_ip, port,&mut conn, &client_hello, easy_read)?;
-    // let mut conn2 = network_connect::create_client_connection(config, server_name)?;
-    // let mut client_hello2 = Vec::new();
-    // conn2.write_tls(&mut client_hello2)?;
-    // parse_client_hello_if_enabled(&matches, &client_hello2, easy_read);
-    // send_client_hello_if_test_env(&matches, &server_ip, port, &mut conn2, &client_hello2, easy_read)?;
 
     terminal::print_help();
     Ok(())

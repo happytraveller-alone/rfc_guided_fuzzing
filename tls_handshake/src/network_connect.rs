@@ -139,7 +139,7 @@ pub fn check_test_environment(matches: &clap::ArgMatches) -> bool {
     if is_test_env {
         println!("{}", "\nTest environment is enabled. Sending ClientHello to server.".green());
     } else {
-        println!("{}", "\nTest environment is false. Not sending ClientHello to server.".green());
+        println!("{}", "\nTest environment is false. Not sending ClientHello to server.".yellow());
     }
     is_test_env
 }

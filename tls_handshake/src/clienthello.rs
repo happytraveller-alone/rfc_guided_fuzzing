@@ -1,7 +1,6 @@
 use super::TLS_EXTENSIONS;
 use std::collections::HashMap;
 
-
 #[derive(Debug, Clone)]
 pub struct ClientHello {
     // TLS Record Layer
@@ -188,6 +187,7 @@ impl ClientHello {
                 "signature_algorithms" => self.print_signature_algorithms(&extension.extension_content),
                 "key_share" => self.print_key_share(&extension.extension_content),
                 "server_name" => self.print_server_name(&extension.extension_content),
+                "pre_shared_key" => self.print_pre_shared_key(&extension.extension_content),
                 _ => {
                     print!("      Content: ");
                     for byte in &extension.extension_content {
@@ -434,6 +434,101 @@ impl ClientHello {
             println!("        Server Name: {}", server_name);
     
             offset += name_length;
+        }
+    }
+    
+    fn print_pre_shared_key(&self, content: &[u8]) {
+        if content.len() < 2 {
+            println!("      Empty or invalid pre_shared_key content.");
+            return;
+        }
+    
+        // 解析 Identities 的总长度
+        let identities_length = u16::from_be_bytes([content[0], content[1]]) as usize;
+        println!("      Pre-Shared Key extension:");
+        println!("        Identities Length: {}", identities_length);
+    
+        let mut offset = 2;
+        
+        // 解析每个 PSK Identity
+        while offset < 2 + identities_length && offset + 4 <= content.len() {
+            // Identity 长度
+            let identity_length = u16::from_be_bytes([content[offset], content[offset + 1]]) as usize;
+            offset += 2;
+    
+            println!("        PSK Identity (length: {}):", identity_length);
+    
+            // Identity 内容
+            if offset + identity_length > content.len() {
+                println!("          Invalid PSK Identity: insufficient data.");
+                return;
+            }
+    
+            let identity = &content[offset..offset + identity_length];
+            let formatted_identity = identity
+            .chunks(1)
+            .map(|chunk| format!("{:02X}", chunk[0]))
+            .collect::<Vec<_>>()
+            .join(" ");
+            println!("          Identity: {}", formatted_identity);
+            // println!("          Identity: {}", hex::encode(identity));
+            offset += identity_length;
+    
+            // Obfuscated Ticket Age
+            if offset + 4 > content.len() {
+                println!("          Invalid PSK Identity: insufficient data for obfuscated_ticket_age.");
+                return;
+            }
+            let obfuscated_ticket_age = u32::from_be_bytes([
+                content[offset],
+                content[offset + 1],
+                content[offset + 2],
+                content[offset + 3],
+            ]);
+            println!("          Obfuscated Ticket Age: {}", obfuscated_ticket_age);
+            offset += 4;
+        }
+    
+        // 确保 Identities 部分解析完
+        if offset != 2 + identities_length {
+            println!("        Warning: Identities length mismatch.");
+        }
+    
+        // 解析 PSK Binders 长度
+        if offset + 2 > content.len() {
+            println!("      Invalid pre_shared_key extension: insufficient data for binders length.");
+            return;
+        }
+        let binders_length = u16::from_be_bytes([content[offset], content[offset + 1]]) as usize;
+        println!("        PSK Binders length: {}", binders_length);
+        offset += 2;
+    
+        // 解析每个 PSK Binder
+        while offset < content.len() {
+            // Binder 长度
+            if offset + 1 > content.len() {
+                println!("          Invalid PSK Binder: insufficient data.");
+                return;
+            }
+            let binder_length = content[offset] as usize;
+            offset += 1;
+    
+            println!("          PSK Binder (length: {}):", binder_length);
+    
+            // Binder 内容
+            if offset + binder_length > content.len() {
+                println!("          Invalid PSK Binder: insufficient data.");
+                return;
+            }
+    
+            let binder = &content[offset..offset + binder_length];
+            let formatted_binder = binder
+                .chunks(1)
+                .map(|chunk| format!("{:02X}", chunk[0]))
+                .collect::<Vec<_>>()
+                .join(" ");
+            println!("            Binder: {}", formatted_binder);
+            offset += binder_length;
         }
     }
     
