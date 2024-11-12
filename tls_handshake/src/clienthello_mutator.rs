@@ -4,32 +4,71 @@ use std::collections::HashMap;
 use colored::*;
 use crate::TLS_EXTENSIONS_REVERSE;
 
-// #[derive(Debug)]
-// enum Action {
-//     SET,
-//     REMOVE,
-//     DUPLICATE,
-//     INSERT,
-//     SWAP,
-// }
+#[derive(Debug)]
+pub enum Action {
+    SET,
+    REMOVE,
+    DUPLICATE,
+    INSERT,
+    SWAP,
+}
 
-// #[derive(Debug)]
-// enum Message {
-//     ClientHello,
-//     Certificate,
-//     CertificateRequest,
-//     CertificateVerify,
-//     ServerHello,
-// }
+#[derive(Debug)]
+pub enum Message {
+    ClientHello,
+    Certificate,
+    CertificateRequest,
+    CertificateVerify,
+    ServerHello,
+}
 
-// #[derive(Debug)]
-// pub struct TestMessage {
-//     message: Message,
-//     field: String,
-//     action: Action,
-//     relative_position: String,
-//     value: String,
-// }
+#[derive(Debug)]
+pub struct TestMutation {
+    message: Message,
+    field: String,
+    action: Action,
+    relative_position: String,
+    value: String,
+}
+
+pub fn parse_action(action: &str) -> Result<Action, &'static str> {
+    match action {
+        "SET" => Ok(Action::SET),
+        "REMOVE" => Ok(Action::REMOVE),
+        "DUPLICATE" => Ok(Action::DUPLICATE),
+        "INSERT" => Ok(Action::INSERT),
+        "SWAP" => Ok(Action::SWAP),
+        _ => Err("Unknown action"),
+    }
+}
+
+pub fn parse_message(message: &str) -> Result<Message, &'static str> {
+    match message {
+        "ClientHello" => Ok(Message::ClientHello),
+        "Certificate" => Ok(Message::Certificate),
+        "CertificateRequest" => Ok(Message::CertificateRequest),
+        "CertificateVerify" => Ok(Message::CertificateVerify),
+        "ServerHello" => Ok(Message::ServerHello),
+        _ => Err("Unknown message type"),
+    }
+}
+
+// New function to create a TestMutation instance
+pub fn create_test_mutation(
+    message: Message,
+    field: String,
+    action: Action,
+    relative_position: String,
+    value: String,
+) -> TestMutation {
+    TestMutation {
+        message,
+        field,
+        action,
+        relative_position,
+        value,
+    }
+}
 pub struct ClientHelloMutator {
     client_hello: ClientHello,
 }
@@ -51,6 +90,8 @@ impl ClientHelloMutator {
             }
         }
     }
+
+    // pub fn mutate_new(&mut self, mutation_config: )
 
     fn update_lengths(&mut self) {
         // 更新 Session ID 长度

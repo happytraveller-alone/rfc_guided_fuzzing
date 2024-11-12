@@ -1,5 +1,5 @@
 use super::TLS_EXTENSIONS;
-
+use colored::*;
 pub struct ServerHelloParser<'a> {
     data: &'a [u8],
     offset: usize,
@@ -195,6 +195,7 @@ pub fn parse_server_response(data: &[u8], parse_enabled: bool) {
     let record_layers = parser.parse_tls_record_layers();
     parser.offset = 0;
     if !parse_enabled {
+        println!("{}", "parse server response disabled".yellow());
         return
     }
     for (index, record) in record_layers.into_iter().enumerate() {

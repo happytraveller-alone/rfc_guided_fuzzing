@@ -4,14 +4,17 @@ use std::time::Duration;
 use tls_handshake::{clienthello_parser, clienthello_mutator, network_connect, terminal, server_response};
 use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
 use tls_handshake::clienthello::ClientHello;
-use rustls::{client, ClientConnection, Stream};
+use tls_handshake::clienthello_mutator::TestMutation;
+use rustls::{ClientConnection, Stream};
 use mio::{Events, Poll, Token};
 use mio::net::TcpStream as MioTcpStream;
-use std::io::{Write, Read};
+use std::io::{Write, Read, ErrorKind};
 use colored::*;
 use std::collections::HashMap;
-use std::io::ErrorKind;
 use std::net::TcpStream;
+use std::fs::File;
+use std::error::Error;
+use std::path::Path;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     perform_local_network_test()?;
@@ -105,6 +108,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     conn.write_tls(&mut client_hello)?;
 
     let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
+
+    let mut mutation_vec_store : Vec<TestMutation> = Vec::new();
+    let required_columns = ["message", "field", "action", "relative_to", "position", "value"];
+    let file_path = "input_source/mutation_guideline.csv";
+    println!("{}","Read mutation source".green());
+    let _ = read_mutation_source(file_path, &required_columns, &mut mutation_vec_store);
+
     mutate_client_hello_if_enabled(&matches, &parsed_clienthello, easy_read);
     send_client_hello_if_test_env(&matches, &server_ip, port,&mut conn, &client_hello, easy_read)?;
     
@@ -204,7 +214,50 @@ fn send_client_hello_if_test_env(
     Ok(())
 }
 
+// 输入，一个存储，一个文件路径，一个存储列名的字符串数组，
+// 处理逻辑，读取文件，按照列名数组查看文件，有异常退出，
+// 列名检索成功，遍历每一行构建TestMutationVec,然后返回
+fn read_mutation_source<'a>(file_path: &str, required_columns: &[&str], test_mutation_vec: &'a mut Vec<TestMutation>) -> Result<&'a Vec<TestMutation>, Box<dyn Error>>{
+    let path = Path::new(file_path);
 
+    // Check if the file path exists, if not, return an error with red output
+    if !path.exists() {
+        // ANSI escape code for red text is "\x1b[31m" and reset color is "\x1b[0m"
+        eprintln!("\x1b[31mError: File '{}' not found.\x1b[0m", file_path);
+        return Err(From::from(format!("File '{}' not found", file_path)));
+    }
+    let file = File::open(&path)?;
+    let mut reader = csv::Reader::from_reader(file);
+
+    // Verify that the file contains the required columns
+    let headers = reader.headers()?.clone();
+    for &col in required_columns {
+        if !headers.iter().any(|header| header == col) {
+            return Err(From::from(format!("Column '{}' not found in the file", col)));
+        }
+    }
+
+    // Create a vector to store TestMutation instances
+    // let mut mutations = Vec::new();
+
+    // Read each record and construct TestMutation
+    for result in reader.records() {
+        let record = result?;
+        
+        // Parse each field from the CSV record
+        let message = clienthello_mutator::parse_message(&record[headers.iter().position(|h| h == "message").unwrap()])?;
+        let field = record[headers.iter().position(|h| h == "field").unwrap()].to_string();
+        let action = clienthello_mutator::parse_action(&record[headers.iter().position(|h| h == "action").unwrap()])?;
+        let relative_position = record[headers.iter().position(|h| h == "relative_to").unwrap()].to_string();
+        // let position = record[headers.iter().position(|h| h == "position").unwrap()].to_string();
+        let value = record[headers.iter().position(|h| h == "value").unwrap()].to_string();
+
+        // Construct and add TestMutation to the vector
+        test_mutation_vec.push(clienthello_mutator::create_test_mutation(message,field,action,relative_position,value));
+    }
+
+    Ok(test_mutation_vec)
+}
 
 fn send_client_hello(stream: &mut  MioTcpStream, client_hello: &[u8]) -> Result<(), Box<dyn std::error::Error>> {
     println!("Sending ClientHello message...");
@@ -261,30 +314,6 @@ fn wait_for_server_response(poll: &mut Poll, token: Token, stream: &mut MioTcpSt
     }
 }
 
-// fn process_server_response(conn: &mut ClientConnection, server_response: &[u8]) -> Result<(), Box<dyn std::error::Error>> {
-//     let mut read_cursor = io::Cursor::new(server_response);
-//     if let Err(e) = conn.read_tls(&mut read_cursor) {
-//         println!("Error reading TLS data: {}", e);
-//         return Err(Box::new(e));
-//     }
-
-//     let io_state = match conn.process_new_packets() {
-//         Ok(io_state) => io_state,
-//         Err(err) => {
-//             println!("TLS error: {:?}", err);
-//             return Err(Box::new(err));
-//         }
-//     };
-//     println!("Success to read to tls");
-
-//     if io_state.plaintext_bytes_to_read() > 0 {
-//         let mut plaintext = vec![0u8; io_state.plaintext_bytes_to_read()];
-//         conn.reader().read_exact(&mut plaintext)?;
-//         io::stdout().write_all(&plaintext)?;
-//     }
-
-//     Ok(())
-// }
 // #[warn(dead_code)]
 // fn print_hex_dump(data: &[u8]) {
 //     println!("Read cursor content (hex):");
