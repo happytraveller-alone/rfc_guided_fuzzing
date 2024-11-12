@@ -52,6 +52,7 @@ pub fn print_help() {
     println!("{}","  --test_env                             If set, sends ClientHello to the server and parses the server response.".green());
     println!("{}","  --disable_parse_client_hello           Enables or disables ClientHello parsing (default: false).".green());
     println!("{}","  --disable_parse_server_response        Enables or disables Server Response parsing (default: false).".green());
+    println!("{}","  --disable_mutate_client_hello          Enables or disables ClientHello mutation (default: false).".green());
     println!("{}","  --use_guide                            Show this help information.".green());
     println!("{}","  --easy_read                            Show output information slower.".green());
     println!("{}","=======================================================".green());
@@ -74,6 +75,7 @@ pub fn get_command_matches() -> clap::ArgMatches {
         .arg(arg!(-p --port <PORT> "Sets the port number").required(false).default_value("443"))
         .arg(arg!(--test_env "Enables test environment mode").action(ArgAction::SetTrue))
         .arg(arg!(--disable_parse_client_hello "Enables or disables ClientHello parsing").default_value("false").action(ArgAction::SetTrue))
+        .arg(arg!(--disable_mutate_client_hello "Enables or disables ClientHello mutation").default_value("false").action(ArgAction::SetTrue))
         .arg(arg!(--disable_parse_server_response "Enables or disables Server response").default_value("false").action(ArgAction::SetTrue))
         .arg(arg!(--use_guide "Show help information").action(ArgAction::SetTrue))
         .arg(arg!(--easy_read "Enables easy read mode by adding delays").default_value("false").action(ArgAction::SetTrue))

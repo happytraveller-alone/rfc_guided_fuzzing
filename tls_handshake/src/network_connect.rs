@@ -105,15 +105,15 @@ pub fn create_tls_config() -> ClientConfig {
         .expect("Inconsistent cipher-suite/versions selected")
         .with_root_certificates(root_store)
         .with_no_client_auth();
-    
+    config.enable_early_data = true;
+    config.enable_sni = true;
     config.dangerous().set_certificate_verifier(Arc::new(danger::NoCertificateVerification::new(
         provider::default_provider(),
     )));
     // 配置 PSK 回调
     config.resumption = Resumption::in_memory_sessions(256)
             .tls12_resumption(rustls::client::Tls12Resumption::SessionIdOnly);
-
-    // config.enable_tickets = true;
+    
     config
 }
 

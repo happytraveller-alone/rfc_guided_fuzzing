@@ -190,10 +190,13 @@ impl<'a> ServerHelloParser<'a> {
     }
 }
 
-pub fn parse_server_response(data: &[u8]) {
+pub fn parse_server_response(data: &[u8], parse_enabled: bool) {
     let mut parser = ServerHelloParser::new(data);
     let record_layers = parser.parse_tls_record_layers();
     parser.offset = 0;
+    if !parse_enabled {
+        return
+    }
     for (index, record) in record_layers.into_iter().enumerate() {
         println!("\nRecord Layer {}:", index + 1);
         println!("  Content Type: {:02X} ({})", record.content_type, parser.content_type_to_string(record.content_type));

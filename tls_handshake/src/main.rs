@@ -1,11 +1,10 @@
 use std::sync::Arc;
-use base64::{engine::general_purpose::STANDARD, Engine as _};
-// use rand::Rng;
 use std::thread::sleep;
 use std::time::Duration;
 use tls_handshake::{clienthello_parser, clienthello_mutator, network_connect, terminal, server_response};
 use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
-use rustls::{ClientConnection,Stream};
+use tls_handshake::clienthello::ClientHello;
+use rustls::{client, ClientConnection, Stream};
 use mio::{Events, Poll, Token};
 use mio::net::TcpStream as MioTcpStream;
 use std::io::{Write, Read};
@@ -13,11 +12,6 @@ use colored::*;
 use std::collections::HashMap;
 use std::io::ErrorKind;
 use std::net::TcpStream;
-// use std::fs;
-// fn generate_temporary_psk() -> Vec<u8> {
-//     let mut rng = rand::thread_rng();
-//     (0..32).map(|_| rng.gen::<u8>()).collect()  // 32字节随机PSK
-// }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     perform_local_network_test()?;
@@ -44,37 +38,25 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut sock = TcpStream::connect(&addr)?;
     let config = Arc::new(network_connect::create_tls_config());
     let mut conn = rustls::ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
-    // Create a Rustls stream
-    let mut tls = Stream::new(&mut conn, &mut sock);
     
-    let username = "Administrator";
-    let password = "gxxyf3312!";
-    let credentials = format!("{}:{}", username, password);
-    let encoded_credentials = STANDARD.encode(credentials);
-    // Send an HTTP GET request
+    // let username = "Administrator";
+    // let password = "gxxyf3312!";
+    // let credentials = format!("{}:{}", username, password);
+    // let encoded_credentials = STANDARD.encode(credentials);
     let request = format!(
         "GET / HTTP/1.1\r\n\
          Host: www.example.com\r\n\
-         Authorization: Basic {}\r\n\
          Connection: close\r\n\
          Accept-Encoding: identity\r\n\
          \r\n",
-        encoded_credentials
     );
+    // Create a Rustls stream
+    let mut tls = Stream::new(&mut conn, &mut sock);
+
     
+    
+    // Send an HTTP GET request
     tls.write_all(request.as_bytes())?;
-
-    // Retrieve and print the negotiated cipher suite
-    if let Some(ciphersuite) = tls.conn.negotiated_cipher_suite() {
-        eprintln!("Current ciphersuite: {:?}", ciphersuite.suite());
-
-    }
-    if let Some(key_exchange_group) = tls.conn.negotiated_key_exchange_group(){
-        eprintln!("Current key exchange group: {:?}\n\n", key_exchange_group.name());
-    }
-    
-    
-    
     let mut plaintext = Vec::new();
     match tls.read_to_end(&mut plaintext) {
         Ok(_) => {
@@ -97,22 +79,35 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
         Err(err) => return Err(Box::new(err)),
     }
+    // Retrieve and print the negotiated cipher suite
+    if let Some(ciphersuite) = tls.conn.negotiated_cipher_suite() {
+        println!("\nCurrent ciphersuite: {:?}", ciphersuite.suite());
+    }
+    if let Some(key_exchange_group) = tls.conn.negotiated_key_exchange_group(){
+        println!("Current key exchange group: {:?}\n", key_exchange_group.name());
+    }
     // Send close_notify to properly terminate the TLS session
     tls.conn.send_close_notify();
     // 模拟第一次握手完成后断开连接
-    println!("{}", "\n\nFirst handshake completed, disconnecting...".green());
+    println!("{}", "\nFirst handshake completed, disconnecting...".green());
     
-    
-    
+
     // 执行第二次握手
     println!("{}","Starting second handshake...\n\n".green());
     let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
+    if let Some(mut early_data) = conn.early_data() {
+        early_data
+            .write_all(request.as_bytes())
+            .unwrap();
+        println!("  * 0-RTT request sent");
+    }
     let mut client_hello = Vec::new();
     conn.write_tls(&mut client_hello)?;
 
-    parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
+    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
+    mutate_client_hello_if_enabled(&matches, &parsed_clienthello, easy_read);
     send_client_hello_if_test_env(&matches, &server_ip, port,&mut conn, &client_hello, easy_read)?;
-
+    
     terminal::print_help();
     Ok(())
 }
@@ -146,15 +141,21 @@ fn perform_server_environment_test(server_ip: &str, port: u16) -> Result<(), Box
     Ok(())
 }
 
-fn parse_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &[u8], easy_read: bool) {
+fn parse_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &[u8], easy_read: bool) -> ClientHello {
+    let mut parsed_client_hello = ClientHello::new();
     if !matches.get_flag("disable_parse_client_hello") {
         println!("{}", "\nparse ClientHello raw bytes:".green());
         if easy_read {
             sleep(Duration::from_secs(2));
         }
         // 解析 ClientHello
-        let parsed_client_hello = clienthello_parser::parse_client_hello(client_hello);
-        
+        parsed_client_hello = clienthello_parser::parse_client_hello(client_hello);
+    }
+    parsed_client_hello
+}
+
+fn mutate_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &ClientHello, easy_read: bool){
+    if !matches.get_flag("disable_mutate_client_hello") {
         // 创建变异配置
         let mut mutation_config = HashMap::new();
         // 创建一个32字节的数组，这里示例用全1填充
@@ -167,11 +168,14 @@ fn parse_client_hello_if_enabled(matches: &clap::ArgMatches, client_hello: &[u8]
 
         // 执行变异并获取结果
         println!("{}", "\nMutated ClientHello:".green());
-        let mutated_client_hello = clienthello_mutator::mutate_client_hello(&parsed_client_hello, &mutation_config);
+        if easy_read {
+            sleep(Duration::from_secs(2));
+        }
+        let mutated_client_hello = clienthello_mutator::mutate_client_hello(&client_hello, &mutation_config);
+
         mutated_client_hello.print();
     }
 }
-
 fn send_client_hello_if_test_env(
     matches: &clap::ArgMatches,
     server_ip: &str,
@@ -194,7 +198,8 @@ fn send_client_hello_if_test_env(
     
     let server_response = wait_for_server_response(&mut poll, token, &mut stream)?; 
     // process_server_response(conn, &server_response)?;
-    server_response::parse_server_response(&server_response);
+    let parse_enabled = matches.get_flag("disable_parse_server_response");
+    server_response::parse_server_response(&server_response, parse_enabled);
 
     Ok(())
 }

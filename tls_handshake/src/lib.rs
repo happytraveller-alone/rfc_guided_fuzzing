@@ -46,3 +46,28 @@ static TLS_EXTENSIONS: phf::Map<u16, &'static str> = phf_map! {
     0xFF01u16 => "renegotiation_info"
 };
 
+static TLS_EXTENSIONS_REVERSE: phf::Map<&'static str, u16> = phf_map! {
+    "server_name" => 0x0000u16,
+    "max_fragment_length" => 0x0001u16,
+    "status_request" => 0x0005u16,
+    "supported_groups" => 0x000Au16,
+    "ec_point_formats" => 0x000Bu16,
+    "signature_algorithms" => 0x000Du16,
+    "use_srtp" => 0x000Eu16,
+    "heartbeat" => 0x000Fu16,
+    "application_layer_protocol_negotiation" => 0x0010u16,
+    "signed_certificate_timestamp" => 0x0012u16,
+    "client_certificate_type" => 0x0013u16,
+    "server_certificate_type" => 0x0014u16,
+    "padding" => 0x0015u16,
+    "extended_master_secret" => 0x0017u16,
+    "session_ticket" => 0x0023u16,
+    "pre_shared_key" => 0x0029u16,
+    "early_data" => 0x002Au16,
+    "supported_versions" => 0x002Bu16,
+    "cookie" => 0x002Cu16,
+    "psk_key_exchange_modes" => 0x002Du16,
+    "signature_algorithms_cert" => 0x0032u16,
+    "key_share" => 0x0033u16,
+    "renegotiation_info" => 0xFF01u16
+};

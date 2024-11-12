@@ -1120,7 +1120,6 @@ fn parse_results_mutation_extract(
         .iter()
         .position(|h| h == "result")
         .ok_or("result column not found")?;
-
     // 创建输出文件
     let output_file = File::create(output_path)?;
     let mut wtr = Writer::from_writer(output_file);
@@ -1175,26 +1174,33 @@ fn parse_results_mutation_extract(
                         expected_result: message.expected_result.clone(),
                     };
 
-                    wtr.write_record(&[
-                        &global_index.to_string(),
-                        &mutation.section,
-                        &mutation.title,
-                        &mutation.construction_rule_type,
-                        &mutation.construction_explicitness.to_string(),
-                        &escape_csv_field(&mutation.construction_base),
-                        &mutation.processing_rule_type,
-                        &mutation.processing_explicitness.to_string(),
-                        &escape_csv_field(&mutation.processing_base),
-                        &escape_csv_field(&message.test_strategy),
-                        &message.message,
-                        &message.field,
-                        &message.action,
-                        &message.relative_to,
-                        &message.position,
-                        &escape_csv_field(&message.value),
-                        &escape_csv_field(&message.expected_result),
-                    ])?;
-                    global_index += 1;
+                    if mutation.message == "ClientHello" 
+                        && message.relative_to == "None" 
+                        && !["cookie", "OID", "early_data", "identity"]
+                            .iter()
+                            .any(|&term| message.field.contains(term)) {
+                            wtr.write_record(&[
+                                &global_index.to_string(),
+                                &mutation.section,
+                                &mutation.title,
+                                &mutation.construction_rule_type,
+                                &mutation.construction_explicitness.to_string(),
+                                &escape_csv_field(&mutation.construction_base),
+                                &mutation.processing_rule_type,
+                                &mutation.processing_explicitness.to_string(),
+                                &escape_csv_field(&mutation.processing_base),
+                                &escape_csv_field(&message.test_strategy),
+                                &message.message,
+                                &message.field,
+                                &message.action,
+                                &message.relative_to,
+                                &message.position,
+                                &escape_csv_field(&message.value),
+                                &escape_csv_field(&message.expected_result),
+                            ])?;
+                            global_index += 1;
+                    }
+                    
                 }
             },
             Err(e) => {

@@ -2,6 +2,34 @@ use crate::clienthello::ClientHello;
 use rand::Rng;
 use std::collections::HashMap;
 use colored::*;
+use crate::TLS_EXTENSIONS_REVERSE;
+
+// #[derive(Debug)]
+// enum Action {
+//     SET,
+//     REMOVE,
+//     DUPLICATE,
+//     INSERT,
+//     SWAP,
+// }
+
+// #[derive(Debug)]
+// enum Message {
+//     ClientHello,
+//     Certificate,
+//     CertificateRequest,
+//     CertificateVerify,
+//     ServerHello,
+// }
+
+// #[derive(Debug)]
+// pub struct TestMessage {
+//     message: Message,
+//     field: String,
+//     action: Action,
+//     relative_position: String,
+//     value: String,
+// }
 pub struct ClientHelloMutator {
     client_hello: ClientHello,
 }
@@ -85,7 +113,7 @@ impl ClientHelloMutator {
     }
 
     fn mutate_cipher_suites(&mut self, value: &[u8]) {
-        let valid_suites = [0x1301u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];
+        let valid_suites = [0x1301_u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];
         let default_suites = [0x1302u16, 0x1301, 0x1303, 0x00FF];
         
         // 确保输入长度是偶数（每个cipher suite是2字节）
@@ -141,6 +169,50 @@ impl ClientHelloMutator {
     
     pub fn get_mutated_client_hello(&self) -> &ClientHello {
         &self.client_hello
+    }
+
+    fn handle_remove(&mut self, field: &str) {
+        match field {
+            "ClientHelloVersion" => self.client_hello.client_version = [0x00, 0x00],
+            "SessionID" => {
+                self.client_hello.session_id_length = 0;
+                self.client_hello.session_id.clear();
+            }
+            "CipherSuites" => {
+                self.client_hello.cipher_suites_length = 0;
+                self.client_hello.cipher_suites.clear();
+            }
+            "CompressionMethods" => {
+                self.client_hello.compression_methods_length = 0;
+                self.client_hello.compression_methods.clear();
+            }
+            _ => {
+                // Check if field matches an extension name
+                if let Some(&extension_type) = TLS_EXTENSIONS_REVERSE.get(field) {
+                    // Find the position of the extension to be removed
+                    if let Some(pos) = self.client_hello.extensions.iter().position(|ext| ext.extension_type == extension_type.to_be_bytes()) {
+                        // Remove the extension at the found position
+                        self.client_hello.extensions.remove(pos);
+                        // Update order_id for each extension after the removed one
+                        for i in pos..self.client_hello.extensions.len() {
+                            self.client_hello.extensions[i].order_id -= 1;
+                        }
+                        // Recalculate extensions_length based on remaining extensions
+                        self.client_hello.extensions_length = self.client_hello.extensions.iter()
+                            .map(|ext| ext.extension_content.len() as u16 + 4) // Adjusted for extension structure size
+                            .sum();
+                        println!(
+                            "Removed extension '{}', updated ClientHello: {:?}",
+                            field, self.client_hello
+                        );
+                    } else {
+                        println!("Extension '{}' not found in ClientHello extensions", field);
+                    }
+                } else {
+                    println!("Unrecognized field '{}', no action taken.", field);
+                }
+            }
+        }
     }
 }
 
