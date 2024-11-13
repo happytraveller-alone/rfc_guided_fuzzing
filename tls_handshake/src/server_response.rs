@@ -190,11 +190,11 @@ impl<'a> ServerHelloParser<'a> {
     }
 }
 
-pub fn parse_server_response(data: &[u8], parse_enabled: bool) {
+pub fn parse_server_response(data: &[u8], parse_disabled: bool) {
     let mut parser = ServerHelloParser::new(data);
     let record_layers = parser.parse_tls_record_layers();
     parser.offset = 0;
-    if !parse_enabled {
+    if parse_disabled {
         println!("{}", "parse server response disabled".yellow());
         return
     }

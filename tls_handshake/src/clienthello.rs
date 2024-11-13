@@ -254,8 +254,6 @@ impl ClientHello {
         }
     }
     
-    
-
     fn print_supported_versions(&self, content: &[u8]) {
         if content.is_empty() {
             println!("Empty supported_versions content.");
@@ -328,7 +326,6 @@ impl ClientHello {
         }
     }
     
-
     fn print_key_share(&self, content: &[u8]) {
         if content.len() < 2 {
             println!("Empty or invalid key_share content.");
@@ -360,7 +357,7 @@ impl ClientHello {
                 0x0019 => "secp521r1",
                 _ => "Unknown",
             };
-            println!("        Key Share Entry: Group: {}, Key Exchange Length:", group_name);
+            print!("        Key Share Entry: ");
     
             if offset + 2 > content.len() {
                 println!("      Invalid key_share entry: insufficient data for key_exchange length field.");
@@ -371,7 +368,7 @@ impl ClientHello {
             let key_exchange_length = u16::from_be_bytes([content[offset], content[offset + 1]]) as usize;
             offset += 2;
     
-            println!("          Group: {} (0x{:04X}), Key Exchange Length: {}", group_name, group, key_exchange_length);
+            println!("Group: {} (0x{:04X}), Key Exchange Length: {}", group_name, group, key_exchange_length);
     
             // 确保 key_exchange 的数据足够
             if offset + key_exchange_length > content.len() {
@@ -380,7 +377,7 @@ impl ClientHello {
             }
     
             // 打印 key_exchange 内容
-            print!("          Key Exchange: ");
+            print!("        Key Exchange: ");
             for byte in &content[offset..offset + key_exchange_length] {
                 print!("{:02X} ", byte);
             }
@@ -485,7 +482,7 @@ impl ClientHello {
                 content[offset + 2],
                 content[offset + 3],
             ]);
-            println!("          Obfuscated Ticket Age: {}", obfuscated_ticket_age);
+            println!("          Obfuscated Ticket Age:{:02X} {}", obfuscated_ticket_age, obfuscated_ticket_age);
             offset += 4;
         }
     
@@ -500,7 +497,7 @@ impl ClientHello {
             return;
         }
         let binders_length = u16::from_be_bytes([content[offset], content[offset + 1]]) as usize;
-        println!("        PSK Binders length: {}", binders_length);
+        println!("        PSK Binders length: {:02X} {}", binders_length, binders_length);
         offset += 2;
     
         // 解析每个 PSK Binder
@@ -513,7 +510,7 @@ impl ClientHello {
             let binder_length = content[offset] as usize;
             offset += 1;
     
-            println!("          PSK Binder (length: {}):", binder_length);
+            println!("          PSK Binder (length: {:02X} {}):", binder_length, binder_length);
     
             // Binder 内容
             if offset + binder_length > content.len() {
@@ -531,5 +528,72 @@ impl ClientHello {
             offset += binder_length;
         }
     }
-    
+
+    pub fn to_bytes(&self) -> Vec<u8> {
+        let mut bytes = Vec::new();
+
+        // TLS Record Layer
+        bytes.push(self.content_type);  // content_type
+        bytes.extend_from_slice(&self.version);  // version
+        bytes.extend_from_slice(&self.record_length.to_be_bytes());  // record_length
+
+        // Handshake Layer
+        bytes.push(self.handshake_type);  // handshake_type
+        bytes.extend_from_slice(&self.handshake_length);  // handshake_length
+
+        // ClientHello Body
+        bytes.extend_from_slice(&self.client_version);  // client_version
+        bytes.extend_from_slice(&self.random);  // random
+
+        bytes.push(self.session_id_length);  // session_id_length
+        bytes.extend_from_slice(&self.session_id);  // session_id
+
+        bytes.extend_from_slice(&self.cipher_suites_length.to_be_bytes());  // cipher_suites_length
+        bytes.extend_from_slice(&self.cipher_suites);  // cipher_suites
+
+        bytes.push(self.compression_methods_length);  // compression_methods_length
+        bytes.extend_from_slice(&self.compression_methods);  // compression_methods
+
+        bytes.extend_from_slice(&self.extensions_length.to_be_bytes());  // extensions_length
+        // bytes.extend_from_slice(&self.extensions_num.to_be_bytes());  // extensions_num
+
+        // Extensions
+        for extension in &self.extensions {
+            bytes.extend_from_slice(&extension.extension_type);  // extension_type
+            let extension_len = u16::from_be_bytes(extension.extension_length);
+            bytes.extend_from_slice(&extension.extension_length);  // extension_length (2 bytes)
+            
+            if extension_len > 0 {
+                bytes.extend_from_slice(&extension.extension_content);  // extension_content (dynamic length)
+            }
+            // bytes.extend_from_slice(&extension.extension_length);  // extension_length
+            // bytes.extend_from_slice(&extension.extension_content);  // extension_content
+        }
+
+        // // 更新 record_length 和 handshake_length
+        // let record_length = (bytes.len() - 5) as u16;
+        // let handshake_length = (bytes.len() - 43) as u32;  // assuming the ClientHello header starts at byte 43
+
+        // // 替换 TLS Record Layer 和 Handshake Layer 的长度字段
+        // let mut record_length_bytes = record_length.to_be_bytes().to_vec();
+        // let mut handshake_length_bytes = handshake_length.to_be_bytes().to_vec();
+
+        // // 更新 Record Layer的长度字段
+        // bytes[3..5].copy_from_slice(&record_length_bytes);
+
+        // // 更新 Handshake Layer的长度字段
+        // bytes[38..41].copy_from_slice(&handshake_length_bytes);
+
+        bytes
+    }
+
+    // 打印字节数组，按十六进制输出，每个字节之间有空格
+    pub fn print_bytes(&self) {
+        let bytes = self.to_bytes();
+        let hex_string = bytes.iter()
+            .map(|byte| format!("{:02X}", byte))
+            .collect::<Vec<String>>()
+            .join(" ");
+        println!("{}", hex_string);
+    }
 }

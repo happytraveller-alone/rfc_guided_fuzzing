@@ -28,6 +28,7 @@ fn to_be_bytes_padded<T>(value: T, size: usize) -> Vec<u8>
 
         bytes
     }
+#[derive(Debug, Clone)]
 pub struct ClientHelloParser<'a> {
     data: &'a [u8],
     offset: usize,
@@ -216,20 +217,12 @@ impl<'a> ClientHelloParser<'a> {
 }
 
 // 公开函数，用于解析传入的数据并生成 ClientHelloParser 实例
-pub fn parse_client_hello(data: &[u8]) -> ClientHello{
+pub fn parse_client_hello(data: &[u8]) -> ClientHelloParser{
     let mut parser = ClientHelloParser::new(data);
     parser.parse();
-    // 打印解析的字段映射表，格式化输出
-    // println!("\nParsed Fields:");
-    // let mut keys: Vec<_> = parser.fields.keys().collect();
-    // keys.sort();
-    // for key in keys {
-    //     let value = &parser.fields[key];
-    //     println!("  {}: {}", key, value);
-    // }
-
     let client_hello = parser.get_client_hello();
     client_hello.print();
 
-    client_hello.clone()
+    // client_hello.clone()
+    parser.clone()
 }
