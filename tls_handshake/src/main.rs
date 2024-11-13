@@ -51,9 +51,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
     // Create a Rustls stream
     let mut tls = Stream::new(&mut conn, &mut sock);
-
-    
-    
     // Send an HTTP GET request
     tls.write_all(request.as_bytes())?;
     let mut plaintext = Vec::new();
@@ -94,12 +91,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 执行第二次握手
     println!("{}","Starting second handshake...\n\n".green());
     let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
-    // if let Some(mut early_data) = conn.early_data() {
-    //     early_data
-    //         .write_all(request.as_bytes())
-    //         .unwrap();
-    //     println!("  * 0-RTT request sent");
-    // }
+    if let Some(mut early_data) = conn.early_data() {
+        early_data
+            .write_all(request.as_bytes())
+            .unwrap();
+        // println!("  * 0-RTT request sent");
+    }
     let mut client_hello = Vec::new();
     conn.write_tls(&mut client_hello)?;
     let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
@@ -111,8 +108,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let _ = read_mutation_source(file_path, &required_columns, &mut mutation_vec_store);
     let mut mutated_clienthello_vec: Vec<ClientHello> = Vec::new();
     mutate_client_hello_if_enabled(&matches, &parsed_clienthello, &mutation_vec_store, &mut mutated_clienthello_vec, easy_read);
-    // TODO: send mutated clienthello
-    send_client_hello_if_test_env(&matches, &server_ip, port,&mut conn, &mut mutated_clienthello_vec, easy_read)?;
+    send_client_hello_if_test_env(&matches, &server_ip, port, &mut mutated_clienthello_vec, easy_read)?;
     
     terminal::print_help();
     Ok(())
@@ -201,8 +197,6 @@ fn mutate_client_hello_if_enabled(
     if easy_read {
         sleep(Duration::from_secs(2));
     }  
-    // let mutated_client_hello = clienthello_mutator::deprecated_mutate_client_hello(&client_hello, &mutation_config);
-    // mutated_client_hello.print();
 
     // TODO: Deprecate old api, use new api
     let mut mutated_clienthello_tmp_store: ClientHello;
@@ -218,27 +212,63 @@ fn send_client_hello_if_test_env(
     matches: &clap::ArgMatches,
     server_ip: &str,
     port: u16,
-    _conn: &mut ClientConnection,
+    // conn: &mut ClientConnection,
     client_hello: &Vec<ClientHello>,
     easy_read: bool
 ) -> Result<(), Box<dyn std::error::Error>> {
     if !network_connect::check_test_environment(matches) {
         return Ok(());
     }
-
-    let mut stream = network_connect::connect_to_server(server_ip, port, easy_read)?;
-    let mut poll = network_connect::create_poll()?;
-    // let mut mio_stream = MioTcpStream::from_std(stream);
-    let token = network_connect::register_stream(&mut poll, &mut stream)?;
-    
-    network_connect::wait_for_writable(&mut poll, token)?;
     for single_clienthello in client_hello{
-        send_client_hello(&mut stream, &single_clienthello)?;
-    
-        let server_response = wait_for_server_response(&mut poll, token, &mut stream)?; 
-        // process_server_response(conn, &server_response)?;
-        let parse_enabled = matches.get_flag("disable_parse_server_response");
-        server_response::parse_server_response(&server_response, parse_enabled);
+        // 重新建立连接
+        let mut stream = match network_connect::connect_to_server(server_ip, port, easy_read) {
+            Ok(stream) => stream,
+            Err(e) => {
+                println!("Error connecting to server: {}", e);
+                continue; // 如果连接失败，跳过当前 ClientHello
+            }
+        };
+
+        let mut poll = match network_connect::create_poll() {
+            Ok(poll) => poll,
+            Err(e) => {
+                println!("Error creating poll: {}", e);
+                continue; // 如果创建 poll 失败，跳过当前 ClientHello
+            }
+        };
+
+        // 注册连接到事件循环
+        let token = match network_connect::register_stream(&mut poll, &mut stream) {
+            Ok(token) => token,
+            Err(e) => {
+                println!("Error registering stream: {}", e);
+                continue; // 如果注册流失败，跳过当前 ClientHello
+            }
+        };
+
+        // 等待连接可写
+        if let Err(e) = network_connect::wait_for_writable(&mut poll, token) {
+            println!("Error waiting for writable: {}", e);
+            continue; // 如果等待可写失败，跳过当前 ClientHello
+        }
+        
+        if let Err(e) = send_client_hello(&mut stream, &single_clienthello) {
+            println!("Error sending ClientHello: {}", e);
+            continue; // 出现错误时跳过当前 ClientHello 继续下一轮
+        }
+        
+        // 等待服务器响应并处理
+        match wait_for_server_response(&mut poll, token, &mut stream) {
+            Ok(server_response) => {
+                let parse_enabled = matches.get_flag("disable_parse_server_response");
+                server_response::parse_server_response(&server_response, parse_enabled);
+                // conn.send_close_notify();
+            }
+            Err(e) => {
+                println!("Error waiting for server response: {}\n\n", e);
+                continue; // 发生错误时继续下一个 ClientHello
+            }
+        }
 
     }
     
@@ -271,9 +301,6 @@ fn read_mutation_source<'a>(
             return Err(From::from(format!("Column '{}' not found in the file", col)));
         }
     }
-
-    // Create a vector to store TestMutation instances
-    // let mut mutations = Vec::new();
 
     // Read each record and construct TestMutation
     for result in reader.records() {
@@ -343,6 +370,7 @@ fn wait_for_server_response(
                         println!("Received {} bytes from server", bytes_read);
                         server_response.extend_from_slice(&buffer[..bytes_read]);
                         // print_hex_dump(&server_response);
+                        // stream.conn.send_close
                         return Ok(server_response);
                     }
                     Ok(_) => println!("Received 0 bytes. Continuing to wait..."),

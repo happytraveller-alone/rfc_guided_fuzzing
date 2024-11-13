@@ -1,6 +1,6 @@
 use crate::clienthello::ClientHello;
 use rand::Rng;
-use std::collections::HashMap;
+// use std::collections::HashMap;
 use colored::*;
 use crate::TLS_EXTENSIONS_REVERSE;
 
@@ -79,19 +79,6 @@ impl ClientHelloMutator {
         Self { client_hello }
     }
 
-    pub fn deprecated_mutate(&mut self, mutation_config: &HashMap<u8, Vec<u8>>) {
-        for (&key, value) in mutation_config.iter() {
-            match key {
-                1 => self.mutate_random(value),
-                2 => self.mutate_session_id(value),
-                3 => self.mutate_cipher_suites(value),
-                // 4 => self.mutate_compression_methods(value),
-                // 5 => self.mutate_extensions(value),
-                _ => println!("Unknown mutation key: {}", key),
-            }
-        }
-    }
-
     // Function to mutate the ClientHello based on TestMutation
     pub fn preferred_mutate_entry(&mut self, mutation_config: &TestMutation) {
         // for mutation in mutation_config {
@@ -163,10 +150,64 @@ impl ClientHelloMutator {
         }
     }
 
-    // Handler for SET action
+    // 封装解析十六进制字符串的通用函数
+    fn parse_hex_values(&mut self, value: &str) -> Vec<u8> {
+        // 去除字符串开头和结尾的引号（如果有）
+        let value = value.trim_matches('"');
+        
+        value.split(',')
+            .filter_map(|v| {
+                let v = v.trim();  // 去除每个值的前后空格
+                if v.starts_with("0x") {
+                    u8::from_str_radix(&v[2..], 16).ok()  // 去除 "0x" 后解析十六进制
+                } else {
+                    u8::from_str_radix(v, 16).ok()  // 直接解析十六进制
+                }
+            })
+            .collect()
+    }
+    
+
+    // 处理 SET 操作
     fn handle_set(&mut self, field: &str, relative_position: &str, value: &str) {
-        // Implement SET logic here
         println!("Handling SET for field: {}, position: {}, value: {}", field, relative_position, value);
+
+        match field {
+            "legacy_compression_methods" => {
+                let compression_methods = self.parse_hex_values(value);
+                // println!()
+                for byte in compression_methods.clone() {
+                    print!("{:02x} ", byte);  // 每个字节以两位十六进制输出
+                }
+                self.client_hello.compression_methods_length = compression_methods.len() as u8;
+                self.client_hello.compression_methods = compression_methods;
+            }
+            
+            "CipherSuites" => {
+                let cipher_suites = self.parse_hex_values(value);
+                self.client_hello.cipher_suites_length = cipher_suites.len() as u16;
+                self.client_hello.cipher_suites = cipher_suites;
+            }
+
+            "SessionID" => {
+                let session_id = self.parse_hex_values(value);
+                self.client_hello.session_id_length = session_id.len() as u8;
+                self.client_hello.session_id = session_id;
+            }
+
+            "Random" => {
+                let random = self.parse_hex_values(value);
+                if random.len() == 32 {
+                    self.client_hello.random.copy_from_slice(&random);
+                } else {
+                    println!("Invalid random length, expected 32 bytes.");
+                }
+            }
+
+            _ => {
+                println!("Unrecognized field '{}', no action taken.", field);
+            }
+        }
     }
 
     // Handler for DUPLICATE action
@@ -310,13 +351,6 @@ impl ClientHelloMutator {
     
 }
 
-pub fn deprecated_mutate_client_hello(client_hello: &ClientHello, mutation_config: &HashMap<u8, Vec<u8>>) -> ClientHello {
-    let mut mutator = ClientHelloMutator::new(client_hello.clone());
-    mutator.deprecated_mutate(mutation_config);
-    mutator.update_lengths();
-    mutator.get_mutated_client_hello().clone()
-}
-
 // 优化，函数只处理一个
 pub fn preferred_mutate_client_hello(client_hello: &ClientHello, mutation_config: &TestMutation) -> ClientHello{
     let mut clienthello_mutator= ClientHelloMutator::new(client_hello.clone());
@@ -327,6 +361,4 @@ pub fn preferred_mutate_client_hello(client_hello: &ClientHello, mutation_config
     // Get the mutated ClientHello and clone it, then add to the result vector
     clienthello_mutator.get_mutated_client_hello().clone()
     // Get Vec to store Mutated ClientHello
-
-    // mutated_clienthello
 }
