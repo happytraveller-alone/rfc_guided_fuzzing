@@ -93,8 +93,6 @@ impl ClientHelloMutator {
                     Action::INSERT => self.handle_insert(&mutation_config.field, &mutation_config.relative_position, &mutation_config.value),
                     Action::SWAP => self.handle_swap(&mutation_config.field, &mutation_config.relative_position, &mutation_config.value),
                 }
-                // After each mutation_config, push the mutated ClientHello to the mutated_clienthello vector
-                // mutated_clienthello.push(self.client_hello.clone());
             },
             // If the message is not ClientHello, print an unsupported message type
             _ => {
@@ -150,24 +148,66 @@ impl ClientHelloMutator {
         }
     }
 
-    // 封装解析十六进制字符串的通用函数
+    // // 封装解析十六进制字符串的通用函数
+    // fn parse_hex_values(&mut self, value: &str) -> Vec<u8> {
+    //     // 去除字符串开头和结尾的引号（如果有）
+    //     let value = value.trim_matches('"');
+        
+    //     value.split(',')
+    //         .filter_map(|v| {
+    //             let v = v.trim();  // 去除每个值的前后空格
+    //             if v.starts_with("0x") {
+    //                 u8::from_str_radix(&v[2..], 16).ok()  // 去除 "0x" 后解析十六进制
+    //             } else {
+    //                 u8::from_str_radix(v, 16).ok()  // 直接解析十六进制
+    //             }
+    //         })
+    //         .collect()
+    // }
     fn parse_hex_values(&mut self, value: &str) -> Vec<u8> {
         // 去除字符串开头和结尾的引号（如果有）
         let value = value.trim_matches('"');
         
         value.split(',')
-            .filter_map(|v| {
+            .flat_map(|v| {
                 let v = v.trim();  // 去除每个值的前后空格
                 if v.starts_with("0x") {
-                    u8::from_str_radix(&v[2..], 16).ok()  // 去除 "0x" 后解析十六进制
+                    // 去除 "0x" 后的字符串
+                    let hex_str = &v[2..];
+    
+                    // 如果长度为4，处理为两个字节（如 "0x0301"）
+                    if hex_str.len() == 4 {
+                        // 将 "0301" 转换成 0x03, 0x01
+                        hex_str.chars()
+                            .collect::<Vec<char>>()
+                            .chunks(2)
+                            .filter_map(|chunk| {
+                                if chunk.len() == 2 {
+                                    u8::from_str_radix(&chunk.iter().collect::<String>(), 16).ok()
+                                } else {
+                                    None
+                                }
+                            })
+                            .collect::<Vec<_>>()  // 这里返回 Vec<u8>
+                    } 
+                    // 如果长度为2，处理为单个字节（如 "0x03"）
+                    else if hex_str.len() == 2 {
+                        vec![u8::from_str_radix(hex_str, 16).ok().unwrap_or_default()]  // 直接解析并返回 Vec<u8>
+                    } 
+                    else {
+                        Vec::new()  // 不符合预期格式，返回空 Vec
+                    }
                 } else {
-                    u8::from_str_radix(v, 16).ok()  // 直接解析十六进制
+                    // 直接解析单个十六进制值
+                    vec![u8::from_str_radix(v, 16).ok().unwrap_or_default()]  // 返回 Vec<u8>
                 }
             })
             .collect()
     }
     
-
+    
+    
+    
     // 处理 SET 操作
     fn handle_set(&mut self, field: &str, relative_position: &str, value: &str) {
         println!("Handling SET for field: {}, position: {}, value: {}", field, relative_position, value);
@@ -175,10 +215,6 @@ impl ClientHelloMutator {
         match field {
             "legacy_compression_methods" => {
                 let compression_methods = self.parse_hex_values(value);
-                // println!()
-                // for byte in compression_methods.clone() {
-                //     print!("{:02x} ", byte);  // 每个字节以两位十六进制输出
-                // }
                 self.client_hello.compression_methods_length = compression_methods.len() as u8;
                 self.client_hello.compression_methods = compression_methods;
             }
@@ -195,7 +231,7 @@ impl ClientHelloMutator {
                 self.client_hello.session_id = session_id;
             }
 
-            "Random" => {
+            "random" | "Random"=> {
                 let random = self.parse_hex_values(value);
                 if random.len() == 32 {
                     self.client_hello.random.copy_from_slice(&random);
@@ -203,7 +239,49 @@ impl ClientHelloMutator {
                     println!("Invalid random length, expected 32 bytes.");
                 }
             }
+            "supported_groups" | "signature_algorithms" => {
+                let parsed_hex_values: Vec<u8> = self.parse_hex_values(value);
+                let values_len_high: u8 = (parsed_hex_values.len() >> 8) as u8;
+                let values_len_low: u8 = (parsed_hex_values.len() & 0xff) as u8;
+                // Check if field matches an extension name
+                if let Some(&extension_type) = TLS_EXTENSIONS_REVERSE.get(field) {
+                    // Find the position of the extension to be removed
+                    if let Some(pos) = self.client_hello.extensions.iter().position(|ext| ext.extension_type == extension_type.to_be_bytes()) {
+                        println!("{}","Success founded!".green());
+                        // 清空指定位置的 extension_content
+                        self.client_hello.extensions[pos].extension_content.clear();
 
+                        // 填充 extension_content
+                        self.client_hello.extensions[pos].extension_content.push(values_len_high);
+                        self.client_hello.extensions[pos].extension_content.push(values_len_low);
+                        self.client_hello.extensions[pos].extension_content.extend(parsed_hex_values);
+                        println!("Reset extension '{}', updated ClientHello",field);
+                    } else {
+                        println!("Extension '{}' not found in ClientHello extensions", field);
+                    }
+                }
+            }
+            "supported_versions" | "psk_key_exchange_modes" => {
+                let parsed_hex_values: Vec<u8> = self.parse_hex_values(value);
+                let values_len_low: u8 = (parsed_hex_values.len() & 0xff) as u8;
+                // Check if field matches an extension name
+                if let Some(&extension_type) = TLS_EXTENSIONS_REVERSE.get(field) {
+                    // Find the position of the extension to be removed
+                    if let Some(pos) = self.client_hello.extensions.iter().position(|ext| ext.extension_type == extension_type.to_be_bytes()) {
+                        println!("{}","Success founded!".green());
+                        // 清空指定位置的 extension_content
+                        self.client_hello.extensions[pos].extension_content.clear();
+
+                        // 填充 extension_content
+                        // self.client_hello.extensions[pos].extension_content.push(values_len_high);
+                        self.client_hello.extensions[pos].extension_content.push(values_len_low);
+                        self.client_hello.extensions[pos].extension_content.extend(parsed_hex_values);
+                        println!("Reset extension '{}', updated ClientHello",field);
+                    } else {
+                        println!("Extension '{}' not found in ClientHello extensions", field);
+                    }
+                }
+            }
             _ => {
                 println!("Unrecognized field '{}', no action taken.", field);
             }

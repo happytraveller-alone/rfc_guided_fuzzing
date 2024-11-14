@@ -233,7 +233,7 @@ fn send_client_hello_if_test_env(
             Err(e) => {
                 // 检查错误信息是否包含 "os error 10054"
                 if e.to_string().contains("os error 10054") {
-                    println!("{}", "Session Aborted\n".yellow());
+                    println!("{}", format!("{}\nSession Aborted\n",e).yellow());
                 } else {
                     // 输出其他错误
                     println!("{}", format!("Error waiting for server response: {}\n\n", e).yellow());
@@ -341,8 +341,6 @@ fn wait_for_server_response(
                     Ok(bytes_read) if bytes_read > 0 => {
                         println!("Received {} bytes from server", bytes_read);
                         server_response.extend_from_slice(&buffer[..bytes_read]);
-                        // print_hex_dump(&server_response);
-                        // stream.conn.send_close
                         return Ok(server_response);
                     }
                     Ok(_) => println!("Received 0 bytes. Continuing to wait..."),
