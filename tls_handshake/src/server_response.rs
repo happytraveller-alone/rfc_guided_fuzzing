@@ -9,24 +9,26 @@ pub struct TlsRecordLayer {
     version: (u8, u8),
     length: u16,
 }
+
+const RETRY_REQUEST_RANDOM: [u8; 32] = [
+    0xCF, 0x21, 0xAD, 0x74, 0xE5, 0x9A, 0x61, 0x11, 0xBE, 0x1D, 0x8C, 0x02, 0x1E, 0x65, 0xB8, 0x91,
+    0xC2, 0xA2, 0x11, 0x16, 0x7A, 0xBB, 0x8C, 0x5E, 0x07, 0x9E, 0x09, 0xE2, 0xC8, 0xA8, 0x33, 0x9C,
+];
+
 impl<'a> ServerHelloParser<'a> {
     pub fn new(data: &'a [u8]) -> Self {
         Self { data, offset: 0 }
     }
 
     pub fn parse_server_response(&mut self, length: u16) {
-        // if self.data[self.offset] == 0x16 {
-        //     println!("Received TLS Handshake message");
-        //     // 解析 TLS Record Layer
-        //     // let length = self.parse_tls_record_layer_handshake();
-            // 遍历所有 Handshake 消息
+        // 遍历所有 Handshake 消息
         while self.offset < length as usize{
-            let handshake_type = self.data[self.offset];
+            let handshake_type: u8 = self.data[self.offset];
             self.offset += 1;
-            let handshake_length = self.read_u24();
+            let handshake_length: u32 = self.read_u24();
             println!("  Handshake Protocol:");
             match handshake_type {
-                0x02 => println!("    Handshake Type: {:02X} (Server Hello)", handshake_type),
+                0x02 => print!("    Handshake Type: {:02X} ", handshake_type),
                 0x0b => println!("    Handshake Type: {:02X} (Certificate)", handshake_type),
                 0x0c => println!("    Handshake Type: {:02X} (Server Key Exchange)", handshake_type),
                 0x0e => println!("    Handshake Type: {:02X} (Server Hello Done)", handshake_type),
@@ -42,33 +44,31 @@ impl<'a> ServerHelloParser<'a> {
             }
         }
     } 
-        // else {
-        //     println!("Received non-TLS response");
-        // }
-    // fn parse_tls_record_layer_handshake(&mut self) -> u16{
-    //     println!("TLS Record Layer:");
-    //     println!("  Content Type: {:02X} (Handshake)", self.data[self.offset]);
-    //     self.offset += 1;
-    //     println!(
-    //         "  Version: {:02X} {:02X} (TLS Version)",
-    //         self.data[self.offset], self.data[self.offset + 1]
-    //     );
-    //     self.offset += 2;
-    //     let record_length = u16::from_be_bytes([self.data[self.offset], self.data[self.offset + 1]]);
-    //     println!("  Length: {} bytes", record_length);
-    //     self.offset += 2;
-    //     record_length
-    // }
     fn parse_server_hello(&mut self) {
+        
+        // let random = &self.data[self.offset + 2..self.offset + 34];
+        // // 判断是否为 ServerRetryRequest
+        // if random == RETRY_REQUEST_RANDOM {
+        //     println!("{}","(ServerRetryRequest)".green());
+        // } else {
+        //     println!("{}","(ServerHello)".green());
+        // }
+        // if !check_enable{
+        //     return
+        // }
         println!("    Server Hello:");
-        let version = (self.data[self.offset], self.data[self.offset + 1]);
+        let version: (u8, u8) = (self.data[self.offset], self.data[self.offset + 1]);
         println!("      Version: {:02X} {:02X} (TLS Version)", version.0, version.1);
         self.offset += 2;
         print!("      Random: ");
-        for i in 0..32 {
-            print!("{:02X} ", self.data[self.offset + i]);
+        let random: &[u8] = &self.data[self.offset..self.offset + 32];
+        for byte in random {
+            print!("{:02X} ", byte);
         }
         println!();
+        
+        
+
         self.offset += 32;
         let session_id_length = self.data[self.offset] as usize;
         println!("      Session ID Length: {} bytes", session_id_length);
@@ -190,12 +190,29 @@ impl<'a> ServerHelloParser<'a> {
     }
 }
 
-pub fn parse_server_response(data: &[u8], parse_disabled: bool) {
+pub fn parse_server_response(data: &[u8], check_enable: bool) {
     let mut parser = ServerHelloParser::new(data);
     let record_layers = parser.parse_tls_record_layers();
     parser.offset = 0;
-    if parse_disabled {
-        println!("{}", "parse server response disabled".yellow());
+    if !check_enable {
+        println!("{}", "Parse server response disabled".yellow());
+        // +5 
+        // println!("{}", format!("{}",).green());
+        let handshake_type = parser.data[parser.offset + 5];
+        match parser.data[parser.offset + 5] {
+            0x02 => {
+                print!("{}",format!("Handshake Type: {:02X} ", handshake_type).green());
+                if &parser.data[parser.offset + 11..parser.offset + 43] == RETRY_REQUEST_RANDOM{
+                    println!("{}","(ServerRetryRequest)\n".green());
+                } else {
+                    println!("{}","(ServerHello)\n".green());
+                }
+            },
+            0x0b => println!("{}",format!("Handshake Type: {:02X} (Certificate)\n", handshake_type).green()),
+            0x0c => println!("{}",format!("Handshake Type: {:02X} (Server Key Exchange)\n", handshake_type).green()),
+            0x0e => println!("{}",format!("Handshake Type: {:02X} (Server Hello Done)\n", handshake_type).green()),
+            _ => println!("{}",format!("Handshake Type: {:02X} (Unknown)\n", handshake_type).yellow()),
+        }
         return
     }
     for (index, record) in record_layers.into_iter().enumerate() {
@@ -203,7 +220,6 @@ pub fn parse_server_response(data: &[u8], parse_disabled: bool) {
         println!("  Content Type: {:02X} ({})", record.content_type, parser.content_type_to_string(record.content_type));
         println!("  Version: {:02X} {:02X} (TLS Version)", record.version.0, record.version.1);
         println!("  Length: {} bytes", record.length);
-
         // 跳过 Record Layer 头部（5 字节）
         parser.offset += 5;
 
@@ -213,5 +229,7 @@ pub fn parse_server_response(data: &[u8], parse_disabled: bool) {
             // 对于非 Handshake 类型，直接跳过内容
             parser.offset += record.length as usize;
         }
+        
     }
+    println!("\n\n");
 }

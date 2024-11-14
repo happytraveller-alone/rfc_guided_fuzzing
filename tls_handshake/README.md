@@ -4,5 +4,8 @@
 4. cargo run -- --test_env 运行
 5. cargo run -- --use_guide ： 使用说明
 
+> [!IMPORTANT]
+> ALWAYS CHECK YOUR VIRTUAL MACHINE IP!!!
+
 > [!TIP]
 > 安装cmake环境，文件路径中不要有空格

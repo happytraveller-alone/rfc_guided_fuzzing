@@ -1,21 +1,13 @@
-use std::sync::Arc;
-use std::thread::sleep;
-use std::time::Duration;
+use std::{sync::Arc, thread::sleep, time::Duration, fs::File, error::Error, path::Path};
 use tls_handshake::{clienthello_mutator, clienthello_parser, network_connect, server_response, terminal};
-use tls_handshake::{SERVER_NAME, SERVER_STATIC_IP, PORT};
 use tls_handshake::clienthello::ClientHello;
 use tls_handshake::clienthello_parser::ClientHelloParser;
 use tls_handshake::clienthello_mutator::TestMutation;
-use rustls::{ClientConnection, Stream};
-use mio::{Events, Poll, Token};
-use mio::net::TcpStream as MioTcpStream;
+use rustls::{ClientConnection, Stream, ClientConfig};
+use mio::{Events, Poll, Token, net::TcpStream as MioTcpStream};
 use std::io::{Write, Read, ErrorKind};
 use colored::*;
-// use std::collections::HashMap;
-use std::net::TcpStream;
-use std::fs::File;
-use std::error::Error;
-use std::path::Path;
+
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     perform_local_network_test()?;
@@ -27,56 +19,50 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         return Ok(());
     }
 
-    let server_name = network_connect::get_server_name(&matches);
-    let server_ip = network_connect::get_server_ip(&matches);
-    let port = network_connect::get_port(&matches);
+    let server_name = terminal::get_server_name(&matches);
+    let server_ip = terminal::get_server_ip(&matches);
+    let port = terminal::get_port(&matches);
     let easy_read = matches.get_flag("easy_read");
 
-    print_configuration_info(&server_name, &server_ip, port, easy_read);
-
+    // Test environment preparation
+    terminal::print_configuration_info(&server_name, &server_ip, port, easy_read);
     perform_server_environment_test(&server_ip, port)?;
-
-    perform_first_handshake(server_name.clone(), &server_ip, port)?;
-
-    // 执行第二次握手
-    let config = Arc::new(network_connect::create_tls_config());
-    let request = format!(
-        "GET / HTTP/1.1\r\n\
-         Host: www.example.com\r\n\
-         Connection: close\r\n\
-         Accept-Encoding: identity\r\n\
-         \r\n",
-    );
-    println!("{}","Starting second handshake...\n\n".green());
-    let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
-    if let Some(mut early_data) = conn.early_data() {
-        early_data
-            .write_all(request.as_bytes())
-            .unwrap();
-        // println!("  * 0-RTT request sent");
-    }
-    let mut client_hello = Vec::new();
-    conn.write_tls(&mut client_hello)?;
-    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
-
+    
+    // read mutation strategy
     let mut mutation_vec_store : Vec<TestMutation> = Vec::new();
     let required_columns = ["message", "field", "action", "relative_to", "position", "value"];
     let file_path = "input_source/mutation_guideline.csv";
-    println!("{}","Read mutation source".green());
     let _ = read_mutation_source(file_path, &required_columns, &mut mutation_vec_store);
+    println!("{}","Read mutation source".green());
+
+    // first handshake
+    let addr = format!("{}:{}", server_ip, port);
+    let config = Arc::new(network_connect::create_tls_config());
+    perform_first_handshake(config.clone(), server_name.clone(), addr.clone())?;
+    
+    // second handshake
+    println!("{}","Starting second handshake...\n\n".green());
+    let mut client_hello = Vec::new();
+    let mut conn2 = ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
+    conn2.write_tls(&mut client_hello)?;
+    // get second client_hello template
+    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
+    // start mutation based on the template
     let mut mutated_clienthello_vec: Vec<ClientHello> = Vec::new();
     mutate_client_hello_if_enabled(&matches, &parsed_clienthello, &mutation_vec_store, &mut mutated_clienthello_vec, easy_read);
+    // send mutated client_hello
     send_client_hello_if_test_env(&matches, &server_ip, port, &mut mutated_clienthello_vec, easy_read)?;
-    
+    // use guide line
     terminal::print_help();
     Ok(())
 }
 
-fn perform_first_handshake(server_name: String, server_ip: &str, port: u16) -> Result<(), Box<dyn std::error::Error>> {
-    let addr = format!("{}:{}", server_ip, port);
-    let mut sock = TcpStream::connect(&addr)?;
-    let config = Arc::new(network_connect::create_tls_config());
-    let mut conn = ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
+fn perform_first_handshake(
+    client_config: Arc<ClientConfig>,
+    server_name: String,
+    addr: String
+) -> Result<(), Box<dyn std::error::Error>> {
+    let mut conn = ClientConnection::new(client_config, server_name.clone().try_into()?)?;
     
     let request = format!(
         "GET / HTTP/1.1\r\n\
@@ -85,6 +71,7 @@ fn perform_first_handshake(server_name: String, server_ip: &str, port: u16) -> R
          Accept-Encoding: identity\r\n\
          \r\n",
     );
+    let mut sock = network_connect::establish_tcp_connection(&addr)?;
     // Create a Rustls stream
     let mut tls = Stream::new(&mut conn, &mut sock);
     // Send an HTTP GET request
@@ -135,22 +122,6 @@ fn perform_local_network_test() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn print_configuration_info(
-    server_name: &str, 
-    server_ip: &str, 
-    port: u16, 
-    easy_read: bool
-) {
-    let use_default_name = server_name == SERVER_NAME;
-    let use_default_ip = server_ip == SERVER_STATIC_IP;
-    let use_default_port = port == PORT;
-
-    terminal::print_configuration(server_name, server_ip, port, use_default_name, use_default_ip, use_default_port);
-    if easy_read{
-        sleep(Duration::from_secs(3));
-    }
-}
-
 fn perform_server_environment_test(
     server_ip: &str, 
     port: u16
@@ -164,32 +135,22 @@ fn perform_server_environment_test(
 }
 
 fn parse_client_hello_if_enabled<'a>(
-    matches: &'a clap::ArgMatches, 
-    client_hello: &'a [u8], 
+    matches: &'a clap::ArgMatches,
+    client_hello: &'a [u8],
     easy_read: bool
 ) -> ClientHelloParser<'a> {
-    // Initialize `parsed_client_hello` before using it
-    let parsed_client_hello: ClientHelloParser;
-    
-    if !matches.get_flag("disable_parse_client_hello") {
+    let should_parse = matches.get_flag("check_parse_ch");
+    let verbose = should_parse;
+
+    if should_parse {
         println!("{}", "\nparse ClientHello raw bytes:".green());
         if easy_read {
             sleep(Duration::from_secs(2));
         }
-
-        // Parse ClientHello if the flag is not set
-        parsed_client_hello = clienthello_parser::parse_client_hello(client_hello);
-    } else {
-        // Handle the case where the flag is set to disable parsing
-        // You can return an error, a default value, or handle the case as needed
-        // For example, returning a default ClientHelloParser or an error would be useful:
-        // parsed_client_hello = ClientHelloParser::default(); // Or handle accordingly
-        panic!("ClientHello parsing is disabled.");
     }
 
-    parsed_client_hello.clone() // Return the cloned value
+    clienthello_parser::parse_client_hello(client_hello, verbose)
 }
-
 
 fn mutate_client_hello_if_enabled(
     matches: &clap::ArgMatches,
@@ -198,23 +159,19 @@ fn mutate_client_hello_if_enabled(
     mutated_vec: &mut Vec<ClientHello>, 
     easy_read: bool
 ){  
-    // default value: false
-    if matches.get_flag("disable_mutate_client_hello") {
-        println!("{}", "\nMutate ClientHello Strategy Disabled".yellow());
-        return
-    }    
-    // assigned value: true
-    // 执行变异并获取结果
-    println!("{}", "\nMutated ClientHello:".green());
+    
     if easy_read {
         sleep(Duration::from_secs(2));
     }  
 
-    // TODO: Deprecate old api, use new api
     let mut mutated_clienthello_tmp_store: ClientHello;
     for single_mutation in mutation_store{
         mutated_clienthello_tmp_store = clienthello_mutator::preferred_mutate_client_hello(&client_hello.get_client_hello(), single_mutation);
-        mutated_clienthello_tmp_store.print();
+        if matches.get_flag("check_mutate_ch") {
+            println!("{}", "\nMutated ClientHello:".green());
+            mutated_clienthello_tmp_store.print();
+        }    
+        
         mutated_vec.push(mutated_clienthello_tmp_store);
     }
     return
@@ -224,7 +181,6 @@ fn send_client_hello_if_test_env(
     matches: &clap::ArgMatches,
     server_ip: &str,
     port: u16,
-    // conn: &mut ClientConnection,
     client_hello: &Vec<ClientHello>,
     easy_read: bool
 ) -> Result<(), Box<dyn std::error::Error>> {
@@ -272,12 +228,16 @@ fn send_client_hello_if_test_env(
         // 等待服务器响应并处理
         match wait_for_server_response(&mut poll, token, &mut stream) {
             Ok(server_response) => {
-                let parse_enabled = matches.get_flag("disable_parse_server_response");
-                server_response::parse_server_response(&server_response, parse_enabled);
-                // conn.send_close_notify();
+                server_response::parse_server_response(&server_response, matches.get_flag("check_parse_sh"));
             }
             Err(e) => {
-                println!("Error waiting for server response: {}\n\n", e);
+                // 检查错误信息是否包含 "os error 10054"
+                if e.to_string().contains("os error 10054") {
+                    println!("{}", "Session Aborted\n".yellow());
+                } else {
+                    // 输出其他错误
+                    println!("{}", format!("Error waiting for server response: {}\n\n", e).yellow());
+                }
                 continue; // 发生错误时继续下一个 ClientHello
             }
         }
@@ -338,7 +298,7 @@ fn send_client_hello(
     client_hello: &ClientHello
 ) -> Result<(), Box<dyn std::error::Error>> {
     println!("Sending ClientHello message...");
-    client_hello.print();
+    // client_hello.print();
     // client_hello.print_bytes();
     let vec_clienthello: &Vec<u8> = &client_hello.to_bytes();
     // print!("{:02X} ", vec_clienthello);
@@ -391,7 +351,7 @@ fn wait_for_server_response(
                         continue;
                     }
                     Err(e) => {
-                        println!("Error receiving server response: {}", e);
+                        // println!("Error receiving server response: {}", e);
                         return Err(Box::new(e));
                     }
                 }

@@ -2,8 +2,6 @@ use super::TLS_EXTENSIONS;
 use std::collections::HashMap;
 use crate::clienthello;
 use clienthello::{ClientHello, Extension};
-// use std::mem::size_of;
-// 定义一个解析 ClientHello 消息的结构体
 
 fn to_be_bytes_padded<T>(value: T, size: usize) -> Vec<u8>
     where
@@ -217,12 +215,11 @@ impl<'a> ClientHelloParser<'a> {
 }
 
 // 公开函数，用于解析传入的数据并生成 ClientHelloParser 实例
-pub fn parse_client_hello(data: &[u8]) -> ClientHelloParser{
+pub fn parse_client_hello(data: &[u8], enable_print: bool) -> ClientHelloParser{
     let mut parser = ClientHelloParser::new(data);
     parser.parse();
-    let client_hello = parser.get_client_hello();
-    client_hello.print();
-
-    // client_hello.clone()
+    if enable_print{
+        parser.get_client_hello().print();
+    }
     parser.clone()
 }

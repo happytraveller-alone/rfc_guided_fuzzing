@@ -176,9 +176,9 @@ impl ClientHelloMutator {
             "legacy_compression_methods" => {
                 let compression_methods = self.parse_hex_values(value);
                 // println!()
-                for byte in compression_methods.clone() {
-                    print!("{:02x} ", byte);  // 每个字节以两位十六进制输出
-                }
+                // for byte in compression_methods.clone() {
+                //     print!("{:02x} ", byte);  // 每个字节以两位十六进制输出
+                // }
                 self.client_hello.compression_methods_length = compression_methods.len() as u8;
                 self.client_hello.compression_methods = compression_methods;
             }
@@ -288,48 +288,48 @@ impl ClientHelloMutator {
     //     }
     // }
 
-    fn mutate_cipher_suites(&mut self, value: &[u8]) {
-        let valid_suites = [0x1301_u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];
-        let default_suites = [0x1302u16, 0x1301, 0x1303, 0x00FF];
+    // fn mutate_cipher_suites(&mut self, value: &[u8]) {
+    //     let valid_suites = [0x1301_u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];
+    //     let default_suites = [0x1302u16, 0x1301, 0x1303, 0x00FF];
         
-        // 确保输入长度是偶数（每个cipher suite是2字节）
-        if value.len() % 2 != 0 {
-            println!("{}", "Invalid cipher suites length. Using default suites.".yellow());
-            self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
-            self.client_hello.cipher_suites = default_suites
-                .iter()
-                .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
-                .collect();
-            return;
-        }
+    //     // 确保输入长度是偶数（每个cipher suite是2字节）
+    //     if value.len() % 2 != 0 {
+    //         println!("{}", "Invalid cipher suites length. Using default suites.".yellow());
+    //         self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
+    //         self.client_hello.cipher_suites = default_suites
+    //             .iter()
+    //             .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
+    //             .collect();
+    //         return;
+    //     }
     
-        let mut valid = true;
-        let mut cipher_suites = Vec::new();
+    //     let mut valid = true;
+    //     let mut cipher_suites = Vec::new();
     
-        // 每次读取2个字节，转换为u16进行比较
-        for chunk in value.chunks(2) {
-            if chunk.len() == 2 {
-                let suite = ((chunk[0] as u16) << 8) | (chunk[1] as u16);
-                if !valid_suites.contains(&suite) {
-                    valid = false;
-                    break;
-                }
-                cipher_suites.extend_from_slice(chunk);
-            }
-        }
+    //     // 每次读取2个字节，转换为u16进行比较
+    //     for chunk in value.chunks(2) {
+    //         if chunk.len() == 2 {
+    //             let suite = ((chunk[0] as u16) << 8) | (chunk[1] as u16);
+    //             if !valid_suites.contains(&suite) {
+    //                 valid = false;
+    //                 break;
+    //             }
+    //             cipher_suites.extend_from_slice(chunk);
+    //         }
+    //     }
     
-        if valid && !cipher_suites.is_empty() {
-            self.client_hello.cipher_suites_length = cipher_suites.len() as u16;
-            self.client_hello.cipher_suites = cipher_suites;
-        } else {
-            println!("{}", "Invalid cipher suites. Using default suites.".yellow());
-            self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
-            self.client_hello.cipher_suites = default_suites
-                .iter()
-                .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
-                .collect();
-        }
-    }
+    //     if valid && !cipher_suites.is_empty() {
+    //         self.client_hello.cipher_suites_length = cipher_suites.len() as u16;
+    //         self.client_hello.cipher_suites = cipher_suites;
+    //     } else {
+    //         println!("{}", "Invalid cipher suites. Using default suites.".yellow());
+    //         self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
+    //         self.client_hello.cipher_suites = default_suites
+    //             .iter()
+    //             .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
+    //             .collect();
+    //     }
+    // }
 
     // fn mutate_compression_methods(&mut self) {
     //     let mut rng = rand::thread_rng();

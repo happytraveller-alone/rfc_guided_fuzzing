@@ -7,11 +7,10 @@ use colored::*;
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
 use rustls::crypto::aws_lc_rs::DEFAULT_CIPHER_SUITES;
 use std::net::SocketAddr;
-use mio::net::TcpStream as MioTcpStream;
-use mio::{Events, Interest, Poll, Token};
+use mio::{Events, Interest, Poll, Token, net::TcpStream as MioTcpStream};
 use std::time::Duration;
 use std::thread::sleep;
-use crate::{SERVER_NAME, SERVER_STATIC_IP, PORT};
+
 // use rustls::cipher_suite::*;
 mod danger {
     use pki_types::{CertificateDer, ServerName, UnixTime};
@@ -77,17 +76,7 @@ mod danger {
 }
 
 
-pub fn get_server_name(matches: &clap::ArgMatches) -> String {
-    matches.get_one::<String>("server").unwrap_or(&SERVER_NAME.to_string()).to_string()
-}
 
-pub fn get_server_ip(matches: &clap::ArgMatches) -> String {
-    matches.get_one::<String>("ip").unwrap_or(&SERVER_STATIC_IP.to_string()).to_string()
-}
-
-pub fn get_port(matches: &clap::ArgMatches) -> u16 {
-    matches.get_one::<String>("port").unwrap().parse().unwrap_or(PORT)
-}
 
 pub fn create_tls_config() -> ClientConfig {
     let root_store = RootCertStore::empty();
