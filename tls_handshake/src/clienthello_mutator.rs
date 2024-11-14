@@ -1,5 +1,5 @@
 use crate::clienthello::ClientHello;
-use rand::Rng;
+// use rand::Rng;
 // use std::collections::HashMap;
 use colored::*;
 use crate::TLS_EXTENSIONS_REVERSE;
@@ -265,28 +265,28 @@ impl ClientHelloMutator {
         self.client_hello.record_length = (client_hello_length + 4) as u16; // +4 for handshake type and length
     }
 
-    fn mutate_random(&mut self, value: &[u8]) {
-        let mut rng = rand::thread_rng();
-        if value.len() == 32 {
-            self.client_hello.random.copy_from_slice(value);
-        } else {
-            println!("{}","Invalid random value length. Generating a new random value.".yellow());
-            rng.fill(&mut self.client_hello.random);
-        }
-    }
+    // fn mutate_random(&mut self, value: &[u8]) {
+    //     let mut rng = rand::thread_rng();
+    //     if value.len() == 32 {
+    //         self.client_hello.random.copy_from_slice(value);
+    //     } else {
+    //         println!("{}","Invalid random value length. Generating a new random value.".yellow());
+    //         rng.fill(&mut self.client_hello.random);
+    //     }
+    // }
 
-    fn mutate_session_id(&mut self, value: &[u8]) {
-        let mut rng = rand::thread_rng();
-        if value.len() <= 32 {
-            self.client_hello.session_id = value.to_vec();
-            self.client_hello.session_id_length = value.len() as u8;
-        } else {
-            println!("{}","Session ID too long. Generating a new session ID.".yellow());
-            let new_length = rng.gen_range(0..=32);
-            self.client_hello.session_id = (0..new_length).map(|_| rng.gen()).collect();
-            self.client_hello.session_id_length = new_length as u8;
-        }
-    }
+    // fn mutate_session_id(&mut self, value: &[u8]) {
+    //     let mut rng = rand::thread_rng();
+    //     if value.len() <= 32 {
+    //         self.client_hello.session_id = value.to_vec();
+    //         self.client_hello.session_id_length = value.len() as u8;
+    //     } else {
+    //         println!("{}","Session ID too long. Generating a new session ID.".yellow());
+    //         let new_length = rng.gen_range(0..=32);
+    //         self.client_hello.session_id = (0..new_length).map(|_| rng.gen()).collect();
+    //         self.client_hello.session_id_length = new_length as u8;
+    //     }
+    // }
 
     fn mutate_cipher_suites(&mut self, value: &[u8]) {
         let valid_suites = [0x1301_u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];

@@ -36,11 +36,47 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     perform_server_environment_test(&server_ip, port)?;
 
+    perform_first_handshake(server_name.clone(), &server_ip, port)?;
 
+    // 执行第二次握手
+    let config = Arc::new(network_connect::create_tls_config());
+    let request = format!(
+        "GET / HTTP/1.1\r\n\
+         Host: www.example.com\r\n\
+         Connection: close\r\n\
+         Accept-Encoding: identity\r\n\
+         \r\n",
+    );
+    println!("{}","Starting second handshake...\n\n".green());
+    let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
+    if let Some(mut early_data) = conn.early_data() {
+        early_data
+            .write_all(request.as_bytes())
+            .unwrap();
+        // println!("  * 0-RTT request sent");
+    }
+    let mut client_hello = Vec::new();
+    conn.write_tls(&mut client_hello)?;
+    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
+
+    let mut mutation_vec_store : Vec<TestMutation> = Vec::new();
+    let required_columns = ["message", "field", "action", "relative_to", "position", "value"];
+    let file_path = "input_source/mutation_guideline.csv";
+    println!("{}","Read mutation source".green());
+    let _ = read_mutation_source(file_path, &required_columns, &mut mutation_vec_store);
+    let mut mutated_clienthello_vec: Vec<ClientHello> = Vec::new();
+    mutate_client_hello_if_enabled(&matches, &parsed_clienthello, &mutation_vec_store, &mut mutated_clienthello_vec, easy_read);
+    send_client_hello_if_test_env(&matches, &server_ip, port, &mut mutated_clienthello_vec, easy_read)?;
+    
+    terminal::print_help();
+    Ok(())
+}
+
+fn perform_first_handshake(server_name: String, server_ip: &str, port: u16) -> Result<(), Box<dyn std::error::Error>> {
     let addr = format!("{}:{}", server_ip, port);
     let mut sock = TcpStream::connect(&addr)?;
     let config = Arc::new(network_connect::create_tls_config());
-    let mut conn = rustls::ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
+    let mut conn = ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
     
     let request = format!(
         "GET / HTTP/1.1\r\n\
@@ -87,30 +123,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 模拟第一次握手完成后断开连接
     println!("{}", "\nFirst handshake completed, disconnecting...".green());
     
-
-    // 执行第二次握手
-    println!("{}","Starting second handshake...\n\n".green());
-    let mut conn = network_connect::create_client_connection(config.clone(), server_name)?;
-    if let Some(mut early_data) = conn.early_data() {
-        early_data
-            .write_all(request.as_bytes())
-            .unwrap();
-        // println!("  * 0-RTT request sent");
-    }
-    let mut client_hello = Vec::new();
-    conn.write_tls(&mut client_hello)?;
-    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
-
-    let mut mutation_vec_store : Vec<TestMutation> = Vec::new();
-    let required_columns = ["message", "field", "action", "relative_to", "position", "value"];
-    let file_path = "input_source/mutation_guideline.csv";
-    println!("{}","Read mutation source".green());
-    let _ = read_mutation_source(file_path, &required_columns, &mut mutation_vec_store);
-    let mut mutated_clienthello_vec: Vec<ClientHello> = Vec::new();
-    mutate_client_hello_if_enabled(&matches, &parsed_clienthello, &mutation_vec_store, &mut mutated_clienthello_vec, easy_read);
-    send_client_hello_if_test_env(&matches, &server_ip, port, &mut mutated_clienthello_vec, easy_read)?;
-    
-    terminal::print_help();
     Ok(())
 }
 
