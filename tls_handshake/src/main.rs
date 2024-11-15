@@ -7,9 +7,19 @@ use rustls::{ClientConnection, Stream, ClientConfig};
 use mio::{Events, Poll, Token, net::TcpStream as MioTcpStream};
 use std::io::{Write, Read, ErrorKind};
 use colored::*;
+use std::fs::{self};
+
+use log::{debug, error, info, trace, LevelFilter};
+use log4rs::{
+    append::{file::FileAppender, console::ConsoleAppender},
+    config::{Appender, Config, Logger, Root},
+    encode::pattern::PatternEncoder,
+    filter::threshold::ThresholdFilter,
+};
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    init_log();
     perform_local_network_test()?;
 
     let matches = terminal::get_command_matches();
@@ -41,7 +51,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     perform_first_handshake(config.clone(), server_name.clone(), addr.clone())?;
     
     // second handshake
-    println!("{}","Starting second handshake...\n\n".green());
+    println!("{}","Starting second handshake...\n".green());
     let mut client_hello = Vec::new();
     let mut conn2 = ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
     conn2.write_tls(&mut client_hello)?;
@@ -57,6 +67,93 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+fn clear_logs_folder() -> std::io::Result<()> {
+    let log_dir = "logs";
+    let path = Path::new(log_dir);
+
+    // 检查 logs 文件夹是否存在
+    if path.exists() && path.is_dir() {
+        // 获取 logs 文件夹中的所有文件
+        for entry in fs::read_dir(path)? {
+            let entry = entry?;
+            if entry.file_type()?.is_file() {
+                // 删除文件
+                fs::remove_file(entry.path())?;
+            }
+        }
+        info!("All files in 'logs' folder have been deleted.");
+    } else {
+        info!("'logs' folder does not exist.");
+    }
+
+    Ok(())
+}
+
+fn init_log() {
+    // 清空 logs 文件夹中的所有文件
+    if let Err(e) = clear_logs_folder() {
+        error!("Error clearing 'logs' folder: {}", e);
+        return;
+    }
+
+    // 创建 appenders
+    let clienthello_parser_appender = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+        .build("logs/clienthello_parser.log")
+        .unwrap();
+
+    let clienthello_mutator_appender = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+        .build("logs/clienthello_mutator.log")
+        .unwrap();
+
+    let clienthello_mutator_parser_appender = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+        .build("logs/clienthello_mutator_parser.log")
+        .unwrap();
+
+    let server_response_parser_appender = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+        .build("logs/server_response_parser.log")
+        .unwrap();    
+    // 配置日志级别和附加器
+    let config = Config::builder()
+        .appender(Appender::builder()
+            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+            .build("clienthello_parser", Box::new(clienthello_parser_appender)))
+        .appender(Appender::builder()
+            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+            .build("clienthello_mutator", Box::new(clienthello_mutator_appender)))
+        .appender(Appender::builder()
+            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+            .build("clienthello_mutator_parser", Box::new(clienthello_mutator_parser_appender)))
+        .appender(Appender::builder()
+            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+            .build("server_response_parser", Box::new(server_response_parser_appender)))
+        .logger(Logger::builder()
+            .appender("clienthello_parser")  // 绑定到 clienthello appender
+            .additive(false)          // 不将日志传递给根记录器
+            .build("tls_handshake::clienthello", LevelFilter::Trace))
+        .logger(Logger::builder()
+            .appender("clienthello_mutator_parser")  // 绑定到 clienthello appender
+            .additive(false)          // 不将日志传递给根记录器
+            .build("clienthello_2", LevelFilter::Trace))
+        .logger(Logger::builder()
+            .appender("clienthello_mutator")  // 绑定到 clienthello appender
+            .additive(false)          // 不将日志传递给根记录器
+            .build("tls_handshake::clienthello_mutator", LevelFilter::Trace))
+        .logger(Logger::builder()
+            .appender("server_response_parser")  // 绑定到 clienthello appender
+            .additive(false)          // 不将日志传递给根记录器
+            .build("tls_handshake::server_response", LevelFilter::Trace))
+        .build(
+            Root::builder().build(LevelFilter::Trace)  // 根记录器日志级别设为 Trace
+        )
+        .unwrap();
+
+    // 初始化 log4rs 配置
+    log4rs::init_config(config).unwrap();
+}
 fn perform_first_handshake(
     client_config: Arc<ClientConfig>,
     server_name: String,
@@ -165,12 +262,13 @@ fn mutate_client_hello_if_enabled(
     }  
 
     let mut mutated_clienthello_tmp_store: ClientHello;
+    let enable_check = matches.get_flag("check_mutate_ch");
     for single_mutation in mutation_store{
-        mutated_clienthello_tmp_store = clienthello_mutator::preferred_mutate_client_hello(&client_hello.get_client_hello(), single_mutation);
-        if matches.get_flag("check_mutate_ch") {
-            println!("{}", "\nMutated ClientHello:".green());
-            mutated_clienthello_tmp_store.print();
-        }    
+        mutated_clienthello_tmp_store = clienthello_mutator::preferred_mutate_client_hello(&client_hello.get_client_hello(), single_mutation, enable_check);
+        // if  {
+        //     println!("{}", "\nMutated ClientHello:".green());
+        //     mutated_clienthello_tmp_store.print();
+        // }    
         
         mutated_vec.push(mutated_clienthello_tmp_store);
     }
@@ -339,7 +437,7 @@ fn wait_for_server_response(
                 println!("Socket is readable. Receiving server response...");
                 match stream.read(&mut buffer) {
                     Ok(bytes_read) if bytes_read > 0 => {
-                        println!("Received {} bytes from server", bytes_read);
+                        println!("Received {} bytes from server\n\n", bytes_read);
                         server_response.extend_from_slice(&buffer[..bytes_read]);
                         return Ok(server_response);
                     }

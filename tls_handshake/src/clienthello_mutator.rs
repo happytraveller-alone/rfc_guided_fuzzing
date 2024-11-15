@@ -1,9 +1,6 @@
 use crate::clienthello::ClientHello;
-// use rand::Rng;
-// use std::collections::HashMap;
-use colored::*;
 use crate::TLS_EXTENSIONS_REVERSE;
-
+use log::{debug, error, info};
 #[derive(Debug)]
 pub enum Action {
     SET,
@@ -96,7 +93,7 @@ impl ClientHelloMutator {
             },
             // If the message is not ClientHello, print an unsupported message type
             _ => {
-                println!("Unsupported message type: {:?}", mutation_config.message);
+                debug!("Unsupported message type: {:?}", mutation_config.message);
             }
         }
         // }
@@ -105,7 +102,7 @@ impl ClientHelloMutator {
     // Handler for SET action
     fn handle_remove(&mut self, field: &str, relative_position: &str, value: &str) {
         // Here you should implement the logic for SET action, modifying the appropriate field in ClientHello
-        println!("Handling REMOVE for field: {}, position: {}, value: {}", field, relative_position, value);
+        info!("Handling REMOVE for field: {}, position: {}, value: {}", field, relative_position, value);
         match field {
             "ClientHelloVersion" => self.client_hello.client_version = [0x00, 0x00],
             "SessionID" => {
@@ -125,7 +122,7 @@ impl ClientHelloMutator {
                 if let Some(&extension_type) = TLS_EXTENSIONS_REVERSE.get(field) {
                     // Find the position of the extension to be removed
                     if let Some(pos) = self.client_hello.extensions.iter().position(|ext| ext.extension_type == extension_type.to_be_bytes()) {
-                        println!("{}","Success founded!".green());
+                        // println!("{}","Success founded!".green());
                         // Remove the extension at the found position
                         self.client_hello.extensions.remove(pos);
                         // Update order_id for each extension after the removed one
@@ -136,13 +133,13 @@ impl ClientHelloMutator {
                         self.client_hello.extensions_length = self.client_hello.extensions.iter()
                             .map(|ext| ext.extension_content.len() as u16 + 4) // Adjusted for extension structure size
                             .sum();
-                        println!(
+                        info!(
                             "Removed extension '{}', updated ClientHello",field);
                     } else {
-                        println!("Extension '{}' not found in ClientHello extensions", field);
+                        debug!("Extension '{}' not found in ClientHello extensions", field);
                     }
                 } else {
-                    println!("Unrecognized field '{}', no action taken.", field);
+                    debug!("Unrecognized field '{}', no action taken.", field);
                 }
             }
         }
@@ -205,12 +202,9 @@ impl ClientHelloMutator {
             .collect()
     }
     
-    
-    
-    
     // 处理 SET 操作
     fn handle_set(&mut self, field: &str, relative_position: &str, value: &str) {
-        println!("Handling SET for field: {}, position: {}, value: {}", field, relative_position, value);
+        info!("Handling SET for field: {}, position: {}, value: {}", field, relative_position, value);
 
         match field {
             "legacy_compression_methods" => {
@@ -236,7 +230,7 @@ impl ClientHelloMutator {
                 if random.len() == 32 {
                     self.client_hello.random.copy_from_slice(&random);
                 } else {
-                    println!("Invalid random length, expected 32 bytes.");
+                    error!("Invalid random length, expected 32 bytes. NO ACTION USE");
                 }
             }
             "supported_groups" | "signature_algorithms" => {
@@ -247,7 +241,7 @@ impl ClientHelloMutator {
                 if let Some(&extension_type) = TLS_EXTENSIONS_REVERSE.get(field) {
                     // Find the position of the extension to be removed
                     if let Some(pos) = self.client_hello.extensions.iter().position(|ext| ext.extension_type == extension_type.to_be_bytes()) {
-                        println!("{}","Success founded!".green());
+                        // println!("{}","Success founded!".green());
                         // 清空指定位置的 extension_content
                         self.client_hello.extensions[pos].extension_content.clear();
 
@@ -255,9 +249,9 @@ impl ClientHelloMutator {
                         self.client_hello.extensions[pos].extension_content.push(values_len_high);
                         self.client_hello.extensions[pos].extension_content.push(values_len_low);
                         self.client_hello.extensions[pos].extension_content.extend(parsed_hex_values);
-                        println!("Reset extension '{}', updated ClientHello",field);
+                        info!("Reset extension '{}', updated ClientHello",field);
                     } else {
-                        println!("Extension '{}' not found in ClientHello extensions", field);
+                        debug!("Extension '{}' not found in ClientHello extensions", field);
                     }
                 }
             }
@@ -268,7 +262,7 @@ impl ClientHelloMutator {
                 if let Some(&extension_type) = TLS_EXTENSIONS_REVERSE.get(field) {
                     // Find the position of the extension to be removed
                     if let Some(pos) = self.client_hello.extensions.iter().position(|ext| ext.extension_type == extension_type.to_be_bytes()) {
-                        println!("{}","Success founded!".green());
+                        // println!("{}","Success founded!".green());
                         // 清空指定位置的 extension_content
                         self.client_hello.extensions[pos].extension_content.clear();
 
@@ -276,14 +270,14 @@ impl ClientHelloMutator {
                         // self.client_hello.extensions[pos].extension_content.push(values_len_high);
                         self.client_hello.extensions[pos].extension_content.push(values_len_low);
                         self.client_hello.extensions[pos].extension_content.extend(parsed_hex_values);
-                        println!("Reset extension '{}', updated ClientHello",field);
+                        info!("Reset extension '{}', updated ClientHello",field);
                     } else {
-                        println!("Extension '{}' not found in ClientHello extensions", field);
+                        debug!("Extension '{}' not found in ClientHello extensions", field);
                     }
                 }
             }
             _ => {
-                println!("Unrecognized field '{}', no action taken.", field);
+                debug!("Unrecognized field '{}', no action taken.", field);
             }
         }
     }
@@ -291,19 +285,19 @@ impl ClientHelloMutator {
     // Handler for DUPLICATE action
     fn handle_duplicate(&mut self, field: &str, relative_position: &str, value: &str) {
         // Implement DUPLICATE logic here
-        println!("Handling DUPLICATE for field: {}, position: {}, value: {}", field, relative_position, value);
+        info!("Handling DUPLICATE for field: {}, position: {}, value: {}", field, relative_position, value);
     }
 
     // Handler for INSERT action
     fn handle_insert(&mut self, field: &str, relative_position: &str, value: &str) {
         // Implement INSERT logic here
-        println!("Handling INSERT for field: {}, position: {}, value: {}", field, relative_position, value);
+        info!("Handling INSERT for field: {}, position: {}, value: {}", field, relative_position, value);
     }
 
     // Handler for SWAP action
     fn handle_swap(&mut self, field: &str, relative_position: &str, value: &str) {
         // Implement SWAP logic here
-        println!("Handling SWAP for field: {}, position: {}, value: {}", field, relative_position, value);
+        info!("Handling SWAP for field: {}, position: {}, value: {}", field, relative_position, value);
     }
 
     fn update_lengths(&mut self) {
@@ -430,13 +424,15 @@ impl ClientHelloMutator {
 }
 
 // 优化，函数只处理一个
-pub fn preferred_mutate_client_hello(client_hello: &ClientHello, mutation_config: &TestMutation) -> ClientHello{
+pub fn preferred_mutate_client_hello(client_hello: &ClientHello, mutation_config: &TestMutation, enable_check: bool) -> ClientHello{
     let mut clienthello_mutator= ClientHelloMutator::new(client_hello.clone());
     // Apply the mutation entries (this mutates the ClientHello inside the mutator)
     clienthello_mutator.preferred_mutate_entry(mutation_config);
     // After mutation, you can update any other lengths if needed
     clienthello_mutator.update_lengths();
+    if enable_check{
+        clienthello_mutator.get_mutated_client_hello().print( "clienthello_2".to_string());
+    }
     // Get the mutated ClientHello and clone it, then add to the result vector
     clienthello_mutator.get_mutated_client_hello().clone()
-    // Get Vec to store Mutated ClientHello
 }
