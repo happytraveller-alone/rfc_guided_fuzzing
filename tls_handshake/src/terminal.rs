@@ -63,7 +63,7 @@ pub fn print_configuration(server_name: &str, server_ip: &str, port: u16, use_de
     if use_default_port {
         // stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
         warn!("Warning: Using default port: '{}'", port);
-        warn!("If this is not the desired port, specify it using the --port option.");
+        warn!("If this is not the desired port, specify it using the --port option.\n\n");
     } else {
         // stdout.reset().unwrap();
         info!("Using port: '{}'", port);

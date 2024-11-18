@@ -9,7 +9,7 @@ use std::io::{ErrorKind, Read, Write};
 use colored::*;
 use std::fs::{self};
 
-use log::{error, info, LevelFilter};
+use log::{warn, trace, error, info, LevelFilter};
 use log4rs::{
     append::file::FileAppender,
     append::console::{ConsoleAppender, Target},
@@ -62,8 +62,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // second handshake to get msg template and mutate
     info!("{}","Starting second handshake...".green());
     // use common config, cause the config contain the PSK set arg once the first full handshake completed
+    // api call list: 1. rustls::client::ClientConnection::new(client/client_conn.rs:685)
+    //                2. ConnectionCore::for_client(client/client_conn.rs:805)
+    //                3. hs::start_handshake(client/hs.rs:98)
+    //                4. hs::emit_client_hello_for_retry(client/hs.rs:220)
+    // 1: hs::start_handshake(125):debug!("Resuming session");
+    // 2: hs::emit_client_hello_for_retry(514):trace!("Sending ClientHello {:#?}", ch);
+    log::set_max_level(LevelFilter::Debug);
     let mut connection_second = ClientConnection::new(config.clone(), terminal::get_server_name(&matches).try_into()?)?;
+    log::set_max_level(LevelFilter::Trace);
     // write the template client_hello vector
+    trace!("write the template client_hello vector");
     let mut client_hello = Vec::new();
     connection_second.write_tls(&mut client_hello)?;
     // get second client_hello parsed template
@@ -118,7 +127,7 @@ fn init_log(matches: &clap::ArgMatches) {
     }
 
     // default stderr console appender
-    let default_console_stderr_appender = ConsoleAppender::builder()
+    let default_console_stderr_appender: ConsoleAppender = ConsoleAppender::builder()
         .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
         .target(Target::Stderr)
         .build();
@@ -127,9 +136,12 @@ fn init_log(matches: &clap::ArgMatches) {
     //     .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
     //     .target(Target::Stderr)
     //     .build();
-
+    let default_client_server_handshake_record: FileAppender = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+        .build("logs/tls_handshake_record.log")
+        .unwrap();
     // 默认的 mutate appender
-    let clienthello_mutator_appender = FileAppender::builder()
+    let clienthello_mutator_appender: FileAppender = FileAppender::builder()
         .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
         .build("logs/clienthello_mutator.log")
         .unwrap();
@@ -142,10 +154,17 @@ fn init_log(matches: &clap::ArgMatches) {
         .appender(Appender::builder()
             .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
             .build("console_log", Box::new(default_console_stderr_appender)))
+        .appender(Appender::builder()
+            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+            .build("handshake_log", Box::new(default_client_server_handshake_record)))
         .logger(Logger::builder()
             .appender("clienthello_mutator")
             .additive(false)
-            .build("tls_handshake::clienthello_mutator", LevelFilter::Trace));
+            .build("tls_handshake::clienthello_mutator", LevelFilter::Trace))
+        .logger(Logger::builder()
+            .appender("handshake_log")
+            .additive(false)
+            .build("handshake_record", LevelFilter::Trace));
 
     // 根据命令行参数动态添加 appenders 和 loggers
     if terminal::get_check_parse_ch(&matches) {
@@ -230,18 +249,21 @@ fn perform_first_handshake(
     // Create a Rustls stream
     let mut tls = Stream::new(&mut conn, &mut sock);
     // Send an HTTP GET request
-    info!("Sending tls clienthello request");
+    info!("Sending first tls handshake clienthello request");
     // Temporarily disable TRACE and DEBUG logging 
     
     tls.write_all(request.as_bytes())?;
     let mut plaintext = Vec::new();
     log::set_max_level(LevelFilter::Trace);
-    info!("Receive tls server response");
+    info!("Receive first tls handshake server response");
     match tls.read_to_end(&mut plaintext) {
         Ok(_) => {
             // 将字节序列转换为 UTF-8 字符串
-            let _response = String::from_utf8_lossy(&plaintext);
+            let response = String::from_utf8_lossy(&plaintext);
             // 输出到控制台
+            for line in response.lines() {
+                trace!("{}", line);
+            }
             // info!("{}", response);
         }
         Err(ref err) if err.kind() == ErrorKind::UnexpectedEof => {
@@ -250,10 +272,12 @@ fn perform_first_handshake(
 
             // 分割响应头和主体，以双换行（\r\n\r\n 或 \n\n）为界
             if let Some((headers, _)) = response.split_once("\r\n\r\n").or_else(|| response.split_once("\n\n")) {
-                info!("{}", headers);
+                for line in headers.lines() { trace!("{}", line); }
+                // info!("{}", headers);
             } else {
                 // 如果没有找到双换行，直接打印整个响应（可能不完整）
-                info!("{}", response);
+                // info!("{}", response);
+                for line in response.lines() { trace!("{}", line); }
             }
         }
         Err(err) => return Err(Box::new(err)),
@@ -266,9 +290,10 @@ fn perform_first_handshake(
         info!("Current key exchange group: {:?}", key_exchange_group.name());
     }
     // Send close_notify to properly terminate the TLS session
+    // have api: debug!("Sending warning alert {:?}", AlertDescription::CloseNotify);
     tls.conn.send_close_notify();
     // 模拟第一次握手完成后断开连接
-    info!("{}", "First handshake completed, disconnecting...".green());
+    info!("{}", "First handshake completed, disconnecting...\n\n\n");
     
     Ok(())
 }
@@ -353,19 +378,19 @@ fn send_client_hello_if_test_env(
         let token = match network_connect::register_stream(&mut poll, &mut stream) {
             Ok(token) => token,
             Err(e) => {
-                error!("Error registering stream: {}", e);
+                error!(target: "handshake_record", "Error registering stream: {}", e);
                 continue; // 如果注册流失败，跳过当前 ClientHello
             }
         };
 
         // 等待连接可写
         if let Err(e) = network_connect::wait_for_writable(&mut poll, token) {
-            error!("Error waiting for writable: {}", e);
+            error!(target: "handshake_record", "Error waiting for writable: {}", e);
             continue; // 如果等待可写失败，跳过当前 ClientHello
         }
         
         if let Err(e) = send_client_hello(&mut stream, &single_clienthello) {
-            error!("Error sending ClientHello: {}", e);
+            error!(target: "handshake_record", "Error sending ClientHello: {}", e);
             continue; // 出现错误时跳过当前 ClientHello 继续下一轮
         }
         
@@ -377,11 +402,11 @@ fn send_client_hello_if_test_env(
             Err(e) => {
                 // 检查错误信息是否包含 "os error 10054"
                 if e.to_string().contains("os error 10054") {
-                    error!("{}", format!("{}",e).yellow());
-                    error!("Session Aborted\n\n");
+                    error!(target: "handshake_record", "{}", e);
+                    error!(target: "handshake_record", "Session Aborted\n\n");
                 } else {
                     // 输出其他错误
-                    error!("{}", format!("Error waiting for server response: {}\n\n", e).yellow());
+                    error!(target: "handshake_record", "{}", format!("Error waiting for server response: {}\n\n", e).yellow());
                 }
                 continue; // 发生错误时继续下一个 ClientHello
             }
@@ -405,7 +430,7 @@ fn read_mutation_source<'a>(
     // Check if the file path exists, if not, return an error with red output
     if !path.exists() {
         // ANSI escape code for red text is "\x1b[31m" and reset color is "\x1b[0m"
-        error!("\x1b[31mError: File '{}' not found.\x1b[0m", file_path);
+        error!("File '{}' not found.", file_path);
         return Err(From::from(format!("File '{}' not found", file_path)));
     }
     let file = File::open(&path)?;
@@ -442,25 +467,25 @@ fn send_client_hello(
     stream: &mut  MioTcpStream, 
     client_hello: &ClientHello
 ) -> Result<(), Box<dyn std::error::Error>> {
-    info!("Sending ClientHello message...");
+    info!(target: "handshake_record", "Sending ClientHello message...");
     // client_hello.print();
     // client_hello.print_bytes();
     let vec_clienthello: &Vec<u8> = &client_hello.to_bytes();
     // print!("{:02X} ", vec_clienthello);
     match stream.write_all(vec_clienthello) {
-        Ok(_) => info!("ClientHello message sent successfully."),
+        Ok(_) => info!(target: "handshake_record", "ClientHello message sent successfully."),
         Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
-            info!("Socket write would block. Waiting until writable...");
+            warn!(target: "handshake_record", "Socket write would block. Waiting until writable...");
             while let Err(ref e) = stream.write_all(vec_clienthello) {
                 if e.kind() != std::io::ErrorKind::WouldBlock {
-                    error!("Failed to send ClientHello message: {}", e);
+                    error!(target: "handshake_record", "Failed to send ClientHello message: {}", e);
                     return Err(Box::new(std::io::Error::new(e.kind(), e.to_string())));
                 }
             }
-            info!("ClientHello message sent successfully after waiting.");
+            info!(target: "handshake_record", "ClientHello message sent successfully after waiting.");
         }
         Err(e) => {
-            error!("Error sending ClientHello message: {}", e);
+            error!(target: "handshake_record", "Error sending ClientHello message: {}", e);
             return Err(Box::new(e));
         }
     }
@@ -472,25 +497,27 @@ fn wait_for_server_response(
     token: Token, 
     stream: &mut MioTcpStream
 ) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-    info!("Waiting for server response...");
+    info!(target: "handshake_record", "Waiting for server response...");
     let mut events = Events::with_capacity(1024);
     let mut server_response = Vec::new();
     let mut buffer = [0; 1024];
 
     loop {
+        
         poll.poll(&mut events, None)?;
+        
         for event in &events {
             if event.token() == token && event.is_readable() {
-                info!("Socket is readable. Receiving server response...");
+                info!(target: "handshake_record", "Socket is readable. Receiving server response...");
                 match stream.read(&mut buffer) {
                     Ok(bytes_read) if bytes_read > 0 => {
-                        info!("Received {} bytes from server\n\n", bytes_read);
+                        info!(target: "handshake_record", "Received {} bytes from server", bytes_read);
                         server_response.extend_from_slice(&buffer[..bytes_read]);
                         return Ok(server_response);
                     }
-                    Ok(_) => info!("Received 0 bytes. Continuing to wait..."),
+                    Ok(_) => warn!(target: "handshake_record", "Received 0 bytes. Continuing to wait..."),
                     Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
-                        error!("Socket read would block. Continuing to wait...");
+                        warn!("Socket read would block. Continuing to wait...");
                         continue;
                     }
                     Err(e) => {

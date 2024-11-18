@@ -1,5 +1,4 @@
 use super::TLS_EXTENSIONS;
-use colored::*;
 use log::{debug, info, trace};
 pub struct ServerHelloParser<'a> {
     data: &'a [u8],
@@ -191,23 +190,23 @@ pub fn parse_server_response(data: &[u8], check_enable: bool) {
     let record_layers = parser.parse_tls_record_layers();
     parser.offset = 0;
     if !check_enable {
-        info!("{}", "Parse server response disabled".yellow());
+        info!(target: "handshake_record", "Parse server response disabled");
         // +5 
         // println!("{}", format!("{}",).green());
         let handshake_type = parser.data[parser.offset + 5];
         match parser.data[parser.offset + 5] {
             0x02 => {
-                info!("{}",format!("Handshake Type: {:02X} ", handshake_type).green());
+                // info!("{}",format!("Handshake Type: {:02X} ", handshake_type).green());
                 if &parser.data[parser.offset + 11..parser.offset + 43] == RETRY_REQUEST_RANDOM{
-                    trace!("{}","(ServerRetryRequest)\n".green());
+                    info!(target: "handshake_record", "{}","(ServerRetryRequest)\n");
                 } else {
-                    trace!("{}","(ServerHello)\n".green());
+                    info!(target: "handshake_record", "{}","(ServerHello)\n");
                 }
             },
-            0x0b => trace!("{}",format!("Handshake Type: {:02X} (Certificate)\n", handshake_type).green()),
-            0x0c => trace!("{}",format!("Handshake Type: {:02X} (Server Key Exchange)\n", handshake_type).green()),
-            0x0e => trace!("{}",format!("Handshake Type: {:02X} (Server Hello Done)\n", handshake_type).green()),
-            _ => debug!("{}",format!("Handshake Type: {:02X} (Unknown)\n", handshake_type).yellow()),
+            0x0b => info!("{}",format!("Handshake Type: {:02X} (Certificate)\n", handshake_type)),
+            0x0c => info!("{}",format!("Handshake Type: {:02X} (Server Key Exchange)\n", handshake_type)),
+            0x0e => info!("{}",format!("Handshake Type: {:02X} (Server Hello Done)\n", handshake_type)),
+            _ => debug!("{}",format!("Handshake Type: {:02X} (Unknown)\n", handshake_type)),
         }
         return
     }

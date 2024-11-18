@@ -11,8 +11,7 @@ use std::time::Duration;
 use std::thread::sleep;
 use std::process::exit;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
-use log::{debug, warn, trace, error, info};
-// use rustls::cipher_suite::*;
+use log::{warn, trace, error, info, LevelFilter};
 mod danger {
     use pki_types::{CertificateDer, ServerName, UnixTime};
     use rustls::client::danger::HandshakeSignatureValid;
@@ -105,7 +104,7 @@ pub fn create_tls_config() -> ClientConfig {
     // 配置 PSK 回调
     config.resumption = Resumption::in_memory_sessions(256)
             .tls12_resumption(rustls::client::Tls12Resumption::SessionIdOnly);
-    info!("client config generated");
+    info!("client config generated\n\n");
     config
 }
 
@@ -129,9 +128,9 @@ pub fn receive_data(stream: &mut TcpStream, buffer: &mut [u8]) -> Result<usize, 
 pub fn check_test_environment(matches: &clap::ArgMatches) -> bool {
     let is_test_env = matches.get_flag("test_env");
     if is_test_env {
-        info!("{}", "\nTest environment is enabled. Sending ClientHello to server.".green());
+        info!("{}", "Test environment is enabled. Sending ClientHello to server.\n\n".green());
     } else {
-        debug!("{}", "\nTest environment is false. Not sending ClientHello to server.".yellow());
+        warn!("{}", "Test environment is false. Not sending ClientHello to server.".yellow());
     }
     is_test_env
 }
@@ -142,7 +141,7 @@ pub fn connect_to_server(server_ip: &str, port: u16, easy_read: bool) -> Result<
     }
 
     let access: SocketAddr = format!("{}:{}", server_ip, port).parse()?;
-    trace!("Connecting to server at {}...", access);
+    trace!(target: "handshake_record", "Connecting to server at {}...", access);
     Ok(MioTcpStream::connect(access)?)
 }
 
@@ -152,19 +151,22 @@ pub fn create_poll() -> Result<Poll, Box<dyn std::error::Error>> {
 
 pub fn register_stream(poll: &mut Poll, stream: &mut MioTcpStream) -> Result<Token, Box<dyn std::error::Error>> {
     let token = Token(0);
-    trace!("Registering stream with poll...");
+    // trace!(target: "handshake_record", "Registering stream with poll...");
+    log::set_max_level(LevelFilter::Info);
     poll.registry().register(stream, token, Interest::WRITABLE | Interest::READABLE)?;
+    trace!("Registered second tcp stream with poll");
+    log::set_max_level(LevelFilter::Trace);
     Ok(token)
 }
 
 pub fn wait_for_writable(poll: &mut Poll, token: Token) -> Result<(), Box<dyn std::error::Error>> {
     let mut events = Events::with_capacity(1024);
-    trace!("Waiting for socket to be writable...");
+    trace!(target: "handshake_record", "Waiting for socket to be writable...");
     loop {
         poll.poll(&mut events, None)?;
         for event in &events {
             if event.token() == token && event.is_writable() {
-                info!("Socket is writable. Connection established.");
+                info!(target: "handshake_record", "Socket is writable. Connection established.\n\n");
                 return Ok(());
             }
         }
