@@ -3,7 +3,7 @@ use colored::*;
 use std::{io::Write, process::exit, thread::sleep, time::Duration};
 use clap::{arg, Command,ArgAction};
 use crate::{SERVER_NAME, SERVER_STATIC_IP, PORT};
-
+use log::{warn, info};
 macro_rules! create_flag_getter {
     ($fn_name:ident, $flag:expr) => {
         pub fn $fn_name(matches: &clap::ArgMatches) -> bool {
@@ -43,30 +43,30 @@ pub fn print_configuration(server_name: &str, server_ip: &str, port: u16, use_de
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
 
     if use_default_name {
-        stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
-        writeln!(stdout, "Warning: Using default server name: '{}'", server_name).unwrap();
-        writeln!(stdout, "If this is not the desired server name, specify it using the --server option.").unwrap();
+        // stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
+        warn!("Warning: Using default server name: '{}'", server_name);
+        warn!("If this is not the desired server name, specify it using the --server option.");
     } else {
-        stdout.reset().unwrap();
-        writeln!(stdout, "Using server name: '{}'", server_name).unwrap();
+        // stdout.reset().unwrap();
+        info!("Using server name: '{}'", server_name);
     }
 
     if use_default_ip {
-        stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
-        writeln!(stdout, "Warning: Using default server IP: '{}'", server_ip).unwrap();
-        writeln!(stdout, "If this is not the desired IP, specify it using the --ip option.").unwrap();
+        // stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
+        warn!("Warning: Using default server IP: '{}'", server_ip);
+        warn!("If this is not the desired IP, specify it using the --ip option.");
     } else {
-        stdout.reset().unwrap();
-        writeln!(stdout, "Using server IP: '{}'", server_ip).unwrap();
+        // stdout.reset().unwrap();
+        info!("Using server IP: '{}'", server_ip);
     }
 
     if use_default_port {
-        stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
-        writeln!(stdout, "Warning: Using default port: '{}'", port).unwrap();
-        writeln!(stdout, "If this is not the desired port, specify it using the --port option.").unwrap();
+        // stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red))).unwrap();
+        warn!("Warning: Using default port: '{}'", port);
+        warn!("If this is not the desired port, specify it using the --port option.");
     } else {
-        stdout.reset().unwrap();
-        writeln!(stdout, "Using port: '{}'", port).unwrap();
+        // stdout.reset().unwrap();
+        info!("Using port: '{}'", port);
     }
     stdout.reset().unwrap();
 }
