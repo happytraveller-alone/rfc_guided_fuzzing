@@ -4,6 +4,41 @@ use std::{io::Write, process::exit, thread::sleep, time::Duration};
 use clap::{arg, Command,ArgAction};
 use crate::{SERVER_NAME, SERVER_STATIC_IP, PORT};
 
+macro_rules! create_flag_getter {
+    ($fn_name:ident, $flag:expr) => {
+        pub fn $fn_name(matches: &clap::ArgMatches) -> bool {
+            matches.get_flag($flag)
+        }
+    };
+}
+
+// 使用宏来定义函数
+create_flag_getter!(get_easy_read, "easy_read");
+create_flag_getter!(get_use_guide, "use_guide");
+create_flag_getter!(get_check_parse_ch, "check_parse_ch");
+create_flag_getter!(get_check_mutate_ch, "check_mutate_ch");
+create_flag_getter!(get_check_parse_sh, "check_parse_sh");
+create_flag_getter!(get_test_env, "test_env");
+
+macro_rules! create_option_getter {
+    ($fn_name:ident, $arg_name:expr, $default:expr, $t:ty) => {
+        pub fn $fn_name(matches: &clap::ArgMatches) -> $t {
+            matches.get_one::<String>($arg_name)
+                .unwrap_or(&$default.to_string())
+                .parse::<$t>()
+                .unwrap_or($default)
+        }
+    };
+}
+
+
+// 使用宏来定义函数
+create_option_getter!(get_server_name, "server", SERVER_NAME.to_string(), String);
+create_option_getter!(get_server_ip, "ip", SERVER_STATIC_IP.to_string(), String);
+create_option_getter!(get_port, "port", PORT, u16);
+
+
+
 pub fn print_configuration(server_name: &str, server_ip: &str, port: u16, use_default_name: bool, use_default_ip: bool, use_default_port: bool) {
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
 
@@ -37,25 +72,30 @@ pub fn print_configuration(server_name: &str, server_ip: &str, port: u16, use_de
 }
 
 // 自定义帮助函数
-pub fn print_help() {
-    println!();
-    println!("{}","=================== TLS Client Help ===================".green());
-    println!("{}","This program is a simple TLS client used for testing and analyzing ClientHello/ServerHello messages.".green());
-    println!("{}","Usage: cargo run -- [OPTIONS]".green());
-    println!("{}","Usage: cargo run -- --test_env".green());
-    println!("{}","Usage: cargo run -- --use_guide".green());
-    println!();
-    println!("{}","Options:".green());
-    println!("{}","  -s, --server <SERVER_NAME>             Sets the server name (default: WIN-MEGACP61GRJ)".green());
-    println!("{}","  -i, --ip <SERVER_IP>                   Sets the server IP address (default: 192.168.110.128)".green());
-    println!("{}","  -p, --port <PORT>                      Sets the port number (default: 443)".green());
-    println!("{}","  --test_env                             If set, sends ClientHello to the server and parses the server response.".green());
-    println!("{}","  --check_parse_ch                       Enables checking details of ClientHello parsing (default: false).".green());
-    println!("{}","  --check_mutate_ch                      Enables checking details of ClientHello mutation (default: false).".green());
-    println!("{}","  --check_parse_sh                       Enables checking details of Server Response parsing (default: false).".green());
-    println!("{}","  --use_guide                            Show this help information.".green());
-    println!("{}","  --easy_read                            Show output information slower.".green());
-    println!("{}","=======================================================".green());
+pub fn print_help(
+    matches_enable: bool,
+) {
+    if matches_enable{
+        println!();
+        println!("{}","=================== TLS Client Help ===================".green());
+        println!("{}","This program is a simple TLS client used for testing and analyzing ClientHello/ServerHello messages.".green());
+        println!("{}","Usage: cargo run -- [OPTIONS]".green());
+        println!("{}","Usage: cargo run -- --test_env".green());
+        println!("{}","Usage: cargo run -- --use_guide".green());
+        println!();
+        println!("{}","Options:".green());
+        println!("{}","  -s, --server <SERVER_NAME>             Sets the server name (default: WIN-MEGACP61GRJ)".green());
+        println!("{}","  -i, --ip <SERVER_IP>                   Sets the server IP address (default: 192.168.110.128)".green());
+        println!("{}","  -p, --port <PORT>                      Sets the port number (default: 443)".green());
+        println!("{}","  --test_env                             If set, sends ClientHello to the server and parses the server response.".green());
+        println!("{}","  --check_parse_ch                       Enables checking details of ClientHello parsing (default: false).".green());
+        println!("{}","  --check_mutate_ch                      Enables checking details of ClientHello mutation (default: false).".green());
+        println!("{}","  --check_parse_sh                       Enables checking details of Server Response parsing (default: false).".green());
+        println!("{}","  --use_guide                            Show this help information.".green());
+        println!("{}","  --easy_read                            Show output information slower.".green());
+        println!("{}","=======================================================".green());
+    }
+    
 }
 
 // 打印错误信息并退出程序
@@ -82,30 +122,23 @@ pub fn get_command_matches() -> clap::ArgMatches {
         .get_matches()
 }
 
-pub fn get_server_name(matches: &clap::ArgMatches) -> String {
-    matches.get_one::<String>("server").unwrap_or(&SERVER_NAME.to_string()).to_string()
-}
-
-pub fn get_server_ip(matches: &clap::ArgMatches) -> String {
-    matches.get_one::<String>("ip").unwrap_or(&SERVER_STATIC_IP.to_string()).to_string()
-}
-
-pub fn get_port(matches: &clap::ArgMatches) -> u16 {
-    matches.get_one::<String>("port").unwrap().parse().unwrap_or(PORT)
-}
 
 pub fn print_configuration_info(
-    server_name: &str, 
-    server_ip: &str, 
-    port: u16, 
-    easy_read: bool
+    matches: &clap::ArgMatches,
 ) {
-    let use_default_name = server_name == SERVER_NAME;
-    let use_default_ip = server_ip == SERVER_STATIC_IP;
-    let use_default_port = port == PORT;
+    let use_default_name = &get_server_name(&matches) == SERVER_NAME;
+    let use_default_ip = &get_server_ip(&matches) == SERVER_STATIC_IP;
+    let use_default_port = get_port(&matches) == PORT;
 
-    print_configuration(server_name, server_ip, port, use_default_name, use_default_ip, use_default_port);
-    if easy_read{
+    print_configuration(
+        &get_server_name(&matches),
+        &get_server_ip(&matches),
+        get_port(&matches),
+        use_default_name,
+        use_default_ip,
+        use_default_port
+    );
+    if get_easy_read(&matches){
         sleep(Duration::from_secs(3));
     }
 }

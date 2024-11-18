@@ -219,7 +219,7 @@ pub fn parse_client_hello(data: &[u8], enable_print: bool) -> ClientHelloParser{
     let mut parser = ClientHelloParser::new(data);
     parser.parse();
     if enable_print{
-        parser.get_client_hello().print("tls_handshake::clienthello".to_string());
+        parser.get_client_hello().print("clienthello_parser".to_string());
     }
     parser.clone()
 }

@@ -1,6 +1,6 @@
 use super::TLS_EXTENSIONS;
 use colored::*;
-use log::{debug, error, info, trace};
+use log::{debug, info, trace};
 pub struct ServerHelloParser<'a> {
     data: &'a [u8],
     offset: usize,
@@ -29,11 +29,11 @@ impl<'a> ServerHelloParser<'a> {
             let handshake_length: u32 = self.read_u24();
             trace!("  Handshake Protocol:");
             match handshake_type {
-                0x02 => trace!("    Handshake Type: {:02X} ", handshake_type),
-                0x0b => trace!("    Handshake Type: {:02X} (Certificate)", handshake_type),
-                0x0c => trace!("    Handshake Type: {:02X} (Server Key Exchange)", handshake_type),
-                0x0e => trace!("    Handshake Type: {:02X} (Server Hello Done)", handshake_type),
-                _ => trace!("    Handshake Type: {:02X} (Unknown)", handshake_type),
+                0x02 => info!("    Handshake Type: {:02X} ", handshake_type),
+                0x0b => info!("    Handshake Type: {:02X} (Certificate)", handshake_type),
+                0x0c => info!("    Handshake Type: {:02X} (Server Key Exchange)", handshake_type),
+                0x0e => info!("    Handshake Type: {:02X} (Server Hello Done)", handshake_type),
+                _ => debug!("    Handshake Type: {:02X} (Unknown)", handshake_type),
             }
             trace!("    Length: {} bytes", handshake_length);
             match handshake_type {
@@ -191,13 +191,13 @@ pub fn parse_server_response(data: &[u8], check_enable: bool) {
     let record_layers = parser.parse_tls_record_layers();
     parser.offset = 0;
     if !check_enable {
-        trace!("{}", "Parse server response disabled".yellow());
+        info!("{}", "Parse server response disabled".yellow());
         // +5 
         // println!("{}", format!("{}",).green());
         let handshake_type = parser.data[parser.offset + 5];
         match parser.data[parser.offset + 5] {
             0x02 => {
-                print!("{}",format!("Handshake Type: {:02X} ", handshake_type).green());
+                info!("{}",format!("Handshake Type: {:02X} ", handshake_type).green());
                 if &parser.data[parser.offset + 11..parser.offset + 43] == RETRY_REQUEST_RANDOM{
                     trace!("{}","(ServerRetryRequest)\n".green());
                 } else {

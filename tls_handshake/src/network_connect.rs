@@ -1,7 +1,6 @@
 use std::sync::Arc;
 use std::net::TcpStream;
 use rustls::{ClientConfig, ClientConnection, RootCertStore, client::Resumption};
-
 use std::io::{Write, Read};
 use colored::*;
 use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
@@ -10,6 +9,9 @@ use std::net::SocketAddr;
 use mio::{Events, Interest, Poll, Token, net::TcpStream as MioTcpStream};
 use std::time::Duration;
 use std::thread::sleep;
+use std::process::exit;
+use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
+// use colored::*;
 
 // use rustls::cipher_suite::*;
 mod danger {
@@ -168,7 +170,16 @@ pub fn wait_for_writable(poll: &mut Poll, token: Token) -> Result<(), Box<dyn st
     }
 }
 
-pub fn test_local_connection() -> Result<(), Box<dyn std::error::Error>> {
+pub fn perform_local_network_test() -> Result<(), Box<dyn std::error::Error>> {
+    println!("Performing local network environment test...");
+    if let Err(e) = test_local_connection() {
+        print_error_and_exit(&format!("Local environment test failed: {}", e));
+    }
+    println!("{}", "Local network environment test passed.\n".green());
+    Ok(())
+}
+
+fn test_local_connection() -> Result<(), Box<dyn std::error::Error>> {
     let mut root_store = RootCertStore::empty();
     root_store.extend(webpki_roots::TLS_SERVER_ROOTS.iter().cloned());
     let mut config = rustls::ClientConfig::builder()
@@ -212,4 +223,13 @@ pub fn test_server_connection(server_ip: &str, port: u16) -> Result<(), Box<dyn 
     println!("Successfully connected to the server: {}", address);
     drop(stream);
     Ok(())
+}
+
+// 打印错误信息并退出程序
+fn print_error_and_exit(message: &str) {
+    let mut stderr = StandardStream::stderr(ColorChoice::Always);
+    stderr.set_color(ColorSpec::new().set_fg(Some(Color::Red)).set_bold(true)).unwrap();
+    writeln!(&mut stderr, "Error: {}", message).unwrap();
+    stderr.reset().unwrap();
+    exit(1);
 }

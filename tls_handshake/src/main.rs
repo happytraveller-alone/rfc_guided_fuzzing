@@ -9,9 +9,10 @@ use std::io::{Write, Read, ErrorKind};
 use colored::*;
 use std::fs::{self};
 
-use log::{debug, error, info, trace, LevelFilter};
+use log::{error, info, LevelFilter};
 use log4rs::{
-    append::{file::FileAppender, console::ConsoleAppender},
+    append::file::FileAppender,
+    // append::console::ConsoleAppender,
     config::{Appender, Config, Logger, Root},
     encode::pattern::PatternEncoder,
     filter::threshold::ThresholdFilter,
@@ -19,51 +20,71 @@ use log4rs::{
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    init_log();
-    perform_local_network_test()?;
-
+    // get environment test args
     let matches = terminal::get_command_matches();
-
-    if matches.get_flag("use_guide") {
-        terminal::print_help();
-        return Ok(());
+    // don't know, just print use_guide
+    if terminal::get_use_guide(&matches){
+        terminal::print_help(true);
+        return Ok(())
     }
-
-    let server_name = terminal::get_server_name(&matches);
-    let server_ip = terminal::get_server_ip(&matches);
-    let port = terminal::get_port(&matches);
-    let easy_read = matches.get_flag("easy_read");
+    // use default tls handshake to connect www.rust-lang.org
+    network_connect::perform_local_network_test()?;
+    // init terminal output log
+    init_log(&matches);
 
     // Test environment preparation
-    terminal::print_configuration_info(&server_name, &server_ip, port, easy_read);
-    perform_server_environment_test(&server_ip, port)?;
+    terminal::print_configuration_info(&matches);
+    // virtual machine network environment test
+    perform_server_environment_test(
+        &terminal::get_server_ip(&matches), 
+        terminal::get_port(&matches)
+    )?;
     
     // read mutation strategy
     let mut mutation_vec_store : Vec<TestMutation> = Vec::new();
-    let required_columns = ["message", "field", "action", "relative_to", "position", "value"];
-    let file_path = "input_source/mutation_guideline.csv";
-    let _ = read_mutation_source(file_path, &required_columns, &mut mutation_vec_store);
+    let _ = read_mutation_source(
+        "input_source/mutation_guideline.csv", 
+        &["message", "field", "action", "relative_to", "position", "value"], 
+        &mut mutation_vec_store
+    );
     println!("{}","Read mutation source".green());
 
-    // first handshake
-    let addr = format!("{}:{}", server_ip, port);
+    // first handshake to get session ticket
+    // get create tls handshake base config
     let config = Arc::new(network_connect::create_tls_config());
-    perform_first_handshake(config.clone(), server_name.clone(), addr.clone())?;
+    // perform first handshake
+    perform_first_handshake(
+        config.clone(), 
+        terminal::get_server_name(&matches),
+        format!("{}:{}", terminal::get_server_ip(&matches), terminal::get_port(&matches))
+    )?;
     
-    // second handshake
+    // second handshake to get msg template and mutate
     println!("{}","Starting second handshake...\n".green());
+    // use common config, cause the config contain the PSK set arg once the first full handshake completed
+    let mut connection_second = ClientConnection::new(config.clone(), terminal::get_server_name(&matches).try_into()?)?;
+    // write the template client_hello vector
     let mut client_hello = Vec::new();
-    let mut conn2 = ClientConnection::new(config.clone(), server_name.clone().try_into()?)?;
-    conn2.write_tls(&mut client_hello)?;
-    // get second client_hello template
-    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello, easy_read);
+    connection_second.write_tls(&mut client_hello)?;
+    // get second client_hello parsed template
+    let parsed_clienthello = parse_client_hello_if_enabled(&matches, &client_hello);
     // start mutation based on the template
     let mut mutated_clienthello_vec: Vec<ClientHello> = Vec::new();
-    mutate_client_hello_if_enabled(&matches, &parsed_clienthello, &mutation_vec_store, &mut mutated_clienthello_vec, easy_read);
+    mutate_client_hello_if_enabled(
+        &matches,
+        &parsed_clienthello,
+        &mutation_vec_store,
+        &mut mutated_clienthello_vec,
+    );
     // send mutated client_hello
-    send_client_hello_if_test_env(&matches, &server_ip, port, &mut mutated_clienthello_vec, easy_read)?;
+    send_client_hello_if_test_env(
+        &matches,
+        &terminal::get_server_ip(&matches),
+        terminal::get_port(&matches),
+        &mut mutated_clienthello_vec
+    )?;
     // use guide line
-    terminal::print_help();
+    terminal::print_help(true);
     Ok(())
 }
 
@@ -89,71 +110,88 @@ fn clear_logs_folder() -> std::io::Result<()> {
     Ok(())
 }
 
-fn init_log() {
+fn init_log(matches: &clap::ArgMatches) {
     // 清空 logs 文件夹中的所有文件
     if let Err(e) = clear_logs_folder() {
         error!("Error clearing 'logs' folder: {}", e);
         return;
     }
 
-    // 创建 appenders
-    let clienthello_parser_appender = FileAppender::builder()
-        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
-        .build("logs/clienthello_parser.log")
-        .unwrap();
-
+    // 默认的 appender
     let clienthello_mutator_appender = FileAppender::builder()
         .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
         .build("logs/clienthello_mutator.log")
         .unwrap();
 
-    let clienthello_mutator_parser_appender = FileAppender::builder()
-        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
-        .build("logs/clienthello_mutator_parser.log")
-        .unwrap();
-
-    let server_response_parser_appender = FileAppender::builder()
-        .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
-        .build("logs/server_response_parser.log")
-        .unwrap();    
     // 配置日志级别和附加器
-    let config = Config::builder()
-        .appender(Appender::builder()
-            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
-            .build("clienthello_parser", Box::new(clienthello_parser_appender)))
+    let mut config_builder = Config::builder()
         .appender(Appender::builder()
             .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
             .build("clienthello_mutator", Box::new(clienthello_mutator_appender)))
-        .appender(Appender::builder()
-            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
-            .build("clienthello_mutator_parser", Box::new(clienthello_mutator_parser_appender)))
-        .appender(Appender::builder()
-            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
-            .build("server_response_parser", Box::new(server_response_parser_appender)))
         .logger(Logger::builder()
-            .appender("clienthello_parser")  // 绑定到 clienthello appender
-            .additive(false)          // 不将日志传递给根记录器
-            .build("tls_handshake::clienthello", LevelFilter::Trace))
-        .logger(Logger::builder()
-            .appender("clienthello_mutator_parser")  // 绑定到 clienthello appender
-            .additive(false)          // 不将日志传递给根记录器
-            .build("clienthello_2", LevelFilter::Trace))
-        .logger(Logger::builder()
-            .appender("clienthello_mutator")  // 绑定到 clienthello appender
-            .additive(false)          // 不将日志传递给根记录器
-            .build("tls_handshake::clienthello_mutator", LevelFilter::Trace))
-        .logger(Logger::builder()
-            .appender("server_response_parser")  // 绑定到 clienthello appender
-            .additive(false)          // 不将日志传递给根记录器
-            .build("tls_handshake::server_response", LevelFilter::Trace))
-        .build(
-            Root::builder().build(LevelFilter::Trace)  // 根记录器日志级别设为 Trace
-        )
-        .unwrap();
+            .appender("clienthello_mutator")
+            .additive(false)
+            .build("tls_handshake::clienthello_mutator", LevelFilter::Trace));
+
+    // 根据命令行参数动态添加 appenders 和 loggers
+    if terminal::get_check_parse_ch(&matches) {
+        let clienthello_parser_appender = FileAppender::builder()
+            .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+            .build("logs/clienthello_parser.log")
+            .unwrap();
+
+        config_builder = config_builder
+            .appender(Appender::builder()
+                .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+                .build("clienthello_parser", Box::new(clienthello_parser_appender)))
+            .logger(Logger::builder()
+                .appender("clienthello_parser")
+                .additive(false)
+                .build("clienthello_parser", LevelFilter::Trace));
+    }
+
+    if terminal::get_check_mutate_ch(&matches) {
+        let clienthello_mutator_parser_appender = FileAppender::builder()
+            .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+            .build("logs/clienthello_mutator_parser.log")
+            .unwrap();
+
+        config_builder = config_builder
+            .appender(Appender::builder()
+                .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+                .build("clienthello_mutator_parser", Box::new(clienthello_mutator_parser_appender)))
+            .logger(Logger::builder()
+                .appender("clienthello_mutator_parser")
+                .additive(false)
+                .build("clienthello_mutator_parser", LevelFilter::Trace));
+    }
+
+    if terminal::get_check_parse_sh(&matches) {
+        if terminal::get_test_env(&matches) {
+            let server_response_parser_appender = FileAppender::builder()
+                .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n")))
+                .build("logs/server_response_parser.log")
+                .unwrap();
+
+            config_builder = config_builder
+                .appender(Appender::builder()
+                    .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+                    .build("server_response_parser", Box::new(server_response_parser_appender)))
+                .logger(Logger::builder()
+                    .appender("server_response_parser")
+                    .additive(false)
+                    .build("tls_handshake::server_response", LevelFilter::Trace));
+        }
+        else {
+            println!("{}","test_env arg disabled, No need to capture and parse server_response, to enable it, give test_env arg".yellow());
+        }   
+    }
 
     // 初始化 log4rs 配置
-    log4rs::init_config(config).unwrap();
+    let final_config_builder = config_builder.build(Root::builder().build(LevelFilter::Trace)).unwrap();
+    log4rs::init_config(final_config_builder).unwrap();
 }
+
 fn perform_first_handshake(
     client_config: Arc<ClientConfig>,
     server_name: String,
@@ -210,15 +248,6 @@ fn perform_first_handshake(
     Ok(())
 }
 
-fn perform_local_network_test() -> Result<(), Box<dyn std::error::Error>> {
-    println!("Performing local network environment test...");
-    if let Err(e) = network_connect::test_local_connection() {
-        terminal::print_error_and_exit(&format!("Local environment test failed: {}", e));
-    }
-    println!("{}", "Local network environment test passed.\n".green());
-    Ok(())
-}
-
 fn perform_server_environment_test(
     server_ip: &str, 
     port: u16
@@ -234,14 +263,13 @@ fn perform_server_environment_test(
 fn parse_client_hello_if_enabled<'a>(
     matches: &'a clap::ArgMatches,
     client_hello: &'a [u8],
-    easy_read: bool
 ) -> ClientHelloParser<'a> {
-    let should_parse = matches.get_flag("check_parse_ch");
+    let should_parse = terminal::get_check_parse_ch(&matches);
     let verbose = should_parse;
 
     if should_parse {
         println!("{}", "\nparse ClientHello raw bytes:".green());
-        if easy_read {
+        if terminal::get_easy_read(&matches) {
             sleep(Duration::from_secs(2));
         }
     }
@@ -253,23 +281,17 @@ fn mutate_client_hello_if_enabled(
     matches: &clap::ArgMatches,
     client_hello: &ClientHelloParser, 
     mutation_store: &Vec<TestMutation>, 
-    mutated_vec: &mut Vec<ClientHello>, 
-    easy_read: bool
+    mutated_vec: &mut Vec<ClientHello>,
 ){  
     
-    if easy_read {
+    if terminal::get_easy_read(matches) {
         sleep(Duration::from_secs(2));
     }  
 
     let mut mutated_clienthello_tmp_store: ClientHello;
-    let enable_check = matches.get_flag("check_mutate_ch");
+    let enable_check = terminal::get_check_mutate_ch(&matches);
     for single_mutation in mutation_store{
         mutated_clienthello_tmp_store = clienthello_mutator::preferred_mutate_client_hello(&client_hello.get_client_hello(), single_mutation, enable_check);
-        // if  {
-        //     println!("{}", "\nMutated ClientHello:".green());
-        //     mutated_clienthello_tmp_store.print();
-        // }    
-        
         mutated_vec.push(mutated_clienthello_tmp_store);
     }
     return
@@ -280,14 +302,13 @@ fn send_client_hello_if_test_env(
     server_ip: &str,
     port: u16,
     client_hello: &Vec<ClientHello>,
-    easy_read: bool
 ) -> Result<(), Box<dyn std::error::Error>> {
     if !network_connect::check_test_environment(matches) {
         return Ok(());
     }
     for single_clienthello in client_hello{
         // 重新建立连接
-        let mut stream = match network_connect::connect_to_server(server_ip, port, easy_read) {
+        let mut stream = match network_connect::connect_to_server(server_ip, port, terminal::get_easy_read(matches)) {
             Ok(stream) => stream,
             Err(e) => {
                 println!("Error connecting to server: {}", e);
@@ -326,7 +347,7 @@ fn send_client_hello_if_test_env(
         // 等待服务器响应并处理
         match wait_for_server_response(&mut poll, token, &mut stream) {
             Ok(server_response) => {
-                server_response::parse_server_response(&server_response, matches.get_flag("check_parse_sh"));
+                server_response::parse_server_response(&server_response, terminal::get_check_parse_sh(&matches));
             }
             Err(e) => {
                 // 检查错误信息是否包含 "os error 10054"

@@ -431,7 +431,7 @@ pub fn preferred_mutate_client_hello(client_hello: &ClientHello, mutation_config
     // After mutation, you can update any other lengths if needed
     clienthello_mutator.update_lengths();
     if enable_check{
-        clienthello_mutator.get_mutated_client_hello().print( "clienthello_2".to_string());
+        clienthello_mutator.get_mutated_client_hello().print( "clienthello_mutator_parser".to_string());
     }
     // Get the mutated ClientHello and clone it, then add to the result vector
     clienthello_mutator.get_mutated_client_hello().clone()

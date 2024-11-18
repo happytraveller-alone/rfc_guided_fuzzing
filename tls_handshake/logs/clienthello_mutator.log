@@ -1,17 +1,17 @@
-2024-11-15 19:50:10 INFO    - Handling REMOVE for field: signature_algorithms, position: None, value: "None"
-2024-11-15 19:50:10 INFO    - Removed extension 'signature_algorithms', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling REMOVE for field: key_share, position: None, value: "None"
-2024-11-15 19:50:10 INFO    - Removed extension 'key_share', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling SET for field: legacy_compression_methods, position: None, value: "0x01, 0x02"
-2024-11-15 19:50:10 INFO    - Handling SET for field: supported_versions, position: None, value: "0x03,0x03"
-2024-11-15 19:50:10 INFO    - Reset extension 'supported_versions', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling SET for field: supported_versions, position: None, value: "0x0301, 0x0302"
-2024-11-15 19:50:10 INFO    - Reset extension 'supported_versions', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling SET for field: supported_versions, position: None, value: "0xFFFF, 0x0304"
-2024-11-15 19:50:10 INFO    - Reset extension 'supported_versions', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling SET for field: psk_key_exchange_modes, position: None, value: "0xFF"
-2024-11-15 19:50:10 INFO    - Reset extension 'psk_key_exchange_modes', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling SET for field: psk_key_exchange_modes, position: None, value: "0x04, 0x03, 0xff, 0xff, 0xff"
-2024-11-15 19:50:10 INFO    - Reset extension 'psk_key_exchange_modes', updated ClientHello
-2024-11-15 19:50:10 INFO    - Handling SET for field: random, position: None, value: "0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF"
-2024-11-15 19:50:10 ERROR   - Invalid random length, expected 32 bytes. NO ACTION USE
+2024-11-18 12:07:20 INFO    - Handling REMOVE for field: signature_algorithms, position: None, value: "None"
+2024-11-18 12:07:20 INFO    - Removed extension 'signature_algorithms', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling REMOVE for field: key_share, position: None, value: "None"
+2024-11-18 12:07:20 INFO    - Removed extension 'key_share', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling SET for field: legacy_compression_methods, position: None, value: "0x01, 0x02"
+2024-11-18 12:07:20 INFO    - Handling SET for field: supported_versions, position: None, value: "0x03,0x03"
+2024-11-18 12:07:20 INFO    - Reset extension 'supported_versions', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling SET for field: supported_versions, position: None, value: "0x0301, 0x0302"
+2024-11-18 12:07:20 INFO    - Reset extension 'supported_versions', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling SET for field: supported_versions, position: None, value: "0xFFFF, 0x0304"
+2024-11-18 12:07:20 INFO    - Reset extension 'supported_versions', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling SET for field: psk_key_exchange_modes, position: None, value: "0xFF"
+2024-11-18 12:07:20 INFO    - Reset extension 'psk_key_exchange_modes', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling SET for field: psk_key_exchange_modes, position: None, value: "0x04, 0x03, 0xff, 0xff, 0xff"
+2024-11-18 12:07:20 INFO    - Reset extension 'psk_key_exchange_modes', updated ClientHello
+2024-11-18 12:07:20 INFO    - Handling SET for field: random, position: None, value: "0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF"
+2024-11-18 12:07:20 ERROR   - Invalid random length, expected 32 bytes. NO ACTION USE
