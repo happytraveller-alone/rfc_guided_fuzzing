@@ -13,13 +13,20 @@ lazy_static! {
     /// 需要过滤的 RFC 章节标题列表
     /// 这些章节在处理过程中会被跳过
     pub static ref FILTER_SECTIONS: Vec<&'static str> = vec![
+        "Syntax Notation",
+        "Requirements Notation",
         "Introduction",
         "Protocol Overview",
         "Presentation Language",
         "References",
+        "Acknowledgments",
+        "Normative References",
+        "Informative References",
         "Authors' Addresses",
         "References",
         "Full Copyright Statement",
+        "Conformance and Error Handling",
+        "STATUS OF THIS MEMO",
     ];
 }
 

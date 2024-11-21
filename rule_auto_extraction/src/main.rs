@@ -99,9 +99,7 @@ impl RfcProcessor {
         let required_files = [
             "pre_processed.txt",
             &format!("{}_processed.txt", self.rfc_number),
-            "rfc_info.txt",
             "sections.txt",
-            // &format!("{}_sliced.txt", self.rfc_number),
         ];
 
         let all_files_exist = input_file.exists() && 
@@ -123,9 +121,9 @@ impl RfcProcessor {
         println!("Processing RFC content");
         let body = rfc_section_processor::process_rfc_content(&input_file)?;
         
-        // 保存 RFC 信息和预处理内容
-        let rfc_title = rfc_download::get_rfc_title(&self.rfc_number)?;
-        rfc_download::save_rfc_info(&self.rfc_number, &rfc_title, &rfc_output_dir)?;
+        // // 保存 RFC 信息和预处理内容
+        // let rfc_title = rfc_download::get_rfc_title(&self.rfc_number)?;
+        // rfc_download::save_rfc_info(&self.rfc_number, &rfc_title, &rfc_output_dir)?;
 
         let pre_processed_content = rfc_section_processor::remove_headers_footers(&input_file)?;
         let pre_processed_file = rfc_output_dir.join("pre_processed.txt");
