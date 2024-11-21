@@ -1,0 +1,8 @@
+[package]
+name = "pcap_init"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pcap = { version = "2.2.0", features = ["capture-stream"] }
+hex = "0.4.3"
