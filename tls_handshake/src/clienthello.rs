@@ -1,6 +1,8 @@
 use super::TLS_EXTENSIONS;
 use std::collections::HashMap;
 use log::{debug, error, info, trace};
+use serde::Serialize;
+use serde::ser::Serializer;
 // use log4rs::append::file::FileAppender;
 // use log4rs::{
 //     append::{file::FileAppender},
@@ -10,37 +12,95 @@ use log::{debug, error, info, trace};
 // };
 
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ClientHello {
     // TLS Record Layer
+    #[serde(serialize_with = "serialize_u8")]
     pub content_type: u8,           // 固定值 0x16
+    #[serde(serialize_with = "serialize_byte_array")]
     pub version: [u8; 2],           // 固定值 [0x03, 0x01]
+    #[serde(serialize_with = "serialize_u16")]
     pub record_length: u16,         // 动态值，需要计算
 
     // Handshake Layer
+    #[serde(serialize_with = "serialize_u8")]
     pub handshake_type: u8,         // 固定值 0x01
+    #[serde(serialize_with = "serialize_byte_array")]
     pub handshake_length: [u8; 3],  // 动态值，需要计算
 
     // ClientHello specific fields
+    #[serde(serialize_with = "serialize_byte_array")]
     pub client_version: [u8; 2],    // 固定值 [0x03, 0x03]
+    #[serde(serialize_with = "serialize_byte_array")]
     pub random: [u8; 32],           // 32 字节随机数
+    #[serde(serialize_with = "serialize_u8")]
     pub session_id_length: u8,      // 动态值
+    #[serde(serialize_with = "serialize_bytes")]
     pub session_id: Vec<u8>,        // 动态值
+    #[serde(serialize_with = "serialize_u16")]
     pub cipher_suites_length: u16,  // 动态值
+    #[serde(serialize_with = "serialize_bytes")]
     pub cipher_suites: Vec<u8>,     // 动态值
+    #[serde(serialize_with = "serialize_u8")]
     pub compression_methods_length: u8,  // 动态值
+    #[serde(serialize_with = "serialize_bytes")]
     pub compression_methods: Vec<u8>,    // 动态值
+    #[serde(serialize_with = "serialize_u16")]
     pub extensions_length: u16,     // 动态值
+    #[serde(skip_serializing)]
     pub extensions_num: u16,        // 动态值
     pub extensions: Vec<Extension>, // 动态值
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone,Serialize)]
 pub struct Extension {
-    pub order_id: usize,
+    #[serde(skip_serializing)]
+    pub order_id: u8,
+    #[serde(serialize_with = "serialize_byte_array")]
     pub extension_type: [u8; 2],
+    #[serde(serialize_with = "serialize_byte_array")]
     pub extension_length: [u8; 2],
+    #[serde(serialize_with = "serialize_bytes")]
     pub extension_content: Vec<u8>,
+}
+
+// 自定义序列化函数
+fn serialize_u8<S>(x: &u8, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    s.serialize_str(&format!("0x{:02x}", x))
+}
+
+fn serialize_u16<S>(x: &u16, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let high = (x >> 8) as u8;
+    let low = (x & 0xFF) as u8;
+    s.serialize_str(&format!("0x{:02x} 0x{:02x}", high, low))
+}
+
+fn serialize_byte_array<S, const N: usize>(bytes: &[u8; N], s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let hex = bytes.iter()
+        .map(|b| format!("0x{:02x}", b))
+        .collect::<Vec<_>>()
+        .join(", ");
+    s.serialize_str(&format!("[{}]", hex))
+}
+
+fn serialize_bytes<S>(bytes: &Vec<u8>, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let hex = bytes.iter()
+        .map(|b| format!("0x{:02x}", b))
+        .collect::<Vec<_>>()
+        .join(", ");
+    s.serialize_str(&format!("[{}]", hex))
 }
 
 impl ClientHello {
@@ -64,39 +124,6 @@ impl ClientHello {
             extensions: Vec::new(),
         }
     }
-
-    // pub fn set_active_appender(&self, if_parser: bool) {
-    //     let active_appender = if if_parser {
-    //         Box::new(FileAppender::builder()
-    //             .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.50}\n")))
-    //             .build("logs/clienthello_parser.log")  // 你可以根据需要更改路径
-    //             .unwrap())
-    //     } else {
-    //         Box::new(FileAppender::builder()
-    //             .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.50}\n")))
-    //             .build("logs/clienthello_mutator.log")  // 你可以根据需要更改路径
-    //             .unwrap())
-    //     };
-    
-    //     // 设置当前活动的 appender
-    //     let config = Config::builder()
-    //         .appender(Appender::builder()
-    //             .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
-    //             .build("clienthello", active_appender))
-    //         .logger(Logger::builder()
-    //             .appender("clienthello")  // 绑定到 clienthello appender
-    //             .additive(false)          // 不将日志传递给根记录器
-    //             .build("tls_handshake::clienthello", LevelFilter::Trace))
-    //         .build(Root::builder().build(LevelFilter::Trace))
-    //         .unwrap();
-    
-    //     // let _ = log4rs::init_config(config);
-    //     // Initialize logging
-    //     if let Err(e) = log4rs::init_config(config) {
-    //         eprintln!("Failed to initialize logger: {}", e);
-    //         std::process::exit(1); // Exit on failure
-    //     }
-    // }
 
     pub fn print(&self, addition: String) {
         // self.set_active_appender(if_parse);
@@ -634,32 +661,10 @@ impl ClientHello {
         trace!(target: addition.as_str(),"{}", hex_string);
         // println!("{}", hex_string);
     }
+
+    pub fn print_json(&self, addition: String) {
+        let json_string = serde_json::to_string_pretty(&self).unwrap();
+        trace!(target: addition.as_str(),"{}",json_string);
+        // println!("{}",json_string);
+    }
 }
-
-// pub fn set_active_appender(if_parser: bool) {
-//     let active_appender = if if_parser {
-//         Box::new(FileAppender::builder()
-//             .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.50}\n")))
-//             .build("logs/clienthello_parser.log")  // 你可以根据需要更改路径
-//             .unwrap())
-//     } else {
-//         Box::new(FileAppender::builder()
-//             .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.50}\n")))
-//             .build("logs/clienthello_mutator.log")  // 你可以根据需要更改路径
-//             .unwrap())
-//     };
-
-//     // 设置当前活动的 appender
-//     let config = Config::builder()
-//         .appender(Appender::builder()
-//             .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
-//             .build("clienthello", active_appender))
-//         .logger(Logger::builder()
-//             .appender("clienthello")  // 绑定到 clienthello appender
-//             .additive(false)          // 不将日志传递给根记录器
-//             .build("tls_handshake::clienthello", LevelFilter::Trace))
-//         .build(Root::builder().build(LevelFilter::Trace))
-//         .unwrap();
-
-//     log4rs::init_config(config).unwrap();
-// }

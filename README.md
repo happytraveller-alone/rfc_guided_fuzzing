@@ -1,10 +1,23 @@
-# RustDataProcess
+# Directed Fuzz Testing Based on RFC Protocols
 
-RustDataProcess is a data processing tool written in Rust, designed to efficiently handle and manipulate large datasets.
+本项目旨在通过基于 RFC 协议的有向模糊测试，提高网络协议的安全性和稳定性。项目包含三个主要子工程，分别负责不同的功能模块。
 
-## Features
+## 项目结构
 
-- Fast and efficient data processing for reverse engineering code and RFC file.
-- Process the reverse engineering code to get the function name, and insert LLM prompt to get the function summary.
-- Process the RFC file to get the RFC summary.
-- Match the function summary and RFC summary to get the final summary.
+本项目包含三个子工程：
+
+1. **agent_deploy**: 负责部署和运行基于 Poe LLM 的 Custom LLM Agent，设计提示以进行自定义 LLM Agent 部署。
+2. **tls_handshake**: 实现 TLS 握手的测试，并应用 rule_auto_extraction 抽取得出的变异指导策略进行消息报文模板的变异，与构建的虚拟机 IIS 服务器进行交互，尝试找出 IIS 服务器的漏洞。
+3. **rule_auto_extraction**: 读取 RFC 文档，利用 Agent 交互和脚本，对 RFC 文档中的规则进行抽取，生成消息报文变异指导策略，以及消息报文变异后的预期反馈。
+
+## 使用场景
+
+- **网络安全测试**: 通过有向模糊测试，发现并修复网络协议中的潜在漏洞。
+- **协议一致性检查**: 确保实现的协议与 RFC 规范一致，避免兼容性问题。
+- **自动化测试**: 自动生成测试用例和配置文件，减少手动操作，提高测试效率。
+
+## 未来计划
+
+- **扩展支持协议**: 增加对更多网络协议的支持，覆盖更广泛的测试场景。
+- **优化性能**: 持续优化工具的性能，提高数据处理速度。
+- **增强报告功能**: 改进测试报告的生成和展示，提供更详细和直观的测试结果。

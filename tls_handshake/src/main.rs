@@ -173,14 +173,26 @@ fn init_log(matches: &clap::ArgMatches) {
             .build("logs/clienthello_parser.log")
             .unwrap();
 
+        let clienthello_parser_json_appender = FileAppender::builder()
+            .encoder(Box::new(PatternEncoder::new("{m}\n")))
+            .build("logs/clienthello_parser_json.log")
+            .unwrap();
+
         config_builder = config_builder
             .appender(Appender::builder()
                 .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
                 .build("clienthello_parser", Box::new(clienthello_parser_appender)))
+            .appender(Appender::builder()
+                .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+                .build("clienthello_parser_json", Box::new(clienthello_parser_json_appender)))
             .logger(Logger::builder()
                 .appender("clienthello_parser")
                 .additive(false)
-                .build("clienthello_parser", LevelFilter::Trace));
+                .build("clienthello_parser", LevelFilter::Trace))
+            .logger(Logger::builder()
+                .appender("clienthello_parser_json")
+                .additive(false)
+                .build("clienthello_parser_json", LevelFilter::Trace));
     }
 
     if terminal::get_check_mutate_ch(&matches) {
