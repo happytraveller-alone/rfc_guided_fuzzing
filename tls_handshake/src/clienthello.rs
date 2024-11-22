@@ -3,14 +3,6 @@ use std::collections::HashMap;
 use log::{debug, error, info, trace};
 use serde::Serialize;
 use serde::ser::Serializer;
-// use log4rs::append::file::FileAppender;
-// use log4rs::{
-//     append::{file::FileAppender},
-//     config::{Appender, Config, Logger, Root},
-//     encode::pattern::PatternEncoder,
-//     filter::threshold::ThresholdFilter,
-// };
-
 
 #[derive(Debug, Clone, Serialize)]
 pub struct ClientHello {

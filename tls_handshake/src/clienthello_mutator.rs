@@ -145,22 +145,6 @@ impl ClientHelloMutator {
         }
     }
 
-    // // 封装解析十六进制字符串的通用函数
-    // fn parse_hex_values(&mut self, value: &str) -> Vec<u8> {
-    //     // 去除字符串开头和结尾的引号（如果有）
-    //     let value = value.trim_matches('"');
-        
-    //     value.split(',')
-    //         .filter_map(|v| {
-    //             let v = v.trim();  // 去除每个值的前后空格
-    //             if v.starts_with("0x") {
-    //                 u8::from_str_radix(&v[2..], 16).ok()  // 去除 "0x" 后解析十六进制
-    //             } else {
-    //                 u8::from_str_radix(v, 16).ok()  // 直接解析十六进制
-    //             }
-    //         })
-    //         .collect()
-    // }
     fn parse_hex_values(&mut self, value: &str) -> Vec<u8> {
         // 去除字符串开头和结尾的引号（如果有）
         let value = value.trim_matches('"');
@@ -336,91 +320,10 @@ impl ClientHelloMutator {
         // 更新 TLS Record 层的长度
         self.client_hello.record_length = (client_hello_length + 4) as u16; // +4 for handshake type and length
     }
-
-    // fn mutate_random(&mut self, value: &[u8]) {
-    //     let mut rng = rand::thread_rng();
-    //     if value.len() == 32 {
-    //         self.client_hello.random.copy_from_slice(value);
-    //     } else {
-    //         println!("{}","Invalid random value length. Generating a new random value.".yellow());
-    //         rng.fill(&mut self.client_hello.random);
-    //     }
-    // }
-
-    // fn mutate_session_id(&mut self, value: &[u8]) {
-    //     let mut rng = rand::thread_rng();
-    //     if value.len() <= 32 {
-    //         self.client_hello.session_id = value.to_vec();
-    //         self.client_hello.session_id_length = value.len() as u8;
-    //     } else {
-    //         println!("{}","Session ID too long. Generating a new session ID.".yellow());
-    //         let new_length = rng.gen_range(0..=32);
-    //         self.client_hello.session_id = (0..new_length).map(|_| rng.gen()).collect();
-    //         self.client_hello.session_id_length = new_length as u8;
-    //     }
-    // }
-
-    // fn mutate_cipher_suites(&mut self, value: &[u8]) {
-    //     let valid_suites = [0x1301_u16, 0x1302, 0x1303, 0x1304, 0x1305, 0x00FF];
-    //     let default_suites = [0x1302u16, 0x1301, 0x1303, 0x00FF];
-        
-    //     // 确保输入长度是偶数（每个cipher suite是2字节）
-    //     if value.len() % 2 != 0 {
-    //         println!("{}", "Invalid cipher suites length. Using default suites.".yellow());
-    //         self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
-    //         self.client_hello.cipher_suites = default_suites
-    //             .iter()
-    //             .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
-    //             .collect();
-    //         return;
-    //     }
-    
-    //     let mut valid = true;
-    //     let mut cipher_suites = Vec::new();
-    
-    //     // 每次读取2个字节，转换为u16进行比较
-    //     for chunk in value.chunks(2) {
-    //         if chunk.len() == 2 {
-    //             let suite = ((chunk[0] as u16) << 8) | (chunk[1] as u16);
-    //             if !valid_suites.contains(&suite) {
-    //                 valid = false;
-    //                 break;
-    //             }
-    //             cipher_suites.extend_from_slice(chunk);
-    //         }
-    //     }
-    
-    //     if valid && !cipher_suites.is_empty() {
-    //         self.client_hello.cipher_suites_length = cipher_suites.len() as u16;
-    //         self.client_hello.cipher_suites = cipher_suites;
-    //     } else {
-    //         println!("{}", "Invalid cipher suites. Using default suites.".yellow());
-    //         self.client_hello.cipher_suites_length = (default_suites.len() * 2) as u16;
-    //         self.client_hello.cipher_suites = default_suites
-    //             .iter()
-    //             .flat_map(|&x| vec![(x >> 8) as u8, x as u8])
-    //             .collect();
-    //     }
-    // }
-
-    // fn mutate_compression_methods(&mut self) {
-    //     let mut rng = rand::thread_rng();
-    //     if rng.gen_bool(0.5) {
-    //         // 随机改变 compression_methods
-    //         let new_length = rng.gen_range(1..=5);
-    //         self.client_hello.compression_methods_length = new_length;
-    //         self.client_hello.compression_methods = (0..new_length)
-    //             .map(|_| rng.gen())
-    //             .collect();
-    //     }
-    // }
     
     pub fn get_mutated_client_hello(&self) -> &ClientHello {
         &self.client_hello
     }
-
-    
-    
 }
 
 // 优化，函数只处理一个

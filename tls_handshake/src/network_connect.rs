@@ -166,7 +166,7 @@ pub fn wait_for_writable(poll: &mut Poll, token: Token) -> Result<(), Box<dyn st
         poll.poll(&mut events, None)?;
         for event in &events {
             if event.token() == token && event.is_writable() {
-                info!(target: "handshake_record", "Socket is writable. Connection established.\n\n");
+                info!(target: "handshake_record", "Socket is writable. Connection established.");
                 return Ok(());
             }
         }
