@@ -65,17 +65,7 @@ fn get_python_config(script_name: &str) -> PythonScriptConfig {
                 "Content".to_string()
             ],
         },
-        // "classify_rule" => PythonScriptConfig {
-        //     script_name: "classify_rule.py".to_string(),
-        //     bot_name: "rule_classification".to_string(),
-        //     additional_fields: vec![
-        //         "classification_full_result".to_string(),
-        //         "classification_result".to_string(),
-        //         "MQD".to_string(),
-        //         "CRA".to_string()
-        //     ],
-        //     input_fields: vec!["SlicedRule".to_string()],
-        // },
+
         "violation_generate" => PythonScriptConfig {
             // script_name: "generate_mutation.py".to_string(),
             bot_name: "generate_mutation".to_string(),
@@ -235,23 +225,3 @@ pub fn execute_steps_from_index(
     }
     Ok(())
 }
-
-// fn get_package_version_pip(package_name: &str) -> Result<String, Box<dyn std::error::Error>> {
-//     let output = Command::new("pip")
-//         .args(&["show", package_name])
-//         .output()?;
-    
-//     let output_str = String::from_utf8(output.stdout)?;
-    
-//     // 解析输出找到版本
-//     for line in output_str.lines() {
-//         if line.starts_with("Version: ") {
-//             return Ok(line["Version: ".len()..].to_string());
-//         }
-//         if line.starts_with("Location: ") {
-//             return Ok(line["Location: ".len()..].to_string());
-//         }
-//     }
-    
-//     Err("Version not found".into())
-// }
