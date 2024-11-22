@@ -31,6 +31,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     network_connect::perform_local_network_test()?;
     // init terminal output log
     init_log(&matches);
+    // test if virtual machine network environment is ok
+    network_connect::perform_virtual_machine_connection_test(terminal::get_server_ip(&matches))?;
 
     // Test environment preparation
     terminal::print_configuration_info(&matches);

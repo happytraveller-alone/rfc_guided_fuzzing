@@ -12,6 +12,8 @@ use std::thread::sleep;
 use std::process::exit;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 use log::{warn, trace, error, info, LevelFilter};
+use encoding_rs::GBK;
+
 mod danger {
     use pki_types::{CertificateDer, ServerName, UnixTime};
     use rustls::client::danger::HandshakeSignatureValid;
@@ -179,6 +181,42 @@ pub fn perform_local_network_test() -> Result<(), Box<dyn std::error::Error>> {
         print_error_and_exit(&format!("Local environment test failed: {}", e));
     }
     info!("{}", "Local network environment test passed.\n".green());
+    Ok(())
+}
+
+pub fn perform_virtual_machine_connection_test(server_ip: String) -> Result<(), Box<dyn std::error::Error>> {
+    // 打印server_ip
+    info!("{}", format!("Testing connection to server: {}", server_ip).green());
+    // 查看能否ping通
+    let ping_result = std::process::Command::new("ping")
+        .arg("-n")
+        .arg("1")
+        .arg(server_ip)
+        .output()?;
+
+    // 打印 ping 命令的输出和错误信息
+    // 尝试将 stdout 和 stderr 转换为可读的字符串
+    let (stdout_str, _, _) = GBK.decode(&ping_result.stdout);
+    let (stderr_str, _, _) = GBK.decode(&ping_result.stderr);
+
+    // // 打印 ping 命令的输出和错误信息
+    // println!("stdout: {}", stdout_str);
+    // println!("stderr: {}", stderr_str);
+
+    if ping_result.status.success() {
+        info!("{}", "Ping to server succeeded.".green());
+        for line in stdout_str.split('\n') {
+            info!("{}", line.to_string().green());
+        }
+        // info!("{}", String::from_utf8_lossy(&ping_result.stdout));
+    } else {
+        error!("{}", "Ping to server failed.".red());
+        // error!("{}", String::from_utf8_lossy(&ping_result.stderr));
+        for line in stderr_str.split('\n') {
+            error!("{}", line.to_string().red());
+        }
+        exit(-1);
+    }
     Ok(())
 }
 
