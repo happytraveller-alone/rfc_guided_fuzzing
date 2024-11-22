@@ -7,8 +7,12 @@
 本项目包含三个子工程：
 
 1. **agent_deploy**: 负责部署和运行基于 Poe LLM 的 Custom LLM Agent，设计提示以进行自定义 LLM Agent 部署。
-2. **tls_handshake**: 实现 TLS 握手的测试，并应用 rule_auto_extraction 抽取得出的变异指导策略进行消息报文模板的变异，与构建的虚拟机 IIS 服务器进行交互，尝试找出 IIS 服务器的漏洞。
-3. **rule_auto_extraction**: 读取 RFC 文档，利用 Agent 交互和脚本，对 RFC 文档中的规则进行抽取，生成消息报文变异指导策略，以及消息报文变异后的预期反馈。
+   - **运行环境要求**：python3.10版本及以上环境，安装modal, fastapi-poe
+2. **rule_auto_extraction**: 读取 RFC 文档，利用 Agent 交互和脚本，对 RFC 文档中的规则进行抽取，生成消息报文变异指导策略，以及消息报文变异后的预期反馈。
+   - **运行环境要求**：注册POE会员，可访问高级自定义模型
+3. **tls_handshake**: 实现 TLS 握手的测试，并应用 rule_auto_extraction 抽取得出的变异指导策略进行消息报文模板的变异，与构建的虚拟机 IIS 服务器进行交互，尝试找出 IIS 服务器的漏洞。
+   - **运行环境要求**：搭建windows server 2019及以上版本IIS服务器(支持tls1.3),实现本机与虚拟机服务器互联
+
 
 ## 使用场景
 
