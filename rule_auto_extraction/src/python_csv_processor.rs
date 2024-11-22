@@ -1,5 +1,6 @@
 use csv::{StringRecord,Reader, Writer};
 use pyo3::types::{PyDict,IntoPyDict};
+// use pyo3::IntoPyObject;
 // use pyo3::exceptions::PyIOError;
 use pyo3::prelude::*;
 use std::{collections::HashMap,error::Error,fs::File,process::{Command,exit}, sync::Mutex as SyncMutex};
@@ -46,7 +47,7 @@ struct SharedPoeClient {
 
 impl SharedPoeClient {
     fn new(py: Python) -> PyResult<Self> {
-        let tokens = PyDict::new_bound(py);
+        let tokens = PyDict::new(py);
         tokens.set_item("p-b", "CU8sNFOTH-2VDpKOVnfG2w%3D%3D")?;
         tokens.set_item(
             "p-lat","wL76wYPSXyCcfQQIO1HGxZNJjNG7pA1AFZn2li%2BFhw%3D%3D",
@@ -67,15 +68,19 @@ impl SharedPoeClient {
             Some(loc) => println!("location: {}", loc),
             None => println!("No location found"),
         }
-        let path = py.import_bound("sys")?.getattr("path")?;
+        let path = py.import("sys")?.getattr("path")?;
         path.call_method1("append", (location.unwrap_or_default(),))?;
-        let module = py.import_bound("poe_api_wrapper")?;
+        let module = py.import("poe_api_wrapper")?;
         let poe_api_class = module.getattr("PoeApi")?;
         // 将Python对象转换为PyObject以便在线程间共享
-        let client = poe_api_class.call1((tokens,))?.into_py(py);
+        // let client = poe_api_class.call1((tokens,))?.into_pyobject(py);
+        let client = match poe_api_class.call1((tokens,))?.into_pyobject(py) {
+            Ok(py_obj) => py_obj,
+            Err(_) => return Err(PyErr::new::<pyo3::exceptions::PyTypeError, _>("Failed to convert to PyObject")),
+        };
 
         Ok(Self {
-            client,
+            client: client.into(),
             last_request_time: Arc::new(Mutex::new(Instant::now())),
             request_semaphore: Arc::new(Semaphore::new(3)), // 初始化为3个并发许可
         })
@@ -155,12 +160,16 @@ impl SharedPoeClient {
             
             // 执行请求
             match Python::with_gil(|py| {
-                let kwargs = [("timeout", 60)].into_py_dict_bound(py);
+                let kwargs = match [("timeout", 60)].into_py_dict(py){
+                    Ok(py_obj) => py_obj,
+                    Err(_) => return Err(PyErr::new::<pyo3::exceptions::PyTypeError, _>("Failed to convert to PyDict")),
+                };
+                
                 let client = self.client.bind(py);
                 let generator = client.call_method("send_message", (bot_name, message), Some(&kwargs))?;
                 // sleep(Duration::from_secs(3)).await; // 异步等待2秒
                 // generator.await // 等待 Python 协程执行完成
-                let builtins = py.import_bound("builtins")?;
+                let builtins = py.import("builtins")?;
                 let list_fn = builtins.getattr("list")?;
                 let chunks = list_fn.call1((generator,))?;
                 let last_chunk = chunks.get_item(-1)?;
@@ -508,7 +517,7 @@ pub fn verify_script_path(script_name: &str) -> Result<(), Box<dyn Error>> {
 
 // 2. 设置Python环境
 pub fn setup_python_environment(py: Python) -> PyResult<()> {
-    let sys = py.import_bound("sys")?;
+    let sys = py.import("sys")?;
     println!("Python version: {}", sys.getattr("version")?);
     println!("Python executable: {}", sys.getattr("executable")?);
     
@@ -530,7 +539,7 @@ pub fn setup_python_environment(py: Python) -> PyResult<()> {
     }
     
     // 验证导入
-    match py.import_bound("poe_api_wrapper") {
+    match py.import("poe_api_wrapper") {
         Ok(_) => println!("Successfully imported poe-api-wrapper after path addition"),
         Err(e) => println!("Still failed to import: {:?}", e),
     }
