@@ -14,7 +14,7 @@ else:
     raise FileNotFoundError(f"Prompt file not found at {prompt_file_path}")
 
 DEFAULT_MODAL = "gpt4_o_mini_128k"
-DEFAULT_ACCESS_KEY = "9NEvE5pYwJrJhNB7P8rWOK8bBFwfJZ41"
+
 DEFAULT_BOT_NAME = "TLSRFC_EXTRACT"
 DEFAULT_APP_NAME = "rule_extraction"
 DEFAULT_TEMPERATURE = 0.7

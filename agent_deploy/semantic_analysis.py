@@ -14,7 +14,7 @@ else:
     raise FileNotFoundError(f"Prompt file not found at {prompt_file_path}")
 
 DEFAULT_MODAL = "gpt4_o_mini_128k"
-DEFAULT_ACCESS_KEY = "yvjM9AmbD0tZ23I4nMZKqL4VoS9OU1bR"
+
 DEFAULT_BOT_NAME = "semantic_analysis"
 DEFAULT_APP_NAME = "semantic_analysis"
 DEFAULT_TEMPERATURE = 0.3

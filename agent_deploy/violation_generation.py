@@ -14,7 +14,7 @@ else:
     raise FileNotFoundError(f"Prompt file not found at {prompt_file_path}")
 
 DEFAULT_MODAL = "gpt4_o_mini_128k"
-DEFAULT_ACCESS_KEY = "oXFNXP6y6ax0gKFhcjZsFZYHg8KcQwM3"
+
 DEFAULT_BOT_NAME = "generate_mutation"
 DEFAULT_APP_NAME = "violation_generate"
 DEFAULT_TEMPERATURE = 0.7
