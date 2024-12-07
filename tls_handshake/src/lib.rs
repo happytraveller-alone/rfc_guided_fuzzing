@@ -16,7 +16,9 @@ pub use clienthello_mutator::*;
 
 
 pub const SERVER_NAME: &str = "WIN-1C2P8R1FV76";
+// WIN_QCU7FNFT726
 pub const SERVER_STATIC_IP: &str = "192.168.110.130";
+// 192.168.133.129
 pub const PORT: u16 = 443;
 
 static TLS_EXTENSIONS: phf::Map<u16, &'static str> = phf_map! {
