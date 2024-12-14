@@ -1,0 +1,95 @@
+2024-12-14 09:19:45 TRACE   - ClientHello Contents:
+2024-12-14 09:19:45 INFO    - NEW CH Parsed
+2024-12-14 09:19:45 TRACE   - TLS Record Layer:
+2024-12-14 09:19:45 TRACE   -   Content Type: 0x16
+2024-12-14 09:19:45 TRACE   -   Version: 0x0301
+2024-12-14 09:19:45 TRACE   -   Length: 0x0148 (328 bytes)
+2024-12-14 09:19:45 TRACE   - Handshake Layer:
+2024-12-14 09:19:45 TRACE   -   Handshake Type: 0x01
+2024-12-14 09:19:45 TRACE   -   Length: 0x000144 (324 bytes)
+2024-12-14 09:19:45 TRACE   - ClientHello:
+2024-12-14 09:19:45 TRACE   -   Client Version: 0x0303
+2024-12-14 09:19:45 TRACE   -   Random: BD EC 5C BD B0 5E 59 74 23 A9 5E 40 FE 59 7B 62 83 A2 12 67 EA F8 D4 5E 59 79 DC B7 A1 1A 85 80 
+2024-12-14 09:19:45 TRACE   -   Session ID Length: 0x20 (32 bytes)
+2024-12-14 09:19:45 TRACE   -   Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+2024-12-14 09:19:45 TRACE   -   Cipher Suites Length: 0x0014 (20 bytes)
+2024-12-14 09:19:45 TRACE   -   Cipher Suites:
+2024-12-14 09:19:45 TRACE   -     TLS_AES_256_GCM_SHA384 (0x1302)
+2024-12-14 09:19:45 TRACE   -     TLS_AES_128_GCM_SHA256 (0x1301)
+2024-12-14 09:19:45 TRACE   -     TLS_CHACHA20_POLY1305_SHA256 (0x1303)
+2024-12-14 09:19:45 TRACE   -     TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (0xC02C)
+2024-12-14 09:19:45 TRACE   -     TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (0xC02B)
+2024-12-14 09:19:45 TRACE   -     TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (0xCCA9)
+2024-12-14 09:19:45 TRACE   -     TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (0xC030)
+2024-12-14 09:19:45 TRACE   -     TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xC02F)
+2024-12-14 09:19:45 TRACE   -     TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (0xCCA8)
+2024-12-14 09:19:45 TRACE   -     TLS_EMPTY_RENEGOTIATION_INFO_SCSV (0x00FF)
+2024-12-14 09:19:45 TRACE   -   Compression Methods Length: 0x01 (1 bytes)
+2024-12-14 09:19:45 TRACE   -   Compression Methods: 00 
+2024-12-14 09:19:45 TRACE   -   Extensions Length: 0x00E7 (231 bytes), Extensions Number: 10
+2024-12-14 09:19:45 TRACE   -     Extension 1:
+2024-12-14 09:19:45 TRACE   -       Type: 0x0017 (extended_master_secret)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0000 (0 bytes)
+2024-12-14 09:19:45 TRACE   -     Extension 2:
+2024-12-14 09:19:45 TRACE   -       Type: 0x002D (psk_key_exchange_modes)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0002 (2 bytes)
+2024-12-14 09:19:45 TRACE   -       psk_key_exchange_modes content (Length: 1):
+2024-12-14 09:19:45 TRACE   -         PSK without (EC)DHE key establishment
+2024-12-14 09:19:45 TRACE   -     Extension 3:
+2024-12-14 09:19:45 TRACE   -       Type: 0x000B (ec_point_formats)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0002 (2 bytes)
+2024-12-14 09:19:45 TRACE   -       Content: 01 00 
+2024-12-14 09:19:45 TRACE   -     Extension 4:
+2024-12-14 09:19:45 TRACE   -       Type: 0x000A (supported_groups)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0008 (8 bytes)
+2024-12-14 09:19:45 TRACE   -       supported_groups content (Length: 6):
+2024-12-14 09:19:45 TRACE   -         x25519 (0x001D)
+2024-12-14 09:19:45 TRACE   -         secp256r1 (0x0017)
+2024-12-14 09:19:45 TRACE   -         secp384r1 (0x0018)
+2024-12-14 09:19:45 TRACE   -     Extension 5:
+2024-12-14 09:19:45 TRACE   -       Type: 0x0033 (key_share)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0026 (38 bytes)
+2024-12-14 09:19:45 TRACE   -       Key Share extension (Client Key Share Length: 36):
+2024-12-14 09:19:45 TRACE   -         Key Share Entry: Group: x25519 (0x001D), Key Exchange Length: 32
+2024-12-14 09:19:45 TRACE   -         Key Exchange: 52 89 07 40 D0 F3 AA E1 1A A2 B2 33 61 A1 DA F1 2B B0 29 20 59 05 D7 F2 E1 94 19 8F 94 0B 21 26 
+2024-12-14 09:19:45 TRACE   -     Extension 6:
+2024-12-14 09:19:45 TRACE   -       Type: 0x002B (supported_versions)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0003 (3 bytes)
+2024-12-14 09:19:45 TRACE   -       supported_versions content (Length: 2):
+2024-12-14 09:19:45 TRACE   -         TLS 1.3 (0x0304)
+2024-12-14 09:19:45 TRACE   -     Extension 7:
+2024-12-14 09:19:45 TRACE   -       Type: 0x0000 (server_name)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0014 (20 bytes)
+2024-12-14 09:19:45 TRACE   -       Server Name Indication extension (Server Name list length: 18):
+2024-12-14 09:19:45 TRACE   -         Server Name Type: host_name (0)
+2024-12-14 09:19:45 TRACE   -         Server Name length: 15
+2024-12-14 09:19:45 TRACE   -         Server Name: WIN-A9626JATE0P
+2024-12-14 09:19:45 TRACE   -     Extension 8:
+2024-12-14 09:19:45 TRACE   -       Type: 0x000D (signature_algorithms)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0016 (22 bytes)
+2024-12-14 09:19:45 TRACE   -       signature_algorithms content (Length: 20):
+2024-12-14 09:19:45 TRACE   -         ecdsa_secp384r1_sha384 (0x0503)
+2024-12-14 09:19:45 TRACE   -         ecdsa_secp256r1_sha256 (0x0403)
+2024-12-14 09:19:45 TRACE   -         ecdsa_secp521r1_sha512 (0x0603)
+2024-12-14 09:19:45 TRACE   -         ed25519 (0x0807)
+2024-12-14 09:19:45 TRACE   -         rsa_pss_rsae_sha512 (0x0806)
+2024-12-14 09:19:45 TRACE   -         rsa_pss_rsae_sha384 (0x0805)
+2024-12-14 09:19:45 TRACE   -         rsa_pss_rsae_sha256 (0x0804)
+2024-12-14 09:19:45 TRACE   -         rsa_pkcs1_sha512 (0x0601)
+2024-12-14 09:19:45 TRACE   -         rsa_pkcs1_sha384 (0x0501)
+2024-12-14 09:19:45 TRACE   -         rsa_pkcs1_sha256 (0x0401)
+2024-12-14 09:19:45 TRACE   -     Extension 9:
+2024-12-14 09:19:45 TRACE   -       Type: 0x0005 (status_request)
+2024-12-14 09:19:45 TRACE   -       Length: 0x0005 (5 bytes)
+2024-12-14 09:19:45 TRACE   -       Content: 01 00 00 00 00 
+2024-12-14 09:19:45 TRACE   -     Extension 10:
+2024-12-14 09:19:45 TRACE   -       Type: 0x0029 (pre_shared_key)
+2024-12-14 09:19:45 TRACE   -       Length: 0x005B (91 bytes)
+2024-12-14 09:19:45 TRACE   -       Pre-Shared Key extension:
+2024-12-14 09:19:45 TRACE   -         Identities Length: 38
+2024-12-14 09:19:45 TRACE   -         PSK Identity (length: 32):
+2024-12-14 09:19:45 TRACE   -           Identity: B3 3F 00 00 7C 01 ED 13 D3 CC DF 2F F9 C6 7D 99 6E 56 A0 00 87 BE 9C 1A 96 02 14 FB 54 D5 22 9A
+2024-12-14 09:19:45 TRACE   -           Obfuscated Ticket Age:EB3E0B5E 3946711902
+2024-12-14 09:19:45 TRACE   -         PSK Binders length: 31 49
+2024-12-14 09:19:45 TRACE   -           PSK Binder (length: 30 48):
+2024-12-14 09:19:45 TRACE   -             Binder: 5F A2 4A 56 A8 69 01 1D 8C 79 E7 20 69 EC 5E 4A 6E 1B 26 8C CC 10 B3 0E 09 08 C5 B8 C0 7E 47 59 83 7D 6B 4C 63 75 38 12 10 78 6D AD D8 23 96 8A

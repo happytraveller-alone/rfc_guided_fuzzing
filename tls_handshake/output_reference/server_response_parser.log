@@ -1,0 +1,171 @@
+2024-12-14 09:19:45 TRACE   - Record Layer 1:
+2024-12-14 09:19:45 TRACE   -   Content Type: 16 (Handshake)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 88 bytes
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 02 
+2024-12-14 09:19:45 TRACE   -     Length: 84 bytes
+2024-12-14 09:19:45 TRACE   -     Server Hello:
+2024-12-14 09:19:45 TRACE   -       Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -       Random: CF 21 AD 74 E5 9A 61 11 BE 1D 8C 02 1E 65 B8 91 C2 A2 11 16 7A BB 8C 5E 07 9E 09 E2 C8 A8 33 9C 
+2024-12-14 09:19:45 TRACE   -       Session ID Length: 32 bytes
+2024-12-14 09:19:45 TRACE   -       Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+2024-12-14 09:19:45 TRACE   -       Cipher Suite: 1302 (Cipher Suite Code)
+2024-12-14 09:19:45 TRACE   -       Compression Method: 00 (Compression Method)
+2024-12-14 09:19:45 TRACE   -       Extensions Length: 12 bytes
+2024-12-14 09:19:45 TRACE   -       Extension: supported_versions        (Type: 002B, Length: 0002 (2   bytes))
+2024-12-14 09:19:45 TRACE   -       Extension: key_share                 (Type: 0033, Length: 0002 (2   bytes))
+2024-12-14 09:19:45 TRACE   - Record Layer 2:
+2024-12-14 09:19:45 TRACE   -   Content Type: 14 (Change Cipher Spec)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1 bytes
+2024-12-14 09:19:45 TRACE   - 
+
+        
+2024-12-14 09:19:45 TRACE   - Record Layer 1:
+2024-12-14 09:19:45 TRACE   -   Content Type: 16 (Handshake)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1234 bytes
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 02 
+2024-12-14 09:19:45 TRACE   -     Length: 81 bytes
+2024-12-14 09:19:45 TRACE   -     Server Hello:
+2024-12-14 09:19:45 TRACE   -       Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -       Random: 67 5C DD 31 32 E0 FA B8 6C 82 CD A5 16 18 65 80 EC D6 6D 6E BA A5 A8 96 44 4F 57 4E 47 52 44 01 
+2024-12-14 09:19:45 TRACE   -       Session ID Length: 32 bytes
+2024-12-14 09:19:45 TRACE   -       Session ID: 3D 39 00 00 C1 F5 E7 D4 14 68 B0 8F D9 09 8E 4D 52 23 F0 F2 51 03 F4 40 6D 77 62 B3 C4 24 2C 35 
+2024-12-14 09:19:45 TRACE   -       Cipher Suite: C030 (Cipher Suite Code)
+2024-12-14 09:19:45 TRACE   -       Compression Method: 00 (Compression Method)
+2024-12-14 09:19:45 TRACE   -       Extensions Length: 9 bytes
+2024-12-14 09:19:45 TRACE   -       Extension: extended_master_secret    (Type: 0017, Length: 0000 (0   bytes))
+2024-12-14 09:19:45 TRACE   -       Extension: renegotiation_info        (Type: FF01, Length: 0001 (1   bytes))
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 0B (Certificate)
+2024-12-14 09:19:45 TRACE   -     Length: 776 bytes
+2024-12-14 09:19:45 TRACE   -   Certificates Length: 776 bytes
+2024-12-14 09:19:45 TRACE   -     Certificate 01 (Length: 770 bytes)
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 0C (Server Key Exchange)
+2024-12-14 09:19:45 TRACE   -     Length: 361 bytes
+2024-12-14 09:19:45 TRACE   -   Server Key Exchange:
+2024-12-14 09:19:45 TRACE   -     Length: 361 bytes
+2024-12-14 09:19:45 TRACE   -     Curve Type: 03
+2024-12-14 09:19:45 TRACE   -     Named Curve: 0018
+2024-12-14 09:19:45 TRACE   -     Public Key Length: 97 bytes
+2024-12-14 09:19:45 TRACE   -     Signature Algorithm: 0804
+2024-12-14 09:19:45 TRACE   -     Signature Length: 0100
+2024-12-14 09:19:45 TRACE   - 
+
+        
+2024-12-14 09:19:45 TRACE   - Record Layer 1:
+2024-12-14 09:19:45 TRACE   -   Content Type: 16 (Handshake)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 122 bytes
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 02 
+2024-12-14 09:19:45 TRACE   -     Length: 118 bytes
+2024-12-14 09:19:45 TRACE   -     Server Hello:
+2024-12-14 09:19:45 TRACE   -       Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -       Random: 56 FB A3 77 C0 E5 F3 D8 75 33 88 59 37 74 31 58 AF 37 CE DD 1B E8 F6 E5 D1 5E 7B 25 C2 03 02 36 
+2024-12-14 09:19:45 TRACE   -       Session ID Length: 32 bytes
+2024-12-14 09:19:45 TRACE   -       Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+2024-12-14 09:19:45 TRACE   -       Cipher Suite: 1302 (Cipher Suite Code)
+2024-12-14 09:19:45 TRACE   -       Compression Method: 00 (Compression Method)
+2024-12-14 09:19:45 TRACE   -       Extensions Length: 46 bytes
+2024-12-14 09:19:45 TRACE   -       Extension: supported_versions        (Type: 002B, Length: 0002 (2   bytes))
+2024-12-14 09:19:45 TRACE   -       Extension: key_share                 (Type: 0033, Length: 0024 (36  bytes))
+2024-12-14 09:19:45 TRACE   - Record Layer 2:
+2024-12-14 09:19:45 TRACE   -   Content Type: 14 (Change Cipher Spec)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1 bytes
+2024-12-14 09:19:45 TRACE   - Record Layer 3:
+2024-12-14 09:19:45 TRACE   -   Content Type: 17 (Application Data)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1122 bytes
+2024-12-14 09:19:45 TRACE   - 
+
+        
+2024-12-14 09:19:45 TRACE   - Record Layer 1:
+2024-12-14 09:19:45 TRACE   -   Content Type: 16 (Handshake)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 122 bytes
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 02 
+2024-12-14 09:19:45 TRACE   -     Length: 118 bytes
+2024-12-14 09:19:45 TRACE   -     Server Hello:
+2024-12-14 09:19:45 TRACE   -       Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -       Random: 31 26 9D C3 C0 61 2A A6 1D 91 ED BA F8 88 FF 9B 7D B2 3B F9 B0 1E 2F 5D D8 B3 4E F9 68 56 4D A0 
+2024-12-14 09:19:45 TRACE   -       Session ID Length: 32 bytes
+2024-12-14 09:19:45 TRACE   -       Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+2024-12-14 09:19:45 TRACE   -       Cipher Suite: 1302 (Cipher Suite Code)
+2024-12-14 09:19:45 TRACE   -       Compression Method: 00 (Compression Method)
+2024-12-14 09:19:45 TRACE   -       Extensions Length: 46 bytes
+2024-12-14 09:19:45 TRACE   -       Extension: supported_versions        (Type: 002B, Length: 0002 (2   bytes))
+2024-12-14 09:19:45 TRACE   -       Extension: key_share                 (Type: 0033, Length: 0024 (36  bytes))
+2024-12-14 09:19:45 TRACE   - Record Layer 2:
+2024-12-14 09:19:45 TRACE   -   Content Type: 14 (Change Cipher Spec)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1 bytes
+2024-12-14 09:19:45 TRACE   - Record Layer 3:
+2024-12-14 09:19:45 TRACE   -   Content Type: 17 (Application Data)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1122 bytes
+2024-12-14 09:19:45 TRACE   - 
+
+        
+2024-12-14 09:19:45 TRACE   - Record Layer 1:
+2024-12-14 09:19:45 TRACE   -   Content Type: 16 (Handshake)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 122 bytes
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 02 
+2024-12-14 09:19:45 TRACE   -     Length: 118 bytes
+2024-12-14 09:19:45 TRACE   -     Server Hello:
+2024-12-14 09:19:45 TRACE   -       Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -       Random: 95 35 62 63 15 97 07 A5 9E FE 8B 24 0F 12 CE F8 2E 98 17 40 B3 D2 8B 80 7E E7 C6 AF 11 57 E6 3C 
+2024-12-14 09:19:45 TRACE   -       Session ID Length: 32 bytes
+2024-12-14 09:19:45 TRACE   -       Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+2024-12-14 09:19:45 TRACE   -       Cipher Suite: 1302 (Cipher Suite Code)
+2024-12-14 09:19:45 TRACE   -       Compression Method: 00 (Compression Method)
+2024-12-14 09:19:45 TRACE   -       Extensions Length: 46 bytes
+2024-12-14 09:19:45 TRACE   -       Extension: supported_versions        (Type: 002B, Length: 0002 (2   bytes))
+2024-12-14 09:19:45 TRACE   -       Extension: key_share                 (Type: 0033, Length: 0024 (36  bytes))
+2024-12-14 09:19:45 TRACE   - Record Layer 2:
+2024-12-14 09:19:45 TRACE   -   Content Type: 14 (Change Cipher Spec)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1 bytes
+2024-12-14 09:19:45 TRACE   - Record Layer 3:
+2024-12-14 09:19:45 TRACE   -   Content Type: 17 (Application Data)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1122 bytes
+2024-12-14 09:19:45 TRACE   - 
+
+        
+2024-12-14 09:19:45 TRACE   - Record Layer 1:
+2024-12-14 09:19:45 TRACE   -   Content Type: 16 (Handshake)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 122 bytes
+2024-12-14 09:19:45 TRACE   -   Handshake Protocol:
+2024-12-14 09:19:45 INFO    -     Handshake Type: 02 
+2024-12-14 09:19:45 TRACE   -     Length: 118 bytes
+2024-12-14 09:19:45 TRACE   -     Server Hello:
+2024-12-14 09:19:45 TRACE   -       Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -       Random: 54 BA C0 61 9C CD B6 E7 96 75 B1 2A C3 07 D9 7B DE 61 6B 86 A4 21 1A 59 12 C0 AC 5E F4 08 E3 4B 
+2024-12-14 09:19:45 TRACE   -       Session ID Length: 32 bytes
+2024-12-14 09:19:45 TRACE   -       Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+2024-12-14 09:19:45 TRACE   -       Cipher Suite: 1302 (Cipher Suite Code)
+2024-12-14 09:19:45 TRACE   -       Compression Method: 00 (Compression Method)
+2024-12-14 09:19:45 TRACE   -       Extensions Length: 46 bytes
+2024-12-14 09:19:45 TRACE   -       Extension: supported_versions        (Type: 002B, Length: 0002 (2   bytes))
+2024-12-14 09:19:45 TRACE   -       Extension: key_share                 (Type: 0033, Length: 0024 (36  bytes))
+2024-12-14 09:19:45 TRACE   - Record Layer 2:
+2024-12-14 09:19:45 TRACE   -   Content Type: 14 (Change Cipher Spec)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1 bytes
+2024-12-14 09:19:45 TRACE   - Record Layer 3:
+2024-12-14 09:19:45 TRACE   -   Content Type: 17 (Application Data)
+2024-12-14 09:19:45 TRACE   -   Version: 03 03 (TLS Version)
+2024-12-14 09:19:45 TRACE   -   Length: 1122 bytes
+2024-12-14 09:19:45 TRACE   - 
+
+        
