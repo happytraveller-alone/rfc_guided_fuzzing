@@ -1,3 +1,4 @@
+### 例子说明
 ```json
 {
     "field1": ["0x12", "0x34"],
@@ -23,4 +24,54 @@
     + HTTP协议（待添加）
     + HTTPS协议（待添加）
 
-- 
+### action测试
+add()
+1. 字段与字段之间插入，
+2. 字段内部插入
+delete()
+1. 删除整个字段
+2. 删除字段内部的某段连续内容
+update()
+1. 更新整个字段（适用于短字段）
+2. 更新字段内的某段连续内容
+
+
+
+### 复杂action
+dumplicate
+1. add的一个子集，只不过add的内容是已有的一部分
+
+
+----------          ----------
+field1              field2
+...           ===>  ...
+field2              field1
+----------          ----------
+swap
+1. add field1，
+----------
+field1
+...
+field1_bp
+field2
+----------
+2. delete field1
+----------
+
+...
+field1_bp
+field2
+----------
+3. add field2
+----------
+field2_bp
+...
+field1_bp
+field2
+----------
+4. delete field2
+----------
+field2_bp
+...
+field1_bp
+----------
