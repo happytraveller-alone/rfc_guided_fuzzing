@@ -1,10 +1,10 @@
+pub mod processing_script;
+pub mod python_csv_processor;
 pub mod rfc_download;
 pub mod rfc_section_processor;
 pub mod rfc_section_slice;
-pub mod utils;
-pub mod processing_script;
 pub mod rust_csv_processor;
-pub mod python_csv_processor;
+pub mod utils;
 // pub mod python_api;
 
 use lazy_static::lazy_static;
@@ -27,6 +27,13 @@ lazy_static! {
         "Full Copyright Statement",
         "Conformance and Error Handling",
         "STATUS OF THIS MEMO",
+        "Acknowledgements",
+        "Index",
+        "Requirements",
+        "Overall Operation",
+        "Terminology",
+        "Purpose",
+        "Specifications",
     ];
 }
 

@@ -21,7 +21,7 @@ use log4rs::{
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // get environment test args
-    let matches = terminal::get_command_matches();
+    let matches: clap::ArgMatches = terminal::get_command_matches();
     // don't know, just print use_guide
     if terminal::get_use_guide(&matches){
         terminal::print_help(true);
