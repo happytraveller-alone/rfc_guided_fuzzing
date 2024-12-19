@@ -1,0 +1,31 @@
+{
+    "arp": {
+        "arp.hw.type": [
+            "0001"
+        ],
+        "arp.proto.type": [
+            "0800"
+        ],
+        "arp.hw.size": [
+            "06"
+        ],
+        "arp.proto.size": [
+            "04"
+        ],
+        "arp.opcode": [
+            "0001"
+        ],
+        "arp.src.hw_mac": [
+            "005056c00008"
+        ],
+        "arp.src.proto_ipv4": [
+            "c0a87301"
+        ],
+        "arp.dst.hw_mac": [
+            "000000000000"
+        ],
+        "arp.dst.proto_ipv4": [
+            "c0a8739b"
+        ]
+    }
+}

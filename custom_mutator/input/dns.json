@@ -1,0 +1,39 @@
+{
+    "dns": {
+        "dns.id": [
+            "0000"
+        ],
+        "dns.flags": [
+            "0100"
+        ],
+        "dns.count.queries": [
+            "0001"
+        ],
+        "dns.count.answers": [
+            "0000"
+        ],
+        "dns.count.auth_rr": [
+            "0000"
+        ],
+        "dns.count.add_rr": [
+            "0000"
+        ],
+        "Queries": {
+            "dns.qry.name": [
+                "03777777017403636f6d00"
+            ],
+            "dns.qry.name.len": [
+                "03777777017403636f6d00"
+            ],
+            "dns.count.labels": [
+                "03777777017403636f6d00"
+            ],
+            "dns.qry.type": [
+                "0001"
+            ],
+            "dns.qry.class": [
+                "0001"
+            ]
+        }
+    }
+}

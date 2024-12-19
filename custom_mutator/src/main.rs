@@ -1,43 +1,56 @@
 use indexmap::IndexMap;
+use log::{error, info, trace, warn, LevelFilter};
+use log4rs::{
+    append::console::{ConsoleAppender, Target},
+    // append::file::FileAppender,
+    config::{Appender, Config, Root},
+    encode::pattern::PatternEncoder,
+    filter::threshold::ThresholdFilter,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-
+use std::fs::{self};
+use std::path::Path;
 #[derive(Debug, Serialize, Deserialize)]
 struct JsonData {
     data: IndexMap<String, Value>,
 }
 
 impl JsonData {
-    fn convert_to_index_map(value: Value) -> Value {
+    // 转换为 IndexMap，方便后续进行插入，删除，修改操作
+    fn convert_to_indexmap(value: Value) -> Value {
         match value {
             Value::Object(map) => {
                 let mut index_map = IndexMap::new();
                 for (k, v) in map {
-                    index_map.insert(k, Self::convert_to_index_map(v));
+                    index_map.insert(k, Self::convert_to_indexmap(v));
                 }
                 Value::Object(serde_json::Map::from_iter(index_map))
             }
             Value::Array(arr) => {
-                Value::Array(arr.into_iter().map(Self::convert_to_index_map).collect())
+                Value::Array(arr.into_iter().map(Self::convert_to_indexmap).collect())
             }
             v => v,
         }
     }
 
-    fn from_json(json_value: Value) -> Result<Self, Box<dyn std::error::Error>> {
-        let converted = Self::convert_to_index_map(json_value);
+    // 将 JSON 数据转换为 IndexMap
+    fn json_data_trans_to_indexmap(json_value: Value) -> Result<Self, Box<dyn std::error::Error>> {
+        let converted = Self::convert_to_indexmap(json_value);
         let obj = converted.as_object().ok_or("Root must be an object")?;
         let data: IndexMap<String, Value> =
             IndexMap::from_iter(obj.into_iter().map(|(k, v)| (k.clone(), v.clone())));
         Ok(Self { data })
     }
 
-    fn print_json_pretty(&self) {
+    // 按照json格式打印IndexMap
+    fn print_indexmap_in_json_format(&self) {
         let json_str = serde_json::to_string_pretty(&self.data).unwrap();
-        println!("{}", json_str);
+        info!("{}", json_str);
     }
 
-    fn get_top_level(&self, key: &str) -> Option<&Value> {
+    // 获取字段对应的value,当前只支持顶层字段的内容
+    fn get_top_level_leaf_node(&self, key: &str) -> Option<&Value> {
         self.data.get(key)
     }
 
@@ -91,7 +104,7 @@ impl JsonData {
     }
 
     // 新增：处理单个 Value 节点，将其转换为字节流
-    fn process_value(value: &Value) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+    fn indexmap_value_to_byte(value: &Value) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
         match value {
             Value::String(s) => {
                 // 处理单个十六进制字符串
@@ -113,7 +126,7 @@ impl JsonData {
                 // 递归处理对象
                 let mut bytes = Vec::new();
                 for (_, value) in obj {
-                    bytes.extend(Self::process_value(value)?);
+                    bytes.extend(Self::indexmap_value_to_byte(value)?);
                 }
                 Ok(bytes)
             }
@@ -127,7 +140,7 @@ impl JsonData {
 
         // 按照 IndexMap 的顺序遍历所有字段
         for (_, value) in &self.data {
-            byte_stream.extend(Self::process_value(value)?);
+            byte_stream.extend(Self::indexmap_value_to_byte(value)?);
         }
 
         Ok(byte_stream)
@@ -199,7 +212,7 @@ impl JsonData {
     }
 
     // 修改：在数组头部添加十六进制数据（支持数组）
-    fn add_head(
+    fn indexmap_value_add_head(
         &mut self,
         path: &str,
         hex_values: &[&str],
@@ -245,7 +258,7 @@ impl JsonData {
     }
 
     // 修改：在数组尾部添加十六进制数据（支持数组）
-    fn add_end(
+    fn indexmap_value_add_tail(
         &mut self,
         path: &str,
         hex_values: &[&str],
@@ -310,9 +323,9 @@ impl JsonData {
     fn print_get_value(&self, path: &str) -> Result<(), Box<dyn std::error::Error>> {
         // 调用get_value_array，然后打印结果
         if let Some(value) = self.get_value_array(path) {
-            print!("{:?}", value);
+            info!("{:?}", value);
         } else {
-            println!("Value not found");
+            warn!("Value not found");
         }
         Ok(())
     }
@@ -329,6 +342,62 @@ impl JsonData {
         Ok(!value.is_object())
     }
 }
+
+fn clear_logs_folder() -> std::io::Result<()> {
+    let log_dir = "logs";
+    let path = Path::new(log_dir);
+
+    // 检查 logs 文件夹是否存在
+    if path.exists() && path.is_dir() {
+        // 获取 logs 文件夹中的所有文件
+        for entry in fs::read_dir(path)? {
+            let entry = entry?;
+            if entry.file_type()?.is_file() {
+                // 删除文件
+                fs::remove_file(entry.path())?;
+            }
+        }
+        info!("All files in 'logs' folder have been deleted.");
+    } else {
+        info!("'logs' folder does not exist.");
+    }
+
+    Ok(())
+}
+
+fn init_log() {
+    // 清空 logs 文件夹中的所有文件
+    if let Err(e) = clear_logs_folder() {
+        error!("Error clearing 'logs' folder: {}", e);
+        return;
+    }
+
+    // default stderr console appender
+    let default_console_stderr_appender: ConsoleAppender = ConsoleAppender::builder()
+        .encoder(Box::new(PatternEncoder::new(
+            "{d(%Y-%m-%d %H:%M:%S)} {h({l:7.7} - {m}):20.200}\n",
+        )))
+        .target(Target::Stderr)
+        .build();
+
+    // 配置日志级别和附加器
+    let config_builder = Config::builder().appender(
+        Appender::builder()
+            .filter(Box::new(ThresholdFilter::new(LevelFilter::Trace)))
+            .build("console_log", Box::new(default_console_stderr_appender)),
+    );
+
+    // 初始化 log4rs 配置
+    let final_config_builder = config_builder
+        .build(
+            Root::builder()
+                .appender("console_log")
+                .build(LevelFilter::Trace),
+        )
+        .unwrap();
+    log4rs::init_config(final_config_builder).unwrap();
+}
+
 // 需求一：构建原子操作：add,  drop, update
 // 原子操作的定义：一个操作要么全部执行成功，要么全部失败，不会出现部分执行成功的情况
 // 原子操作的最小对象是字段，即对一个字段的操作是原子的
@@ -340,6 +409,9 @@ impl JsonData {
 // 3. 对INDEXMAP数据结构执行查询操作，确保可以根据路径访问到对应的值
 // 4. 对INDEXMAP数据结构进行比较操作，确保可以判断两个路径是否在同一层级且有相同的父节点
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // 初始化日志
+    init_log();
+
     let data_new = json!({
         "field1": ["0x12", "0x34"],
         "field2": {
@@ -353,58 +425,58 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     });
 
-    let mut json_data = JsonData::from_json(data_new)?;
+    let mut json_data = JsonData::json_data_trans_to_indexmap(data_new)?;
 
     // output original code
-    println!("Original data:");
+    trace!("Original data:");
     json_data.print_byte_stream()?;
-
+    json_data.print_indexmap_in_json_format();
     // // output coverted byte stream
     // println!("\nConverted to byte stream:");
     // json_data.print_byte_stream()?;
 
     // 交换顶层字段
-    println!("\nAfter swapping field1 and field3:");
+    trace!("After swapping field1 and field3:");
     json_data.swap_fields("field1", "field3")?;
     json_data.print_byte_stream()?;
 
     // 查看field2.field2_sub1和field2.field2_sub2是否是兄弟节点
-    println!(
-        "\nAre field2.field2_sub1 and field2.field2_sub2 siblings: {}",
+    trace!(
+        "Are field2.field2_sub1 and field2.field2_sub2 siblings: {}",
         json_data.are_siblings("field2.field2_sub1", "field2.field2_sub2")
     );
     // 查看field4.field4_sub1是否存在
-    println!(
-        "\nDoes field4.field4_sub1 exist: {}",
+    trace!(
+        "Does field4.field4_sub1 exist: {}",
         json_data.path_exists("field4.field4_sub1")
     );
 
     // 查看top level节点，输出top level的value
-    println!(
-        "\nTop level field1: {:?}",
-        json_data.get_top_level("field1")
+    trace!(
+        "Top level field1: {:?}",
+        json_data.get_top_level_leaf_node("field1")
     );
     // 用path_exists查看，field2.field2_sub1是否存在，输出field2.field2_sub1的value
-    println!(
-        "\nDoes field2.field2_sub1 exist: {}",
+    trace!(
+        "Does field2.field2_sub1 exist: {}",
         json_data.path_exists("field2.field2_sub1")
     );
-    println!(
+    trace!(
         "field2.field2_sub1: {:?}",
         json_data.get_value_array("field2.field2_sub1")
     );
 
     // 调用add_head添加0x99, 0x98到field1的头部
-    println!("\nBefore adding 0x99, 0x98 to the head of field1:");
+    trace!("Before adding 0x99, 0x98 to the head of field1:");
     json_data.print_get_value("field1")?;
-    json_data.add_head("field1", &["0x99", "0x98"])?;
-    println!("\nAfter adding 0x99, 0x98 to the head of field1:");
+    json_data.indexmap_value_add_head("field1", &["0x99", "0x98"])?;
+    trace!("After adding 0x99, 0x98 to the head of field1:");
     json_data.print_get_value("field1")?;
     // 调用add_end添加0xAA, 0xAB到field4.field4_sub2的尾部
-    println!("\nBefore adding 0xAA, 0xAB to the end of field4.field4_sub2:");
+    trace!("Before adding 0xAA, 0xAB to the end of field4.field4_sub2:");
     json_data.print_get_value("field4.field4_sub2")?;
-    println!("\nAfter adding 0xAA, 0xAB to the end of field4.field4_sub2:");
-    json_data.add_end("field4.field4_sub2", &["0xAA", "0xAB"])?;
+    trace!("After adding 0xAA, 0xAB to the end of field4.field4_sub2:");
+    json_data.indexmap_value_add_tail("field4.field4_sub2", &["0xAA", "0xAB"])?;
     json_data.print_get_value("field4.field4_sub2")?;
     Ok(())
 }
@@ -428,7 +500,7 @@ mod tests {
                 "field4_sub2": ["0x24", "0x25"]
             }
         });
-        JsonData::from_json(data).unwrap()
+        JsonData::json_data_trans_to_indexmap(data).unwrap()
     }
 
     #[test]
@@ -550,11 +622,11 @@ mod tests {
 
         // 验证数据内容不变
         assert_eq!(
-            json_data.get_top_level("field1").unwrap(),
+            json_data.get_top_level_leaf_node("field1").unwrap(),
             &json!(["0x12", "0x34"])
         );
         assert_eq!(
-            json_data.get_top_level("field3").unwrap(),
+            json_data.get_top_level_leaf_node("field3").unwrap(),
             &json!(["0xDE", "0xF0", "0x43", "0x21"])
         );
     }
@@ -595,7 +667,7 @@ mod tests {
         let json_data = create_test_data();
 
         // 测试嵌套字段访问
-        let field2 = json_data.get_top_level("field2").unwrap();
+        let field2 = json_data.get_top_level_leaf_node("field2").unwrap();
         let field2_obj = field2.as_object().unwrap();
         assert!(field2_obj.contains_key("field2_sub1"));
         assert!(field2_obj.contains_key("field2_sub2"));
@@ -611,7 +683,9 @@ mod tests {
         let mut json_data = create_test_data();
 
         // 测试在顶层数组头部添加多个值
-        json_data.add_head("field1", &["0x99", "0x98"]).unwrap();
+        json_data
+            .indexmap_value_add_head("field1", &["0x99", "0x98"])
+            .unwrap();
         assert_eq!(
             json_data.get_value_array("field1").unwrap(),
             vec!["0x99", "0x98", "0x12", "0x34"]
@@ -619,7 +693,7 @@ mod tests {
 
         // 测试在嵌套数组头部添加多个值
         json_data
-            .add_head("field2.field2_sub1", &["0xAA", "0xAB"])
+            .indexmap_value_add_head("field2.field2_sub1", &["0xAA", "0xAB"])
             .unwrap();
         assert_eq!(
             json_data.get_value_array("field2.field2_sub1").unwrap(),
@@ -629,20 +703,26 @@ mod tests {
         // 测试错误情况
         // 1. 路径不存在
         assert!(json_data
-            .add_head("nonexistent", &["0x99", "0x98"])
+            .indexmap_value_add_head("nonexistent", &["0x99", "0x98"])
             .is_err());
 
         // 2. 非数组字段
         let invalid_data = json!({
             "non_array": "0x12"
         });
-        let mut json_data = JsonData::from_json(invalid_data).unwrap();
-        assert!(json_data.add_head("non_array", &["0x99", "0x98"]).is_err());
+        let mut json_data = JsonData::json_data_trans_to_indexmap(invalid_data).unwrap();
+        assert!(json_data
+            .indexmap_value_add_head("non_array", &["0x99", "0x98"])
+            .is_err());
 
         // 3. 无效的十六进制值
         let mut json_data = create_test_data();
-        assert!(json_data.add_head("field1", &["invalid", "0x98"]).is_err());
-        assert!(json_data.add_head("field1", &["0xGG", "0x98"]).is_err());
+        assert!(json_data
+            .indexmap_value_add_head("field1", &["invalid", "0x98"])
+            .is_err());
+        assert!(json_data
+            .indexmap_value_add_head("field1", &["0xGG", "0x98"])
+            .is_err());
     }
 
     #[test]
@@ -650,7 +730,9 @@ mod tests {
         let mut json_data = create_test_data();
 
         // 测试在顶层数组尾部添加多个值
-        json_data.add_end("field1", &["0x99", "0x98"]).unwrap();
+        json_data
+            .indexmap_value_add_tail("field1", &["0x99", "0x98"])
+            .unwrap();
         assert_eq!(
             json_data.get_value_array("field1").unwrap(),
             vec!["0x12", "0x34", "0x99", "0x98"]
@@ -658,7 +740,7 @@ mod tests {
 
         // 测试在嵌套数组尾部添加多个值
         json_data
-            .add_end("field2.field2_sub1", &["0xAA", "0xAB"])
+            .indexmap_value_add_tail("field2.field2_sub1", &["0xAA", "0xAB"])
             .unwrap();
         assert_eq!(
             json_data.get_value_array("field2.field2_sub1").unwrap(),
@@ -667,19 +749,27 @@ mod tests {
 
         // 测试错误情况
         // 1. 路径不存在
-        assert!(json_data.add_end("nonexistent", &["0x99", "0x98"]).is_err());
+        assert!(json_data
+            .indexmap_value_add_tail("nonexistent", &["0x99", "0x98"])
+            .is_err());
 
         // 2. 非数组字段
         let invalid_data = json!({
             "non_array": "0x12"
         });
-        let mut json_data = JsonData::from_json(invalid_data).unwrap();
-        assert!(json_data.add_end("non_array", &["0x99", "0x98"]).is_err());
+        let mut json_data = JsonData::json_data_trans_to_indexmap(invalid_data).unwrap();
+        assert!(json_data
+            .indexmap_value_add_tail("non_array", &["0x99", "0x98"])
+            .is_err());
 
         // 3. 无效的十六进制值
         let mut json_data = create_test_data();
-        assert!(json_data.add_end("field1", &["invalid", "0x98"]).is_err());
-        assert!(json_data.add_end("field1", &["0xGG", "0x98"]).is_err());
+        assert!(json_data
+            .indexmap_value_add_tail("field1", &["invalid", "0x98"])
+            .is_err());
+        assert!(json_data
+            .indexmap_value_add_tail("field1", &["0xGG", "0x98"])
+            .is_err());
     }
 
     #[test]
@@ -687,8 +777,12 @@ mod tests {
         let mut json_data = create_test_data();
 
         // 测试组合操作
-        json_data.add_head("field1", &["0x99", "0x98"]).unwrap();
-        json_data.add_end("field1", &["0xAA", "0xAB"]).unwrap();
+        json_data
+            .indexmap_value_add_head("field1", &["0x99", "0x98"])
+            .unwrap();
+        json_data
+            .indexmap_value_add_tail("field1", &["0xAA", "0xAB"])
+            .unwrap();
 
         assert_eq!(
             json_data.get_value_array("field1").unwrap(),
@@ -706,13 +800,13 @@ mod tests {
         let mut json_data = create_test_data();
 
         // 测试添加空数组
-        json_data.add_head("field1", &[]).unwrap();
+        json_data.indexmap_value_add_head("field1", &[]).unwrap();
         assert_eq!(
             json_data.get_value_array("field1").unwrap(),
             vec!["0x12", "0x34"]
         );
 
-        json_data.add_end("field1", &[]).unwrap();
+        json_data.indexmap_value_add_tail("field1", &[]).unwrap();
         assert_eq!(
             json_data.get_value_array("field1").unwrap(),
             vec!["0x12", "0x34"]
