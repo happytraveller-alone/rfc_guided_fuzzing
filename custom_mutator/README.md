@@ -158,44 +158,49 @@ update(
     vec![0x00]
 ) -> Err(Error::NotAMap)
 ```
-### 复杂action
-dumplicate
+## 复杂action
+### dumplicate
 1. add的一个子集，只不过add的内容是已有的一部分
+```text
 ----------          ----------
-field1              field2
+                    field2_bp
 ...           ===>  ...
-field2              field1
+field1              field1
 ----------          ----------
-swap
+```
+### swap
 1. add field1，
+```text
 ----------
 field1
 ...
 field1_bp
 field2
 ----------
-2. delete field1
+```
+1. delete field1
+```text
 ----------
 
 ...
 field1_bp
 field2
 ----------
+```
 3. add field2
+```text
 ----------
 field2_bp
 ...
 field1_bp
 field2
 ----------
+```
 4. delete field2
+```text
 ----------
 field2_bp
 ...
 field1_bp
 ----------
-
-### action 接口的定义
-1. ADD(field, position, value)
-2. REMOVE(field)
-3. UPDATE(field, value)
+```
