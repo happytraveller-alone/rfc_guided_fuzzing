@@ -17,148 +17,235 @@ struct JsonData {
 }
 
 impl JsonData {
-    // 转换为 IndexMap，方便后续进行插入，删除，修改操作
-    fn convert_to_indexmap(value: Value) -> Value {
-        match value {
-            Value::Object(map) => {
-                let mut index_map = IndexMap::new();
-                for (k, v) in map {
-                    index_map.insert(k, Self::convert_to_indexmap(v));
+    // 删除键值对
+    fn json_data_remove_pair(&mut self, keys: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
+        if keys.is_empty() {
+            return Err("Empty key sequence".into());
+        }
+
+        // 如果只有一个key，直接从顶层删除
+        if keys.len() == 1 {
+            // 检查要删除的键是否存在
+            if self.data.contains_key(keys[0]) {
+                // 获取要删除的值，检查是否包含嵌套结构
+                let value = self
+                    .data
+                    .shift_remove(keys[0])
+                    .ok_or_else(|| format!("Key not found: {}", keys[0]))?;
+
+                // 如果是对象类型，打印删除的嵌套结构信息
+                if let Value::Object(map) = &value {
+                    info!(
+                        "Removing nested structure under {}: {:?}",
+                        keys[0],
+                        map.keys().collect::<Vec<_>>()
+                    );
                 }
-                Value::Object(serde_json::Map::from_iter(index_map))
+                Ok(())
+            } else {
+                Err(format!("Key not found: {}", keys[0]).into())
             }
-            Value::Array(arr) => {
-                Value::Array(arr.into_iter().map(Self::convert_to_indexmap).collect())
+        } else {
+            // 获取父节点的可变引用和目标键
+            let parent_keys = &keys[..keys.len() - 1];
+            let target_key = keys[keys.len() - 1];
+
+            let parent = self.json_data_get_value_mut(parent_keys)?;
+
+            if let Value::Object(map) = parent {
+                // 检查要删除的键是否存在
+                if map.contains_key(target_key) {
+                    // 获取要删除的值，检查是否包含嵌套结构
+                    if let Some(value) = map.get(target_key) {
+                        // 如果是对象类型，打印删除的嵌套结构信息
+                        if let Value::Object(nested_map) = value {
+                            info!(
+                                "Removing nested structure under {}: {:?}",
+                                target_key,
+                                nested_map.keys().collect::<Vec<_>>()
+                            );
+                        }
+                    }
+                    map.remove(target_key);
+                    Ok(())
+                } else {
+                    Err(format!("Key not found: {}", target_key).into())
+                }
+            } else {
+                Err("Parent is not an object".into())
             }
-            v => v,
         }
     }
-
-    // 将 JSON 数据转换为 IndexMap
-    fn json_data_trans_to_indexmap(json_value: Value) -> Result<Self, Box<dyn std::error::Error>> {
-        let converted = Self::convert_to_indexmap(json_value);
-        let obj = converted.as_object().ok_or("Root must be an object")?;
-        let data: IndexMap<String, Value> =
-            IndexMap::from_iter(obj.into_iter().map(|(k, v)| (k.clone(), v.clone())));
-        Ok(Self { data })
-    }
-
-    // 按照json格式打印IndexMap
-    fn print_indexmap_in_json_format(&self) {
-        let json_str = serde_json::to_string_pretty(&self.data).unwrap();
-        info!("{}", json_str);
-    }
-
-    // 获取字段对应的value,当前只支持顶层字段的内容
-    fn get_top_level_leaf_node(&self, key: &str) -> Option<&Value> {
-        self.data.get(key)
-    }
-
-    // 新增：判断两个路径是否在同一层级且有相同的父节点
-    fn are_siblings(&self, path1: &str, path2: &str) -> bool {
-        let parts1: Vec<&str> = path1.split('.').collect();
-        let parts2: Vec<&str> = path2.split('.').collect();
-
-        // 检查路径长度是否相同
-        if parts1.len() != parts2.len() {
-            return false;
-        }
-
-        // 如果是顶层字段
-        if parts1.len() == 1 {
-            return true;
-        }
-
-        // 比较除了最后一个部分之外的所有父路径部分
-        let parent1 = &parts1[..parts1.len() - 1];
-        let parent2 = &parts2[..parts2.len() - 1];
-        parent1 == parent2
-    }
-
-    // 扩展 swap_fields，支持路径访问
-    fn swap_fields(&mut self, path1: &str, path2: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let parts1: Vec<&str> = path1.split('.').collect();
-        let parts2: Vec<&str> = path2.split('.').collect();
-
-        // 如果是顶层字段，直接交换
-        if parts1.len() == 1 && parts2.len() == 1 {
-            let idx1 = self
-                .data
-                .get_index_of(parts1[0])
-                .ok_or_else(|| format!("Key not found: {}", parts1[0]))?;
-            let idx2 = self
-                .data
-                .get_index_of(parts2[0])
-                .ok_or_else(|| format!("Key not found: {}", parts2[0]))?;
-            self.data.swap_indices(idx1, idx2);
+    // 在数组头部添加元素
+    fn json_data_value_head_add(
+        &mut self,
+        keys: &[&str],
+        new_values: &[&str],
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        if new_values.is_empty() {
             return Ok(());
         }
 
-        Ok(())
-    }
+        // 验证所有输入的十六进制值格式
+        Self::validate_hex_values(new_values)?;
 
-    // 新增：将十六进制字符串转换为字节
+        // 获取数组的可变引用
+        let value = self.json_data_get_value_mut(keys)?;
+
+        if let Value::Array(arr) = value {
+            // 反向遍历以保持原始顺序
+            for &hex_value in new_values.iter().rev() {
+                arr.insert(0, Value::String(hex_value.to_string()));
+            }
+            Ok(())
+        } else {
+            Err("Target is not an array".into())
+        }
+    }
+    // 在数组尾部添加元素
+    fn json_data_value_tail_add(
+        &mut self,
+        keys: &[&str],
+        new_values: &[&str],
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        if new_values.is_empty() {
+            return Ok(());
+        }
+
+        // 验证所有输入的十六进制值格式
+        Self::validate_hex_values(new_values)?;
+
+        // 获取数组的可变引用
+        let value = self.json_data_get_value_mut(keys)?;
+
+        if let Value::Array(arr) = value {
+            // 直接在尾部添加新值
+            for &hex_value in new_values {
+                arr.push(Value::String(hex_value.to_string()));
+            }
+            Ok(())
+        } else {
+            Err("Target is not an array".into())
+        }
+    }
+    // 更新键值对
+    fn json_data_value_update(
+        &mut self,
+        keys: &[&str],
+        new_values: &[&str],
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        if new_values.is_empty() {
+            return Err("Cannot update with empty array".into());
+        }
+
+        // 验证所有输入的十六进制值格式
+        Self::validate_hex_values(new_values)?;
+
+        // 获取数组的可变引用
+        let value = self.json_data_get_value_mut(keys)?;
+
+        if let Value::Array(arr) = value {
+            // 清空原有数组
+            arr.clear();
+            // 添加新的值
+            for &hex_value in new_values {
+                arr.push(Value::String(hex_value.to_string()));
+            }
+            Ok(())
+        } else {
+            Err("Target is not an array".into())
+        }
+    }
+    // 将json数据转换为indexmap,便于后续处理
+    fn json_data_trans_to_indexmap(json_value: Value) -> Result<Self, Box<dyn std::error::Error>> {
+        // 内部函数处理递归转换
+        fn convert_inner(value: Value) -> Value {
+            match value {
+                Value::Object(map) => {
+                    let mut index_map = IndexMap::new();
+                    for (k, v) in map {
+                        index_map.insert(k, convert_inner(v));
+                    }
+                    Value::Object(serde_json::Map::from_iter(index_map))
+                }
+                Value::Array(arr) => Value::Array(arr.into_iter().map(convert_inner).collect()),
+                v => v,
+            }
+        }
+
+        let converted = convert_inner(json_value);
+        let obj = converted.as_object().ok_or("Root must be an object")?;
+        let mut data = IndexMap::new();
+        for (k, v) in obj {
+            data.insert(k.clone(), v.clone());
+        }
+        Ok(Self { data })
+    }
+    // 按照json格式打印IndexMap
+    #[warn(dead_code)]
+    fn indexmap_print_in_json_format(&self) {
+        let json_str = serde_json::to_string_pretty(&self.data).unwrap();
+        // info!("{}", json_str); // 打印到终端有截断，等到后续进行处理
+        println!("{}", json_str);
+    }
+    // 将十六进制字符串转换为字节
     fn hex_str_to_byte(hex_str: &str) -> Result<u8, Box<dyn std::error::Error>> {
-        let hex_str = hex_str.trim_start_matches("0x");
+        let hex_str: &str = if hex_str.starts_with("0x") {
+            hex_str.trim_start_matches("0x")
+        } else {
+            hex_str
+        };
         u8::from_str_radix(hex_str, 16).map_err(|e| format!("Invalid hex string: {}", e).into())
     }
+    // 深度遍历indexmap, 打印完整字节流
+    fn indexmap_print_byte_stream(&self) -> Result<(), Box<dyn std::error::Error>> {
+        // 深度递归处理每个值节点
+        fn process_value(value: &Value) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+            let mut bytes = Vec::new();
 
-    // 新增：处理单个 Value 节点，将其转换为字节流
-    fn indexmap_value_to_byte(value: &Value) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-        match value {
-            Value::String(s) => {
-                // 处理单个十六进制字符串
-                Ok(vec![Self::hex_str_to_byte(s)?])
-            }
-            Value::Array(arr) => {
-                // 处理数组中的所有十六进制字符串
-                let mut bytes = Vec::new();
-                for item in arr {
-                    if let Value::String(s) = item {
-                        bytes.push(Self::hex_str_to_byte(s)?);
-                    } else {
-                        return Err("Array contains non-string value".into());
+            match value {
+                Value::String(s) => {
+                    bytes.push(JsonData::hex_str_to_byte(s)?);
+                }
+                Value::Array(arr) => {
+                    for item in arr {
+                        if let Value::String(s) = item {
+                            bytes.push(JsonData::hex_str_to_byte(s)?);
+                        } else {
+                            bytes.extend(process_value(item)?);
+                        }
                     }
                 }
-                Ok(bytes)
-            }
-            Value::Object(obj) => {
-                // 递归处理对象
-                let mut bytes = Vec::new();
-                for (_, value) in obj {
-                    bytes.extend(Self::indexmap_value_to_byte(value)?);
+                Value::Object(obj) => {
+                    for (_, sub_value) in obj {
+                        bytes.extend(process_value(sub_value)?);
+                    }
                 }
-                Ok(bytes)
+                _ => return Err("Unsupported value type".into()),
             }
-            _ => Err("Unsupported value type".into()),
-        }
-    }
 
-    // 新增：深度优先遍历生成字节流
-    fn to_byte_stream(&self) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+            Ok(bytes)
+        }
+
         let mut byte_stream = Vec::new();
-
-        // 按照 IndexMap 的顺序遍历所有字段
+        // 从根节点开始遍历
         for (_, value) in &self.data {
-            byte_stream.extend(Self::indexmap_value_to_byte(value)?);
+            byte_stream.extend(process_value(value)?);
         }
 
-        Ok(byte_stream)
-    }
+        // 转换为十六进制字符串并打印
+        let hex_string = byte_stream
+            .iter()
+            .map(|byte| format!("{:02X}", byte))
+            .collect::<Vec<String>>()
+            .join(" ");
 
-    // 新增：打印字节流的十六进制表示
-    fn print_byte_stream(&self) -> Result<(), Box<dyn std::error::Error>> {
-        let bytes = self.to_byte_stream()?;
-        print!("Byte stream: ");
-        for byte in bytes {
-            print!("{:02X} ", byte);
-        }
-        println!();
+        info!("Byte stream: {}", hex_string);
         Ok(())
     }
 
     // 判断路径是否存在
-    fn path_exists(&self, path: &str) -> bool {
+    fn json_data_check_path(&self, path: &str) -> bool {
         let parts: Vec<&str> = path.split('.').collect();
         let mut current = match self.data.get(parts[0]) {
             Some(value) => value,
@@ -177,169 +264,92 @@ impl JsonData {
         true
     }
 
-    // 获取路径对应的值数组
-    fn get_value_array(&self, path: &str) -> Option<Vec<String>> {
-        if !self.path_exists(path) {
-            return None;
-        }
-
-        let parts: Vec<&str> = path.split('.').collect();
-        let mut current = self.data.get(parts[0])?;
-
-        for &part in parts.iter().skip(1) {
-            current = current.as_object()?.get(part)?;
-        }
-
-        // 处理直接是数组的情况
-        if let Value::Array(arr) = current {
-            return Some(
-                arr.iter()
-                    .filter_map(|v| v.as_str())
-                    .map(String::from)
-                    .collect(),
-            );
-        }
-
-        None
-    }
-
     // 辅助方法：验证十六进制数组
     fn validate_hex_values(hex_values: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
         for hex_value in hex_values {
-            Self::hex_str_to_byte(hex_value)?;
+            let hex_str = if hex_value.starts_with("0x") {
+                hex_value.trim_start_matches("0x")
+            } else {
+                hex_value
+            };
+
+            u8::from_str_radix(hex_str, 16).map_err(|e| format!("Invalid hex string: {}", e))?;
         }
         Ok(())
     }
 
-    // 修改：在数组头部添加十六进制数据（支持数组）
-    fn indexmap_value_add_head(
+    // 按照给定的路径序列查找，返回可变引用或错误
+    fn json_data_get_value_mut(
         &mut self,
-        path: &str,
-        hex_values: &[&str],
-    ) -> Result<(), Box<dyn std::error::Error>> {
-        if !self.path_exists(path) {
-            return Err(format!("Path does not exist: {}", path).into());
+        keys: &[&str],
+    ) -> Result<&mut Value, Box<dyn std::error::Error>> {
+        if keys.is_empty() {
+            return Err("Empty key sequence".into());
         }
 
-        // 验证所有输入的十六进制值格式
-        Self::validate_hex_values(hex_values)?;
-
-        let parts: Vec<&str> = path.split('.').collect();
-        let current = if parts.len() == 1 {
-            self.data
-                .get_mut(parts[0])
-                .ok_or_else(|| format!("Path not found: {}", path))?
-        } else {
-            let mut value = self
-                .data
-                .get_mut(parts[0])
-                .ok_or_else(|| format!("Path not found: {}", parts[0]))?;
-
-            for &part in parts.iter().skip(1) {
-                value = value
-                    .as_object_mut()
-                    .ok_or_else(|| "Not an object".to_string())?
-                    .get_mut(part)
-                    .ok_or_else(|| format!("Path not found: {}", part))?;
-            }
-            value
-        };
-
-        // 获取数组并在头部插入新值
-        if let Value::Array(arr) = current {
-            // 反向遍历以保持原始顺序
-            for &hex_value in hex_values.iter().rev() {
-                arr.insert(0, Value::String(hex_value.to_string()));
-            }
-            Ok(())
-        } else {
-            Err("Target is not an array".into())
-        }
-    }
-
-    // 修改：在数组尾部添加十六进制数据（支持数组）
-    fn indexmap_value_add_tail(
-        &mut self,
-        path: &str,
-        hex_values: &[&str],
-    ) -> Result<(), Box<dyn std::error::Error>> {
-        if !self.path_exists(path) {
-            return Err(format!("Path does not exist: {}", path).into());
-        }
-
-        // 验证所有输入的十六进制值格式
-        Self::validate_hex_values(hex_values)?;
-
-        let parts: Vec<&str> = path.split('.').collect();
-        let current = if parts.len() == 1 {
-            self.data
-                .get_mut(parts[0])
-                .ok_or_else(|| format!("Path not found: {}", path))?
-        } else {
-            let mut value = self
-                .data
-                .get_mut(parts[0])
-                .ok_or_else(|| format!("Path not found: {}", parts[0]))?;
-
-            for &part in parts.iter().skip(1) {
-                value = value
-                    .as_object_mut()
-                    .ok_or_else(|| "Not an object".to_string())?
-                    .get_mut(part)
-                    .ok_or_else(|| format!("Path not found: {}", part))?;
-            }
-            value
-        };
-
-        // 获取数组并在尾部添加新值
-        if let Value::Array(arr) = current {
-            for &hex_value in hex_values {
-                arr.push(Value::String(hex_value.to_string()));
-            }
-            Ok(())
-        } else {
-            Err("Target is not an array".into())
-        }
-    }
-
-    fn get_value(&self, path: &str) -> Result<&Value, Box<dyn std::error::Error>> {
-        let parts: Vec<&str> = path.split('.').collect();
+        // 获取第一层的可变引用
         let mut current = self
             .data
-            .get(parts[0])
-            .ok_or_else(|| format!("Path not found: {}", path))?;
+            .get_mut(keys[0])
+            .ok_or_else(|| format!("Key not found at first level: {}", keys[0]))?;
 
-        for &part in parts.iter().skip(1) {
+        // 从第二层开始逐层检查
+        for &key in keys.iter().skip(1) {
             current = current
-                .as_object()
-                .ok_or_else(|| format!("Invalid path: {}", path))?
-                .get(part)
-                .ok_or_else(|| format!("Path not found: {}", path))?;
+                .as_object_mut()
+                .ok_or_else(|| format!("Not an object at key: {}", key))?
+                .get_mut(key)
+                .ok_or_else(|| format!("Key not found: {}", key))?;
         }
 
         Ok(current)
     }
 
-    fn print_get_value(&self, path: &str) -> Result<(), Box<dyn std::error::Error>> {
-        // 调用get_value_array，然后打印结果
-        if let Some(value) = self.get_value_array(path) {
-            info!("{:?}", value);
+    // 按照给定的路径序列查找，返回找到的数组或错误
+    fn get_json_data_value(
+        &self,
+        keys: &[&str],
+    ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
+        if keys.is_empty() {
+            return Err("Empty key sequence".into());
+        }
+
+        // 获取第一层的值
+        let mut current = self
+            .data
+            .get(keys[0])
+            .ok_or_else(|| format!("Key not found at first level: {}", keys[0]))?;
+
+        // 如果只有一层且是数组，直接返回
+        if keys.len() == 1 {
+            if let Value::Array(arr) = current {
+                return Ok(arr
+                    .iter()
+                    .filter_map(|v| v.as_str())
+                    .map(String::from)
+                    .collect());
+            }
+        }
+
+        // 从第二层开始逐层检查
+        for &key in keys.iter().skip(1) {
+            current = current
+                .as_object()
+                .ok_or_else(|| format!("Not an object at key: {}", key))?
+                .get(key)
+                .ok_or_else(|| format!("Key not found: {}", key))?;
+        }
+
+        // 检查最终找到的值是否为数组
+        if let Value::Array(arr) = current {
+            Ok(arr
+                .iter()
+                .filter_map(|v| v.as_str())
+                .map(String::from)
+                .collect())
         } else {
-            warn!("Value not found");
+            Err("Final value is not an array".into())
         }
-        Ok(())
-    }
-    fn is_leaf_node(&self, path: &str) -> Result<bool, Box<dyn std::error::Error>> {
-        // 首先检查路径是否存在
-        if !self.path_exists(path) {
-            return Err(format!("Path does not exist: {}", path).into());
-        }
-
-        // 获取路径对应的值
-        let value = self.get_value(path)?;
-
-        // 如果不是 object 类型就是叶子节点
-        Ok(!value.is_object())
     }
 }
 
@@ -429,55 +439,106 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // output original code
     trace!("Original data:");
-    json_data.print_byte_stream()?;
-    json_data.print_indexmap_in_json_format();
-    // // output coverted byte stream
-    // println!("\nConverted to byte stream:");
-    // json_data.print_byte_stream()?;
+    json_data.indexmap_print_byte_stream()?;
+    // json_data.indexmap_print_in_json_format();
 
-    // 交换顶层字段
-    trace!("After swapping field1 and field3:");
-    json_data.swap_fields("field1", "field3")?;
-    json_data.print_byte_stream()?;
-
-    // 查看field2.field2_sub1和field2.field2_sub2是否是兄弟节点
-    trace!(
-        "Are field2.field2_sub1 and field2.field2_sub2 siblings: {}",
-        json_data.are_siblings("field2.field2_sub1", "field2.field2_sub2")
-    );
     // 查看field4.field4_sub1是否存在
     trace!(
         "Does field4.field4_sub1 exist: {}",
-        json_data.path_exists("field4.field4_sub1")
+        json_data.json_data_check_path("field4.field4_sub1")
     );
 
-    // 查看top level节点，输出top level的value
-    trace!(
-        "Top level field1: {:?}",
-        json_data.get_top_level_leaf_node("field1")
-    );
-    // 用path_exists查看，field2.field2_sub1是否存在，输出field2.field2_sub1的value
     trace!(
         "Does field2.field2_sub1 exist: {}",
-        json_data.path_exists("field2.field2_sub1")
+        json_data.json_data_check_path("field2.field2_sub1")
     );
     trace!(
         "field2.field2_sub1: {:?}",
-        json_data.get_value_array("field2.field2_sub1")
+        json_data.get_json_data_value(&["field2", "field2_sub1"])
     );
 
-    // 调用add_head添加0x99, 0x98到field1的头部
-    trace!("Before adding 0x99, 0x98 to the head of field1:");
-    json_data.print_get_value("field1")?;
-    json_data.indexmap_value_add_head("field1", &["0x99", "0x98"])?;
-    trace!("After adding 0x99, 0x98 to the head of field1:");
-    json_data.print_get_value("field1")?;
-    // 调用add_end添加0xAA, 0xAB到field4.field4_sub2的尾部
-    trace!("Before adding 0xAA, 0xAB to the end of field4.field4_sub2:");
-    json_data.print_get_value("field4.field4_sub2")?;
-    trace!("After adding 0xAA, 0xAB to the end of field4.field4_sub2:");
-    json_data.indexmap_value_add_tail("field4.field4_sub2", &["0xAA", "0xAB"])?;
-    json_data.print_get_value("field4.field4_sub2")?;
+    // 成功的情况
+    match json_data.get_json_data_value(&["field2", "field2_sub2"]) {
+        Ok(array) => trace!("Found array: {:?}", array), // 输出: Found array: ["0x9A", "0xBC"]
+        Err(e) => error!("Error: {}", e),
+    }
+
+    // 失败的情况
+    match json_data.get_json_data_value(&["field2", "field2_sub3"]) {
+        Ok(array) => trace!("Found array: {:?}", array),
+        Err(e) => warn!("Error: {}", e), // 输出: Error: Key not found: field2_sub3
+    }
+
+    // 成功获取并修改数组的情况
+    match json_data.json_data_get_value_mut(&["field2", "field2_sub2"]) {
+        Ok(value) => {
+            if let Value::Array(arr) = value {
+                arr[0] = json!("0xFF"); // 修改第一个元素
+                arr.push(json!("0xEE")); // 添加新元素
+                trace!("Modified array: {:?}", arr);
+            }
+        }
+        Err(e) => warn!("Error: {}", e),
+    }
+
+    // 失败的情况
+    match json_data.json_data_get_value_mut(&["field2", "field2_sub3"]) {
+        Ok(_) => trace!("Found value"),
+        Err(e) => warn!("Error: {}", e), // 输出: Error: Key not found: field2_sub3
+    }
+    info!("Testing add data in json data key value pair at head or tail position:");
+    // 在数组头部添加元素
+    match json_data.json_data_value_head_add(&["field2", "field2_sub1"], &["0xAA", "0xBB"]) {
+        Ok(_) => trace!("Successfully added elements to head"),
+        Err(e) => warn!("Error: {}", e),
+    }
+
+    // 在数组尾部添加元素
+    match json_data.json_data_value_tail_add(&["field1"], &["0xCC", "0xDD"]) {
+        Ok(_) => trace!("Successfully added elements to tail"),
+        Err(e) => warn!("Error: {}", e),
+    }
+    info!("Testing update whole data in json data key value pair:");
+    // 更新整个数组
+    match json_data.json_data_value_update(&["field3"], &["0xEE", "0xFF"]) {
+        Ok(_) => trace!("Successfully updated array"),
+        Err(e) => warn!("Error: {}", e),
+    }
+
+    info!("Testing remove json data key value pair:");
+    // 删除顶层键值对
+    match json_data.json_data_remove_pair(&["field1"]) {
+        Ok(_) => trace!("Successfully removed field1"),
+        Err(e) => warn!("Error: {}", e),
+    }
+    // json_data.indexmap_print_in_json_format();
+    // 删除嵌套键值对
+    match json_data.json_data_remove_pair(&["field2", "field2_sub1"]) {
+        Ok(_) => trace!("Successfully removed field2.field2_sub1"),
+        Err(e) => warn!("Error: {}", e),
+    }
+    // json_data.indexmap_print_in_json_format();
+    // 尝试删除不存在的键值对
+    match json_data.json_data_remove_pair(&["nonexistent"]) {
+        Ok(_) => trace!("Successfully removed key"),
+        Err(e) => warn!("Error: {}", e), // 输出: Error: Key not found: nonexistent
+    }
+    // 删除包含嵌套结构的 field2
+    match json_data.json_data_remove_pair(&["field2"]) {
+        Ok(_) => {
+            trace!("Successfully removed field2 and all its nested structures");
+            // 验证所有嵌套结构都被删除
+            assert!(json_data.get_json_data_value(&["field2"]).is_err());
+            assert!(json_data
+                .get_json_data_value(&["field2", "field2_sub1"])
+                .is_err());
+            assert!(json_data
+                .get_json_data_value(&["field2", "field2_sub2"])
+                .is_err());
+        }
+        Err(e) => println!("Error: {}", e),
+    }
+
     Ok(())
 }
 
@@ -504,72 +565,286 @@ mod tests {
     }
 
     #[test]
+    fn test_json_data_remove_enhanced() {
+        let mut json_data = create_test_data();
+
+        // 测试删除包含嵌套结构的顶层键值对
+        {
+            // 删除 field2 (包含 field2_sub1 和 field2_sub2)
+            let result = json_data.json_data_remove_pair(&["field2"]);
+            assert!(result.is_ok());
+
+            // 验证删除成功
+            assert!(json_data.get_json_data_value(&["field2"]).is_err());
+            assert!(json_data
+                .get_json_data_value(&["field2", "field2_sub1"])
+                .is_err());
+            assert!(json_data
+                .get_json_data_value(&["field2", "field2_sub2"])
+                .is_err());
+        }
+
+        // 创建一个更复杂的嵌套结构进行测试
+        let complex_data = json!({
+            "root": {
+                "level1": {
+                    "level2": {
+                        "array": ["0x11", "0x22"],
+                        "value": "0x33"
+                    },
+                    "sibling": ["0x44", "0x55"]
+                },
+                "other": ["0x66", "0x77"]
+            }
+        });
+
+        let mut json_data = JsonData::json_data_trans_to_indexmap(complex_data).unwrap();
+
+        // 测试删除多层嵌套结构
+        {
+            // 删除 level1 (包含所有嵌套结构)
+            let result = json_data.json_data_remove_pair(&["root", "level1"]);
+            assert!(result.is_ok());
+
+            // 验证删除成功
+            assert!(json_data.get_json_data_value(&["root", "level1"]).is_err());
+            assert!(json_data
+                .get_json_data_value(&["root", "level1", "level2"])
+                .is_err());
+            assert!(json_data
+                .get_json_data_value(&["root", "level1", "level2", "array"])
+                .is_err());
+
+            // 验证同级其他键值对仍然存在
+            assert!(json_data.get_json_data_value(&["root", "other"]).is_ok());
+        }
+
+        // 测试删除空对象
+        let empty_data = json!({
+            "empty": {}
+        });
+        let mut json_data = JsonData::json_data_trans_to_indexmap(empty_data).unwrap();
+
+        {
+            let result = json_data.json_data_remove_pair(&["empty"]);
+            assert!(result.is_ok());
+            assert!(json_data.get_json_data_value(&["empty"]).is_err());
+        }
+    }
+    #[test]
+    fn test_json_data_remove() {
+        let mut json_data = create_test_data();
+
+        // 测试删除顶层键值对
+        {
+            // 删除 field1
+            let result = json_data.json_data_remove_pair(&["field1"]);
+            assert!(result.is_ok());
+
+            // 验证删除成功
+            assert!(json_data.get_json_data_value(&["field1"]).is_err());
+        }
+
+        // 测试删除嵌套键值对
+        {
+            // 删除 field2.field2_sub1
+            let result = json_data.json_data_remove_pair(&["field2", "field2_sub1"]);
+            assert!(result.is_ok());
+
+            // 验证删除成功
+            assert!(json_data
+                .get_json_data_value(&["field2", "field2_sub1"])
+                .is_err());
+            // 验证 field2.field2_sub2 仍然存在
+            assert!(json_data
+                .get_json_data_value(&["field2", "field2_sub2"])
+                .is_ok());
+        }
+
+        // 测试删除不存在的键值对
+        {
+            // 尝试删除不存在的顶层键
+            let result = json_data.json_data_remove_pair(&["nonexistent"]);
+            assert!(result.is_err());
+            assert_eq!(
+                result.unwrap_err().to_string(),
+                "Key not found: nonexistent"
+            );
+
+            // 尝试删除不存在的嵌套键
+            let result = json_data.json_data_remove_pair(&["field2", "nonexistent"]);
+            assert!(result.is_err());
+            assert_eq!(
+                result.unwrap_err().to_string(),
+                "Key not found: nonexistent"
+            );
+        }
+
+        // 测试删除无效路径
+        {
+            // 尝试在数组中删除键（无效操作）
+            let result = json_data.json_data_remove_pair(&["field3", "invalid"]);
+            assert!(result.is_err());
+            assert_eq!(result.unwrap_err().to_string(), "Parent is not an object");
+        }
+
+        // 测试空路径
+        {
+            let result = json_data.json_data_remove_pair(&[]);
+            assert!(result.is_err());
+            assert_eq!(result.unwrap_err().to_string(), "Empty key sequence");
+        }
+    }
+    #[test]
+    fn test_json_data_operations() {
+        let mut json_data = create_test_data();
+
+        // 测试头部添加
+        {
+            let result =
+                json_data.json_data_value_head_add(&["field2", "field2_sub1"], &["0xAA", "0xBB"]);
+            assert!(result.is_ok());
+
+            let array = json_data
+                .get_json_data_value(&["field2", "field2_sub1"])
+                .unwrap();
+            assert_eq!(array, vec!["0xAA", "0xBB", "0x56", "0x78"]);
+        }
+
+        // 测试尾部添加
+        {
+            let result =
+                json_data.json_data_value_tail_add(&["field2", "field2_sub2"], &["0xCC", "0xDD"]);
+            assert!(result.is_ok());
+
+            let array = json_data
+                .get_json_data_value(&["field2", "field2_sub2"])
+                .unwrap();
+            assert_eq!(array, vec!["0x9A", "0xBC", "0xCC", "0xDD"]);
+        }
+
+        // 测试更新整个数组
+        {
+            let result = json_data.json_data_value_update(&["field1"], &["0xEE", "0xFF"]);
+            assert!(result.is_ok());
+
+            let array = json_data.get_json_data_value(&["field1"]).unwrap();
+            assert_eq!(array, vec!["0xEE", "0xFF"]);
+        }
+
+        // 测试错误情况
+        // 1. 路径不存在
+        assert!(json_data
+            .json_data_value_head_add(&["nonexistent"], &["0x11"])
+            .is_err());
+
+        // 2. 非数组目标
+        assert!(json_data
+            .json_data_value_tail_add(&["field2"], &["0x11"])
+            .is_err());
+
+        // 3. 无效的十六进制值
+        assert!(json_data
+            .json_data_value_update(&["field1"], &["invalid"])
+            .is_err());
+
+        // 4. 空数组更新
+        assert!(json_data.json_data_value_update(&["field1"], &[]).is_err());
+    }
+    #[test]
+    fn test_get_value_mut() {
+        let mut json_data = create_test_data();
+
+        // 测试获取并修改数组
+        {
+            let value = json_data
+                .json_data_get_value_mut(&["field2", "field2_sub2"])
+                .unwrap();
+            if let Value::Array(arr) = value {
+                arr[0] = json!("0xFF"); // 修改第一个元素
+            }
+        }
+
+        // 验证修改是否成功
+        assert_eq!(
+            json_data
+                .get_json_data_value(&["field2", "field2_sub2"])
+                .unwrap(),
+            vec!["0xFF", "0xBC"]
+        );
+
+        // 测试不存在的路径
+        assert!(json_data
+            .json_data_get_value_mut(&["field2", "field2_sub3"])
+            .is_err());
+
+        // 测试空路径序列
+        assert!(json_data.json_data_get_value_mut(&[]).is_err());
+
+        // 测试修改单层路径的数组
+        {
+            let value = json_data.json_data_get_value_mut(&["field1"]).unwrap();
+            if let Value::Array(arr) = value {
+                arr.push(json!("0x99")); // 添加新元素
+            }
+        }
+
+        // 验证修改是否成功
+        assert_eq!(
+            json_data.get_json_data_value(&["field1"]).unwrap(),
+            vec!["0x12", "0x34", "0x99"]
+        );
+    }
+    #[test]
+    fn test_check_path_sequence() {
+        let json_data = create_test_data();
+
+        // 测试成功的情况
+        let result = json_data.get_json_data_value(&["field2", "field2_sub2"]);
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), vec!["0x9A", "0xBC"]);
+
+        // 测试单层路径
+        let result = json_data.get_json_data_value(&["field1"]);
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), vec!["0x12", "0x34"]);
+
+        // 测试不存在的路径
+        let result = json_data.get_json_data_value(&["field2", "field2_sub3"]);
+        assert!(result.is_err());
+        assert_eq!(
+            result.unwrap_err().to_string(),
+            "Key not found: field2_sub3"
+        );
+
+        // 测试空路径序列
+        let result = json_data.get_json_data_value(&[]);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err().to_string(), "Empty key sequence");
+
+        // 测试路径存在但不是数组的情况
+        let result = json_data.get_json_data_value(&["field2"]);
+        assert!(result.is_err());
+        assert_eq!(
+            result.unwrap_err().to_string(),
+            "Final value is not an array"
+        );
+    }
+    #[test]
     fn test_path_exists() {
         let json_data = create_test_data();
 
         // 测试存在的路径
-        assert!(json_data.path_exists("field2.field2_sub1"));
-        assert!(json_data.path_exists("field3"));
-        assert!(json_data.path_exists("field2.field2_sub2"));
-        assert!(json_data.path_exists("field4.field4_sub1"));
+        assert!(json_data.json_data_check_path("field2.field2_sub1"));
+        assert!(json_data.json_data_check_path("field3"));
+        assert!(json_data.json_data_check_path("field2.field2_sub2"));
+        assert!(json_data.json_data_check_path("field4.field4_sub1"));
 
         // 测试不存在的路径
-        assert!(!json_data.path_exists("nonexistent"));
-        assert!(!json_data.path_exists("field2.nonexistent"));
-        assert!(!json_data.path_exists("field1.subfield")); // field1 是数组，不是对象
-        assert!(!json_data.path_exists("field2.field2_sub1.nonexistent"));
-    }
-
-    #[test]
-    fn test_get_value_array() {
-        let json_data = create_test_data();
-
-        // 测试获取叶子节点数组
-        assert_eq!(
-            json_data.get_value_array("field2.field2_sub1"),
-            Some(vec!["0x56".to_string(), "0x78".to_string()])
-        );
-
-        // 测试获取顶层数组
-        assert_eq!(
-            json_data.get_value_array("field3"),
-            Some(vec![
-                "0xDE".to_string(),
-                "0xF0".to_string(),
-                "0x43".to_string(),
-                "0x21".to_string()
-            ])
-        );
-
-        // 测试不存在的路径
-        assert_eq!(json_data.get_value_array("nonexistent"), None);
-        assert_eq!(json_data.get_value_array("field2.nonexistent"), None);
-
-        // 测试非数组节点
-        assert_eq!(json_data.get_value_array("field2"), None);
-    }
-
-    #[test]
-    fn test_path_exists_and_get_value_combined() {
-        let json_data = create_test_data();
-
-        // 组合测试：先检查路径存在性，然后获取值
-        let test_paths = vec![
-            "field2.field2_sub1",
-            "field3",
-            "nonexistent",
-            "field2.nonexistent",
-        ];
-
-        for path in test_paths {
-            if json_data.path_exists(path) {
-                // 路径存在时应该能获取到值数组
-                assert!(json_data.get_value_array(path).is_some());
-            } else {
-                // 路径不存在时应该获取不到值数组
-                assert!(json_data.get_value_array(path).is_none());
-            }
-        }
+        assert!(!json_data.json_data_check_path("nonexistent"));
+        assert!(!json_data.json_data_check_path("field2.nonexistent"));
+        assert!(!json_data.json_data_check_path("field1.subfield")); // field1 是数组，不是对象
+        assert!(!json_data.json_data_check_path("field2.field2_sub1.nonexistent"));
     }
 
     #[test]
@@ -577,76 +852,15 @@ mod tests {
         let json_data = create_test_data();
 
         // 测试空路径
-        assert!(!json_data.path_exists(""));
+        assert!(!json_data.json_data_check_path(""));
 
         // 测试只有点的路径
-        assert!(!json_data.path_exists("."));
-        assert!(!json_data.path_exists(".."));
+        assert!(!json_data.json_data_check_path("."));
+        assert!(!json_data.json_data_check_path(".."));
 
         // 测试以点开始或结束的路径
-        assert!(!json_data.path_exists(".field1"));
-        assert!(!json_data.path_exists("field1."));
-    }
-
-    #[test]
-    fn test_byte_stream_conversion() {
-        let json_data = create_test_data();
-        let byte_stream = json_data.to_byte_stream().unwrap();
-
-        // 验证字节流的正确性
-        // field1: [0x12, 0x34]
-        // field2: [0x56, 0x78, 0x9A, 0xBC]
-        // field3: [0xDE, 0xF0, 0x43, 0x21]
-        // field4: [0x22, 0x23, 0x24, 0x25]
-        let expected = vec![
-            0x12, 0x34, // field1
-            0x56, 0x78, 0x9A, 0xBC, // field2 (field2_sub1, field2_sub2)
-            0xDE, 0xF0, 0x43, 0x21, // field3
-            0x22, 0x23, 0x24, 0x25, // field4 (field4_sub1, field4_sub2)
-        ];
-
-        assert_eq!(byte_stream, expected);
-    }
-
-    #[test]
-    fn test_field_swapping() {
-        let mut json_data = create_test_data();
-
-        // 测试顶层字段交换
-        json_data.swap_fields("field1", "field3").unwrap();
-
-        // 验证交换后的顺序
-        let keys: Vec<_> = json_data.data.keys().collect();
-        assert_eq!(keys[0], "field3"); // 原来的 field1 位置
-        assert_eq!(keys[2], "field1"); // 原来的 field3 位置
-
-        // 验证数据内容不变
-        assert_eq!(
-            json_data.get_top_level_leaf_node("field1").unwrap(),
-            &json!(["0x12", "0x34"])
-        );
-        assert_eq!(
-            json_data.get_top_level_leaf_node("field3").unwrap(),
-            &json!(["0xDE", "0xF0", "0x43", "0x21"])
-        );
-    }
-
-    #[test]
-    fn test_sibling_relationships() {
-        let json_data = create_test_data();
-
-        // 测试顶层字段
-        assert!(json_data.are_siblings("field1", "field2"));
-        assert!(json_data.are_siblings("field1", "field3"));
-        assert!(json_data.are_siblings("field1", "field4"));
-
-        // 测试嵌套字段
-        assert!(json_data.are_siblings("field2.field2_sub1", "field2.field2_sub2"));
-        assert!(json_data.are_siblings("field4.field4_sub1", "field4.field4_sub2"));
-
-        // 测试不是兄弟节点的情况
-        assert!(!json_data.are_siblings("field2.field2_sub1", "field4.field4_sub1"));
-        assert!(!json_data.are_siblings("field1", "field2.field2_sub1"));
+        assert!(!json_data.json_data_check_path(".field1"));
+        assert!(!json_data.json_data_check_path("field1."));
     }
 
     #[test]
@@ -660,198 +874,5 @@ mod tests {
         // 测试无效的十六进制字符串
         assert!(JsonData::hex_str_to_byte("0xGG").is_err());
         assert!(JsonData::hex_str_to_byte("invalid").is_err());
-    }
-
-    #[test]
-    fn test_nested_field_access() {
-        let json_data = create_test_data();
-
-        // 测试嵌套字段访问
-        let field2 = json_data.get_top_level_leaf_node("field2").unwrap();
-        let field2_obj = field2.as_object().unwrap();
-        assert!(field2_obj.contains_key("field2_sub1"));
-        assert!(field2_obj.contains_key("field2_sub2"));
-
-        assert_eq!(
-            field2_obj.get("field2_sub1").unwrap(),
-            &json!(["0x56", "0x78"])
-        );
-    }
-
-    #[test]
-    fn test_add_head_array() {
-        let mut json_data = create_test_data();
-
-        // 测试在顶层数组头部添加多个值
-        json_data
-            .indexmap_value_add_head("field1", &["0x99", "0x98"])
-            .unwrap();
-        assert_eq!(
-            json_data.get_value_array("field1").unwrap(),
-            vec!["0x99", "0x98", "0x12", "0x34"]
-        );
-
-        // 测试在嵌套数组头部添加多个值
-        json_data
-            .indexmap_value_add_head("field2.field2_sub1", &["0xAA", "0xAB"])
-            .unwrap();
-        assert_eq!(
-            json_data.get_value_array("field2.field2_sub1").unwrap(),
-            vec!["0xAA", "0xAB", "0x56", "0x78"]
-        );
-
-        // 测试错误情况
-        // 1. 路径不存在
-        assert!(json_data
-            .indexmap_value_add_head("nonexistent", &["0x99", "0x98"])
-            .is_err());
-
-        // 2. 非数组字段
-        let invalid_data = json!({
-            "non_array": "0x12"
-        });
-        let mut json_data = JsonData::json_data_trans_to_indexmap(invalid_data).unwrap();
-        assert!(json_data
-            .indexmap_value_add_head("non_array", &["0x99", "0x98"])
-            .is_err());
-
-        // 3. 无效的十六进制值
-        let mut json_data = create_test_data();
-        assert!(json_data
-            .indexmap_value_add_head("field1", &["invalid", "0x98"])
-            .is_err());
-        assert!(json_data
-            .indexmap_value_add_head("field1", &["0xGG", "0x98"])
-            .is_err());
-    }
-
-    #[test]
-    fn test_add_end_array() {
-        let mut json_data = create_test_data();
-
-        // 测试在顶层数组尾部添加多个值
-        json_data
-            .indexmap_value_add_tail("field1", &["0x99", "0x98"])
-            .unwrap();
-        assert_eq!(
-            json_data.get_value_array("field1").unwrap(),
-            vec!["0x12", "0x34", "0x99", "0x98"]
-        );
-
-        // 测试在嵌套数组尾部添加多个值
-        json_data
-            .indexmap_value_add_tail("field2.field2_sub1", &["0xAA", "0xAB"])
-            .unwrap();
-        assert_eq!(
-            json_data.get_value_array("field2.field2_sub1").unwrap(),
-            vec!["0x56", "0x78", "0xAA", "0xAB"]
-        );
-
-        // 测试错误情况
-        // 1. 路径不存在
-        assert!(json_data
-            .indexmap_value_add_tail("nonexistent", &["0x99", "0x98"])
-            .is_err());
-
-        // 2. 非数组字段
-        let invalid_data = json!({
-            "non_array": "0x12"
-        });
-        let mut json_data = JsonData::json_data_trans_to_indexmap(invalid_data).unwrap();
-        assert!(json_data
-            .indexmap_value_add_tail("non_array", &["0x99", "0x98"])
-            .is_err());
-
-        // 3. 无效的十六进制值
-        let mut json_data = create_test_data();
-        assert!(json_data
-            .indexmap_value_add_tail("field1", &["invalid", "0x98"])
-            .is_err());
-        assert!(json_data
-            .indexmap_value_add_tail("field1", &["0xGG", "0x98"])
-            .is_err());
-    }
-
-    #[test]
-    fn test_add_head_and_end_array_combined() {
-        let mut json_data = create_test_data();
-
-        // 测试组合操作
-        json_data
-            .indexmap_value_add_head("field1", &["0x99", "0x98"])
-            .unwrap();
-        json_data
-            .indexmap_value_add_tail("field1", &["0xAA", "0xAB"])
-            .unwrap();
-
-        assert_eq!(
-            json_data.get_value_array("field1").unwrap(),
-            vec!["0x99", "0x98", "0x12", "0x34", "0xAA", "0xAB"]
-        );
-
-        // 验证字节流
-        let byte_stream = json_data.to_byte_stream().unwrap();
-        let field1_bytes = &byte_stream[0..6]; // 获取 field1 对应的字节
-        assert_eq!(field1_bytes, [0x99, 0x98, 0x12, 0x34, 0xAA, 0xAB]);
-    }
-
-    #[test]
-    fn test_add_empty_array() {
-        let mut json_data = create_test_data();
-
-        // 测试添加空数组
-        json_data.indexmap_value_add_head("field1", &[]).unwrap();
-        assert_eq!(
-            json_data.get_value_array("field1").unwrap(),
-            vec!["0x12", "0x34"]
-        );
-
-        json_data.indexmap_value_add_tail("field1", &[]).unwrap();
-        assert_eq!(
-            json_data.get_value_array("field1").unwrap(),
-            vec!["0x12", "0x34"]
-        );
-    }
-
-    #[test]
-    fn test_get_value() {
-        let json_data = create_test_data();
-
-        // 测试获取顶层数组
-        assert!(json_data.get_value("field1").is_ok());
-        assert!(json_data.get_value("field1").unwrap().is_array());
-
-        // 测试获取嵌套数组
-        assert!(json_data.get_value("field2.field2_sub1").is_ok());
-        assert!(json_data
-            .get_value("field2.field2_sub1")
-            .unwrap()
-            .is_array());
-
-        // 测试获取对象
-        assert!(json_data.get_value("field2").is_ok());
-        assert!(json_data.get_value("field2").unwrap().is_object());
-
-        // 测试不存在的路径
-        assert!(json_data.get_value("nonexistent").is_err());
-        assert!(json_data.get_value("field2.nonexistent").is_err());
-    }
-
-    #[test]
-    fn test_is_leaf_node() {
-        let json_data = create_test_data();
-
-        // 测试路径不存在的情况
-        assert!(json_data.is_leaf_node("nonexistent").is_err());
-
-        // 测试叶子节点（数组类型）
-        assert!(json_data.is_leaf_node("field1").unwrap());
-        assert!(json_data.is_leaf_node("field3").unwrap());
-        assert!(json_data.is_leaf_node("field2.field2_sub1").unwrap());
-        assert!(json_data.is_leaf_node("field4.field4_sub1").unwrap());
-
-        // 测试非叶子节点（对象类型）
-        assert!(!json_data.is_leaf_node("field2").unwrap());
-        assert!(!json_data.is_leaf_node("field4").unwrap());
     }
 }
