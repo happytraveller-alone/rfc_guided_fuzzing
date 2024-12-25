@@ -4,297 +4,162 @@
             "16"
         ],
         "tls.record.version": [
-            "0301"
+            "03",
+            "01"
         ],
         "tls.record.length": [
-            "07c4"
+            "00",
+            "ed"
         ],
         "tls.handshake": {
             "tls.handshake.type": [
                 "01"
             ],
             "tls.handshake.length": [
-                "0007c0"
+                "00",
+                "00",
+                "e9"
             ],
             "tls.handshake.version": [
-                "0303"
+                "03",
+                "03"
             ],
             "tls.handshake.random": [
-                "30aca43a5726464d6ddbef17ccc879982f1f4a3d50978984c8222129deb4e2c6"
+                "c7",
+                "6e",
+                "e6",
+                "18",
+                "18",
+                "f3",
+                "32",
+                "88",
+                "3d",
+                "80",
+                "4e",
+                "d8",
+                "4c",
+                "61",
+                "48",
+                "6f",
+                "1a",
+                "ee",
+                "d8",
+                "ec",
+                "1b",
+                "e4",
+                "e6",
+                "53",
+                "f5",
+                "a9",
+                "72",
+                "a9",
+                "2b",
+                "4e",
+                "92",
+                "d5"
             ],
             "tls.handshake.session_id_length": [
                 "20"
             ],
             "tls.handshake.session_id": [
-                "b031c55b3d313595aa1ca26546be623a6c139136aedf178ea91157d8d2b33170"
+                "5a",
+                "cd",
+                "d5",
+                "2d",
+                "d1",
+                "ef",
+                "d2",
+                "8e",
+                "50",
+                "be",
+                "da",
+                "49",
+                "21",
+                "6a",
+                "64",
+                "8c",
+                "cd",
+                "c0",
+                "8e",
+                "3d",
+                "c5",
+                "a3",
+                "cc",
+                "5c",
+                "87",
+                "0a",
+                "c2",
+                "ac",
+                "61",
+                "85",
+                "07",
+                "9a"
             ],
             "tls.handshake.cipher_suites_length": [
-                "0020"
+                "00",
+                "14"
             ],
-            "tls.handshake.ciphersuites": {
-                "tls.handshake.ciphersuite": [
-                    "0035"
-                ]
-            },
+            "tls.handshake.ciphersuites": [
+                "13",
+                "02",
+                "13",
+                "01",
+                "13",
+                "03",
+                "c0",
+                "2c",
+                "c0",
+                "2b",
+                "cc",
+                "a9",
+                "c0",
+                "30",
+                "c0",
+                "2f",
+                "cc",
+                "a8",
+                "00",
+                "ff"
+            ],
             "tls.handshake.comp_methods_length": [
                 "01"
             ],
-            "tls.handshake.comp_methods": {
-                "tls.handshake.comp_method": [
-                    "00"
-                ]
-            },
-            "tls.handshake.extensions_length": [
-                "0757"
+            "tls.handshake.comp_methods": [
+                "00"
             ],
-            "Extension: Reserved (GREASE) (len=0)": {
-                "tls.handshake.extension.type": [
-                    "2a2a"
-                ],
-                "tls.handshake.extension.len": [
-                    "0000"
-                ],
-                "tls.handshake.extension.data": [
-                    ""
-                ]
-            },
-            "Extension: application_layer_protocol_negotiation (len=14)": {
-                "tls.handshake.extension.type": [
-                    "0010"
-                ],
-                "tls.handshake.extension.len": [
-                    "000e"
-                ],
-                "tls.handshake.extensions_alpn_len": [
-                    "000c"
-                ],
-                "tls.handshake.extensions_alpn_list": {
-                    "tls.handshake.extensions_alpn_str_len": [
-                        "08"
-                    ],
-                    "tls.handshake.extensions_alpn_str": [
-                        "687474702f312e31"
-                    ]
-                }
-            },
-            "Extension: extended_master_secret (len=0)": {
-                "tls.handshake.extension.type": [
-                    "0017"
-                ],
-                "tls.handshake.extension.len": [
-                    "0000"
-                ]
-            },
-            "Extension: key_share (len=1263) X25519Kyber768Draft00, x25519": {
-                "tls.handshake.extension.type": [
-                    "0033"
-                ],
-                "tls.handshake.extension.len": [
-                    "04ef"
-                ],
-                "Key Share extension": {
-                    "tls.handshake.extensions_key_share_client_length": [
-                        "04ed"
-                    ],
-                    "Key Share Entry: Group: Reserved (GREASE), Key Exchange length: 1": {
-                        "tls.handshake.extensions_key_share_group": [
-                            "dada"
-                        ],
-                        "tls.handshake.extensions_key_share_key_exchange_length": [
-                            "0001"
-                        ],
-                        "tls.handshake.extensions_key_share_key_exchange": [
-                            "00"
-                        ]
-                    },
-                    "Key Share Entry: Group: X25519Kyber768Draft00, Key Exchange length: 1216": {
-                        "tls.handshake.extensions_key_share_group": [
-                            "6399"
-                        ],
-                        "tls.handshake.extensions_key_share_key_exchange_length": [
-                            "04c0"
-                        ],
-                        "tls.handshake.extensions_key_share_key_exchange": [
-                            "24d2928a6cc6245d85e04c885b9acc08061fdad68546124d8a520357a4d2b213b982cb09d5464b6652a629479ec5508aa67b8ca04a59b17123f4a9c0e96c0fc314cb3a5cff4271c3a78b63858c6f580287a80161833f7ab2be158490c07900e1661d7367c39edb02a308979e35006e28874712bea31cb6d6294408889f13763a8149c848b29e58f38e1fb8990a36681ed314126c866841b902d81b0a0c370e2b799327b11b689e6cc06e57f50090c3586f43afb59b3e5ba05c5f400b1f49298e72bbda045d95d3044cc17e124c59b33c9c3f4717cda78d7b751db50639a6834d86453ad63cadf713b2a22b0b9c5079cb0740335a684dd1ceca08d05d320665511aa2fb0732a42e2965880600647f0ccdcce02ba5810afc8b9b6ae0490c724342948ece60a41b8538cef37ef968b0cb067211cb3f2cdb1199b1345eaa8a2d012fa18016a1d5306e7477e7f581a8a1198d916f2026ad9be9b64f13265672bc42140d8cfb6407a79c34956bce66782db01793facf03878ea89310f57972812077574239a10814dc885c8dab90bd0074b82346c8d28ec4f385c47acad1273c4d70a661273baec0c460455aa0457746bb53185a57a7630400b65b17610b69e008823107e8e6a88f7270fbdc14fda8b3e78c97403044a0657f2878287f4b29cc708047391fe94178a47cb8c1408a248a2b419742f6d871dafba00651364bf9471e3997f27c444353b77651b087b49efd31c6c1516e1411cd014aad6f0c52ea0516e22933dd7b75bd123f4364951ac87927b563393abce373918c987b90d2cc21700e60f4bb81d39ba46123549c9dadf713f55c631b3ca65d338fd6c18ced6aa57d68693a1b043fc6c472f85db3bba93aca09f4718d5d03cee3b9246c1500ca9414dab76e77a7a7fc5a851e9679285889608957da09cd6ef79542f452b7906248f59b18a5b336a814bc2c53670a6b00e49f082b0ebd003099984134a7951fd8a724e06426124c5bd69a04d447fd919d2084023be0a9d5f667d9f563e0328289374b497c3d80cb6a422a51003966bf8a2c500c1dc8bac69549b2066ac5b8608bbca93348cc297b7626f98ab4bca11577aa44bcc7289c51223ea77b57e74a335bc07d37986526b0a4b572924b4f4c9c7f1c390fba51a92df6917e84b07f272693f37881dc9e632263602901a7430a376348e8079d9d14a25d79a88f338e9d634dcf1206c7c7a6f391a28919bff53bc583b774c881a156169e07083406458791a2c15de54861028ee9fb763440ca20a3cf761cbeb2fb912a191ad901722e62a0236370465187aa3383746414102351e718680f577512f3c048d530582b0ef96738d1a91cad71aab8bcbb40c4907c925ae3b2523c4b3129b64a47cc972f14549e4b82ad326a65321aaf2734faa2a9e4bbc72581711d357ab53ab3fc26a03ad581bb9591ae1b3422b31bc9617b0ff38294a2070b94338fe6ab61744a3fe5a906a461d650ce0163ad60618a7624151d301b7c816410cb0118a54ce1a65a1ef3145e6097ff163e0b24cc34c10e88046f9988c6185204b00b5f9b40cc8bd06e385b51d160938c819902599c7633698c8490848a67e6c3aa000ba51a608a0f449aa6fa9119a747c4cb28a5b090b47062f69510431b63369b16c98bccd2ec84b81868f1a382da92619b060263d99e31ad73e92900cd450330fcdacc2d9f2f2a9776a8104187918cc7"
-                        ]
-                    },
-                    "Key Share Entry: Group: x25519, Key Exchange length: 32": {
-                        "tls.handshake.extensions_key_share_group": [
-                            "001d"
-                        ],
-                        "tls.handshake.extensions_key_share_key_exchange_length": [
-                            "0020"
-                        ],
-                        "tls.handshake.extensions_key_share_key_exchange": [
-                            "e534eb93963cc45fe50d16bcf348f7ed800f121dddd2b203263a85d14fc91520"
-                        ]
-                    }
-                }
-            },
-            "Extension: session_ticket (len=0)": {
-                "tls.handshake.extension.type": [
-                    "0023"
-                ],
-                "tls.handshake.extension.len": [
-                    "0000"
-                ],
-                "tls.handshake.extensions.session_ticket": [
-                    ""
-                ]
-            },
-            "Extension: supported_versions (len=7) TLS 1.3, TLS 1.2": {
-                "tls.handshake.extension.type": [
-                    "002b"
-                ],
-                "tls.handshake.extension.len": [
-                    "0007"
-                ],
-                "tls.handshake.extensions.supported_versions_len": [
-                    "06"
-                ],
-                "tls.handshake.extensions.supported_version": [
-                    "0303"
-                ]
-            },
-            "Extension: server_name (len=17) name=s1.hdslb.com": {
-                "tls.handshake.extension.type": [
-                    "0000"
-                ],
-                "tls.handshake.extension.len": [
-                    "0011"
-                ],
-                "Server Name Indication extension": {
-                    "tls.handshake.extensions_server_name_list_len": [
-                        "000f"
-                    ],
-                    "tls.handshake.extensions_server_name_type": [
-                        "00"
-                    ],
-                    "tls.handshake.extensions_server_name_len": [
-                        "000c"
-                    ],
-                    "tls.handshake.extensions_server_name": [
-                        "73312e6864736c622e636f6d"
-                    ]
-                }
-            },
-            "Extension: renegotiation_info (len=1)": {
-                "tls.handshake.extension.type": [
-                    "ff01"
-                ],
-                "tls.handshake.extension.len": [
-                    "0001"
-                ],
-                "Renegotiation Info extension": {
-                    "tls.handshake.extensions_reneg_info_len": [
-                        "00"
-                    ]
-                }
-            },
-            "Extension: ec_point_formats (len=2)": {
-                "tls.handshake.extension.type": [
-                    "000b"
-                ],
-                "tls.handshake.extension.len": [
-                    "0002"
-                ],
-                "tls.handshake.extensions_ec_point_formats_length": [
-                    "01"
-                ],
-                "tls.handshake.extensions_ec_point_formats": {
-                    "tls.handshake.extensions_ec_point_format": [
-                        "00"
-                    ]
-                }
-            },
-            "Extension: supported_groups (len=12)": {
-                "tls.handshake.extension.type": [
-                    "000a"
-                ],
-                "tls.handshake.extension.len": [
-                    "000c"
-                ],
-                "tls.handshake.extensions_supported_groups_length": [
-                    "000a"
-                ],
-                "tls.handshake.extensions_supported_groups": {
-                    "tls.handshake.extensions_supported_group": [
-                        "0018"
-                    ]
-                }
-            },
+            "tls.handshake.extensions_length": [
+                "00",
+                "8c"
+            ],
             "Extension: status_request (len=5)": {
                 "tls.handshake.extension.type": [
-                    "0005"
+                    "00",
+                    "05"
                 ],
                 "tls.handshake.extension.len": [
-                    "0005"
+                    "00",
+                    "05"
                 ],
                 "tls.handshake.extensions_status_request_type": [
                     "01"
                 ],
                 "tls.handshake.extensions_status_request_responder_ids_len": [
-                    "0000"
+                    "00",
+                    "00"
                 ],
                 "tls.handshake.extensions_status_request_exts_len": [
-                    "0000"
+                    "00",
+                    "00"
                 ]
-            },
-            "Extension: compress_certificate (len=3)": {
-                "tls.handshake.extension.type": [
-                    "001b"
-                ],
-                "tls.handshake.extension.len": [
-                    "0003"
-                ],
-                "tls.compress_certificate.algorithms_length": [
-                    "02"
-                ],
-                "tls.compress_certificate.algorithm": [
-                    "0002"
-                ]
-            },
-            "Extension: application_settings (len=5)": {
-                "tls.handshake.extension.type": [
-                    "4469"
-                ],
-                "tls.handshake.extension.len": [
-                    "0005"
-                ],
-                "tls.handshake.extensions_alps_len": [
-                    "0003"
-                ],
-                "tls.handshake.extensions_alps_alpn_list": {
-                    "tls.handshake.extensions_alps_alpn_str_len": [
-                        "02"
-                    ],
-                    "tls.handshake.extensions_alps_alpn_str": [
-                        "6832"
-                    ]
-                }
-            },
-            "Extension: signature_algorithms (len=18)": {
-                "tls.handshake.extension.type": [
-                    "000d"
-                ],
-                "tls.handshake.extension.len": [
-                    "0012"
-                ],
-                "tls.handshake.sig_hash_alg_len": [
-                    "0010"
-                ],
-                "tls.handshake.sig_hash_algs": {
-                    "tls.handshake.sig_hash_alg": [
-                        "0601"
-                    ]
-                }
             },
             "Extension: psk_key_exchange_modes (len=2)": {
                 "tls.handshake.extension.type": [
-                    "002d"
+                    "00",
+                    "2d"
                 ],
                 "tls.handshake.extension.len": [
-                    "0002"
+                    "00",
+                    "02"
                 ],
                 "tls.extension.psk_ke_modes_length": [
                     "01"
@@ -303,101 +168,195 @@
                     "01"
                 ]
             },
-            "Extension: encrypted_client_hello (len=186)": {
+            "Extension: ec_point_formats (len=2)": {
                 "tls.handshake.extension.type": [
-                    "fe0d"
+                    "00",
+                    "0b"
                 ],
                 "tls.handshake.extension.len": [
-                    "00ba"
+                    "00",
+                    "02"
                 ],
-                "tls.ech.client_hello_type": [
-                    "00"
+                "tls.handshake.extensions_ec_point_formats_length": [
+                    "01"
                 ],
-                "tls.ech.hpke.keyconfig.cipher_suite": {
-                    "tls.ech.hpke.keyconfig.cipher_suite.kdf_id": [
-                        "0001"
-                    ],
-                    "tls.ech.hpke.keyconfig.cipher_suite.aead_id": [
-                        "0001"
-                    ]
-                },
-                "tls.ech.config_id": [
-                    "6e"
-                ],
-                "tls.ech.enc_length": [
-                    "0020"
-                ],
-                "tls.ech.enc": [
-                    "4e9a85ef5f70b70de553051bc5e563d8df08d2e5eefd38a5c71420e233bd2433"
-                ],
-                "tls.ech.payload_length": [
-                    "0090"
-                ],
-                "tls.ech.payload": [
-                    "fe47b8e5e966ea5136049318c945d4a6deefcd3a95021ce3372300d2fbc1377976299798f0e9c5ad63e827e2f2de3b91787d73bbd6ca6cc8bc23d600619cd76a07d0c561f7e5182f155bb34acaae810b7d54f82043789259d6e1dc6174622e9271e35bd01f460747db4d8dc8eaba93f1e63cd0a952e2b6f475b0d4b3d473f2922af1422d66e2c0463fad5a34588348aa"
-                ]
-            },
-            "Extension: signed_certificate_timestamp (len=0)": {
-                "tls.handshake.extension.type": [
-                    "0012"
-                ],
-                "tls.handshake.extension.len": [
-                    "0000"
-                ]
-            },
-            "Extension: Reserved (GREASE) (len=1)": {
-                "tls.handshake.extension.type": [
-                    "fafa"
-                ],
-                "tls.handshake.extension.len": [
-                    "0001"
-                ],
-                "tls.handshake.extension.data": [
+                "tls.handshake.extensions_ec_point_formats": [
                     "00"
                 ]
             },
-            "Extension: pre_shared_key (len=267)": {
+            "Extension: key_share (len=38) x25519": {
                 "tls.handshake.extension.type": [
-                    "0029"
+                    "00",
+                    "33"
                 ],
                 "tls.handshake.extension.len": [
-                    "010b"
+                    "00",
+                    "26"
                 ],
-                "Pre-Shared Key extension": {
-                    "tls.handshake.extensions.psk.identities.length": [
-                        "00e6"
+                "Key Share extension": {
+                    "tls.handshake.extensions_key_share_client_length": [
+                        "00",
+                        "24"
                     ],
-                    "PSK Identity (length: 224)": {
-                        "tls.handshake.extensions.psk.identity.identity_length": [
-                            "00e0"
+                    "Key Share Entry: Group: x25519, Key Exchange length: 32": {
+                        "tls.handshake.extensions_key_share_group": [
+                            "00",
+                            "1d"
                         ],
-                        "tls.handshake.extensions.psk.identity.identity": [
-                            "c7f31516ca6f94ed9e9e8eb7f6f153b13444dc5b0da319c753cf27aec25b5b37846502e212c6fa3eafbb276ff76e4f2164a7e14bb8bebcb7aa5b3033af02cf5e2c07777ff02e60a930790b8acaf0221e8a5659fde974ebdd52ae99f5dbb308255f1ac9ad229348ff5b2283f405b43548168bd68d9e7858a2e3cfa9090e7922520e913172a66f6de471f2d1840a4cd96879c01e1ccc977998540b75e996f4f70b7e4ee04878b92d76cf69b22040e2bc20ef1bacd955c00726bb5b43cfd435c69bffa94271fb2cca13d937e2b70974354d23fce8e753bca05e956688360d98dcb4"
+                        "tls.handshake.extensions_key_share_key_exchange_length": [
+                            "00",
+                            "20"
                         ],
-                        "tls.handshake.extensions.psk.identity.obfuscated_ticket_age": [
-                            "35cb2c39"
+                        "tls.handshake.extensions_key_share_key_exchange": [
+                            "d8",
+                            "ef",
+                            "6e",
+                            "c2",
+                            "e1",
+                            "fa",
+                            "1b",
+                            "1e",
+                            "1b",
+                            "2e",
+                            "2c",
+                            "30",
+                            "30",
+                            "d6",
+                            "60",
+                            "a0",
+                            "15",
+                            "6c",
+                            "b5",
+                            "62",
+                            "99",
+                            "c7",
+                            "20",
+                            "34",
+                            "33",
+                            "90",
+                            "88",
+                            "64",
+                            "b6",
+                            "d8",
+                            "e8",
+                            "7a"
                         ]
-                    },
-                    "tls.handshake.extensions.psk.binders_len": [
-                        "0021"
-                    ],
-                    "tls.handshake.extensions.psk.binders": [
-                        "20cd41df9dc1b1116c5b6253d17047100e72004f8c5303800748d5c87632973806"
-                    ]
+                    }
                 }
             },
-            "tls.handshake.ja4": [
-                "t13d1517h2_8daaf6152771_b0da82dd1658"
-            ],
-            "tls.handshake.ja4_r": [
-                "t13d1517h2_002f,0035,009c,009d,1301,1302,1303,c013,c014,c02b,c02c,c02f,c030,cca8,cca9_0005,000a,000b,000d,0012,0017,001b,0023,0029,002b,002d,0033,4469,fe0d,ff01_0403,0804,0401,0503,0805,0501,0806,0601"
-            ],
-            "tls.handshake.ja3_full": [
-                "771,4865-4866-4867-49195-49199-49196-49200-52393-52392-49171-49172-156-157-47-53,16-23-51-35-43-0-65281-11-10-5-27-17513-13-45-65037-18-41,25497-29-23-24,0"
-            ],
-            "tls.handshake.ja3": [
-                "92d6c5cb25b82ec0e59f98f9fb4d2971"
-            ]
+            "Extension: extended_master_secret (len=0)": {
+                "tls.handshake.extension.type": [
+                    "00",
+                    "17"
+                ],
+                "tls.handshake.extension.len": [
+                    "00",
+                    "00"
+                ]
+            },
+            "Extension: supported_versions (len=3) TLS 1.3": {
+                "tls.handshake.extension.type": [
+                    "00",
+                    "2b"
+                ],
+                "tls.handshake.extension.len": [
+                    "00",
+                    "03"
+                ],
+                "tls.handshake.extensions.supported_versions_len": [
+                    "02"
+                ],
+                "tls.handshake.extensions.supported_version": [
+                    "03",
+                    "04"
+                ]
+            },
+            "Extension: session_ticket (len=0)": {
+                "tls.handshake.extension.type": [
+                    "00",
+                    "23"
+                ],
+                "tls.handshake.extension.len": [
+                    "00",
+                    "00"
+                ]
+            },
+            "Extension: supported_groups (len=8)": {
+                "tls.handshake.extension.type": [
+                    "00",
+                    "0a"
+                ],
+                "tls.handshake.extension.len": [
+                    "00",
+                    "08"
+                ],
+                "tls.handshake.extensions_supported_groups_length": [
+                    "00",
+                    "06"
+                ],
+                "tls.handshake.extensions_supported_groups": [
+                    "00",
+                    "18"
+                ]
+            },
+            "Extension: signature_algorithms (len=22)": {
+                "tls.handshake.extension.type": [
+                    "00",
+                    "0d"
+                ],
+                "tls.handshake.extension.len": [
+                    "00",
+                    "16"
+                ],
+                "tls.handshake.sig_hash_alg_len": [
+                    "00",
+                    "14"
+                ],
+                "tls.handshake.sig_hash_algs": [
+                    "04",
+                    "01"
+                ]
+            },
+            "Extension: server_name (len=20) name=WIN-1C2P8R1FV76": {
+                "tls.handshake.extension.type": [
+                    "00",
+                    "00"
+                ],
+                "tls.handshake.extension.len": [
+                    "00",
+                    "14"
+                ],
+                "Server Name Indication extension": {
+                    "tls.handshake.extensions_server_name_list_len": [
+                        "00",
+                        "12"
+                    ],
+                    "tls.handshake.extensions_server_name_type": [
+                        "00"
+                    ],
+                    "tls.handshake.extensions_server_name_len": [
+                        "00",
+                        "0f"
+                    ],
+                    "tls.handshake.extensions_server_name": [
+                        "57",
+                        "49",
+                        "4e",
+                        "2d",
+                        "31",
+                        "43",
+                        "32",
+                        "50",
+                        "38",
+                        "52",
+                        "31",
+                        "46",
+                        "56",
+                        "37",
+                        "36"
+                    ]
+                }
+            }
         }
     }
 }

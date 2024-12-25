@@ -1,0 +1,80 @@
+ClientHello Contents:
+TLS Record Layer:
+  Content Type: 0x16
+  Version: 0x0301
+  Length: 0x012E (302 bytes)
+Handshake Layer:
+  Handshake Type: 0x01
+  Length: 0x00012A (298 bytes)
+ClientHello:
+  Client Version: 0x0303
+  Random: BD EC 5C BD B0 5E 59 74 23 A9 5E 40 FE 59 7B 62 83 A2 12 67 EA F8 D4 5E 59 79 DC B7 A1 1A 85 80 
+  Session ID Length: 0x20 (32 bytes)
+  Session ID: E8 EA 20 7A C6 8D 35 1C A1 5D 5C 3C 51 B4 FC 67 F8 28 F6 7B D7 9C BC 70 F8 B9 9F 20 A9 B8 55 BD 
+  Cipher Suites Length: 0x0014 (20 bytes)
+  Cipher Suites:
+    TLS_AES_256_GCM_SHA384 (0x1302)
+    TLS_AES_128_GCM_SHA256 (0x1301)
+    TLS_CHACHA20_POLY1305_SHA256 (0x1303)
+    TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (0xC02C)
+    TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (0xC02B)
+    TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (0xCCA9)
+    TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (0xC030)
+    TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xC02F)
+    TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (0xCCA8)
+    TLS_EMPTY_RENEGOTIATION_INFO_SCSV (0x00FF)
+  Compression Methods Length: 0x01 (1 bytes)
+  Compression Methods: 00 
+  Extensions Length: 0x00CD (205 bytes), Extensions Number: 10
+    Extension 1:
+      Type: 0x0017 (extended_master_secret)
+      Length: 0x0000 (0 bytes)
+    Extension 2:
+      Type: 0x002D (psk_key_exchange_modes)
+      Length: 0x0002 (2 bytes)
+      psk_key_exchange_modes content (Length: 1):
+        PSK without (EC)DHE key establishment
+    Extension 3:
+      Type: 0x000B (ec_point_formats)
+      Length: 0x0002 (2 bytes)
+      Content: 01 00 
+    Extension 4:
+      Type: 0x000A (supported_groups)
+      Length: 0x0008 (8 bytes)
+      supported_groups content (Length: 6):
+        x25519 (0x001D)
+        secp256r1 (0x0017)
+        secp384r1 (0x0018)
+    Extension 5:
+      Type: 0x0033 (key_share)
+      Length: 0x0026 (38 bytes)
+      Key Share extension (Client Key Share Length: 36):
+        Key Share Entry: Group: x25519 (0x001D), Key Exchange Length: 32
+        Key Exchange: 52 89 07 40 D0 F3 AA E1 1A A2 B2 33 61 A1 DA F1 2B B0 29 20 59 05 D7 F2 E1 94 19 8F 94 0B 21 26 
+    Extension 6:
+      Type: 0x002B (supported_versions)
+      Length: 0x0003 (3 bytes)
+      supported_versions content (Length: 2):
+        TLS 1.3 (0x0304)
+    Extension 7:
+      Type: 0x0000 (server_name)
+      Length: 0x0014 (20 bytes)
+      Server Name Indication extension (Server Name list length: 18):
+        Server Name Type: host_name (0)
+        Server Name length: 15
+        Server Name: WIN-A9626JATE0P
+    Extension 8:
+      Type: 0x0005 (status_request)
+      Length: 0x0005 (5 bytes)
+      Content: 01 00 00 00 00 
+    Extension 9:
+      Type: 0x0029 (pre_shared_key)
+      Length: 0x005B (91 bytes)
+      Pre-Shared Key extension:
+        Identities Length: 38
+        PSK Identity (length: 32):
+          Identity: B3 3F 00 00 7C 01 ED 13 D3 CC DF 2F F9 C6 7D 99 6E 56 A0 00 87 BE 9C 1A 96 02 14 FB 54 D5 22 9A
+          Obfuscated Ticket Age:EB3E0B5E 3946711902
+        PSK Binders length: 31 49
+          PSK Binder (length: 30 48):
+            Binder: 5F A2 4A 56 A8 69 01 1D 8C 79 E7 20 69 EC 5E 4A 6E 1B 26 8C CC 10 B3 0E 09 08 C5 B8 C0 7E 47 59 83 7D 6B 4C 63 75 38 12 10 78 6D AD D8 23 96 8A
