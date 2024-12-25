@@ -1,24 +1,24 @@
 use phf::phf_map;
 
-pub mod clienthello_parser;
-pub mod clienthello_mutator;
-pub mod server_response;
-pub mod network_connect;
-pub mod terminal;
 pub mod clienthello;
+pub mod clienthello_mutator;
+pub mod clienthello_parser;
+pub mod network_connect;
+pub mod server_response;
+pub mod terminal;
 
 pub use clienthello::*;
-pub use clienthello_parser::*;
-pub use server_response::*;
-pub use network_connect::*;
-pub use terminal::*;
 pub use clienthello_mutator::*;
+pub use clienthello_parser::*;
+pub use network_connect::*;
+pub use server_response::*;
+pub use terminal::*;
 
-
+// own:cargo run -- --server WIN-A9626JATE0P --ip 172.23.214.40  --test_env --check_parse_ch --check_mutate_ch --check_parse_sh
 pub const SERVER_NAME: &str = "WIN-1C2P8R1FV76";
-// WIN_QCU7FNFT726
+// WIN_QCU7FNFT726 WIN-A9626JATE0P
 pub const SERVER_STATIC_IP: &str = "192.168.110.130";
-// 192.168.133.129
+// 192.168.133.129 172.23.214.40
 pub const PORT: u16 = 443;
 
 static TLS_EXTENSIONS: phf::Map<u16, &'static str> = phf_map! {
