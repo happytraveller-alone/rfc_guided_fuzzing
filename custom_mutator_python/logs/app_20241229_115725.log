@@ -1,0 +1,39 @@
+2024-12-29 11:57:25,379 - INFO - Log initialized. Log file: logs\app_20241229_115725.log
+2024-12-29 11:57:25,382 - INFO - Cleared 0 old log files (older than 5 minutes )
+2024-12-29 11:57:25,382 - INFO - Original data structure:
+2024-12-29 11:57:25,382 - INFO - JSON structure:
+2024-12-29 11:57:25,382 - INFO - {
+2024-12-29 11:57:25,382 - INFO -   "field1": [
+2024-12-29 11:57:25,382 - INFO -       "0x12", "0x34"
+2024-12-29 11:57:25,382 - INFO -     ],
+2024-12-29 11:57:25,382 - INFO -   "field2": {
+2024-12-29 11:57:25,383 - INFO -     "field2_sub1": [
+2024-12-29 11:57:25,383 - INFO -         "0x56", "0x78"
+2024-12-29 11:57:25,384 - INFO -       ],
+2024-12-29 11:57:25,384 - INFO -     "field2_sub2": [
+2024-12-29 11:57:25,384 - INFO -         "0x9A", "0xBC"
+2024-12-29 11:57:25,384 - INFO -       ]
+2024-12-29 11:57:25,384 - INFO -   },
+2024-12-29 11:57:25,384 - INFO -   "field3": [
+2024-12-29 11:57:25,384 - INFO -       "0xDE", "0xF0", "0x43", "0x21"
+2024-12-29 11:57:25,384 - INFO -     ]
+2024-12-29 11:57:25,384 - INFO - }
+2024-12-29 11:57:25,384 - INFO - Testing array head addition: Adding ['0xAA', '0xBB'] to the head of field1
+2024-12-29 11:57:25,384 - INFO - Before: field1 = ['0x12', '0x34']
+2024-12-29 11:57:25,384 - INFO - After: field1 = ['0xAA', '0xBB', '0x12', '0x34']
+2024-12-29 11:57:25,384 - INFO - Testing array tail addition: Adding ['0xCC', '0xDD'] to the tail of field3
+2024-12-29 11:57:25,384 - INFO - Before: field3 = ['0xDE', '0xF0', '0x43', '0x21']
+2024-12-29 11:57:25,385 - INFO - After: field3 = ['0xDE', '0xF0', '0x43', '0x21', '0xCC', '0xDD']
+2024-12-29 11:57:25,385 - INFO - Testing array update: Updating field2.field2_sub1 with ['0xEE', '0xFF']
+2024-12-29 11:57:25,385 - INFO - Before: field2.field2_sub1 = ['0x56', '0x78']
+2024-12-29 11:57:25,385 - INFO - Updated array at ['field2', 'field2_sub1'] from ['0x56', '0x78'] to ['0xEE', '0xFF']
+2024-12-29 11:57:25,385 - INFO - After: field2.field2_sub1 = ['0xEE', '0xFF']
+2024-12-29 11:57:25,385 - INFO - Testing array removal: Removing field2.field2_sub1
+2024-12-29 11:57:25,385 - INFO - Before: field2.field2_sub1 = ['0xEE', '0xFF']
+2024-12-29 11:57:25,385 - INFO - After: field2.field2_sub1 = (Removed)
+2024-12-29 11:57:25,385 - WARNING - === Testing dictionary addition with object and pair ===
+2024-12-29 11:57:25,385 - INFO - Operation: Adding new object 'field4' to root
+2024-12-29 11:57:25,385 - INFO - Operation: Adding new pair 'field4_sub1': ['0x31', '0x32'] to field4
+2024-12-29 11:57:25,385 - INFO - Operation: Adding new object 'field4_sub2' to field4
+2024-12-29 11:57:25,385 - INFO - Operation: Adding new pair 'nested_key': ['0x41', '0x42'] to field4.field4_sub2
+2024-12-29 11:57:25,385 - INFO - Final result: data = ['0x41', '0x42']
