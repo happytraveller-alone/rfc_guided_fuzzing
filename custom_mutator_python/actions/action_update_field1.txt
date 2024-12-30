@@ -1,0 +1,10 @@
+{
+    "description": "Update field1 value",
+    "action_sequence": [
+        {
+            "action": "update",
+            "fields": ["new_object", "sub_field"],
+            "value": ["0x10", "0x02"]
+        }
+    ]
+}

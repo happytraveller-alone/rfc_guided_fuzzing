@@ -1,0 +1,10 @@
+{
+    "description": "add new_value",
+    "action_sequence": [
+        {
+            "action": "add",
+            "fields": ["new_field"],
+            "value": ["0x18", "0x52"]
+        }
+    ]
+}

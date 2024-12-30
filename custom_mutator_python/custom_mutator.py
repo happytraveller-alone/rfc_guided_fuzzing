@@ -331,6 +331,144 @@ class JsonData:
             error_msg = f"Error adding new pair: {str(e)}"
             logging.error(error_msg)
             raise
+
+class ActionParser:
+    """Action文件解析器"""
+    
+    SUPPORTED_ACTIONS = {
+        'add': 'add',
+        'remove': 'remove',
+        'update': 'update'
+    }
+    
+    def __init__(self, action_dir: str = "actions"):
+        self.action_dir = Path(action_dir)
+        self.actions: Dict[str, Dict] = {}
+
+    def _validate_action(self, action: Dict) -> bool:
+        """验证单个action的格式"""
+        # 检查action类型
+        if 'action' not in action or action['action'] not in self.SUPPORTED_ACTIONS:
+            logging.error(f"Unsupported or missing action type: {action.get('action')}")
+            return False
+
+        # 检查fields字段
+        if 'fields' not in action or not isinstance(action['fields'], list):
+            logging.error("Missing or invalid 'fields' in action")
+            return False
+
+        # 检查value字段格式（如果存在）
+        if 'value' in action:
+            if not isinstance(action['value'], list):
+                logging.error("value must be an array")
+                return False
+            if not all(isinstance(x, str) for x in action['value']):
+                logging.error("All values in value array must be strings")
+                return False
+
+        # add和update操作需要value字段（除非是add空对象）
+        action_type = action['action']
+        if action_type == 'update' and 'value' not in action:
+            logging.error("Update action requires 'value' field")
+            return False
+
+        return True
+
+    def load_actions(self) -> None:
+        """加载所有action文件"""
+        if not self.action_dir.exists():
+            logging.error(f"Action directory {self.action_dir} does not exist")
+            raise FileNotFoundError(f"Directory {self.action_dir} not found")
+
+        for file_path in self.action_dir.glob("action_*.txt"):
+            try:
+                action_name = file_path.stem
+                logging.info(f"Processing action file: {file_path}")
+                
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read().strip()
+                    try:
+                        action_data = json.loads(content)
+                    except json.JSONDecodeError as e:
+                        logging.error(f"JSON parsing error in {file_path}:")
+                        logging.error(f"Error position: line {e.lineno}, column {e.colno}")
+                        logging.error(f"Error details: {str(e)}")
+                        continue
+
+                    if 'action_sequence' not in action_data:
+                        logging.error(f"Missing action_sequence in {file_path}")
+                        continue
+
+                    if not all(self._validate_action(action) for action in action_data['action_sequence']):
+                        logging.error(f"Invalid action format in {file_path}")
+                        continue
+
+                    self.actions[action_name] = action_data
+                    logging.info(f"Successfully loaded action file: {file_path}")
+                    
+            except Exception as e:
+                logging.error(f"Unexpected error processing {file_path}: {str(e)}")
+                continue
+
+    def _execute_add_action(self, action: Dict, json_data: JsonData) -> None:
+        """执行add类型的action
+        - 如果没有value字段，则添加对象
+        - 如果有value字段，则添加键值对
+        """
+        if 'value' not in action:
+            # 没有value字段，添加对象
+            logging.info(f"Adding new object at path: {action['fields']}")
+            json_data.json_data_pair_add(
+                action['fields'][:-1],
+                action['fields'][-1],
+                add_type=AddType.OBJECT
+            )
+        else:
+            # 有value字段，添加键值对
+            logging.info(f"Adding new value at path: {action['fields']}")
+            json_data.json_data_pair_add(
+                action['fields'][:-1],
+                action['fields'][-1],
+                action['value'],
+                AddType.PAIR
+            )
+
+    def _execute_update_action(self, action: Dict, json_data: JsonData) -> None:
+        """执行update类型的action"""
+        logging.info(f"Updating value at path: {action['fields']}")
+        json_data.json_data_value_update(
+            action['fields'],
+            action['value']  # 使用统一的value字段
+        )
+
+    def _execute_remove_action(self, action: Dict, json_data: JsonData) -> None:
+        """执行remove类型的action"""
+        logging.info(f"Removing field at path: {action['fields']}")
+        json_data.json_data_remove_pair(action['fields'])
+
+    def execute_action(self, action_name: str, json_data: JsonData) -> None:
+        """执行指定的action序列"""
+        action_config = self.actions.get(action_name)
+        if not action_config:
+            raise KeyError(f"Action {action_name} not found")
+            
+        logging.info(f"Executing action sequence from: {action_name}")
+        
+        for action in action_config['action_sequence']:
+            action_type = action['action']
+            try:
+                if action_type == 'add':
+                    self._execute_add_action(action, json_data)
+                elif action_type == 'update':
+                    self._execute_update_action(action, json_data)
+                elif action_type == 'remove':
+                    self._execute_remove_action(action, json_data)
+                else:
+                    logging.warning(f"Skipping unsupported action type: {action_type}")
+                    
+            except Exception as e:
+                logging.error(f"Error executing {action_type} action: {str(e)}")
+                raise
 def init_log():
     """初始化日志配置
     
@@ -399,6 +537,7 @@ def clear_logs_folder():
             
     logging.info(f"Cleared {file_count} old log files (older than {retention_minutes} minutes )")
 
+
 class TestJsonData(unittest.TestCase):
     def setUp(self):
         """测试数据初始化"""
@@ -415,6 +554,58 @@ class TestJsonData(unittest.TestCase):
             }
         }
         self.json_data = JsonData.json_data_trans_to_ordered_dict(self.test_data)
+
+    def test_action_parser(self):
+            """测试ActionParser功能"""
+            # 创建测试目录和文件
+            test_dir = Path("test_actions")
+            test_dir.mkdir(exist_ok=True)
+
+            # 创建测试action文件
+            test_action = {
+                "description": "Test action",
+                "action_sequence": [
+                    {
+                        "action": "add",
+                        "fields": ["new_field"],
+                        "value": [0x12, 0x34]
+                    }
+                ]
+            }
+
+            with open(test_dir / "action_test.txt", "w") as f:
+                json.dump(test_action, f)
+
+            try:
+                # 测试解析器
+                parser = ActionParser(str(test_dir))
+                parser.load_actions()
+
+                # 验证加载的action
+                self.assertIn("action_test", parser.actions)
+                self.assertEqual(
+                    parser.actions["action_test"]["description"],
+                    "Test action"
+                )
+
+                # 测试执行action
+                test_data = {"existing_field": ["0x56", "0x78"]}
+                json_data = JsonData.json_data_trans_to_ordered_dict(test_data)
+
+                parser.execute_action("action_test", json_data)
+
+                # 验证执行结果
+                self.assertIn("new_field", json_data.data)
+                self.assertEqual(
+                    json_data.get_json_data_value(["new_field"]),
+                    ["0x12", "0x34"]
+                )
+
+            finally:
+                # 清理测试文件和目录
+                for file in test_dir.glob("*"):
+                    file.unlink()
+                test_dir.rmdir()
 
     def test_json_data_trans_to_ordered_dict(self):
         """测试JSON转换为OrderedDict"""
@@ -758,6 +949,16 @@ def main():
         )
         logging.info(f"Final result: data = {json_data.get_json_data_value(['field4', 'field4_sub2', 'nested_key'])}")
 
+        # 创建并使用ActionParser
+        parser = ActionParser("actions")
+        parser.load_actions()
+        
+        # 执行所有加载的actions
+        logging.info("=== Executing loaded actions ===")
+        for action_name in parser.actions:
+            parser.execute_action(action_name, json_data)
+            logging.info(f"Current data state after {action_name}:")
+            json_data.indexmap_print_in_json_pretty_format()
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}")
         raise

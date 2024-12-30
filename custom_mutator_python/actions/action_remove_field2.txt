@@ -1,0 +1,9 @@
+{
+    "description": "remove field2",
+    "action_sequence": [
+        {
+            "action": "remove",
+            "fields": ["field2"]
+        }
+    ]
+}

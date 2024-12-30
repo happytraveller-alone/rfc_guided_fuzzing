@@ -1,0 +1,19 @@
+{
+    "description": "action sequence",
+    "action_sequence": [
+        {
+            "action": "add",
+            "fields": ["new_object"]
+        },
+        {
+            "action": "add",
+            "fields": ["new_object", "sub_field"],
+            "value": ["0x43", "0x26"]
+        },
+        {
+            "action": "update",
+            "fields": ["new_object", "sub_field"],
+            "value": ["0x18", "0x52"]
+        }
+    ]
+}
