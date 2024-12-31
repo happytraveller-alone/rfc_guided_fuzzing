@@ -1,0 +1,220 @@
+text,sr,rule,strategy,action_sequence
+"The 'pre_shared_key' extension MUST be the last extension in the ClientHello
+(this facilitates implementation as described below). Servers MUST check that it is
+the last extension and otherwise fail the handshake with an illegal_parameter alert.","{'protocol': 'TLS 1.3', 'content': ""The 'pre_shared_key' extension must be the last extension in the ClientHello. Servers must check that it is the last extension and otherwise fail the handshake with an illegal_parameter alert."", 'message_type': 'Pre Shared Key Extension'}","{
+    ""structured_rule"": {
+        ""protocol"": ""TLS 1.3"",
+        ""message"": ""Pre Shared Key Extension"",
+        ""field"": ""tls.handshake.extension.type"",
+        ""construction_rule"": {
+            ""role"": ""client"",
+            ""content"": ""When constructing ClientHello, the client must ensure that the 'pre_shared_key' extension is the last extension included in the message.""
+        },
+        ""processing_rule"": {
+            ""role"": ""server"",
+            ""content"": ""Upon receiving ClientHello, the server must check that the 'pre_shared_key' extension is the last extension. If it is not, the server must fail the handshake with an 'illegal_parameter' alert.""
+        }
+    }
+}","{
+    ""rule_violation"": ""The client includes the 'pre_shared_key' extension in a position other than the last in the ClientHello message, violating the requirement that it be the last extension."",
+    ""testing_strategies"": [
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with the 'pre_shared_key' extension placed as the first extension."",
+            ""expected_behavior"": ""Alert""
+        },
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with the 'pre_shared_key' extension placed in the middle of other extensions."",
+            ""expected_behavior"": ""Alert""
+        },
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with multiple 'pre_shared_key' extensions, only one of which is the last extension."",
+            ""expected_behavior"": ""Alert""
+        }
+    ]
+}","{
+    ""action_sequence"": [
+        {
+            ""action"": ""remove"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Extension: pre_shared_key""]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions""],
+            ""position"": 0
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key""]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""tls.handshake.extension.type""],
+            ""value"": [0x00, 0x29]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""tls.handshake.extension.len""],
+            ""value"": [0x00, 0x00]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""Pre-Shared Key extension""]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""Pre-Shared Key extension"", ""tls.handshake.extensions.psk.identities.length""],
+            ""value"": [0x00, 0x00]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""Pre-Shared Key extension"", ""PSK Identity""]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""Pre-Shared Key extension"", ""PSK Identity"", ""tls.handshake.extensions.psk.identity.identity_length""],
+            ""value"": [0x00, 0x00]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""Pre-Shared Key extension"", ""tls.handshake.extensions.psk.binders_len""],
+            ""value"": [0x00, 0x00]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""extensions"", ""Extension: pre_shared_key"", ""Pre-Shared Key extension"", ""tls.handshake.extensions.psk.binders""],
+            ""value"": []
+        }
+    ]
+}"
+"The 'pre_shared_key' extension MUST be the last extension in the ClientHello
+(this facilitates implementation as described below). Servers MUST check that it is
+the last extension and otherwise fail the handshake with an illegal_parameter alert.","{'protocol': 'TLS 1.3', 'content': ""The 'pre_shared_key' extension must be the last extension in the ClientHello. Servers must check that it is the last extension and otherwise fail the handshake with an illegal_parameter alert."", 'message_type': 'Pre Shared Key Extension'}","{
+    ""structured_rule"": {
+        ""protocol"": ""TLS 1.3"",
+        ""message"": ""Pre Shared Key Extension"",
+        ""field"": ""tls.handshake.extension.type"",
+        ""construction_rule"": {
+            ""role"": ""client"",
+            ""content"": ""When constructing ClientHello, the client must ensure that the 'pre_shared_key' extension is the last extension included in the message.""
+        },
+        ""processing_rule"": {
+            ""role"": ""server"",
+            ""content"": ""Upon receiving ClientHello, the server must check that the 'pre_shared_key' extension is the last extension. If it is not, the server must fail the handshake with an 'illegal_parameter' alert.""
+        }
+    }
+}","{
+    ""rule_violation"": ""The client includes the 'pre_shared_key' extension in a position other than the last in the ClientHello message, violating the requirement that it be the last extension."",
+    ""testing_strategies"": [
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with the 'pre_shared_key' extension placed as the first extension."",
+            ""expected_behavior"": ""Alert""
+        },
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with the 'pre_shared_key' extension placed in the middle of other extensions."",
+            ""expected_behavior"": ""Alert""
+        },
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with multiple 'pre_shared_key' extensions, only one of which is the last extension."",
+            ""expected_behavior"": ""Alert""
+        }
+    ]
+}","{
+    ""action_sequence"": [
+        {
+            ""action"": ""remove"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Extension: pre_shared_key""],
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Extension: pre_shared_key""],
+            ""position"": 5  // Assuming 'middle' is the 5th position for demonstration; adjust based on actual other extensions
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Extension: pre_shared_key"", ""tls.handshake.extension.type""],
+            ""value"": [0x00, 0x29]  // Example value for 'pre_shared_key' extension; adjust to the correct value as needed
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Extension: pre_shared_key"", ""tls.handshake.extension.len""],
+            ""value"": [0x00, 0x10]  // Example length value for demonstration; adjust based on actual data
+        }
+    ]
+}"
+"The 'pre_shared_key' extension MUST be the last extension in the ClientHello
+(this facilitates implementation as described below). Servers MUST check that it is
+the last extension and otherwise fail the handshake with an illegal_parameter alert.","{'protocol': 'TLS 1.3', 'content': ""The 'pre_shared_key' extension must be the last extension in the ClientHello. Servers must check that it is the last extension and otherwise fail the handshake with an illegal_parameter alert."", 'message_type': 'Pre Shared Key Extension'}","{
+    ""structured_rule"": {
+        ""protocol"": ""TLS 1.3"",
+        ""message"": ""Pre Shared Key Extension"",
+        ""field"": ""tls.handshake.extension.type"",
+        ""construction_rule"": {
+            ""role"": ""client"",
+            ""content"": ""When constructing ClientHello, the client must ensure that the 'pre_shared_key' extension is the last extension included in the message.""
+        },
+        ""processing_rule"": {
+            ""role"": ""server"",
+            ""content"": ""Upon receiving ClientHello, the server must check that the 'pre_shared_key' extension is the last extension. If it is not, the server must fail the handshake with an 'illegal_parameter' alert.""
+        }
+    }
+}","{
+    ""rule_violation"": ""The client includes the 'pre_shared_key' extension in a position other than the last in the ClientHello message, violating the requirement that it be the last extension."",
+    ""testing_strategies"": [
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with the 'pre_shared_key' extension placed as the first extension."",
+            ""expected_behavior"": ""Alert""
+        },
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with the 'pre_shared_key' extension placed in the middle of other extensions."",
+            ""expected_behavior"": ""Alert""
+        },
+        {
+            ""protocol"": ""TLS 1.3"",
+            ""message"": ""Pre Shared Key Extension"",
+            ""field"": ""tls.handshake.extension.type"",
+            ""description"": ""Send a ClientHello message with multiple 'pre_shared_key' extensions, only one of which is the last extension."",
+            ""expected_behavior"": ""Alert""
+        }
+    ]
+}","{
+    ""action_sequence"": [
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Duplicate Extension: pre_shared_key""]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Duplicate Extension: pre_shared_key"", ""tls.handshake.extension.type""],
+            ""value"": [0x00, 0x29]
+        },
+        {
+            ""action"": ""add"",
+            ""fields"": [""tls"", ""tls.record"", ""tls.handshake"", ""Duplicate Extension: pre_shared_key"", ""tls.handshake.extension.len""],
+            ""value"": [0x00, 0x00]
+        }
+    ]
+}"

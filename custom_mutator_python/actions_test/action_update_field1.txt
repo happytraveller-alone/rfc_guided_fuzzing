@@ -4,7 +4,7 @@
         {
             "action": "update",
             "fields": ["new_object", "sub_field"],
-            "value": ["0x10", "0x02"]
+            "new_value": ["0x10", "0x02"]
         }
     ]
 }

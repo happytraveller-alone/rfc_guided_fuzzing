@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt.new_type"],
+"value": ["0x04"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt.new_length"],
+"value": ["0x00"]
+}
+]
+}

@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["esp", "esp.length"],
+"value": ["0x00", "0x02"]
+},
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.nxt"],
+"new_value": ["0x32"]
+}
+]
+}

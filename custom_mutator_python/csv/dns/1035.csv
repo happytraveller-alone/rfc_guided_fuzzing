@@ -1,0 +1,145 @@
+text,sr,rule,strategy,action_sequence
+"The recommended strategy is to do a preliminary matching using the ID field in the domain header, and then to verify that the question section corresponds to the information currently desired.","{'protocol': 'DNS', 'content': 'The recommended strategy for processing DNS responses is to do a preliminary matching using the ID field in the domain header, and then verify that the question section corresponds to the information currently desired.', 'message_type': 'Response'}","{
+    ""structured_rule"": {
+        ""protocol"": ""DNS"",
+        ""message"": ""Response"",
+        ""field"": ""dns.id"",
+        ""construction_rule"": {
+            ""role"": ""server"",
+            ""content"": ""The server must ensure that the dns.id field in the DNS response matches the dns.id field from the corresponding DNS query.""
+        },
+        ""processing_rule"": {
+            ""role"": ""client"",
+            ""content"": ""Upon receiving a DNS response, the client must perform a preliminary check using the dns.id field to confirm it matches the dns.id field of the outstanding request. If the dns.id does not match, the response should be discarded. The client MUST also verify that the question section of the response corresponds to the expected query.""
+        }
+    }
+}","{
+    ""rule_violation"": ""The server sends a DNS response where the dns.id field does not match the dns.id field of the corresponding DNS query."",
+    ""testing_strategies"": [
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field set to a completely different value from the one used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        },
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field incremented by one compared to the dns.id used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        },
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field set to zero, irrespective of the dns.id used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        }
+    ]
+}","{
+  ""action_sequence"": [
+    {
+      ""action"": ""update"",
+      ""fields"": [""dns"", ""dns.id""],
+      ""new_value"": [0x12, 0x34]
+    }
+  ]
+}"
+"The recommended strategy is to do a preliminary matching using the ID field in the domain header, and then to verify that the question section corresponds to the information currently desired.","{'protocol': 'DNS', 'content': 'The recommended strategy for processing DNS responses is to do a preliminary matching using the ID field in the domain header, and then verify that the question section corresponds to the information currently desired.', 'message_type': 'Response'}","{
+    ""structured_rule"": {
+        ""protocol"": ""DNS"",
+        ""message"": ""Response"",
+        ""field"": ""dns.id"",
+        ""construction_rule"": {
+            ""role"": ""server"",
+            ""content"": ""The server must ensure that the dns.id field in the DNS response matches the dns.id field from the corresponding DNS query.""
+        },
+        ""processing_rule"": {
+            ""role"": ""client"",
+            ""content"": ""Upon receiving a DNS response, the client must perform a preliminary check using the dns.id field to confirm it matches the dns.id field of the outstanding request. If the dns.id does not match, the response should be discarded. The client MUST also verify that the question section of the response corresponds to the expected query.""
+        }
+    }
+}","{
+    ""rule_violation"": ""The server sends a DNS response where the dns.id field does not match the dns.id field of the corresponding DNS query."",
+    ""testing_strategies"": [
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field set to a completely different value from the one used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        },
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field incremented by one compared to the dns.id used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        },
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field set to zero, irrespective of the dns.id used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        }
+    ]
+}","{
+    ""action_sequence"": [
+        {
+            ""action"": ""update"",
+            ""fields"": [""dns"", ""dns.id""],
+            ""new_value"": [0x00, 0x01]  // Example: Assuming the original was 0x00 0x00. This should be incremented by one; adjust according to the original value.
+        }
+    ]
+}"
+"The recommended strategy is to do a preliminary matching using the ID field in the domain header, and then to verify that the question section corresponds to the information currently desired.","{'protocol': 'DNS', 'content': 'The recommended strategy for processing DNS responses is to do a preliminary matching using the ID field in the domain header, and then verify that the question section corresponds to the information currently desired.', 'message_type': 'Response'}","{
+    ""structured_rule"": {
+        ""protocol"": ""DNS"",
+        ""message"": ""Response"",
+        ""field"": ""dns.id"",
+        ""construction_rule"": {
+            ""role"": ""server"",
+            ""content"": ""The server must ensure that the dns.id field in the DNS response matches the dns.id field from the corresponding DNS query.""
+        },
+        ""processing_rule"": {
+            ""role"": ""client"",
+            ""content"": ""Upon receiving a DNS response, the client must perform a preliminary check using the dns.id field to confirm it matches the dns.id field of the outstanding request. If the dns.id does not match, the response should be discarded. The client MUST also verify that the question section of the response corresponds to the expected query.""
+        }
+    }
+}","{
+    ""rule_violation"": ""The server sends a DNS response where the dns.id field does not match the dns.id field of the corresponding DNS query."",
+    ""testing_strategies"": [
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field set to a completely different value from the one used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        },
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field incremented by one compared to the dns.id used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        },
+        {
+            ""protocol"": ""DNS"",
+            ""message"": ""Response"",
+            ""field"": ""dns.id"",
+            ""description"": ""Send a DNS response with the dns.id field set to zero, irrespective of the dns.id used in the original DNS query."",
+            ""expected_behavior"": ""Error feedback""
+        }
+    ]
+}","{
+    ""action_sequence"": [
+        {
+            ""action"": ""update"",
+            ""fields"": [""dns"", ""dns.id""],
+            ""new_value"": [0x00, 0x00]
+        }
+    ]
+}"

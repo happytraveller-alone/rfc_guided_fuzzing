@@ -7,6 +7,8 @@ import os
 import unittest
 import logging
 from enum import Enum
+import pandas as pd
+import shutil
 
 class AddType(Enum):
     """添加类型枚举"""
@@ -357,20 +359,28 @@ class ActionParser:
             logging.error("Missing or invalid 'fields' in action")
             return False
 
-        # 检查value字段格式（如果存在）
-        if 'value' in action:
+        action_type = action['action']
+        
+        # 检查add操作的value字段
+        if action_type == 'add' and 'value' in action:
             if not isinstance(action['value'], list):
-                logging.error("value must be an array")
+                logging.error("value must be an array for add action")
                 return False
             if not all(isinstance(x, str) for x in action['value']):
-                logging.error("All values in value array must be strings")
+                logging.error("All values in value array must be strings for add action")
                 return False
 
-        # add和update操作需要value字段（除非是add空对象）
-        action_type = action['action']
-        if action_type == 'update' and 'value' not in action:
-            logging.error("Update action requires 'value' field")
-            return False
+        # 检查update操作的new_value字段
+        if action_type == 'update':
+            if 'new_value' not in action:
+                logging.error("Update action requires 'new_value' field")
+                return False
+            if not isinstance(action['new_value'], list):
+                logging.error("new_value must be an array for update action")
+                return False
+            if not all(isinstance(x, str) for x in action['new_value']):
+                logging.error("All values in new_value array must be strings for update action")
+                return False
 
         return True
 
@@ -429,7 +439,7 @@ class ActionParser:
             json_data.json_data_pair_add(
                 action['fields'][:-1],
                 action['fields'][-1],
-                action['value'],
+                action['value'],  # 使用value字段
                 AddType.PAIR
             )
 
@@ -438,7 +448,7 @@ class ActionParser:
         logging.info(f"Updating value at path: {action['fields']}")
         json_data.json_data_value_update(
             action['fields'],
-            action['value']  # 使用统一的value字段
+            action['new_value']  # 使用new_value字段
         )
 
     def _execute_remove_action(self, action: Dict, json_data: JsonData) -> None:
@@ -452,7 +462,7 @@ class ActionParser:
         if not action_config:
             raise KeyError(f"Action {action_name} not found")
             
-        logging.info(f"Executing action sequence from: {action_name}")
+        logging.info(f"\nExecuting action sequence from: {action_name}")
         
         for action in action_config['action_sequence']:
             action_type = action['action']
@@ -876,6 +886,308 @@ def run_tests():
     """运行所有单元测试"""
     suite = unittest.TestLoader().loadTestsFromTestCase(TestJsonData)
     unittest.TextTestRunner(verbosity=2).run(suite)
+class ActionLoader:
+    """从CSV文件加载和处理action序列，支持子文件夹对应关系"""
+    
+    def __init__(self, csv_dir: str = "csv", action_dir: str = "actions"):
+        self.csv_root = Path(csv_dir)
+        self.action_root = Path(action_dir)
+        
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s'
+        )
+
+    def _read_csv_safe(self, file_path: Path) -> pd.DataFrame:
+        """安全地读取Excel保存的CSV文件
+        
+        Args:
+            file_path: CSV文件路径
+                
+        Returns:
+            pd.DataFrame: 读取的数据框
+        """
+        try:
+            # 首先尝试使用带BOM的UTF-8编码
+            try:
+                df = pd.read_csv(file_path, encoding='utf-8-sig')
+                logging.info(f"Successfully read {file_path} with utf-8-sig encoding")
+                return df
+            except UnicodeDecodeError:
+                pass
+            
+            # 然后尝试GBK编码（Excel默认中文编码）
+            try:
+                df = pd.read_csv(file_path, encoding='gbk')
+                logging.info(f"Successfully read {file_path} with gbk encoding")
+                return df
+            except UnicodeDecodeError:
+                pass
+            
+            # 最后尝试其他可能的编码
+            encodings = ['gb18030', 'gb2312', 'big5', 'utf-8']
+            for encoding in encodings:
+                try:
+                    df = pd.read_csv(file_path, encoding=encoding)
+                    logging.info(f"Successfully read {file_path} with {encoding} encoding")
+                    return df
+                except UnicodeDecodeError:
+                    continue
+                
+            raise UnicodeDecodeError(f"Failed to read {file_path} with any known encoding")
+    
+        except Exception as e:
+            logging.error(f"Error reading CSV file {file_path}: {str(e)}")
+            raise
+        
+    def _save_csv_with_encoding(self, df: pd.DataFrame, file_path: Path) -> None:
+        """保存DataFrame为CSV，使用正确的编码
+        
+        Args:
+            df: 要保存的DataFrame
+            file_path: 保存路径
+        """
+        try:
+            # 使用utf-8-sig编码保存，这样Excel打开时不会乱码
+            df.to_csv(file_path, encoding='utf-8-sig', index=False)
+            logging.info(f"Successfully saved CSV file: {file_path}")
+        except Exception as e:
+            logging.error(f"Error saving CSV file {file_path}: {str(e)}")
+            raise
+        
+    def process_csv_files(self) -> None:
+        """处理所有CSV文件中的action_sequence列，保持目录结构"""
+        try:
+            # 确保目录结构
+            self._ensure_directory_structure()
+            
+            # 处理每个子文件夹
+            for category_dir in self.csv_root.iterdir():
+                if not category_dir.is_dir():
+                    continue
+                    
+                category = category_dir.name
+                logging.info(f"Processing category: {category}")
+                
+                # 处理该类别下的所有CSV文件
+                for csv_file in category_dir.glob("*.csv"):
+                    logging.info(f"Processing CSV file: {csv_file}")
+                    try:
+                        # 读取CSV文件
+                        df = self._read_csv_safe(csv_file)
+                        
+                        if 'action_sequence' not in df.columns:
+                            logging.error(f"No 'action_sequence' column in {csv_file}")
+                            continue
+                        
+                        # 处理每一行
+                        processed_rows = []
+                        for index, row in df.iterrows():
+                            action_text = row['action_sequence']
+                            
+                            # 生成action文件名
+                            action_name = f"action_{csv_file.stem}_{index}"
+                            
+                            # 转换和保存action
+                            json_str = self._convert_action_text_to_json(action_text)
+                            if json_str:
+                                self._save_action_file(category, action_name, json_str)
+                                processed_rows.append(row)
+                            else:
+                                logging.warning(f"Skipped invalid action at row {index} in {csv_file}")
+    
+                        # 如果需要，可以保存处理后的数据
+                        if processed_rows:
+                            processed_df = pd.DataFrame(processed_rows)
+                            processed_path = csv_file.parent / f"processed_{csv_file.name}"
+                            self._save_csv_with_encoding(processed_df, processed_path)
+    
+                    except Exception as e:
+                        logging.error(f"Error processing file {csv_file}: {str(e)}")
+                        continue
+                    
+        except Exception as e:
+            logging.error(f"Error processing CSV files: {str(e)}")
+            raise
+        
+    def _ensure_directory_structure(self) -> None:
+        """确保目录结构存在，并在action目录下创建对应的子文件夹"""
+        try:
+            # 检查CSV根目录是否存在
+            if not self.csv_root.exists():
+                raise FileNotFoundError(f"CSV root directory not found: {self.csv_root}")
+            
+            # 创建action根目录
+            self.action_root.mkdir(exist_ok=True)
+            
+            # 获取CSV目录下的所有子文件夹
+            csv_subdirs = [d for d in self.csv_root.iterdir() if d.is_dir()]
+            
+            # 在action目录下创建对应的子文件夹
+            for subdir in csv_subdirs:
+                action_subdir = self.action_root / subdir.name
+                action_subdir.mkdir(exist_ok=True)
+                logging.info(f"Ensured action subdirectory: {action_subdir}")
+                
+        except Exception as e:
+            logging.error(f"Error ensuring directory structure: {str(e)}")
+            raise
+
+
+    def _convert_action_text_to_json(self, input_text: str) -> Optional[str]:
+        """将action文本转换为合法的JSON，保持原始键名不变"""
+        try:
+            def process_value(value: str) -> str:
+                """处理值字段，统一转换为十六进制字符串格式"""
+                value = value.strip('[] ')
+                values = [v.strip() for v in value.split(',')]
+                processed_values = []
+                for v in values:
+                    try:
+                        if isinstance(v, str) and v.startswith('0x'):
+                            v = v.lower()
+                        elif v.isdigit():
+                            v = hex(int(v))
+                        processed_values.append(f'"{v}"')
+                    except (ValueError, AttributeError):
+                        processed_values.append(f'"{v}"')
+                return f"[{', '.join(processed_values)}]"
+
+            def process_line(line: str) -> str:
+                """处理单行文本，移除注释并格式化值"""
+                import re
+                # 移除注释
+                line = re.sub(r'//.*$', '', line)
+                line = re.sub(r'/\*.*?\*/', '', line)
+                
+                # 分别处理new_value和value字段
+                for value_field in ['new_value', 'value']:
+                    if f'"{value_field}":' in line:
+                        match = re.search(rf'"{value_field}":\s*(\[[^\]]*\])', line)
+                        if match:
+                            value_str = match.group(1)
+                            processed_value = process_value(value_str)
+                            line = re.sub(
+                                rf'"{value_field}":\s*\[[^\]]*\]', 
+                                f'"{value_field}": {processed_value}', 
+                                line
+                            )
+                
+                return line
+
+            # 处理输入文本
+            if pd.isna(input_text):
+                return None
+                
+            input_text = str(input_text)
+            lines = input_text.split('\n')
+            processed_lines = [process_line(line.strip()) for line in lines if line.strip()]
+            json_str = '\n'.join(processed_lines)
+            
+            # 验证JSON格式
+            parsed_json = json.loads(json_str)
+            
+            # 验证action类型和对应的值字段
+            if 'action_sequence' in parsed_json:
+                for action in parsed_json['action_sequence']:
+                    if 'action' in action:
+                        # 确保add操作使用value字段
+                        if action['action'] == 'add' and 'new_value' in action:
+                            logging.warning("Found 'new_value' in add action, should use 'value'")
+                        # 确保update操作使用new_value字段
+                        elif action['action'] == 'update' and 'value' in action:
+                            logging.warning("Found 'value' in update action, should use 'new_value'")
+            
+            return json_str
+            
+        except Exception as e:
+            logging.error(f"Error converting action text to JSON: {str(e)}")
+            return None
+
+    def _save_action_file(self, category: str, action_name: str, json_str: str) -> None:
+        """保存action文件到对应的子文件夹
+        
+        Args:
+            category: 类别（子文件夹名）
+            action_name: action文件名（不包含扩展名）
+            json_str: JSON格式的action内容
+        """
+        try:
+            # 构建子文件夹路径
+            subdir = self.action_root / category
+            if not subdir.exists():
+                subdir.mkdir(parents=True)
+            
+            # 构建文件路径
+            file_path = subdir / f"{action_name}.txt"
+            
+            # 保存文件
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(json_str)
+                
+            logging.info(f"Successfully saved action file: {file_path}")
+            
+        except Exception as e:
+            logging.error(f"Error saving action file {action_name} in {category}: {str(e)}")
+            raise
+
+    def process_csv_files(self) -> None:
+        """处理所有CSV文件中的action_sequence列，保持目录结构"""
+        try:
+            # 确保目录结构
+            self._ensure_directory_structure()
+            
+            # 处理每个子文件夹
+            for category_dir in self.csv_root.iterdir():
+                if not category_dir.is_dir():
+                    continue
+                    
+                category = category_dir.name
+                logging.info(f"Processing category: {category}")
+                
+                # 处理该类别下的所有CSV文件
+                for csv_file in category_dir.glob("*.csv"):
+                    logging.info(f"Processing CSV file: {csv_file}")
+                    try:
+                        # 读取CSV文件
+                        df = pd.read_csv(csv_file)
+                        
+                        if 'action_sequence' not in df.columns:
+                            logging.error(f"No 'action_sequence' column in {csv_file}")
+                            continue
+
+                        # 处理每一行
+                        for index, row in df.iterrows():
+                            action_text = row['action_sequence']
+                            
+                            # 生成action文件名
+                            action_name = f"action_{csv_file.stem}_{index}"
+                            
+                            # 转换和保存action
+                            json_str = self._convert_action_text_to_json(action_text)
+                            if json_str:
+                                self._save_action_file(category, action_name, json_str)
+                            else:
+                                logging.warning(f"Skipped invalid action at row {index} in {csv_file}")
+
+                    except Exception as e:
+                        logging.error(f"Error processing file {csv_file}: {str(e)}")
+                        continue
+
+        except Exception as e:
+            logging.error(f"Error processing CSV files: {str(e)}")
+            raise
+
+    def clean_action_directory(self) -> None:
+        """清理action目录，删除所有现有文件"""
+        try:
+            if self.action_root.exists():
+                shutil.rmtree(self.action_root)
+            self.action_root.mkdir()
+            logging.info(f"Cleaned action directory: {self.action_root}")
+        except Exception as e:
+            logging.error(f"Error cleaning action directory: {str(e)}")
+            raise
 
 def main():
     """主函数示例"""
@@ -950,7 +1262,7 @@ def main():
         logging.info(f"Final result: data = {json_data.get_json_data_value(['field4', 'field4_sub2', 'nested_key'])}")
 
         # 创建并使用ActionParser
-        parser = ActionParser("actions")
+        parser = ActionParser("actions_test")
         parser.load_actions()
         
         # 执行所有加载的actions
@@ -963,6 +1275,21 @@ def main():
         logging.error(f"Error occurred: {str(e)}")
         raise
 
+    try:
+        # 创建加载器实例
+        loader = ActionLoader(csv_dir="csv", action_dir="actions")
+        
+        # 清理现有action目录（可选）
+        loader.clean_action_directory()
+        
+        # 处理CSV文件
+        loader.process_csv_files()
+        
+        logging.info("Successfully processed all CSV files")
+        
+    except Exception as e:
+        logging.error(f"Error in main process: {str(e)}")
+        raise
 
 if __name__ == "__main__":
     # 运行单元测试

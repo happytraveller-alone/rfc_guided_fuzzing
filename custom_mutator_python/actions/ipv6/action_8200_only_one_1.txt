@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["ipv6", "ah", "ah.spi"],
+"new_value": ["0x00", "0x00", "0x00", "0x01"]
+}
+]
+}

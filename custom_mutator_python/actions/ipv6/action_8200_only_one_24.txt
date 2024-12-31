@@ -1,0 +1,54 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["ipv6", "ipv6.nxt"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp1"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp1", "esp.spi"],
+"value": ["0x00", "0x00", "0x00", "0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp1", "esp.sequence"],
+"value": ["0x00", "0x00", "0x00", "0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "extension1"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "extension1", "extension1.nxt"],
+"value": ["0x32"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp2"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp2", "esp.spi"],
+"value": ["0x00", "0x00", "0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp2", "esp.sequence"],
+"value": ["0x00", "0x00", "0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "extension2"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "extension2", "extension2.nxt"],
+"value": ["0x3a"]
+}
+]
+}

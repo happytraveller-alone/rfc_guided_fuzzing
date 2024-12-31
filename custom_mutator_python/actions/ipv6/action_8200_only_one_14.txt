@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt_swapped"],
+"position": 0
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt_swapped", "ipv6.opt.type"],
+"value": ["0x02"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt_swapped", "ipv6.opt.length"],
+"value": ["0x01"]
+}
+]
+}

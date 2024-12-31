@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.routing", "ipv6.routing.segleft"],
+"new_value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.routing", "ipv6.routing.addresses"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.routing", "ipv6.routing.addresses", "ipv6.routing.src.addr1"],
+"value": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0xff", "0xff", "0xca", "0xfe", "0xba", "0xbe"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.routing", "ipv6.routing.addresses", "ipv6.routing.src.addr2"],
+"value": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0xff", "0xff", "0xca", "0xfe", "0xba", "0xbe"]
+}
+]
+}

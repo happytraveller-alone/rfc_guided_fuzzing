@@ -1,0 +1,8 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["ipv6", "ipv6.fraghdr"]
+}
+]
+}

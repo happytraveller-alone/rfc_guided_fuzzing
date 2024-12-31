@@ -1,0 +1,28 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["ipv6", "esp_duplicate"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp_duplicate", "esp_duplicate.spi"],
+"value": ["0x00", "0x00", "0x00", "0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "esp_duplicate", "esp_duplicate.sequence"],
+"value": ["0x00", "0x00", "0x00", "0x01"]
+},
+{
+"action": "update",
+"fields": ["esp", "esp.spi"],
+"new_value": ["0xff", "0xff", "0xff", "0xff"]
+},
+{
+"action": "update",
+"fields": ["esp", "esp.sequence"],
+"new_value": ["0xff", "0xff", "0xff", "0xff"]
+}
+]
+}

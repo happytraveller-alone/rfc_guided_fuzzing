@@ -1,0 +1,38 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra", "ipv6.fraghdr.nxt"],
+"value": ["0xff"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra", "ipv6.fraghdr.reserved_octet"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra", "ipv6.fraghdr.offset"],
+"value": ["0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra", "ipv6.fraghdr.reserved_bits"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra", "ipv6.fraghdr.more"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr_extra", "ipv6.fraghdr.ident"],
+"value": ["0x00", "0x00", "0x00", "0x00"]
+}
+]
+}

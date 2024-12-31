@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["esp", "esp.spi"],
+"new_value": ["0xff", "0xff", "0xff", "0xff"]  
+},
+{
+"action": "update",
+"fields": ["esp", "esp.sequence"],
+"new_value": ["0xff", "0xff", "0xff", "0xff"]  
+}
+]
+}

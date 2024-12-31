@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.routing", "ipv6.routing.segleft"],
+"new_value": ["0xff"]  
+}
+]
+}

@@ -1,0 +1,104 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1", "ipv6.dstopts1.nxt"],
+"value": ["0x3c"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1", "ipv6.dstopts1.len"],
+"value": ["0x08"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1", "ipv6.dstopts1.len_oct"],
+"value": ["0x40"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1", "ipv6.opt"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1", "ipv6.opt", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts1", "ipv6.opt", "ipv6.opt.length"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2", "ipv6.dstopts2.nxt"],
+"value": ["0x3c"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2", "ipv6.dstopts2.len"],
+"value": ["0x08"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2", "ipv6.dstopts2.len_oct"],
+"value": ["0x40"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2", "ipv6.opt"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2", "ipv6.opt", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts2", "ipv6.opt", "ipv6.opt.length"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3", "ipv6.dstopts3.nxt"],
+"value": ["0x3c"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3", "ipv6.dstopts3.len"],
+"value": ["0x08"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3", "ipv6.dstopts3.len_oct"],
+"value": ["0x40"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3", "ipv6.opt"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3", "ipv6.opt", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts3", "ipv6.opt", "ipv6.opt.length"],
+"value": ["0x00"]
+}
+
+]
+}

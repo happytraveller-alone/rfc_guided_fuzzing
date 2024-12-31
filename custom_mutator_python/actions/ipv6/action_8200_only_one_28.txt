@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.fraghdr", "ipv6.fraghdr.offset"],
+"new_value": ["0x00", "0x01"]  
+},
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.fraghdr", "ipv6.fraghdr.more"],
+"new_value": ["0x00"]  
+}
+]
+}

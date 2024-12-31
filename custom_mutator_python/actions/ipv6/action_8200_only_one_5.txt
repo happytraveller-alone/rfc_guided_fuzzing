@@ -1,0 +1,32 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["esp1"]
+},
+{
+"action": "add",
+"fields": ["esp1", "esp1.spi"],
+"value": ["0x00", "0x00", "0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["esp1", "esp1.sequence"],
+"value": ["0x00", "0x00", "0x00", "0x01"]
+},
+{
+"action": "add",
+"fields": ["esp2"]
+},
+{
+"action": "add",
+"fields": ["esp2", "esp2.spi"],
+"value": ["0x00", "0x00", "0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["esp2", "esp2.sequence"],
+"value": ["0x00", "0x00", "0x00", "0x01"]
+}
+]
+}

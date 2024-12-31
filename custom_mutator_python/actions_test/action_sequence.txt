@@ -13,7 +13,7 @@
         {
             "action": "update",
             "fields": ["new_object", "sub_field"],
-            "value": ["0x18", "0x52"]
+            "new_value": ["0x18", "0x52"]
         }
     ]
 }

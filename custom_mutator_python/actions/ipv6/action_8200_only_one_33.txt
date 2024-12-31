@@ -1,0 +1,75 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.dstopts.nxt"],
+"new_value": ["0x3c"]
+},
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.dstopts.len"],
+"new_value": ["0xff"]
+},
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.dstopts.len_oct"],
+"new_value": ["0x80"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt1"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt1", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt1", "ipv6.opt.length"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt2"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt2", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt2", "ipv6.opt.length"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt3"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt3", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt3", "ipv6.opt.length"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt4"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt4", "ipv6.opt.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt4", "ipv6.opt.length"],
+"value": ["0x00"]
+}
+]
+}

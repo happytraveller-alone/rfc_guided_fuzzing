@@ -1,0 +1,9 @@
+{
+  "action_sequence":[
+    {
+      "action": "update",
+      "fields": ["dns", "dns.id"],
+      "new_value": ["0x12", "0x34"]
+    }
+  ]
+}

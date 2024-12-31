@@ -1,0 +1,48 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.plen"],
+"new_value": ["0x00", "0x1c"]
+},
+{
+"action": "update",
+"fields": ["ipv6", "ipv6.fraghdr", "ipv6.fraghdr.offset"],
+"new_value": ["0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.nxt"],
+"value": ["0x3a"]  
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.reserved_octet"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.offset"],
+"value": ["0x00", "0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.reserved_bits"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.more"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.ident"],
+"value": ["0xde", "0xad", "0xbe", "0xef"]
+}
+]
+}
