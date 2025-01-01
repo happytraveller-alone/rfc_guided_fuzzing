@@ -3,12 +3,12 @@
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt.type"],
-"new_value": ["0xff"]  
+"new_value": ["0xff"]
 },
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.dstopts", "ipv6.opt", "ipv6.opt.length"],
-"new_value": ["0xff"]  
+"new_value": ["0xff"]
 }
 ]
 }

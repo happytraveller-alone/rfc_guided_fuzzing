@@ -99,6 +99,5 @@
 "fields": ["ipv6", "ipv6.dstopts3", "ipv6.opt", "ipv6.opt.length"],
 "value": ["0x00"]
 }
-
 ]
 }

@@ -3,7 +3,7 @@
 {
 "action": "update",
 "fields": ["dns", "dns.id"],
-"new_value": ["0x00", "0x01"]  
+"new_value": ["0x00", "0x01"]
 }
 ]
 }

@@ -7,7 +7,7 @@
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.hbhopts", "ipv6.hbhopts.nxt"],
-"value": ["0x00"]  
+"value": ["0x00"]
 },
 {
 "action": "add",
@@ -35,22 +35,22 @@
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.nxt"],
-"value": ["0x3c"]  
+"value": ["0x3c"]
 },
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.len"],
-"value": ["0x02"]  
+"value": ["0x02"]
 },
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.type"],
-"value": ["0x00"]  
+"value": ["0x00"]
 },
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.dstopts", "ipv6.dstopts.nxt"],
-"new_value": ["0x00"]  
+"new_value": ["0x00"]
 }
 ]
 }

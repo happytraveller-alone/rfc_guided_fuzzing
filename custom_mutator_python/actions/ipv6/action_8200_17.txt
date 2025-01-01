@@ -3,7 +3,7 @@
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.nxt"],
-"new_value": ["0x2b"]  
+"new_value": ["0x2b"]
 },
 {
 "action": "add",
@@ -27,12 +27,12 @@
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.routing1", "ipv6.routing.type"],
-"value": ["0x00"]  
+"value": ["0x00"]
 },
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.routing1", "ipv6.routing.segleft"],
-"value": ["0x01"]  
+"value": ["0x01"]
 },
 {
 "action": "add",
@@ -42,10 +42,10 @@
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.routing1", "ipv6.routing.src.addr"],
-"value": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x01"]  
+"value": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x01"]
 },
 {
-"action": "repeat",  
+"action": "repeat",
 "fields": ["ipv6"]
 }
 ]

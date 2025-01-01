@@ -3,7 +3,7 @@
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.nxt"],
-"new_value": ["0x00"]  
+"new_value": ["0x00"]
 }
 ]
 }

@@ -19,3 +19,6 @@ custom_mutator_python/logs/
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+# python
+custom_mutator_python/library/__pycache__/

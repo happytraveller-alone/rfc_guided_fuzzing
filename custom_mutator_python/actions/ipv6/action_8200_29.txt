@@ -17,7 +17,7 @@
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.fraghdr2", "ipv6.fraghdr2.nxt"],
-"value": ["0x3a"]  
+"value": ["0x3a"]
 },
 {
 "action": "add",

@@ -7,7 +7,7 @@
 {
 "action": "add",
 "fields": ["ipv6", "ipv6.dstopts", "ipv6.dstopts.nxt"],
-"value": ["0x00"]  
+"value": ["0x00"]
 },
 {
 "action": "add",
@@ -36,7 +36,7 @@
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.hopopts", "ipv6.hopopts.nxt"],
-"new_value": ["0x3c"]  
+"new_value": ["0x3c"]
 }
 ]
 }

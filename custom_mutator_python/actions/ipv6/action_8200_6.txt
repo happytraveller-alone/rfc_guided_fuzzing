@@ -3,12 +3,12 @@
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.nxt"],
-"new_value": ["0x11"]  
+"new_value": ["0x11"]
 },
 {
 "action": "update",
 "fields": ["ipv6", "ipv6.routing", "ipv6.routing.segleft"],
-"new_value": ["0x03"]  
+"new_value": ["0x03"]
 }
 ]
 }

@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key"],
+"position": 5
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "tls.handshake.extension.type"],
+"value": ["0x00", "0x29"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "tls.handshake.extension.len"],
+"value": ["0x00", "0x10"]
+}
+]
+}
