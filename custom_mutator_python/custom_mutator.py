@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from library.json_data import JsonData, AddType
 from library.action_parser import ActionParser
 from library.action_loader import ActionLoader
-
+from library.message_parser import JsonFileProcessor
 def init_log():
     """初始化日志配置
     
@@ -153,6 +153,12 @@ def main():
             parser.execute_action(action_name, json_data)
             logging.info(f"Current data state after {action_name}:")
             json_data.indexmap_print_in_json_pretty_format()
+
+        json_data.get_array_length_hex(['field4', 'field4_sub2', 'nested_key'])
+        logging.info(json_data.get_json_data_value(['field4', 'field4_sub2', 'nested_key']))
+        new_array = json_data.generate_padded_hex_array('0x02','0x03')
+        json_data.json_data_value_update(['field4', 'field4_sub2', 'nested_key'], new_array)
+        logging.info(json_data.get_json_data_value(['field4', 'field4_sub2', 'nested_key']))
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}")
         raise
@@ -172,10 +178,42 @@ def main():
     except Exception as e:
         logging.error(f"Error in main process: {str(e)}")
         raise
+    
+    try:
+        # 创建处理器实例
+        processor = JsonFileProcessor(verbose=True)
+        
+        # 收集文件
+        file_paths = processor.collect_json_files()
+        
+        # # 使用收集到的文件路径
+        # if file_paths:
+        #     print("\n可以使用这些文件路径进行后续处理...")
+        # 处理文件
+        results = processor.process_files()
+        
+        # 获取处理状态
+        status = processor.get_processing_status()
+        
+        # 检查失败的文件
+        failed_files = [
+            path for path, success in status.items() 
+            if not success
+        ]
+        
+        if failed_files:
+            print("\n以下文件处理失败：")
+            for file_path in failed_files:
+                print(f"- {file_path}")
+
+    except Exception as e:
+        print(f"程序执行出错: {str(e)}")
 
 if __name__ == "__main__":
     # 运行单元测试
     # run_tests()
-    
+    # 增加dns协议，tls协议，ipv6协议的区分，
+    # dns协议，tls协议需要明确目标IP，端口，dns是80，tls是443
+    # ipv6走的icmpv6
     # 运行主函数示例
     main()

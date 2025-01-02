@@ -310,7 +310,7 @@ class ActionLoader:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(json_str)
                 
-            logging.info(f"Successfully saved action file: {file_path}")
+            logging.debug(f"Successfully saved action file: {file_path}")
             
         except Exception as e:
             logging.error(f"Error saving action file {action_name} in {category}: {str(e)}")

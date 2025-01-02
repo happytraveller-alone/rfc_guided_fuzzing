@@ -143,6 +143,95 @@ class JsonData:
             value.insert(0, hex_value)
             logging.debug(f"Added value {hex_value} at the head of array at {keys}")
 
+    def generate_padded_hex_array(self, length_hex: str, value_hex: str) -> List[str]:
+        """根据指定的十六进制长度和值生成左填充的十六进制数组
+
+        Args:
+            length_hex (str): 数组长度的十六进制表示（如：'0x02'）
+            value_hex (str): 要填充的值的十六进制表示（如：'0x03'）
+
+        Returns:
+            List[str]: 左填充0后的十六进制字符串数组
+
+        Examples:
+            >>> json_data.generate_padded_hex_array('0x02', '0x03')
+            ['0x00', '0x03']
+
+        Raises:
+            ValueError: 如果输入格式无效或长度为0
+        """
+        try:
+            # 验证并转换输入的十六进制字符串
+            try:
+                length = self.hex_str_to_byte(length_hex)
+                value = self.hex_str_to_byte(value_hex)
+            except ValueError as e:
+                raise ValueError(f"Invalid hex input: {str(e)}")
+
+            # 验证长度
+            if length <= 0:
+                raise ValueError("Length must be greater than 0")
+
+            # 验证值的范围
+            if value < 0:
+                raise ValueError("Value must be non-negative")
+
+            # 创建结果数组
+            result = []
+
+            # 填充前导0
+            for _ in range(length - 1):
+                result.append("0x00")
+
+            # 添加实际值
+            result.append(f"0x{value:02X}")
+
+            logging.debug(f"Generated padded array with length {length_hex}: {result}")
+
+            return result
+
+        except Exception as e:
+            error_msg = f"Error generating padded hex array: {str(e)}"
+            logging.error(error_msg)
+            raise
+
+    def get_array_length_hex(self, keys: List[str]) -> str:
+        """获取指定路径叶节点数组的长度（十六进制表示）
+
+        Args:
+            keys (List[str]): 目标数组的路径
+
+        Returns:
+            str: 数组长度的十六进制表示（格式如：'0x05'）
+
+        Raises:
+            ValueError: 如果路径为空或目标不是数组
+            KeyError: 如果路径不存在
+        """
+        try:
+            if not keys:
+                raise ValueError("Empty key sequence")
+
+            # 获取目标值
+            value = self.json_data_get_value_mut(keys)
+
+            # 检查是否为列表类型
+            if not isinstance(value, list):
+                raise ValueError(f"Value at path {'.'.join(keys)} is not an array")
+
+            # 获取长度并转换为十六进制
+            length = len(value)
+            hex_length = f"0x{length:02X}"
+
+            logging.info(f"Array length at path {'.'.join(keys)}: {length} (hex: {hex_length})")
+
+            return hex_length
+
+        except Exception as e:
+            error_msg = f"Error getting array length: {str(e)}"
+            logging.error(error_msg)
+            raise
+
     def json_data_value_tail_add(self, keys: List[str], new_values: List[str]) -> None:
         """在数组尾部添加元素"""
         if not new_values:
