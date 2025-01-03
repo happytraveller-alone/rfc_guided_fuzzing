@@ -5,6 +5,7 @@ from library.json_data import JsonData, AddType
 from library.action_parser import ActionParser
 from library.action_loader import ActionLoader
 from library.message_parser import JsonFileProcessor
+# from library.tls_checker import update_extension_length,verify_extension_length
 def init_log():
     """初始化日志配置
     
@@ -206,9 +207,56 @@ def main():
             for file_path in failed_files:
                 print(f"- {file_path}")
 
+        tls_msg = results["message\\tls\\tls.json"]
+        # JsonData.indexmap_print_in_json_pretty_format(tls_msg)
+        # tls_msg.indexmap_print_in_json_pretty_format()
+        # logging.info(tls_msg.get_json_data_value(['tls', 'tls.record', 'tls.handshake', 
+                #  'Extension: key_share (len=38) x25519', 'tls.handshake.extension.len']))
+        extension_root_search = ['tls', 'tls.record', 'tls.handshake']
+        tls_msg.update_extension_length(['tls', 'tls.record', 'tls.handshake', 
+                 'Extension: key_share (len=38) x25519'])
+        # 查找所有Extension路径
+        extension_paths = tls_msg.find_extension_paths(extension_root_search)
+        print("Found Extensions:")
+        for path in extension_paths:
+            print(" -> ".join(path))
+        # 更新所有Extension的长度
+        all_extensions_len = tls_msg.update_all_extensions_under_root(extension_root_search)
+        logging.info("all extensions length: {}".format(all_extensions_len))
+        tls_msg.json_data_value_update()
+        # tls_msg.json_data_value_update(["field2", "field2_sub1"], ["0xEE", "0xFF"])
+        # 验证所有Extension的长度
+        if tls_msg.verify_all_extensions_under_root(extension_root_search):
+            print("All extensions have correct lengths")
+        else:
+            print("Some extensions have incorrect lengths")
+        # 更新简单字段的长度数值
+
+        tls_msg.update_length_field(["tls", "tls.record", "tls.handshake", "tls.handshake.cipher_suites_length"], 
+                                    ["tls", "tls.record", "tls.handshake", "tls.handshake.ciphersuites"])
+        tls_msg.update_length_field(["tls","tls.record","tls.handshake","tls.handshake.session_id_length"], 
+                                    ["tls","tls.record","tls.handshake","tls.handshake.session_id"])
+        tls_msg.update_length_field(["tls","tls.record","tls.handshake","tls.handshake.comp_methods_length"], 
+                                    ["tls","tls.record","tls.handshake","tls.handshake.comp_methods"])
+        # 最后更新报文的总长度
+        # 验证长度字段
+        # if tls_msg.verify_length_field(["tls", "tls.record", "tls.handshake", 
+        #               "tls.handshake.cipher_suites_length"], ["tls", "tls.record", "tls.handshake", 
+        #                 "tls.handshake.ciphersuites"]):
+        #     print("Length field is correct")
+        # else:
+        #     print("Length field is incorrect")
+        # logging.info(tls_msg.get_json_data_value(['tls', 'tls.record', 'tls.handshake', 
+                #  'Extension: key_share (len=38) x25519', 'tls.handshake.extension.len']))
     except Exception as e:
         print(f"程序执行出错: {str(e)}")
 
+    # try:
+    #     # test tls check
+    #     print("read tls message")
+
+    # except Exception as e:
+    #     print(f"tls parse error: {str(e)}")
 if __name__ == "__main__":
     # 运行单元测试
     # run_tests()

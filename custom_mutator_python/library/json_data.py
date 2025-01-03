@@ -516,3 +516,398 @@ class JsonData:
             error_msg = f"Error inserting before key: {str(e)}"
             logging.error(error_msg)
             raise
+
+    def _calculate_content_length(self, content: Dict) -> int:
+        """
+        递归计算字典内容的字节长度
+
+        Args:
+            content: 要计算长度的字典内容
+
+        Returns:
+            int: 内容的总字节长度
+        """
+        total_length = 0
+
+        for key, value in content.items():
+            if isinstance(value, list):
+                # 列表中的每个元素都是一个十六进制字符串
+                total_length += len([self.hex_str_to_byte(x) for x in value])
+            elif isinstance(value, dict):
+                # 递归计算子字典的长度
+                total_length += self._calculate_content_length(value)
+
+        return total_length
+
+    def update_extension_length(self, extension_path: List[str]) -> int:
+        """
+        更新指定路径Extension节点下的tls.handshake.extension.len值
+        
+        Args:
+            extension_path: Extension节点的完整路径列表
+            
+        Returns:
+            int: 更新后的length值 + 4
+            
+        Example:
+            extension_path = ['tls', 'tls.record', 'tls.handshake', 
+                             'Extension: key_share (len=38) x25519']
+            total_length = json_data.update_extension_length(extension_path)
+            print(f"Extension length + 4: {total_length}")
+        """
+        try:
+            # 获取Extension节点
+            extension = self.json_data_get_value_mut(extension_path)
+            
+            if not isinstance(extension, dict):
+                raise ValueError(f"Path {extension_path} does not point to a dictionary")
+                
+            if "tls.handshake.extension.len" not in extension:
+                raise ValueError(f"No extension length field found at {extension_path}")
+                
+            # 创建一个新的OrderedDict来存储tls.handshake.extension.len之后的内容
+            content_after_len = OrderedDict()
+            found_len_field = False
+            
+            # 遍历原始字典，只收集长度字段之后的内容
+            for field_key, field_value in extension.items():
+                if found_len_field:
+                    content_after_len[field_key] = field_value
+                if field_key == "tls.handshake.extension.len":
+                    found_len_field = True
+            
+            # 计算长度字段后内容的长度
+            content_length = self._calculate_content_length(content_after_len)
+            
+            # 转换为两字节的十六进制表示
+            hex_length = [f"{(content_length >> 8) & 0xFF:02X}",
+                         f"{content_length & 0xFF:02X}"]
+            
+            # 更新长度字段
+            original_len = extension["tls.handshake.extension.len"]
+            extension["tls.handshake.extension.len"] = hex_length
+            
+            # 记录日志
+            path_str = " -> ".join(extension_path)
+            logging.info(f"Updated extension length at path: {path_str}")
+            logging.info(f"Original length: {original_len}, New length: {hex_length} "
+                        f"(decimal: {content_length})")
+            logging.debug(f"Content after len field: {json.dumps(content_after_len, indent=2)}")
+            
+            # 返回更新后的length值 + 4
+            return content_length + 4
+            
+        except Exception as e:
+            error_msg = f"Error updating extension length: {str(e)}"
+            logging.error(error_msg)
+            raise
+
+    def verify_extension_length(self, extension_path: List[str]) -> bool:
+        """
+        验证指定Extension的长度是否正确
+
+        Args:
+            extension_path: Extension节点的完整路径列表
+
+        Returns:
+            bool: 长度是否正确
+        """
+        try:
+            # 获取Extension节点
+            extension = self.json_data_get_value_mut(extension_path)
+
+            if not isinstance(extension, dict):
+                raise ValueError(f"Path {extension_path} does not point to a dictionary")
+
+            if "tls.handshake.extension.len" not in extension:
+                raise ValueError(f"No extension length field found at {extension_path}")
+
+            # 获取当前长度值
+            current_len = extension["tls.handshake.extension.len"]
+            current_len_value = (self.hex_str_to_byte(current_len[0]) << 8) + \
+                               self.hex_str_to_byte(current_len[1])
+
+            # 计算实际长度
+            content_after_len = OrderedDict()
+            found_len_field = False
+            for field_key, field_value in extension.items():
+                if found_len_field:
+                    content_after_len[field_key] = field_value
+                if field_key == "tls.handshake.extension.len":
+                    found_len_field = True
+
+            actual_length = self._calculate_content_length(content_after_len)
+
+            if current_len_value != actual_length:
+                logging.error(f"Length mismatch in {extension_path}: "
+                            f"stored={current_len_value}, calculated={actual_length}")
+                return False
+
+            return True
+
+        except Exception as e:
+            logging.error(f"Error verifying extension length: {str(e)}")
+            return False
+        
+    def find_extension_paths(self, extension_root_search: List[str]) -> List[List[str]]:
+        """
+        搜索指定根路径下所有包含'Extension:'的字段路径
+
+        Args:
+            extension_root_search: 搜索的根路径列表
+
+        Returns:
+            List[List[str]]: 所有Extension的完整路径列表
+
+        Example:
+            >>> root_path = ['tls', 'tls.record', 'tls.handshake']
+            >>> paths = json_data.find_extension_paths(root_path)
+            >>> print(paths)
+            [
+                ['tls', 'tls.record', 'tls.handshake', 'Extension: key_share (len=38) x25519'],
+                ['tls', 'tls.record', 'tls.handshake', 'Extension: ec_point_formats (len=2)'],
+                ...
+            ]
+        """
+        try:
+            # 获取根路径节点
+            root_node = self.json_data_get_value_mut(extension_root_search)
+
+            if not isinstance(root_node, dict):
+                raise ValueError(f"Root path {extension_root_search} does not point to a dictionary")
+
+            extension_paths = []
+
+            # 遍历根节点下的所有键
+            for key in root_node.keys():
+                if "Extension:" in key:
+                    # 构建完整路径并添加到结果列表
+                    full_path = extension_root_search + [key]
+                    extension_paths.append(full_path)
+                    logging.debug(f"Found extension path: {' -> '.join(full_path)}")
+
+            # 按照路径字符串排序，保证结果的稳定性
+            extension_paths.sort(key=lambda x: x[-1])
+
+            # 记录找到的Extension数量
+            logging.info(f"Found {len(extension_paths)} extensions under {' -> '.join(extension_root_search)}")
+
+            return extension_paths
+
+        except Exception as e:
+            error_msg = f"Error finding extension paths: {str(e)}"
+            logging.error(error_msg)
+            raise
+
+    def update_all_extensions_under_root(self, extension_root_search: List[str]) -> int:
+        """
+        更新指定根路径下所有Extension的长度值
+
+        Args:
+            extension_root_search: 搜索的根路径列表
+
+        Returns:
+            int: 所有extension更新后length值+4的总和
+
+        Example:
+            >>> root_path = ['tls', 'tls.record', 'tls.handshake']
+            >>> total_length = json_data.update_all_extensions_under_root(root_path)
+            >>> print(f"Total length of all extensions: {total_length}")
+        """
+        try:
+            # 获取所有Extension路径
+            extension_paths = self.find_extension_paths(extension_root_search)
+
+            if not extension_paths:
+                logging.warning(f"No extensions found under {' -> '.join(extension_root_search)}")
+                return 0
+
+            # 更新每个Extension的长度并累加返回值
+            total_length = 0
+            update_results = []  # 用于存储每个extension的更新结果
+
+            for path in extension_paths:
+                try:
+                    length = self.update_extension_length(path)
+                    total_length += length
+                    update_results.append({
+                        'path': path,
+                        'length': length
+                    })
+                    logging.info(f"Successfully updated extension at {' -> '.join(path)}, "
+                               f"length + 4: {length}")
+                except Exception as e:
+                    logging.error(f"Failed to update extension at {' -> '.join(path)}: {str(e)}")
+                    raise
+
+            # 详细日志记录
+            logging.info(f"Successfully updated all {len(extension_paths)} extensions")
+            logging.info("Update results:")
+            for result in update_results:
+                logging.info(f"  {' -> '.join(result['path'])}: {result['length']}")
+            logging.info(f"Total length (sum of all lengths + 4): {total_length}")
+
+            return total_length
+
+        except Exception as e:
+            error_msg = f"Error updating all extensions: {str(e)}"
+            logging.error(error_msg)
+            raise
+
+    def verify_all_extensions_under_root(self, extension_root_search: List[str]) -> bool:
+        """
+        验证指定根路径下所有Extension的长度值是否正确
+        
+        Args:
+            extension_root_search: 搜索的根路径列表
+            
+        Returns:
+            bool: 所有Extension的长度是否都正确
+            
+        Example:
+            >>> root_path = ['tls', 'tls.record', 'tls.handshake']
+            >>> if json_data.verify_all_extensions_under_root(root_path):
+            ...     print("All extensions are correct")
+            ... else:
+            ...     print("Some extensions have incorrect lengths")
+        """
+        try:
+            # 获取所有Extension路径
+            extension_paths = self.find_extension_paths(extension_root_search)
+            
+            if not extension_paths:
+                logging.warning(f"No extensions found under {' -> '.join(extension_root_search)}")
+                return True
+                
+            # 验证每个Extension的长度
+            all_correct = True
+            for path in extension_paths:
+                try:
+                    if not self.verify_extension_length(path):
+                        all_correct = False
+                        logging.error(f"Length verification failed for extension at {' -> '.join(path)}")
+                except Exception as e:
+                    logging.error(f"Error verifying extension at {' -> '.join(path)}: {str(e)}")
+                    all_correct = False
+                    
+            if all_correct:
+                logging.info(f"All {len(extension_paths)} extensions have correct lengths")
+            else:
+                logging.error("Some extensions have incorrect lengths")
+                
+            return all_correct
+            
+        except Exception as e:
+            error_msg = f"Error verifying all extensions: {str(e)}"
+            logging.error(error_msg)
+            return False
+
+    def update_length_field(self, length_field_path: List[str], content_field_path: List[str]) -> None:
+        """
+        更新长度字段的值，根据内容字段的实际长度
+
+        Args:
+            length_field_path: 需要更新的长度字段的路径
+            content_field_path: 用于计算长度的内容字段的路径
+
+        Example:
+            >>> length_path = ["tls", "tls.record", "tls.handshake", 
+                              "tls.handshake.cipher_suites_length"]
+            >>> content_path = ["tls", "tls.record", "tls.handshake", 
+                               "tls.handshake.ciphersuites"]
+            >>> json_data.update_length_field(length_path, content_path)
+        """
+        try:
+            # 获取长度字段和内容字段
+            length_field = self.json_data_get_value_mut(length_field_path)
+            content_field = self.json_data_get_value_mut(content_field_path)
+
+            # 验证字段类型
+            if not isinstance(length_field, list):
+                raise ValueError(f"Length field at {length_field_path} is not a list")
+            if not isinstance(content_field, list):
+                raise ValueError(f"Content field at {content_field_path} is not a list")
+
+            # 获取字段的长度信息
+            length_field_size = len(length_field)  # 原长度字段的数组大小
+            content_length = len(content_field)    # 内容字段的实际长度
+
+            # 记录原始值用于日志
+            original_length_value = length_field.copy()
+
+            # 将内容长度转换为十六进制并左填充
+            hex_length = []
+            remaining_length = content_length
+
+            # 从右到左填充，确保足够的位数
+            for i in range(length_field_size):
+                hex_value = f"{(remaining_length & 0xFF):02X}"
+                hex_length.insert(0, hex_value)
+                remaining_length >>= 8
+
+            # 检查是否有溢出
+            if remaining_length > 0:
+                raise ValueError(f"Content length {content_length} is too large "
+                               f"for length field size {length_field_size}")
+
+            # 更新长度字段的值
+            length_field_node = self.json_data_get_value_mut(length_field_path[:-1])
+            length_field_node[length_field_path[-1]] = hex_length
+
+            # 记录日志
+            logging.info(f"Updated length field at {' -> '.join(length_field_path)}")
+            logging.info(f"Original value: {original_length_value}")
+            logging.info(f"New value: {hex_length}")
+            logging.info(f"Content length: {content_length} (0x{content_length:X})")
+
+        except Exception as e:
+            error_msg = (f"Error updating length field {' -> '.join(length_field_path)} "
+                        f"based on content field {' -> '.join(content_field_path)}: {str(e)}")
+            logging.error(error_msg)
+            raise
+
+    def verify_length_field(self, length_field_path: List[str], 
+                           content_field_path: List[str]) -> bool:
+        """
+        验证长度字段的值是否与内容字段的实际长度匹配
+
+        Args:
+            length_field_path: 长度字段的路径
+            content_field_path: 内容字段的路径
+
+        Returns:
+            bool: 长度是否匹配
+        """
+        try:
+            # 获取长度字段和内容字段
+            length_field = self.json_data_get_value_mut(length_field_path)
+            content_field = self.json_data_get_value_mut(content_field_path)
+
+            # 验证字段类型
+            if not isinstance(length_field, list):
+                raise ValueError(f"Length field at {length_field_path} is not a list")
+            if not isinstance(content_field, list):
+                raise ValueError(f"Content field at {content_field_path} is not a list")
+
+            # 计算存储的长度值
+            stored_length = 0
+            for hex_str in length_field:
+                stored_length = (stored_length << 8) + self.hex_str_to_byte(hex_str)
+
+            # 获取实际内容长度
+            actual_length = len(content_field)
+
+            # 检查是否匹配
+            if stored_length != actual_length:
+                logging.error(f"Length mismatch at {' -> '.join(length_field_path)}: "
+                            f"stored={stored_length}, actual={actual_length}")
+                return False
+
+            logging.info(f"Length field verification passed: {stored_length}")
+            return True
+
+        except Exception as e:
+            error_msg = (f"Error verifying length field {' -> '.join(length_field_path)}: "
+                        f"{str(e)}")
+            logging.error(error_msg)
+            return False
