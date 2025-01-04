@@ -5,6 +5,7 @@ from library.json_data import JsonData, AddType
 from library.action_parser import ActionParser
 from library.action_loader import ActionLoader
 from library.message_parser import JsonFileProcessor
+from library.tls_process import RawTLSSender
 # from library.tls_checker import update_extension_length,verify_extension_length
 def init_log():
     """初始化日志配置
@@ -222,6 +223,12 @@ def process_tls_message(tls_msg: JsonData):
         decimal_to_hex(clienthello_record_length, 4)
     )
 
+
+def hex_dump(data: bytes) -> None:
+    """打印十六进制数据"""
+    hex_data = ' '.join(f'{b:02x}' for b in data)
+    print("Hex dump:", hex_data)
+
 def main():
     """主函数"""
     init_log()
@@ -264,7 +271,33 @@ def main():
         
         # 处理TLS消息
         tls_msg = results["message\\tls\\tls.json"]
+        # 修改代码，返回构成的clienthello hex 字符串
         process_tls_message(tls_msg)
+        tls_byte = tls_msg.indexmap_print_byte_stream()
+        logging.info(tls_byte)
+        # tls_byte = tls_msg.indexmap_print_byte_literal()
+        # 增加新功能，发送报文到指定目标，并接收反馈
+        # clienthello = ..
+        sender = RawTLSSender("172.31.116.73", 443)
+
+        try:
+            # 建立连接
+            sender.connect()
+
+            # 发送报文并接收响应
+            print("发送数据...")
+            response = sender.send_receive(tls_byte)
+
+            # 打印响应数据
+            print("\n接收到响应:")
+            hex_dump(response)
+
+        except Exception as e:
+            print(f"错误: {e}")
+
+        finally:
+            sender.close()
+            # 对反馈进行判断
         
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}")

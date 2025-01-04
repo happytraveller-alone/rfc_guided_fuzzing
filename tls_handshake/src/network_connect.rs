@@ -1,18 +1,18 @@
-use std::sync::Arc;
-use std::net::TcpStream;
-use rustls::{ClientConfig, ClientConnection, RootCertStore, client::Resumption};
-use std::io::{Write, Read};
 use colored::*;
-use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
-use rustls::crypto::aws_lc_rs::DEFAULT_CIPHER_SUITES;
-use std::net::SocketAddr;
-use mio::{Events, Interest, Poll, Token, net::TcpStream as MioTcpStream};
-use std::time::Duration;
-use std::thread::sleep;
-use std::process::exit;
-use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
-use log::{warn, trace, error, info, LevelFilter};
 use encoding_rs::GBK;
+use log::{error, info, trace, warn, LevelFilter};
+use mio::{net::TcpStream as MioTcpStream, Events, Interest, Poll, Token};
+use rustls::crypto::aws_lc_rs::DEFAULT_CIPHER_SUITES;
+use rustls::crypto::{aws_lc_rs as provider, CryptoProvider};
+use rustls::{client::Resumption, ClientConfig, ClientConnection, RootCertStore};
+use std::io::{Read, Write};
+use std::net::SocketAddr;
+use std::net::TcpStream;
+use std::process::exit;
+use std::sync::Arc;
+use std::thread::sleep;
+use std::time::Duration;
+use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 mod danger {
     use pki_types::{CertificateDer, ServerName, UnixTime};
@@ -70,15 +70,10 @@ mod danger {
         }
 
         fn supported_verify_schemes(&self) -> Vec<rustls::SignatureScheme> {
-            self.0
-                .signature_verification_algorithms
-                .supported_schemes()
+            self.0.signature_verification_algorithms.supported_schemes()
         }
     }
 }
-
-
-
 
 pub fn create_tls_config() -> ClientConfig {
     let root_store = RootCertStore::empty();
@@ -100,17 +95,22 @@ pub fn create_tls_config() -> ClientConfig {
     config.enable_sni = true;
 
     warn!("danger client config certificate verifier");
-    config.dangerous().set_certificate_verifier(Arc::new(danger::NoCertificateVerification::new(
-        provider::default_provider(),
-    )));
+    config
+        .dangerous()
+        .set_certificate_verifier(Arc::new(danger::NoCertificateVerification::new(
+            provider::default_provider(),
+        )));
     // 配置 PSK 回调
     config.resumption = Resumption::in_memory_sessions(256)
-            .tls12_resumption(rustls::client::Tls12Resumption::SessionIdOnly);
+        .tls12_resumption(rustls::client::Tls12Resumption::SessionIdOnly);
     info!("client config generated\n\n");
     config
 }
 
-pub fn create_client_connection(config: Arc<ClientConfig>, server_name: String) -> Result<ClientConnection, Box<dyn std::error::Error>> {
+pub fn create_client_connection(
+    config: Arc<ClientConfig>,
+    server_name: String,
+) -> Result<ClientConnection, Box<dyn std::error::Error>> {
     let server_name_new = server_name.try_into()?;
     Ok(ClientConnection::new(config, server_name_new)?)
 }
@@ -130,14 +130,24 @@ pub fn receive_data(stream: &mut TcpStream, buffer: &mut [u8]) -> Result<usize, 
 pub fn check_test_environment(matches: &clap::ArgMatches) -> bool {
     let is_test_env = matches.get_flag("test_env");
     if is_test_env {
-        info!("{}", "Test environment is enabled. Sending ClientHello to server.\n\n".green());
+        info!(
+            "{}",
+            "Test environment is enabled. Sending ClientHello to server.\n\n".green()
+        );
     } else {
-        warn!("{}", "Test environment is false. Not sending ClientHello to server.".yellow());
+        warn!(
+            "{}",
+            "Test environment is false. Not sending ClientHello to server.".yellow()
+        );
     }
     is_test_env
 }
 
-pub fn connect_to_server(server_ip: &str, port: u16, easy_read: bool) -> Result<MioTcpStream, Box<dyn std::error::Error>> {
+pub fn connect_to_server(
+    server_ip: &str,
+    port: u16,
+    easy_read: bool,
+) -> Result<MioTcpStream, Box<dyn std::error::Error>> {
     if easy_read {
         sleep(Duration::from_secs(1));
     }
@@ -151,11 +161,15 @@ pub fn create_poll() -> Result<Poll, Box<dyn std::error::Error>> {
     Ok(Poll::new()?)
 }
 
-pub fn register_stream(poll: &mut Poll, stream: &mut MioTcpStream) -> Result<Token, Box<dyn std::error::Error>> {
+pub fn register_stream(
+    poll: &mut Poll,
+    stream: &mut MioTcpStream,
+) -> Result<Token, Box<dyn std::error::Error>> {
     let token = Token(0);
     // trace!(target: "handshake_record", "Registering stream with poll...");
     log::set_max_level(LevelFilter::Info);
-    poll.registry().register(stream, token, Interest::WRITABLE | Interest::READABLE)?;
+    poll.registry()
+        .register(stream, token, Interest::WRITABLE | Interest::READABLE)?;
     trace!("Registered second tcp stream with poll");
     log::set_max_level(LevelFilter::Trace);
     Ok(token)
@@ -184,9 +198,14 @@ pub fn perform_local_network_test() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-pub fn perform_virtual_machine_connection_test(server_ip: String) -> Result<(), Box<dyn std::error::Error>> {
+pub fn perform_virtual_machine_connection_test(
+    server_ip: String,
+) -> Result<(), Box<dyn std::error::Error>> {
     // 打印server_ip
-    info!("{}", format!("Testing connection to server: {}", server_ip).green());
+    info!(
+        "{}",
+        format!("Testing connection to server: {}", server_ip).green()
+    );
     // 查看能否ping通
     let ping_result = std::process::Command::new("ping")
         .arg("-n")
@@ -245,12 +264,21 @@ fn test_local_connection() -> Result<(), Box<dyn std::error::Error>> {
     )?;
 
     let ciphersuite = tls.conn.negotiated_cipher_suite().unwrap();
-    trace!("Local connection successful, negotiated ciphersuite: {:?}", ciphersuite.suite());
+    trace!(
+        "Local connection successful, negotiated ciphersuite: {:?}",
+        ciphersuite.suite()
+    );
 
     let mut plaintext = Vec::new();
     tls.read_to_end(&mut plaintext)?;
-    if plaintext.windows(b"200 OK".len()).any(|window| window == b"200 OK") {
-        trace!("{}","Local connection test passed: Received HTTP 200 response.".green());
+    if plaintext
+        .windows(b"200 OK".len())
+        .any(|window| window == b"200 OK")
+    {
+        trace!(
+            "{}",
+            "Local connection test passed: Received HTTP 200 response.".green()
+        );
         Ok(())
     } else {
         error!("Local connection test failed: Did not receive HTTP 200 response.");
@@ -258,7 +286,10 @@ fn test_local_connection() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-pub fn test_server_connection(server_ip: &str, port: u16) -> Result<(), Box<dyn std::error::Error>> {
+pub fn test_server_connection(
+    server_ip: &str,
+    port: u16,
+) -> Result<(), Box<dyn std::error::Error>> {
     let address = format!("{}:{}", server_ip, port);
     info!("Testing connection to server: {}", address);
     let stream = TcpStream::connect(&address)?;
@@ -270,7 +301,9 @@ pub fn test_server_connection(server_ip: &str, port: u16) -> Result<(), Box<dyn 
 // 打印错误信息并退出程序
 fn print_error_and_exit(message: &str) {
     let mut stderr = StandardStream::stderr(ColorChoice::Always);
-    stderr.set_color(ColorSpec::new().set_fg(Some(Color::Red)).set_bold(true)).unwrap();
+    stderr
+        .set_color(ColorSpec::new().set_fg(Some(Color::Red)).set_bold(true))
+        .unwrap();
     writeln!(&mut stderr, "Error: {}", message).unwrap();
     stderr.reset().unwrap();
     exit(1);

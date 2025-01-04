@@ -310,36 +310,72 @@ class JsonData:
         
         logging.info(f"Updated array at {keys} from {original_values} to {new_values}")
 
+    def indexmap_print_byte_literal(self) -> str:
+        """生成形如b'\x16\x03\x03...'的字节字面量字符串"""
+        try:
+            # 复用现有函数获取字节流
+            byte_stream = []
+            for value in self.data.values():
+                byte_stream.extend(self._process_value(value))
+
+            # 构建字节字面量字符串
+            byte_literal = "b'" + ''.join(f"\\x{byte:02X}" for byte in byte_stream) + "'"
+
+            logging.info(f"Byte literal: {byte_literal}")
+            return byte_literal
+
+        except Exception as e:
+            logging.error(f"Error generating byte literal: {str(e)}")
+            raise
+
+    def _process_value(self, value: Any) -> List[int]:
+        """复用process_value逻辑"""
+        bytes_list = []
+        if isinstance(value, str):
+            bytes_list.append(self.hex_str_to_byte(value))
+        elif isinstance(value, list):
+            for item in value:
+                if isinstance(item, str):
+                    bytes_list.append(self.hex_str_to_byte(item))
+                else:
+                    bytes_list.extend(self._process_value(item))
+        elif isinstance(value, dict):
+            for sub_value in value.values():
+                bytes_list.extend(self._process_value(sub_value))
+        else:
+            raise ValueError(f"Unsupported value type: {type(value)}")
+        return bytes_list
+
     def indexmap_print_byte_stream(self) -> None:
         """打印完整的字节流"""
-        def process_value(value: Any) -> List[int]:
-            """递归处理值节点，返回字节列表"""
-            bytes_list = []
+        # def process_value(value: Any) -> List[int]:
+        #     """递归处理值节点，返回字节列表"""
+        #     bytes_list = []
 
-            if isinstance(value, str):
-                bytes_list.append(self.hex_str_to_byte(value))
-            elif isinstance(value, list):
-                for item in value:
-                    if isinstance(item, str):
-                        bytes_list.append(self.hex_str_to_byte(item))
-                    else:
-                        bytes_list.extend(process_value(item))
-            elif isinstance(value, dict):
-                for sub_value in value.values():
-                    bytes_list.extend(process_value(sub_value))
-            else:
-                raise ValueError(f"Unsupported value type: {type(value)}")
+        #     if isinstance(value, str):
+        #         bytes_list.append(self.hex_str_to_byte(value))
+        #     elif isinstance(value, list):
+        #         for item in value:
+        #             if isinstance(item, str):
+        #                 bytes_list.append(self.hex_str_to_byte(item))
+        #             else:
+        #                 bytes_list.extend(process_value(item))
+        #     elif isinstance(value, dict):
+        #         for sub_value in value.values():
+        #             bytes_list.extend(process_value(sub_value))
+        #     else:
+        #         raise ValueError(f"Unsupported value type: {type(value)}")
 
-            return bytes_list
+        #     return bytes_list
 
         try:
             # 收集所有字节
             byte_stream = []
             for value in self.data.values():
-                byte_stream.extend(process_value(value))
+                byte_stream.extend(self._process_value(value))
 
             # 转换为十六进制字符串并打印
-            hex_string = ' '.join(f"{byte:02X}" for byte in byte_stream)
+            hex_string = ''.join(f"{byte:02X}" for byte in byte_stream)
             logging.info(f"Byte stream: {hex_string}")
             
             return hex_string
