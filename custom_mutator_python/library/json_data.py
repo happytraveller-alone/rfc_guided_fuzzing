@@ -232,6 +232,42 @@ class JsonData:
             logging.error(error_msg)
             raise
 
+    def get_array_length_dec(self, keys: List[str]) -> int:
+        """获取指定路径叶节点数组的长度（十进制表示）
+
+        Args:
+            keys (List[str]): 目标数组的路径
+
+        Returns:
+            int: 数组长度的十进制表示
+
+        Raises:
+            ValueError: 如果路径为空或目标不是数组
+            KeyError: 如果路径不存在
+        """
+        try:
+            if not keys:
+                raise ValueError("Empty key sequence")
+
+            # 获取目标值
+            value = self.json_data_get_value_mut(keys)
+
+            # 检查是否为列表类型
+            if not isinstance(value, list):
+                raise ValueError(f"Value at path {'.'.join(keys)} is not an array")
+
+            # 获取长度
+            length = len(value)
+
+            logging.info(f"Array length at path {'.'.join(keys)}: {length}")
+
+            return length
+
+        except Exception as e:
+            error_msg = f"Error getting array length: {str(e)}"
+            logging.error(error_msg)
+            raise
+
     def json_data_value_tail_add(self, keys: List[str], new_values: List[str]) -> None:
         """在数组尾部添加元素"""
         if not new_values:
@@ -734,7 +770,7 @@ class JsonData:
                         'path': path,
                         'length': length
                     })
-                    logging.info(f"Successfully updated extension at {' -> '.join(path)}, "
+                    logging.debug(f"Successfully updated extension at {' -> '.join(path)}, "
                                f"length + 4: {length}")
                 except Exception as e:
                     logging.error(f"Failed to update extension at {' -> '.join(path)}: {str(e)}")
@@ -856,15 +892,78 @@ class JsonData:
 
             # 记录日志
             logging.info(f"Updated length field at {' -> '.join(length_field_path)}")
-            logging.info(f"Original value: {original_length_value}")
-            logging.info(f"New value: {hex_length}")
-            logging.info(f"Content length: {content_length} (0x{content_length:X})")
+            logging.info(f"Original value: {original_length_value} New value: {hex_length}")
+            # logging.info(f"")
+            logging.debug(f"Content length: {content_length} (0x{content_length:X})")
 
         except Exception as e:
             error_msg = (f"Error updating length field {' -> '.join(length_field_path)} "
                         f"based on content field {' -> '.join(content_field_path)}: {str(e)}")
             logging.error(error_msg)
             raise
+
+    def update_length_field_directly(self, length_field_path: List[str], new_value: str) -> None:
+        """
+        直接更新长度字段的值，使用指定的新值
+
+        Args:
+            length_field_path: 需要更新的长度字段的路径
+            new_value: 新的长度值（十六进制字符串）
+
+        Example:
+            >>> length_path = ["tls", "tls.record", "tls.handshake", 
+                              "tls.handshake.cipher_suites_length"]
+            >>> new_value = "0010"
+            >>> json_data.update_length_field_directly(length_path, new_value)
+        """
+        try:
+            # 获取当前长度字段
+            length_field = self.json_data_get_value_mut(length_field_path)
+            
+            # 验证字段类型
+            if not isinstance(length_field, list):
+                raise ValueError(f"Length field at {length_field_path} is not a list")
+                
+            # 验证新值格式
+            if not isinstance(new_value, str) or not all(c in "0123456789ABCDEF" for c in new_value):
+                raise ValueError("New value must be a hexadecimal string")
+                
+            # 计算需要的字节数
+            required_bytes = len(length_field)
+            max_value = (1 << (8 * required_bytes)) - 1
+            
+            # 将十六进制字符串转换为整数
+            int_value = int(new_value, 16)
+            
+            # 检查值是否超出范围
+            if int_value > max_value:
+                raise ValueError(f"New value {new_value} is too large for {required_bytes} byte(s) field")
+                
+            # 将整数值转换为字节列表
+            hex_length = []
+            remaining_value = int_value
+            for _ in range(required_bytes):
+                hex_value = f"{(remaining_value & 0xFF):02X}"
+                hex_length.insert(0, hex_value)
+                remaining_value >>= 8
+
+            # 记录原始值用于日志
+            original_length_value = length_field.copy()
+
+            # 更新长度字段的值
+            length_field_node = self.json_data_get_value_mut(length_field_path[:-1])
+            length_field_node[length_field_path[-1]] = hex_length
+
+            # 记录日志
+            logging.info(f"Directly updated length field at {' -> '.join(length_field_path)}")
+            logging.info(f"Original value: {original_length_value} New value: {hex_length} (input: {new_value})")
+            # logging.info(f"")
+
+        except Exception as e:
+            error_msg = (f"Error directly updating length field {' -> '.join(length_field_path)}: {str(e)}")
+            logging.error(error_msg)
+            raise
+
 
     def verify_length_field(self, length_field_path: List[str], 
                            content_field_path: List[str]) -> bool:

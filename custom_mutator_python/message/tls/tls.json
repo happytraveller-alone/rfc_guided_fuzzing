@@ -221,7 +221,7 @@
                     "tls.handshake.extensions.supported_versions_len": [
                         "02"
                     ],
-                    "tls.handshake.extensions.supported_version": [
+                    "tls.handshake.extensions.supported_version1": [
                         "03",
                         "04"
                     ]
@@ -239,10 +239,20 @@
                         "00",
                         "06"
                     ],
-                    "tls.handshake.extensions_supported_groups": [
-                        "00",
-                        "18"
-                    ]
+                    "tls.handshake.extensions_supported_groups": {
+                        "tls.handshake.extensions_supported_group1": [
+                            "00",
+                            "1d"
+                        ],
+                        "tls.handshake.extensions_supported_group2": [
+                            "00",
+                            "17"
+                        ],
+                        "tls.handshake.extensions_supported_group3": [
+                            "00",
+                            "18"
+                        ]
+                    }
                 },
                 "Extension: signature_algorithms (len=22)": {
                     "tls.handshake.extension.type": [
@@ -257,10 +267,48 @@
                         "00",
                         "14"
                     ],
-                    "tls.handshake.sig_hash_algs": [
-                        "04",
-                        "01"
-                    ]
+                    "tls.handshake.sig_hash_algs": {
+                        "tls.handshake.sig_hash_alg1": [
+                            "05",
+                            "03"
+                        ],
+                        "tls.handshake.sig_hash_alg2": [
+                            "04",
+                            "03"
+                        ],
+                        "tls.handshake.sig_hash_alg3": [
+                            "06",
+                            "03"
+                        ],
+                        "tls.handshake.sig_hash_alg4": [
+                            "08",
+                            "07"
+                        ],
+                        "tls.handshake.sig_hash_alg5": [
+                            "08",
+                            "06"
+                        ],
+                        "tls.handshake.sig_hash_alg6": [
+                            "08",
+                            "05"
+                        ],
+                        "tls.handshake.sig_hash_alg7": [
+                            "08",
+                            "04"
+                        ],
+                        "tls.handshake.sig_hash_alg8": [
+                            "06",
+                            "01"
+                        ],
+                        "tls.handshake.sig_hash_alg9": [
+                            "05",
+                            "01"
+                        ],
+                        "tls.handshake.sig_hash_alg10": [
+                            "04",
+                            "01"
+                        ]
+                    }
                 },
                 "Extension: server_name (len=20) name=WIN-A9626JATE0P": {
                     "tls.handshake.extension.type": [
