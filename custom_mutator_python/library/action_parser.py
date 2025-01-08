@@ -256,14 +256,15 @@ class ActionParser:
         logging.info(f"Removing field at path: {action['fields']}")
         json_data.json_data_remove_pair(action['fields'])
 
-    def execute_action(self, action_name: str, json_data: JsonData) -> None:
+    def execute_action(self, action_name: str, json_data: JsonData) -> bool:
         """执行指定的action序列"""
         action_config = self.actions.get(action_name)
         if not action_config:
             raise KeyError(f"Action {action_name} not found")
-            
-        logging.info(f"\nExecuting action sequence from: {action_name}")
         
+        
+        logging.info(f"\nExecuting action sequence from: {action_name}")
+        has_error = False  # 用于跟踪是否有错误或警告
         for action in action_config['action_sequence']:
             action_type = action['action']
             try:
@@ -275,7 +276,10 @@ class ActionParser:
                     self._execute_remove_action(action, json_data)
                 else:
                     logging.warning(f"Skipping unsupported action type: {action_type}")
-                    
+                    has_error = True  # 用于跟踪是否有错误或警告
             except Exception as e:
                 logging.error(f"Error executing {action_type} action: {str(e)}")
-                raise
+                # raise
+                has_error = True  # 用于跟踪是否有错误或警告
+
+        return has_error

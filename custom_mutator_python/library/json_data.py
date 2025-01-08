@@ -53,8 +53,21 @@ class JsonData:
             # 获取父节点的引用
             parent = self.json_data_get_value_mut(keys[:-1])
             target_key = keys[-1]
-
-            if isinstance(parent, dict):
+            if not isinstance(parent, dict):
+                raise ValueError("Parent is not an object")
+            # 处理嵌套层级的Extension模糊匹配
+            if "Extension:" in target_key:
+                matching_keys = [k for k in parent.keys() if "Extension:" in k]
+                if matching_keys:
+                    actual_key = matching_keys[0]
+                    value = parent[actual_key]
+                    if isinstance(value, dict):
+                        logging.info(f"Removing nested structure under {actual_key}: {list(value.keys())}")
+                    del parent[actual_key]
+                    return
+                raise KeyError(f"No matching extension key found for: {target_key}")
+            else:
+                # 原有的精确匹配逻辑
                 if target_key in parent:
                     value = parent[target_key]
                     if isinstance(value, dict):
@@ -62,8 +75,16 @@ class JsonData:
                     del parent[target_key]
                 else:
                     raise KeyError(f"Key not found: {target_key}")
-            else:
-                raise ValueError("Parent is not an object")
+            # if isinstance(parent, dict):
+            #     if target_key in parent:
+            #         value = parent[target_key]
+            #         if isinstance(value, dict):
+            #             logging.info(f"Removing nested structure under {target_key}: {list(value.keys())}")
+            #         del parent[target_key]
+            #     else:
+            #         raise KeyError(f"Key not found: {target_key}")
+            # else:
+            #     raise ValueError("Parent is not an object")
 
     @staticmethod
     def hex_str_to_byte(hex_str: str) -> int:
@@ -89,9 +110,24 @@ class JsonData:
         for i, key in enumerate(keys):
             if not isinstance(current, dict):
                 raise ValueError(f"Not an object at key: {keys[i-1]}")
-            if key not in current:
-                raise KeyError(f"Key not found: {key}")
-            current = current[key]
+            if "Extension:" in key:
+                # 查找匹配的键
+                found = False
+                for current_key in current.keys():
+                    # 检查当前键是否包含Extension并且包含目标特征
+                    if ("Extension:" in current_key and 
+                        key.replace("Extension:", "").strip() in current_key):
+                        current = current[current_key]
+                        found = True
+                        break
+            else:
+                # 常规精确匹配
+                if key not in current:
+                    raise KeyError(f"Key not found: {key}")
+                current = current[key]
+            # if key not in current:
+            #     raise KeyError(f"Key not found: {key}")
+            # current = current[key]
 
         return current
 
@@ -376,7 +412,7 @@ class JsonData:
 
             # 转换为十六进制字符串并打印
             hex_string = ''.join(f"{byte:02X}" for byte in byte_stream)
-            logging.info(f"Byte stream: {hex_string}")
+            # logging.info(f"Byte stream: {hex_string}")
             
             return hex_string
         except Exception as e:
@@ -874,31 +910,43 @@ class JsonData:
             logging.error(error_msg)
             return False
 
-    def update_length_field(self, length_field_path: List[str], content_field_path: List[str]) -> None:
+    def update_length_field(self, length_field_path: List[str], content_field_path: List[str]) -> bool:
         """
-        更新长度字段的值，根据内容字段的实际长度
+        更新长度字段的值，根据内容字段的实际长度。
+        如果字段不存在则跳过更新。
 
         Args:
             length_field_path: 需要更新的长度字段的路径
             content_field_path: 用于计算长度的内容字段的路径
+
+        Returns:
+            bool: 更新成功返回True，字段不存在返回False
 
         Example:
             >>> length_path = ["tls", "tls.record", "tls.handshake", 
                               "tls.handshake.cipher_suites_length"]
             >>> content_path = ["tls", "tls.record", "tls.handshake", 
                                "tls.handshake.ciphersuites"]
-            >>> json_data.update_length_field(length_path, content_path)
+            >>> success = json_data.update_length_field(length_path, content_path)
         """
         try:
-            # 获取长度字段和内容字段
-            length_field = self.json_data_get_value_mut(length_field_path)
-            content_field = self.json_data_get_value_mut(content_field_path)
+            # 验证字段是否存在
+            try:
+                length_field = self.json_data_get_value_mut(length_field_path)
+                content_field = self.json_data_get_value_mut(content_field_path)
+            except (KeyError, ValueError) as e:
+                logging.info(f"Skipping length field update: {str(e)}")
+                return False
 
             # 验证字段类型
             if not isinstance(length_field, list):
-                raise ValueError(f"Length field at {length_field_path} is not a list")
+                logging.warning(f"Length field at {' -> '.join(length_field_path)} "
+                              f"is not a list, skipping update")
+                return False
             if not isinstance(content_field, list):
-                raise ValueError(f"Content field at {content_field_path} is not a list")
+                logging.warning(f"Content field at {' -> '.join(content_field_path)} "
+                              f"is not a list, skipping update")
+                return False
 
             # 获取字段的长度信息
             length_field_size = len(length_field)  # 原长度字段的数组大小
@@ -919,24 +967,30 @@ class JsonData:
 
             # 检查是否有溢出
             if remaining_length > 0:
-                raise ValueError(f"Content length {content_length} is too large "
-                               f"for length field size {length_field_size}")
+                logging.error(f"Content length {content_length} is too large "
+                             f"for length field size {length_field_size}")
+                return False
 
             # 更新长度字段的值
-            length_field_node = self.json_data_get_value_mut(length_field_path[:-1])
-            length_field_node[length_field_path[-1]] = hex_length
+            try:
+                length_field_node = self.json_data_get_value_mut(length_field_path[:-1])
+                length_field_node[length_field_path[-1]] = hex_length
+            except Exception as e:
+                logging.error(f"Failed to update length field: {str(e)}")
+                return False
 
-            # 记录日志
-            logging.info(f"Updated length field at {' -> '.join(length_field_path)}")
+            # 记录成功日志
+            logging.info(f"Successfully updated length field at {' -> '.join(length_field_path)}")
             logging.info(f"Original value: {original_length_value} New value: {hex_length}")
-            # logging.info(f"")
             logging.debug(f"Content length: {content_length} (0x{content_length:X})")
 
+            return True
+
         except Exception as e:
-            error_msg = (f"Error updating length field {' -> '.join(length_field_path)} "
-                        f"based on content field {' -> '.join(content_field_path)}: {str(e)}")
-            logging.error(error_msg)
-            raise
+            logging.error(f"Unexpected error while updating length field "
+                         f"{' -> '.join(length_field_path)} based on content field "
+                         f"{' -> '.join(content_field_path)}: {str(e)}")
+            return False
 
     def update_length_field_directly(self, length_field_path: List[str], new_value: str) -> None:
         """

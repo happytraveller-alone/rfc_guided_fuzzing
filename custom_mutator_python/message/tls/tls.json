@@ -126,7 +126,7 @@
                     "01"
                 ],
                 "tls.handshake.comp_methods": [
-                    "02"
+                    "00"
                 ],
                 "tls.handshake.extensions_length": [
                     "00",

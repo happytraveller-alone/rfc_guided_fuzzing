@@ -176,56 +176,111 @@ def test_dictionary_addition(json_data: JsonData):
     )
     logging.info(f"Final result: data = {json_data.get_json_data_value(['field4', 'field4_sub2', 'nested_key'])}")
 
-def process_tls_message(tls_msg: JsonData):
-    """处理TLS消息"""
-    extension_root_search = ['tls', 'tls.record', 'tls.handshake']
+def process_tls_message(tls_msg: JsonData) -> bool:
+    """处理TLS消息
     
-    # 更新所有Extension的长度
-    all_extensions_len = tls_msg.update_all_extensions_under_root(extension_root_search)
-    logging.debug("all extensions length: {}".format(all_extensions_len))
-    
-    # 更新extension总长度
-    all_extensions_len_hex_fromat = decimal_to_hex(all_extensions_len, 4)
-    tls_msg.update_length_field_directly(
-        ["tls", "tls.record", "tls.handshake","tls.handshake.extensions_length"],
-        all_extensions_len_hex_fromat
-    )
-    tls_msg.verify_all_extensions_under_root(extension_root_search)
+    Args:
+        tls_msg: JsonData对象，包含TLS消息数据
+        
+    Returns:
+        bool: 处理成功返回False，发生错误返回True
+    """
+    try:
+        extension_root_search = ['tls', 'tls.record', 'tls.handshake']
+        
+        # 更新所有Extension的长度
+        try:
+            all_extensions_len = tls_msg.update_all_extensions_under_root(extension_root_search)
+            logging.debug("all extensions length: {}".format(all_extensions_len))
+        except Exception as e:
+            logging.error(f"Failed to update extensions length: {str(e)}")
+            return True
+            
+        # 更新extension总长度
+        try:
+            all_extensions_len_hex_fromat = decimal_to_hex(all_extensions_len, 4)
+            tls_msg.update_length_field_directly(
+                ["tls", "tls.record", "tls.handshake","tls.handshake.extensions_length"],
+                all_extensions_len_hex_fromat
+            )
+            tls_msg.verify_all_extensions_under_root(extension_root_search)
+        except Exception as e:
+            logging.error(f"Failed to update extensions total length: {str(e)}")
+            return True
 
-    # 更新简单字段的长度数值
-    tls_msg.update_length_field(
-        ["tls", "tls.record", "tls.handshake", "tls.handshake.cipher_suites_length"], 
-        ["tls", "tls.record", "tls.handshake", "tls.handshake.ciphersuites"]
-    )
-    tls_msg.update_length_field(
-        ["tls","tls.record","tls.handshake","tls.handshake.session_id_length"], 
-        ["tls","tls.record","tls.handshake","tls.handshake.session_id"]
-    )
-    tls_msg.update_length_field(
-        ["tls","tls.record","tls.handshake","tls.handshake.comp_methods_length"], 
-        ["tls","tls.record","tls.handshake","tls.handshake.comp_methods"]
-    )
-    
-    # 计算并更新record长度
-    cipher_suites_length = tls_msg.get_array_length_dec(["tls", "tls.record", "tls.handshake", "tls.handshake.ciphersuites"])
-    session_id_length = tls_msg.get_array_length_dec(["tls","tls.record","tls.handshake","tls.handshake.session_id"])
-    comp_methods_length = tls_msg.get_array_length_dec(["tls","tls.record","tls.handshake","tls.handshake.comp_methods"])
-    
-    clienthello_handshake_length = 2 + 32 \
-                                + 1 + session_id_length \
-                                + 2 + cipher_suites_length \
-                                + 1 + comp_methods_length \
-                                + 2 + all_extensions_len
-    clienthello_record_length = clienthello_handshake_length + 4
-    
-    tls_msg.update_length_field_directly(
-        ["tls", "tls.record", "tls.handshake","tls.handshake.length"],
-        decimal_to_hex(clienthello_handshake_length, 6)
-    )
-    tls_msg.update_length_field_directly(
-        ["tls", "tls.record", "tls.record.length"],
-        decimal_to_hex(clienthello_record_length, 4)
-    )
+        # 更新简单字段的长度数值
+        length_field_updates = [
+            (["tls", "tls.record", "tls.handshake", "tls.handshake.cipher_suites_length"],
+             ["tls", "tls.record", "tls.handshake", "tls.handshake.ciphersuites"]),
+            (["tls","tls.record","tls.handshake","tls.handshake.session_id_length"],
+             ["tls","tls.record","tls.handshake","tls.handshake.session_id"]),
+            (["tls","tls.record","tls.handshake","tls.handshake.comp_methods_length"],
+             ["tls","tls.record","tls.handshake","tls.handshake.comp_methods"])
+        ]
+        
+        for length_path, content_path in length_field_updates:
+            try:
+                tls_msg.update_length_field(length_path, content_path)
+            except Exception as e:
+                logging.warning(f"Failed to update length field {length_path}: {str(e)}")
+                # 继续执行，不返回错误
+        
+        # 获取各字段长度
+        try:
+            cipher_suites_length = tls_msg.get_array_length_dec(
+                ["tls", "tls.record", "tls.handshake", "tls.handshake.ciphersuites"]) or 0
+            session_id_length = tls_msg.get_array_length_dec(
+                ["tls","tls.record","tls.handshake","tls.handshake.session_id"]) or 0
+            comp_methods_length = tls_msg.get_array_length_dec(
+                ["tls","tls.record","tls.handshake","tls.handshake.comp_methods"]) or 0
+        except Exception as e:
+            logging.error(f"Failed to get array lengths: {str(e)}")
+            return True
+            
+        # 计算总长度
+        try:
+            clienthello_handshake_length = 2 + 32 \
+                                       + 1 + session_id_length \
+                                       + 2 + cipher_suites_length \
+                                       + 1 + comp_methods_length \
+                                       + 2 + all_extensions_len
+            clienthello_record_length = clienthello_handshake_length + 4
+            
+            # 更新最终长度字段
+            tls_msg.update_length_field_directly(
+                ["tls", "tls.record", "tls.handshake","tls.handshake.length"],
+                decimal_to_hex(clienthello_handshake_length, 6)
+            )
+            tls_msg.update_length_field_directly(
+                ["tls", "tls.record", "tls.record.length"],
+                decimal_to_hex(clienthello_record_length, 4)
+            )
+        except Exception as e:
+            logging.error(f"Failed to update final length fields: {str(e)}")
+            return True
+            
+        logging.info("Successfully processed TLS message")
+        return False
+        
+    except Exception as e:
+        logging.error(f"Unexpected error in process_tls_message: {str(e)}")
+        return True
+
+# # 主程序调用示例
+# def main():
+#     tls_msg = results["message\\tls\\tls.json"]
+#     for action_name in parser.actions:
+#         try:
+#             parser.execute_action(action_name, json_data)
+#             error_occurred = process_tls_message(tls_msg)
+#             if error_occurred:
+#                 logging.warning(f"Error occurred while processing TLS message for action: {action_name}")
+#                 # 继续执行，不中断
+#             tls_byte = tls_msg.indexmap_print_byte_stream()
+#             test_cases.append((action_name, tls_byte))
+#         except Exception as e:
+#             logging.error(f"Failed to process action {action_name}: {str(e)}")
+#             continue
 
 
 def hex_dump(data: bytes) -> None:
@@ -357,9 +412,7 @@ def main():
         # # 测试字典添加操作
         # test_dictionary_addition(json_data)
         
-        # 创建并使用ActionParser
-        parser = ActionParser("actions")
-        parser.load_actions()
+        
         
         # 执行所有加载的actions
         # logging.info("=== Executing loaded actions ===")
@@ -371,7 +424,9 @@ def main():
         loader.clean_action_directory()
         loader.process_csv_files()
         logging.info("Successfully processed all CSV files")
-        
+        # 创建并使用ActionParser
+        parser = ActionParser("actions/tls")
+        parser.load_actions()
         # # 处理JSON文件
         processor = JsonFileProcessor(verbose=True)
         file_paths = processor.collect_json_files()
@@ -381,17 +436,75 @@ def main():
         
         # 处理TLS消息并构建测试用例
         tls_msg = results["message\\tls\\tls.json"]
+        err_count = 0
+            # 统计计数器
+        total_count = 0
+        success_count = 0
+        error_count = 0
+       # 详细的错误记录
+        error_details = []
+
+        logging.info("Starting TLS message processing...")
+        # start_time = time.time()
+
         for action_name in parser.actions:
-            parser.execute_action(action_name, json_data)
-            process_tls_message(tls_msg)
-            tls_byte = tls_msg.indexmap_print_byte_stream()
-            test_cases.append((action_name, tls_byte))
+            total_count += 1
+            try:
+                logging.info(f"Processing action: {action_name}")
+
+                # 执行动作和TLS消息处理，收集错误状态
+                error_status = 0
+
+                # 执行动作并检查返回值
+                action_result = parser.execute_action(action_name, json_data)
+                error_status += action_result
+                if action_result:
+                    logging.warning(f"Action execution returned error: {action_name}")
+
+                # 处理TLS消息并检查返回值
+                tls_result = process_tls_message(tls_msg)
+                error_status += tls_result
+                if tls_result:
+                    logging.warning(f"TLS processing returned error: {action_name}")
+
+                # 根据综合错误状态更新计数
+                if error_status:
+                    error_count += 1
+                    error_msg = f"Errors occurred during processing action: {action_name}"
+                    logging.info(error_msg)
+                    error_details.append((action_name, 
+                        f"Action result: {'Failed' if action_result else 'Success'}, "
+                        f"TLS result: {'Failed' if tls_result else 'Success'}"))
+                else:
+                    success_count += 1
+                    logging.info(f"Successfully processed action: {action_name}")
+
+                # 生成测试用例
+                tls_byte = tls_msg.indexmap_print_byte_stream()
+                test_cases.append((action_name, tls_byte))
+
+            except Exception as e:
+                error_count += 1
+                error_msg = f"Failed to process action {action_name}: {str(e)}"
+                logging.error(error_msg)
+                error_details.append((action_name, f"Exception: {str(e)}"))
+                continue
+        # for action_name in parser.actions:
+        #     err_count += parser.execute_action(action_name, tls_msg)
+        #     process_tls_message(tls_msg)
+        #     tls_byte = tls_msg.indexmap_print_byte_stream()
+        #     test_cases.append((action_name, tls_byte))
         
         # 执行测试
         stats = run_tls_tests(test_cases, "192.168.110.130", 443)
         
         # 打印测试摘要
         print_test_summary(stats)
+
+
+        test_cases_no_check = []
+        
+        # print(f"error_count: {error_count}")
         # # # 处理TLS消息
         # tls_msg = results["message\\tls\\tls.json"]
         # # # 修改代码，返回构成的clienthello hex 字符串
