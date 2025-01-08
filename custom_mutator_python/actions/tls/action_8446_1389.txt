@@ -1,0 +1,66 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_list_len"],
+"new_value": ["0x00", "0x3c"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_1"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_1", "tls.handshake.extensions_server_name_type"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_1", "tls.handshake.extensions_server_name_len"],
+"value": ["0x00", "0x0a"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_1", "tls.handshake.extensions_server_name"],
+"value": ["0x65", "0x78", "0x61", "0x6d", "0x70", "0x6c", "0x65", "0x31"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_2", "tls.handshake.extensions_server_name_type"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_2", "tls.handshake.extensions_server_name_len"],
+"value": ["0x00", "0x0a"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_2", "tls.handshake.extensions_server_name"],
+"value": ["0x65", "0x78", "0x61", "0x6d", "0x70", "0x6c", "0x65", "0x32"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_3"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_3", "tls.handshake.extensions_server_name_type"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_3", "tls.handshake.extensions_server_name_len"],
+"value": ["0x00", "0x0a"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name_3", "tls.handshake.extensions_server_name"],
+"value": ["0x65", "0x78", "0x61", "0x6d", "0x70", "0x6c", "0x65", "0x33"]
+}
+]
+}

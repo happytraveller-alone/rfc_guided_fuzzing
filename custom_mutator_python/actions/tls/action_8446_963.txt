@@ -1,0 +1,15 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": [
+"tls",
+"tls.record",
+"tls.handshake",
+"Extension: server_name",
+"Server Name Indication extension",
+"tls.handshake.extensions_server_name_list_len"
+]
+}
+]
+}

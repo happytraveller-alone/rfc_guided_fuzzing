@@ -1,0 +1,18 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: trusted_ca_keys"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: trusted_ca_keys", "tls.handshake.extension.type"],
+"value": ["0x00", "0x14"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: trusted_ca_keys", "tls.handshake.extension.len"],
+"value": ["0x00", "0x00"]
+}
+]
+}

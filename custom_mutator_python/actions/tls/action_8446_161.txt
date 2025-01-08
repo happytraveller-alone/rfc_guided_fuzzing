@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.early_exporter_master_secret"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.nonce"],
+"value": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"]
+}
+]
+}

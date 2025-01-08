@@ -1,0 +1,84 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.record.content_type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.record.version"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.record.length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.version"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.random"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.session_id_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.session_id"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.cipher_suites_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.ciphersuites"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.comp_methods_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.comp_methods"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record_duplicate", "tls.handshake", "tls.handshake.extensions_length"],
+"value": [""]
+}
+]
+}

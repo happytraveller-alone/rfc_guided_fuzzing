@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.content_type"],
+"new_value": ["0x16"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.alert"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.alert", "tls.alert.level"],
+"value": ["0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.alert", "tls.alert.description"],
+"value": ["0x0a"]
+}
+]
+}

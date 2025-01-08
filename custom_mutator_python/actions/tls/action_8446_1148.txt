@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.ciphertext_expansion"],
+"value": ["0x01", "0x04"]
+}
+]
+}

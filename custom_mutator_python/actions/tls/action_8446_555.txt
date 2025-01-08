@@ -1,0 +1,54 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": [
+"tls",
+"tls.record",
+"tls.handshake",
+"Extension: key_share",
+"Key Share extension",
+"Duplicate Key Share Entry: Group: Reserved"
+]
+},
+{
+"action": "add",
+"fields": [
+"tls",
+"tls.record",
+"tls.handshake",
+"Extension: key_share",
+"Key Share extension",
+"Duplicate Key Share Entry: Group: Reserved",
+"tls.handshake.extensions_key_share_group"
+],
+"value": ["0x00", "0x1d"]
+},
+{
+"action": "add",
+"fields": [
+"tls",
+"tls.record",
+"tls.handshake",
+"Extension: key_share",
+"Key Share extension",
+"Duplicate Key Share Entry: Group: Reserved",
+"tls.handshake.extensions_key_share_key_exchange_length"
+],
+"value": ["0x00", "0x20"]
+},
+{
+"action": "add",
+"fields": [
+"tls",
+"tls.record",
+"tls.handshake",
+"Extension: key_share",
+"Key Share extension",
+"Duplicate Key Share Entry: Group: Reserved",
+"tls.handshake.extensions_key_share_key_exchange"
+],
+"value": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"]
+}
+]
+}

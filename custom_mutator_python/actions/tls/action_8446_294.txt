@@ -1,0 +1,10 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "random_data"],
+"position": "tls.handshake.comp_methods",
+"value": ["0xde", "0xad", "0xbe", "0xef"]
+}
+]
+}

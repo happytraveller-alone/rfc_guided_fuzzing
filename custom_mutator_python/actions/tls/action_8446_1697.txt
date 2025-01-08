@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.0rtt_data"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.0rtt_data", "tls.handshake.0rtt_data_length"],
+"value": ["0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.0rtt_data", "tls.handshake.0rtt_data_content"],
+"value": ["0x00"]
+}
+]
+}

@@ -1,0 +1,37 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.content_type"],
+"new_value": ["0x15"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.length"],
+"new_value": ["0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.alert"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.alert", "tls.alert.level"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.alert", "tls.alert.description"],
+"value": ["0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.random_data"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.random_data", "tls.random_data.content"],
+"value": ["0xde", "0xad", "0xbe", "0xef"]
+}
+]
+}

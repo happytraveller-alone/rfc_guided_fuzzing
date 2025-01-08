@@ -1,0 +1,16 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key"]
+}
+]
+}

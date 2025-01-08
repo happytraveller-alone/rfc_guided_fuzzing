@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.content_type"],
+"new_value": ["0xff"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.version"],
+"new_value": ["0xff", "0xff"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.length"],
+"new_value": ["0xff", "0xff"]
+}
+]
+}

@@ -1,0 +1,13 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.version"],
+"new_value": ["0x03", "0x03"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions"]
+}
+]
+}

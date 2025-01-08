@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: duplicate_extension"],
+"position": null
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: duplicate_extension", "tls.handshake.extension.type"],
+"value": ["0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: duplicate_extension", "tls.handshake.extension.len"],
+"value": ["0x00", "0x00"]
+}
+]
+}

@@ -1,0 +1,20 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "tls.handshake.extensions.psk.identities.length"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "PSK Identity"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders_len"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders"]
+}
+]
+}

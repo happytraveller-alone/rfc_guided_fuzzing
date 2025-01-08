@@ -67,13 +67,33 @@ class ActionParser:
 
         return True
 
-    def load_actions(self) -> None:
-        """加载所有action文件"""
+    def load_actions(self) -> dict:
+        """
+        加载所有action文件
+        
+        Returns:
+            dict: 包含处理统计信息的字典
+        """
+        stats = {
+            "total_files": 0,
+            "successful": 0,
+            "failed": 0,
+            "errors": {
+                "json_decode": 0,
+                "missing_sequence": 0,
+                "invalid_format": 0,
+                "unexpected": 0
+            }
+        }
+    
         if not self.action_dir.exists():
             logging.error(f"Action directory {self.action_dir} does not exist")
             raise FileNotFoundError(f"Directory {self.action_dir} not found")
-
-        for file_path in self.action_dir.glob("action_*.txt"):
+    
+        action_files = list(self.action_dir.glob("action_*.txt"))
+        stats["total_files"] = len(action_files)
+    
+        for file_path in action_files:
             try:
                 action_name = file_path.stem
                 logging.info(f"Processing action file: {file_path}")
@@ -83,25 +103,49 @@ class ActionParser:
                     try:
                         action_data = json.loads(content)
                     except json.JSONDecodeError as e:
+                        stats["failed"] += 1
+                        stats["errors"]["json_decode"] += 1
                         logging.error(f"JSON parsing error in {file_path}:")
-                        logging.error(f"Error position: line {e.lineno}, column {e.colno}")
-                        logging.error(f"Error details: {str(e)}")
+                        logging.debug(f"Error position: line {e.lineno}, column {e.colno}")
+                        logging.debug(f"Error details: {str(e)}")
                         continue
-
+                    
                     if 'action_sequence' not in action_data:
+                        stats["failed"] += 1
+                        stats["errors"]["missing_sequence"] += 1
                         logging.error(f"Missing action_sequence in {file_path}")
                         continue
-
+                    
                     if not all(self._validate_action(action) for action in action_data['action_sequence']):
+                        stats["failed"] += 1
+                        stats["errors"]["invalid_format"] += 1
                         logging.error(f"Invalid action format in {file_path}")
                         continue
-
+                    
                     self.actions[action_name] = action_data
+                    stats["successful"] += 1
                     logging.info(f"Successfully loaded action file: {file_path}")
                     
             except Exception as e:
+                stats["failed"] += 1
+                stats["errors"]["unexpected"] += 1
                 logging.error(f"Unexpected error processing {file_path}: {str(e)}")
                 continue
+            
+        # 输出统计报告
+        logging.info("\n=== Action Loading Report ===")
+        logging.info(f"Total files processed: {stats['total_files']}")
+        logging.info(f"Successfully loaded: {stats['successful']}")
+        logging.info(f"Failed to load: {stats['failed']}")
+        if stats['failed'] > 0:
+            logging.info("\nError breakdown:")
+            logging.info(f"- JSON decode errors: {stats['errors']['json_decode']}")
+            logging.info(f"- Missing sequence errors: {stats['errors']['missing_sequence']}")
+            logging.info(f"- Invalid format errors: {stats['errors']['invalid_format']}")
+            logging.info(f"- Unexpected errors: {stats['errors']['unexpected']}")
+        logging.info("===========================\n")
+    
+        return stats
 
     def _execute_add_action(self, action: Dict, json_data: JsonData) -> None:
         """执行add类型的action，使用二进制标志处理分支逻辑

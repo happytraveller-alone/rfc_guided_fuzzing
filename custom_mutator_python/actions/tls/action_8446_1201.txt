@@ -1,0 +1,10 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.garbage_bytes"],
+"position": "tls.record.content_type",
+"value": ["0xab", "0xcd", "0xef"]
+}
+]
+}

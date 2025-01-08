@@ -75,57 +75,116 @@ class ActionLoader:
             logging.error(f"Error saving CSV file {file_path}: {str(e)}")
             raise
         
-    def process_csv_files(self) -> None:
-        """处理所有CSV文件中的action_sequence列，保持目录结构"""
+    def process_csv_files(self) -> dict:
+        """
+        处理所有CSV文件中的action_sequence列，保持目录结构
+        
+        Returns:
+            dict: 包含处理统计信息的字典
+        """
+        stats = {
+            "total": {
+                "categories": 0,
+                "files": 0,
+                "actions": 0,
+                "successful_actions": 0,
+                "failed_actions": 0
+            },
+            "by_category": {}
+        }
+    
         try:
-            # 确保目录结构
             self._ensure_directory_structure()
             
-            # 处理每个子文件夹
             for category_dir in self.csv_root.iterdir():
                 if not category_dir.is_dir():
                     continue
                     
                 category = category_dir.name
+                stats["total"]["categories"] += 1
+                stats["by_category"][category] = {
+                    "files_processed": 0,
+                    "total_actions": 0,
+                    "successful_actions": 0,
+                    "failed_actions": 0,
+                    "files": {}
+                }
+                
                 logging.info(f"Processing category: {category}")
                 
-                # 处理该类别下的所有CSV文件
                 for csv_file in category_dir.glob("*.csv"):
+                    file_stats = {
+                        "total_actions": 0,
+                        "successful_actions": 0,
+                        "failed_actions": 0
+                    }
+                    
                     logging.info(f"Processing CSV file: {csv_file}")
+                    stats["total"]["files"] += 1
+                    stats["by_category"][category]["files_processed"] += 1
+                    
                     try:
-                        # 读取CSV文件
                         df = self._read_csv_safe(csv_file)
                         
                         if 'action_sequence' not in df.columns:
                             logging.error(f"No 'action_sequence' column in {csv_file}")
                             continue
                         
-                        # 处理每一行
                         processed_rows = []
                         for index, row in df.iterrows():
+                            file_stats["total_actions"] += 1
                             action_text = row['action_sequence']
-                            
-                            # 生成action文件名
                             action_name = f"action_{csv_file.stem}_{index}"
                             
-                            # 转换和保存action
-                            json_str = self._convert_action_text_to_json(action_text)
-                            if json_str:
-                                self._save_action_file(category, action_name, json_str)
-                                processed_rows.append(row)
-                            else:
-                                logging.warning(f"Skipped invalid action at row {index} in {csv_file}")
+                            try:
+                                json_str = self._convert_action_text_to_json(action_text)
+                                if json_str:
+                                    self._save_action_file(category, action_name, json_str)
+                                    processed_rows.append(row)
+                                    file_stats["successful_actions"] += 1
+                                else:
+                                    file_stats["failed_actions"] += 1
+                                    logging.warning(f"Skipped invalid action at row {index} in {csv_file}")
+                            except Exception as e:
+                                file_stats["failed_actions"] += 1
+                                logging.error(f"Error processing action at row {index}: {str(e)}")
     
-                        # 如果需要，可以保存处理后的数据
-                        if processed_rows:
-                            processed_df = pd.DataFrame(processed_rows)
-                            processed_path = csv_file.parent / f"processed_{csv_file.name}"
-                            # self._save_csv_with_encoding(processed_df, processed_path)
+                        # 更新文件级统计
+                        stats["by_category"][category]["files"][csv_file.name] = file_stats
+                        
+                        # 更新类别级统计
+                        stats["by_category"][category]["total_actions"] += file_stats["total_actions"]
+                        stats["by_category"][category]["successful_actions"] += file_stats["successful_actions"]
+                        stats["by_category"][category]["failed_actions"] += file_stats["failed_actions"]
+                        
+                        # 更新总体统计
+                        stats["total"]["actions"] += file_stats["total_actions"]
+                        stats["total"]["successful_actions"] += file_stats["successful_actions"]
+                        stats["total"]["failed_actions"] += file_stats["failed_actions"]
     
                     except Exception as e:
                         logging.error(f"Error processing file {csv_file}: {str(e)}")
                         continue
                     
+            # 输出统计报告
+            logging.info("\n=== CSV Processing Report ===")
+            logging.info(f"Total categories processed: {stats['total']['categories']}")
+            logging.info(f"Total files processed: {stats['total']['files']}")
+            logging.info(f"Total actions processed: {stats['total']['actions']}")
+            logging.info(f"Successful actions: {stats['total']['successful_actions']}")
+            logging.info(f"Failed actions: {stats['total']['failed_actions']}")
+            
+            logging.info("\nBy Category Breakdown:")
+            for category, cat_stats in stats["by_category"].items():
+                logging.info(f"\n{category}:")
+                logging.info(f"  Files processed: {cat_stats['files_processed']}")
+                logging.info(f"  Total actions: {cat_stats['total_actions']}")
+                logging.info(f"  Successful actions: {cat_stats['successful_actions']}")
+                logging.info(f"  Failed actions: {cat_stats['failed_actions']}")
+            logging.info("===========================\n")
+    
+            return stats
+            
         except Exception as e:
             logging.error(f"Error processing CSV files: {str(e)}")
             raise

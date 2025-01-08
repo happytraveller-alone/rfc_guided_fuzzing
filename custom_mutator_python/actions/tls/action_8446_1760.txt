@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions", "tls.handshake.extension.len"],
+"new_value": ["0x00", "0x01"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions", "tls.handshake.extensions.supported_versions_len"],
+"new_value": ["0x01"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions", "tls.handshake.extensions.supported_version"],
+"new_value": ["0x03"]
+}
+]
+}

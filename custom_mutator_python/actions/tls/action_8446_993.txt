@@ -1,0 +1,12 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.random", "Extension: server_name"]
+}
+]
+}

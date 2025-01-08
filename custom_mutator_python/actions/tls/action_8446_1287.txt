@@ -1,0 +1,52 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats1"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats1", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats1", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats1", "tls.handshake.extensions_ec_point_formats_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats1", "tls.handshake.extensions_ec_point_formats"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats2", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats2", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats2", "tls.handshake.extensions_ec_point_formats_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: ec_point_formats2", "tls.handshake.extensions_ec_point_formats"],
+"value": [""]
+}
+]
+}

@@ -1,0 +1,29 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extension.type"],
+"value": ["0x2b", "0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extension.len"],
+"value": ["0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extensions.supported_versions_len"],
+"value": ["0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extensions.supported_version"],
+"value": ["0x03", "0x04"]
+}
+]
+}

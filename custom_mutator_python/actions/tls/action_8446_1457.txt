@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "tls.handshake.extension.type"],
+"new_value": ["0x15"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "tls.handshake.extension.len"],
+"new_value": ["0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Alert"],
+"value": ["0x02", "0x28"]
+}
+]
+}

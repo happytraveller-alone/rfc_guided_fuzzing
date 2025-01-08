@@ -1,0 +1,12 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: post_handshake_auth"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: post_handshake_auth_duplicate"]
+}
+]
+}

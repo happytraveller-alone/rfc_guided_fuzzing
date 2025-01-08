@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "tls.handshake.extension.type"],
+"new_value": ["0x00", "0x2b"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders"],
+"new_value": ["0x00", "0x00"]
+}
+]
+}

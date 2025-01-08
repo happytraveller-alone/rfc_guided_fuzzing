@@ -1,0 +1,37 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.record.content_type"],
+"value": ["0x16"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.record.version"],
+"value": ["0x03", "0x03"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.record.length"],
+"value": ["0x00", "0x28"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.handshake"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.handshake", "tls.handshake.type"],
+"value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.handshake", "tls.handshake.length"],
+"value": ["0x00", "0x00", "0x28"]
+}
+]
+}

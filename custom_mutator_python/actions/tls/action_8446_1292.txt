@@ -1,0 +1,108 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "tls.handshake.extensions.psk.identities.length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.identity_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.identity"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.obfuscated_ticket_age"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders_len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "tls.handshake.extensions.psk.identities.length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "PSK Identity"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.identity_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.identity"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.obfuscated_ticket_age"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders_len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key2", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders"],
+"value": [""]
+}
+]
+}

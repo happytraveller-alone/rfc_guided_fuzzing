@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.key_usage"],
+"value": ["0x03", "0x00"]
+}
+]
+}

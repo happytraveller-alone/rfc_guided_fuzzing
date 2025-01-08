@@ -1,0 +1,17 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": [
+"tls",
+"tls.record",
+"tls.handshake",
+"Extension: pre_shared_key",
+"Pre-Shared Key extension",
+"PSK Identity",
+"tls.handshake.extensions.psk.identity.identity"
+],
+"new_value": ["0x21", "0x22", "0x23", "0x24", "0x25"]
+}
+]
+}

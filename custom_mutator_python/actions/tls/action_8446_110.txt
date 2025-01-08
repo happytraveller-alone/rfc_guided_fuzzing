@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved", "tls.handshake.extensions_key_share_group"],
+"new_value": ["0x00", "0x18"]
+}
+]
+}

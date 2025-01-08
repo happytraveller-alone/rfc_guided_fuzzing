@@ -1,0 +1,52 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms1"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms1", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms1", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms1", "tls.handshake.sig_hash_alg_len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms1", "tls.handshake.sig_hash_algs"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms2", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms2", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms2", "tls.handshake.sig_hash_alg_len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: signature_algorithms2", "tls.handshake.sig_hash_algs"],
+"value": [""]
+}
+]
+}

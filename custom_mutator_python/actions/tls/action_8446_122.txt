@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions_length"],
+"new_value": ["0x01", "0x5d"]
+}
+]
+}

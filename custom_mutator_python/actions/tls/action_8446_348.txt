@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: padding"],
+"position": null
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: padding", "tls.handshake.extension.type"],
+"value": ["0x15", "0x01"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: padding", "tls.handshake.extension.len"],
+"value": ["0x00", "0xff"]
+}
+]
+}

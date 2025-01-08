@@ -1,0 +1,24 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.key_share"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.key_share", "tls.handshake.extension.type"],
+"value": ["0x33"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.key_share", "tls.handshake.extension.len"],
+"value": ["0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.key_share", "tls.handshake.extension.key_exchange_mode"],
+"value": ["0xff", "0xff"]
+}
+]
+}

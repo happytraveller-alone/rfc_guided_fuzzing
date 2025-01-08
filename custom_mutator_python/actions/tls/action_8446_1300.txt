@@ -1,0 +1,14 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.key_update"],
+"value": ["0x18"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.key_update", "tls.handshake.key_update.request_update"],
+"value": ["0x01"]
+}
+]
+}

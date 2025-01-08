@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "PSK Identity", "duplicate_psk_identity"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "PSK Identity", "duplicate_psk_identity", "tls.handshake.extensions.psk.identity.identity_length"],
+"value": ["0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "PSK Identity", "duplicate_psk_identity", "tls.handshake.extensions.psk.identity.identity"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key", "Pre-Shared Key extension", "PSK Identity", "duplicate_psk_identity", "tls.handshake.extensions.psk.identity.obfuscated_ticket_age"],
+"value": ["0x00", "0x00", "0x00", "0x00"]
+}
+]
+}

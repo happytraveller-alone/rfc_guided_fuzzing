@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes", "tls.handshake.extension.type"],
+"value": ["0x2d", "0x2d"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes", "tls.handshake.extension.len"],
+"value": ["0x00"]
+}
+]
+}

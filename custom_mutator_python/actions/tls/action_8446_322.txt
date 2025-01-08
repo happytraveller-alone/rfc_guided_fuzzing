@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2", "tls.handshake.extensions_key_share_group"],
+"value": ["0x00", "0x1d"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2", "tls.handshake.extensions_key_share_key_exchange_length"],
+"value": ["0x00", "0x20"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2", "tls.handshake.extensions_key_share_key_exchange"],
+"value": ["0x04", "0x3b", "0xc4", "0xd3", "0xa1", "0xb2", "0xc3", "0xd4", "0xe5", "0xf6", "0x07", "0x18", "0x29", "0x3a", "0x4b", "0x5c", "0x6d", "0x7e", "0x8f", "0x90", "0xa1", "0xb2", "0xc3", "0xd4", "0xe5", "0xf6", "0x07", "0x18", "0x29", "0x3a", "0x4b", "0x5c"]
+}
+]
+}

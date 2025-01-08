@@ -1,0 +1,13 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.cookie"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.cookie", "tls.handshake.extension.cookie.length"],
+"value": ["0xff", "0xff"]
+}
+]
+}

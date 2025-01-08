@@ -1,0 +1,23 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extension.type"],
+"value": ["0x2b", "0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extension.len"],
+"value": ["0x00", "0x02"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_versions_duplicate", "tls.handshake.extension.supported_versions"],
+"value": ["0x03", "0x04"]
+}
+]
+}

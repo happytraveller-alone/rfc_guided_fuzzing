@@ -1,0 +1,8 @@
+{
+"action_sequence": [
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups", "tls.handshake.extensions_supported_groups"]
+}
+]
+}

@@ -1,0 +1,13 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.session_id_length"],
+"new_value": ["0x08"]
+},
+{
+"action": "remove",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.session_id"]
+}
+]
+}

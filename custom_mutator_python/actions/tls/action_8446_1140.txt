@@ -1,0 +1,28 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.record.content_type"],
+"new_value": ["0x15"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.record2.content_type"],
+"value": ["0x17"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.record2.version"],
+"value": ["0x03", "0x03"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record2", "tls.record2.length"],
+"value": ["0x00", "0x00"]
+}
+]
+}

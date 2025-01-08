@@ -243,46 +243,46 @@ def main():
         # 初始化测试数据
         test_data = initialize_test_data()
         json_data = JsonData.json_data_trans_to_ordered_dict(test_data)
-        logging.info("Original data structure:")
-        json_data.indexmap_print_in_json_pretty_format()
+        # logging.info("Original data structure:")
+        # json_data.indexmap_print_in_json_pretty_format()
         
-        # 测试JSON数据操作
-        test_json_data_operations(json_data)
+        # # 测试JSON数据操作
+        # test_json_data_operations(json_data)
         
-        # 测试字典添加操作
-        test_dictionary_addition(json_data)
+        # # 测试字典添加操作
+        # test_dictionary_addition(json_data)
         
         # 创建并使用ActionParser
-        parser = ActionParser("actions_test")
-        parser.load_actions()
+        # parser = ActionParser("actions_test")
+        # parser.load_actions()
         
         # 执行所有加载的actions
-        logging.info("=== Executing loaded actions ===")
-        for action_name in parser.actions:
-            parser.execute_action(action_name, json_data)
-            logging.info(f"Current data state after {action_name}:")
-            json_data.indexmap_print_in_json_pretty_format()
+        # logging.info("=== Executing loaded actions ===")
+        # for action_name in parser.actions:
+        #     parser.execute_action(action_name, json_data)
+        #     logging.info(f"Current data state after {action_name}:")
+        #     json_data.indexmap_print_in_json_pretty_format()
 
-        # 处理CSV文件
+        # # 处理CSV文件
         loader = ActionLoader(csv_dir="csv", action_dir="actions")
         loader.clean_action_directory()
         loader.process_csv_files()
         logging.info("Successfully processed all CSV files")
         
-        # 处理JSON文件
+        # # 处理JSON文件
         processor = JsonFileProcessor(verbose=True)
         file_paths = processor.collect_json_files()
         results = processor.process_files()
         
-        # 处理TLS消息
+        # # 处理TLS消息
         tls_msg = results["message\\tls\\tls.json"]
-        # 修改代码，返回构成的clienthello hex 字符串
+        # # 修改代码，返回构成的clienthello hex 字符串
         process_tls_message(tls_msg)
         tls_byte = tls_msg.indexmap_print_byte_stream()
         logging.info(tls_byte)
-        # tls_byte = tls_msg.indexmap_print_byte_literal()
-        # 增加新功能，发送报文到指定目标，并接收反馈
-        # clienthello = ..
+        # # tls_byte = tls_msg.indexmap_print_byte_literal()
+        # # 增加新功能，发送报文到指定目标，并接收反馈
+        # # clienthello = ..
         sender = RawTLSSender("192.168.110.130", 443)
 
         try:

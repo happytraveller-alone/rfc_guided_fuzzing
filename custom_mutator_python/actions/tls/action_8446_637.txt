@@ -1,0 +1,34 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 1"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 1", "tls.handshake.extensions_key_share_key_exchange"],
+"value": [""]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 1", "tls.handshake.extensions_key_share_key_exchange"],
+"new_value": ["0x00", "0x01", "0x02", "0x03"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2", "tls.handshake.extensions_key_share_key_exchange"],
+"value": [""]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: key_share", "Key Share extension", "Key Share Entry: Group: Reserved 2", "tls.handshake.extensions_key_share_key_exchange"],
+"new_value": ["0x00", "0x01", "0x02", "0x03"]
+}
+]
+}

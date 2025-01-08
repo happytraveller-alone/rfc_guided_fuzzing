@@ -1,0 +1,24 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: certificate_authorities"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: certificate_authorities", "tls.handshake.extension.type"],
+"value": ["0x00", "0x2f"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: certificate_authorities", "tls.handshake.extension.len"],
+"value": ["0x00", "0x06"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: certificate_authorities", "tls.handshake.extension.data"],
+"value": ["0x00", "0x02", "0x00", "0x01", "0x00", "0x01"]
+}
+]
+}

@@ -1,0 +1,24 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: renegotiation_info"],
+"position": null
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: renegotiation_info", "tls.handshake.extension.type"],
+"value": ["0xff", "0x01"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: renegotiation_info", "tls.handshake.extension.len"],
+"value": ["0x00", "0x01"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: renegotiation_info", "tls.handshake.extension.renegotiation_info"],
+"value": ["0x00"]
+}
+]
+}

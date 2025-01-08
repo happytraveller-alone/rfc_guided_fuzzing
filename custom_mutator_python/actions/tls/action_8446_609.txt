@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes", "tls.handshake.extension.len"],
+"new_value": ["0x00", "0x00"]
+}
+]
+}

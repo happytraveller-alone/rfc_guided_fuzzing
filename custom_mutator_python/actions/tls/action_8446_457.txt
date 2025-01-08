@@ -1,0 +1,13 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.certificate_authorities"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.extensions.certificate_authorities", "certificate_authorities_list"],
+"value": [""]
+}
+]
+}

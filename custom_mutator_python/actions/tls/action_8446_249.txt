@@ -1,0 +1,59 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "tls.handshake.extension.type"],
+"value": ["0x29"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "tls.handshake.extension.len"],
+"value": ["0x00", "0x20"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "tls.handshake.extensions.psk.identities.length"],
+"value": ["0x00", "0x10"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.identity_length"],
+"value": ["0x00", "0x08"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.identity"],
+"value": ["0x01", "0x02", "0x03", "0x04", "0x05", "0x06", "0x07", "0x08"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "PSK Identity", "tls.handshake.extensions.psk.identity.obfuscated_ticket_age"],
+"value": ["0x00", "0x00", "0x00", "0x00"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders_len"],
+"value": ["0x00", "0x10"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: pre_shared_key1", "Pre-Shared Key extension", "tls.handshake.extensions.psk.binders"],
+"value": ["0x00", "0x10", "0x11", "0x12", "0x13", "0x14", "0x15", "0x16", "0x17", "0x18", "0x19", "0x1a", "0x1b", "0x1c", "0x1d", "0x1e", "0x1f"]
+}
+]
+}

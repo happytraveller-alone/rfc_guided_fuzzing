@@ -1,0 +1,28 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups_duplicate"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups_duplicate", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups_duplicate", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups_duplicate", "tls.handshake.extensions_supported_groups_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: supported_groups_duplicate", "tls.handshake.extensions_supported_groups"],
+"value": [""]
+}
+]
+}

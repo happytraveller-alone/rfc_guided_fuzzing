@@ -1,0 +1,27 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.type"],
+"new_value": ["0x01"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.heartbeat"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.heartbeat", "tls.heartbeat.type"],
+"value": ["0x18"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.finished"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.finished", "tls.finished.type"],
+"value": ["0x14"]
+}
+]
+}

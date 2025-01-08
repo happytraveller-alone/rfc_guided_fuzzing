@@ -1,0 +1,10 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.content_type_padding"],
+"position": "tls.record.content_type",
+"value": ["0x01"]
+}
+]
+}

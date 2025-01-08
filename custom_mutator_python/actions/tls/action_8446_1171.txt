@@ -1,0 +1,42 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment1"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment1", "tls.record.content_type"],
+"value": ["0x16"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment1", "tls.record.version"],
+"value": ["0x03", "0x03"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment1", "tls.record.length"],
+"value": ["0x00", "0x30"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment2", "tls.record.content_type"],
+"value": ["0x16"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment2", "tls.record.version"],
+"value": ["0x03", "0x03"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.record.fragment2", "tls.record.length"],
+"value": ["0x00", "0x30"]
+}
+]
+}

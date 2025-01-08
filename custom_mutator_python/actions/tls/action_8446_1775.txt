@@ -1,0 +1,19 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes", "tls.handshake.extension.len"],
+"new_value": ["0x00", "0x05"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes", "tls.extension.psk_ke_modes_length"],
+"new_value": ["0x04"]
+},
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes", "tls.extension.psk_ke_mode"],
+"new_value": ["0x01", "0x02", "0x03", "0x04"]
+}
+]
+}

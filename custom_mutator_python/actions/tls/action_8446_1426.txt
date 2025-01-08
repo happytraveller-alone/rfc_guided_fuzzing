@@ -1,0 +1,28 @@
+{
+"action_sequence": [
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes_2"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes_2", "tls.handshake.extension.type"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes_2", "tls.handshake.extension.len"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes_2", "tls.extension.psk_ke_modes_length"],
+"value": [""]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: psk_key_exchange_modes_2", "tls.extension.psk_ke_mode"],
+"value": [""]
+}
+]
+}

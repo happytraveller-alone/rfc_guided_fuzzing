@@ -1,0 +1,9 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "Extension: server_name", "Server Name Indication extension", "tls.handshake.extensions_server_name"],
+"new_value": ["0x65", "0x78", "0x61", "0x6d", "0x70", "0x6c"]
+}
+]
+}

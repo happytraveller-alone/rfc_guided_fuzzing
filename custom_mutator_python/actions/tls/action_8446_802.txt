@@ -1,0 +1,18 @@
+{
+"action_sequence": [
+{
+"action": "update",
+"fields": ["tls", "tls.record", "tls.handshake", "tls.handshake.type"],
+"new_value": ["0x08"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "EncryptedExtensions"]
+},
+{
+"action": "add",
+"fields": ["tls", "tls.record", "tls.handshake", "EncryptedExtensions", "tls.handshake.type"],
+"value": ["0x08"]
+}
+]
+}
