@@ -6,6 +6,10 @@ from library.action_parser import ActionParser
 from library.action_loader import ActionLoader
 from library.message_parser import JsonFileProcessor
 from library.tls_process import RawTLSSender
+import socket
+from collections import defaultdict
+from typing import Dict, List, Tuple
+from datetime import datetime
 # from library.tls_checker import update_extension_length,verify_extension_length
 def init_log():
     """初始化日志配置
@@ -234,6 +238,107 @@ def hex_dump_check(data: bytes) -> None:
     hex_data = ' '.join(f'{b:02x}' for b in data)
     print("Hex dump:", hex_data)
 
+class TestStatistics:
+    def __init__(self):
+        self.total_tests = 0
+        self.successful_tests = 0
+        self.failed_tests = 0
+        self.error_details = defaultdict(int)
+        self.start_time = None
+        self.end_time = None
+        
+    def start(self):
+        self.start_time = datetime.now()
+        
+    def finish(self):
+        self.end_time = datetime.now()
+        
+    def add_success(self):
+        self.total_tests += 1
+        self.successful_tests += 1
+        
+    def add_failure(self, error_type: str):
+        self.total_tests += 1
+        self.failed_tests += 1
+        self.error_details[error_type] += 1
+        
+    def get_summary(self) -> Dict:
+        duration = (self.end_time - self.start_time).total_seconds() if self.end_time else 0
+        return {
+            "total_tests": self.total_tests,
+            "successful_tests": self.successful_tests,
+            "failed_tests": self.failed_tests,
+            "success_rate": (self.successful_tests / self.total_tests * 100) if self.total_tests > 0 else 0,
+            "duration_seconds": duration,
+            "error_details": dict(self.error_details)
+        }
+
+def run_tls_tests(test_cases: List[Tuple[str, bytes]], target_host: str, target_port: int) -> TestStatistics:
+    """
+    执行TLS测试并收集统计信息
+    
+    Args:
+        test_cases: 测试用例列表，每个元素为(测试名称, TLS字节流)的元组
+        target_host: 目标主机IP
+        target_port: 目标端口
+    
+    Returns:
+        TestStatistics: 测试统计信息
+    """
+    stats = TestStatistics()
+    stats.start()
+    
+    for test_name, tls_byte in test_cases:
+        logging.info(f"执行测试: {test_name}")
+        sender = RawTLSSender(target_host, target_port)
+        
+        try:
+            sender.connect()
+            logging.info("发送数据...")
+            response = sender.send_receive(tls_byte)
+            
+            if response:  # 收到非空响应，测试成功
+                logging.info("测试成功: 收到有效响应")
+                stats.add_success()
+                hex_dump(response)
+            else:  # 空响应，测试失败
+                logging.error("测试失败: 收到空响应")
+                stats.add_failure("empty_response")
+                
+        except socket.error as e:
+            if isinstance(e, WindowsError) and e.winerror == 10054:  # 远程主机强制关闭连接
+                logging.info("测试成功: 远程主机强制关闭连接")
+                stats.add_success()
+            else:
+                logging.error(f"测试失败: {str(e)}")
+                stats.add_failure(f"socket_error_{e.__class__.__name__}")
+                
+        except Exception as e:
+            logging.error(f"测试失败: {str(e)}")
+            stats.add_failure(f"general_error_{e.__class__.__name__}")
+            
+        finally:
+            sender.close()
+            
+    stats.finish()
+    return stats
+
+def print_test_summary(stats: TestStatistics):
+    """打印测试统计摘要"""
+    summary = stats.get_summary()
+    print("\n=== 测试执行摘要 ===")
+    print(f"总测试数: {summary['total_tests']}")
+    print(f"成功测试: {summary['successful_tests']}")
+    print(f"失败测试: {summary['failed_tests']}")
+    print(f"成功率: {summary['success_rate']:.2f}%")
+    print(f"执行时间: {summary['duration_seconds']:.2f}秒")
+    
+    if summary['error_details']:
+        print("\n错误类型统计:")
+        for error_type, count in summary['error_details'].items():
+            print(f"- {error_type}: {count}次")
+
+
 def main():
     """主函数"""
     init_log()
@@ -253,15 +358,13 @@ def main():
         # test_dictionary_addition(json_data)
         
         # 创建并使用ActionParser
-        # parser = ActionParser("actions_test")
-        # parser.load_actions()
+        parser = ActionParser("actions")
+        parser.load_actions()
         
         # 执行所有加载的actions
         # logging.info("=== Executing loaded actions ===")
-        # for action_name in parser.actions:
-        #     parser.execute_action(action_name, json_data)
-        #     logging.info(f"Current data state after {action_name}:")
-        #     json_data.indexmap_print_in_json_pretty_format()
+       
+            # json_data.indexmap_print_in_json_pretty_format()
 
         # # 处理CSV文件
         loader = ActionLoader(csv_dir="csv", action_dir="actions")
@@ -273,37 +376,56 @@ def main():
         processor = JsonFileProcessor(verbose=True)
         file_paths = processor.collect_json_files()
         results = processor.process_files()
+        # 准备测试用例
+        test_cases = []
         
-        # # 处理TLS消息
+        # 处理TLS消息并构建测试用例
         tls_msg = results["message\\tls\\tls.json"]
-        # # 修改代码，返回构成的clienthello hex 字符串
-        process_tls_message(tls_msg)
-        tls_byte = tls_msg.indexmap_print_byte_stream()
-        logging.info(tls_byte)
-        # # tls_byte = tls_msg.indexmap_print_byte_literal()
-        # # 增加新功能，发送报文到指定目标，并接收反馈
-        # # clienthello = ..
-        sender = RawTLSSender("192.168.110.130", 443)
+        for action_name in parser.actions:
+            parser.execute_action(action_name, json_data)
+            process_tls_message(tls_msg)
+            tls_byte = tls_msg.indexmap_print_byte_stream()
+            test_cases.append((action_name, tls_byte))
+        
+        # 执行测试
+        stats = run_tls_tests(test_cases, "192.168.110.130", 443)
+        
+        # 打印测试摘要
+        print_test_summary(stats)
+        # # # 处理TLS消息
+        # tls_msg = results["message\\tls\\tls.json"]
+        # # # 修改代码，返回构成的clienthello hex 字符串
+        # logging.info("=== Executing loaded actions ===")
+        # for action_name in parser.actions:
+        #     parser.execute_action(action_name, json_data)
+        #     logging.info(f"Current data state after {action_name}:")
+        #     process_tls_message(tls_msg)
+        #     tls_byte = tls_msg.indexmap_print_byte_stream()
+        #     logging.info(tls_byte)
+        # # # tls_byte = tls_msg.indexmap_print_byte_literal()
+        # # # 增加新功能，发送报文到指定目标，并接收反馈
+        # # # clienthello = ..
+        #     sender = RawTLSSender("192.168.110.130", 443)
 
-        try:
-            # 建立连接
-            sender.connect()
+        #     try:
+        #         # 建立连接
+        #         sender.connect()
 
-            # 发送报文并接收响应
-            print("发送数据...")
-            response = sender.send_receive(tls_byte)
+        #         # 发送报文并接收响应
+        #         print("发送数据...")
+        #         response = sender.send_receive(tls_byte)
 
-            # 打印响应数据
-            print("\n接收到响应:")
-            hex_dump(response)
-            # 设置代码，如果response
+        #         # 打印响应数据
+        #         print("\n接收到响应:")
+        #         hex_dump(response)
+        #         # 设置代码，如果response
 
-        except Exception as e:
-            print(f"错误: {e}")
+        #     except Exception as e:
+        #         print(f"错误: {e}")
 
-        finally:
-            sender.close()
-            # 对反馈进行判断
+        #     finally:
+        #         sender.close()
+        #         # 对反馈进行判断
         
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}")
