@@ -1,0 +1,37 @@
+{
+    "eth": {
+        "eth.dst": [],
+        "eth.src": [],
+        "eth.type": []
+    },
+    "ipv6": {
+        "ipv6.version": [],
+        "ipv6.tclass": [],
+        "ipv6.flow": [],
+        "ipv6.plen": [],
+        "ipv6.nxt": [],
+        "ipv6.hlim": [],
+        "ipv6.src": [],
+        "ipv6.dst": []
+    },
+    "icmpv6": {
+        "icmpv6.type": [],
+        "icmpv6.code": [],
+        "icmpv6.checksum": [],
+        "icmpv6.pointer": [],
+        "ipv6": {
+            "ipv6.version": [],
+            "ipv6.tclass": [],
+            "ipv6.flow": [],
+            "ipv6.plen": [],
+            "ipv6.nxt": [],
+            "ipv6.hlim": [],
+            "ipv6.src": [],
+            "ipv6.dst": []
+        },
+        "esp": {
+            "esp.spi": [],
+            "esp.sequence": []
+        }
+    }
+}

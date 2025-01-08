@@ -1,0 +1,70 @@
+[
+    {
+        "eth": {
+            "eth.dst": [],
+            "eth.src": [],
+            "eth.type": []
+        },
+        "ipv6": {
+            "ipv6.version": [],
+            "ipv6.tclass": [],
+            "ipv6.flow": [],
+            "ipv6.plen": [],
+            "ipv6.nxt": [],
+            "ipv6.hlim": [],
+            "ipv6.src": [],
+            "ipv6.dst": [],
+            "ipv6.fraghdr": {
+                "ipv6.fraghdr.nxt": [],
+                "ipv6.fraghdr.reserved_octet": [],
+                "ipv6.fraghdr.offset": [],
+                "ipv6.fraghdr.reserved_bits": [],
+                "ipv6.fraghdr.more": [],
+                "ipv6.fraghdr.ident": []
+            }
+        },
+        "data": []
+    },
+    {
+        "eth": {
+            "eth.dst": [],
+            "eth.src": [],
+            "eth.type": []
+        },
+        "ipv6": {
+            "ipv6.version": [],
+            "ipv6.tclass": [],
+            "ipv6.flow": [],
+            "ipv6.plen": [],
+            "ipv6.nxt": [],
+            "ipv6.hlim": [],
+            "ipv6.src": [],
+            "ipv6.dst": []
+        },
+        "icmpv6": {
+            "icmpv6.type": [],
+            "icmpv6.code": [],
+            "icmpv6.checksum": [],
+            "icmpv6.pointer": [],
+            "ipv6": {
+                "ipv6.version": [],
+                "ipv6.tclass": [],
+                "ipv6.flow": [],
+                "ipv6.plen": [],
+                "ipv6.nxt": [],
+                "ipv6.hlim": [],
+                "ipv6.src": [],
+                "ipv6.dst": [],
+                "ipv6.fraghdr": {
+                    "ipv6.fraghdr.nxt": [],
+                    "ipv6.fraghdr.reserved_octet": [],
+                    "ipv6.fraghdr.offset": [],
+                    "ipv6.fraghdr.reserved_bits": [],
+                    "ipv6.fraghdr.more": [],
+                    "ipv6.fraghdr.ident": []
+                }
+            },
+            "data": []
+        }
+    }
+]

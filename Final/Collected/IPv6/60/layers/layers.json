@@ -1,0 +1,28 @@
+[
+    {
+        "eth": {
+            "eth.dst": [],
+            "eth.src": [],
+            "eth.type": []
+        },
+        "ipv6": {
+            "ipv6.version": [],
+            "ipv6.tclass": [],
+            "ipv6.flow": [],
+            "ipv6.plen": [],
+            "ipv6.nxt": [],
+            "ipv6.hlim": [],
+            "ipv6.src": [],
+            "ipv6.dst": [],
+            "ipv6.dstopts": {
+                "ipv6.dstopts.nxt": [],
+                "ipv6.dstopts.len": [],
+                "ipv6.dstopts.len_oct": [],
+                "ipv6.opt": {
+                    "ipv6.opt.type": [],
+                    "ipv6.opt.length": []
+                }
+            }
+        }
+    }
+]

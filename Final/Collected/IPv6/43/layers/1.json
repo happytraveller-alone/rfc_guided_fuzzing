@@ -1,0 +1,26 @@
+{
+    "eth": {
+        "eth.dst": [],
+        "eth.src": [],
+        "eth.type": []
+    },
+    "ipv6": {
+        "ipv6.version": [],
+        "ipv6.tclass": [],
+        "ipv6.flow": [],
+        "ipv6.plen": [],
+        "ipv6.nxt": [],
+        "ipv6.hlim": [],
+        "ipv6.src": [],
+        "ipv6.dst": [],
+        "ipv6.routing": {
+            "ipv6.routing.nxt": [],
+            "ipv6.routing.len": [],
+            "ipv6.routing.len_oct": [],
+            "ipv6.routing.type": [],
+            "ipv6.routing.segleft": [],
+            "ipv6.routing.src.reserved": [],
+            "ipv6.routing.src.addr": []
+        }
+    }
+}

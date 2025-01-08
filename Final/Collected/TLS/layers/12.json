@@ -1,0 +1,41 @@
+{
+    "eth": {
+        "eth.dst": [],
+        "eth.src": [],
+        "eth.type": []
+    },
+    "ip": {
+        "ip.version": [],
+        "ip.hdr_len": [],
+        "ip.dsfield": [],
+        "ip.len": [],
+        "ip.id": [],
+        "ip.flags": [],
+        "ip.frag_offset": [],
+        "ip.ttl": [],
+        "ip.proto": [],
+        "ip.checksum": [],
+        "ip.src": [],
+        "ip.dst": []
+    },
+    "tcp": {
+        "tcp.srcport": [],
+        "tcp.dstport": [],
+        "tcp.seq": [],
+        "tcp.ack": [],
+        "tcp.hdr_len": [],
+        "tcp.flags": [],
+        "tcp.window_size": [],
+        "tcp.checksum": [],
+        "tcp.urgent_pointer": [],
+        "tcp.payload": []
+    },
+    "tls": {
+        "tls.record": {
+            "tls.record.opaque_type": [],
+            "tls.record.version": [],
+            "tls.record.length": [],
+            "tls.app_data": []
+        }
+    }
+}

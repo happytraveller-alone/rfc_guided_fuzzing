@@ -1,0 +1,23 @@
+{
+    "eth": {
+        "eth.dst": [],
+        "eth.src": [],
+        "eth.type": []
+    },
+    "ipv6": {
+        "ipv6.version": [],
+        "ipv6.tclass": [],
+        "ipv6.flow": [],
+        "ipv6.plen": [],
+        "ipv6.nxt": [],
+        "ipv6.hlim": [],
+        "ipv6.src": [],
+        "ipv6.dst": []
+    },
+    "udp": {
+        "udp.srcport": [],
+        "udp.dstport": [],
+        "udp.length": [],
+        "udp.checksum": []
+    }
+}

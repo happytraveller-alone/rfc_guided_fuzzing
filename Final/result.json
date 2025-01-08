@@ -1,0 +1,967 @@
+[
+    {
+        "eth": {
+            "eth.dst": [
+                "00",
+                "0c",
+                "29",
+                "b1",
+                "eb",
+                "5a"
+            ],
+            "eth.src": [
+                "00",
+                "50",
+                "56",
+                "c0",
+                "00",
+                "08"
+            ],
+            "eth.type": [
+                "08",
+                "00"
+            ]
+        },
+        "ip": {
+            "ip.version": [
+                "45"
+            ],
+            "ip.hdr_len": [
+                "45"
+            ],
+            "ip.dsfield": [
+                "00"
+            ],
+            "ip.len": [
+                "01",
+                "76"
+            ],
+            "ip.id": [
+                "db",
+                "d9"
+            ],
+            "ip.flags": [
+                "2"
+            ],
+            "ip.frag_offset": [
+                "0"
+            ],
+            "ip.ttl": [
+                "80"
+            ],
+            "ip.proto": [
+                "06"
+            ],
+            "ip.checksum": [
+                "bf",
+                "d3"
+            ],
+            "ip.src": [
+                "c0",
+                "a8",
+                "6e",
+                "01"
+            ],
+            "ip.dst": [
+                "c0",
+                "a8",
+                "6e",
+                "82"
+            ]
+        },
+        "tcp": {
+            "tcp.srcport": [
+                "d0",
+                "30"
+            ],
+            "tcp.dstport": [
+                "01",
+                "bb"
+            ],
+            "tcp.seq": [
+                "71",
+                "44",
+                "21",
+                "f0"
+            ],
+            "tcp.ack": [
+                "9b",
+                "d3",
+                "88",
+                "44"
+            ],
+            "tcp.hdr_len": [
+                "50"
+            ],
+            "tcp.flags": [
+                "18"
+            ],
+            "tcp.window_size": [
+                "10",
+                "04"
+            ],
+            "tcp.checksum": [
+                "09",
+                "40"
+            ],
+            "tcp.urgent_pointer": [
+                "00",
+                "00"
+            ],
+            "tcp.payload": [
+                "16",
+                "03",
+                "01",
+                "01",
+                "49",
+                "01",
+                "00",
+                "01",
+                "45",
+                "03",
+                "03",
+                "7f",
+                "d7",
+                "d2",
+                "62",
+                "16",
+                "3e",
+                "df",
+                "55",
+                "21",
+                "6a",
+                "83",
+                "5a",
+                "ba",
+                "bb",
+                "89",
+                "82",
+                "74",
+                "6f",
+                "fd",
+                "ab",
+                "68",
+                "a9",
+                "fb",
+                "cf",
+                "1d",
+                "e0",
+                "03",
+                "dc",
+                "f6",
+                "1d",
+                "19",
+                "a0",
+                "20",
+                "0f",
+                "6f",
+                "c8",
+                "18",
+                "9f",
+                "93",
+                "db",
+                "ff",
+                "4d",
+                "cf",
+                "ed",
+                "9a",
+                "f3",
+                "3a",
+                "22",
+                "c6",
+                "d6",
+                "66",
+                "f6",
+                "19",
+                "ed",
+                "5c",
+                "09",
+                "e4",
+                "de",
+                "c1",
+                "89",
+                "4d",
+                "a4",
+                "49",
+                "86",
+                "81",
+                "00",
+                "14",
+                "13",
+                "02",
+                "13",
+                "01",
+                "13",
+                "03",
+                "c0",
+                "2c",
+                "c0",
+                "2b",
+                "cc",
+                "a9",
+                "c0",
+                "30",
+                "c0",
+                "2f",
+                "cc",
+                "a8",
+                "00",
+                "ff",
+                "02",
+                "01",
+                "02",
+                "00",
+                "e7",
+                "00",
+                "0d",
+                "00",
+                "16",
+                "00",
+                "14",
+                "05",
+                "03",
+                "04",
+                "03",
+                "06",
+                "03",
+                "08",
+                "07",
+                "08",
+                "06",
+                "08",
+                "05",
+                "08",
+                "04",
+                "06",
+                "01",
+                "05",
+                "01",
+                "04",
+                "01",
+                "00",
+                "00",
+                "00",
+                "14",
+                "00",
+                "12",
+                "00",
+                "00",
+                "0f",
+                "57",
+                "49",
+                "4e",
+                "2d",
+                "31",
+                "43",
+                "32",
+                "50",
+                "38",
+                "52",
+                "31",
+                "46",
+                "56",
+                "37",
+                "36",
+                "00",
+                "05",
+                "00",
+                "05",
+                "01",
+                "00",
+                "00",
+                "00",
+                "00",
+                "00",
+                "0b",
+                "00",
+                "02",
+                "01",
+                "00",
+                "00",
+                "0a",
+                "00",
+                "08",
+                "00",
+                "06",
+                "00",
+                "1d",
+                "00",
+                "17",
+                "00",
+                "18",
+                "00",
+                "2b",
+                "00",
+                "03",
+                "02",
+                "03",
+                "04",
+                "00",
+                "33",
+                "00",
+                "26",
+                "00",
+                "24",
+                "00",
+                "1d",
+                "00",
+                "20",
+                "fb",
+                "2b",
+                "bf",
+                "9e",
+                "67",
+                "a2",
+                "24",
+                "96",
+                "73",
+                "a5",
+                "18",
+                "34",
+                "71",
+                "39",
+                "e3",
+                "20",
+                "cc",
+                "fc",
+                "33",
+                "71",
+                "43",
+                "a5",
+                "82",
+                "47",
+                "c5",
+                "06",
+                "ce",
+                "f5",
+                "75",
+                "10",
+                "50",
+                "7a",
+                "00",
+                "17",
+                "00",
+                "00",
+                "00",
+                "2d",
+                "00",
+                "02",
+                "01",
+                "01",
+                "00",
+                "29",
+                "00",
+                "5b",
+                "00",
+                "26",
+                "00",
+                "20",
+                "6a",
+                "0e",
+                "00",
+                "00",
+                "d9",
+                "fb",
+                "99",
+                "81",
+                "12",
+                "28",
+                "59",
+                "eb",
+                "60",
+                "71",
+                "5d",
+                "ff",
+                "4e",
+                "02",
+                "cf",
+                "d3",
+                "79",
+                "58",
+                "74",
+                "ef",
+                "0c",
+                "97",
+                "e3",
+                "00",
+                "63",
+                "5a",
+                "d4",
+                "c9",
+                "e0",
+                "f1",
+                "6f",
+                "3e",
+                "00",
+                "31",
+                "30",
+                "cb",
+                "d3",
+                "99",
+                "61",
+                "cf",
+                "24",
+                "1f",
+                "52",
+                "5d",
+                "ea",
+                "4a",
+                "0b",
+                "25",
+                "14",
+                "b7",
+                "6b",
+                "3b",
+                "7e",
+                "83",
+                "ba",
+                "a6",
+                "92",
+                "7c",
+                "52",
+                "a8",
+                "b1",
+                "1e",
+                "ad",
+                "56",
+                "75",
+                "4a",
+                "29",
+                "59",
+                "8e",
+                "15",
+                "cb",
+                "50",
+                "61",
+                "11",
+                "2e",
+                "c2",
+                "08",
+                "95",
+                "43",
+                "ba",
+                "c1",
+                "a6",
+                "7c"
+            ]
+        },
+        "tls": {
+            "tls.record": {
+                "tls.record.content_type": [
+                    "16"
+                ],
+                "tls.record.version": [
+                    "03",
+                    "01"
+                ],
+                "tls.record.length": [
+                    "01",
+                    "49"
+                ],
+                "tls.handshake": {
+                    "tls.handshake.type": [
+                        "01"
+                    ],
+                    "tls.handshake.length": [
+                        "00",
+                        "01",
+                        "45"
+                    ],
+                    "tls.handshake.version": [
+                        "03",
+                        "03"
+                    ],
+                    "tls.handshake.random": [
+                        "7f",
+                        "d7",
+                        "d2",
+                        "62",
+                        "16",
+                        "3e",
+                        "df",
+                        "55",
+                        "21",
+                        "6a",
+                        "83",
+                        "5a",
+                        "ba",
+                        "bb",
+                        "89",
+                        "82",
+                        "74",
+                        "6f",
+                        "fd",
+                        "ab",
+                        "68",
+                        "a9",
+                        "fb",
+                        "cf",
+                        "1d",
+                        "e0",
+                        "03",
+                        "dc",
+                        "f6",
+                        "1d",
+                        "19",
+                        "a0"
+                    ],
+                    "tls.handshake.session_id_length": [
+                        "20"
+                    ],
+                    "tls.handshake.session_id": [
+                        "0f",
+                        "6f",
+                        "c8",
+                        "18",
+                        "9f",
+                        "93",
+                        "db",
+                        "ff",
+                        "4d",
+                        "cf",
+                        "ed",
+                        "9a",
+                        "f3",
+                        "3a",
+                        "22",
+                        "c6",
+                        "d6",
+                        "66",
+                        "f6",
+                        "19",
+                        "ed",
+                        "5c",
+                        "09",
+                        "e4",
+                        "de",
+                        "c1",
+                        "89",
+                        "4d",
+                        "a4",
+                        "49",
+                        "86",
+                        "81"
+                    ],
+                    "tls.handshake.cipher_suites_length": [
+                        "00",
+                        "14"
+                    ],
+                    "tls.handshake.ciphersuites": [
+                        "13",
+                        "02",
+                        "13",
+                        "01",
+                        "13",
+                        "03",
+                        "c0",
+                        "2c",
+                        "c0",
+                        "2b",
+                        "cc",
+                        "a9",
+                        "c0",
+                        "30",
+                        "c0",
+                        "2f",
+                        "cc",
+                        "a8",
+                        "00",
+                        "ff"
+                    ],
+                    "tls.handshake.comp_methods_length": [
+                        "02"
+                    ],
+                    "tls.handshake.comp_methods": [
+                        "01",
+                        "02"
+                    ],
+                    "tls.handshake.extensions_length": [
+                        "00",
+                        "e7"
+                    ],
+                    "Extension: signature_algorithms (len=22)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "0d"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "16"
+                        ],
+                        "tls.handshake.sig_hash_alg_len": [
+                            "00",
+                            "14"
+                        ],
+                        "tls.handshake.sig_hash_algs": {
+                            "tls.handshake.sig_hash_alg1": [
+                                "05",
+                                "03"
+                            ],
+                            "tls.handshake.sig_hash_alg2": [
+                                "04",
+                                "03"
+                            ],
+                            "tls.handshake.sig_hash_alg3": [
+                                "06",
+                                "03"
+                            ],
+                            "tls.handshake.sig_hash_alg4": [
+                                "08",
+                                "07"
+                            ],
+                            "tls.handshake.sig_hash_alg5": [
+                                "08",
+                                "06"
+                            ],
+                            "tls.handshake.sig_hash_alg6": [
+                                "08",
+                                "05"
+                            ],
+                            "tls.handshake.sig_hash_alg7": [
+                                "08",
+                                "04"
+                            ],
+                            "tls.handshake.sig_hash_alg8": [
+                                "06",
+                                "01"
+                            ],
+                            "tls.handshake.sig_hash_alg9": [
+                                "05",
+                                "01"
+                            ],
+                            "tls.handshake.sig_hash_alg10": [
+                                "04",
+                                "01"
+                            ]
+                        }
+                    },
+                    "Extension: server_name (len=20) name=WIN-1C2P8R1FV76": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "00"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "14"
+                        ],
+                        "Server Name Indication extension": {
+                            "tls.handshake.extensions_server_name_list_len": [
+                                "00",
+                                "12"
+                            ],
+                            "tls.handshake.extensions_server_name_type": [
+                                "00"
+                            ],
+                            "tls.handshake.extensions_server_name_len": [
+                                "00",
+                                "0f"
+                            ],
+                            "tls.handshake.extensions_server_name": [
+                                "57",
+                                "49",
+                                "4e",
+                                "2d",
+                                "31",
+                                "43",
+                                "32",
+                                "50",
+                                "38",
+                                "52",
+                                "31",
+                                "46",
+                                "56",
+                                "37",
+                                "36"
+                            ]
+                        }
+                    },
+                    "Extension: status_request (len=5)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "05"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "05"
+                        ],
+                        "tls.handshake.extensions_status_request_type": [
+                            "01"
+                        ],
+                        "tls.handshake.extensions_status_request_responder_ids_len": [
+                            "00",
+                            "00"
+                        ],
+                        "tls.handshake.extensions_status_request_exts_len": [
+                            "00",
+                            "00"
+                        ]
+                    },
+                    "Extension: ec_point_formats (len=2)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "0b"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "02"
+                        ],
+                        "tls.handshake.extensions_ec_point_formats_length": [
+                            "01"
+                        ],
+                        "tls.handshake.extensions_ec_point_formats": [
+                            "00"
+                        ]
+                    },
+                    "Extension: supported_groups (len=8)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "0a"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "08"
+                        ],
+                        "tls.handshake.extensions_supported_groups_length": [
+                            "00",
+                            "06"
+                        ],
+                        "tls.handshake.extensions_supported_groups": {
+                            "tls.handshake.extensions_supported_group1": [
+                                "00",
+                                "1d"
+                            ],
+                            "tls.handshake.extensions_supported_group2": [
+                                "00",
+                                "17"
+                            ],
+                            "tls.handshake.extensions_supported_group3": [
+                                "00",
+                                "18"
+                            ]
+                        }
+                    },
+                    "Extension: supported_versions (len=3) TLS 1.3": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "2b"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "03"
+                        ],
+                        "tls.handshake.extensions.supported_versions_len": [
+                            "02"
+                        ],
+                        "tls.handshake.extensions.supported_version1": [
+                            "03",
+                            "04"
+                        ]
+                    },
+                    "Extension: key_share (len=38) x25519": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "33"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "26"
+                        ],
+                        "Key Share extension": {
+                            "tls.handshake.extensions_key_share_client_length": [
+                                "00",
+                                "24"
+                            ],
+                            "Key Share Entry: Group: x25519, Key Exchange length: 32": {
+                                "tls.handshake.extensions_key_share_group": [
+                                    "00",
+                                    "1d"
+                                ],
+                                "tls.handshake.extensions_key_share_key_exchange_length": [
+                                    "00",
+                                    "20"
+                                ],
+                                "tls.handshake.extensions_key_share_key_exchange": [
+                                    "fb",
+                                    "2b",
+                                    "bf",
+                                    "9e",
+                                    "67",
+                                    "a2",
+                                    "24",
+                                    "96",
+                                    "73",
+                                    "a5",
+                                    "18",
+                                    "34",
+                                    "71",
+                                    "39",
+                                    "e3",
+                                    "20",
+                                    "cc",
+                                    "fc",
+                                    "33",
+                                    "71",
+                                    "43",
+                                    "a5",
+                                    "82",
+                                    "47",
+                                    "c5",
+                                    "06",
+                                    "ce",
+                                    "f5",
+                                    "75",
+                                    "10",
+                                    "50",
+                                    "7a"
+                                ]
+                            }
+                        }
+                    },
+                    "Extension: extended_master_secret (len=0)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "17"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "00"
+                        ]
+                    },
+                    "Extension: psk_key_exchange_modes (len=2)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "2d"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "02"
+                        ],
+                        "tls.extension.psk_ke_modes_length": [
+                            "01"
+                        ],
+                        "tls.extension.psk_ke_mode": [
+                            "01"
+                        ]
+                    },
+                    "Extension: pre_shared_key (len=91)": {
+                        "tls.handshake.extension.type": [
+                            "00",
+                            "29"
+                        ],
+                        "tls.handshake.extension.len": [
+                            "00",
+                            "5b"
+                        ],
+                        "Pre-Shared Key extension": {
+                            "tls.handshake.extensions.psk.identities.length": [
+                                "00",
+                                "26"
+                            ],
+                            "PSK Identity (length: 32)": {
+                                "tls.handshake.extensions.psk.identity.identity_length": [
+                                    "00",
+                                    "20"
+                                ],
+                                "tls.handshake.extensions.psk.identity.identity": [
+                                    "6a",
+                                    "0e",
+                                    "00",
+                                    "00",
+                                    "d9",
+                                    "fb",
+                                    "99",
+                                    "81",
+                                    "12",
+                                    "28",
+                                    "59",
+                                    "eb",
+                                    "60",
+                                    "71",
+                                    "5d",
+                                    "ff",
+                                    "4e",
+                                    "02",
+                                    "cf",
+                                    "d3",
+                                    "79",
+                                    "58",
+                                    "74",
+                                    "ef",
+                                    "0c",
+                                    "97",
+                                    "e3",
+                                    "00",
+                                    "63",
+                                    "5a",
+                                    "d4",
+                                    "c9"
+                                ],
+                                "tls.handshake.extensions.psk.identity.obfuscated_ticket_age": [
+                                    "e0",
+                                    "f1",
+                                    "6f",
+                                    "3e"
+                                ]
+                            },
+                            "tls.handshake.extensions.psk.binders_len": [
+                                "00",
+                                "31"
+                            ],
+                            "tls.handshake.extensions.psk.binders": [
+                                "30",
+                                "cb",
+                                "d3",
+                                "99",
+                                "61",
+                                "cf",
+                                "24",
+                                "1f",
+                                "52",
+                                "5d",
+                                "ea",
+                                "4a",
+                                "0b",
+                                "25",
+                                "14",
+                                "b7",
+                                "6b",
+                                "3b",
+                                "7e",
+                                "83",
+                                "ba",
+                                "a6",
+                                "92",
+                                "7c",
+                                "52",
+                                "a8",
+                                "b1",
+                                "1e",
+                                "ad",
+                                "56",
+                                "75",
+                                "4a",
+                                "29",
+                                "59",
+                                "8e",
+                                "15",
+                                "cb",
+                                "50",
+                                "61",
+                                "11",
+                                "2e",
+                                "c2",
+                                "08",
+                                "95",
+                                "43",
+                                "ba",
+                                "c1",
+                                "a6",
+                                "7c"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

@@ -1,0 +1,147 @@
+[
+    {
+        "eth": {
+            "eth.dst": [],
+            "eth.src": [],
+            "eth.type": []
+        },
+        "ip": {
+            "ip.version": [],
+            "ip.hdr_len": [],
+            "ip.dsfield": [],
+            "ip.len": [],
+            "ip.id": [],
+            "ip.flags": [],
+            "ip.frag_offset": [],
+            "ip.ttl": [],
+            "ip.proto": [],
+            "ip.checksum": [],
+            "ip.src": [],
+            "ip.dst": []
+        },
+        "tcp": {
+            "tcp.srcport": [],
+            "tcp.dstport": [],
+            "tcp.seq": [],
+            "tcp.ack": [],
+            "tcp.hdr_len": [],
+            "tcp.flags": [],
+            "tcp.window_size": [],
+            "tcp.checksum": [],
+            "tcp.urgent_pointer": [],
+            "tcp.payload": []
+        },
+        "tls": {
+            "tls.record": {
+                "tls.record.content_type": [],
+                "tls.record.version": [],
+                "tls.record.length": [],
+                "tls.handshake": {
+                    "tls.handshake.type": [],
+                    "tls.handshake.length": [],
+                    "tls.handshake.version": [],
+                    "tls.handshake.random": [],
+                    "tls.handshake.session_id_length": [],
+                    "tls.handshake.session_id": [],
+                    "tls.handshake.cipher_suites_length": [],
+                    "tls.handshake.ciphersuites": [],
+                    "tls.handshake.comp_methods_length": [],
+                    "tls.handshake.comp_methods": [],
+                    "tls.handshake.extensions_length": [],
+                    "Extension: signature_algorithms": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "tls.handshake.sig_hash_alg_len": [],
+                        "tls.handshake.sig_hash_algs": {
+                            "tls.handshake.sig_hash_alg1": [],
+                            "tls.handshake.sig_hash_alg2": [],
+                            "tls.handshake.sig_hash_alg3": [],
+                            "tls.handshake.sig_hash_alg4": [],
+                            "tls.handshake.sig_hash_alg5": [],
+                            "tls.handshake.sig_hash_alg6": [],
+                            "tls.handshake.sig_hash_alg7": [],
+                            "tls.handshake.sig_hash_alg8": [],
+                            "tls.handshake.sig_hash_alg9": [],
+                            "tls.handshake.sig_hash_alg10": []
+                        }
+                    },
+                    "Extension: server_name": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "Server Name Indication extension": {
+                            "tls.handshake.extensions_server_name_list_len": [],
+                            "tls.handshake.extensions_server_name_type": [],
+                            "tls.handshake.extensions_server_name_len": [],
+                            "tls.handshake.extensions_server_name": []
+                        }
+                    },
+                    "Extension: status_request": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "tls.handshake.extensions_status_request_type": [],
+                        "tls.handshake.extensions_status_request_responder_ids_len": [],
+                        "tls.handshake.extensions_status_request_exts_len": []
+                    },
+                    "Extension: ec_point_formats": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "tls.handshake.extensions_ec_point_formats_length": [],
+                        "tls.handshake.extensions_ec_point_formats": []
+                    },
+                    "Extension: supported_groups": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "tls.handshake.extensions_supported_groups_length": [],
+                        "tls.handshake.extensions_supported_groups": {
+                            "tls.handshake.extensions_supported_group1": [],
+                            "tls.handshake.extensions_supported_group2": [],
+                            "tls.handshake.extensions_supported_group3": []
+                        }
+                    },
+                    "Extension: supported_versions": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "tls.handshake.extensions.supported_versions_len": [],
+                        "tls.handshake.extensions.supported_version1": []
+                    },
+                    "Extension: key_share": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "Key Share extension": {
+                            "tls.handshake.extensions_key_share_client_length": [],
+                            "Key Share Entry: Group: x25519, Key Exchange length: 32": {
+                                "tls.handshake.extensions_key_share_group": [],
+                                "tls.handshake.extensions_key_share_key_exchange_length": [],
+                                "tls.handshake.extensions_key_share_key_exchange": []
+                            }
+                        }
+                    },
+                    "Extension: extended_master_secret": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": []
+                    },
+                    "Extension: psk_key_exchange_modes": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "tls.extension.psk_ke_modes_length": [],
+                        "tls.extension.psk_ke_mode": []
+                    },
+                    "Extension: pre_shared_key": {
+                        "tls.handshake.extension.type": [],
+                        "tls.handshake.extension.len": [],
+                        "Pre-Shared Key extension": {
+                            "tls.handshake.extensions.psk.identities.length": [],
+                            "PSK Identity": {
+                                "tls.handshake.extensions.psk.identity.identity_length": [],
+                                "tls.handshake.extensions.psk.identity.identity": [],
+                                "tls.handshake.extensions.psk.identity.obfuscated_ticket_age": []
+                            },
+                            "tls.handshake.extensions.psk.binders_len": [],
+                            "tls.handshake.extensions.psk.binders": []
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

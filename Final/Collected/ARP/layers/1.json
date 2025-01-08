@@ -1,0 +1,18 @@
+{
+    "eth": {
+        "eth.dst": [],
+        "eth.src": [],
+        "eth.type": []
+    },
+    "arp": {
+        "arp.hw.type": [],
+        "arp.proto.type": [],
+        "arp.hw.size": [],
+        "arp.proto.size": [],
+        "arp.opcode": [],
+        "arp.src.hw_mac": [],
+        "arp.src.proto_ipv4": [],
+        "arp.dst.hw_mac": [],
+        "arp.dst.proto_ipv4": []
+    }
+}

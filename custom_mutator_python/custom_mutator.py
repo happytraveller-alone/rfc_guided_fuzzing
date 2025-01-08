@@ -229,6 +229,11 @@ def hex_dump(data: bytes) -> None:
     hex_data = ' '.join(f'{b:02x}' for b in data)
     print("Hex dump:", hex_data)
 
+def hex_dump_check(data: bytes) -> None:
+    """打印十六进制数据"""
+    hex_data = ' '.join(f'{b:02x}' for b in data)
+    print("Hex dump:", hex_data)
+
 def main():
     """主函数"""
     init_log()
@@ -278,7 +283,7 @@ def main():
         # tls_byte = tls_msg.indexmap_print_byte_literal()
         # 增加新功能，发送报文到指定目标，并接收反馈
         # clienthello = ..
-        sender = RawTLSSender("172.31.116.73", 443)
+        sender = RawTLSSender("192.168.110.130", 443)
 
         try:
             # 建立连接
@@ -291,6 +296,7 @@ def main():
             # 打印响应数据
             print("\n接收到响应:")
             hex_dump(response)
+            # 设置代码，如果response
 
         except Exception as e:
             print(f"错误: {e}")

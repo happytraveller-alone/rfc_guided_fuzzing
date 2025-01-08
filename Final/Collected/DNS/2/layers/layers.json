@@ -1,0 +1,39 @@
+[
+    {
+        "eth": {
+            "eth.dst": [],
+            "eth.src": [],
+            "eth.type": []
+        },
+        "ip": {
+            "ip.version": [],
+            "ip.hdr_len": [],
+            "ip.dsfield": [],
+            "ip.len": [],
+            "ip.id": [],
+            "ip.flags": [],
+            "ip.frag_offset": [],
+            "ip.ttl": [],
+            "ip.proto": [],
+            "ip.checksum": [],
+            "ip.src": [],
+            "ip.dst": []
+        },
+        "udp": {
+            "udp.srcport": [],
+            "udp.dstport": [],
+            "udp.length": [],
+            "udp.checksum": [],
+            "udp.payload": []
+        },
+        "dns": {
+            "dns.id": [],
+            "dns.flags": [],
+            "dns.count.queries": [],
+            "dns.count.answers": [],
+            "dns.count.auth_rr": [],
+            "dns.count.add_rr": [],
+            "Extraneous Data": []
+        }
+    }
+]

@@ -1,0 +1,29 @@
+{
+    "eth": {
+        "eth.dst": [],
+        "eth.src": [],
+        "eth.type": []
+    },
+    "ipv6": {
+        "ipv6.version": [],
+        "ipv6.tclass": [],
+        "ipv6.flow": [],
+        "ipv6.plen": [],
+        "ipv6.nxt": [],
+        "ipv6.hlim": [],
+        "ipv6.src": [],
+        "ipv6.dst": []
+    },
+    "tcp": {
+        "tcp.srcport": [],
+        "tcp.dstport": [],
+        "tcp.seq": [],
+        "tcp.ack": [],
+        "tcp.hdr_len": [],
+        "tcp.flags": [],
+        "tcp.window_size": [],
+        "tcp.checksum": [],
+        "tcp.urgent_pointer": [],
+        "tcp.options": []
+    }
+}
